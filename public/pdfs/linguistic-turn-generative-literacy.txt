@@ -1,0 +1,533 @@
+
+
+The Linguistic Turn and
+Generative Literacy
+Adam Katz
+Abstract:
+This essay argues that only generative anthropology can
+complete the “linguistic turn” that has dominated much of
+20
+th
+ century thought. Completing the linguistic turn is
+essential because the metalanguages of humanism and
+metaphysics obscure the forms of authority needed to
+ensure intelligent participation in institutions and hierarchical
+orders. The need to accept a “given” centrality in order to
+clarify authoritative orders is the reason why victimary anti-
+metaphysical discourses could only generate resentment
+towards, but not transcend, metaphysics. Generative
+anthropology, meanwhile, not only accepts the givenness of
+the center, but sees the center as the guarantee of meaning
+and human order. Replacing metalanguages with
+“infralanguages” enables us to remain aware of ourselves as
+beings within language as a way of clarifying our reciprocal
+relations to each other.
+Keywords: generative anthropology; linguistic turn;
+infralanguage; metalanguage; inscription; natural semantic
+primes; metaphysics; the center
+
+I’m going to begin with the assumption that the linguistic
+turn entails the rejection of any attempt to find legitimation
+for what we say in language in some reality taken to be
+outside of language, whether this outside be truth, nature,
+human nature, reality, any form of interiority, the greater
+good, or anything else. This means that language, rather
+than being primarily representational, that is, trying to
+provide an adequate and therefore legitimating picture of
+what is outside of language, is generative—that is, it is
+relationships intrinsic to representational structures that
+create what we call truth, reality, nature, the good and so on.
+To   s a y   t h a t   l a n g u a g e   i s   g e n e r a t i v e   i s   t o   s a y   t h a t   t h e
+meanings of signs are to be found in their effects on other
+signs, not in reference to reality: the main question, then,
+becomes, what are the levers or mechanisms within sign
+systems that make such effects possible? To put it in
+pragmatic terms, to take the example of argumentation,
+instead of trying to prove that your discourse represents
+reality better, the question is how to enter existing
+discourses in such a way as to modify and eventually
+become them.
+Anna Wierzbicka’s discussion of modern English in her
+Experience, Evidence and Sense: The Cultural Legacy of
+English (2010) provides us with an example of what entering
+and inhabiting existing discourses means: she shows how
+
+the entire language was transformed as a result of one
+intervention: Locke’s theory of knowledge and politics. She
+traces a whole series of terms, such as “experience,”
+evidence,” “empirical,” “sense,” and others back to Locke’s
+usages,[1] and points out not only the historical contingency
+and cultural specificity of these terms, but that these are
+among the very words English speakers take to be most
+universal and commonsensical. It’s no coincidence that
+these are the words with which we take ourselves to be
+describing our access to what lies outside of language.  It
+lies outside of Wierzbicka’s inquiry to explain how these
+words operated generatively upon the English language, but
+I would suggest that raising and answering that kind of
+question is, in the wake of the linguistic turn, central to any
+aesthetic, moral, ethical or political inquiry. It may very well
+be all such an inquiry entails.
+The generativity of language, at least in the post-
+structuralist forms given it by Derrida’s claim that there is no
+outside of the text or Rorty’s (1979) injunction to “keep the
+conversation going” (378), is generally taken to be a pluralist
+doctrine in which the difference inhabiting the sign is
+irreducible. But the sign that constitutes the originary scene
+is absolutely generative, insofar as the sign creates the
+scene and the human, while at the same time presupposing
+complete unanimity. And, in fact, I think that the linguistic
+turn, understood through originary thinking, poses a very
+
+different kind of problem, to which we can, in fact, reduce all
+human problems: that of ensuring that all participants on a
+scene issue, and know themselves to be issuing, the same
+sign. This is a problem because it never really is the same
+sign (the linguistic turners are right about that)—since signs
+only take on meaning within a scene, a sign on one scene
+cannot be identical to a sign on another scene, no matter
+what measures we take or what rules we construct to ensure
+the sign will be recognized as identical—indeed, we take
+such measures and construct such rules precisely because
+there is no internal essence of the sign (or some reality it
+presumably refers to) that makes it the same.
+There are two ways in which the identity of the sign can be
+established. One, all participants on a scene can agree that
+the sign is the same according to some agreed upon criteria
+for identity—in other words, some metalanguage, which will
+then have to be grounded in a metaphysical reality outside of
+language. Or, we can establish the identity of the sign by
+deliberately and self-referentially constituting a scene upon
+which the sign directs us to some center. Here, we would
+embrace what Johanna Drucker (2013) calls “inscription,”
+suggesting there is no sign without its embodiment and
+embedment in material and historical enactment. The
+problem with relying on metalanguage, or what Drucker
+(2013) calls “notation,” of course, is that any metalanguage
+is subject to the same self-difference as the language it tries
+
+to control.
+Language is going to be generative even if we act as if it is
+representational—pretensions to a secure metalanguage
+really serve to guarantee a moral or political certainty that
+avoids the problem of creating in some space of language
+the shared attention directed towards some center. We can
+find the origin of this logocentrism in literacy. David Olson, in
+his The World on Paper (1994) and The Mind on Paper
+(2016), has shown that writing was created out of an inquiry
+into language, including the speech scenes upon which
+language is used. More recently, Olson has used the notion
+of classic prose (taken from Mark Turner and Francis Noël-
+Thomas’s book, Clear and Simple as the Truth) to show that
+the telos of the metalanguage of literacy is to simulate a
+scene, modeled on a presumed original speech scene, upon
+which writer and readers are all present. It is for this purpose
+that the metalanguage of literacy establishes norms
+regarding the correctness of sentences and the uses of
+words—which is to say, it is literacy that enshrines the
+declarative sentence as the primary form of language—
+metaphysics is just further elaboration on this.
+Insofar as we rely on notation and metalanguage, then, we
+imagine ourselves to be present on a simulated, always
+already constructed scene, with guarantees provided in
+advance that we all use the same sign. Definitions are
+
+established and logic is enforced—indeed, what is logic
+other than ensuring that, within a proposition, nothing in the
+definitions of the words predicated on the subject is
+inconsistent with the definition of the subject? (Determining
+what counts as “inconsistency” will in turn involve further
+definitional work.) We can then proceed to eliminate
+deviants—the ungrammatical, the illogical, the unclear—
+which further proves that those of us remaining are all in
+possession of the same sign. This metalinguistic imaginary
+elides the difference, constitutive of the declarative
+sentence, between the scene of utterance and the
+represented scene. Since the scene of writing and reading
+can be represented on that scene itself, introducing a
+difference within the scene, this elision generates anomalies
+within metalanguage.
+These anomalies open the intrinsically imitative and
+therefore pedagogical dimension of language use that
+metaphysical presence occludes. This pedagogical
+dimension can only be enacted “infralinguistically,” to use
+Bruno Latour’s (2007: 49) term.  In place of the hierarchy
+between language and metalanguage we have the
+performance of the difference of the metalinguistically
+guaranteed sign through its representation until its event
+nature is elicited. These efforts aim at making visible and
+inescapable the event-character of the sign, which is to say
+the sign’s inextricability from histories, traditions, the various
+
+ways in which it has been used by different groups in
+different situations and, above all, from some event, some
+act of deferral, some origin, the participation in which is the
+only the way we can reciprocally “authenticate” one
+another’s use of the sign. What I have in mind here is using
+language from the scene itself to frame the scene, rather
+than invoking some metalanguage assumed to come from
+outside and be unaffected by the scene. Let’s take, for
+example, a political scientist making an argument regarding
+the way new media have changed our understanding of
+“pluralism” in a liberal society: is that political scientist’s
+address to his fellow political scientists, or whomever he
+takes his public to be, enacting the kind of pluralism his
+argument claims to be possible or necessary?
+I have been implicitly suggesting an infralinguistic strategy or
+vocation for GA, whereby we speak and write in “originary”
+and “generative” English (or any other language). The basic
+concepts of GA, such as “desire,” “resentment,” “center” and
+others don’t really allow us to remain unimplicated in the
+objects of our analyses—on what basis could I claim to be
+unresentfully drawing the contours of another’s resentment?
+GA, then, despite its distinctive (if minimal) conceptual
+vocabulary, is ill-suited to be a metalanguage. I am asking,
+what kind of knowledge is GA? If it’s a new way of thinking,
+it’s a new relation to language. For starters, I’m contending
+that literacy is itself a second revelation, broadly parallel to
+
+the emergence of the Big Man—the revelation here being, as
+I pointed out before, the autonomy of the declarative
+sentence.
+We can make further use of Olson to get a sense of what the
+implications of bringing this revelation to the fore as part of
+the linguistic turn might be. Olson (2016) points out that the
+metalanguage of literacy serves the purpose of
+“supplementing” the presumed scene of recorded speech
+with verbs referring implicitly to mental acts that would have
+been performed in a speech situation. If I say someone
+assumed something to be the case, I am reporting what
+another said, while also distancing myself from it—the other
+person was presumably more certain in speaking than I am
+in reporting his speech. In an oral setting, this would have
+been reflected in the tone—perhaps mildly mocking—in
+which the speech was reported; since we don’t have that
+tone, literacy introduces supplementary terms like “assume.”
+This allows for another innovation of literacy: the distinction
+between the meaning of an utterance, and the speaker’s
+meaning—we can now represent all kinds of ways in which
+the two can be at odds.
+These verbs then get nominalized and we get new entities,
+like “assumptions,” and whole new disciplines organized so
+as to study them. All the human sciences are derived from
+such nominalizations, and much of everyday discourse
+
+(which has been transformed by literacy and the disciplines)
+as well. Even universally available words like “thoughts” and
+“ideas” are probably constructs of literacy. What this means
+is that there are vast domains of linguistic usage that are
+entirely dependent upon elaborations of the metalanguage
+of literacy, and also completely oblivious to this fact. We
+ourselves, within GA, are also thoroughly immersed in the
+metalanguage of literacy—the difference is, we can know it,
+and know why, and propose new disciplinary articulations
+that show such words to be scene- and event-dependent.
+Working “inscriptively,” then, would involve accepting that
+writing is scenic itself, rather than an attempt to construct a
+universally shared and permanent speech scene. There is no
+single scene of writing—writing, rather, involves a
+dissemination of texts, each of which would serve to
+constitute a scene that might reference more or less directly
+any and all of the other scenes organized around the
+disseminated text. This means that writing generates
+samples of language, no more directly related to one
+particular scene upon which they are iterated than any other.
+Charles Sanders Peirce (Buchler 1955: 152, 326) argued that
+knowledge is always of the relation between a sample and
+the population of which it is a sample. Once we abandon
+attempts to supplement the source, then, we have samples
+of language, and we generate hypotheses regarding their
+relation to language as a whole.
+
+Treating pieces of language as samples involves creating
+anomalous uses, or, really, acknowledging that all uses are
+anomalous, and accordingly situating ourselves on the
+boundary between talking about something and no
+longer/not yet quite talking about something—“sampling” is a
+call, or imperative, to generate a new center with an object at
+it. If we’re obeying the imperative derived from a concept,
+like, say, “infralanguage,” or “inscription,” then we are looking
+for samples of language serving as models of these
+concepts, and looking for ways to make sense of less
+obvious instances, even seeming counter-instances, in
+terms of these concepts—for example, noting the
+infralinguistic dimension inseparable from the most
+rigorously applied metalanguage.
+Insofar as we have a new center, we want to derive all
+meaning from that center or, what comes to the same thing,
+that center calls upon us to affirm or name the world in its
+name: if we have a center we are using the same sign, and
+its identity is affirmed in the self-reference that situates one
+scene generated by the sign in a history of scenes with an
+origin that is continually marked. Imperatives from the
+previous scene, like “find new ways to talk about X,” or “use
+the conceptual resources you have generated to replace
+some less differentiated way of saying something,” generate
+the subsequent scenes. Words that bear with them histories
+distributed across self-referential networks are going to be
+
+more generative.
+Metalinguistic terms resist operationalization—what, exactly,
+are we doing when we “assume” something? Are we always
+assuming what we assume? If not, what’s the difference
+between when we’re assuming and when we’re not? The
+later Wittgenstein was fascinated and perhaps appalled by
+the evanescence of the “referents” of such meta-linguistic
+terms.[2]
+It is precisely such terms we can operationalize
+infralinguistically. If we make a study of “assumptions,” it is
+not to define and categorize them or to leverage “hidden”
+assumptions against explicit statements, but, perhaps, to
+figure out when they come into view, and what kind of
+thinking is going on when they don’t. Perhaps we can
+imagine “assumptionless” linguistic performances; or
+performances that are all assumptions, right there on the
+surface. The purpose here being to show that such
+imagining would require new forms of joint attention.
+If language is the deferral of violence, the only thing we are
+ever talking about is how we are going about deferring
+violence. Forms of language that can be moved across
+scenes make it possible to defer not only immediate forms of
+violence but possible future forms, even ones that we can’t
+yet imagine. In more critical discussions, where we’re
+interested in the “viability” of concepts, what we’re really
+
+inquiring into is how many possible uses for deferring
+violence a particular constellation of words might have. If we
+know this, but others don’t, in talking with others all we are
+doing is helping them to know this. This knowledge must lie
+in their own discourses, their own vocabulary—if they are
+going to speak GA with us they would first have to see that
+their own discourse is always already GA.
+We’re all always and only talking about how we are deferring
+violence, but if we don’t all always know this it is because the
+sign can only refer to a single center, not centeredness in
+general. So, in entering others’ discourse we identify those
+signs where reference to a single center interferes with the
+reference to centeredness as such. This would transform the
+conversation into one centered on eliciting the distinction
+between centering and centeredness. This distinction is
+elicited by treating every utterance as both hypothesizing
+the way some other sign refers to a center and being, as a
+sample, a possible center. Our interest in that possible
+utterance, or sample, then, is in how it can be iterated and
+disseminated in ways that would make more explicit our
+talking about the way we are deferring violence.
+It is this practice of sampling, taking pieces of language and
+pointing them at new centers, that makes language
+generative, memorable and effective. The linguistic turn
+entails a hypothesis: that the metaphysical scene of
+
+humanism, predicated upon the metalinguistics of literacy,
+has reached its limits as a means of deferring violence (or,
+perhaps, was never a source of deferral in the first place).
+But only the originary hypothesis enables us to complete the
+linguistic turn, because only originary thinking can be free of
+the victimary investments of those critiques of metaphysics
+that emerged alongside the anti-colonial revolts. This, in
+turn, opens up a difference within originary thinking. I would
+characterize the difference as follows: on one side, we can
+see the emergence of the modern marketplace as the
+source of more advanced forms of deferral that have
+marginalized if not eliminated the more evident and
+egregious forms of violence endemic to premodern
+hierarchies. On the other side, we can see the centralization
+of state power, its extension into increasingly minute spheres
+of life, and its destruction or subordination of intermediate
+forms of power as the means by which violence has been
+neutralized. In the first case, the means of maintaining and
+extending existing forms of deferral are clear: continue
+marketizing the social. In the second case, the question
+becomes one of facilitating orderly forms of centralization
+that don’t require the subversion of intermediate layers of
+authority, since the subversion of authorities from the
+nation-state to the local police is itself a cause of violence. In
+this latter case, disputing the market model is of critical
+importance, because belief in the spread of markets
+obfuscates the problem of central authority which, within the
+
+market model, can at best be seen as an instrument of
+marketization but is as likely to be seen as an obstacle to be
+weakened.
+I see the “state centralization” model as more plausible than
+the “market” model, because the state centralization model
+can account for market relations (a central authority can
+establish and regulate markets) while the converse is not the
+case: if the world is becoming increasingly marketized, why
+the massive growth of the state? Now, the relevance of this
+question to the “completion of the linguistic turn” is as
+follows. A completely marketized order is, as Eric Gans has
+pointed out, an “omnicentric” one.[3]  In that case, one’s
+response to the emergence of new resentments or conflicts
+is to seek or create new centers. But any new center must
+draw upon the resources and authority of some existing
+center. At the very least, it must employ the linguistic
+reserves of existing centers. To acknowledge this explicitly is
+to repudiate omnicentrism, because reliance on an existing
+center implies reliance on a history and tradition of centers,
+among which some must have precedence over others. To
+refuse to acknowledge this dependence is to assert the
+spontaneity of the emergence of the new center. To the
+extent that the emergence of a new center is spontaneous, it
+is outside of history, tradition and authority. If omnicentrism
+and therefore spontaneity are to be defended, this outside
+needs to be “substantized.” This outside is the “target” of
+
+the metalinguistics of literacy: liberal political theory has
+designated this outside as “nature,” or “freedom,” or “natural
+right.” An omnicentric generative anthropology would call it
+“desire” and “resentment,” which, it must be assumed, are
+irreducible to existing forms of authority. But it is hard to
+deny that any particular form taken by desire and
+resentment will “mortgage” those emotions to some
+deployment of power within the existing forms of authority.
+That desires and resentments are constitutively socially
+leveraged can never be acknowledged by the market model.
+And this means that metalinguistic assertions of humanistic
+essentialism cannot be set aside.
+Within the state centralization or, we could now say,
+“unicentric,” model, we are committed to fully embedding
+desires and resentments in their enacted and articulated
+social form. A particular desire or resentment situates one
+within a hierarchical order in which desire (to speak roughly)
+is a projection of some agenda produced by the center and
+resentment (to continue to speak roughly) is a response to
+some derogation of authority by the center. There is always
+some derogation of authority because authority can never
+be implemented perfectly (the center can never completely
+offer itself up), but the unicentric model allows us to posit an
+alternative response to the omnicentric spinning of a new
+center that must disguise its dependencies: improve the
+form of authority by making its terms more explicit and its
+
+operations more consistent. But in this case we have no
+need for metalanguage because authority is completely
+infralinguistic: the exercise of authority produces the frame
+within which all the references point back to the form of
+authority.
+Omnicentrism, like metaphysics, must put the declarative
+form first, because the assertion of a spontaneously
+generated center must first of all repudiate some command
+or demand that has curtailed desire and generated
+resentment. The repudiation of the imperative is best
+effected by the declarative elevated to primacy over the
+imperative. For unicentrism, meanwhile, authority is first of
+all ostensive, then imperative, and only finally declarative
+(necessary for clarifying imperatives by directing them
+toward prospective ostensives). Before anything else, we are
+in a situation in which we are being asked to do something—
+since the purpose of a metalanguage is to imagine ourselves
+outside of that or any situation (to pre-negotiate the terms
+on which we might freely and willingly enter some situation),
+acknowledging the situation and working out, along with
+others, its terms, precludes the need for any metalanguage.
+All we need to do is make the terms of authority more self-
+referential. This demands that we minimize our assumptions
+regarding what counts as a scene of knowing, and let the
+object, the “samples,” organize such scenes. The more
+generative discourses will be those that can create
+
+revelatory scenes of the origin and identity of the sign out of
+the greatest differentiation in sign use. It is the discourse
+that knows that all we’re ever doing is talking about how
+we’re deferring violence without it ever being possible to be
+completely explicit about that which will be the most
+generative one. This kind of work would be making the
+mimetic foundations of our practices more explicit while and
+by being more overtly mimetic: studying Shakespeare by
+making the scene of Shakespeare study “Shakespearean”;
+studying the resentment represented in melodrama with a
+kind of staged melodramatic resentment; studying the
+sociology of crowds through a rhetoric that stages one’s
+differentiation from encroaching crowds of students of
+crowds; studying bureaucratic attempts to neutralize
+violence by registering the violent effects of those attempts;
+teaching writing courses as studies in the discipline of
+composition—to suggest a few examples as food for
+thought.
+Works Cited
+Buchler, Julius. Philosophical Writings of Peirce. Dover, 1955.
+Drucker, Johanna. What Is?: Nine Epistemological Essays.
+Cuneiform Press, 2013.
+Gans, Eric.  Originary Thinking: Elements of Generative
+Anthropology.  Stanford University Press, 1993.
+
+Latour, Bruno. Reassembling the Social: An Introduction to
+Actor-Network Theory. Oxford University Press, 2007.
+Olson, David. The Mind on Paper: Reading, Consciousness
+and Rationality. Cambridge University Press, 2016.
+⸻-. The World On Paper: The Conceptual and Cognitive
+Implications of Writing and Reading. Cambridge University
+Press, 1994.
+Thomas, Francis Noël and Mark Turner.  Clear and Simple as
+the Truth: Writing Classic Prose. Princeton University Press,
+2011.
+Wierzbicka, Anna. Experience, Evidence, & Sense: The
+Hidden Cultural Legacy of English. Oxford University Press,
+2010.
+Wittgenstein, Ludwig. Philosophical Investigations.
+Translated by G.E.M. Anscombe. Basil Blackwell, 1958.
+Notes
+[1] Wierzbicka traces the specifically English notion of
+“experience” as a word referring to a process involving
+observation, self-observation and present feeling
+overwhelmingly to Locke’s usage:
+The double prototype—Locke’s ‘see and feel’—ensures that,
+
+while Locke’s conception of experience was not
+retrospective . . . , it was not exclusively introspective either,
+but rather introspective and extrospective at the same time.
+The fact that Locke’s cultural descendants could use
+experience both in phrases like ‘varieties of religious
+experience’ and in statements like ‘science aims at
+understanding the world of experience’ is related to this
+terminological and conceptual equation between two
+varieties of knowledge—that based on the thought ‘this is
+happening to me now’ and that based on the thought ‘this is
+happening here now.’
+When one compares Locke’s model of experience with that
+analyzed in section 2.3, one is struck, above all, by the
+similarities: Clearly the conception reflected in modern
+phrases like a frightening experience or a weird experience
+was built on the foundation of Lockean epistemology (53).
+Wierzbicka does add that “there are noticeable differences
+between the two models,” but those are differences that
+presuppose that “foundation.”
+To   t a ke   a n o t h e r   e x a m p l e ,   W i e r z b i c k a   a t t r i b u t e s   t o   Lo c ke
+considerable influence in shifting the meaning of “evidence”
+from those truths which are undeniable (“evident”) to the
+one calling for epistemic care and modesty: “But although
+the ‘evidence of facts’ was often seen as ‘strong,’ even
+‘unquestionable,’ the certainty derived from factual (and
+
+ultimately sense-related) knowledge did not seem as
+absolute as that previously linked with faith, ‘mathematical
+certainty,’ or, indeed, an ‘ocular proof’: as Locke put it,
+‘certainty and demonstration, are things we must not, in
+these matters, pretend to.
+Locke’s views on these matters were no doubt symptomatic
+of a wider mood of the British Enlightenment, and above all,
+they were themselves hugely influential: it is widely
+acknowledged that epistemic caution and modesty
+preached by Locke had an enormous impact on his
+contemporaries and on many subsequent generations of his
+readers (146).
+[2] To take just one out of many possible examples in his
+Philosophical Investigations, we might look at his brief
+discussion in sections 101-105 of the “ideal” that “there
+can’t be any vagueness in logic,” an ideal which “absorbs
+us,” and leads us to believe “it must be in reality.” And, so,
+“[t]he strict and clear rules of the logical structure of
+propositions appear to us as something hidden in the
+background. . . . Where does this idea come from? It is like a
+pair of glasses on our nose through which we see whatever
+we look at. It never occurs to us to take them off. . . . When
+we believe we must find that order, must find the ideal, in our
+actual language, we become dissatisfied with what are
+ordinarily called ‘propositions,’ ‘words,’ ‘signs’” (45-6). As
+
+literate beings, we have constructed a logic out of “actual
+language,” projected that logic onto that language, and then
+find the language less “real” because the grammar doesn’t
+seem to be “there.”
+[3] See, for example, Originary Thinking, 219.

@@ -182,6 +182,18 @@ const PDF_METADATA: Record<string, { title: string; source?: ContentSource }> = 
   'there-is-no-economy': {
     title: 'There Is No Economy but Only the Debt to the Center',
   },
+  'linguistic-turn-generative-literacy': {
+    title: 'The Linguistic Turn and Generative Literacy (Adam Katz)',
+  },
+  'esthetic-sacred-originary-modernity': {
+    title: 'The Esthetic, the Sacred, and Originary Modernity (Adam Katz)',
+  },
+  'power-and-paradox': {
+    title: 'Power and Paradox (Adam Katz)',
+  },
+  'generative-anthropology-one-big-discipline': {
+    title: 'Generative Anthropology as the One Big Discipline (Adam Katz)',
+  },
 };
 
 function parseGlossary(): Post[] {
