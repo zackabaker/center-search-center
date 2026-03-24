@@ -105,11 +105,11 @@ export default async function PostPage({
           </header>
 
           {post.source === 'glossary' ? (
-            <div className="bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 rounded-xl p-6 sm:p-8">
-              <p className="text-xs font-semibold uppercase tracking-wider text-teal-600 dark:text-teal-400 mb-3">
+            <div className="bg-white dark:bg-gray-800 border-l-4 border-teal-500 rounded-lg p-6 sm:p-8 shadow-sm">
+              <p className="text-xs font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400 mb-4">
                 Definition
               </p>
-              <p className="text-lg sm:text-xl leading-relaxed text-gray-800 dark:text-gray-200">
+              <p className="text-lg sm:text-xl leading-relaxed text-gray-900 dark:text-gray-100">
                 {post.content.replace(/^[^:]+:\s*/, '')}
               </p>
             </div>
