@@ -24,9 +24,12 @@ export default function Home() {
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
           Center Search Center
         </h1>
-        <p className="text-xs sm:text-base text-gray-500 mb-6 px-2">
+        <p className="text-xs sm:text-base text-gray-500 mb-4 px-2">
           Search archive of Center Study Center, GABlog &amp; Anthropomorphics
         </p>
+        <blockquote className="italic text-sm text-gray-400 dark:text-gray-500 mb-6 px-6 max-w-2xl mx-auto border-l-2 border-gray-200 dark:border-gray-700 text-left">
+          &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it&rdquo;
+        </blockquote>
         <SearchBar posts={sorted} />
       </header>
 
