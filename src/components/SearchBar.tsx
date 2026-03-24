@@ -191,6 +191,20 @@ export default function SearchBar({ posts }: SearchBarProps) {
         <span>Search...</span>
         <kbd className="ml-auto text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">⌘K</kbd>
       </button>
+      <p className="text-center text-xs text-gray-400 dark:text-gray-500 mt-2">
+        Need deeper answers?{' '}
+        <button
+          onClick={() => {
+            const chatBtn = document.querySelector<HTMLButtonElement>(
+              'button[aria-label="Open GA assistant"]'
+            );
+            if (chatBtn) chatBtn.click();
+          }}
+          className="text-blue-500 dark:text-blue-400 hover:underline cursor-pointer"
+        >
+          Try the AI Research Assistant →
+        </button>
+      </p>
 
       {isOpen && (
         <div
