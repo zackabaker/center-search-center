@@ -84,8 +84,12 @@ export default async function PostPage({
               {post.date && (
                 <span className="text-xs sm:text-sm text-gray-400">{post.date}</span>
               )}
-              <span className="text-xs sm:text-sm text-gray-400">{readingTime} min</span>
-              <span className="text-xs sm:text-sm text-gray-400 hidden sm:inline">{wordCount.toLocaleString()} words</span>
+              {post.source !== 'glossary' && (
+                <>
+                  <span className="text-xs sm:text-sm text-gray-400">{readingTime} min</span>
+                  <span className="text-xs sm:text-sm text-gray-400 hidden sm:inline">{wordCount.toLocaleString()} words</span>
+                </>
+              )}
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{post.title}</h1>
             {post.url && (
@@ -100,7 +104,18 @@ export default async function PostPage({
             )}
           </header>
 
-          <HighlightedContent paragraphs={paragraphs} />
+          {post.source === 'glossary' ? (
+            <div className="bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 rounded-xl p-6 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-wider text-teal-600 dark:text-teal-400 mb-3">
+                Definition
+              </p>
+              <p className="text-lg sm:text-xl leading-relaxed text-gray-800 dark:text-gray-200">
+                {post.content.replace(/^[^:]+:\s*/, '')}
+              </p>
+            </div>
+          ) : (
+            <HighlightedContent paragraphs={paragraphs} />
+          )}
         </article>
 
         <RelatedPosts currentSlug={slug} allPosts={allPosts} />
