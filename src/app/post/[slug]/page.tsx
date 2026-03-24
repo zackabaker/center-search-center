@@ -23,10 +23,15 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
   glossary: 'bg-teal-100 text-teal-800',
 };
 
+// Generate only a small subset at build time; the rest are built on-demand via ISR
 export async function generateStaticParams() {
   const posts = getAllPosts();
-  return posts.map((post) => ({ slug: post.slug }));
+  // Pre-render only the 20 most recent posts to stay within Vercel disk limits
+  return posts.slice(0, 20).map((post) => ({ slug: post.slug }));
 }
+
+export const dynamicParams = true;
+export const revalidate = 3600; // Re-validate cached pages every hour
 
 export default async function PostPage({
   params,
