@@ -1,0 +1,1419 @@
+
+
+An Introduction to
+Disciplinarity
+Adam Katz
+Department of English
+Quinnipiac University
+Hamden, CT 06518
+Adam.Katz@quinnipiac.edu
+In his 1968 “Introduction” to his study of The Civilizing
+Process, Norbert Elias considers the question of why,
+regardless of its theoretical and empirical absurdity, the
+notion of a “monadic,” enclosed “self,” opposed to, and
+ontologically separate from, “society,” became the
+commonsense in the 19
+th
+ and 20
+th
+ century West. His answer
+is that the notion of an autonomous self, one that can be
+abstracted from everyday concerns, and counterposed to an
+“objective” external reality, was a necessary concomitant to
+the transformation in subjectivity involved in assimilating the
+shift from a human-centered, geocentric world-view to a
+more rigorous, heliocentric one. This transformation in
+subjectivity required, according to Elias, an ability to
+transcend immediate impulses and engage in sustained
+focus according to collectively established constraints—a
+transformation that was part of the development of
+
+“manners” in the Western world, a development that
+involved the learning and generational transmission of
+parallel restraints on exposing bodily functions, sex, and
+violence. The implication of Elias’s argument is that now that
+the revolution in science and manners has been brought to
+this point, it is possible to turn our attention to
+anthropological inquiry and thereby construct a more
+socially immersed understanding of the self—an
+understanding that his own study has set in motion.
+I take Elias to be heralding the emergence of new
+“disciplinary order,” in which new modes of sustained
+attention, accreted gradually from the monotheistic
+revelation through the scientific revolutions in the West, take
+a new form in the shared and spread inquiry into human
+practices, including that inquiry itself. Elias shows how the
+development of manners from the late medieval period on
+was itself a kind of discipline, both in the sense that the
+proponents of manners sought to instill discipline in the
+publics they addressed and in the sense that doing so
+demanded a kind of comparative study of habits and the
+making explicit of what had been tacit. Even more, the
+emergence of manners itself opened new fields of inquiry,
+such as that of the “unconscious” and “pedagogy,” insofar
+as creating a mannered population introduced the sharp
+distinction between childhood and adulthood we now take
+for granted and, by generating new layers of indirectness so
+
+as to avoid reference to now forbidden desires, made
+invisible, unspeakable and mysterious desires and activities
+that had once been completely open. Anthropological
+inquiry, in that case, must not only self-reflexively examine
+its own disciplinary conditions of possibility but also remain
+attentive to the sedimentations of previous processes of
+inquiry.
+An equally profound implication of Elias’s study is that, once
+we have (as Elias is doing) proceeded to broach all that is
+entailed by 19
+th
+ century standards of decency (for Elias the
+height of the modes of formality and indirectness he
+associates with manners, to be followed by some relaxation
+from the mid-20
+th
+ century on), those standards of decency
+and the religious and metaphysical assumptions in which
+they have been embedded can no longer be taken for
+granted. While asserting a strict neutrality regarding
+judgment, Elias shows those standards a respect that more
+recent demystifiers like Pierre Bourdieu and Michel Foucault
+have not, but the result of turning the taken for granted into
+an object of inquiry is ultimately the same. What I will go on
+to argue here is that the replacement of those demystified
+religious and metaphysical views lies not in whatever cultural
+or political revolution or resistance Bourdieu and/or Foucault
+(along with many others) might have had in mind, but with
+the anthropological inquiry Elias himself foregrounds. It is
+possible to make this claim once we realize that the very
+
+social and cultural effect wrought by those metaphysical and
+religious beliefs are carried out by this inquiry as well—that
+is, the enhancement of “manners,” or the rendering
+increasingly distant of violence and the desires that tempt it.
+And this argument gains even more power if we follow up on
+Peter Sloterdjik’s insistence, in his You Must Change Your
+Life, that the great religions and philosophies were
+themselves, ultimately, inquiries, and inquiries into the
+conditions of possibility of self-transcendence enabled by
+disciplinary advances.
+A discipline is a space of shared attention, considered as a
+space of inquiry. We can thus distinguish it from the moral,
+ritual and esthetic modes of shared attention—those that
+Eric Gans has rooted in the originary scene. Morality
+enforces the equality of all in dividing the object. Ritual
+enacts and commemorates the originary scene. Esthetics
+involves the oscillation between the sign and object which,
+interestingly, seems to refer to something the other on the
+scene, rather than the “signifier,” would be doing (in other
+words, the one putting forth the sign is not producing the
+oscillation). In each case, we could, and, indeed, would have
+to, invoke “intuition” or tacit knowing to account for how
+“equality” is determined, fidelity to the scene established,
+and equipoise between sign and object maintained. At a
+certain point, in other words, we would have to say that all
+the participants on the scene know that they have all
+
+deferred appropriation because they know, and such
+knowledge can only be acquired “emically,” by what Michael
+Polanyi calls “indwelling” within the scene.
+Now, we can take a step back into the “etic” and say that
+each participant is “laying a bet” within a prisoner’s
+dilemma-type game. This is a step back into the etic
+because the only way someone on the scene could even
+begin in frame the situation in this way is if they felt they
+were in danger of losing the bet, that is, if the scene was in
+danger of collapse. So, the “etic” is really “emic” too, but the
+emic in a state of at least potential disarray. The potential for
+disarray, though, inheres in every perceived discrepancy
+between sign and practice, and every practice must evince
+some discrepancy with the sign hallowing it. Within every
+scene, then, one could imagine the emergence of
+disagreements over the equality of portions, the conformity
+of ritual to the scene it iterates or, once esthetic intention
+becomes deliberate, how to make the sign an ever more
+compelling model of desire and its suspension. In such
+cases, or, better, from that aspect, inquiry enters into the
+equation. By inquiry, to use and extend Michael Polanyi’s
+terms, I mean the direction of attention to something we
+have been attending from. One has already, or already begun
+to, claim a portion, take up a role in the ritual, or give shape
+to a sign; feedback from others on the scene suggests an
+extension or curtailment of that claim, a clarification of some
+
+gesture pertinent to the role, a sharpening of the sign in
+some respect, is called for. This leads one to recursively
+review some tacit element in one’s act—to (using Eric Gans’s
+term, in The Origin of Language, describing the extension of
+the ostensive gesture to non-sacred objects among the
+earliest humans) “lower the threshold of significance.” Such
+a review measures the distance between the act carried out
+and one to be carried out in greater obedience to the object.
+The answer, then, is to be found in directing attention to
+some previously unconsidered mode of appearance of the
+object, which in turn implies the inexhaustibility of the object
+and its resistance to desire. Inquiry enables deferral by
+assuming a reality irreducible to desire—there is always more
+to see, and new ways of seeing, and therefore new ways of
+restructuring one’s actions so as to make the object
+accessible in new ways. Scaffolded over ritual, moral and
+esthetic actions, then, is at least a minimal study of those
+actions—a disciplinary space.
+The disciplinary space is an engine of differentiations,
+turning the object into a generator of new signs. Determining
+which aspect of an object, in its sacral and appropriative
+relation to the community, is most worthy of attention (a
+determination that creates that aspect and expands the
+economy of attention, or lowers the threshold of
+significance) creates a minimal marketplace, with the more
+distinctive “aspectivalizations” rewarded by the ultimate
+
+currency: attention itself. The marketization process is likely
+to be more advanced in the arenas Gans, in Originary
+Thinking, assigns to the ethical (involving “productive”
+action away from the sacred space), but innovations and a
+kind of entrepreneurship take place (however slowly and
+imperceptibly) in the sphere of ritual as well. New events,
+signaling new crises for communities that are transforming
+at whatever speed, need to be incorporated into an existing
+institutional structure upon which they will be modeled, and
+which those incorporations will transform. That communities
+and institutions change in response to new events is
+obvious; that some degree of inquiry into the terms of those
+communities and institutions accompanies and, indeed,
+shapes those changes, is less so; even less obvious is that
+such inquiry consists of attending to the tacit as signs of an
+inexhaustible object or, as I would prefer to start saying,
+“reality,” in Charles Sanders Peirce’s sense of that which is
+what it is regardless of what I or anyone else think about it,
+or, defined in terms of unending and open ended disciplinary
+inquiry, “[t]he opinion that is fated to be ultimately agreed to
+by all who investigate,” even should “[o]ur perversity and
+that of others indefinitely postpone the settlement of
+opinion” (“How to Make Our Ideas Clear,” 133). The object,
+that is, becomes inexhaustible insofar as it anchors or
+sutures various degrees and modes of meaning through
+direct and indirect reference to the central object and the
+moral and ritual institutions organized to commemorate it;
+
+and once the object thereby becomes inexhaustible and
+irreducible to those moral and ritual institutions, we have
+“reality,” and a disciplinary space that opens onto reality. In
+other words, disciplinary spaces are always “about”
+something that is what it is regardless of what anyone thinks
+about it (and, it should be said, regardless of whether it
+exists—so, for example, we can explore God’s reality with
+complete indifference to any question of God’s existence)
+and participants in those spaces accede to the demand that
+we never stop thinking about it.
+Rather than attempting to devise rules for inquiry, then, it is
+more illuminating to follow inquiry along the boundaries it
+shares with ritual, morality and esthetics. Ritual is already a
+study in desire, its transcendence, and the representation of
+that relation between desire and transcendence. Desire is
+disruptive insofar as it creates asymmetry in any community;
+the means for restoring symmetry must lie both within and
+outside of the community; and the restoration of symmetry
+must re-name and assimilate the originally disruptive desire
+—and all this must be represented in a way intelligible to the
+community but also to some extent abstractly, insofar as the
+ritual must adumbrate its future narrative renderings and
+elaborations. That, at any rate, is how ritual looks from within
+a disciplinary space which is only a full disciplinary space to
+the extent it sees all forms of human meaning as disciplinary.
+Disciplines are likewise concerned with assimilating the
+
+anomalous to the normal practices of the community, and
+this will be done all the more effectively to the extent that the
+anomalous is displayed fully, in all its disruptive relation to
+the existing terms of inquiry.
+Disciplines cannot survive without a rigorously applied
+egalitarian morality: anyone within the discipline can be
+heard as long as they follow the (often tacit) procedures of
+the discipline. By the same token, no attention at all need be
+paid to anyone outside of the discipline, or, for that matter, to
+any question or observation incommensurable with the
+discipline(1). The most urgent question for any discipline,
+then, is how to determine who belongs inside. As with tribal
+or cult membership, inclusion must ultimately involve a
+personal dimension: even with our vast educational
+apparatuses and impersonal credentialing mechanisms,
+someone, and usually at least several someones, who are
+already recognized members of the discipline, need to know
+you and your work and to vouch for you. And what needs to
+be known about you is analogous in each case: you know
+how to and are willing to play by the rules. I hope that it is
+clear that I am not being critical here; rather, I am asserting
+that it must be this way. The equal division of the object on
+the originary scene would be a negotiated solution—
+strength, aggressiveness, assumptions of merit, and other
+forces of inequality will, we can assume, be operative up
+until the point that those asserting those privileges do not so
+
+add to the cumulative resentments of the community as to
+render the originary sign null and void. But how could one
+know when that point is being approached? Even for those
+within the community, it will be at best a question of
+educated guesses and trial and error—but for outsiders,
+negotiating this terrain would be impossible without
+extensive training, which is to say without them becoming
+insiders. (The process of making outsiders insiders, that is,
+pedagogy, is itself the object of a disciplinary space.)
+Similarly, the rules of even the most objective scientific
+discipline—rules about how to carry out and formalize
+procedures, what counts as a violation of procedure, meta-
+rules regarding which violations can be repatriated within the
+discipline, etc., are a question of further inquiry that both
+presupposes and revises the rough equality of the discipline.
+The connection between the esthetic and inquiry is perhaps
+easiest to see. The spectator’s oscillation between sign and
+object might begin as an inchoate impasse between desire
+and the restraint formed by fear—a glance towards the
+object impels one forward while a glance at the sign compels
+a backward step, with the power of the sign then drawing
+one’s attention back to the object and so on. But insofar as
+the esthetic is to become a deliberate practice (“art” being
+its institutionalized recognized form), which is to say the one
+forming the sign learns to vary its form, to dial desire and
+fear up and down, to introduce new desires for hitherto
+
+undesirable objects, and so on, while the spectator learns to
+distinguish between manipulative attempts to intensify
+desire and fear from opportunities provided to examine
+those emotions, then we already have a space of inquiry. In
+fact, the complete separation of art from representations
+derived from the ritual-moral realm would leave art with no
+objects other than those constructed by the spectator,
+listener or reader, which is to make the “recipient” of the
+artwork a participant in it. The consequence of this, in turn,
+is to abolish art as a separate institution and turn it into an
+ongoing disciplinary inquiry of everyday life within everyday
+life. The duck/rabbit image that so fascinated Wittgenstein
+provides a good model for this—the most minimal work of
+esthetic inquiry would simply be to make us see the duck
+when we are more likely to see the rabbit, and vice versa.
+Remaining within a disciplinary space involves iterating the
+originary gesture of converting designations into
+constructions of reality. This entails converting given, tacitly
+acquired distinctions into constitutive distinctions. For
+example, in Durkheim’s analysis of the relation between
+legality and criminality, he shows how the distinction
+transcends the particular acts one would designate as legal
+or illegal at a particular point in time in a particular culture.
+Rather, the distinction between legality and criminality is a
+permanent one, because the boundary between preferred
+and privileged acts, on the one hand, and disfavored acts, on
+
+the others, is permanent: any social order presupposes such
+a distinction, just as the very act of attention entails a
+preference for one object over another. In that case, even if
+by some miracle, individuals stopped murdering, robbing
+and raping their fellows, the threshold for unacceptable acts
+would simply be lowered, and acts that now fall well below
+that threshold, such as mere rudeness, would then fall above
+it. This doesn’t necessarily mean that the death penalty or
+long prison sentences would then be imposed on the
+perpetrators of such acts, but it does mean that whatever
+penalties they were to incur would be as socially isolating, in
+their own way, as the penalties for those “genuine” crimes
+are today. In that case, “crime” is a constitutive element of
+social order or, as Durkheim puts it, “a factor in public health,
+an integrative element in any society” (98).
+The tendency of any discipline is to make the founding
+concepts of the discipline reciprocally constitutive: to make
+crime a constituent of law abidingness, sickness a
+constituent of health, the anomaly a constituent of the
+normal, the ugly of the beautiful, the heretical of the sacred,
+and so on. The concepts are thereby relativized radically, but
+not abolished; in fact, the distinction between them is also
+radicalized. For example, that sickness and health are co-
+constitutive is self-evident: no one is perfectly healthy,
+everyone has the beginnings or the beginnings of the
+beginnings of cancer, heart disease, dementia, and myriad
+
+other disorders from birth, and health would more properly
+be defined in terms of the so far successful resistance to
+and delay of those disorders than their absence. The proper
+discipline of medicine, then, would focus on the boundaries
+where, with ever greater precision, we can mark the onset of
+and neutralization of those disorders. The living being would
+be nothing but the totality of those boundaries. Sickness,
+then, marks the boundary of the system of life, and also
+marks the contingency of that system, while health is life’s
+deferral of decline and death. The boundary marking one
+system from another marks the limits of the relativization of
+the founding concepts, which is also to say that the purpose
+of relativization is to enable us to mark that boundary of the
+discipline.
+The relativizations I have been producing here, between
+morality and ethics, and between ritual, morality, esthetics
+and inquiry, also serve the purpose of marking the
+boundaries of the human community as discovered by and
+the disciplinary space constitutive of the originary
+hypothesis. To say that ritual, morality and esthetics contain
+a constitutive dimension of inquiry, learning and knowing
+(and that inquiry, learning and knowing have a ritual
+dimension, a morality and esthetics) is not to abolish or
+dilute these concepts. What remains is a hierarchy of
+boundaries within any activity or space, and hinges that
+open one space or activity onto others. There’s no point, for
+
+example, to speaking of the moral function of art if art
+doesn’t already have a moral dimension; but if art has a
+moral dimension it is not the same moral dimension as
+politics or ritual or family life might have, but one predicated
+on the creation of a community of those oscillating between
+sign and reality in tandem. This might include an oscillation
+regarding the moral quality of the work, for example, framed
+as follows: what would we see in the work differently were
+we to read it as either immoral or moral? Even better:
+demonically, depravedly immoral or supremely, sublimely
+moral? Who would we imagine to be on the scene opened by
+the work in either case, what would be the reality we would
+imagine the work to offer access to, and what in the work
+provides access to all on its scene or, contrarily, privilege
+access for some and preclude it for others? These inquiries
+could have an empirical component—what do we know of
+the audiences and historical conditions under which the art
+was created, the moral transitions prominent at the time, and
+so on—but most fundamentally it is a reading of the
+possibilities of the work itself and its own gesturing toward
+possible audiences, with the empirical inquiries, our
+interfacing with other disciplinary spaces, serving to
+enhance our sense of its possibilities. Indeed, the “empirical
+components”—historical, political, technological and other
+issues—are themselves simply markers of the ways other
+disciplinary spaces impinge upon the one opened by the
+work of art.
+
+If the inquiry already intrinsic to morality, art and ritual results
+from the uncertainty also intrinsic to those spheres, then the
+growing uncertainty generated by the interaction of different
+moralities, esthetic criteria, and sacralities would make that
+inquiry an increasingly prominent element. Morality, sacrality
+and esthetics would, then, slide towards becoming the
+morality, sacrality and esthetics of inquiry. This may or may
+not have happened, or be happening—determining that
+would be itself the concern of a disciplinary space. But what
+we can say is that the alternative, once unavoidable
+uncertainty has been introduced, is a world divided between
+incommensurable and at least intermittently hostile faiths
+and moralities, on the one hand, and a world comprised of
+overlapping modes of inquiry, on the other. In this latter case,
+no one would need to concede any of his or her faith, insofar
+as that faith can generate a distinctive and sustainable mode
+of (at least anthropological) inquiry. Nor would those who
+commit to the disciplinary world need to denounce those
+who remain within more exclusive ritual and moral spaces as
+evil or enemies—rather, they would simply be treated as
+disciplinary spaces by addressing those aspects of their
+self-understanding where they would recognize themselves
+in those terms. If necessary, the problem of defending the
+disciplinary world against hostility from other ritual and moral
+spaces would itself generate new disciplinary spaces. The
+disciplinary world is post-moral to the extent that it is post-
+mimetic, and it is post-mimetic insofar as its members
+
+enable each other to imitate that dimension of reality they
+are jointly attending to, rather than the appropriative desires
+of other individuals. The knowledge of mimetic desire
+provided by Biblical, classical, modern and, more recently
+Girardian theory and GA is paradoxical: on the one hand, this
+is knowledge of the constitutive mode of human being; on
+the other hand, it is knowledge of the transcendence of this
+being, and if mimetic desire can never be abolished, it can
+be deferred; if it can be deferred for a split second, it can
+later be deferred for a minute, a year, a life time, generations,
+ages—and, we can learn to detect ever more minute, implicit
+and potential signs of mimetic desire and devise means of
+deferring them before they even produce effects. The
+contemporary “study” of “micro-aggressions” is, so far, a
+study in how to deploy the concept of “micro-aggression” in
+institutional skirmishes, but it could certainly be the
+foundation of a genuine disciplinary space—everyday
+manners, for example, are a veritable petri dish of micro-
+aggressions, along with their deferrals. At the same time, we
+could never conclusively deny that the perpetual distancing
+of mimetic desire is robbing us of forms of tacit knowledge
+that might be needed to sustain any social order, including a
+disciplinary one; nor that such distancing, which might
+require an ever greater reward at the end, is not merely the
+accumulation of resentments on an ultimately apocalyptic
+scale. These questions will themselves be major generators
+of disciplinary spaces within a disciplinary order that can
+
+never entirely disembed from ritual, morality and esthetics,
+because any disciplinary space is a scene among scenes.
+We can assume that the construction of a disciplinary space
+in the sense of a bounded space of inquiry will serve the
+same purpose as any scene—that of deferring violence. The
+more free and unthreatened by immediate violence a
+particular space is, which is to say the more the space itself
+generates mimetic desires in a form conducive to their
+satisfaction within the space, the more the violence that
+space is concerned with deferring is that of the social whole.
+As Eric Voegelin argued in his analysis of Plato’s founding of
+philosophy, such autonomous disciplines situate themselves
+within a social crisis that they undertake to develop and
+disseminate the means of deferring. As Voegelin writes:
+Philosophy . . . has its origin in the resistance of the soul to
+its destruction by society. Philosophy in this sense, as an act
+of resistance illuminated by conceptual understanding, has
+two functions for Plato. It is first, and most importantly, an
+act of salvation for himself and others, in that the evocation
+of right order and its reconstitution in his own soul becomes
+the substantive center of a new community which, by its
+existence, relieves the pressure of the surrounding corrupt
+society. (Order and History Vol. 3 123)
+It would follow, then, that the notion of discipline in its more
+punitive and educational (for example, Foucauldian) senses,
+
+in other words as a rigorous set of practices, guided by
+theory and aimed at transforming habits, imposed upon
+others, follows from the understanding of a disciplinary
+space as recuperative and reparative in the face of social
+disorder. In particular, what Foucault understood to be a
+“disciplinary society” best makes sense as the emergence, in
+the modern era, of new disciplines aimed primarily at
+diagnosing and proposing cures for equally novel social ills.
+Just as it made sense to Plato that only those “guardians,”
+who wished only to explore the good life, could be trusted to
+rule over others, so it makes sense that those who
+undertook to study, to take a few examples, the moral and
+intellectual needs and deficiencies of the burgeoning urban
+populations, the theories of punishment and penitential
+practices, the health and sanitary living and working
+conditions of the new industrial working class, would be
+those asked to found modern school systems, reform
+prisons and police departments, manage factories and so
+on.
+In other words, the notion of discipline is one: it is an
+extension of the concept of deferral, as the originary
+hypothesis understands it: a signifying of desire and
+resentment so as to delay the consequences of desire and
+resentment and make them conform in expression to the
+demands of a sacralized object of desire. A disciplinary
+scene is a withdrawal from social disorder and a renewal of
+
+deferral in some exemplary manner, so as to allow reality to
+become a means of enhancing self-discipline. Knowledge,
+then, is not an effect, reproduction, and legitimation of
+unequal power relations. Rather, power follows from that
+knowledge marked by the identification, diagnosis, and
+proposed amelioration or abolition of some source of social
+disorder. Nor is it simply the truthfulness or profundity of the
+knowledge on offer—the “clients” and “customers” are
+unequipped to judge the result of the discipline on its own
+terms, and the success or failure of their public enterprises
+can only be judged in an ad hoc manner, since there can be
+no “control” group. It is, I would say the “charisma,” in Philip
+Rieff’s sense, that is conferred upon those who have
+distanced themselves from the immediate, the obvious, the
+commonsensical in order to map out a normally invisible set
+of relations, that is the source of disciplinary power. While
+disciplinary power has in full measure its bullies, its frauds,
+its would-be dictators, none of it would be possible without
+those who first of all want to know what the truth is, how
+society holds together, how the mind works, and so on, or, to
+put it more precisely, to direct our attention in a new way
+because the old way is frayed and has lost its power of
+deferral—indeed, we can only measure the frauds and bullies
+against that standard (and against the intrinsic fallibility of
+social knowledge, especially the kinds created in response
+to pressing needs).
+
+Michael Polanyi, upon whose understanding I have been
+drawing, sees inquiry as a concerted convergence of
+attention on the articulation of the particulars of a field (from
+the particulars to their articulation) of reality in ways that
+direct our attention to additional articulable particulars. Such
+collaborative spaces rely on the authority of previous and
+neighboring inquiries, and draw upon the contributions of
+individual inquirers, each of whom, in his/her very attempt to
+articulate the particulars thereby presupposes the existence
+of a broader, unseen, largely intuited reality. These inquiries
+rely upon the “principle of mutual control” (72) to sustain the
+shared attention comprising the discipline. In this way, an
+acceptance of authority and a restricted, even minute, field
+in which one makes responsible choices is combined with an
+intimation of a hierarchical and open-ended whole in which
+all the overlapping disciplines participate. While focusing on
+the natural scientists, Polanyi suggests that all fields of
+inquiry, including moral and esthetic, are governed in their
+internal and external interactions by the same logic. Polanyi
+calls a free and open social order predicated upon these
+disciplines a “society of explorers.” While Polanyi does not
+push his argument this far, I will now go on to argue that
+Polanyi’s society of explorers can encompass society as
+such—there are nothing but disciplines (a family constitutes
+a—or several—disciplinary spaces, as does a friendship,
+even a single meeting between strangers, and so on), and if
+all of these disciplines do not recognize each other, that is
+
+because they have not yet (and maybe never will be)
+brought into a relation of mutual control with each other.
+The internal marketplace of the discipline produces results
+made available on the external market to those outside of
+the discipline. One doesn’t need to understand a new
+medicine, or to know whether it could have been done better
+or cheaper, to be cured by it. But one discipline generates
+new ones: one, let’s say the medical discipline, takes the
+curative property of the medicine on the authority of the
+disciplinary space within the pharmaceutical industry, but
+disciplines emerge that check that authority, interposing
+their own: those who test the medicine, those from the
+agency regulating it, or those “lay” agencies that monitor the
+medical profession and pharmaceutical industry. The
+producing side also generates new disciplines: a discipline of
+marketing, and a discipline of finance, to determine how
+research funds are to be acquired and allocated, and these
+disciplines in their own way overlap with the biological
+disciplines inventing the new medicines: certain problems of
+marketing will impinge upon the problems specific to
+biology. So, while the discipline of biology might seem
+distant from any social crisis and need for withdrawal and
+restoration, it is brought into proximity to such concerns by
+various disciplines dealing directly with urgent needs of
+private and social welfare, and which operate in mutual
+control with biology. (It also follows that inquiries into the
+
+moral and ethical implications of scientific innovations need
+to take this broader field of disciplines into account.)
+Assuming a disciplinary order would lead us to frame
+discussions of the market in terms of overlapping disciplines:
+the shared space of interest and inquiry comes first,
+analytically, insofar as we see the final consumer as a
+participant in a discipline as well, one who at a very minimum
+distinguishes one product from another, and could have their
+attention redirected by means that can themselves be
+attended to and revised. Not all disciplines are equal—the
+individual trying to decide which medicine to take does not
+have the resources or knowledge of the chemical, biological
+and medical disciplines, and the mutual control disciplines
+exercise upon each other reflect these asymmetries (the
+medical profession can certainly subject “alternative
+medicines” to a kind of sustained, coherent and transparent
+scrutiny that could not be reciprocated) but this doesn’t
+change the fact that even a fringe, conspiracy theory-laden
+“alternative” discipline operates according to rules and
+generates shareable observations that would not have been
+available otherwise. The task of sorting out the relations
+between all these disciplines is itself a disciplinary one, in
+part a kind of expertise in debunking.
+Jane Jacobs’ analysis of the emergence of new work within
+an economy in her The Economy of Cities not only illustrates
+
+the disciplinary processes that make up the market but
+further suggests the interdependence of innovative thinking
+within the market and more theoretical reflection. Jacobs
+studies and categorizes a whole series of ways in which new
+work is added to an economic process—to take her first and
+simplest example, she mentions Ida Rosenthal, a custom
+seamstress who invented the bra by first using this new
+undergarment to improve the fit of the dresses she made for
+customers. Rosenthal then “became more interested in
+making brassieres than in making dresses” (51) and went
+into business manufacturing them; “bra-making now stood
+as an activity in its own right.” From attending from the
+undergarments to their effect on the dress, this particular
+undergarment became a focus of attention in its own right.
+Jacobs goes on to observe that “[o]nce one gets the hang of
+the process [i.e., of how new work is added to old] it is not
+only entertaining to track down the progressions of D [old
+division of labor] and A [added work] that have given us
+modern activities like magnetic-tape manufacturing, but also
+to speculate about the about the unknown progressions in
+the past” (57) which, as Jacobs goes on to remind her
+reader, she has just done in the previous chapter in
+advancing the startling thesis that urban life had in fact
+preceded rural life. (In brief, Jacobs focuses on the likelihood
+that nomads and hunters and gatherers would store their
+animals and grain; this storage would become “new work”
+
+that would lead to breeding animals, selling grain and so on,
+leading to a market around which a city would develop and
+upon which emergent surrounding rural areas would depend.
+Interestingly, new work invariably emerges out of some kind
+of delay in completing the old work.) In other words,
+analyzing the processes of new work leads to iteration of
+that new work in the theoretical sphere, generating
+hypotheses of origins real and possible. Insofar as any
+phenomenon must iterate in some distanced way the
+originary event, the analysis of any phenomenon into its
+constitutive elements and their categorical constitution must
+take an originary turn into the event responsible for the
+emergence of the categories.
+The same analysis of all institutions as disciplinary spaces
+applies to institutions apparently distant from inquiry
+understood narrowly, such as political and military ones: first
+of all, there are those whose “new work” is to identify the
+possibility of preparing for certain internal and external
+threats, who study how to do so, including which capabilities
+and dispositions are best suited to this purpose, who winnow
+out those who are unfit to serve that function, and who offer
+up their services. In that case, we could see the full blown
+modern state as an articulation of disciplines, first of all
+subordinated to the discipline of maintaining social order,
+but, increasingly, characterized by ambiguous and shifting
+relations between various regulatory, police, and therapeutic
+
+disciplines.
+Undesirable, disreputable and even evil activities might have
+a disciplinary component (as will virtually any human
+activity) but an understanding of disciplinarity makes clear
+their limits. So, for example, if we go to war, there is the
+possibility of entering a disciplinary space with one’s enemy
+—a disciplinary space organized around various reciprocities
+regarding proportionate response and other legal issues, the
+use of specified weapons, treatment of prisoners, diplomatic
+engagements aimed at ending the war, and so on. The
+police, in their relation to criminals and other disciplines such
+as the judicial and penitential, ultimately invite the criminal to
+enter the discipline of policing, both by informing on their
+confederates and policing or disciplining themselves as they
+become law-abiding citizens. A criminal gang, to a certain
+extent, can be a discipline—figuring out how to rob a bank or
+claim the turf of a rival gang certainly involves a kind of
+inquiry (this is why movies and other forms of entertainment
+are able to engage our sympathies on the side of criminals).
+But only to a certain extent—the discipline cannot be an
+open one, which is to say it cannot submit itself to mutual
+control with other disciplines. Since it is predicated upon
+subversion of other disciplines, it must therefore conceal
+itself, and it must therefore privilege the loyalty of its
+members over their commitment to the inquiry; in privileging
+loyalty, the criminal gang is necessarily hierarchical, since
+
+someone must enforce loyalty and the loyalty of all to that
+enforcer must exceed his towards any of them.
+Evil, then, can be known by the way it resists overlapping
+with neighboring disciplines: the teacher can want the
+student to become a fellow teacher, the doctor can want the
+patient to take control of his own health, the policeman can
+even want the criminal to not only go straight but become a
+model of reformed law-abiding leadership in his community
+—but a mugger cannot want his victims to mug him in return
+or compete with him for victims, a swindler cannot hope to
+have his victims join in his swindle (although an interesting
+mode of esthetic representation does test out these
+possibilities—for example, among child molesters—of victims
+being recruited into the criminal “project,” but part of the
+interest in such representations is in the limitations they
+reveal: maybe one, even a few victims can be recruited, but
+their must always remain a larger pool of potential victims
+who will never be admitted); and, at the extreme, the Nazi
+cannot want the Jew to join him in his study of the most
+expeditious way of exterminating unwanted racial groups.
+If one accepts the model presented thus far of post-ritual
+social orders as comprised of overlapping and neighboring
+disciplines interrelated through mutual control, it follows that
+the real antagonist to disciplinary power comes from within.
+The modern discipline emerges within a market order, which
+
+itself becomes possible once the secrecy of the cult is
+progressively eroded and its inscrutable rites are replaced by
+practices of inquiry that can be learned and results that can
+be inspected. Even the former cults come to abide by these
+rules. The modern discipline, that is, is accountable to
+scrutiny from other disciplines regarding its practices and
+products, and accountability means bureaucracy, in the
+broadest sense of treating reality as always already a grid.
+David Olson, in his Psychological Theory and Education
+Reform: How School Remakes Mind and Society, shows how
+modern disciplines entail modern bureaucracies run by and
+for a literate population—indeed, modern literacy is
+essentially equivalent to familiarity with the workings and
+demands of bureaucracies, and the educational system is
+set up so as to produce those who can run them. Even more,
+we are all bureaucrats—the reason why teachers hate
+grading so much is that it is the most explicitly bureaucratic
+of our tasks, where we are most obviously doing nothing
+more than sorting students so as to determine their location
+in their next step on the bureaucratic ladder. As Olson
+argues,
+In a modern bureaucratic world, knowledge, virtue and ability
+take on a new form. Institutions such as science preempt
+knowledge, justice systems preempt virtue, and functional
+roles preempt general cognitive ability. Thus, ability,
+knowledge and virtue are construed and pursued less in the
+
+form of private mental states and moral traits of individuals
+than in the form of competence in the roles, norms, and rules
+of the formal bureaucratic institutions in which they live and
+work. (288)
+These value transformations result from the accountability of
+the discipline, or its self-representation before a public,
+which is to say other disciplines. The discipline adapts itself
+to and shapes the other disciplines so as to ensure the value
+of its services to them. Intrinsic interest must be translated
+into extrinsic benefits, potential beneficiaries and the
+benefits to them must be categorized, itemized, maximized
+and institutionalized, and the qualifications for entry into and
+continued participation in the discipline formalized. This
+accountability can generate more disciplinary spaces, but
+insofar as these means of normalization involve the collusion
+between established disciplinary spaces to interfere with
+emergent disciplinary spaces, the extrinsic readily supplants
+the intrinsic: procedures of approval through the application
+of established categories replace exploration of the
+possibilities of founding concepts, and issuing credentials
+substitutes for the ongoing, interested judgment of
+participants’ contributions. And struggles can then be
+waged over the revision of categories and the updating of
+credentials. Each disciplinary space tends to re-organize
+itself on the model of others upon which it is dependent, to
+that extent replacing inquiry with prefabricated criteria.
+
+Disciplines, then, in order to survive, must become spaces
+carved out of and in resistance to the very bureaucracies
+they have secreted.
+Understanding the emergence of the bureaucratic out of the
+disciplinary and disciplinary resistance to bureaucratization
+requires that we relativize this boundary between the
+bureaucratic and the disciplinary. In the most basic sense,
+there is nothing but disciplinarity: disciplinarity is co-
+extensive with the human: the originary scene was a
+discipline, even if that cannot be recognized until a critical
+mass of overlapping disciplines has emerged. Disciplinary
+attention, though, can be directed toward the means of
+preventing infiltration by other disciplinary spaces: this itself
+is a rich field of inquiry. Any disciplinary space can be
+threatened by competitors or those who see it as a threat;
+self-defense requires the assumption that the actually
+existing disciplinary space is the only possible instantiation
+of that mode of inquiry, prompting inquiry into the possibility
+of the impenetrability of the disciplinary space: so the inquiry
+into the human that lies at the origin of, say, a revolutionary
+movement is transformed into an inquiry into rooting out
+traitors to the revolution (in particular, the best hidden ones)
+and ultimately, perhaps, into the possibility of maintaining
+the barest remnants, even memories, of what was once a
+global movement. It is inquiry all the way up and down, but
+what has been refused bureaucratically is the reciprocity
+
+with other disciplines, which really means the desire for and
+encouragement of disciplinary spaces to complement and
+join one’s own and hence the narrowing rather than
+expansion of reality. Still, despite the vanishing possibilities,
+one cannot exclude altogether the possibility that the tiniest
+space does have, and has been defending against great
+odds, the truth that will win out in the long run, which is to
+say will outlive and draw the attention of other disciplinary
+spaces. Bureaucracy is the study of the means of ensuring
+the impermeability of the disciplinary space, of making sure
+that what is discovered is intelligible in terms of what is
+already known, but that itself may only be known from within
+another disciplinary space that through its own
+bureaucratization mistakes a harnessing of resources to
+sustain a beleaguered truth for dogmatism and paranoia.
+It is only through the creation of new disciplinary spaces that
+the distinction between discipline and bureaucracy can be
+determined. Indeed, modern esthetic developments, or at
+least one prominent line of them, can be seen in a new light
+once we consider them in terms of the dialectic of discipline
+and bureaucracy, and those developments can shed light on
+that dialectic. The para-science, “‘pataphysics,” invented by
+the 19
+th
+ century French playwright and novelist Alfred Jarry
+as “the science of imaginary solutions and the laws
+governing exceptions,” and the font of a wide range of 20
+th
+century artistic movements, including surrealism, the Oulipo,
+
+and conceptual art, responds, I would suggest, to the
+emergence and proliferation of bureaucratic discourse and
+the normalization processes they have been bound up with
+since the 19
+th
+ century. The way in which practitioners of
+‘pataphysics exploit the reversibility of scientific and other
+authoritative modernizing discourses can be seen in Rene
+Daumal’s parody/extension of the scientific revolution
+introduced by quantum physics:
+The impartial observer of modern science will seize this
+opportunity to point out that modern science is, despite the
+unanimous belief of its friends and its enemies, an
+immaterialist science. I might add that for an impartial
+observer, a non-materialist science is no more absurd than a
+pacifist arms merchant or a vegetarian butcher. Modern
+science is based in the belief that thought, ideas and
+numbers are immaterial. And so to make a phenomenon
+conceivable, knowable, measurable, it deems it necessary to
+purge it of all materiality; and even the intractable residue
+left untouched by that reduction that could have been taken
+as the sign of the existence of some matter is an irreducible
+abstract, a mathematical indetermination. What’s more,
+thanks to the Probabilities, the unintelligibility of the
+unintelligible has become intelligible. (80-1)
+Just as, according to Olson, capacities and virtues become
+roles and rules within systems, a pacifist can take on the role
+
+of the arms merchant, the vegetarian that of the butcher,
+and this anomaly, only absurd for the bureaucratic observer,
+makes it possible to imagine that science has itself become
+the very thing it would set itself against—the immaterial;
+meanwhile, the very unintelligibility this paradox seems to
+drive us into becomes, through further advances in
+disciplinary inquiry, intelligible. ‘Pataphysics, as the study of
+“laws governing exceptions,” inhabits the anomalies of
+disciplinary/bureaucratic discourse, deconstructing the
+bureaucratization of language by returning to their
+constitutive condition the distinctions whose primacy
+bureaucracy makes synonymous with its own authority.
+“The laws governing exceptions” makes sense in the light of
+the retrieval of the disciplinary out of the bureaucratic.
+Exceptions to, or anomalies of, bureaucratic rule, are the
+forms taken by disciplinary work: the “law governing” such
+work is the constitutive boundary between the disciplinary
+and the bureaucratic—the boundary between “virtue” and
+“norm,” for example. It might be further revealing to consider
+corporate, consumer and celebrity culture as a form of
+bureaucratic culture, insofar as political coercion, involving
+collusion between the security discipline (the state) and
+other disciplinary spaces in the market (and, secondarily,
+among those other spaces) raises barriers of entry to
+disciplinary spaces on the margins of the market. The
+resulting publicly inflected private entities study carefully
+
+how to ensure their impermeability by those emergent
+spaces. Consumption is in this way engineered and
+channeled and asymmetries that emerge in the market are
+converted into packaged and permanent icons (“celebrity” is
+a result of studies of iconization of contingent markers of
+desire). Resistance to consumerism and celebritization
+follows, but in what does this resistance consist if not in the
+semiotic resources any mode of deferral requires, in this
+case the discipline of what Tony Veale calls “educated
+insolence” that turns stereotyped (i.e., bureaucratic)
+language against itself and facilitates consumer power at
+least as effectively as the various serious consumerist
+disciplinary spaces, such as Consumer Reports? Without
+such power, the discipline of the consumer is at the mercy of
+the addictive power of any relatively monopolized product
+that targets desires in their more isolated, simplified,
+amplified and repeatable forms. While categorizing the
+workings of an albeit corporatized free market similarly to
+the more recognizable bureaucratic labyrinths such as, say,
+the IRS, may seem counter-intuitive, and while the pluralism
+of one differs considerably from the near-totalitarianism of
+the other, what the two share is the imperative (one that
+intensifies as it is obeyed) to make predictability and
+controllability ever more perfect at the expense of the
+anomalies and innovations that occur at the margins; to put
+it more theoretically, they both try to increase the probability
+of intended consequences to the point where such
+
+probability is decreased due to excessive interference and
+consequent uncertainty in the variables. The difference is
+where they lie on the continuum leading from disciplinarity to
+bureaucracy.
+We can describe the kind of ‘pata-inquiry I am assigning to
+disciplinarity more precisely. Let’s grant that any social
+activity is rule-governed, at least tacitly. Under normal
+conditions, all players make moves corresponding to the
+shared rules. Abnormal conditions emerge not so much
+when one or more players cheat (cheating, like crime, is
+recognized and accounted for within the game) but when
+one or more of them leverages an anomaly within the rules.
+Broad social rules like “treat everyone equally” are replete
+with such anomalies, which have comprised the substance
+of politics for the past couple of centuries. Local
+bureaucratic rules are as well—the interpretation of any rule
+always depends upon a shared good will or faith in one
+another’s adherence to some common understanding of the
+rules (that is, a disciplinary space committed to studying the
+forms and implications of the rules). When such leveragings
+occur, one possible response is to restate and seek to
+enforce the rules precluding them—but, since what has
+occurred is a re-constitution of the rules, the solid ground on
+which such reinforcement could take place no longer exists.
+The ‘pata response would be to treat the anomaly as the
+legitimate rule and invent and enact (leverage) a
+
+complementary anomaly to it. The ultimate purpose of such
+counter-leveraging is to restore a new rule-governed setting
+that has incorporated the anomalies on all sides, even if the
+business (or discipline) of ‘pataphysics (denormalizing
+inquiry) is interested only in the creation of the
+complementary anomaly—another disciplinary space would
+have to take on the task of resettling the field that
+‘pataphysics unsettles.
+Disciplinary thinking, located on the boundary between the
+disciplinary and the bureaucratic, directs our attention,
+simultaneously, to the bureaucratic as seen by the
+disciplinary and the disciplinary as seen by the bureaucratic.
+Ta ke   t h e   fo l l o w i n g   m o c k   d e s c r i p t i o n   o f   a   P h D   t h e s i s   b y   B a r t
+Plantenga in his novel, Spermatagonia: The Isle of Man:
+During the course of my PhD I began to gravitate towards
+the Muzak-like qualities of laughter, beneficial sound that
+reflects society positively, confirms its values of family, work,
+religion, freedom within the parameters of consumerism.
+I studied laughter’s coercive (cooptative) laughtrack
+strategies; how they trained people to laugh on certain cues
+and quips. Keep the funny bone sufficiently activated with no
+time to think. Its infectious laughter managing to obliterate
+the fact that these banal attempts at humor always failed.
+The laughtrack took up the slack. It has us laughing at things
+that are not funny. Put a laughtrack over a documentary of
+
+the Nazi Death Camps and people can be made to laugh. I
+know, I did the study, which was published in the Journal of
+Mass Psychiatry, vol. 16, no. 3. Took segments of Alain
+Resnais’ Night & Fog... and added some laughtrack I lifted
+from a failed sitcom. It was there, I have it on tape—
+cognitive, chuckling dissonance, man. Involuntary laughter,
+involuntary manslaughter—NOT totally opposing ideas. (12-
+13)
+Plantenga here brings out the inseparability of genuine
+inquiry and its bureaucratic deformation into a means of
+manipulation: laughtracks are there for a reason, and it would
+indeed be very interesting to explore the precise mechanics
+of the laughtrack and of different laughtracks—the particular
+form of laughter each induces, its effects on the viewer’s
+judgment of what is being viewed, and so on; such an inquiry
+would further turn into an inquiry into laughter itself. What,
+though, would distinguish this inquiry from service in the
+attempt to make laughtracks more effective, which is to say,
+to use the laughtrack to sidetrack inquiries into a range of
+possible responses to, say, a film on the Holocaust? Singling
+out the “involuntary” common to laughter and manslaughter
+marks the capability of the disciplinary self to attend to the
+implication of its own deliberately undertaken and initially
+free disciplinary inquiry into the involuntary behavior of the
+bureaucratically managed subject. Plantenga’s invocation of
+the Nazi death camps marks the moral inversion of the
+
+discipline into the bureaucracy, but the broader immorality
+he points to is the simulation of laughter in the hope that it
+will be contagious, and produce subjects who laugh when
+required—regardless of whether what is laughed at is funny.
+The disciplinary becomes bureaucratic when one no longer
+studies being funny, but rather supplants humor with a
+technological mechanism that will produce the effects of
+humor (laughter) sufficiently to maintain the audience
+needed for other, commercial purposes. Inquiry is required
+to invent and regulate that technological mechanism, but
+once it is controlled by the feedback from measurable
+effects (the regularized relation between laughter and
+ratings) not only has the discipline of comedy been
+displaced but so, also, has the disciplinary inquiry into
+various forms of inducing laughter.
+We could imagine this distinction as follows: the audience
+could enter the discipline initiated by the comic by trying to
+figure out what makes a joke or routine funny, using it as a
+model for a joke or routine of one’s own, or noticing for the
+first time the breakdown in automaticity referenced by the
+joke; one could not enter into the study of one’s involuntary
+responses to a mechanism without disavowing and
+ultimately repudiating those responses. A broader
+implication for a specifically bureaucratic mode of thought
+follows. For the disciplinary inquirer, the contributions one
+enables others to make to the disciplinary space constitute
+
+one’s relation to others, to an audience which is implicitly
+invited into the disciplinary space; once one begins to study
+how to generate similar or analogous responses to those
+previously elicited, one institutes an impermeable boundary
+between inquirer and audience. I could show others how to
+construct a fictional scene that elicits a kind of canned
+laughter on the part of a “typical” audience (you can make
+people laugh by doing injury to a character who has already
+been “softened up” as a target, for example), but once you
+have shown them how it’s done they will no longer find it
+funny—they are now with you, targeting others or, more
+precisely, feeding their addiction (addiction being nothing
+more than an uncontrolled desire for the exact experience
+one is already familiar with). The articulation of inquiry and
+bureaucracy enables us to account for Heidegger’s framing
+“technology,” or the “sleepwalking” McLuhan associates with
+immersion in a new medium, in which references and
+gestures enabled by a new relation to nature and the world
+are, unknown to those making the references and gestures,
+really references to the new mode of human organization
+constitutive of the relation to world and nature. The
+accumulation of mediations amongst humans and between
+humans and their objects of desire are both means and
+results of inquiry, which is to say of constitutive deferral and
+disciplines, and grids representing a “particle-ized” and
+already “gridded” human-in-nature. The bureaucratic mind
+wishes to be on an abstracted scene that the sign has
+
+always already completely mapped, down to the least
+possible gesture. What an originary account can add to
+those Heidegger and McLuhan is the location of
+“bureaucracy” on the originary scene, where the reciprocal
+“calibration” of their respective signings on the part of the
+scene’s participants involves a potentially total mapping of
+possible responses and respective mappings of self and
+others. The approach to that totality in the originary event
+closes the scene while leaving sufficient margin for error to
+notice further residues of representable desire. Bureaucracy
+seeks to eliminate that margin of error by ensuring the
+recipient fits the delivery and designing the delivery to match
+the prepared recipient.
+Olson, as I suggested earlier, associates the emergence of
+bureaucratic culture with the spread of literacy. Olson and
+others have done extensive work on the transformations
+wrought by literacy on individual and collective
+consciousness, but rather than going over that terrain here, I
+will argue, more specifically, for viewing disciplinary thinking
+as a specific form of thinking within literate modes of
+thought but also within the aporias of those modes of
+thought.
+Olson’s theory of writing in The World on Paper advances
+beyond the pathbreaking work of Eric Havelock and others
+by reversing the relation between syntactic writing (writing
+
+that distinguishes, at least, between words within a
+sentence) and speech—rather than assuming that writing
+was an attempt to represent speech (that is, that the
+inventors of writing already saw language in terms of
+individual words and sentences which they then sought to
+represent), Olson argues that syntactic representation,
+coming from the emblems or tokens used to record
+inventory (so, the first syntactical writing comes when it
+becomes possible to write “3 goats” instead of “goat goat
+goat”), itself provides the model for language that writing
+proceeds to institutionalize:
+Once a writing system has a syntax, the emblems or tokens
+can now be seen as words rather than as emblems and the
+constructions can be seen as a proposition rather than a list.
+The structures present in the script now provide the
+categories needed for introspecting the implicit structures of
+language. Such scripts are logographic in that the tokens
+now represent the major grammatical constituents of the
+language, namely, words. But, to repeat, it does not follow
+that the inventors of such a script already knew about words
+and then sought to represent them in the script. The
+opposite may be true. The scribal inventions dictated a kind
+of reading which allowed language to be seen as composed
+of words related by means of a syntax. Writing thereby
+provides the model for the production of speech (in reading)
+and for the introspective awareness of speech as composed
+
+of grammatical constituents, namely, words. (77, emphasis
+Olson’s)
+While the “invention” of the declarative sentence certainly
+precedes that of writing by many millennia, it is with the
+invention of writing that the declarative sentence can be
+singled out as such and treated as the primary linguistic
+form, the model for language as such. So, the development
+of alphabetic writing coincided with the development of
+metaphysics in Greece and monotheism in Israel—both are
+new modes of intelligibility predicated upon the primacy of
+the declarative sentence. As Olson points out, the
+understanding that words represent meanings rather than
+being embodied in the things they refer to “spells the death
+of ‘word’ magic or more precisely, ‘name’ magic” (75). It now
+becomes possible to argue about what “good” or “God”
+“really means”—it has some stable meaning, insofar as its
+permanence is evident in its written form, but it has no
+obvious or direct connection to any particular meaning.
+Once language can be broken down into words and
+sentences, two things happen: first, specific words and
+sentences can be preserved in an exact form, and that
+preservation can be insisted upon. That is, verbal
+commonplaces, formulas, ritual expressions, sacralized
+claims, inherited maxims, and so on, have an “original” and
+“authentic” form against which future iterations can be
+
+measured. Second, the verbal elements of sentences can be
+broken down, replaced, combined and rearranged
+deliberately, and for intended effects. (As has been noted
+many times, the first industrialized, mass production process
+was the printing press.) No doubt, oral communities must
+have insisted upon continuity and varied their uses of
+linguistic forms, but with the existence of an original form,
+new modes of thought and discourse, such as the
+distinctions between orthodoxy and heresy and word and
+intention, commentary, hermeneutical and allegorical
+reading strategies, grammatical, logical and other kinds of
+“correctness,” parody and so on become possible. The
+possibility of iterating a specific linguistic form leads
+simultaneously towards reverence and mockery, or, for that
+matter, simple dispersal, with the provenance and attitude to
+be adopted toward the sentence left open. And these
+consequences of the ability to manipulate language
+introduced by writing—to pulverize and recombine it—are
+further intensified, as McLuhan noted, in the wake of the
+printing revolution in the early modern world.
+I now propose processing this intellectual development
+through a distinction Michael Tomasello makes in his recent
+book, A Natural History of Human Thinking, between “joint
+intentionality” and “collective intentionality.” Joint
+intentionality, for Tomasello, is the distinguishing marker of
+human thinking, represented by the gesture of pointing—
+
+when someone points something out to another, both know
+that they are looking at the “same” thing, and each knows
+that the other knows. In evolutionary terms, Tomasello
+associates the period of “joint intentionality” with the iconic
+signs (comprised of pointing and mimicry) constitutive of the
+earliest period of human language. Eventually, these iconic
+signs become more abstract—due both to the increase in
+the size of human communities and the grammaticalization
+of gestures (that is, their articulation into relations between
+signs, and ultimately sentences), until we get to the point of
+the “arbitrary” sign with no necessary connection to its
+meaning or referent. At this point, words have taken on
+meanings independent of any instance of their use, and
+rather than simply being able to understand another’s mind
+we are able and, indeed, compelled, to conform to the edicts
+of the “objectivity” comprising a “collective intentionality.”
+Now, the emergence of collective intentionality certainly, like
+the declarative sentence, precedes the development of
+writing—I am arguing not for the simultaneity of these
+developments, but for the claim that the later developments
+seized upon, accentuated, and exaggerated within language
+use the earlier developments: “collective intentionality”
+would have intensified the focus on the declarative
+sentence, and writing would have further intensified
+collective intentionality, marginalizing along the way earlier,
+iconic, modes of language. Singling out the declarative
+
+sentence as the primary linguistic unit would lead analysts to
+filter out everything in such utterances that are not specific
+to them—directing attention to the speaker, for example, or
+the audience, would minimize the differentiation of the
+declarative sentence from other speech acts, such as
+imperatives or promises. What is specific to the declarative
+sentence is the constitutive claim that words match reality in
+some way that anyone who hears the sentence could
+identify (and assess). In that case, the ideal declarative
+sentence is one that could be uttered felicitously by anyone,
+anywhere, at any time. And this is indeed the ideal for
+Western metaphysics and, however differently, Judaic
+monotheism, the name of whose God is, essentially, I am
+everywhere, always and no one (although it’s worth noting
+that the ideal sentence is simultaneously and paradoxically
+cancelled in the Jewish name of God, since no one could in
+fact felicitously say it without claiming to be that God).
+The critique of Western metaphysics, shadowing it from the
+beginning, but becoming increasingly powerful over the past
+century and a half, can, then, be distilled into the following
+argument: Western metaphysics, in privileging collective
+intentionality as crystallized in the ideal declarative
+sentence, has elided the fact that joint intentionally persists
+within and, indeed, continues to constitute, collective
+intentionality. (Tomasello doesn’t address this issue either,
+which is anyway distant from his concerns, but his argument
+
+that children continue to learn language—as how could they
+not?—through joint attention can be taken to suggest that
+such tension must always exist.) Metaphysics, in answering
+the needs of emergent empires consequent upon its
+creation of a novel and enduring disciplinary space, thereby
+produces a meta-bureaucracy, predicated upon the
+imagination of a single world scene of which all other scenes
+are components. Joint intentionality persists in the form of
+idioms within collective intentionality and, to refer back to my
+previous discussion, bureaucratic thinking seeks to eliminate
+such idiomatic trace of joint attention while disciplinary
+thinking establishes sites of joint attention directed at the
+products of collective intentionality. If it is only within
+collective intentionality that words take on authoritative
+meanings (so that one could be right or wrong about what
+they mean), the joint intentionality of disciplinary thinking is
+aimed at the incommensurable idioms of which those
+meanings are composed (whatever remains anomalous in
+collective intentionality). The bureaucratized declarative
+strives to eliminate paradox from language, to make every
+sentence “clear,” which is to say, refer to a reality that all
+readers (participants in an imagined collective intentionality)
+of the sentence would realize as that reality and as
+decomposable into equally discreet and unanimously
+recognized parts. Disciplinary idioms are no less invested in
+the declarative sentence, but work to draw out the
+generative paradoxicality of any sentence, its constitutive
+
+character for those jointly attending to the boundary
+between the possible realities deferred by the sentence and
+the reality it presents (like Durkheim’s reference, mentioned
+earlier, to crime as a “factor in public health”). Disciplinary
+idioms, at their most elemental, see where mockery might be
+appropriate where reverence is given, or reverence deserved
+where mockery is taken for granted—where, that is, a piece
+of signifying material might be iterated differently. In a
+bureaucratic age, those disciplinary idioms, or instances of
+joint attention toward collective intentionality, are most
+readily found in the greatest source of paradox: the
+bureaucratic desire to eliminate paradox by intensifying and
+enforcing the belonging of each element to its place within
+the structure. The simplest way of doing that is by
+sensationalizing and demonizing any deviation while
+sentimentalizing the rediscovery of the element within its
+place.
+Disciplines are invariably organized around founding, quasi-
+sacred texts (this is true of even the most informal
+disciplines, including those founded upon self-help books,
+do-it-yourself journals, women’s health websites, etc.)—if
+one is to make a claim in the discipline, one must be able to
+refer back to such a text and make one’s claim consistent
+with it. The implicit claim is that the text represents an
+achieved mode of collective intentionality, while one’s own
+claim represents an attempt to direct joint attention to
+
+something unsettled within the collective intentionality: more
+precisely, if the text is an achieved mode of collective
+intentionality, that is because it has achieved a higher level of
+discipline compared to some other bureaucratized mode of
+thought, and the joint attention directed at it is to preserve
+its centrality to the discipline by preventing its
+bureaucratization in turn (“one might take K to simply be
+saying... but if we look at this passage we can see that he is
+really...”). The member of the discipline resists the text’s re-
+absorption in the bureaucratic commonplaces it
+distinguishes itself from in two ways. First, by continuing the
+work of breaking up and reorganizing bureaucratic discourse
+initiated by the text: ordinary bureaucratic discourse
+transcended disciplinarity, as I suggested earlier, by taking
+binary distinctions assumed to reside empirically in the world
+(like legality and illegality) and to be further embedded in a
+series of other empirically based binaries (moral and
+immoral, good and evil, beautiful and ugly, etc.) and treat
+them as constitutive—reciprocally definitive and
+interdependent. Members of the discipline can continue to
+push this work forward, bringing the same binaries into new
+terrain, or deconstructing and re-aligning other binaries and
+making those binaries co-constitutive with the original ones.
+Or, they can go to work on the founding texts themselves,
+using their constitutive distinctions to similarly treat what
+those texts have taken for granted as merely empirical
+distinctions.
+
+About a third of the way through his novel, Plantenga has his
+protagonist, after following the disciplinary course of
+reducing all human phenomena to their biological, chemical,
+physical and hence manipulable constituents and finding, as
+result, “I seemed to come undone” (53), embark on a “12-
+step Program for Disappearance—survival, after all, requires
+a kind of creative disappearance.” The rest of the novel
+involves enacting this “program,” which turns out to involve a
+perpetual inquiry, with direct consequences, of all the ways
+one appears in the contemporary world. The protagonist
+Kees removes all brand markers from his possessions and
+moves to a non-descript part of the city where life is
+something no one takes much notice of; he gradually
+withdraws from his connectedness to the media, using it,
+where connected, to further regulate his appearance and
+inner emotional and physiological responses so as to stand
+out less (“[t]he Golf Channel was better for me. Following
+the camera’s eye following the ball trained my inner eye to
+focus, regulate blood pressure, made me appreciate fairways
+and greens as visual equivalents of the tranquil mind” [65]).
+He starts putting on black face, because “[b]eing black
+meant being nobody” and “I knew white reflected light, thus
+calling attention to its source. Let’s just say it was a way of
+removing my face as bright orb from competing with other
+more worthy celestial bodies” (77). Disappearance involves
+not so much hiding away or disguising oneself as someone
+else, but an ongoing reciprocal modulation of oneself and
+
+one’s environment, wherein there is always a new threshold
+of attention emerging in response to one’s withdrawal of
+oneself from the world of attended to objects, which is to
+say from mimetic competition:
+I began aligning every breath with sounds of external
+phenomena—a shout, the DINGLE-DANGLE of the passing
+ice cream truck, grumbling 18-wheelers, airplane overhead,
+the cicadic car alarms, the clack-clack-clack of late-for-work
+high heels. In this way my breath could hitch a furtive ride on
+other molecules of sound to ultimately dissolve in some
+greater ambience. Like my autobiography written in invisible
+ink. (90-1).
+Kees’ disciplined disappearance gets taken up by the same
+media systems he used to manipulate (and, in another
+period of his life, participate more directly in): “his
+disappearance had inaugurated a legacy—the more absent,
+the more famous” (135), with the novel ending with the
+speculations of the crime scene detectives over the actual
+cause of his demise and the philosophical and moral
+implications of suicide. He himself becomes part of the
+scene of discarded objects of contemporary civilization in
+which he had immersed himself. This is the end point of the
+disciplinary: to leave behind traces of signs of the same
+order as those that first drew one’s attention to some act-
+become-sign as something that could draw others’
+
+attention. The disciplinary, then, is also the end point of de-
+mimeticization: from the direct modeling of each others’
+actions in one’s own actions through the transformation of
+deferred actions into signs of new scenes of possible
+actions, to the becoming a tissue of signs modeling the
+possibility of transforming any scene into a sign.
+Works Cited
+Agamben, Giorgio. The Highest Poverty: Monastic Rules and
+Form-of-Life. Translated by Adam Kotsko. Stanford
+University Press, 2013.
+Daumal, Rene. Pataphysical Essays. Translated by Thomas
+Vosteen. Wakefield Press, 2012.
+Durkheim, Emile. The Rules of Sociological Method and
+Selected Texts. Edited with an Introduction by Steven Lukes.
+Translated by W.D. Halls. The Free Press, 1982.
+Elias, Norbert. The Civilizing Process: Sociogenetic and
+Psychogenetic Investigations. Translated by Edmund
+Jephcott. Blackwell, 1994.
+Foucault, Michel. Discipline and Punish: The Birth of the
+Prison. Translated by Alan Sheridan. Vintage, 1995.
+Gans, Eric. Originary Thinking: Elements of Generative
+Anthropology. Standford University Press, 1993.
+
+⸻-. The Origin of Language: A Formal Theory of
+Representation. University of California Press, 1981.
+Jacobs, Jane. The Economy of Cities. Random House, 1970.
+Jarry, Alfred. Selected Works. Edited by Roger Shattuck and
+Simon Watson Taylor. Grove Press, 1965.
+McLuhan, Marshall. The Gutenberg Galaxy. Signet, 1969.
+Olson, David. Psychological Theory and Educational Reform:
+How School Remakes Mind and Society. Cambridge
+University Press, 2003.
+⸻-. The World on Paper: The Conceptual and Cognitive
+Implications of Writing and Reading. Cambridge University
+Press, 1994.
+Peirce, Charles Sanders. Selected Writings (Values in a
+Universe of Chance). Edited with an Introduction and Notes
+by Philip P. Weiner. Dover, 1958.
+Plantenga, Bart. Spermatogonia, The Isle of Man.
+Autonomedia, 2004.
+Polanyi, Michael. The Tacit Dimension. Doubleday & Co.,
+1967.
+Rieff, Philip. Charisma: The Gift of Grace, and How It Has
+Been Taken From Us. Pantheon, 2007.
+
+Sloterdijk, Peter. You Must Change Your Life. Polity, 2013.
+Sukenick, Ronald. Narralogues: Truth in Fiction. SUNY Press,
+2000.
+To m a s e l l o ,   M i c h a e l .  A Natural History of Human Thinking.
+Harvard University Press, 2014.
+Veale, Tony. Exploding the Creativity Myth: The
+Computational Foundations of Linguistic Creativity.
+Bloomsbury Academic, 2012.
+Voegelin, Eric. Order and History (Volume 3): Plato and
+Aristotle. (Collected Works of Eric Voegelin, Volume 16.)
+University of Missouri Press, 1999.
+Notes
+1. Polanyi tells of an essay published in the Proceedings of
+the Royal Society in 1947:
+It described some fairly simple experiments which
+proved, in the author’s opinion, that a hydrogen atom
+impinging on a metal wire could transmit to it energies
+ranging up to a hundred electron volts. Such an
+observation, if correct, would be far more revolutionary
+than the discovery of atomic fission by Otto Hahn in
+1939. Yet when this paper appeared and I asked various
+physicists’ opinions about it, they only shrugged their
+
+shoulders. They could not find fault with the experiment,
+yet they not only did not believe its results, but did not
+even think it worth while to consider what was wrong with
+it, let alone check up on it. They just ignored it. About ten
+years later some experiments were brought to my notice
+which accidentally offered an explanation of Lord
+Rayleigh’s findings. His results were apparently due to
+some hidden factors of no great interest, but which he
+could have hardly identified at the time. He should have
+ignored his observation, for he ought to have known that
+there must be something wrong with it. (65)
+This intuitive sense that some claim just can’t be right
+regardless of whether or not one knows why is constitutive
+of any disciplinary space. (back)

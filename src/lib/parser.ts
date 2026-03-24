@@ -194,6 +194,18 @@ const PDF_METADATA: Record<string, { title: string; source?: ContentSource }> = 
   'generative-anthropology-one-big-discipline': {
     title: 'Generative Anthropology as the One Big Discipline (Adam Katz)',
   },
+  'mimesis-center-auto-immunology': {
+    title: 'Mimesis, the Center and Auto-Immunology: A Review of Psychopolitical Anaphylaxis (Adam Katz)',
+  },
+  'nemesis-jouvenelian-liberal-model': {
+    title: 'Book Review: Nemesis — The Jouvenelian vs. the Liberal Model of Human Orders (Adam Katz)',
+  },
+  'introduction-to-disciplinarity': {
+    title: 'An Introduction to Disciplinarity (Adam Katz)',
+  },
+  'attentionality-originary-ethics': {
+    title: 'Attentionality and Originary Ethics: Upclining (Adam Katz)',
+  },
 };
 
 function parseGlossary(): Post[] {
