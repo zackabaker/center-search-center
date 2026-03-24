@@ -2,6 +2,25 @@ import fs from 'fs';
 import path from 'path';
 import { Post, ContentSource } from './types';
 
+function decodeHtmlEntities(text: string): string {
+  return text
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, code) => String.fromCharCode(parseInt(code, 16)))
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&mdash;/g, '—')
+    .replace(/&ndash;/g, '–')
+    .replace(/&lsquo;/g, '\u2018')
+    .replace(/&rsquo;/g, '\u2019')
+    .replace(/&ldquo;/g, '\u201C')
+    .replace(/&rdquo;/g, '\u201D')
+    .replace(/&hellip;/g, '…');
+}
+
 function slugify(text: string): string {
   return text
     .toLowerCase()
@@ -226,6 +245,13 @@ export function parseAllContent(): Post[] {
   if (substackMatch) allPosts.push(...parseSubstackPosts(substackMatch[1]));
   allPosts.push(...parseGlossary());
   allPosts.push(...parsePDFs());
+
+  // Decode HTML entities in all text fields
+  for (const post of allPosts) {
+    post.title = decodeHtmlEntities(post.title);
+    post.content = decodeHtmlEntities(post.content);
+    post.excerpt = decodeHtmlEntities(post.excerpt);
+  }
 
   // Deduplicate slugs
   const seenSlugs = new Map<string, number>();
