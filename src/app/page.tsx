@@ -31,6 +31,12 @@ export default function Home() {
           &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it&rdquo;
         </blockquote>
         <SearchBar posts={sorted} />
+        <p className="text-sm text-gray-400 dark:text-gray-500 mt-3">
+          New to Center Study?{' '}
+          <a href="/intro" className="text-blue-500 hover:text-blue-600 dark:text-blue-400 hover:underline">
+            Start here
+          </a>
+        </p>
       </header>
 
       <section>
