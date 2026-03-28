@@ -27,6 +27,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
     book: posts.filter((p) => p.source === 'book').length,
     pdf: posts.filter((p) => p.source === 'pdf').length,
     glossary: posts.filter((p) => p.source === 'glossary').length,
+    reddit: posts.filter((p) => p.source === 'reddit').length,
   };
 
   const handleFilterChange = (f: FilterOption) => {

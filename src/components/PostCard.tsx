@@ -7,6 +7,7 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   book: 'Book',
   pdf: 'PDF',
   glossary: 'Glossary',
+  reddit: 'Reddit',
 };
 
 const SOURCE_COLORS: Record<ContentSource, string> = {
@@ -15,6 +16,7 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
   book: 'bg-purple-100 text-purple-800',
   pdf: 'bg-green-100 text-green-800',
   glossary: 'bg-teal-100 text-teal-800',
+  reddit: 'bg-red-100 text-red-800',
 };
 
 export default function PostCard({ post }: { post: Post }) {

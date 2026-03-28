@@ -226,6 +226,69 @@ function parseGlossary(): Post[] {
   }));
 }
 
+function parseRedditComments(): Post[] {
+  const redditPath = path.join(process.cwd(), 'src', 'data', 'reddit_comments.json');
+  if (!fs.existsSync(redditPath)) return [];
+
+  interface RedditComment {
+    body: string;
+    created_utc: number;
+    link_title?: string;
+    subreddit?: string;
+    permalink?: string;
+  }
+
+  const comments: RedditComment[] = JSON.parse(
+    fs.readFileSync(redditPath, 'utf-8')
+  );
+
+  // Group comments by thread (link_title) so we don't have 641 individual tiny entries
+  const threads = new Map<string, RedditComment[]>();
+  for (const c of comments) {
+    if (!c.body || c.body === '[deleted]' || c.body === '[removed]') continue;
+    const key = c.link_title || 'Untitled Thread';
+    if (!threads.has(key)) threads.set(key, []);
+    threads.get(key)!.push(c);
+  }
+
+  const posts: Post[] = [];
+  for (const [threadTitle, threadComments] of threads) {
+    // Sort comments in a thread chronologically
+    threadComments.sort((a, b) => a.created_utc - b.created_utc);
+
+    const content = threadComments
+      .map((c) => c.body)
+      .join('\n\n---\n\n');
+
+    const earliest = threadComments[0];
+    const date = new Date(earliest.created_utc * 1000);
+    const dateStr = date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+    });
+
+    const subreddit = earliest.subreddit || 'unknown';
+    const permalink = earliest.permalink
+      ? `https://reddit.com${earliest.permalink}`
+      : undefined;
+
+    const excerpt = threadComments[0].body.slice(0, 200) + (threadComments[0].body.length > 200 ? '...' : '');
+
+    posts.push({
+      slug: 'reddit-' + slugify(threadTitle),
+      title: threadTitle,
+      content,
+      excerpt,
+      date: dateStr,
+      source: 'reddit' as ContentSource,
+      url: permalink,
+    });
+  }
+
+  return posts;
+}
+
 function parsePDFs(): Post[] {
   const pdfDir = path.join(process.cwd(), 'public', 'pdfs');
   if (!fs.existsSync(pdfDir)) return [];
@@ -268,6 +331,7 @@ export function parseAllContent(): Post[] {
   allPosts.push(...parseBook());
   if (substackMatch) allPosts.push(...parseSubstackPosts(substackMatch[1]));
   allPosts.push(...parseGlossary());
+  allPosts.push(...parseRedditComments());
   allPosts.push(...parsePDFs());
 
   // Decode HTML entities in all text fields
