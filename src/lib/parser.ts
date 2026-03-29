@@ -226,6 +226,49 @@ function parseGlossary(): Post[] {
   }));
 }
 
+function parseXPosts(): Post[] {
+  const xPath = path.join(process.cwd(), 'src', 'data', 'x_posts.json');
+  if (!fs.existsSync(xPath)) return [];
+
+  interface XPost {
+    id: string;
+    text: string;
+    created_at: string;
+    is_retweet?: boolean;
+  }
+
+  const tweets: XPost[] = JSON.parse(fs.readFileSync(xPath, 'utf-8'));
+
+  return tweets
+    .filter((t) => !t.is_retweet && t.text)
+    .map((t) => {
+      const date = t.created_at
+        ? new Date(t.created_at).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+          })
+        : null;
+
+      // Use first ~60 chars of tweet as title, full text as content
+      const titleText = t.text.replace(/https?:\/\/\S+/g, '').trim();
+      const title =
+        titleText.length > 80
+          ? titleText.slice(0, 77) + '...'
+          : titleText || 'Post';
+
+      return {
+        slug: 'xpost-' + t.id,
+        title,
+        content: t.text,
+        excerpt: t.text.slice(0, 200),
+        date,
+        source: 'xpost' as ContentSource,
+        url: `https://x.com/bouvard38829538/status/${t.id}`,
+      };
+    });
+}
+
 function parseRedditComments(): Post[] {
   const redditPath = path.join(process.cwd(), 'src', 'data', 'reddit_comments.json');
   if (!fs.existsSync(redditPath)) return [];
@@ -331,6 +374,7 @@ export function parseAllContent(): Post[] {
   allPosts.push(...parseBook());
   if (substackMatch) allPosts.push(...parseSubstackPosts(substackMatch[1]));
   allPosts.push(...parseGlossary());
+  allPosts.push(...parseXPosts());
   allPosts.push(...parseRedditComments());
   allPosts.push(...parsePDFs());
 
