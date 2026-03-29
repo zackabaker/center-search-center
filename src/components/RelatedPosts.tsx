@@ -12,7 +12,6 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
   pdf: 'bg-green-100 text-green-800',
   glossary: 'bg-teal-100 text-teal-800',
   reddit: 'bg-red-100 text-red-800',
-  xpost: 'bg-gray-800 text-white',
 };
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
@@ -22,7 +21,6 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   pdf: 'PDF',
   glossary: 'Glossary',
   reddit: 'Reddit',
-  xpost: 'X Post',
 };
 
 export default function RelatedPosts({

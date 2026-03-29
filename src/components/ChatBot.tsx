@@ -15,6 +15,7 @@ const SOURCE_COLORS: Record<string, string> = {
   book: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
   pdf: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
   glossary: 'bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-300',
+  reddit: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
 };
 
 const SOURCE_LABELS: Record<string, string> = {
@@ -23,6 +24,7 @@ const SOURCE_LABELS: Record<string, string> = {
   book: 'Book',
   pdf: 'PDF',
   glossary: 'Glossary',
+  reddit: 'Reddit',
 };
 
 export default function ChatBot() {
@@ -224,7 +226,7 @@ export default function ChatBot() {
 
       {/* Chat panel */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-[420px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-8rem)] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+        <div className="fixed inset-0 sm:inset-auto sm:bottom-24 sm:right-6 z-50 sm:w-[420px] sm:max-w-[calc(100vw-2rem)] sm:h-[600px] sm:max-h-[calc(100vh-8rem)] bg-white dark:bg-gray-900 border-0 sm:border border-gray-200 dark:border-gray-700 sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden">
           {/* Header */}
           <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex items-center justify-between flex-shrink-0">
             <div>
@@ -235,14 +237,25 @@ export default function ChatBot() {
                 Answers with direct quotes from the archive
               </p>
             </div>
-            {messages.length > 0 && (
+            <div className="flex items-center gap-2">
+              {messages.length > 0 && (
+                <button
+                  onClick={() => setMessages([])}
+                  className="text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+                >
+                  Clear
+                </button>
+              )}
               <button
-                onClick={() => setMessages([])}
-                className="text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+                onClick={() => setIsOpen(false)}
+                className="sm:hidden p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+                aria-label="Close chat"
               >
-                Clear
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
               </button>
-            )}
+            </div>
           </div>
 
           {/* Messages */}
