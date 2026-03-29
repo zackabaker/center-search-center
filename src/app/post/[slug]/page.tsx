@@ -7,6 +7,27 @@ import ReadingProgress from '@/components/ReadingProgress';
 import ReadingControls from '@/components/ReadingControls';
 import RelatedPosts from '@/components/RelatedPosts';
 
+function GlossaryDefinition({ content }: { content: string }) {
+  const parts = content.split('\n\n— ');
+  const defText = parts[0].replace(/^[^:]+:\s*/, '');
+  const sourceAttr = parts[1] || null;
+  return (
+    <div className="bg-white dark:bg-gray-800 border-l-4 border-teal-500 rounded-lg p-6 sm:p-8 shadow-sm">
+      <p className="text-xs font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400 mb-4">
+        Definition
+      </p>
+      <p className="text-lg sm:text-xl leading-relaxed text-gray-900 dark:text-gray-100">
+        {defText}
+      </p>
+      {sourceAttr && (
+        <p className="mt-4 text-sm text-gray-500 dark:text-gray-400 italic">
+          — {sourceAttr}
+        </p>
+      )}
+    </div>
+  );
+}
+
 const SOURCE_LABELS: Record<ContentSource, string> = {
   substack: 'Substack',
   gablog: 'GABlog',
@@ -107,14 +128,7 @@ export default async function PostPage({
           </header>
 
           {post.source === 'glossary' ? (
-            <div className="bg-white dark:bg-gray-800 border-l-4 border-teal-500 rounded-lg p-6 sm:p-8 shadow-sm">
-              <p className="text-xs font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400 mb-4">
-                Definition
-              </p>
-              <p className="text-lg sm:text-xl leading-relaxed text-gray-900 dark:text-gray-100">
-                {post.content.replace(/^[^:]+:\s*/, '')}
-              </p>
-            </div>
+            <GlossaryDefinition content={post.content} />
           ) : (
             <HighlightedContent paragraphs={paragraphs} />
           )}

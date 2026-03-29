@@ -1,90 +1,152 @@
 [
-  {"term": "1st order Attentionality", "definition": "Ability to direct attention toward something."},
-  {"term": "2nd order Attentionality", "definition": "Understanding that others can direct their attention toward something; also called \"sociality.\""},
-  {"term": "3rd order Attentionality", "definition": "Understanding that others know you're directing attention toward something, and you know they're directing attention toward something; enables language."},
-  {"term": "Aborted gesture of appropriation", "definition": "The gesture in the Originary Event that aborted appropriation through temporal delay in representation."},
-  {"term": "Absolute Imperative", "definition": "The imperative to defer violent centralizing within social contexts."},
-  {"term": "Abstracting", "definition": "Third-order attentionality enabling shared attention and arbitrary language."},
-  {"term": "Abstraction", "definition": "Linguistic reconfiguration removing individuals from communal embedment through removal or abstraction."},
-  {"term": "Aesthetics", "definition": "Oscillation between desire and deferral when something is desired but socially prohibited from appropriation."},
-  {"term": "Agency", "definition": "One's ability to modulate inherited frames and construct formal objects through signing."},
-  {"term": "American Freedom", "definition": "Cultural prejudice favoring executive control over consensus-based decision-making."},
-  {"term": "Art", "definition": "Practice of deritualization by exposing preliminary practices of ritualization."},
-  {"term": "Asymmetric Signing", "definition": "Variability in people's ability to sign, creating differences in agency and hierarchies."},
-  {"term": "Attentional Space", "definition": "Space where attention is jointly held on a particular object, involving enforced equality and ritual."},
-  {"term": "Attentionality", "definition": "Sharing and mutual awareness of a common line of attention on an object; precursor to ethics."},
-  {"term": "Authority", "definition": "Power to modulate a context by revealing and naming, restoring coherence to relations."},
-  {"term": "Awe", "definition": "Co-mingling of dread, veneration, and wonder when encountering the originary ostensive."},
-  {"term": "Axial Age", "definition": "Conceptual overthrow of divine kingship leading to post-sacrificial exchange."},
-  {"term": "Big Man", "definition": "First person to usurp the center, creating hierarchy to prevent resentment-based destruction."},
-  {"term": "Bureaucracy", "definition": "Ensuring something is done in accordance with a discipline's own rules and guidelines."},
-  {"term": "Calcification", "definition": "Linguistic mismatch where declaratives banish dangling imperatives, undermining ostensive-imperative nexus."},
-  {"term": "Capital", "definition": "Ability to abstract people, groups, knowledge, and technologies from their embedment for transfer."},
-  {"term": "Center", "definition": "Locus of attention and significance where resentments focus and are deferred."},
-  {"term": "Centeredness", "definition": "Quality of being centered; degree to which something commands attention."},
-  {"term": "Centered Ordinality", "definition": "Order where articulation of power from center through ranks is transparent and consistent."},
-  {"term": "Centering", "definition": "Occupying the center and attracting attention to direct focus toward another center."},
-  {"term": "Centerlessness", "definition": "Rejecting the existence of a center, obscuring one's own desires while usurping centrality."},
-  {"term": "Central Authority", "definition": "Starting point for issued commands, from which all other commands stem."},
-  {"term": "Central Imaginary", "definition": "Ostensive grounding and justifying imperatives and broader discourse; cannot be formally integrated."},
-  {"term": "Charismatic Autocracy", "definition": "Model involving obedience to deferring violent usurpation of the sovereign center."},
-  {"term": "Chiasmatic Discourse", "definition": "Mutual transfiguration between language users' models of reality, creating new shared centers."},
-  {"term": "Chunking/de-chunking", "definition": "Forming and breaking up information into larger or smaller units through differentiation and integration."},
-  {"term": "Collective Intentionality", "definition": "Ability to cooperate within cultural reality using community-wide social norms."},
-  {"term": "Consciousness", "definition": "Transcendence of simple imitation; ability to construct formal objects and modulate frames."},
-  {"term": "Consensus Culture", "definition": "Culture discouraging unilateral imperative issuance, requiring multiple parties in decision-making."},
-  {"term": "Construction Grammar", "definition": "Linguistic theory contending meaning resides in formulaic constructions, not individual words."},
-  {"term": "Contemplation", "definition": "Aesthetic oscillation between attending to signs designating objects and deferred appropriation."},
-  {"term": "Cringing", "definition": "Moment of embarrassment represented to oneself after the fact as social phenomenon."},
-  {"term": "Cultural Locus", "definition": "Point drawing focus within culture; society modeled as concentric circles with divinity central."},
-  {"term": "Culture", "definition": "Deferral of violence through representation; shared norms converting joint-attentional spaces intentionally."},
-  {"term": "Declarative", "definition": "Speaking about something detached from its physical presence."},
-  {"term": "Declarative Culture", "definition": "Culture where everything must be explained in propositional statements."},
-  {"term": "Deferral", "definition": "Language's main function; substitution for conflict and violence through representation."},
-  {"term": "Desacralization", "definition": "Process of substitution of sacrality through scientific atomization."},
-  {"term": "Desire", "definition": "Appetite for something generated by social prohibition; mimetically influenced by peers."},
-  {"term": "Disciplinary Space", "definition": "Space of shared attention turning studied objects into new signs through inquiry."},
-  {"term": "Embedment", "definition": "Belonging in communal and ritual context within local community."},
-  {"term": "Ethics", "definition": "Formal practices particular to disciplinary spaces; exchanging ostensives and converting shared attention."},
-  {"term": "Event", "definition": "New inscription that re-inscribes all existing ones."},
-  {"term": "Executive Culture", "definition": "Culture valuing individual initiative and clear individual leadership responsibility."},
-  {"term": "Exemplary Victim", "definition": "Victim of violence by center occupant; activates liberal categories like justice and equality."},
-  {"term": "Firstness", "definition": "Bringing new objects to group attention or leading shared frames through asymmetry in speech."},
-  {"term": "Formal Objects", "definition": "Linguistically represented concepts within consciousness."},
-  {"term": "Frame", "definition": "Received/inherited historical configuration instantiated and slightly modified on a scene."},
-  {"term": "Freedom", "definition": "Ability to formally construct objects of shared attention; transcending resentment limitations."},
-  {"term": "Imperative", "definition": "Command derived from ostensive; action warranted by ostensive or explicit command."},
-  {"term": "Imperative Exchange", "definition": "Acting in reciprocation with center; society depends on bedrock of reciprocal obligation."},
-  {"term": "Imperative Gap", "definition": "Gap between command issued and command obeyed; minimized through proper commanding."},
-  {"term": "Imperativity", "definition": "Always trying to get word from center; nested tacit imperatives exist in all discourse."},
-  {"term": "Inquiry", "definition": "Direction of attention to something attended from; elaborates discrepancies between sign and referent."},
-  {"term": "Intellect", "definition": "Creates constructs substituting for originary center; sophisticated reductions, contrasted with wisdom."},
-  {"term": "Intentionality", "definition": "Ability to direct intention and knowing others have intention; enables teaching and commanding."},
-  {"term": "Interrogative", "definition": "Inquiring into imperative; asking what to do if imperative cannot be fulfilled."},
-  {"term": "Interrogative Imperativity", "definition": "Inquiry into imperatives; instantiates new imperative resisting imperative exchange."},
-  {"term": "Joint Intentionality", "definition": "The capacity to cooperate with others toward shared goals, enabling coordination and mutual understanding."},
-  {"term": "Kingship", "definition": "A form of social organization where a single individual occupies the sacred center."},
-  {"term": "Language", "definition": "A system of arbitrary signs enabling humans to represent absent objects and defer violence through symbolic communication."},
-  {"term": "Liberalism", "definition": "A political-cultural orientation emphasizing individual demands upon central authority rather than seeking commands from it."},
-  {"term": "Mimesis", "definition": "The tendency to imitate others' desires and actions, a fundamental social dynamic that can generate conflict or cultural transmission."},
-  {"term": "Morality", "definition": "The framework governing how significance is shared and deferred within a community."},
-  {"term": "Naming", "definition": "The sovereign act of identifying and articulating centers and their imperatives."},
-  {"term": "Omnicentrism", "definition": "A cultural stage where representational scenes expand so widely that multiple centers exist simultaneously, enabling individualism."},
-  {"term": "Originary Equality", "definition": "The initial state where all members of a community possessed equal access to the sign before hierarchies developed."},
-  {"term": "Originary Event", "definition": "The hypothetical singular moment when language emerged through deferred appropriation of a central object."},
-  {"term": "Originary Scene", "definition": "The foundational human scene of representation establishing joint attention and deferral through signing."},
-  {"term": "Ostensive", "definition": "A sign indicating something physically present, fundamental to language's origin and ongoing function."},
-  {"term": "Power", "definition": "The capacity to modulate frames and redirect collective attention toward new centers."},
-  {"term": "Resentment", "definition": "The negative emotion arising from desire for something socially prohibited or unequally distributed."},
-  {"term": "Ritual", "definition": "Repeated ceremonial actions commemorating the originary scene and maintaining shared attention on centers."},
-  {"term": "Sacred", "definition": "That which commands ultimate attention and significance within a community's shared frame."},
-  {"term": "Sacral Kingship", "definition": "A form of governance where the ruler embodies sacred authority and mediates divine will."},
-  {"term": "Scapegoating", "definition": "The process of projecting collective resentment onto a peripheral figure to restore center."},
-  {"term": "Scene", "definition": "The spatial and temporal configuration where representation and signification occur."},
-  {"term": "Sign", "definition": "A representation referring to an object absent from the immediate scene, fundamental to language."},
-  {"term": "Sovereignty", "definition": "The central authority possessing power to command and interpret centers."},
-  {"term": "Sparagmos", "definition": "The ritual tearing apart of a victim; related to private imagination's origins."},
-  {"term": "Victimary", "definition": "Relating to victim-centered moral frameworks that judge centers through exemplary suffering."},
-  {"term": "Violence", "definition": "Physical or symbolic force causing harm, what linguistic representation fundamentally defers."},
-  {"term": "Wisdom", "definition": "The capacity to grasp why something is meaningful, transcending layers of sophistication."}
+  {
+    "term": "Aborted Gesture of Appropriation",
+    "definition": "Within the group, some member hesitates, presumably out of something like terror, is seen by others to hesitate, and is imitated by others. The gesture indicates a renunciation, perhaps momentary (but that is enough), of the desired object. This, what Gans calls 'the gesture of aborted appropriation,' is the first sign.",
+    "source": "Anthropomorphics"
+  },
+  {
+    "term": "Anthropomorphics",
+    "definition": "'Anthropomorphics' is completely hypothetical, following the originary hypothesis itself. For anthropomorphics, the problem is to constitute our utterances on a scene, with a center. We understand that all we're ever doing is iterating the originary scene, in increasingly complex ways because we must incorporate anomalies and contingencies generated by previous scenes.",
+    "source": "Anthropomorphics"
+  },
+  {
+    "term": "Big Man",
+    "definition": "Eventually, some individual seizes the ritual and distributive center: this first adventurer or usurper is the 'Big Man' widely noted in anthropological accounts. Leadership through deferral is acquired by accumulation and distribution to one's dependents, and through the gift economy with one's peers and rivals.",
+    "source": "Anthropomorphics"
+  },
+  {
+    "term": "Center",
+    "definition": "What is a center? Whatever can invoke and be referenced by an ostensive sign: the center is both cause and product of the sign—as cause it subsists beyond any particular reference, and as product it is continually renewed. To be a center means that attention can be made to converge upon it in such a way that it can be seen to be caused by representations coming from that center.",
+    "source": "Anthropomorphics"
+  },
+  {
+    "term": "Centered Ordinality",
+    "definition": "Each gesture toward the center, or each assertion of centrality, initiates the ordering mentioned above. Insofar as it doesn't, it turns out not to have been an assertion of centrality. Leadership can therefore be reduced to the maintenance of centered ordinality: leadership is successful to the extent that everyone knows their place in the order at a given point in the process, and that there is no gap between actual order and nominal order. This is what power is.",
+    "source": "Anthropomorphics"
+  },
+  {
+    "term": "Declarative",
+    "definition": "The declarative emerges in response to a problem raised by the imperative—what we might call an 'inappropriate imperative.' There would be imperatives that couldn't be fulfilled, raising the specter of a breakdown of linguistic presence. The originary structure of the declarative contains a double imperative: one issued to some implicit, actual or possible imperator, to concede some demand or desire; the other is an imperative relayed retroactively from central being to the object in question, to remain beyond the grasp of anyone trying to intervene in that piece of reality.",
+    "source": "Anthropomorphics"
+  },
+  {
+    "term": "Deferral of Violence",
+    "definition": "The rivalrous imitation that first propels the group toward center and potentially cataclysmic violence is converted into a pacifying imitation that de-escalates the crisis; the order provided by the animal pecking order is replaced by an order mediated by the sign, which defers violence through representation.",
+    "source": "Anthropomorphics"
+  },
+  {
+    "term": "Disciplinary Space",
+    "definition": "The problem is establishing sameness in the midst of difference. A disciplinary space is where we make this attempt. The disciplinary space is an engine of differentiations, turning the object into a generator of new signs.",
+    "source": "Anthropomorphics / An Introduction to Disciplinarity"
+  },
+  {
+    "term": "Firstness",
+    "definition": "Unless we imagine genuinely spontaneous collective action, in any instance someone goes first and shapes the field for the others. The only purpose of imagining such spontaneous collectivity is to erase the firstness and minimize the resentments resulting from the fear that the one first on the scene might try to extend that firstness beyond the scene it constitutes. Defending firstness in order to allow the field to be shaped is done in the name of the center; restricting firstness so as to allow new fields to be shaped is also done in the name of the center.",
+    "source": "Anthropomorphics"
+  },
+  {
+    "term": "Idiom",
+    "definition": "An idiom is this articulation of group membership, the sharing of a sacred center, and its anthropological 'surplus,' or awareness that the signs designating that center might be otherwise and in fact are otherwise, having their equivalents in every other group.",
+    "source": "Center Study Center (Substack)"
+  },
+  {
+    "term": "Imperative",
+    "definition": "The imperative is a result of an 'inappropriate ostensive.' One member of the community issues the ostensive sign in the absence of the object, and another member of the community then supplies the object.",
+    "source": "Anthropomorphics"
+  },
+  {
+    "term": "Imperative Exchange",
+    "definition": "A center is a locus of imperative exchange—whatever about the object commands the issuance of the ostensive sign is also an agency of which requests can be made. The earliest forms of distribution are just such divisions of food items, no doubt matched, more or less roughly, with contributions made to the center. This is a gift economy, or what I have been calling imperative exchange.",
+    "source": "Anthropomorphics"
+  },
+  {
+    "term": "Imperativity",
+    "definition": "All of this becomes problematic once sacrifice has ended, and imperative exchange has given way to what we could call 'interrogative imperativity': rather than giving to the center what it instructs you to, and requesting that it fulfill its promises in exchange, each individual, as non-sacrificable center, asks himself who he is in giving himself over to the center completely.",
+    "source": "Anthropomorphics"
+  },
+  {
+    "term": "Interrogative",
+    "definition": "The imperative is prolonged, along with a tonal shift—the imperative becomes an interrogative, opening a space of choice for the one being issued the imperative. The problem of linguistic presence is now posed in a new way.",
+    "source": "Anthropomorphics"
+  },
+  {
+    "term": "Mimetic Crisis",
+    "definition": "Gans assumes that the mimetic crisis is organized around some object of appetitive attention—most likely some food source, perhaps a recent kill. Ordinarily, among the higher primate species, the object would be consumed in order, first by the Alpha animal, then by the Beta, and so on. But on this occasion, the mimetic rivalry induced by the object overrides the pecking order as all members of the group move toward the object at the center.",
+    "source": "Anthropomorphics"
+  },
+  {
+    "term": "Originary Event",
+    "definition": "In the originary event, we may assume that all emit and perceive the 'same' sign, and that this sameness is guaranteed by the success of the signing in preventing violence. All realize that the gestures of the others 'mean' the same thing as their own, which is to say, renunciation of the immediate act of appropriation of the central object desired by all.",
+    "source": "The Origin of Language"
+  },
+  {
+    "term": "Originary Hypothesis",
+    "definition": "The originary hypothesis, advanced by Eric Gans in his The Origin of Language in 1981, posits a singular event within which language, or the sign, originates. Gans's originary hypothesis is compatible with evolutionary theory while theorizing the creation of the human as a shared leap into a higher mode of being that will now order the human estate.",
+    "source": "Anthropomorphics / The Anthropoetics of Power"
+  },
+  {
+    "term": "Originary Scene",
+    "definition": "The retrieval of the originary scene means an assembling by deferred desire for some central object—the central object that is the most dangerous in the given social setting. The paradoxes of deferral we see on the originary scene are enduring features of the human. That which we desire and that therefore thrusts itself upon our attention, is given excess desirability through our mimetic relations with our fellows—desiring something is inseparable from imagining others desiring it. For this very reason we are forbidden our object of desire, as we intuit the violence implicit in our approach to it.",
+    "source": "Anthropomorphics"
+  },
+  {
+    "term": "Originary Sign",
+    "definition": "This gesture is the first 'sign,' the origin of language, because it is the first non-instinctive form of communication that takes on its meaning merely by being sustained by the social group. The originary sign creates a radical difference between the meaningful central object, on the one hand, and everything else, on the other.",
+    "source": "The Anthropoetics of Power / Anthropomorphics"
+  },
+  {
+    "term": "Ostensive",
+    "definition": "The first sign is an ostensive sign—that is, it is inextricable from the event in which it is issued and therefore constitutes the object it refers to. Its only reference is to the present. Employed only in the presence of their referent, ostensives express an ontology of events rather than of beings.",
+    "source": "Anthropomorphics / The Origin of Language"
+  },
+  {
+    "term": "Periphery",
+    "definition": "The communal symmetry of the originary scene, with the humans on the periphery surrounding the sacralized central object, remains the model of all cultural communication. The center as an agent is constructed prior to any agency on the margins, with the latter form of agency being modeled on that originally attributed to the center.",
+    "source": "The Origin of Language / Power and Paradox"
+  },
+  {
+    "term": "Resentment",
+    "definition": "The originary event is also the origin of resentment: the same sacred Being that preserves the community restrains desire while endowing the object with a sacrality that enhances its desirability. The center as unique locus of significance is by this fact the focus of resentment.",
+    "source": "The Anthropoetics of Power / Power and Paradox"
+  },
+  {
+    "term": "Ritual",
+    "definition": "The first act after the object on the originary scene is consumed is the establishment of ritual, the re-enactment of the originary scene—ritual facilitates future access to the central object—clearly, we couldn't count on the spontaneous rediscovery of the originary sign every time conflict flares up.",
+    "source": "The Anthropoetics of Power"
+  },
+  {
+    "term": "Sacral Kingship",
+    "definition": "The apotheosis of this development is sacral kingship, in which the king, as mediator between the community and the cosmos, serves as both power center and ritual center. A pure form of sacral kingship would entail the election of an individual who compels that election by his deferral capacities, which provide proof that sacral agencies look favorably upon him; and the killing and subsequent mythical transfiguration of that individual as soon as those agencies gave signs of withholding their favor.",
+    "source": "Anthropomorphics"
+  },
+  {
+    "term": "Sacred",
+    "definition": "The sacred/significant is the originary cultural supplement to what has been revealed as the dangerous inadequacy of our 'natural' pre-human restraints. This danger is deferred by the imposition of the sign between us and our 'instinctive' nature. The sacred is experienced as the object of a desire that cannot be fulfilled and for that very reason is desire and no longer mere appetite.",
+    "source": "The Origin of Language"
+  },
+  {
+    "term": "Sacrifice",
+    "definition": "The trajectory of imperative exchange: the more the ruler stands in for the community, the more his life must be hostage to the community's fortunes; the more the ruler is the source of all benefits, the more nothing less than human life can be given in exchange for such largesse.",
+    "source": "Anthropomorphics"
+  },
+  {
+    "term": "Scapegoating",
+    "definition": "In some crisis of a 'proto-human' species of hominid, a single member of the group is 'marked' and singled out as the source of the mimetic contagion, with this 'scapegoat' then murdered by the rest of the group. The mimetic frenzy of undifferentiation is thereby 'discharged' upon this single 'absolutely' different member. The scapegoat then becomes the first divine being, insofar as he has 'saved' the community.",
+    "source": "Anthropomorphics (describing Girard)"
+  },
+  {
+    "term": "Scenic Presence",
+    "definition": "What has been created is less 'language' or 'the sacred' than the scene of representation, the shared space within which we contemplate and represent an object that, from appetitively attractive, has become significant. The significance expressed by the ostensive is inherent in scenic presence.",
+    "source": "The Origin of Language"
+  },
+  {
+    "term": "Sparagmos",
+    "definition": "In the sparagmos, the tension generated by the prior restraint is loosened, and so this danger does present itself as the community attacks the meal in this unprecedented manner. Resentment at the object itself, for imposing restraint and refusing itself, intensifies the devouring of the body. The sparagmos, in order to be one, that is, a sacrificial feast, must follow the deferral of instinctual appropriation.",
+    "source": "Anthropomorphics / The Origin of Language"
+  },
+  {
+    "term": "Victimary",
+    "definition": "Victimary thinking is, for Gans, a moral transformation in Western society resulting from the shock at the Nazi genocide of the Jews. All 'ascriptive differences,' that is, differences based on some presumably indelible marker of belonging to a certain group, are now framed in terms of the Nazi-Jew binary.",
+    "source": "The Anthropoetics of Power"
+  }
 ]
