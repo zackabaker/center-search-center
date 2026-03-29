@@ -28,11 +28,19 @@ export default function Home() {
           &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it&rdquo;
         </blockquote>
         <SearchBar posts={sorted} />
-        <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 mt-3 text-xs text-gray-400 dark:text-gray-500">
           <a href="/intro" className="hover:text-blue-500 dark:hover:text-blue-400 hover:underline transition-colors">
             New to Center Study? Start here →
           </a>
-        </p>
+          <span className="hidden sm:inline text-gray-200 dark:text-gray-700">|</span>
+          <a href="/concepts" className="hover:text-blue-500 dark:hover:text-blue-400 hover:underline transition-colors">
+            Concept index
+          </a>
+          <span className="hidden sm:inline text-gray-200 dark:text-gray-700">|</span>
+          <a href="/stats" className="hover:text-blue-500 dark:hover:text-blue-400 hover:underline transition-colors">
+            Corpus stats
+          </a>
+        </div>
       </header>
 
       <section>

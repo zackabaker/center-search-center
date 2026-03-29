@@ -1,0 +1,169 @@
+import { getAllPosts } from '@/lib/parser';
+import { buildSearchEntries, getSignificantTerms } from '@/lib/search-index';
+import Link from 'next/link';
+import type { Metadata } from 'next';
+import { ContentSource } from '@/lib/types';
+
+export const metadata: Metadata = {
+  title: 'Corpus Statistics',
+  description: 'Statistics and analytics for the Center Search Center archive',
+};
+
+const SOURCE_LABELS: Record<ContentSource, string> = {
+  substack: 'Substack', gablog: 'GABlog', book: 'Book', pdf: 'PDF', reddit: 'Reddit',
+};
+const SOURCE_COLORS: Record<ContentSource, string> = {
+  substack: 'bg-orange-100 text-orange-700',
+  gablog: 'bg-blue-100 text-blue-700',
+  book: 'bg-purple-100 text-purple-700',
+  pdf: 'bg-green-100 text-green-700',
+  reddit: 'bg-red-100 text-red-700',
+};
+
+export default function StatsPage() {
+  const posts = getAllPosts();
+  const entries = buildSearchEntries(posts);
+
+  // Total word count
+  const totalWords = posts.reduce((sum, p) => sum + p.content.split(/\s+/).length, 0);
+
+  // Posts per source
+  const bySource = posts.reduce<Record<string, number>>((acc, p) => {
+    acc[p.source] = (acc[p.source] || 0) + 1;
+    return acc;
+  }, {});
+
+  // Posts per year
+  const byYear = posts.reduce<Record<string, number>>((acc, p) => {
+    if (!p.date) return acc;
+    const year = p.date.slice(0, 4);
+    if (/^\d{4}$/.test(year)) acc[year] = (acc[year] || 0) + 1;
+    return acc;
+  }, {});
+  const years = Object.keys(byYear).sort();
+  const maxYearCount = Math.max(...Object.values(byYear), 1);
+
+  // Top 20 terms
+  const topTerms = getSignificantTerms(entries, 5, 20);
+
+  // Reading time estimates
+  const avgWords = Math.round(totalWords / posts.length);
+  const totalReadingMinutes = Math.round(totalWords / 200);
+
+  // Posts with no date
+  const noDates = posts.filter((p) => !p.date).length;
+
+  return (
+    <main className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+      <div className="mb-8">
+        <Link href="/" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">← Back to search</Link>
+        <h1 className="text-2xl sm:text-3xl font-bold mt-3 mb-1">Corpus Statistics</h1>
+        <p className="text-gray-500 text-sm">Analytics for the Center Search Center archive</p>
+      </div>
+
+      {/* Summary cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
+        {[
+          { label: 'Total Posts', value: posts.length.toLocaleString() },
+          { label: 'Total Words', value: totalWords.toLocaleString() },
+          { label: 'Avg. Words/Post', value: avgWords.toLocaleString() },
+          { label: 'Hours of Reading', value: Math.round(totalReadingMinutes / 60).toLocaleString() },
+        ].map(({ label, value }) => (
+          <div key={label} className="bg-white border border-gray-200 rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-gray-900">{value}</div>
+            <div className="text-xs text-gray-500 mt-1">{label}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="grid sm:grid-cols-2 gap-6 mb-8">
+        {/* By source */}
+        <div className="bg-white border border-gray-200 rounded-xl p-5">
+          <h2 className="font-semibold text-gray-900 mb-4">Posts by Source</h2>
+          <div className="space-y-2.5">
+            {(Object.entries(bySource) as [ContentSource, number][])
+              .sort((a, b) => b[1] - a[1])
+              .map(([src, count]) => (
+                <div key={src} className="flex items-center gap-3">
+                  <span className={`text-xs px-2 py-0.5 rounded-full ${SOURCE_COLORS[src]} w-20 text-center flex-shrink-0`}>
+                    {SOURCE_LABELS[src]}
+                  </span>
+                  <div className="flex-1 bg-gray-100 rounded-full h-2 overflow-hidden">
+                    <div
+                      className="h-full bg-gray-400 rounded-full"
+                      style={{ width: `${(count / posts.length) * 100}%` }}
+                    />
+                  </div>
+                  <span className="text-sm text-gray-600 w-10 text-right">{count}</span>
+                </div>
+              ))}
+          </div>
+        </div>
+
+        {/* Top terms */}
+        <div className="bg-white border border-gray-200 rounded-xl p-5">
+          <h2 className="font-semibold text-gray-900 mb-4">Top 20 Terms</h2>
+          <div className="space-y-1.5">
+            {topTerms.map(({ term, count }) => (
+              <div key={term} className="flex items-center gap-2">
+                <Link
+                  href={`/?q=${encodeURIComponent(term)}`}
+                  className="text-xs text-blue-600 hover:underline w-32 truncate flex-shrink-0"
+                >
+                  {term}
+                </Link>
+                <div className="flex-1 bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                  <div
+                    className="h-full bg-blue-300 rounded-full"
+                    style={{ width: `${(count / topTerms[0].count) * 100}%` }}
+                  />
+                </div>
+                <span className="text-xs text-gray-400 w-8 text-right">{count}</span>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-gray-400 mt-3">
+            Count = number of posts containing the term.{' '}
+            <Link href="/concepts" className="text-blue-500 hover:underline">View full concept index →</Link>
+          </p>
+        </div>
+      </div>
+
+      {/* Posts per year */}
+      {years.length > 0 && (
+        <div className="bg-white border border-gray-200 rounded-xl p-5 mb-8">
+          <h2 className="font-semibold text-gray-900 mb-4">Publication Timeline</h2>
+          <div className="flex items-end gap-1.5 h-32">
+            {years.map((year) => {
+              const count = byYear[year] || 0;
+              const pct = (count / maxYearCount) * 100;
+              return (
+                <div key={year} className="flex-1 flex flex-col items-center gap-1 min-w-0">
+                  <span className="text-xs text-gray-500 hidden sm:block">{count}</span>
+                  <div
+                    className="w-full bg-gray-800 rounded-t"
+                    style={{ height: `${Math.max(pct, 2)}%` }}
+                    title={`${year}: ${count} posts`}
+                  />
+                  <span className="text-[10px] text-gray-400 truncate w-full text-center">{year}</span>
+                </div>
+              );
+            })}
+          </div>
+          {noDates > 0 && (
+            <p className="text-xs text-gray-400 mt-3">{noDates} posts have no date (not included above).</p>
+          )}
+        </div>
+      )}
+
+      <div className="text-center">
+        <Link href="/concepts" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 text-sm text-gray-600 hover:border-gray-300 hover:text-gray-900 transition-colors mr-3">
+          Browse concept index →
+        </Link>
+        <Link href="/" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-900 text-white text-sm hover:bg-gray-700 transition-colors">
+          Search the archive →
+        </Link>
+      </div>
+    </main>
+  );
+}

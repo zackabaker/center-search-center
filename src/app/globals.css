@@ -140,3 +140,52 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* ── Print styles ────────────────────────────────────────────── */
+@media print {
+  /* Hide interactive chrome */
+  .print\:hidden,
+  [class*="print:hidden"] {
+    display: none !important;
+  }
+
+  /* Force white background, black text */
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 12pt;
+    line-height: 1.6;
+  }
+
+  /* Remove shadows and colored borders */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Preserve hyperlinks as footnotes */
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #444;
+  }
+  /* Skip anchor links and internal navigation */
+  a[href^="#"]::after,
+  a[href^="/"]::after {
+    content: "";
+  }
+
+  /* Page breaks */
+  h1, h2, h3 { page-break-after: avoid; }
+  p, blockquote { page-break-inside: avoid; }
+  img { max-width: 100% !important; page-break-inside: avoid; }
+
+  /* Prose text stays black */
+  .prose, .prose p, .prose blockquote {
+    color: #000 !important;
+  }
+
+  /* Minimal header */
+  header { margin-bottom: 1cm; }
+  nav { display: none !important; }
+}
