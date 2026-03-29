@@ -34,16 +34,16 @@ export default function IntroPage() {
         <DarkModeToggle />
       </div>
 
-      <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-8 text-gray-900 dark:text-white">
+      <h1 style={{ color: 'var(--foreground)' }} className="text-3xl sm:text-4xl font-bold tracking-tight mb-8">
         Introduction to Center Study
       </h1>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+        <h2 style={{ color: 'var(--foreground)' }} className="text-xl font-semibold mb-4 border-b pb-2" >
           Center Study Overview
         </h2>
 
-        <div className="space-y-5 text-base sm:text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+        <div className="space-y-5 text-base sm:text-lg leading-relaxed" style={{ color: 'var(--foreground)', opacity: 0.85 }}>
           <p>
             Center Study branches off from Generative Anthropology, which is
             the study of human society and culture in the light of the
@@ -111,15 +111,15 @@ export default function IntroPage() {
             set the terms for future distributions and exchanges.
           </p>
 
-          <p className="text-gray-500 dark:text-gray-400 italic">
+          <p style={{ opacity: 0.6, fontStyle: 'italic' }}>
             So, maybe that&rsquo;s enough for starters. We&rsquo;re always
             ready to take on questions.
           </p>
         </div>
       </section>
 
-      <section className="mt-10 pt-6 border-t border-gray-200 dark:border-gray-700">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+      <section className="mt-10 pt-6 border-t">
+        <h2 style={{ color: 'var(--foreground)' }} className="text-xl font-semibold mb-4">
           Explore Further
         </h2>
         <div className="grid gap-3 sm:grid-cols-2">
@@ -127,10 +127,10 @@ export default function IntroPage() {
             href="/?filter=substack"
             className="block p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-orange-400 dark:hover:border-orange-500 transition-colors no-underline"
           >
-            <p className="font-semibold text-gray-900 dark:text-white">
+            <p style={{ color: 'var(--foreground)' }} className="font-semibold">
               Center Study Center (Substack)
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-gray-500">
               The latest essays and explorations
             </p>
           </Link>
@@ -138,10 +138,10 @@ export default function IntroPage() {
             href="/?filter=gablog"
             className="block p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500 transition-colors no-underline"
           >
-            <p className="font-semibold text-gray-900 dark:text-white">
+            <p style={{ color: 'var(--foreground)' }} className="font-semibold">
               GABlog Archive
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-gray-500">
               The full Generative Anthropology blog archive
             </p>
           </Link>
@@ -149,10 +149,10 @@ export default function IntroPage() {
             href="/?filter=book"
             className="block p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-purple-400 dark:hover:border-purple-500 transition-colors no-underline"
           >
-            <p className="font-semibold text-gray-900 dark:text-white">
+            <p style={{ color: 'var(--foreground)' }} className="font-semibold">
               Books &amp; PDFs
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-gray-500">
               Longer works and published papers
             </p>
           </Link>
@@ -160,10 +160,10 @@ export default function IntroPage() {
             href="/?filter=reddit"
             className="block p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-red-400 dark:hover:border-red-500 transition-colors no-underline"
           >
-            <p className="font-semibold text-gray-900 dark:text-white">
+            <p style={{ color: 'var(--foreground)' }} className="font-semibold">
               Reddit Comments
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-gray-500">
               Discussion threads from r/Absolutistneoreaction
             </p>
           </Link>

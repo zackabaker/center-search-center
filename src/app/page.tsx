@@ -21,15 +21,18 @@ export default function Home() {
         <div className="flex justify-end mb-4">
           <DarkModeToggle />
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-1">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">
           Center Search Center
         </h1>
-        <p className="text-xs text-gray-400 dark:text-gray-500 mb-5">
+        <blockquote className="italic text-sm text-gray-400 dark:text-gray-500 mb-5 px-4 max-w-xl mx-auto border-l-2 border-gray-200 dark:border-gray-700 text-left">
+          &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it&rdquo;
+        </blockquote>
+        <SearchBar posts={sorted} />
+        <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">
           <a href="/intro" className="hover:text-blue-500 dark:hover:text-blue-400 hover:underline transition-colors">
             New to Center Study? Start here →
           </a>
         </p>
-        <SearchBar posts={sorted} />
       </header>
 
       <section>
