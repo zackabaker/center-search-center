@@ -208,26 +208,6 @@ const PDF_METADATA: Record<string, { title: string; source?: ContentSource }> = 
   },
 };
 
-function parseGlossary(): Post[] {
-  const glossaryPath = path.join(process.cwd(), 'src', 'data', 'glossary.json');
-  if (!fs.existsSync(glossaryPath)) return [];
-
-  const entries: { term: string; definition: string; source?: string }[] = JSON.parse(
-    fs.readFileSync(glossaryPath, 'utf-8')
-  );
-
-  return entries.map((entry) => ({
-    slug: 'glossary-' + slugify(entry.term),
-    title: entry.term,
-    content: entry.source
-      ? `${entry.term}: ${entry.definition}\n\n— ${entry.source}`
-      : `${entry.term}: ${entry.definition}`,
-    excerpt: entry.definition,
-    date: null,
-    source: 'glossary' as ContentSource,
-  }));
-}
-
 function parseRedditComments(): Post[] {
   const redditPath = path.join(process.cwd(), 'src', 'data', 'reddit_comments.json');
   if (!fs.existsSync(redditPath)) return [];
@@ -332,7 +312,6 @@ export function parseAllContent(): Post[] {
   if (gablogMatch) allPosts.push(...parseGABlogPosts(gablogMatch[1]));
   allPosts.push(...parseBook());
   if (substackMatch) allPosts.push(...parseSubstackPosts(substackMatch[1]));
-  allPosts.push(...parseGlossary());
   allPosts.push(...parseRedditComments());
   allPosts.push(...parsePDFs());
 

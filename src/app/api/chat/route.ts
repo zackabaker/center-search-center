@@ -131,7 +131,6 @@ function formatChunksForPrompt(chunks: ChunkWithMeta[]): string {
     gablog: 'GABlog',
     book: 'Book',
     pdf: 'PDF',
-    glossary: 'Glossary',
   };
 
   return chunks

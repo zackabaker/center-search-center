@@ -14,7 +14,6 @@ const SOURCE_COLORS: Record<string, string> = {
   gablog: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
   book: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
   pdf: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
-  glossary: 'bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-300',
   reddit: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
 };
 
@@ -23,7 +22,6 @@ const SOURCE_LABELS: Record<string, string> = {
   gablog: 'GABlog',
   book: 'Book',
   pdf: 'PDF',
-  glossary: 'Glossary',
   reddit: 'Reddit',
 };
 

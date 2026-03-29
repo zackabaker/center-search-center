@@ -6,7 +6,6 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   gablog: 'GABlog',
   book: 'Book',
   pdf: 'PDF',
-  glossary: 'Glossary',
   reddit: 'Reddit',
 };
 
@@ -15,7 +14,6 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
   gablog: 'bg-blue-100 text-blue-800',
   book: 'bg-purple-100 text-purple-800',
   pdf: 'bg-green-100 text-green-800',
-  glossary: 'bg-teal-100 text-teal-800',
   reddit: 'bg-red-100 text-red-800',
 };
 
