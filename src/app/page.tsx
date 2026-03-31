@@ -1,5 +1,5 @@
 import { getAllPosts } from '@/lib/parser';
-import SearchBar from '@/components/SearchBar';
+import HomeSearch from '@/components/HomeSearch';
 import PostList from '@/components/PostList';
 import DarkModeToggle from '@/components/DarkModeToggle';
 
@@ -7,9 +7,7 @@ export default function Home() {
   const posts = getAllPosts();
 
   const sorted = [...posts].sort((a, b) => {
-    if (a.date && b.date) {
-      return new Date(b.date).getTime() - new Date(a.date).getTime();
-    }
+    if (a.date && b.date) return new Date(b.date).getTime() - new Date(a.date).getTime();
     if (a.date && !b.date) return -1;
     if (!a.date && b.date) return 1;
     return a.title.localeCompare(b.title);
@@ -27,7 +25,7 @@ export default function Home() {
         <blockquote className="italic text-sm text-gray-400 dark:text-gray-500 mb-5 px-4 max-w-xl mx-auto border-l-2 border-gray-200 dark:border-gray-700 text-left">
           &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it&rdquo;
         </blockquote>
-        <SearchBar posts={sorted} />
+        <HomeSearch />
         <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 mt-3 text-xs text-gray-400 dark:text-gray-500">
           <a href="/intro" className="hover:text-blue-500 dark:hover:text-blue-400 hover:underline transition-colors">
             New to Center Study? Start here →
