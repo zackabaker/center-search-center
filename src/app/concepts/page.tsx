@@ -91,7 +91,7 @@ export default function ConceptsPage() {
                 .map(({ term, count, isGlossary }) => (
                   <div key={term} className="break-inside-avoid mb-1.5">
                     <Link
-                      href={`/?q=${encodeURIComponent(term)}`}
+                      href={`/search?q=${encodeURIComponent(term)}`}
                       className="group inline-flex items-baseline gap-1.5 text-sm hover:text-blue-600 transition-colors"
                     >
                       <span

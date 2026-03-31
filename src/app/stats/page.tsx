@@ -107,7 +107,7 @@ export default function StatsPage() {
             {topTerms.map(({ term, count }) => (
               <div key={term} className="flex items-center gap-2">
                 <Link
-                  href={`/?q=${encodeURIComponent(term)}`}
+                  href={`/search?q=${encodeURIComponent(term)}`}
                   className="text-xs text-blue-600 hover:underline w-32 truncate flex-shrink-0"
                 >
                   {term}

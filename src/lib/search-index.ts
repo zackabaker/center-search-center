@@ -309,22 +309,31 @@ export function getSignificantTerms(
 
   const results: { term: string; count: number; isDomain: boolean }[] = [];
 
+  // Common suffixes that form valid derivatives of a domain root word
+  const DERIVATION_SUFFIXES = ['s','ed','ing','er','ers','al','ity','ism','ist','ize','izes',
+    'ized','tion','tions','ness','ment','ments','ly','ical','ically'];
+
+  function isDomainTerm(term: string): boolean {
+    if (GA_DOMAIN_VOCAB.has(term)) return true;
+    for (const vocab of GA_DOMAIN_VOCAB) {
+      if (vocab.length < 5) continue;
+      // Allow only clean suffix derivations: vocab + suffix = term
+      for (const suffix of DERIVATION_SUFFIXES) {
+        if (term === vocab + suffix) return true;
+        // Handle e-dropping: "deferr" -> "deferral", "originar" -> "originarily"
+        if (vocab.endsWith('e') && term === vocab.slice(0, -1) + suffix) return true;
+      }
+    }
+    return false;
+  }
+
   for (const [term, count] of freq.entries()) {
-    // Check if it matches a GA domain vocab term (exact or as a prefix/suffix)
-    const isDomain =
-      GA_DOMAIN_VOCAB.has(term) ||
-      [...GA_DOMAIN_VOCAB].some(
-        (v) =>
-          (v.length >= 6 && term.startsWith(v)) ||
-          (term.length >= 6 && v.startsWith(term))
-      );
+    const domain = isDomainTerm(term);
 
     // Include domain terms at lower frequency threshold; generic terms need higher freq + length
-    if (isDomain && count >= minCount) {
+    if (domain && count >= minCount) {
       results.push({ term, count, isDomain: true });
-    } else if (!isDomain && count >= 8 && term.length >= 7) {
-      // Only include non-domain terms if they're long enough to be substantive
-      // and very frequent — likely proper nouns or domain-adjacent concepts
+    } else if (!domain && count >= 8 && term.length >= 7) {
       results.push({ term, count, isDomain: false });
     }
   }
