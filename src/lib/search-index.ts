@@ -18,6 +18,7 @@ export interface SearchResult {
 }
 
 const STOPWORDS = new Set([
+  // Articles, conjunctions, prepositions
   'the','a','an','and','or','but','in','on','at','to','for','of','with',
   'by','from','up','about','into','through','is','are','was','were','be',
   'been','being','have','has','had','do','does','did','will','would','could',
@@ -26,6 +27,107 @@ const STOPWORDS = new Set([
   'their','what','which','who','when','where','how','why','all','any',
   'both','each','few','more','most','other','some','such','no','not',
   'only','same','so','than','too','very','just','as','if','then',
+  // Common verbs / filler
+  'also','even','like','get','make','made','take','taken','give','given',
+  'come','go','going','said','say','see','think','know','one','two','three',
+  'them','him','her','who','that','than','then','thus','here','there',
+  'over','after','before','while','since','still','now','new','use','used',
+  'way','ways','fact','point','case','first','last','back','well','much',
+  'many','long','need','needs','form','part','place','kind','come','means',
+  'mean','because','through','rather','whether','without','often','already',
+  'simply','around','though','always','never','every','within','between',
+  'something','anything','nothing','everything','however','although',
+  'while','must','again','another','itself','himself','herself','ourselves',
+  'therefore','although','toward','towards','become','becomes','became',
+  'actually','perhaps','simply','certain','certainly','different','general',
+  'possible','possible','especially','including','however','example',
+  'things','thing','make','made','take','takes','taken','give','gives',
+  'given','comes','goes','gone','went','come','seems','seem','seemed',
+  'let','lets','set','sets','put','puts','keep','keeps','kept',
+  'want','wants','wanted','does','done','own','owned','having',
+  'under','above','along','among','those','across','against','during',
+  'following','including','indeed','instead','less','like','likewise',
+  'merely','move','moves','much','neither','next','nor','note','off',
+  'once','onto','open','per','rather','really','relatively','seems',
+  'since','sometimes','soon','specific','such','tell','told','toward',
+  'try','trying','turn','type','upon','various','via','view','views',
+]);
+
+// Core vocabulary of Generative Anthropology — sourced from the GA Glossary.
+// The concept index shows ONLY words that match these roots/stems (plus
+// domain-adjacent terms discovered from corpus frequency).
+export const GA_DOMAIN_VOCAB = new Set([
+  // ── Originary / Scene / Event ──────────────────────────────────────────
+  'originary','scene','event','hypothesis','aborted','appropriation',
+  'sparagmos','victim','exemplary','firstness','secondness','thirdness',
+  'iterative','ostensive','declarative','imperative','interrogative',
+  // ── Mimesis / Desire ───────────────────────────────────────────────────
+  'mimesis','mimetic','mimicism','mimism','desire','resentment','violence',
+  'deferral','deferred','crisis','scapegoating','scapegoat','sacrificial',
+  'sacrifice','ritual','sacred','sacrality','sacral','desacralization',
+  'post-sacrificial','victimary','sparagmos',
+  // ── Center / Sign ──────────────────────────────────────────────────────
+  'center','centeredness','centering','centerlessness','centered',
+  'decentered','omnicentrism','signifying','transcendental','sign',
+  'signing','signification','significance','threshold','asymmetric',
+  'asymmetrical','presencing','presence','imaginary','representation',
+  'representational','scenic','scene',
+  // ── Language / Grammar ────────────────────────────────────────────────
+  'ostensive','declarative','imperative','interrogative','attentional',
+  'attentionality','attention','linguistic','language','grammar',
+  'construction','syntax','metalanguage','nominalization','logocentrism',
+  'performativity','pragmatic','infralinguistic','folding','framing',
+  'frame','chunking','utterance','literacy','generative','declarativity',
+  'imperativity','intersubjective','intersubjectivity','intentionality',
+  'intentional','collective','joint','ostension',
+  // ── Anthropology / Culture ────────────────────────────────────────────
+  'anthropology','anthropological','anthropomorphics','culture','cultural',
+  'ritual','myth','narrative','mythological','axial','neolithic',
+  'paleolithic','hominid','primate','evolution','evolutionary',
+  'consciousness','cognition','cognitive','embodied','embodiment',
+  'emic','etic','semantic','semiotic','semiotics',
+  // ── Power / Politics / Society ────────────────────────────────────────
+  'power','sovereignty','sovereign','authority','legitimacy','hierarchy',
+  'hierarchical','bureaucracy','bureaucratic','chiefdom','tributarianism',
+  'tribute','big man','jouvenelian','liberal','liberalism','tyranny',
+  'tyrannical','charisma','charismatic','autocracy','autocratic',
+  'governance','governance','metapolitics','political','politics',
+  'reactionary','leftism','freedom','individualism','universalism',
+  'rights','justice','morality','moral','ethics','ethical','law','legal',
+  'victimary','victimhood','resentment','nihilism',
+  // ── Discipline / Disciplinarity ───────────────────────────────────────
+  'discipline','disciplinary','disciplinarity','interdisciplinary',
+  'transdisciplinary','one-big-discipline','inquiry','explanation',
+  'description','thematization','scientism','logocentrism','rationality',
+  'wisdom','thinking','pedagogy','pedagogical','teaching','literacy',
+  // ── Economics / Markets ───────────────────────────────────────────────
+  'market','markets','capital','money','economic','economy','exchange',
+  'reciprocity','familial','tributarian',
+  // ── Aesthetics / Art ─────────────────────────────────────────────────
+  'aesthetics','aesthetic','esthetic','art','artistic','satire','satiric',
+  'originary-satire','high-art','popular','esthetic','contemplation',
+  'sublime','beauty','graceful',
+  // ── Gans / GA thinkers ───────────────────────────────────────────────
+  'gans','girard','girardian','derrida','derridean','husserl','peirce',
+  'peircean','saussure','chomsky','wittgenstein','jouvenel','hegel',
+  'hegelian','nietzsche','nietzschean','darwin','darwinian',
+  // ── Key compound concepts ─────────────────────────────────────────────
+  'originary-scene','originary-event','originary-sign','originary-hypothesis',
+  'shared-attention','joint-attention','minimal','minimalism',
+  'deferral','deferred-violence','aborted','gesture',
+  'transcendental','transcendence','sacred','profane','taboo',
+  'totem','totemic','monotheism','monotheistic','polytheism','religion',
+  'religious','metaphysics','metaphysical','ontology','ontological',
+  'epistemology','epistemological',
+  // ── Misc GA concepts ─────────────────────────────────────────────────
+  'resentment','cringing','dogma','paradox','pragmatic','practice',
+  'embodied','re-embedment','embedment','omnicentrism','verticism',
+  'prometheanism','usurpation','charismatic','transgressive','graceful',
+  'whig','victimary','nihilism','reactivity','reciprocity','reification',
+  'logocentrism','scientism','rationality','consciousness','agency',
+  'supplemented','supplementarity','technics','technology','media',
+  'sparagmos','centralization','decentralization','asymmetric','symmetric',
+  'iteration','iterative','surplus','scarcity','abundance',
 ]);
 
 function tokenize(text: string): string[] {
@@ -186,12 +288,15 @@ export function searchEntries(entries: SearchEntry[], query: string): SearchResu
     }));
 }
 
+// Returns terms for the concept index. Prioritizes GA domain vocabulary;
+// supplements with corpus-frequent longer words that aren't generic English.
 export function getSignificantTerms(
   entries: SearchEntry[],
-  minCount = 5,
+  minCount = 2,
   topN = 600
 ): { term: string; count: number }[] {
   const freq = new Map<string, number>();
+
   for (const entry of entries) {
     const words = new Set(entry.contentWords);
     for (const word of words) {
@@ -201,11 +306,37 @@ export function getSignificantTerms(
       freq.set(word, (freq.get(word) || 0) + 1);
     }
   }
-  return [...freq.entries()]
-    .filter(([, count]) => count >= minCount)
-    .sort((a, b) => b[1] - a[1])
+
+  const results: { term: string; count: number; isDomain: boolean }[] = [];
+
+  for (const [term, count] of freq.entries()) {
+    // Check if it matches a GA domain vocab term (exact or as a prefix/suffix)
+    const isDomain =
+      GA_DOMAIN_VOCAB.has(term) ||
+      [...GA_DOMAIN_VOCAB].some(
+        (v) =>
+          (v.length >= 6 && term.startsWith(v)) ||
+          (term.length >= 6 && v.startsWith(term))
+      );
+
+    // Include domain terms at lower frequency threshold; generic terms need higher freq + length
+    if (isDomain && count >= minCount) {
+      results.push({ term, count, isDomain: true });
+    } else if (!isDomain && count >= 8 && term.length >= 7) {
+      // Only include non-domain terms if they're long enough to be substantive
+      // and very frequent — likely proper nouns or domain-adjacent concepts
+      results.push({ term, count, isDomain: false });
+    }
+  }
+
+  return results
+    .sort((a, b) => {
+      // Domain terms first within the same count band
+      if (a.isDomain !== b.isDomain) return a.isDomain ? -1 : 1;
+      return b.count - a.count;
+    })
     .slice(0, topN)
-    .map(([term, count]) => ({ term, count }));
+    .map(({ term, count }) => ({ term, count }));
 }
 
 export function getRelatedEntries(
