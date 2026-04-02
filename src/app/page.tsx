@@ -38,6 +38,10 @@ export default function Home() {
           <a href="/stats" className="hover:text-blue-500 dark:hover:text-blue-400 hover:underline transition-colors">
             Corpus stats
           </a>
+          <span className="hidden sm:inline text-gray-200 dark:text-gray-700">|</span>
+          <a href="/guide" className="hover:text-blue-500 dark:hover:text-blue-400 hover:underline transition-colors font-medium">
+            Introduction to Center Study →
+          </a>
         </div>
       </header>
 
