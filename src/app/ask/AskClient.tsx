@@ -180,6 +180,8 @@ function renderMarkdown(
 
 const SESSION_KEY = 'csc-ask-session';
 const MAX_SAVED = 12; // max messages to persist
+const ASK_COUNT_KEY = 'csc-ask-count';
+const NAMES_THRESHOLD = 10; // messages before the hint appears
 
 export default function AskClient() {
   const [messages, setMessages] = useState<Message[]>(() => {
@@ -189,6 +191,10 @@ export default function AskClient() {
       const saved = localStorage.getItem(SESSION_KEY);
       return saved ? (JSON.parse(saved) as Message[]) : [];
     } catch { return []; }
+  });
+  const [askCount, setAskCount] = useState<number>(() => {
+    if (typeof window === 'undefined') return 0;
+    try { return parseInt(localStorage.getItem(ASK_COUNT_KEY) || '0', 10); } catch { return 0; }
   });
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -248,6 +254,13 @@ export default function AskClient() {
     setInput('');
     setIsLoading(true);
     setSaveable(null);
+
+    // Increment lifetime ask counter
+    try {
+      const next = askCount + 1;
+      localStorage.setItem(ASK_COUNT_KEY, String(next));
+      setAskCount(next);
+    } catch {}
 
     const newMessages: Message[] = [...messages, { role: 'user', content: question }];
     setMessages(newMessages);
@@ -509,6 +522,17 @@ export default function AskClient() {
               )}
             </div>
           ))}
+          {/* Book of Names hint — visible only after threshold */}
+          {askCount >= NAMES_THRESHOLD && (
+            <div className="pb-4 pt-2 text-center">
+              <Link
+                href="/names"
+                className="text-xs text-gray-300 dark:text-gray-600 hover:text-gray-400 dark:hover:text-gray-500 transition-colors"
+              >
+                there is a book of names
+              </Link>
+            </div>
+          )}
         </div>
       </main>
 
