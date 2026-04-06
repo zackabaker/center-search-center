@@ -34,9 +34,14 @@ export default function ConceptsIndexPage() {
   return (
     <main className="max-w-4xl mx-auto px-4 py-10">
       <div className="mb-10">
-        <Link href="/guide" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
-          ← Introduction
-        </Link>
+        <div className="flex items-center justify-between">
+          <Link href="/guide" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
+            ← Guide
+          </Link>
+          <Link href="/concepts" className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+            A–Z term index →
+          </Link>
+        </div>
         <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-4 mb-2">Layer II · Imperative</p>
         <h1 className="text-2xl sm:text-3xl font-bold mb-3 text-gray-900 dark:text-white">Concept Pages</h1>
         <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">

@@ -31,7 +31,7 @@ export default function Home() {
             <Link href="/ask" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
               Ask
             </Link>
-            <Link href="/concepts" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
+            <Link href="/guide/concepts" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
               Concepts
             </Link>
             <DarkModeToggle />
@@ -76,7 +76,7 @@ export default function Home() {
             </div>
           </Link>
           <Link
-            href="/concepts"
+            href="/guide/concepts"
             className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
           >
             <span className="text-xl">🗂</span>
