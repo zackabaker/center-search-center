@@ -25,10 +25,10 @@ export default function GuidePage() {
         </h1>
         <div className="max-w-none space-y-5 text-gray-900 dark:text-gray-100 leading-relaxed">
           <p className="text-lg">
-            <strong>This.</strong> A group of beings converge on an object. Each reaches for it. Each perceives the others reaching. The gesture aborts. The aborted gesture, emitted to all and received from all as the same sign, is the first sign: <em>this</em>. The scene that produced it is the <ClickableTerm>originary scene</ClickableTerm>. The binding force that made the sign work for everyone simultaneously is the <ClickableTerm>sacred</ClickableTerm>. The object that organized the scene is the <ClickableTerm>center</ClickableTerm>. What you are reading is an attempt to make those three concepts — scene, sacred, center — available to a reader encountering them for the first time.
+            <strong>This.</strong> A group of beings converge on an object. Each reaches for it. Each perceives the others reaching. The gesture aborts. The aborted gesture, emitted to all and received from all as the same sign, is the first sign: <em>this</em>. The scene that produced it is the <ClickableTerm>originary scene</ClickableTerm>. The binding force that made the sign work for everyone simultaneously is the <ClickableTerm>sacred</ClickableTerm>. The object that organized the scene is the <ClickableTerm>center</ClickableTerm>. Every name can only be a commemoration of some deferred violence. Every word is the Name of God.
           </p>
           <p>
-            Center Study is not a theory to be evaluated from outside. It is a disciplinary practice — a set of concepts, methods, and orientations that you either enter or do not. This guide is a door. Whether you walk through it depends on whether the concepts it opens do what concepts are supposed to do: make things visible that were invisible, name what was already present but unnamed, give you handles on problems that had no handles before.
+            The originary hypothesis repels the kind of initiatory revelatory &ldquo;download&rdquo; that is nevertheless the only way of understanding it. It is not a theory to be evaluated from outside — it is a disciplinary practice that you either enter or do not. Originary thinking does not just offer another perspective but requires one to rethink entire fields from the beginning. What it offers in return is the <em>miraculization of the world</em>: the very existence of the human is a miracle, constantly renewed, always on trial; institutions, names, words, each and every human practice is illuminated by the originary aura of the yet-to-be-hypothesized event that allowed for its inauguration against the odds.
           </p>
 
           <h2 className="text-xl font-bold text-gray-900 dark:text-white pt-4 pb-1">The Primary Axes</h2>
@@ -76,13 +76,16 @@ export default function GuidePage() {
           <h2 className="text-xl font-bold text-gray-900 dark:text-white pt-4 pb-1">The Paradox of Introduction</h2>
 
           <p>
-            There is a paradox here that is not a problem but a method. Center Study holds that there is no <ClickableTerm query="What is the critique of metalanguage in Center Study? Why does Center Study hold that there is no neutral position outside language?">metalanguage</ClickableTerm> — no position outside language from which language can be described neutrally. Any introduction to Center Study is therefore already inside Center Study. This guide cannot stand above its subject and explain it from a neutral vantage. It must teach by exemplifying.
+            There is a paradox here that is not a problem but a method. Center Study holds that there is no <ClickableTerm query="What is the critique of metalanguage in Center Study? Why does Center Study hold that there is no neutral position outside language?">metalanguage</ClickableTerm> — no position outside language from which language can be described neutrally. Any introduction to Center Study is therefore already inside Center Study. This guide cannot stand above its subject and explain it from a neutral vantage. It must teach by exemplifying. It is like a Möbius strip: you begin on the outside and find you are already inside.
           </p>
           <p>
             The entry point is ostensive: <em>this</em>. What follows are imperatives: attend to this concept, follow this reading path, orient toward this archive. At the end, if the guide has done its work, you will be in a position to make declarative claims — to say things about the structure of human experience that you could not have said before. The interrogative is the mode of the reader who has heard the imperative and is not yet sure how to comply: <em>what is this asking of me?</em> That question is where genuine reading begins.
           </p>
+          <p>
+            Unless you want to treat Center Study as another school of literary criticism that offers another reading of some canonical text, you have to let it dispossess you — it cannot stand alongside anything you think that has not been revisited and revised thoroughly through the hypothesis. This is why established people with a publicly confirmed identity are extremely unlikely to take up with it: you have, it seems, to be on the margins of some field that seems to you in need of refounding.
+          </p>
           <p className="text-gray-500 dark:text-gray-400 italic border-l-2 border-gray-200 dark:border-gray-700 pl-4">
-            "The only thing we are ever talking about is how we are going about deferring violence." — Adam Katz, <em>The Linguistic Turn and Generative Literacy</em>
+            &ldquo;The only thing we are ever talking about is how we are going about deferring violence.&rdquo; — Adam Katz, <em>The Linguistic Turn and Generative Literacy</em>
           </p>
         </div>
       </header>
