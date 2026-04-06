@@ -3,7 +3,7 @@ import { CONCEPTS } from '@/data/guide/concepts';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Concept Pages — Introduction to Center Study',
+  title: 'Concept Pages',
   description: 'Core concepts of Center Study — each with originary definition, archive development, and exemplary passages.',
 };
 

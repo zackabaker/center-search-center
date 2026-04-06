@@ -13,7 +13,7 @@ export default function ReadingPathsPage() {
     <main className="max-w-4xl mx-auto px-4 py-10">
       <div className="mb-10">
         <Link href="/guide" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
-          ← Introduction
+          ← Guide
         </Link>
         <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-4 mb-2">
           Layer III · Declarative

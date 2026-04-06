@@ -4,7 +4,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Concept Index',
+  title: 'A–Z Term Index',
   description: 'A–Z index of Center Study concepts and terms across the archive',
 };
 
@@ -31,7 +31,6 @@ export default function ConceptsPage() {
   const entries = buildSearchEntries(posts);
   const terms = getSignificantTerms(entries, 2, 800);
 
-  // Tag each term as a core GA glossary term or a corpus-derived term
   const tagged = terms.map(({ term, count }) => {
     const isGlossary =
       GA_DOMAIN_VOCAB.has(term) ||
@@ -41,7 +40,6 @@ export default function ConceptsPage() {
     return { term, count, isGlossary };
   });
 
-  // Group by first letter
   const byLetter: Record<string, { term: string; count: number; isGlossary: boolean }[]> = {};
   for (const t of tagged) {
     const letter = t.term[0].toUpperCase();
@@ -58,46 +56,42 @@ export default function ConceptsPage() {
   return (
     <main className="max-w-5xl mx-auto px-4 py-8 sm:py-12">
       <div className="mb-8">
-        <Link href="/" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">← Back to search</Link>
-        <div className="flex items-end justify-between mt-3">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold mb-1">Concept Index</h1>
-            <p className="text-gray-500 text-sm">
-              {totalTerms.toLocaleString()} terms across {totalPosts.toLocaleString()} posts —
-              focused on the vocabulary of Center Study.
-            </p>
-          </div>
-          <Link href="/stats" className="text-sm text-gray-400 hover:text-gray-600 transition-colors hidden sm:block">
-            Corpus stats →
-          </Link>
+        <div className="flex items-center justify-between">
+          <Link href="/guide/concepts" className="text-sm text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">← Concept Pages</Link>
+          <Link href="/stats" className="text-sm text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors hidden sm:block">Corpus stats →</Link>
+        </div>
+        <div className="mt-3">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-1 text-gray-900 dark:text-white">A–Z Term Index</h1>
+          <p className="text-gray-500 dark:text-gray-400 text-sm">
+            {totalTerms.toLocaleString()} terms across {totalPosts.toLocaleString()} posts — click any term to ask the archive.
+          </p>
         </div>
         {/* Legend */}
-        <div className="flex items-center gap-4 mt-3 text-xs text-gray-400">
+        <div className="flex items-center gap-4 mt-3 text-xs text-gray-400 dark:text-gray-500">
           <span className="flex items-center gap-1.5">
             <span className="inline-block w-2 h-2 rounded-full bg-blue-500" />
             Center Study glossary term ({glossaryTerms})
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="inline-block w-2 h-2 rounded-full bg-gray-300" />
+            <span className="inline-block w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600" />
             Corpus term ({totalTerms - glossaryTerms})
           </span>
-          <span className="ml-auto">Numbers = post count · Click to search</span>
         </div>
       </div>
 
       {/* Core Concepts */}
       <div className="mb-10">
-        <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Core Concepts</h2>
+        <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">Core Concepts</h2>
         <div className="flex flex-wrap gap-2">
           {CORE_CONCEPTS.map(({ label, query }) => (
             <Link
               key={label}
               href={`/ask?q=${encodeURIComponent(query)}`}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 bg-white hover:border-gray-400 hover:bg-gray-50 transition-all text-sm text-gray-800 group"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:border-gray-400 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all text-sm text-gray-800 dark:text-gray-200 group"
             >
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />
               {label}
-              <svg className="h-3 w-3 text-gray-300 group-hover:text-gray-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="h-3 w-3 text-gray-300 dark:text-gray-600 group-hover:text-gray-500 dark:group-hover:text-gray-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </Link>
@@ -106,12 +100,12 @@ export default function ConceptsPage() {
       </div>
 
       {/* Alphabet jump bar */}
-      <div className="flex flex-wrap gap-1 mb-8 sticky top-4 z-10 bg-white/90 backdrop-blur py-2 rounded-lg border border-gray-100 px-2">
+      <div className="flex flex-wrap gap-1 mb-8 sticky top-4 z-10 bg-white/90 dark:bg-gray-950/90 backdrop-blur py-2 rounded-lg border border-gray-100 dark:border-gray-800 px-2">
         {letters.map((letter) => (
           <a
             key={letter}
             href={`#letter-${letter}`}
-            className="text-xs font-mono px-2 py-1 rounded hover:bg-gray-100 text-gray-600 transition-colors"
+            className="text-xs font-mono px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 transition-colors"
           >
             {letter}
           </a>
@@ -122,23 +116,23 @@ export default function ConceptsPage() {
       <div className="space-y-10">
         {letters.map((letter) => (
           <section key={letter} id={`letter-${letter}`} className="scroll-mt-20">
-            <h2 className="text-xl font-bold text-gray-300 mb-3 border-b border-gray-100 pb-1">{letter}</h2>
+            <h2 className="text-xl font-bold text-gray-200 dark:text-gray-700 mb-3 border-b border-gray-100 dark:border-gray-800 pb-1">{letter}</h2>
             <div className="columns-2 sm:columns-3 md:columns-4 gap-x-6">
               {byLetter[letter]
                 .sort((a, b) => a.term.localeCompare(b.term))
                 .map(({ term, count, isGlossary }) => (
                   <div key={term} className="break-inside-avoid mb-1.5">
                     <Link
-                      href={`/search?q=${encodeURIComponent(term)}`}
-                      className="group inline-flex items-baseline gap-1.5 text-sm hover:text-blue-600 transition-colors"
+                      href={`/ask?q=${encodeURIComponent(`What is "${term}" in Center Study?`)}`}
+                      className="group inline-flex items-baseline gap-1.5 text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                     >
                       <span
                         className={`inline-block w-1.5 h-1.5 rounded-full flex-shrink-0 self-center mr-0.5 ${
-                          isGlossary ? 'bg-blue-400' : 'bg-gray-300'
+                          isGlossary ? 'bg-blue-400' : 'bg-gray-300 dark:bg-gray-600'
                         }`}
                       />
-                      <span className="text-gray-800 group-hover:text-blue-600">{term}</span>
-                      <span className="text-[10px] text-gray-400 group-hover:text-blue-400">{count}</span>
+                      <span className="text-gray-800 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400">{term}</span>
+                      <span className="text-[10px] text-gray-400 dark:text-gray-500 group-hover:text-blue-400 dark:group-hover:text-blue-500">{count}</span>
                     </Link>
                   </div>
                 ))}
@@ -147,8 +141,8 @@ export default function ConceptsPage() {
         ))}
       </div>
 
-      <div className="mt-12 pt-6 border-t border-gray-100 text-center">
-        <p className="text-xs text-gray-400 mb-4">
+      <div className="mt-12 pt-6 border-t border-gray-100 dark:border-gray-800 text-center">
+        <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">
           Blue dots mark terms from the{' '}
           <a
             href="https://theglossary.home.blog/generative-anthropology/"
@@ -158,9 +152,9 @@ export default function ConceptsPage() {
           >
             Center Study Glossary
           </a>
-          . Numbers indicate how many posts contain the term.
+          . Numbers = posts containing the term.
         </p>
-        <Link href="/" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-900 text-white text-sm hover:bg-gray-700 transition-colors">
+        <Link href="/" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm hover:opacity-80 transition-opacity">
           Search the archive →
         </Link>
       </div>
