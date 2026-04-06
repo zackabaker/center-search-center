@@ -5,8 +5,26 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Concept Index',
-  description: 'A–Z index of Generative Anthropology concepts and terms across the archive',
+  description: 'A–Z index of Center Study concepts and terms across the archive',
 };
+
+const CORE_CONCEPTS: { label: string; query: string }[] = [
+  { label: 'The Center', query: 'What is "the center" in Center Study?' },
+  { label: 'Originary Scene', query: 'What is the originary scene in Center Study?' },
+  { label: 'Deferral', query: 'What is deferral in Center Study?' },
+  { label: 'Desire', query: 'What is desire and mimetic desire in Center Study?' },
+  { label: 'Resentment', query: 'What is resentment in Center Study?' },
+  { label: 'The Periphery', query: 'What is the periphery in Center Study?' },
+  { label: 'Idiom', query: 'What is idiom in Center Study?' },
+  { label: 'The Scenic', query: 'What is the scenic in Center Study?' },
+  { label: 'Singularized Succession in Perpetuity', query: 'What is singularized succession in perpetuity in Center Study?' },
+  { label: 'The Victimary', query: 'What is the victimary in Center Study?' },
+  { label: 'Originary Hypothesis', query: 'What is the originary hypothesis in Center Study?' },
+  { label: 'The Ostensive', query: 'What is the ostensive sign in Center Study?' },
+  { label: 'The Imperative', query: 'What is the imperative sign in Center Study?' },
+  { label: 'The Declarative', query: 'What is the declarative sign in Center Study?' },
+  { label: 'Originary Grammar', query: 'What is originary grammar in Center Study?' },
+];
 
 export default function ConceptsPage() {
   const posts = getAllPosts();
@@ -46,7 +64,7 @@ export default function ConceptsPage() {
             <h1 className="text-2xl sm:text-3xl font-bold mb-1">Concept Index</h1>
             <p className="text-gray-500 text-sm">
               {totalTerms.toLocaleString()} terms across {totalPosts.toLocaleString()} posts —
-              focused on the vocabulary of Generative Anthropology.
+              focused on the vocabulary of Center Study.
             </p>
           </div>
           <Link href="/stats" className="text-sm text-gray-400 hover:text-gray-600 transition-colors hidden sm:block">
@@ -57,13 +75,33 @@ export default function ConceptsPage() {
         <div className="flex items-center gap-4 mt-3 text-xs text-gray-400">
           <span className="flex items-center gap-1.5">
             <span className="inline-block w-2 h-2 rounded-full bg-blue-500" />
-            GA glossary term ({glossaryTerms})
+            Center Study glossary term ({glossaryTerms})
           </span>
           <span className="flex items-center gap-1.5">
             <span className="inline-block w-2 h-2 rounded-full bg-gray-300" />
             Corpus term ({totalTerms - glossaryTerms})
           </span>
           <span className="ml-auto">Numbers = post count · Click to search</span>
+        </div>
+      </div>
+
+      {/* Core Concepts */}
+      <div className="mb-10">
+        <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Core Concepts</h2>
+        <div className="flex flex-wrap gap-2">
+          {CORE_CONCEPTS.map(({ label, query }) => (
+            <Link
+              key={label}
+              href={`/ask?q=${encodeURIComponent(query)}`}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 bg-white hover:border-gray-400 hover:bg-gray-50 transition-all text-sm text-gray-800 group"
+            >
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />
+              {label}
+              <svg className="h-3 w-3 text-gray-300 group-hover:text-gray-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          ))}
         </div>
       </div>
 
@@ -118,7 +156,7 @@ export default function ConceptsPage() {
             rel="noopener noreferrer"
             className="text-blue-400 hover:underline"
           >
-            GA Glossary
+            Center Study Glossary
           </a>
           . Numbers indicate how many posts contain the term.
         </p>

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import ChatBot from "@/components/ChatBot";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,24 +14,24 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Center Search Center",
-    template: "%s | Center Search Center",
+    default: "Center Study Center",
+    template: "%s | Center Study Center",
   },
   description:
-    "Searchable archive of Dennis Bouvard's Center Study Center (Substack), GABlog, and Anthropomorphics. Full-text search across 700+ posts on Generative Anthropology.",
+    "Searchable archive of the complete Center Study corpus — Bouvard/Katz's Substack and blog, Gans's Anthropomorphics, and key PDFs. 700+ texts on originary thinking.",
   keywords: [
-    "Generative Anthropology",
+    "Center Study",
     "Eric Gans",
-    "Dennis Bouvard",
-    "Center Study Center",
+    "Bouvard/Katz",
     "originary hypothesis",
-    "GABlog",
+    "originary scene",
     "Anthropomorphics",
+    "deferral",
   ],
   openGraph: {
-    title: "Center Search Center",
+    title: "Center Study Center",
     description:
-      "Searchable archive of 700+ posts on Generative Anthropology",
+      "Searchable archive of 700+ texts in the Center Study tradition",
     type: "website",
   },
 };
@@ -48,9 +47,16 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <head>
+        {/* Initialise dark mode before first paint to avoid flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{if(localStorage.getItem('csc-dark-mode')==='true'){document.documentElement.classList.add('dark');}}catch(e){}})();`,
+          }}
+        />
+      </head>
+      <body className="min-h-full flex flex-col bg-white dark:bg-[#111111] text-gray-900 dark:text-[#e8e8e8]">
         {children}
-        <ChatBot />
       </body>
     </html>
   );

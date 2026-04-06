@@ -6,7 +6,7 @@ import { ContentSource } from '@/lib/types';
 
 export const metadata: Metadata = {
   title: 'Corpus Statistics',
-  description: 'Statistics and analytics for the Center Search Center archive',
+  description: 'Statistics and analytics for the Center Study Center archive',
 };
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
@@ -58,7 +58,7 @@ export default function StatsPage() {
       <div className="mb-8">
         <Link href="/" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">← Back to search</Link>
         <h1 className="text-2xl sm:text-3xl font-bold mt-3 mb-1">Corpus Statistics</h1>
-        <p className="text-gray-500 text-sm">Analytics for the Center Search Center archive</p>
+        <p className="text-gray-500 text-sm">Analytics for the Center Study Center archive</p>
       </div>
 
       {/* Summary cards */}

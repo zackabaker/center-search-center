@@ -25,22 +25,28 @@ export const READING_PATHS: ReadingPath[] = [
     intro: `This path points. It does not argue or explain — it indicates, in sequence, the texts that make the originary hypothesis available. The sequence is not arbitrary: each post opens a door that the next walks through. You can read them in any order, but you will understand them better in this one. If you are entirely new to this material, start at the beginning and do not skip ahead. The hypothesis resists initiation by excerpts.`,
     posts: [
       {
-        slug: 'gablog-how-does-the-center-speak',
-        title: 'How Does the Center Speak?',
+        slug: 'gablog-center-and-centrality',
+        title: 'Center and Centrality',
         source: 'GABlog',
-        bridge: 'The opening question — how does the center speak, and what does it say — establishes the fundamental orientation. Before moving to the originary scene as such, we need the concept of the center as something that speaks, that addresses, that issues. The next text supplies the scene from which that speaking emerges.',
+        bridge: 'The concept of the center — not a metaphor but the organizing fact of all human sociality — is established as the primary analytical category. Before the hypothesis about language\'s origin, we need the concept of the center as something that structures, addresses, and issues. The next text supplies the scene from which all centering emerges.',
       },
       {
-        slug: 'pdf-the-origin-of-language',
+        slug: 'book-the-origin-of-language',
         title: 'The Origin of Language (Introduction)',
-        source: 'PDF',
-        bridge: 'Katz\'s introduction to Gans\'s foundational text situates the originary hypothesis against the two major obstacles to its reception: metaphysics (which treats the declarative as primary) and victimary thinking (which treats inequality as oppression). Having identified the obstacles, we need the hypothesis itself — the minimal account of where language and the human come from.',
+        source: 'Book',
+        bridge: 'Gans\'s foundational text situates the originary hypothesis against the two major obstacles to its reception: metaphysics (which treats the declarative as primary) and victimary thinking (which treats inequality as oppression). Having identified the obstacles, we need the hypothesis itself — the minimal account of where language and the human come from.',
       },
       {
         slug: 'pdf-talk-of-the-center-adam-katz',
         title: 'Talk of the Center',
         source: 'PDF',
         bridge: 'The concept of the center as the organizing point of all human social life — not merely the origin of language but the ongoing condition of community. Having established the center\'s primacy, we need to understand what it means to approach it philosophically, which requires understanding the relationship between ritual and philosophy that makes originary thinking possible.',
+      },
+      {
+        slug: 'substack-originary-hypothesis-as-mobius-strip',
+        title: 'Originary Hypothesis as Möbius Strip',
+        source: 'Substack',
+        bridge: 'Bouvard\'s compact demonstration that the originary hypothesis has a self-referential structure — it is itself an instance of what it describes. The hypothesis about the origin of signification is itself a sign that can only be understood from within the practice of signification it describes. This paradox is not a problem to be solved but the condition of the hypothesis\'s power.',
       },
       {
         slug: 'pdf-linguistic-turn-generative-literacy',
@@ -85,10 +91,22 @@ export const READING_PATHS: ReadingPath[] = [
         bridge: 'Anti-centerism as the specific pathology of modern institutions — including journalism, the primary institution of information about the center. The argument that all institutional action presupposes a center, and that pretending otherwise produces specific institutional dysfunctions. Next: how sovereignty relates to the center.',
       },
       {
+        slug: 'substack-notes-on-governance-and-center-study-politics',
+        title: 'Notes on Governance and Center Study Politics',
+        source: 'Substack',
+        bridge: 'Bouvard\'s applied extension of the political framework to contemporary governance structures — what Center Study analysis actually implies for how institutions should be assessed and designed. Next: how succession is the political question above all others.',
+      },
+      {
         slug: 'gablog-sovereignty-nomos-and-parrhesia',
         title: 'Sovereignty, Nomos and Parrhesia',
         source: 'GABlog',
         bridge: 'Sovereignty, the nomos, and legitimate speech — the three dimensions of political order that liberalism systematically obscures. This post provides the positive account of what political order requires, which is the necessary complement to the critique.',
+      },
+      {
+        slug: 'substack-rotating-dictatorship',
+        title: 'Rotating Dictatorship',
+        source: 'Substack',
+        bridge: 'The concept of rotating dictatorship as a model for understanding how legitimate authority circulates — a provocative application of Center Study\'s political vocabulary to concrete questions of governance design.',
       },
       {
         slug: 'gablog-successful-succession',
@@ -121,6 +139,18 @@ export const READING_PATHS: ReadingPath[] = [
         bridge: 'The nomos as the originary distribution that the juridical order must honor. Legitimate judgment is judgment that respects the nomos; illegitimate judgment is judgment that violates it in the name of positive law or ideological principle. Then: what happens to the juridical when the center is occupied by those devoted to opposing it.',
       },
       {
+        slug: 'substack-on-the-juridical-disciplinary-line',
+        title: 'On the Juridical/Disciplinary Line',
+        source: 'Substack',
+        bridge: 'Bouvard\'s analysis of the line between the juridical and the disciplinary — two modes of authority that derive from the center but operate by different logics. Understanding their distinction clarifies what breaks down when they collapse into each other.',
+      },
+      {
+        slug: 'substack-tethering-and-toggling-ritual-juridical-and-disciplinary',
+        title: 'Tethering and Toggling: Ritual, Juridical, and Disciplinary',
+        source: 'Substack',
+        bridge: 'The three modes — ritual, juridical, disciplinary — as a system of scene-management. Each mode \'tethers\' the periphery to the center differently; understanding how they toggle between each other is essential for analyzing any institutional arrangement.',
+      },
+      {
         slug: 'pdf-there-is-no-economy',
         title: 'There Is No Economy',
         source: 'PDF',
@@ -145,10 +175,28 @@ export const READING_PATHS: ReadingPath[] = [
         bridge: 'Singularized succession in perpetuity as the foundation of any practice — the concept that makes succession not merely a political question but a condition of every domain of human activity. Having established the concept in its most general form, we can now apply it to political sovereignty specifically.',
       },
       {
+        slug: 'substack-singularized-succession-in-perpetuity',
+        title: 'Singularized Succession in Perpetuity',
+        source: 'Substack',
+        bridge: 'Bouvard\'s focused treatment of singularized succession as a theoretical concept — how the center is constituted by the practice of pointing at it, and how that pointing must be singularized (not distributed) to generate authority. The concept that makes the succession question precise.',
+      },
+      {
+        slug: 'substack-the-sufficiency-of-singularized-succession-in-perpetuity',
+        title: 'The Sufficiency of Singularized Succession in Perpetuity',
+        source: 'Substack',
+        bridge: 'The argument that singularized succession is not one political concept among others but the concept that makes political analysis adequate to its object. Sufficiency here means: once you have this concept, you can analyze any social order\'s political form.',
+      },
+      {
         slug: 'gablog-successful-succession',
         title: 'Successful Succession',
         source: 'GABlog',
         bridge: 'The political application: mode of succession as the most important question for assessing a social order. The argument that succession is not incidental to political form but constitutive of it.',
+      },
+      {
+        slug: 'substack-options-on-succession',
+        title: 'Options on Succession',
+        source: 'Substack',
+        bridge: 'The analysis of succession as a set of options — different modes of transmitting authority with different risk profiles, different relationships to the center, and different consequences for institutional legitimacy. A practical application of the theoretical framework.',
       },
       {
         slug: 'pdf-event-origin-center',
@@ -187,10 +235,28 @@ export const READING_PATHS: ReadingPath[] = [
         bridge: 'The systematic argument that money is a sign of recognition — credit drawn on the sacred — not a medium of exchange invented to solve barter\'s inefficiencies. The "economy" as ideological concealment of the tributary structure.',
       },
       {
+        slug: 'substack-originary-debt-credit-succession',
+        title: 'Originary Debt, Credit, Succession',
+        source: 'Substack',
+        bridge: 'Bouvard\'s synthesis of the three core economic-political concepts: originary debt as the condition of all exchange, credit as the institutionalization of deferred debt, and succession as the transmission of credit authority. The essay that most directly connects Center Study\'s economic and political frameworks.',
+      },
+      {
+        slug: 'substack-data-as-currency-and-the-debt-to-the-center',
+        title: 'Data as Currency and the Debt to the Center',
+        source: 'Substack',
+        bridge: 'The contemporary application: data as a form of credit drawn on the center, and the algorithmic economy as a new form of the tributary structure. The argument that digital capitalism is not a break from originary economics but its intensification.',
+      },
+      {
         slug: 'gablog-debts-and-deferences',
         title: 'Debts and Deferences',
         source: 'GABlog',
         bridge: 'Debt and deferral as paired concepts: the only repayment of the debt to the center is ongoing deferral. The moral-economic dimension: to pay one\'s debt is not to provide an equivalent exchange but to continue the practice of deferral the center demands.',
+      },
+      {
+        slug: 'substack-debits-and-credits',
+        title: 'Debits and Credits',
+        source: 'Substack',
+        bridge: 'A close-grained analysis of the debit/credit structure as it actually operates — the accounting logic of originary economics made concrete. The path\'s most practical text.',
       },
     ],
     conclusion: `The economic path arrives at the question that liberal economics never asks: what is the center against which all this credit is being drawn? Modern financial crises are center crises — failures of the originary credit structure that money represents. The scenic design path develops how institutions might be designed to make this visible and manageable.`,
@@ -200,21 +266,33 @@ export const READING_PATHS: ReadingPath[] = [
   {
     slug: 'language-and-grammar',
     title: 'Language and Grammar',
-    subtitle: 'The ostensive, imperative, and declarative — and the grammar implicit in the originary scene.',
+    subtitle: 'The ostensive, imperative, interrogative, and declarative — and the grammar implicit in the originary scene.',
     posture: 'ostensive',
     intro: `This path points at language. Not language as a system of rules or a medium of communication — language as the deferral of violence, as the conversion of mimetic crisis into shared attention, as the ongoing practice of constituting scenes. The path is ostensive in mode: it indicates, in sequence, the texts that make language legible as an originary phenomenon. Begin by bracketing everything you know about grammar.`,
     posts: [
       {
-        slug: 'pdf-the-origin-of-language',
+        slug: 'book-the-origin-of-language',
         title: 'The Origin of Language',
-        source: 'PDF',
-        bridge: 'The foundational account of the three linguistic forms and their originary precedence. The argument that treating the declarative as primary forecloses the question of origin. Then: what it means to complete the linguistic turn by recognizing the infralinguistic base.',
+        source: 'Book',
+        bridge: 'The foundational account of the four linguistic forms (ostensive, imperative, interrogative, declarative) and their originary precedence. The argument that treating the declarative as primary forecloses the question of origin. Then: what it means to complete the linguistic turn by recognizing the infralinguistic base.',
       },
       {
         slug: 'pdf-linguistic-turn-generative-literacy',
         title: 'The Linguistic Turn and Generative Literacy',
         source: 'PDF',
         bridge: 'The completion of the linguistic turn: from representational to generative, from metalanguage to infralanguage. The argument that all language is scene-dependent. Then: the ethical dimension of language — how attention and responsibility are constitutively linked.',
+      },
+      {
+        slug: 'substack-back-to-grammar',
+        title: 'Back to Grammar',
+        source: 'Substack',
+        bridge: 'Bouvard\'s return to originary grammar as a living analytical tool — not a historical reconstruction but an ongoing practice of thinking from the originary scene. The post demonstrates what it means to "do" originary grammar rather than merely describe it.',
+      },
+      {
+        slug: 'substack-media-technology-and-originary-grammar',
+        title: 'Media, Technology and Originary Grammar',
+        source: 'Substack',
+        bridge: 'The application of originary grammar to contemporary media and technology — the argument that every medium has a grammatical structure derivable from the originary scene. A key bridge between the grammatical and technological paths.',
       },
       {
         slug: 'pdf-attentionality-originary-ethics',
@@ -229,16 +307,16 @@ export const READING_PATHS: ReadingPath[] = [
         bridge: 'The originary grammar of the center as the grammar of signification itself. This is the destination of the language path — the systematic account of how the originary scene generates the rules that govern all meaning-production.',
       },
     ],
-    conclusion: `Language is not a tool you use to communicate. It is the scene you inhabit when you think, speak, write, or read. Having read this path, you should be able to identify the scene-dependency of any text, trace its ostensive-imperative-declarative structure, and recognize the center it is organized around. That recognition is generative literacy.`,
+    conclusion: `Language is not a tool you use to communicate. It is the scene you inhabit when you think, speak, write, or read. Having read this path, you should be able to identify the scene-dependency of any text, trace its ostensive-imperative-interrogative-declarative structure, and recognize the center it is organized around. That recognition is generative literacy.`,
     opensOnto: ['foundation', 'technology-and-scenic-design', 'self-referential'],
   },
 
   {
     slug: 'technology-and-scenic-design',
     title: 'Technology and Scenic Design',
-    subtitle: 'Technics, media, data, and the design of post-ritual scenes.',
+    subtitle: 'Technics, media, data, AI, and the design of post-ritual scenes.',
     posture: 'imperative',
-    intro: `Attend to the scene. Not to the content that circulates through it, not to the message it transmits, but to the scene itself — the structured space of shared attention that makes any content possible. This path develops Center Study\'s analysis of technology as fundamentally a matter of scenic design: the construction and maintenance of scenes adequate to their deferral function. Read it with your attention on the actual scenes you inhabit.`,
+    intro: `Attend to the scene. Not to the content that circulates through it, not to the message it transmits, but to the scene itself — the structured space of shared attention that makes any content possible. This path develops Center Study\'s analysis of technology as fundamentally a matter of scenic design: the construction and maintenance of scenes adequate to their deferral function. Bouvard\'s Substack is the primary source here — it is where Center Study most directly engages AI, data, algorithms, and contemporary technics.`,
     posts: [
       {
         slug: 'pdf-originary-technics',
@@ -247,10 +325,34 @@ export const READING_PATHS: ReadingPath[] = [
         bridge: 'The imperative as the origin of technology — the argument that all technological organization is organized around command structures that originate in the ritual scene. Having established the originary account of technology, we can ask: what happens to that account in conditions of post-ritual modernity?',
       },
       {
+        slug: 'substack-intelligence-and-technics',
+        title: 'Intelligence and Technics',
+        source: 'Substack',
+        bridge: 'Intelligence as a form of technics — the argument that the capacity to read and respond to the center\'s affordances is itself a technical skill. This post bridges the originary account of technology with the contemporary analysis of algorithmic intelligence.',
+      },
+      {
+        slug: 'substack-media-as-ritual',
+        title: 'Media as Ritual',
+        source: 'Substack',
+        bridge: 'Media as the successor to ritual — the institution that assumes the function of constituting the center in post-sacrificial conditions. What media does and what it fails to do when measured against the ritual function it has inherited.',
+      },
+      {
+        slug: 'substack-the-grammar-of-technology',
+        title: 'The Grammar of Technology',
+        source: 'Substack',
+        bridge: 'Every technology has a grammar — an ostensive-imperative-declarative structure derivable from the originary scene it enacts. This post is the theoretical core of Bouvard\'s technological analysis.',
+      },
+      {
         slug: 'pdf-mimesis-center-auto-immunology',
         title: 'Mimesis, the Center and Auto-Immunology',
         source: 'PDF',
         bridge: 'The scaling problem: how do originary concepts apply to large institutional structures? Scenic design and the construction of scenes adequate to the deferral demands of complex societies. The auto-immunological pathology: institutions attacking the forms of centrality that their own function requires.',
+      },
+      {
+        slug: 'substack-being-like-data-the-central-intelligence',
+        title: 'Being Like Data; the Central Intelligence',
+        source: 'Substack',
+        bridge: 'The analysis of AI as a new form of central intelligence — not merely a tool but a new configuration of the center/periphery relation. The implications for how humans orient toward the center in conditions of algorithmic mediation.',
       },
       {
         slug: 'gablog-scenic-design-practices',
@@ -272,15 +374,27 @@ export const READING_PATHS: ReadingPath[] = [
     posts: [
       {
         slug: 'pdf-generative-anthropology-one-big-discipline',
-        title: 'Generative Anthropology as One Big Discipline',
+        title: 'Center Study as One Big Discipline',
         source: 'PDF',
-        bridge: 'The institutional claim: GA as the one big discipline that integrates all others through originary thinking. The argument establishes what Center Study is trying to do and why it requires more than academic scholarship.',
+        bridge: 'The institutional claim: Center Study as the one big discipline that integrates all others through originary thinking. The argument establishes what Center Study is trying to do and why it requires more than academic scholarship.',
+      },
+      {
+        slug: 'substack-the-transdisciplinarity-of-the-hypothesis',
+        title: 'The Transdisciplinarity of the Hypothesis',
+        source: 'Substack',
+        bridge: 'Bouvard\'s account of why the originary hypothesis is transdisciplinary — not a claim from within any one discipline but a claim about the conditions of all disciplines. The post that most directly articulates Center Study\'s institutional ambition from a contemporary standpoint.',
       },
       {
         slug: 'pdf-introduction-to-disciplinarity',
         title: 'Introduction to Disciplinarity',
         source: 'PDF',
         bridge: 'The analysis of how disciplines are constituted, maintained, and dissolved — and what it means to practice a discipline. This provides the institutional context for understanding what Center Study is as a practice.',
+      },
+      {
+        slug: 'substack-the-prospects-of-the-hypothesis',
+        title: 'The Prospects of the Hypothesis',
+        source: 'Substack',
+        bridge: 'A candid assessment of what the originary hypothesis can and cannot do — its prospects for uptake, elaboration, and institutional survival. The self-reflective text that does not flinch from the hypothesis\'s difficulties.',
       },
       {
         slug: 'pdf-talk-of-the-center-adam-katz',

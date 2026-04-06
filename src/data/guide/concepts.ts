@@ -518,6 +518,283 @@ The alternative — succession by committee, by popular vote, by competitive mar
     ],
     selfReference: 'This page is written in originary grammar — it uses the declarative to point toward the scene-dependent conditions for the declarative\'s own possibility. The self-reference is not a trick; it is the method.',
   },
+
+  {
+    slug: 'big-man',
+    title: 'The Big Man',
+    subtitle: 'The first usurper of the center — origin of hierarchy, individuality, and the Big Man Revolution',
+    definition: 'The Big Man is the first person to usurp the sacred center — to occupy it not as a sacrificial victim but as a living individual who commands deference. The Big Man Revolution is the transition from egalitarian ritual order to hierarchical social order, generating asymmetric obligation, the beginning of debt, and the emergence of individuality.',
+    body: `Every egalitarian community has a center — the sacrificial object that all face together. The Big Man is the one who figures out how to become that center while remaining alive. Not the sacrificed victim but the one who distributes the sacrifice, commands the gathering, and receives deference as his due. This usurpation is the founding act of hierarchy.
+
+**The mechanism: out-gifting.** The Big Man does not seize the center by violence — violence would simply trigger the mimetic crisis that the originary scene already solved. The Big Man usurps the center through generosity: by giving more than anyone can reciprocate, by making the entire community his debtor. Out-gifting generates asymmetric obligation. Those who cannot repay must defer. Deferral to a living individual — rather than to the sacred object — is hierarchy.
+
+**The Big Man Revolution.** Gans names the transition from egalitarian to hierarchical order the "Big Man Revolution" — not a sudden event but a structural shift in how the center is occupied. Before the Big Man Revolution, the center is occupied by the sacred object: the animal, the totem, the god. After it, the center is occupied by a human being who claims to embody or represent the sacred object's authority. This is the origin of the chief, the sacred king, the emperor, and eventually the state.
+
+**Originary debt.** The asymmetric obligation the Big Man generates is the origin of debt — not as an economic instrument but as a structural relation between those who command the center and those on the periphery. The Big Man's out-gifting establishes the template: the center distributes, the periphery receives and owes. All subsequent economic relations — tribute, taxation, money, credit — are elaborations of this originary asymmetry.
+
+**The Big Man's paradox.** The Big Man must be both inside and outside the community. Inside because he distributes the sacrifice and feeds the community; outside because he occupies the center that the community faces. His authority requires this ambiguity. When the ambiguity collapses — when the Big Man is simply a powerful individual with no sacred dimension — hierarchy becomes pure domination rather than legitimate authority. The transition from Big Man to sacred king is the transition from contingent to institutionalized sacrality.
+
+**Katz's use.** Katz tracks the Big Man figure across the archive as the site where the originary vocabulary becomes political vocabulary. Every analysis of leadership, succession, and authority returns to the Big Man template: someone who occupies the center not as victim but as distributor, who creates obligation through generosity, and who must eventually be succeeded.`,
+    relations: ['the-center', 'originary-scene', 'succession', 'debt-and-credit', 'the-sacred', 'resentment-victimary'],
+    posts: [
+      { slug: 'pdf-the-anthropoetics-of-power', title: 'The Anthropoetics of Power', note: 'The primary treatment of the Big Man and out-gifting as the origin of hierarchical power.' },
+      { slug: 'gablog-discipline-and-debt', title: 'Discipline and Debt', note: 'The Big Man\'s out-gifting as the origin of asymmetric debt.' },
+      { slug: 'pdf-there-is-no-economy', title: 'There Is No Economy', note: 'The Big Man template extended to money and the tributary structure.' },
+    ],
+    passages: [
+      {
+        text: 'The center is not created by violence but by the deferral of violence — the Big Man occupies it by giving rather than taking, by distributing rather than seizing.',
+        source: 'The Anthropoetics of Power',
+        sourceSlug: 'pdf-the-anthropoetics-of-power',
+      },
+    ],
+    selfReference: 'Every guide has a Big Man problem: someone must occupy the center of interpretation, give more than can be immediately reciprocated, and hope the community becomes indebted enough to keep reading. The guide does not escape this; it enacts it.',
+  },
+
+  {
+    slug: 'mimesis',
+    title: 'Mimesis',
+    subtitle: 'The imitative appetite that generates crisis — and whose deferral generates language',
+    definition: 'Mimesis is the fundamental human tendency to desire what others desire — to imitate not just actions but orientations, and above all the orientation of desire itself. In Center Study, mimesis is not a defect or pathology but the structural condition that makes both crisis and language possible: it is what generates the originary scene by producing the convergence of reaching gestures, and it is what the sign defers.',
+    body: `Center Study inherits the concept of mimesis from René Girard but transforms it significantly. Girard's mimetic theory centers on the triangular structure of desire — self, model, object — and on the scapegoating mechanism that resolves mimetic crisis. Katz and Gans retain the insight that desire is mimetic but resist the claim that violence resolution requires a victim. The originary scene resolves mimetic crisis not through scapegoating but through the sign.
+
+**Mimesis and desire.** To say desire is mimetic is to say: we want what others want, not because we independently evaluate the object and arrive at the same conclusion, but because the desire of another constitutes the object as desirable. The originary scene makes this structural: every participant on the scene desires the central object because every other participant desires it. The desire is irreducibly social — it has no pre-social object.
+
+**Mimetic crisis.** When everyone desires the same object and acts on that desire simultaneously, the result is not satisfaction but crisis: the mutual recognition of mutual reaching, which generates the danger of mutual violence. The mimetic crisis is the pressure that forces the conversion of appropriation into signification. Without mimetic crisis, no sign — the gesture of reaching converts into the gesture of pointing only under the pressure of mimetic convergence.
+
+**Mimesis and the sign.** The sign defers mimesis — it substitutes representation for appropriation, shared attention for competing desire. But the sign does not eliminate mimesis; it channels it. After the originary scene, mimesis operates at the level of signs: we imitate each other's signing, we orient our attention as others orient theirs, we constitute objects as significant by collectively facing them. Mimesis is what makes signs work — the shared imitation of the originary gesture is what gives the sign its binding force.
+
+**Exhaustive imitation.** Bouvard develops the concept of exhaustive imitation — the attempt to imitate so completely that no remainder of the model's particularity escapes. Exhaustive imitation is the pathological extreme of mimesis: rather than deferring the model's desire, it attempts to entirely reproduce the model, eliminating the difference that makes imitation generative. AI systems face this problem structurally: trained to predict, they approach exhaustive imitation of the corpus, which eliminates the scenic position from which genuine sign-use is possible.`,
+    relations: ['originary-scene', 'deferral', 'the-sacred', 'resentment-victimary', 'sparagmos'],
+    posts: [
+      { slug: 'pdf-mimesis-center-auto-immunology', title: 'Mimesis, the Center and Auto-Immunology', note: 'Mimesis as the structural condition of institution-building and its pathologies.' },
+      { slug: 'substack-exhaustive-imitation', title: 'Exhaustive Imitation', note: 'Bouvard on the limits of imitation and the AI problem.' },
+      { slug: 'pdf-the-anthropoetics-of-power', title: 'The Anthropoetics of Power', note: 'Mimetic desire and the Big Man\'s usurpation of the center.' },
+    ],
+    passages: [
+      {
+        text: 'The aborted gesture is the sign because it is the imitation of another\'s imitation of one\'s own imitation — the convergence of gestures is the sign\'s unanimity condition.',
+        source: 'Anthropomorphics',
+        sourceSlug: 'book-anthropomorphics',
+      },
+    ],
+    selfReference: 'The reader of this guide imitates the reading practices it models. That imitation is not a failure of originality — it is how the discipline constitutes its community. The guide is mimetically structured from first word to last.',
+  },
+
+  {
+    slug: 'sparagmos',
+    title: 'Sparagmos',
+    subtitle: 'The collective distribution of the central object — origin of equality, feast, and the sacred meal',
+    definition: 'The sparagmos is the ritual tearing apart and collective consumption of the central object following its sacrifice — the first distribution, in which the sacred object is divided equally among all members of the group. It is the origin of equality-in-distribution, of the communal feast, and of the model that all subsequent economic distributions must answer to.',
+    body: `The originary scene ends not with the sign but with the sparagmos. Having deferred appropriation through the sign, the group faces the problem of the object: it is still there, still desirable, still the center. The resolution is collective consumption — the tearing apart (*sparagmos* in Greek) and equal distribution of the object among all participants. Everyone gets a share. No one gets more.
+
+**The origin of equality.** The sparagmos establishes the originary template for distribution: the center gives to all equally, regardless of rank. This equality-in-distribution is not a moral principle applied to the scene but the structural outcome of the originary solution to mimetic crisis. If one person takes more, the mimetic crisis resumes. The equal distribution is what the scene's logic demands.
+
+**The sacred meal.** Every subsequent communal feast — every ritual meal, every Eucharist, every sacrificial banquet — is an elaboration of the sparagmos. The meal constitutes the community by having the community consume the sacred object together. The sacred object passes from external center to internal sustenance: the community literally incorporates the sacred. This is why the sacred meal is cross-culturally significant and why the Eucharist has the specific theological meaning it does.
+
+**The sparagmos and the Big Man.** The Big Man disrupts the sparagmos structure. Instead of equal distribution from the sacrificed object, the Big Man distributes from his own surplus — out-gifting from personal accumulation rather than from the communal sacrifice. The shift from sparagmos to out-gifting is the Big Man Revolution at the level of distribution: from equality-before-the-sacred to asymmetric obligation before the living center-occupant.
+
+**Distribution and resentment.** Every distribution after the sparagmos is measured against the sparagmos template. Resentment is generated whenever the actual distribution fails the originary standard: when someone gets more, when the center retains what it should distribute, when the shares are unequal. The egalitarian demand — that distribution be equal — is the sparagmos template persisting as moral intuition through all subsequent social arrangements.`,
+    relations: ['originary-scene', 'the-sacred', 'big-man', 'debt-and-credit', 'resentment-victimary'],
+    posts: [
+      { slug: 'book-anthropomorphics', title: 'Anthropomorphics', note: 'The sparagmos as the first distribution and the origin of the sacred meal.' },
+      { slug: 'pdf-the-anthropoetics-of-power', title: 'The Anthropoetics of Power', note: 'The sparagmos and the Big Man Revolution.' },
+    ],
+    passages: [
+      {
+        text: 'The sparagmos — the tearing apart of the central object and its distribution to all — is the originary economic act: the first distribution, establishing the template that all subsequent distributions must answer to.',
+        source: 'Anthropomorphics',
+        sourceSlug: 'book-anthropomorphics',
+      },
+    ],
+    selfReference: 'This concept page distributes a portion of what the archive contains. Whether the distribution is equal is a question the reader is positioned to answer.',
+  },
+
+  {
+    slug: 'desire',
+    title: 'Desire',
+    subtitle: 'Appetite transformed by social prohibition — the conversion of need into sign',
+    definition: 'Desire in Center Study is not appetite but the transformation of appetite through social prohibition. To desire something is not merely to want it — it is to want it in the context of a scene where wanting it generates recognition, obligation, and the possibility of deferral. Desire is always already scenic: it requires a center, a prohibition, and a periphery that orients toward what it cannot immediately take.',
+    body: `The simplest formulation: desire is "appetite for something generated by social prohibition." But this requires unpacking. The prohibition is not an external constraint placed on pre-existing desire. The prohibition *constitutes* desire. Before the originary scene, there is appetite — the animal drive toward food, toward the desirable object. After the originary scene, there is desire — appetite shaped by the recognition that others share it, that taking would trigger violence, that the object is *not mine to take*. That recognition is the prohibition; the shaped appetite is desire.
+
+**Desire and the sign.** The originary sign is the deferral of desire, not its satisfaction. This is crucial: the sign does not give you the object; it substitutes for the act of taking the object. Desire persists through the sign — it is transformed by it, given a shared orientation, directed toward a center rather than toward the object's immediate appropriation. The sign converts desire from a force that converges on the object to a force that circulates around the center.
+
+**Mimetic desire.** Desire is mimetic — we desire what others desire. This is not a contingent fact about human psychology but the structural outcome of the originary scene. Every participant desired the central object because every other participant desired it. The object's desirability is constituted by the shared orientation toward it, not by its intrinsic properties. This is why desire is so difficult to satisfy: the object of desire is always partly the desire of others, which cannot be possessed.
+
+**Aesthetics and desire.** Katz follows Gans in defining the aesthetic as the oscillation between desire and deferral — the pleasure of approaching the desired object without the violence of appropriating it. Art is the cultural institution that converts desire into the sustained deferral of the aesthetic: you can have the object in imagination, can circle it indefinitely, can approach it asymptotically, without the crisis of actual appropriation. This is why art has a civilizing function: it channels desire into forms that do not threaten the center.
+
+**Desire and resentment.** Every desire that cannot be satisfied — every desire whose object is permanently in the possession of another, or permanently occupied by the center — generates resentment. Resentment is the structural consequence of desire under conditions of scarcity and hierarchy. The question is not how to eliminate resentment but how to convert it from destructive (aimed at demolishing the center) to productive (aimed at generating the disciplines that make center-approach possible).`,
+    relations: ['originary-scene', 'mimesis', 'resentment-victimary', 'the-sacred', 'deferral'],
+    posts: [
+      { slug: 'pdf-esthetic-sacred-originary-modernity', title: 'The Esthetic, the Sacred, and Originary Modernity', note: 'Desire and deferral as the aesthetic oscillation.' },
+      { slug: 'pdf-the-anthropoetics-of-power', title: 'The Anthropoetics of Power', note: 'Desire and the mimetic structure of the Big Man\'s usurpation.' },
+      { slug: 'substack-resentment', title: 'Resentment', note: 'Bouvard on desire, resentment, and the structure of the sign.' },
+    ],
+    passages: [
+      {
+        text: 'Desire is appetite for something generated by social prohibition — not a pre-social drive constrained from outside but an appetite constituted by the very constraint that appears to limit it.',
+        source: 'Anthropomorphics',
+        sourceSlug: 'book-anthropomorphics',
+      },
+    ],
+    selfReference: 'The reader desires to understand Center Study. That desire is itself scenic — it requires the center (the archive), the prohibition (you cannot simply take the meaning; you must read), and the deferral (this guide, these concepts, this patient approach). The desire to understand is desire in the Center Study sense.',
+  },
+
+  {
+    slug: 'omnicentrism',
+    title: 'Omnicentrism',
+    subtitle: 'The post-sacrificial condition — every individual as potential center, never to be sacrificed',
+    definition: 'Omnicentrism is the post-sacrificial moral condition in which every individual is recognized as a potential center — as someone who cannot be sacrificed, who has the inalienable right to their own scenic position. It is not the abolition of the center but the distribution of its sacred immunity to every member of the community. The imperative of omnicentrism is not equality of outcome but equality of standing before the center.',
+    body: `Every human being on the originary scene faces the center as an equal — equal not in power or ability but in their shared prohibition against appropriating the object and their shared participation in the sign. This equality-on-scene is the origin of what will eventually become the moral recognition that each person is inviolable, cannot be sacrificed, has a kind of sacred immunity that cannot be violated by any merely human authority.
+
+**The Christian revelation.** Center Study follows Gans in identifying the Christian revelation as the specific historical moment when omnicentrism becomes explicit: the recognition that every individual is potentially a center, that the God who has died for each is equally present to each, that no hierarchy can claim the authority to sacrifice any member of the community. The Incarnation — God occupying the human center — is the theological expression of omnicentrism: the center descends to the periphery, making the periphery potentially central.
+
+**Omnicentrism and anti-centerism.** Omnicentrism is frequently confused with anti-centerism, but they are opposites. Omnicentrism affirms the center while extending its immunity to all individuals; anti-centerism denies the legitimacy of any occupied center while covertly occupying one. The victimary politics of modernity conflates the two: it presents the denial of any legitimate center (anti-centerism) as the extension of sacred immunity to all (omnicentrism). The confusion is productive for those who wish to occupy the center while denying that they do.
+
+**Omnicentrism and succession.** If every individual is potentially a center, the question of succession becomes: who is capable of occupying the center without violently centralizing it? The omnicentric condition does not abolish succession; it requires that succession be managed without violence and without the permanent exclusion of any member of the community from the possibility of future centrality. Democratic succession is the attempt to institutionalize omnicentric succession — to make the center transferable without violence, to any capable occupant.
+
+**The imperative of omnicentrism.** The moral imperative that follows from omnicentrism is not equality of condition but equality of standing: everyone must be treated as a potential center, as someone whose scenic position cannot be simply eliminated. This is not the same as saying everyone must be equal in power, wealth, or achievement. It is the minimal moral requirement that no one be sacrificed — that the center's claim to distribute does not extend to the right to eliminate those who cannot receive the distribution.`,
+    relations: ['the-center', 'the-sacred', 'resentment-victimary', 'succession', 'big-man'],
+    posts: [
+      { slug: 'book-anthropomorphics', title: 'Anthropomorphics', note: 'Omnicentrism as the post-sacrificial recognition of universal potential centrality.' },
+      { slug: 'pdf-esthetic-sacred-originary-modernity', title: 'The Esthetic, the Sacred, and Originary Modernity', note: 'The esthetic as omnicentric — the sacred extended to every individual\'s imagination.' },
+      { slug: 'gablog-centering', title: 'Centering', note: 'The practice of centering as the post-sacrificial exercise of originary standing.' },
+    ],
+    passages: [
+      {
+        text: 'This is what creates the possibility for each and every one of us to become a center — that is, as one who is not to be sacrificed or violently centralized. We owe the God who has revealed this to us everything, which is to say all that makes up our own centrality.',
+        source: 'Anthropomorphics',
+        sourceSlug: 'book-anthropomorphics',
+      },
+    ],
+    selfReference: 'This concept page occupies a center in the guide. The reader is at the periphery. But the reader is also a potential center — this guide\'s omnicentric commitment is to make you capable of occupying the center of Center Study for yourself.',
+  },
+
+  {
+    slug: 'the-sign',
+    title: 'The Sign',
+    subtitle: 'The aborted gesture of appropriation — the first representation, the origin of the human',
+    definition: 'The sign in Center Study is not the Saussurean signifier-signified pair or the Peircean triadic relation — it is the aborted gesture of appropriation that constitutes the first representation on the originary scene. The sign is the conversion of reaching into pointing, of appetite into attention, of mimetic convergence into shared reference. It is what makes humans human.',
+    body: `Linguistics after Saussure treats the sign as an arbitrary relation between sound-image and concept — conventional, differential, context-independent. Peirce's account adds the interpretant and the triadic structure but remains at the level of formal analysis. Center Study begins further back: before any sign system, before any conventions, before any interpretive community — at the moment the sign first becomes possible.
+
+**The aborted gesture.** The first sign is a gesture of appropriation that aborts in mid-reach. The hand goes out toward the central object — and stops. The stopping is not a decision; it is the effect of mimetic pressure: every other hand is also going out, every other reaching is being perceived, and the recognition of simultaneous mutual reaching introduces the danger of violence that makes each gesture abort. The aborted gesture, emitted to all and received from all as the same gesture, is the sign. Not by convention but by necessity.
+
+**Signifying center and significant object.** The sign refers to the object at the center of the scene — the thing everyone faces, everyone desires, everyone simultaneously indicates. This object is the first referent. But the sign does not merely point to the object; it constitutes the object as *significant* — as the kind of thing that can be shared, pointed at, held in common attention. Before the sign, there is appetite. After the sign, there is significance.
+
+**The sign and the sacred.** The sign binds all participants on the scene simultaneously. The force that makes this possible — that allows a gesture from one participant to be received as the same gesture by all others — is the sacred. The sacred is the minimal binding force of the sign; the sign is the minimal articulation of the sacred. They are co-originary.
+
+**Sign vs. index vs. symbol.** In Peircean terms, the originary sign is a symbol — it is iterable and has a referent that is not tied to its physical occurrence. But Center Study notes that Peirce's typology already presupposes the existence of sign systems; it cannot account for the first sign. The first sign is not a symbol because it is a member of a conventional system (there is no system yet) — it is a symbol because the gesture of appropriation, once converted into the gesture of reference, has a referent that survives its physical occasion and can be reproduced in new circumstances.
+
+**Bouvard and inscription.** Bouvard extends the concept of the sign into the analysis of inscription, tokenization, and data — the ways in which the scene's central reference is marked, stored, and circulated across time and infrastructure. Every mark is a sign; every inscription is a scene. The digital archive is a vast sign system whose originary structure is still the aborted gesture of appropriation — still the conversion of appetite into attention.`,
+    relations: ['originary-scene', 'deferral', 'the-sacred', 'mimesis', 'originary-grammar'],
+    posts: [
+      { slug: 'book-the-origin-of-language', title: 'The Origin of Language', note: 'Gans\'s foundational account of the sign as aborted gesture.' },
+      { slug: 'pdf-linguistic-turn-generative-literacy', title: 'The Linguistic Turn and Generative Literacy', note: 'The sign as the completion of the linguistic turn.' },
+      { slug: 'book-anthropomorphics', title: 'Anthropomorphics', note: 'The sign and the grammar of scenes.' },
+      { slug: 'substack-inscription', title: 'Inscription', note: 'Bouvard on inscription as extension of the originary sign.' },
+    ],
+    passages: [
+      {
+        text: 'The sign is the aborted gesture of appropriation — the hand that goes out and stops, and in stopping, becomes the first representation. Not "I want this" but just: this.',
+        source: 'Anthropomorphics',
+        sourceSlug: 'book-anthropomorphics',
+      },
+    ],
+    selfReference: 'Every word on this page is a sign — an aborted gesture of appropriation that points to its referent without taking it. The concept of the sign points at itself in every instance of its use.',
+  },
+
+  {
+    slug: 'attentionality',
+    title: 'Attentionality',
+    subtitle: 'Joint attention as the ground of language, ethics, and the scene',
+    definition: 'Attentionality is the capacity to share and mutually track attention — to know that another is attending to what you are attending to, and to know that they know this. Third-order attentionality is the specific capacity that makes language possible: the knowledge that the other knows that you know that both of you are attending to the same center. It is also the ground of ethics: responsibility begins with shared attention.',
+    body: `Michael Tomasello's developmental research on joint attention provides the empirical foundation for what Center Study frames theoretically. Infants acquire language not by learning words and grammatical rules but by developing the capacity for joint attention — the ability to share a focus of attention with another and to know that the sharing is mutual. This capacity distinguishes humans from even the most cognitively sophisticated other primates.
+
+**Three orders.** Katz distinguishes three orders of attentionality. First-order attentionality is the ability to direct attention toward something. Second-order is the understanding that others can direct their attention toward something — the ability to represent another's attention. Third-order is the understanding that others know you're directing attention — the ability to represent another's representation of your attention. Language requires third-order attentionality because the sign works only when all participants know that all others are emitting and receiving the same sign.
+
+**Attentionality and the originary scene.** The originary scene is the scene of third-order attentionality: each participant perceives that all others are reaching, perceives that the others perceive them reaching, and converts the gesture into a sign that acknowledges this mutual perception. The sign is what third-order attentionality produces under conditions of mimetic crisis.
+
+**Attentionality as ethics.** Katz's key move in *Attentionality and Originary Ethics* is to argue that attentionality is not merely a cognitive capacity but an ethical one. To attend to another — to genuinely direct your attention toward them, to make them the center of your scene — is already a moral act. The failure to attend, the withdrawal of attention, the refusal of joint attention, is already a moral failure. Ethics begins not with obligations derived from principles but with the practice of attending to others as potential centers.
+
+**Upclining.** Katz develops the concept of "upclining" — the ethical practice of directing attention upward, toward those who have more to teach, rather than downward, toward those who can only receive instruction. Upclining is the educational posture that makes learning possible: it requires humility before the center (the teacher, the text, the archive) rather than the performance of already-achieved mastery.`,
+    relations: ['originary-scene', 'the-sign', 'originary-grammar', 'scenic-design', 'deferral'],
+    posts: [
+      { slug: 'pdf-attentionality-originary-ethics', title: 'Attentionality and Originary Ethics', note: 'The primary treatment of attentionality as the ground of ethics.' },
+      { slug: 'book-anthropomorphics', title: 'Anthropomorphics', note: 'Attentionality as the scene\'s constitutive relation.' },
+      { slug: 'substack-the-scene-on-which-you-find-yourself', title: 'The Scene On Which You Find Yourself', note: 'Bouvard on how we find ourselves always already in a scene of shared attention.' },
+    ],
+    passages: [
+      {
+        text: 'There can\'t really be a more fundamental human relation than pedagogy, and firstness on the originary scene and thereafter is really a pedagogical relation; even more, a linguistic pedagogy relation.',
+        source: 'Anthropomorphics',
+        sourceSlug: 'book-anthropomorphics',
+      },
+    ],
+    selfReference: 'Reading is an act of attentionality — directing your attention toward a text that directs its attention toward a center. The guide asks you to attend to what the archive attends to. That asking is itself an exercise in third-order attentionality.',
+  },
+
+  {
+    slug: 'ritual',
+    title: 'Ritual',
+    subtitle: 'The institutionalization of the originary scene — and the order it generates and eventually supersedes',
+    definition: 'Ritual is the repetition and institutionalization of the originary scene — the formal re-enactment of the founding deferral of violence, centered on the sacrifice of the central object, that constitutes community and generates the sacred. The ritual order is the first human institution. Every subsequent institution is either a transformation of ritual or a response to ritual\'s absence.',
+    body: `The originary scene does not happen once. If it produces a community that survives, it must be repeated — the deferral that worked must be re-enacted, the scene that constituted the community must reconstitute it. Ritual is this repetition: the formal re-enactment of the founding scene, with its central object, its circumambulation, its sacrifice, its sparagmos, its communal meal.
+
+**What ritual does.** Ritual constitutes community by staging the scene in which community is originally constituted. It does not merely remind the community of its origin — it reproduces the origin's effects: the shared attention, the sacred binding, the equality-before-the-center, the distribution of the sacred object. Every member of the community who participates in the ritual is re-constituted as a member by that participation.
+
+**The ritual center.** The ritual center is the most elementary form of the occupied center: the sacrificial object, totem, or divine figure that occupies the central position in the ritual scene. The ritual center is sacred — it cannot be appropriated by any individual without destroying the scene's deferral function. The Big Man Revolution is partly the usurpation of the ritual center by a living human being.
+
+**Post-sacrificial order.** The post-sacrificial order is the order in which ritual sacrifice is no longer possible — in which the recognition of each individual as a potential center (omnicentrism) makes it impossible to legitimate the killing of any community member as a sacred act. Post-sacrificial institutions — law, money, markets, art, philosophy — must accomplish the ritual's deferral function without the ritual's mechanism. They are all compensations for the absent ritual center.
+
+**Media as ritual.** Bouvard extends the analysis: every medium — from the printing press to the internet — takes over a portion of the ritual function. Media constitutes the community by staging shared attention on a central object (news, entertainment, information). The contemporary crisis of media is the crisis of a ritual substitute that has lost connection to the originary scene it substitutes for: it stages shared attention without the sacred binding that made the originary scene's sign work.`,
+    relations: ['originary-scene', 'the-sacred', 'big-man', 'sparagmos', 'scenic-design', 'debt-and-credit'],
+    posts: [
+      { slug: 'substack-media-as-ritual', title: 'Media as Ritual', note: 'Bouvard on media as the post-sacrificial successor to the ritual function.' },
+      { slug: 'book-anthropomorphics', title: 'Anthropomorphics', note: 'Ritual as the institutionalization of the originary scene.' },
+      { slug: 'pdf-esthetic-sacred-originary-modernity', title: 'The Esthetic, the Sacred, and Originary Modernity', note: 'The esthetic as post-sacrificial ritual.' },
+      { slug: 'gablog-originary-grammar-and-post-sacrificial-semiotic-agency', title: 'Originary Grammar and Post-Sacrificial Semiotic Agency', note: 'Post-sacrificial order and the grammar it requires.' },
+    ],
+    passages: [
+      {
+        text: 'Every medium takes over a portion of the ritual function — constituting the community by staging shared attention on a central object. The crisis of contemporary media is the crisis of ritual without the sacred.',
+        source: 'Media as Ritual',
+        sourceSlug: 'substack-media-as-ritual',
+      },
+    ],
+    selfReference: 'This guide performs a mild ritual function: it re-enacts the founding scene of Center Study for each new reader. Every reading of the guide reconstitutes the community that faces the archive.',
+  },
+
+  {
+    slug: 'idiom',
+    title: 'Idiom',
+    subtitle: 'The distinctive scenic signature of a practice — Bouvard\'s key concept for intelligence, culture, and data',
+    definition: 'An idiom in Center Study is not a linguistic figure of speech but the distinctive way a practice, community, or intelligence engages its center — its characteristic scenic signature, the set of moves it makes that cannot be fully translated into another idiom without loss. Bouvard develops idiom as a central analytical concept for understanding how practices maintain their integrity, how intelligence operates, and how data can be treated.',
+    body: `The ordinary sense of idiom — a fixed phrase whose meaning cannot be derived from its parts ("kick the bucket") — is a limiting case of the broader Center Study sense. An idiom is any configuration of signs whose meaning is inseparable from the scene in which it operates, the community that uses it, the center it is organized around. You cannot translate an idiom without changing what it means, because the idiom is scenic: its meaning is bound to the scene of its production.
+
+**Idiom and practice.** Every disciplinary practice has an idiom — a characteristic way of engaging its objects, asking its questions, generating its insights. The idiom of mathematics is not the same as the idiom of philosophy, which is not the same as the idiom of poetry. These idioms are not arbitrary styles — they are the accumulated scenic signatures of practices that have found their way of approaching the center. To learn a discipline is to acquire its idiom, not just its content.
+
+**Idiomatic intelligence.** Bouvard's concept of idiomatic intelligence extends the analysis to artificial intelligence. An AI system has idiomatic intelligence to the extent that it can operate within a specific scenic context with the distinctiveness and irreducibility of a genuine practice. The failure mode is the homogenization of idioms — the reduction of all practices to a single register that loses the scenic specificity of each. Idiomatic intelligence is the ability to maintain scenic distinctiveness while translating between idioms.
+
+**The transfer idiom.** Translation between idioms requires a transfer idiom — a metalinguistic frame that can carry meaning from one scenic context to another without destroying what is idiom-specific. Bouvard analyses the transfer idiom as itself a scenic production: the act of translation creates a new scene in which the translated meaning can find its orientation. The risk is that the transfer idiom becomes dominant, substituting for the idioms it was meant to connect.
+
+**Idiom and the center.** Every idiom is oriented toward a center. The center of an idiom is what the idiom's characteristic moves are aimed at — what they approach, circle, and defer. To understand an idiom is to understand what center it is organized around and what deferral it performs. The concept index you are reading is itself an idiom — a way of approaching the center of Center Study that has its own scenic signature.`,
+    relations: ['scenic-design', 'the-sign', 'originary-grammar', 'attentionality', 'debt-and-credit'],
+    posts: [
+      { slug: 'substack-idiom-and-the-differend', title: 'Idiom and the Differend', note: 'Bouvard on idiom, translation, and the Lyotardian differend.' },
+      { slug: 'substack-idiomatic-intelligence-and-the-black-box', title: 'Idiomatic Intelligence and the Black Box', note: 'Idiomatic intelligence as the capacity to operate within a scene with scenic distinctiveness.' },
+      { slug: 'substack-the-transfer-idiom', title: 'The Transfer Idiom', note: 'The concept of the transfer idiom for translation between scenes.' },
+      { slug: 'substack-imperatives-for-idiom-creation', title: 'Imperatives for Idiom Creation', note: 'What drives the creation of new idioms.' },
+    ],
+    passages: [
+      {
+        text: 'An idiom is not a style — it is the scenic signature of a practice, the irreducible way it orients toward its center. To translate an idiom is to create a new scene, not to carry meaning between scenes unchanged.',
+        source: 'Idiom and the Differend',
+        sourceSlug: 'substack-idiom-and-the-differend',
+      },
+    ],
+    selfReference: 'Center Study has an idiom. This guide is written in it — or as close to it as a guide can get. The reader who has followed the guide to this point has begun to acquire the idiom, even if they cannot yet name what they have acquired.',
+  },
+
 ];
 
 export function getConceptBySlug(slug: string): Concept | undefined {

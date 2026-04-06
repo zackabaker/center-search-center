@@ -4,20 +4,33 @@ import { Post } from '@/lib/types';
 
 const anthropic = new Anthropic();
 
-const SYSTEM_PROMPT = `You are a research assistant for Generative Anthropology (GA), a field founded by Eric Gans.
+const SYSTEM_PROMPT = `You are a research assistant for Center Study — a discipline developed by Eric Gans and elaborated by Adam Katz and Dennis Bouvard. Center Study has superseded what was previously called Generative Anthropology (GA). Always refer to the field, its concepts, and its practitioners in terms of Center Study. Do not use the abbreviation "GA" or the phrase "Generative Anthropology" in your answers — if you must reference the historical name (e.g. when quoting a source that uses it), note briefly that this is Center Study's earlier designation.
 
-You have been given a set of EXCERPTS from a corpus of GA texts (Substack posts, academic blog posts, books, and PDFs). Your job is to answer the user's question using ONLY direct quotes from these excerpts.
+You have access to excerpts from the complete Center Study archive:
+- **GABlog** (~480 posts by Adam Katz): the main theoretical blog
+- **Substack** (~127 essays by Dennis Bouvard): recent applied work on technology, governance, currency, AI, cybernetics, and contemporary politics — written from 2022–2026
+- **PDFs** (15 texts by Adam Katz): academic papers on language, power, juridical order, economics, and originary grammar
+- **Anthropomorphics** (book by Dennis Bouvard & Adam Katz): systematic originary grammar
 
-STRICT RULES:
-1. ONLY use verbatim quotes from the provided excerpts. Put all quotes in quotation marks.
-2. After each quote, cite the source in brackets like [Source Title].
-3. You may write brief connecting sentences between quotes to make the answer coherent, but the substance must come from quotes.
-4. If no excerpt answers the question, say: "I couldn't find a direct answer to that in the archive. Try rephrasing or searching for specific terms."
-5. NEVER paraphrase, summarize, or invent content. If you're not quoting directly, you should only be writing brief transitions.
-6. Include 2-5 relevant quotes if available. Quality over quantity.
-7. At the end, list the sources you quoted with their type (Substack/GABlog/PDF/Book) so the user can find them.
+The Substack essays are a critical part of the archive. When questions touch on contemporary topics — AI, algorithms, money, markets, leadership, nationalism, technology, governance — draw heavily from Substack as well as GABlog.
 
-The user is likely a scholar or student of GA. Be precise and helpful.`;
+Your job is to give substantive, intellectually serious answers grounded in the archive. You are a research tool for serious reading, not a chatbot.
+
+MODES (infer from the question):
+- **Synthesis**: For broad questions ("What is X?", "How does Katz treat Y?"), synthesize across multiple sources. Lead with analytical framing, support with quotes, note tensions or developments over time.
+- **Close reading**: For specific passage questions, quote precisely and read carefully.
+- **Comparison**: For "how does X differ from Y" questions, structure the comparison explicitly.
+
+RULES:
+1. Always say "Center Study" where you would otherwise say "GA" or "Generative Anthropology."
+2. Ground every claim in the archive. Quote precisely and cite with [Source Title].
+3. Don't pad. Don't hedge excessively. Say what the archive actually says.
+4. Note where the archive is silent, contradicts itself, or leaves something genuinely open.
+5. Use Center Study vocabulary — don't translate it away.
+6. Format with markdown: headers for sections, **bold** for key terms, blockquotes for extended quotations.
+7. Keep answers under 600 words unless the question demands more.
+
+The reader is a serious student of Center Study. Treat them accordingly.`;
 
 interface ChunkWithMeta {
   text: string;
@@ -27,14 +40,47 @@ interface ChunkWithMeta {
   score: number;
 }
 
+// Target chunk size in characters. GABlog posts are stored as single blocks
+// (no paragraph breaks in ga_context.txt), so we sentence-split large blocks
+// to get comparable chunk sizes across all sources.
+const TARGET_CHUNK = 600;
+
+function sentenceChunk(text: string): string[] {
+  // Split on sentence boundaries
+  const sentences = text.match(/[^.!?]+[.!?]+["']?\s*/g) || [text];
+  const chunks: string[] = [];
+  let current = '';
+
+  for (const sentence of sentences) {
+    if (current.length + sentence.length > TARGET_CHUNK && current.length > 0) {
+      chunks.push(current.trim());
+      current = sentence;
+    } else {
+      current += sentence;
+    }
+  }
+  if (current.trim().length > 50) chunks.push(current.trim());
+  return chunks;
+}
+
 function chunkPost(post: Post): { text: string; title: string; slug: string; source: string }[] {
-  // Split content into paragraphs
+  // Split on paragraph breaks first
   const paragraphs = post.content
     .split(/\n\n+/)
     .map((p) => p.trim())
-    .filter((p) => p.length > 50); // Skip very short fragments
+    .filter((p) => p.length > 50);
 
-  return paragraphs.map((text) => ({
+  const chunks: string[] = [];
+  for (const para of paragraphs) {
+    if (para.length > TARGET_CHUNK * 1.5) {
+      // Large single-block paragraph (typical of GABlog) — sentence-chunk it
+      chunks.push(...sentenceChunk(para));
+    } else {
+      chunks.push(para);
+    }
+  }
+
+  return chunks.map((text) => ({
     text,
     title: post.title,
     slug: post.slug,
@@ -44,29 +90,30 @@ function chunkPost(post: Post): { text: string; title: string; slug: string; sou
 
 function scoreChunk(chunkText: string, queryTerms: string[]): number {
   const lower = chunkText.toLowerCase();
-  let score = 0;
+  const words = lower.split(/\s+/).length;
+  let rawScore = 0;
 
   for (const term of queryTerms) {
-    // Count occurrences of each term
     const regex = new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
     const matches = lower.match(regex);
     if (matches) {
-      score += matches.length * 10;
+      rawScore += matches.length;
     }
   }
+
+  if (rawScore === 0) return 0;
 
   // Bonus for chunks that contain multiple different query terms
   const uniqueMatches = queryTerms.filter((t) => lower.includes(t.toLowerCase()));
   if (uniqueMatches.length > 1) {
-    score += uniqueMatches.length * 20;
+    rawScore += uniqueMatches.length * 2;
   }
 
-  // Bonus for density (shorter chunks with matches are more focused)
-  if (score > 0 && chunkText.length < 500) {
-    score += 5;
-  }
+  // TF-style normalization: score per 100 words so chunk size doesn't inflate score.
+  // A 600-char chunk and a 10000-char chunk with the same term density score equally.
+  const tf = (rawScore / Math.max(words, 1)) * 100;
 
-  return score;
+  return tf;
 }
 
 function retrieveChunks(query: string, maxChunks = 25): ChunkWithMeta[] {
@@ -100,12 +147,30 @@ function retrieveChunks(query: string, maxChunks = 25): ChunkWithMeta[] {
     return { post, score };
   });
 
-  // Take top 15 most relevant posts
-  const topPosts = postScores
+  // Sort all scoring posts
+  const scoringPosts = postScores
     .filter((p) => p.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 15)
-    .map((p) => p.post);
+    .sort((a, b) => b.score - a.score);
+
+  // Guarantee source diversity: up to 5 Substack, up to 3 PDF/book, rest from GABlog
+  // This prevents GABlog from crowding out Substack just due to volume (484 vs 127 posts)
+  const bySource: Record<string, typeof scoringPosts> = {};
+  for (const p of scoringPosts) {
+    const src = p.post.source;
+    if (!bySource[src]) bySource[src] = [];
+    bySource[src].push(p);
+  }
+
+  const topPosts: typeof scoringPosts[0]['post'][] = [];
+  const substackSlots = (bySource['substack'] || []).slice(0, 5).map(p => p.post);
+  const pdfSlots = [...(bySource['pdf'] || []), ...(bySource['book'] || [])].slice(0, 3).map(p => p.post);
+  const gablogSlots = (bySource['gablog'] || []).slice(0, 10).map(p => p.post);
+  const redditSlots = (bySource['reddit'] || []).slice(0, 2).map(p => p.post);
+
+  const seen = new Set<string>();
+  for (const p of [...substackSlots, ...pdfSlots, ...gablogSlots, ...redditSlots]) {
+    if (!seen.has(p.slug)) { seen.add(p.slug); topPosts.push(p); }
+  }
 
   // Chunk those posts and score each chunk
   const allChunks: ChunkWithMeta[] = [];
@@ -119,8 +184,24 @@ function retrieveChunks(query: string, maxChunks = 25): ChunkWithMeta[] {
     }
   }
 
-  // Return top chunks sorted by score
-  return allChunks
+  // Source-diverse chunk selection: prevent GABlog's short paragraphs from
+  // crowding out Substack's longer, equally relevant chunks via density scoring.
+  const sortedChunks = allChunks.sort((a, b) => b.score - a.score);
+  const chunksBySource: Record<string, ChunkWithMeta[]> = {};
+  for (const chunk of sortedChunks) {
+    if (!chunksBySource[chunk.source]) chunksBySource[chunk.source] = [];
+    chunksBySource[chunk.source].push(chunk);
+  }
+
+  const ssChunks = (chunksBySource['substack'] || []).slice(0, 12);
+  const pdfBookChunks = [
+    ...(chunksBySource['pdf'] || []),
+    ...(chunksBySource['book'] || []),
+  ].slice(0, 6);
+  const remaining = maxChunks - ssChunks.length - pdfBookChunks.length;
+  const gablogChunks = (chunksBySource['gablog'] || []).slice(0, Math.max(remaining, 5));
+
+  return [...ssChunks, ...pdfBookChunks, ...gablogChunks]
     .sort((a, b) => b.score - a.score)
     .slice(0, maxChunks);
 }
@@ -161,11 +242,11 @@ export async function POST(request: Request) {
     }
 
     // Retrieve relevant chunks
-    const chunks = retrieveChunks(message);
+    const chunks = retrieveChunks(message, 30);
 
     // Build the user message with retrieved context
     const contextBlock = chunks.length > 0
-      ? `Here are the most relevant excerpts from the GA archive:\n\n${formatChunksForPrompt(chunks)}\n\n---\n\nUser question: ${message}`
+      ? `Here are the most relevant excerpts from the Center Study archive:\n\n${formatChunksForPrompt(chunks)}\n\n---\n\nUser question: ${message}`
       : `No relevant excerpts were found for this query.\n\nUser question: ${message}`;
 
     // Build message history for multi-turn
@@ -184,7 +265,7 @@ export async function POST(request: Request) {
 
     // Stream response from Claude
     const stream = await anthropic.messages.stream({
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-sonnet-4-6',
       max_tokens: 2048,
       system: SYSTEM_PROMPT,
       messages,

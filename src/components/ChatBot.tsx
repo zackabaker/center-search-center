@@ -261,7 +261,7 @@ export default function ChatBot() {
             {messages.length === 0 && (
               <div className="text-center py-8 text-gray-400 dark:text-gray-500">
                 <p className="text-sm mb-3">
-                  Ask me anything about Generative Anthropology.
+                  Ask me anything about Center Study.
                 </p>
                 <p className="text-xs">
                   I'll answer using only direct quotes from the archive.

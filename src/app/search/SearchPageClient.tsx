@@ -254,14 +254,16 @@ export default function SearchPageClient({ posts }: { posts: Post[] }) {
                         {highlight(contextSnippet, committed)}
                       </p>
                     </div>
+                    {/* Always visible on mobile, hover-only on desktop */}
                     <a
                       href={postUrl(entry.slug)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-shrink-0 p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 opacity-0 group-hover:opacity-100 transition-all"
-                      title="Open in new tab"
+                      className="flex-shrink-0 flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-gray-200 text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-all sm:opacity-0 sm:group-hover:opacity-100 text-xs font-medium"
+                      title="Open"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      Open
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
                     </a>

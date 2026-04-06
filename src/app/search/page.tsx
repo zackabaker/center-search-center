@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Search',
-  description: 'Full-text search across the Generative Anthropology archive',
+  description: 'Full-text search across the Center Study archive',
 };
 
 export default function SearchPage() {

@@ -14,7 +14,7 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
 };
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
-  substack: 'Substack',
+  substack: 'Bouvard',
   gablog: 'GABlog',
   book: 'Book',
   pdf: 'PDF',
@@ -38,8 +38,8 @@ export default function RelatedPosts({
   if (related.length === 0) return null;
 
   return (
-    <div className="mt-12 pt-8 border-t border-gray-200">
-      <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
+    <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
+      <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4">
         Related posts
       </h3>
       <div className="grid gap-3 sm:grid-cols-2">
@@ -47,10 +47,10 @@ export default function RelatedPosts({
           <Link
             key={entry.slug}
             href={`/post/${entry.slug}`}
-            className="block p-3 rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all bg-white"
+            className="block p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
           >
             <div className="flex items-start justify-between gap-2">
-              <h4 className="text-sm font-medium text-gray-900 leading-snug">
+              <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 leading-snug">
                 {entry.title}
               </h4>
               <span className={`text-[10px] px-1.5 py-0.5 rounded-full whitespace-nowrap flex-shrink-0 ${SOURCE_COLORS[entry.source]}`}>
@@ -58,7 +58,7 @@ export default function RelatedPosts({
               </span>
             </div>
             {entry.date && (
-              <p className="text-xs text-gray-400 mt-1">{entry.date}</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{entry.date}</p>
             )}
           </Link>
         ))}

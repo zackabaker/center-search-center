@@ -10,9 +10,10 @@ import BookmarkButton from '@/components/BookmarkButton';
 import CitationButton from '@/components/CitationButton';
 import Annotations from '@/components/Annotations';
 import TrackView from '@/components/TrackView';
+import ShareButton from '@/components/ShareButton';
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
-  substack: 'Substack',
+  substack: 'Bouvard Substack',
   gablog: 'GABlog',
   book: 'Anthropomorphics',
   pdf: 'PDF',
@@ -85,6 +86,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
             {/* Action buttons */}
             <div className="flex flex-wrap items-center gap-2 print:hidden">
+              <ShareButton title={post.title} url={`https://center.study/post/${slug}`} />
               <BookmarkButton post={{ slug, title: post.title, source: post.source, date: post.date, savedAt: '' }} />
               <CitationButton
                 title={post.title}

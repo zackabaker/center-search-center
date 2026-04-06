@@ -21,7 +21,7 @@ function formatDate(dateStr: string | null): { year: string; full: string } {
 function sourceLabel(source: string): string {
   const labels: Record<string, string> = {
     substack: 'Center Study Center',
-    gablog: 'Generative Anthropology Blog',
+    gablog: 'Center Study Blog',
     book: 'Anthropomorphics',
     pdf: 'Anthropoetics',
     reddit: 'Reddit',
@@ -38,10 +38,15 @@ export default function CitationButton({ title, date, source, url, slug }: Citat
   const externalUrl = url || siteUrl;
   const publisher = sourceLabel(source);
 
+  // Katz and Bouvard are the same author using two pen names:
+  // "Adam Katz" on the blog; "Dennis Bouvard" on Substack/PDFs.
+  const authorFull  = source === 'substack' ? 'Bouvard, Dennis' : 'Katz, Adam';
+  const authorShort = source === 'substack' ? 'Bouvard, D.' : 'Katz, A.';
+
   const citations = {
-    Chicago: `Bouvard, Dennis. "${title}." ${publisher}, ${fullDate}. ${externalUrl}.`,
-    MLA: `Bouvard, Dennis. "${title}." ${publisher}, ${fullDate}, ${externalUrl}.`,
-    APA: `Bouvard, D. (${year}). ${title}. ${publisher}. ${externalUrl}`,
+    Chicago: `${authorFull}. "${title}." ${publisher}, ${fullDate}. ${externalUrl}.`,
+    MLA: `${authorFull}. "${title}." ${publisher}, ${fullDate}, ${externalUrl}.`,
+    APA: `${authorShort} (${year}). ${title}. ${publisher}. ${externalUrl}`,
     Permalink: siteUrl,
   };
 

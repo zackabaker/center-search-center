@@ -1,0 +1,548 @@
+'use client';
+
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { CS_TERMS_SORTED, extractFollowUps } from '@/lib/cs-terms';
+
+interface Source {
+  slug: string;
+  title: string;
+  source: string;
+}
+
+interface Message {
+  role: 'user' | 'assistant';
+  content: string;
+  sources?: Source[];
+  followUps?: string[];
+}
+
+const SOURCE_COLORS: Record<string, string> = {
+  substack: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
+  gablog:   'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
+  book:     'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
+  pdf:      'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
+  reddit:   'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300',
+};
+
+const SOURCE_LABELS: Record<string, string> = {
+  substack: 'Substack', gablog: 'GABlog', book: 'Book', pdf: 'PDF', reddit: 'Reddit',
+};
+
+const SUGGESTED = [
+  'What is the originary scene and how does it found language?',
+  'How does Katz develop the concept of the juridical?',
+  'What is the relationship between resentment and the sacred in Center Study?',
+  'How does scenic design relate to the center?',
+  'What does succession mean in Center Study?',
+  'How does attentionality function as an ethical concept in Center Study?',
+];
+
+type FontSize = 'sm' | 'md' | 'lg';
+
+const FONT_SIZES: Record<FontSize, { prose: string; quote: string; list: string; h2: string; h3: string }> = {
+  sm: { prose: 'text-sm leading-relaxed',   quote: 'text-sm',   list: 'text-sm',   h2: 'text-base', h3: 'text-sm'  },
+  md: { prose: 'text-base leading-relaxed', quote: 'text-base', list: 'text-base', h2: 'text-lg',   h3: 'text-base' },
+  lg: { prose: 'text-lg leading-loose',     quote: 'text-lg',   list: 'text-lg',   h2: 'text-xl',   h3: 'text-lg'  },
+};
+
+// Build a single regex that matches all CS terms, longest first
+const termPattern = CS_TERMS_SORTED.map(t =>
+  t.term.replace(/[-/[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+).join('|');
+const TERM_REGEX = new RegExp(`\\b(${termPattern})\\b`, 'gi');
+
+// Convert a plain text segment into React nodes, linking CS terms
+function linkTerms(
+  text: string,
+  onTerm: (query: string, display: string) => void,
+  key: number
+): React.ReactNode {
+  const parts = text.split(TERM_REGEX);
+  return parts.map((part, i) => {
+    const lower = part.toLowerCase();
+    const match = CS_TERMS_SORTED.find(t => t.term.toLowerCase() === lower);
+    if (match) {
+      return (
+        <button
+          key={`${key}-${i}`}
+          onClick={() => onTerm(match.query, part)}
+          title={`Ask the archive about "${part}"`}
+          className="underline decoration-dotted underline-offset-2 hover:decoration-solid hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
+        >
+          {part}
+        </button>
+      );
+    }
+    return part;
+  });
+}
+
+function inlineMarkdown(
+  text: string,
+  onTerm: (query: string, display: string) => void,
+  key: number
+): React.ReactNode {
+  // Split on bold, italic, code, and citation brackets
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[[^\]]+\])/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**'))
+      return <strong key={i} className="font-semibold text-gray-900 dark:text-white">{linkTerms(part.slice(2, -2), onTerm, key * 1000 + i)}</strong>;
+    if (part.startsWith('*') && part.endsWith('*'))
+      return <em key={i}>{linkTerms(part.slice(1, -1), onTerm, key * 1000 + i)}</em>;
+    if (part.startsWith('`') && part.endsWith('`'))
+      return <code key={i} className="font-mono text-[0.85em] bg-gray-100 dark:bg-gray-700 px-1 rounded">{part.slice(1, -1)}</code>;
+    if (part.startsWith('[') && part.endsWith(']'))
+      return <span key={i} className="text-blue-600 dark:text-blue-400 font-medium">{part}</span>;
+    // Plain text — link any CS terms
+    return <span key={i}>{linkTerms(part, onTerm, key * 1000 + i)}</span>;
+  });
+}
+
+function renderMarkdown(
+  text: string,
+  fs: FontSize,
+  onTerm: (query: string, display: string) => void
+): React.ReactNode[] {
+  const sz = FONT_SIZES[fs];
+  const lines = text.split('\n');
+  const elements: React.ReactNode[] = [];
+  let i = 0;
+  let key = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    if (line.startsWith('## ')) {
+      elements.push(
+        <h2 key={key++} className={`${sz.h2} font-bold mt-6 mb-2 text-gray-900 dark:text-white`}>
+          {inlineMarkdown(line.slice(3), onTerm, key)}
+        </h2>
+      );
+      i++; continue;
+    }
+    if (line.startsWith('### ')) {
+      elements.push(
+        <h3 key={key++} className={`${sz.h3} font-semibold mt-4 mb-1 text-gray-800 dark:text-gray-200`}>
+          {inlineMarkdown(line.slice(4), onTerm, key)}
+        </h3>
+      );
+      i++; continue;
+    }
+    if (line.startsWith('> ')) {
+      const quoteLines: string[] = [];
+      while (i < lines.length && lines[i].startsWith('> ')) {
+        quoteLines.push(lines[i].slice(2));
+        i++;
+      }
+      elements.push(
+        <blockquote key={key++} className={`border-l-2 border-amber-400 pl-4 my-4 text-gray-700 dark:text-gray-300 italic ${sz.quote}`}>
+          {quoteLines.map((ql, qi) => (
+            <span key={qi}>{inlineMarkdown(ql, onTerm, key * 100 + qi)}{qi < quoteLines.length - 1 && <br />}</span>
+          ))}
+        </blockquote>
+      );
+      continue;
+    }
+    if (line.startsWith('- ') || line.startsWith('* ')) {
+      const items: string[] = [];
+      while (i < lines.length && (lines[i].startsWith('- ') || lines[i].startsWith('* '))) {
+        items.push(lines[i].slice(2));
+        i++;
+      }
+      elements.push(
+        <ul key={key++} className={`list-disc list-outside pl-5 my-3 space-y-1.5 ${sz.list}`}>
+          {items.map((item, ii) => (
+            <li key={ii} className="text-gray-700 dark:text-gray-300">
+              {inlineMarkdown(item, onTerm, key * 100 + ii)}
+            </li>
+          ))}
+        </ul>
+      );
+      continue;
+    }
+    if (line.match(/^---+$/)) {
+      elements.push(<hr key={key++} className="border-gray-200 dark:border-gray-700 my-5" />);
+      i++; continue;
+    }
+    if (line.trim() === '') { i++; continue; }
+    elements.push(
+      <p key={key++} className={`${sz.prose} text-gray-800 dark:text-gray-200 mb-3`}>
+        {inlineMarkdown(line, onTerm, key)}
+      </p>
+    );
+    i++;
+  }
+
+  return elements;
+}
+
+const SESSION_KEY = 'csc-ask-session';
+const MAX_SAVED = 12; // max messages to persist
+
+export default function AskClient() {
+  const [messages, setMessages] = useState<Message[]>(() => {
+    // Restore last session from localStorage on first render
+    if (typeof window === 'undefined') return [];
+    try {
+      const saved = localStorage.getItem(SESSION_KEY);
+      return saved ? (JSON.parse(saved) as Message[]) : [];
+    } catch { return []; }
+  });
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [fontSize, setFontSize] = useState<FontSize>('md');
+  const [saveable, setSaveable] = useState<Message | null>(null);
+  const [linkCopied, setLinkCopied] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const mainRef = useRef<HTMLDivElement>(null);
+  const answerTopRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const didAutoSubmit = useRef(false);
+
+  // Persist session to localStorage whenever messages change
+  useEffect(() => {
+    try {
+      if (messages.length > 0) {
+        localStorage.setItem(SESSION_KEY, JSON.stringify(messages.slice(-MAX_SAVED)));
+      } else {
+        localStorage.removeItem(SESSION_KEY);
+      }
+    } catch {}
+  }, [messages]);
+
+  useEffect(() => {
+    const q = searchParams.get('q');
+    if (q && !didAutoSubmit.current) {
+      didAutoSubmit.current = true;
+      submit(q);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 160)}px`;
+    }
+  }, [input]);
+
+  const scrollToAnswerTop = useCallback(() => {
+    if (answerTopRef.current && mainRef.current) {
+      const container = mainRef.current;
+      const target = answerTopRef.current;
+      const offset = target.offsetTop - container.offsetTop - 24;
+      container.scrollTo({ top: offset, behavior: 'smooth' });
+    }
+  }, []);
+
+  // When a CS term is clicked in a response, navigate to /ask?q=
+  const handleTermClick = useCallback((query: string) => {
+    router.push(`/ask?q=${encodeURIComponent(query)}`);
+  }, [router]);
+
+  async function submit(question: string) {
+    if (!question.trim() || isLoading) return;
+    setInput('');
+    setIsLoading(true);
+    setSaveable(null);
+
+    const newMessages: Message[] = [...messages, { role: 'user', content: question }];
+    setMessages(newMessages);
+    setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
+    requestAnimationFrame(() => scrollToAnswerTop());
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: question,
+          history: newMessages.slice(-8).map(m => ({ role: m.role, content: m.content })),
+        }),
+      });
+
+      if (!res.ok) throw new Error((await res.json()).error || 'Failed');
+
+      const reader = res.body!.getReader();
+      const decoder = new TextDecoder();
+      let content = '';
+      let sources: Source[] | undefined;
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          try {
+            const data = JSON.parse(line);
+            if (data.text) {
+              content += data.text;
+              setMessages(prev => {
+                const next = [...prev];
+                next[next.length - 1] = { role: 'assistant', content, sources };
+                return next;
+              });
+            }
+            if (data.sources) {
+              sources = data.sources;
+              setMessages(prev => {
+                const next = [...prev];
+                next[next.length - 1] = { role: 'assistant', content, sources };
+                return next;
+              });
+            }
+          } catch { /* skip */ }
+        }
+      }
+
+      // Generate follow-up questions from completed answer
+      const followUps = extractFollowUps(content, question);
+      const finalMsg: Message = { role: 'assistant', content, sources, followUps };
+      setMessages(prev => {
+        const next = [...prev];
+        next[next.length - 1] = finalMsg;
+        return next;
+      });
+      setSaveable(finalMsg);
+    } catch (err) {
+      setMessages(prev => {
+        const next = [...prev];
+        next[next.length - 1] = {
+          role: 'assistant',
+          content: `Error: ${err instanceof Error ? err.message : 'Something went wrong'}`,
+        };
+        return next;
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(input); }
+  }
+
+  function downloadAnswer() {
+    if (!saveable) return;
+    const q = messages.findLast(m => m.role === 'user')?.content || 'query';
+    const filename = q.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 60) + '.md';
+    const srcs = saveable.sources?.map(s => `- [[${s.title}]] (${SOURCE_LABELS[s.source] || s.source})`).join('\n') || '';
+    const md = `# ${q}\n\n${saveable.content}${srcs ? `\n\n## Sources\n\n${srcs}` : ''}\n`;
+    const blob = new Blob([md], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  const lastAssistantIdx = messages.reduce((acc, m, i) => m.role === 'assistant' ? i : acc, -1);
+
+  return (
+    <div className="h-screen bg-white dark:bg-gray-950 flex flex-col overflow-hidden">
+      {/* Header */}
+      <header className="border-b border-gray-100 dark:border-gray-800 px-4 py-3 flex items-center justify-between max-w-4xl mx-auto w-full flex-shrink-0">
+        <div className="flex items-center gap-4">
+          <Link href="/" className="text-sm text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+            ← Archive
+          </Link>
+          <span className="text-gray-200 dark:text-gray-700">|</span>
+          <h1 className="text-sm font-semibold text-gray-900 dark:text-white">Ask the Archive</h1>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-0.5 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+            {(['sm', 'md', 'lg'] as FontSize[]).map(s => (
+              <button
+                key={s}
+                onClick={() => setFontSize(s)}
+                className={`px-2 py-1 text-xs font-medium transition-colors ${
+                  fontSize === s
+                    ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
+                    : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                }`}
+              >
+                <span className={s === 'sm' ? 'text-xs' : s === 'md' ? 'text-sm' : 'text-base'}>A</span>
+              </button>
+            ))}
+          </div>
+          {saveable && (
+            <button
+              onClick={downloadAnswer}
+              className="text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              title="Download as .md"
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+              </svg>
+              Save .md
+            </button>
+          )}
+          {messages.length > 0 && (() => {
+            const lastQ = [...messages].reverse().find(m => m.role === 'user')?.content;
+            return lastQ ? (
+              <button
+                onClick={async () => {
+                  const url = `${window.location.origin}/ask?q=${encodeURIComponent(lastQ)}`;
+                  await navigator.clipboard.writeText(url);
+                  setLinkCopied(true);
+                  setTimeout(() => setLinkCopied(false), 2000);
+                }}
+                className="text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                title="Copy sharable link"
+              >
+                {linkCopied ? (
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>
+                ) : (
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+                )}
+                {linkCopied ? 'Copied!' : 'Share'}
+              </button>
+            ) : null;
+          })()}
+          {messages.length > 0 && (
+            <button
+              onClick={() => { setMessages([]); setSaveable(null); }}
+              className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-400 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+      </header>
+
+      {/* Messages — overflow-anchor:none stops browser scroll-anchoring from
+           chasing new streaming content and jerking the user away from what they're reading */}
+      <main ref={mainRef} className="flex-1 overflow-y-auto" style={{ overflowAnchor: 'none' }}>
+        <div className="max-w-3xl mx-auto px-4 py-8 space-y-10">
+          {messages.length === 0 && (
+            <div className="py-12 text-center">
+              <p className="text-xs font-mono text-gray-400 uppercase tracking-widest mb-2">Center Study Center</p>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Ask the Archive</h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400 max-w-md mx-auto mb-8 leading-relaxed">
+                Ask any question across the complete Center Study archive. Key terms in responses are clickable — follow any concept deeper.
+              </p>
+              <div className="grid sm:grid-cols-2 gap-2 max-w-2xl mx-auto text-left">
+                {SUGGESTED.map(q => (
+                  <button
+                    key={q}
+                    onClick={() => submit(q)}
+                    className="text-left text-sm px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-all"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-gray-400 mt-6">
+                Answers download as <code className="font-mono">.md</code> — file into Obsidian to build your own wiki.
+              </p>
+            </div>
+          )}
+
+          {messages.map((msg, i) => (
+            <div key={i}>
+              {msg.role === 'user' ? (
+                <div className="flex justify-end">
+                  <div className="max-w-xl bg-gray-100 dark:bg-gray-800 rounded-2xl px-5 py-3 text-base text-gray-900 dark:text-white">
+                    {msg.content}
+                  </div>
+                </div>
+              ) : (
+                <div ref={i === lastAssistantIdx ? answerTopRef : undefined}>
+                  {/* Answer content */}
+                  <div>
+                    {msg.content
+                      ? renderMarkdown(msg.content, fontSize, handleTermClick)
+                      : isLoading && i === messages.length - 1
+                        ? <p className={`${FONT_SIZES[fontSize].prose} text-gray-400 animate-pulse`}>Searching archive…</p>
+                        : null}
+                  </div>
+
+                  {/* Sources */}
+                  {msg.sources && msg.sources.length > 0 && (
+                    <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800">
+                      <p className="text-xs font-mono text-gray-400 uppercase tracking-widest mb-2">Sources</p>
+                      <div className="flex flex-wrap gap-2">
+                        {msg.sources.map((src, j) => (
+                          <Link
+                            key={j}
+                            href={`/post/${src.slug}`}
+                            target="_blank"
+                            className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                          >
+                            <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${SOURCE_COLORS[src.source] || 'bg-gray-100 text-gray-600'}`}>
+                              {SOURCE_LABELS[src.source] || src.source}
+                            </span>
+                            <span className="hover:underline">{src.title}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Follow-up questions — appears after answer completes */}
+                  {msg.followUps && msg.followUps.length > 0 && !isLoading && (
+                    <div className="mt-5 pt-4 border-t border-gray-100 dark:border-gray-800">
+                      <p className="text-xs font-mono text-gray-400 uppercase tracking-widest mb-2.5">Go deeper</p>
+                      <div className="flex flex-col gap-1.5">
+                        {msg.followUps.map((q, j) => (
+                          <button
+                            key={j}
+                            onClick={() => submit(q)}
+                            className="text-left text-sm px-3 py-2.5 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-600 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-900 transition-all flex items-start gap-2 group"
+                          >
+                            <svg className="w-3 h-3 mt-1 text-gray-300 dark:text-gray-600 group-hover:text-blue-400 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                            {q}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </main>
+
+      {/* Input */}
+      <footer className="border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-4 flex-shrink-0">
+        <div className="max-w-3xl mx-auto flex gap-3 items-end">
+          <textarea
+            ref={textareaRef}
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Ask anything… (Enter to send, Shift+Enter for newline)"
+            rows={1}
+            disabled={isLoading}
+            className="flex-1 resize-none rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-base text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 overflow-hidden"
+          />
+          <button
+            onClick={() => submit(input)}
+            disabled={isLoading || !input.trim()}
+            className="flex-shrink-0 px-4 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl text-sm font-medium disabled:opacity-40 hover:opacity-80 transition-opacity"
+          >
+            {isLoading ? (
+              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+              </svg>
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+              </svg>
+            )}
+          </button>
+        </div>
+      </footer>
+    </div>
+  );
+}

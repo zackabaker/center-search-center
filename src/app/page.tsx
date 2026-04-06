@@ -2,6 +2,8 @@ import { getAllPosts } from '@/lib/parser';
 import HomeSearch from '@/components/HomeSearch';
 import PostList from '@/components/PostList';
 import DarkModeToggle from '@/components/DarkModeToggle';
+import CenterIcon from '@/components/CenterIcon';
+import Link from 'next/link';
 
 export default function Home() {
   const posts = getAllPosts();
@@ -14,41 +16,94 @@ export default function Home() {
   });
 
   return (
-    <main className="max-w-5xl mx-auto px-4 py-6 sm:py-10 overflow-x-hidden">
-      <header className="text-center mb-6 sm:mb-8">
-        <div className="flex justify-end mb-4">
-          <DarkModeToggle />
+    <div className="min-h-screen bg-white dark:bg-gray-950">
+
+      {/* Top nav */}
+      <nav className="sticky top-0 z-30 bg-white/80 dark:bg-gray-950/80 backdrop-blur border-b border-gray-100 dark:border-gray-800">
+        <div className="max-w-5xl mx-auto px-4 h-12 flex items-center justify-between">
+          <span className="text-sm font-semibold text-gray-900 dark:text-white tracking-tight">
+            Center Study Center
+          </span>
+          <div className="flex items-center gap-4">
+            <Link href="/guide" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
+              Guide
+            </Link>
+            <Link href="/ask" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
+              Ask
+            </Link>
+            <Link href="/concepts" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
+              Concepts
+            </Link>
+            <DarkModeToggle />
+          </div>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">
-          Center Search Center
+      </nav>
+
+      {/* Hero */}
+      <header className="max-w-3xl mx-auto px-4 pt-14 pb-12 text-center">
+        <CenterIcon />
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white mb-5">
+          Center Study Center
         </h1>
-        <blockquote className="italic text-sm text-gray-400 dark:text-gray-500 mb-5 px-4 max-w-xl mx-auto border-l-2 border-gray-200 dark:border-gray-700 text-left">
+        <p className="text-sm text-gray-400 dark:text-gray-500 italic mb-8 max-w-lg mx-auto leading-relaxed">
           &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it&rdquo;
-        </blockquote>
+        </p>
+
         <HomeSearch />
-        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 mt-3 text-xs text-gray-400 dark:text-gray-500">
-          <a href="/intro" className="hover:text-blue-500 dark:hover:text-blue-400 hover:underline transition-colors">
-            New to Center Study? Start here →
-          </a>
-          <span className="hidden sm:inline text-gray-200 dark:text-gray-700">|</span>
-          <a href="/concepts" className="hover:text-blue-500 dark:hover:text-blue-400 hover:underline transition-colors">
-            Concept index
-          </a>
-          <span className="hidden sm:inline text-gray-200 dark:text-gray-700">|</span>
-          <a href="/stats" className="hover:text-blue-500 dark:hover:text-blue-400 hover:underline transition-colors">
-            Corpus stats
-          </a>
-          <span className="hidden sm:inline text-gray-200 dark:text-gray-700">|</span>
-          <a href="/guide" className="hover:text-blue-500 dark:hover:text-blue-400 hover:underline transition-colors font-medium">
-            Introduction to Center Study →
-          </a>
-        </div>
       </header>
 
-      <section>
-        <h2 className="text-lg font-semibold mb-4">All posts</h2>
-        <PostList posts={sorted} />
-      </section>
-    </main>
+      {/* Navigation cards */}
+      <div className="max-w-3xl mx-auto px-4 pb-14">
+        <div className="grid grid-cols-3 gap-3">
+          <Link
+            href="/guide"
+            className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
+          >
+            <span className="text-xl">📖</span>
+            <div className="text-center">
+              <p className="text-sm font-medium text-gray-900 dark:text-white">Guide</p>
+              <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">Introduction to Center Study</p>
+            </div>
+          </Link>
+          <Link
+            href="/ask"
+            className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-900 dark:border-white bg-gray-900 dark:bg-white hover:opacity-80 transition-all"
+          >
+            <span className="text-xl">💬</span>
+            <div className="text-center">
+              <p className="text-sm font-medium text-white dark:text-gray-900">Ask</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 hidden sm:block">Synthesized answers</p>
+            </div>
+          </Link>
+          <Link
+            href="/concepts"
+            className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
+          >
+            <span className="text-xl">🗂</span>
+            <div className="text-center">
+              <p className="text-sm font-medium text-gray-900 dark:text-white">Concepts</p>
+              <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">Key vocabulary index</p>
+            </div>
+          </Link>
+        </div>
+      </div>
+
+      {/* Archive */}
+      <div className="border-t border-gray-100 dark:border-gray-800">
+        <div className="max-w-5xl mx-auto px-4 py-10">
+          <div className="flex items-baseline justify-between mb-6">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Browse the Archive</h2>
+              <p className="text-sm text-gray-400 mt-0.5">{posts.length} texts — GABlog, Substack, PDFs, book</p>
+            </div>
+            <Link href="/stats" className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+              Corpus stats →
+            </Link>
+          </div>
+          <PostList posts={sorted} />
+        </div>
+      </div>
+
+    </div>
   );
 }
