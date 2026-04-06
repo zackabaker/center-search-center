@@ -25,8 +25,8 @@ export default function Home() {
             Center Study Center
           </span>
           <div className="flex items-center gap-4">
-            <Link href="/guide" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
-              Guide
+            <Link href="/intro" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
+              Intro
             </Link>
             <Link href="/ask" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
               Ask
@@ -56,12 +56,12 @@ export default function Home() {
       <div className="max-w-3xl mx-auto px-4 pb-14">
         <div className="grid grid-cols-3 gap-3">
           <Link
-            href="/guide"
+            href="/intro"
             className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
           >
             <span className="text-xl">📖</span>
             <div className="text-center">
-              <p className="text-sm font-medium text-gray-900 dark:text-white">Guide</p>
+              <p className="text-sm font-medium text-gray-900 dark:text-white">Intro</p>
               <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">Introduction to Center Study</p>
             </div>
           </Link>
