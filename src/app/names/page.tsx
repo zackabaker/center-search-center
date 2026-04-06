@@ -1,9 +1,3 @@
-import { Redis } from '@upstash/redis';
-
-const kv = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
 import Link from 'next/link';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import NamesClient from './NamesClient';
@@ -26,9 +20,16 @@ export default async function NamesPage() {
   let approved: NameEntry[] = [];
 
   try {
-    approved = (await kv.get<NameEntry[]>('names:approved')) || [];
+    if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+      const { Redis } = await import('@upstash/redis');
+      const kv = new Redis({
+        url: process.env.UPSTASH_REDIS_REST_URL,
+        token: process.env.UPSTASH_REDIS_REST_TOKEN,
+      });
+      approved = (await kv.get<NameEntry[]>('names:approved')) || [];
+    }
   } catch {
-    // KV not configured yet — show empty list
+    // KV not available — founding names still render
   }
 
   return (

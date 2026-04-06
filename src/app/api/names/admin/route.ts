@@ -1,11 +1,16 @@
-import { Redis } from '@upstash/redis';
-
-const kv = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
 import { NextRequest } from 'next/server';
+import { Redis } from '@upstash/redis';
 import type { NameEntry } from '../submit/route';
+
+function getKV() {
+  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
+    throw new Error('KV not configured');
+  }
+  return new Redis({
+    url: process.env.UPSTASH_REDIS_REST_URL,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN,
+  });
+}
 
 function checkAuth(req: NextRequest): boolean {
   const secret = process.env.ADMIN_SECRET;
@@ -14,30 +19,27 @@ function checkAuth(req: NextRequest): boolean {
   return key === secret;
 }
 
-// GET — list pending submissions
 export async function GET(req: NextRequest) {
   if (!checkAuth(req)) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
-
+  const kv = getKV();
   const pending: NameEntry[] = (await kv.get('names:pending')) || [];
   const approved: NameEntry[] = (await kv.get('names:approved')) || [];
-
   return Response.json({ pending, approved });
 }
 
-// POST — approve or reject a pending submission
 export async function POST(req: NextRequest) {
   if (!checkAuth(req)) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { action, id } = await req.json();
-
   if (!action || !id) {
     return Response.json({ error: 'action and id required' }, { status: 400 });
   }
 
+  const kv = getKV();
   const pending: NameEntry[] = (await kv.get('names:pending')) || [];
   const entry = pending.find((e) => e.id === id);
 
@@ -50,7 +52,7 @@ export async function POST(req: NextRequest) {
 
   if (action === 'approve') {
     const approved: NameEntry[] = (await kv.get('names:approved')) || [];
-    approved.push({ ...entry, submittedAt: entry.submittedAt });
+    approved.push(entry);
     await kv.set('names:approved', approved);
     return Response.json({ success: true, action: 'approved' });
   }

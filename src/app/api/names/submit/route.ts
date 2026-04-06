@@ -1,10 +1,5 @@
-import { Redis } from '@upstash/redis';
-
-const kv = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
 import { NextRequest } from 'next/server';
+import { Redis } from '@upstash/redis';
 
 export interface NameEntry {
   id: string;
@@ -12,6 +7,16 @@ export interface NameEntry {
   location?: string;
   note?: string;
   submittedAt: string;
+}
+
+function getKV() {
+  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
+    throw new Error('KV not configured');
+  }
+  return new Redis({
+    url: process.env.UPSTASH_REDIS_REST_URL,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN,
+  });
 }
 
 export async function POST(req: NextRequest) {
@@ -39,6 +44,7 @@ export async function POST(req: NextRequest) {
       submittedAt: new Date().toISOString(),
     };
 
+    const kv = getKV();
     const pending: NameEntry[] = (await kv.get('names:pending')) || [];
     pending.push(entry);
     await kv.set('names:pending', pending);
