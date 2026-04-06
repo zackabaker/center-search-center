@@ -116,13 +116,6 @@ export default function GuidePage() {
               desc: 'Interactive graph of concept dependencies — centered on the originary scene, radiating outward.',
               color: 'border-purple-200 hover:border-purple-400',
             },
-            {
-              href: '/guide/timeline',
-              label: 'Archive Timeline',
-              layer: 'Layer V · Chronological',
-              desc: 'The complete archive in chronological order — Center Study as it actually unfolded in time.',
-              color: 'border-orange-200 hover:border-orange-400',
-            },
           ].map(({ href, label, layer, desc, color }) => (
             <Link
               key={href}

@@ -238,6 +238,15 @@ function parseRedditComments(): Post[] {
     // Sort comments in a thread chronologically
     threadComments.sort((a, b) => a.created_utc - b.created_utc);
 
+    // Skip threads where all comments are just bare URLs or very short (link-post threads)
+    const hasSubstantiveContent = threadComments.some((c) => {
+      const trimmed = c.body.trim();
+      const isUrl = /^https?:\/\/\S+$/.test(trimmed);
+      const wordCount = trimmed.split(/\s+/).length;
+      return !isUrl && wordCount >= 10;
+    });
+    if (!hasSubstantiveContent) continue;
+
     const content = threadComments
       .map((c) => c.body)
       .join('\n\n---\n\n');
