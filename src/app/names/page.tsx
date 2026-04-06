@@ -12,10 +12,15 @@ import type { NameEntry } from '../api/names/submit/route';
 
 export const metadata: Metadata = {
   title: 'Book of Names',
-  description: 'A record of those interested in and participating in Center Study.',
+  description: 'A record of those who have encountered the originary hypothesis and found it worth carrying forward.',
 };
 
 export const revalidate = 60;
+
+const FOUNDING: NameEntry[] = [
+  { id: 'founding-1', name: 'Adam Katz', submittedAt: '' },
+  { id: 'founding-2', name: 'Zack Baker', submittedAt: '' },
+];
 
 export default async function NamesPage() {
   let approved: NameEntry[] = [];
@@ -39,28 +44,15 @@ export default async function NamesPage() {
       </div>
 
       <header className="mb-12">
-        <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
-          Center Study Center
-        </p>
         <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white mb-5">
           Book of Names
         </h1>
-        <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-prose">
+        <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">
           A record of those who have encountered the originary hypothesis and found it worth carrying forward.
-          Every name here is a commemoration of a deferred violence — a sign emitted in recognition of a shared center.
         </p>
       </header>
 
-      <NamesClient approved={approved} />
-
-      <footer className="mt-16 pt-8 border-t border-gray-100 dark:border-gray-800">
-        <p className="text-xs text-gray-400 dark:text-gray-500 leading-relaxed">
-          Names are displayed as submitted and approved by the editors.{' '}
-          <Link href="/intro" className="hover:text-gray-600 dark:hover:text-gray-300 underline underline-offset-2 transition-colors">
-            New to Center Study?
-          </Link>
-        </p>
-      </footer>
+      <NamesClient approved={[...FOUNDING, ...approved]} />
     </main>
   );
 }
