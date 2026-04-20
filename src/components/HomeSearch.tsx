@@ -7,7 +7,8 @@ type Mode = 'ask' | 'search';
 
 export default function HomeSearch() {
   const [query, setQuery] = useState('');
-  const [mode, setMode] = useState<Mode>('ask');
+  const [mode, setMode] = useState<Mode>('search');
+  const [isNavigating, setIsNavigating] = useState(false);
   const router = useRouter();
 
   // ⌘K / Ctrl+K → go to search mode
@@ -25,6 +26,7 @@ export default function HomeSearch() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const q = query.trim();
+    setIsNavigating(true);
     if (mode === 'ask') {
       if (q) router.push(`/ask?q=${encodeURIComponent(q)}`);
       else router.push('/ask');
@@ -80,15 +82,23 @@ export default function HomeSearch() {
           autoComplete="off"
         />
 
-        {/* Submit arrow */}
+        {/* Submit arrow / spinner */}
         <button
           type="submit"
-          className="mr-2 p-2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors flex-shrink-0"
+          disabled={isNavigating}
+          className="mr-2 p-2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors flex-shrink-0 disabled:opacity-60"
           title={mode === 'ask' ? 'Ask the archive' : 'Search'}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-          </svg>
+          {isNavigating ? (
+            <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          )}
         </button>
       </div>
 

@@ -149,6 +149,14 @@ export default function SearchPageClient({ posts }: { posts: Post[] }) {
 
   return (
     <main className="max-w-4xl mx-auto px-4 py-6 sm:py-10">
+      {/* Loading bar — shown while search is running */}
+      {isSearching && (
+        <div className="fixed top-0 left-0 right-0 z-50 h-0.5 bg-gray-100 overflow-hidden">
+          <div className="h-full bg-gray-700 animate-[loading-bar_1.2s_ease-in-out_infinite]" style={{width: '60%', animation: 'loadbar 1.1s ease-in-out infinite'}} />
+          <style>{`@keyframes loadbar{0%{transform:translateX(-100%)}100%{transform:translateX(280%)}}`}</style>
+        </div>
+      )}
+
       {/* Header */}
       <div className="mb-6">
         <Link href="/" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">← Home</Link>

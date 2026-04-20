@@ -45,6 +45,31 @@ function PermalinkButton({ id }: { id: string }) {
   );
 }
 
+// Stop words to exclude from in-post highlights so common words don't paint the page
+const HIGHLIGHT_STOPWORDS = new Set([
+  'the','a','an','and','or','but','in','on','at','to','for','of','with','by',
+  'from','is','are','was','were','be','been','have','has','had','do','does',
+  'did','will','would','could','should','may','might','must','can','this',
+  'that','these','those','it','its','what','which','who','when','where',
+  'how','why','all','any','some','not','more','most','other','than','too',
+  'very','just','also','about','than','then','over','after','before','while',
+  'here','there','their','they','them','you','your','our','its','him','his',
+  'her','she','he','we','my','who','as','if','so','no','only','both','each',
+]);
+
+const MAX_MARKS = 20; // cap highlights so frequent terms don't paint the whole page
+
+// Extract meaningful query terms: split on whitespace, strip punctuation,
+// filter stop words and very short words.
+function extractHighlightTerms(query: string): string[] {
+  // Strip boolean operators and quotes
+  const clean = query.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
+  return clean
+    .split(/\s+/)
+    .map((w) => w.replace(/[^a-zA-Z0-9'-]/g, '').trim())
+    .filter((w) => w.length >= 4 && !HIGHLIGHT_STOPWORDS.has(w.toLowerCase()));
+}
+
 function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: HighlightedContentProps) {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
@@ -56,8 +81,15 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
   useEffect(() => {
     if (!query || !contentRef.current) return;
     const container = contentRef.current;
-    const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(escaped, 'gi');
+
+    // Build regex from meaningful keywords only
+    const terms = extractHighlightTerms(query);
+    if (terms.length === 0) return;
+    const pattern = terms
+      .map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+      .join('|');
+    const regex = new RegExp(`\\b(${pattern})\\b`, 'gi');
+
     const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
     const textNodes: Text[] = [];
     let node: Node | null;
@@ -65,22 +97,26 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
       if (regex.test((node as Text).textContent || '')) textNodes.push(node as Text);
       regex.lastIndex = 0;
     }
+
     let totalMatches = 0;
     const allMarks: HTMLElement[] = [];
-    textNodes.forEach((textNode) => {
+
+    for (const textNode of textNodes) {
+      if (totalMatches >= MAX_MARKS) break; // stop once we've hit the cap
       const text = textNode.textContent || '';
       const parts: (string | { match: string })[] = [];
       let lastIndex = 0;
       let match: RegExpExecArray | null;
       regex.lastIndex = 0;
       while ((match = regex.exec(text)) !== null) {
+        if (totalMatches >= MAX_MARKS) break;
         if (match.index > lastIndex) parts.push(text.slice(lastIndex, match.index));
         parts.push({ match: match[0] });
         lastIndex = regex.lastIndex;
         totalMatches++;
       }
       if (lastIndex < text.length) parts.push(text.slice(lastIndex));
-      if (parts.length <= 1) return;
+      if (parts.length <= 1) continue;
       const fragment = document.createDocumentFragment();
       parts.forEach((part) => {
         if (typeof part === 'string') {
@@ -88,26 +124,22 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
         } else {
           const mark = document.createElement('mark');
           mark.textContent = part.match;
-          mark.className = 'bg-amber-300 text-amber-950 rounded-sm px-0.5';
+          // Subtle inline highlight — no paragraph-level background
+          mark.style.cssText = 'background:rgba(251,191,36,0.35);color:inherit;border-radius:2px;padding:0 2px;';
           allMarks.push(mark);
           fragment.appendChild(mark);
         }
       });
       textNode.parentNode?.replaceChild(fragment, textNode);
-    });
-    allMarks.forEach((mark) => {
-      const p = mark.closest('p, blockquote, li');
-      if (p && !p.classList.contains('highlight-sentence')) {
-        p.classList.add('highlight-sentence');
-        (p as HTMLElement).style.cssText += 'background:#fef3c7;border-left:3px solid #f59e0b;padding-left:12px;margin-left:-15px;border-radius:4px;';
-      }
-    });
+    }
+
     marksRef.current = allMarks;
     setMatchCount(totalMatches);
     if (allMarks.length > 0) {
       setTimeout(() => {
         allMarks[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-        allMarks[0].classList.add('ring-2', 'ring-blue-500');
+        allMarks[0].style.outline = '2px solid #3b82f6';
+        allMarks[0].style.outlineOffset = '1px';
       }, 200);
     }
   }, [query]);
@@ -123,10 +155,12 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
   const scrollToMatch = useCallback((direction: 'next' | 'prev') => {
     const marks = marksRef.current;
     if (!marks.length) return;
-    marks.forEach((m) => m.classList.remove('ring-2', 'ring-blue-500'));
+    // Clear outlines using inline style (since we use inline styles now)
+    marks.forEach((m) => { m.style.outline = ''; m.style.outlineOffset = ''; });
     setCurrentMatch((prev) => {
       const next = direction === 'next' ? (prev + 1) % marks.length : (prev - 1 + marks.length) % marks.length;
-      marks[next].classList.add('ring-2', 'ring-blue-500');
+      marks[next].style.outline = '2px solid #3b82f6';
+      marks[next].style.outlineOffset = '1px';
       marks[next].scrollIntoView({ behavior: 'smooth', block: 'center' });
       return next;
     });

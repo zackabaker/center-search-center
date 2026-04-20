@@ -9,6 +9,7 @@ interface Source {
   slug: string;
   title: string;
   source: string;
+  snippet?: string;
 }
 
 interface Message {
@@ -181,7 +182,10 @@ function renderMarkdown(
 const SESSION_KEY = 'csc-ask-session';
 const MAX_SAVED = 12; // max messages to persist
 const ASK_COUNT_KEY = 'csc-ask-count';
-const NAMES_THRESHOLD = 10; // messages before the hint appears
+const NAMES_THRESHOLD = 5; // messages before the hint appears
+
+// Questions about naming/names also reveal the easter egg
+const NAMES_REGEX = /\b(name|names|naming|book of names|proper name|proper names)\b/i;
 
 export default function AskClient() {
   const [messages, setMessages] = useState<Message[]>(() => {
@@ -467,41 +471,76 @@ export default function AskClient() {
                 </div>
               ) : (
                 <div ref={i === lastAssistantIdx ? answerTopRef : undefined}>
-                  {/* Answer content */}
-                  <div>
-                    {msg.content
-                      ? renderMarkdown(msg.content, fontSize, handleTermClick)
-                      : isLoading && i === messages.length - 1
-                        ? <p className={`${FONT_SIZES[fontSize].prose} text-gray-400 animate-pulse`}>Searching archive…</p>
-                        : null}
-                  </div>
 
-                  {/* Sources */}
-                  {msg.sources && msg.sources.length > 0 && (
-                    <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800">
-                      <p className="text-xs font-mono text-gray-400 uppercase tracking-widest mb-2">Sources</p>
-                      <div className="flex flex-wrap gap-2">
-                        {msg.sources.map((src, j) => (
+                  {/* ── Source post cards — rendered as soon as sources arrive ── */}
+                  {msg.sources && msg.sources.length > 0 ? (
+                    <div className="mb-6">
+                      <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
+                        Top posts
+                      </p>
+                      <div className="flex flex-col gap-2">
+                        {msg.sources.slice(0, 6).map((src, j) => (
                           <Link
                             key={j}
                             href={`/post/${src.slug}`}
-                            target="_blank"
-                            className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                            className="group block rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800/60 transition-all px-4 py-3"
                           >
-                            <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${SOURCE_COLORS[src.source] || 'bg-gray-100 text-gray-600'}`}>
-                              {SOURCE_LABELS[src.source] || src.source}
-                            </span>
-                            <span className="hover:underline">{src.title}</span>
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 ${SOURCE_COLORS[src.source] || 'bg-gray-100 text-gray-600'}`}>
+                                    {SOURCE_LABELS[src.source] || src.source}
+                                  </span>
+                                </div>
+                                <p className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug mb-1">
+                                  {src.title}
+                                </p>
+                                {src.snippet && (
+                                  <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">
+                                    {src.snippet}
+                                  </p>
+                                )}
+                              </div>
+                              <svg className="w-4 h-4 text-gray-300 dark:text-gray-600 group-hover:text-blue-400 transition-colors flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                              </svg>
+                            </div>
                           </Link>
                         ))}
                       </div>
                     </div>
+                  ) : isLoading && i === messages.length - 1 ? (
+                    /* Loading skeleton while sources are being fetched */
+                    <div className="mb-6">
+                      <p className="text-xs font-mono text-gray-300 dark:text-gray-600 uppercase tracking-widest mb-3">Finding posts…</p>
+                      <div className="flex flex-col gap-2">
+                        {[1,2,3].map(k => (
+                          <div key={k} className="rounded-xl border border-gray-100 dark:border-gray-800 px-4 py-3 animate-pulse">
+                            <div className="h-2.5 bg-gray-100 dark:bg-gray-800 rounded w-16 mb-2"/>
+                            <div className="h-3.5 bg-gray-100 dark:bg-gray-800 rounded w-3/4 mb-1.5"/>
+                            <div className="h-2.5 bg-gray-100 dark:bg-gray-800 rounded w-full"/>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {/* ── AI framing — brief analytical orientation ── */}
+                  {msg.content && (
+                    <div className="pt-3 border-t border-gray-100 dark:border-gray-800">
+                      <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
+                        From the archive
+                      </p>
+                      <div>
+                        {renderMarkdown(msg.content, fontSize, handleTermClick)}
+                      </div>
+                    </div>
                   )}
 
-                  {/* Follow-up questions — appears after answer completes */}
+                  {/* Follow-up questions */}
                   {msg.followUps && msg.followUps.length > 0 && !isLoading && (
                     <div className="mt-5 pt-4 border-t border-gray-100 dark:border-gray-800">
-                      <p className="text-xs font-mono text-gray-400 uppercase tracking-widest mb-2.5">Go deeper</p>
+                      <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2.5">Go deeper</p>
                       <div className="flex flex-col gap-1.5">
                         {msg.followUps.map((q, j) => (
                           <button
@@ -522,8 +561,8 @@ export default function AskClient() {
               )}
             </div>
           ))}
-          {/* Book of Names hint — visible only after threshold */}
-          {askCount >= NAMES_THRESHOLD && (
+          {/* Book of Names hint — visible after threshold or if user asks about names */}
+          {(askCount >= NAMES_THRESHOLD || messages.some(m => m.role === 'user' && NAMES_REGEX.test(m.content))) && (
             <div className="pb-4 pt-2 text-center">
               <Link
                 href="/names"
