@@ -33,7 +33,7 @@ export default function IntroPage() {
       {/* Section 1: The Paradox */}
       <section className="mb-10">
         <h2 className="text-xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2 text-gray-900 dark:text-white">
-          The Paradox at the Start
+          The Paradox at the Origin
         </h2>
         <div className="space-y-5 text-base leading-relaxed text-gray-800 dark:text-gray-200">
           <p>
