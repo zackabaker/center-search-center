@@ -275,7 +275,18 @@ export function searchEntries(entries: SearchEntry[], query: string): SearchResu
       }
     }
 
-    return { entry, score };
+    // Source priority multiplier: GABlog and Substack are primary sources;
+    // Reddit comments are supplementary and should appear well below them.
+    const SOURCE_WEIGHT: Record<string, number> = {
+      gablog:   1.0,
+      substack: 1.0,
+      pdf:      0.9,
+      book:     0.9,
+      reddit:   0.25,
+    };
+    const weight = SOURCE_WEIGHT[entry.source] ?? 1.0;
+
+    return { entry, score: score * weight };
   });
 
   return scored

@@ -312,11 +312,11 @@ function retrieveChunks(query: string, maxChunks = 25): ChunkWithMeta[] {
   const substackSlots = (bySource['substack'] || []).slice(0, 10).map(p => p.post);
   const pdfSlots = [...(bySource['pdf'] || []), ...(bySource['book'] || [])].slice(0, 3).map(p => p.post);
   const gablogSlots = (bySource['gablog'] || []).slice(0, 10).map(p => p.post);
-  const redditSlots = (bySource['reddit'] || []).slice(0, 2).map(p => p.post);
+  // Reddit excluded from Ask — too fragmentary for synthesis context
 
   const topPosts: (typeof scoringPosts[0]['post'])[] = [];
   const seen = new Set<string>();
-  for (const p of [...substackSlots, ...pdfSlots, ...gablogSlots, ...redditSlots]) {
+  for (const p of [...substackSlots, ...pdfSlots, ...gablogSlots]) {
     if (!seen.has(p.slug)) { seen.add(p.slug); topPosts.push(p); }
   }
 
