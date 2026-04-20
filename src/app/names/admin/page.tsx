@@ -1,4 +1,3 @@
-import { kv } from '@vercel/kv';
 import { notFound } from 'next/navigation';
 import AdminClient from './AdminClient';
 import type { NameEntry } from '../../api/names/submit/route';
@@ -21,8 +20,15 @@ export default async function AdminPage({
   let approved: NameEntry[] = [];
 
   try {
-    pending = (await kv.get<NameEntry[]>('names:pending')) || [];
-    approved = (await kv.get<NameEntry[]>('names:approved')) || [];
+    if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+      const { Redis } = await import('@upstash/redis');
+      const kv = new Redis({
+        url: process.env.UPSTASH_REDIS_REST_URL,
+        token: process.env.UPSTASH_REDIS_REST_TOKEN,
+      });
+      pending = (await kv.get<NameEntry[]>('names:pending')) || [];
+      approved = (await kv.get<NameEntry[]>('names:approved')) || [];
+    }
   } catch {
     // KV not yet configured
   }
