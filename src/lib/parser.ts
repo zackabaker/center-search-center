@@ -280,6 +280,50 @@ function parseRedditComments(): Post[] {
   return posts;
 }
 
+// Clean browser-printed PDF artifacts:
+//   "5/9/25, 2:43 PMThe Anthropoetics of Power – ..."  (date/time + title header)
+//   "Page 12 of 23https://..."                          (page number + URL footer)
+// Then rejoin sentences that were split across page boundaries.
+function cleanPdfText(raw: string): string {
+  const lines = raw.split('\n');
+  const cleaned: string[] = [];
+
+  for (const line of lines) {
+    // Browser print header: date/time stamp followed by doc title
+    if (/^\d{1,2}\/\d{1,2}\/\d{2,4},\s+\d+:\d+\s+[AP]M/.test(line)) continue;
+    // Page footer: "Page N of M" immediately followed by a URL (no space)
+    if (/^Page \d+ of \d+https?:\/\//.test(line)) continue;
+    // Standalone URL line
+    if (/^https?:\/\/\S+$/.test(line.trim())) continue;
+    cleaned.push(line);
+  }
+
+  // Rejoin sentences split across page breaks.
+  // After header removal a page break leaves: "...fragment\n\ncontinuation..."
+  // Signature: previous non-blank line ends without terminal punctuation,
+  // next non-blank line starts with a lowercase letter.
+  const result: string[] = [];
+  for (let i = 0; i < cleaned.length; i++) {
+    const line = cleaned[i];
+    if (line.trim() === '' && result.length > 0) {
+      const prev = result[result.length - 1];
+      const next = (cleaned[i + 1] || '').trim();
+      if (
+        prev.trim() !== '' &&
+        !/[.!?:;"')\]—]$/.test(prev.trim()) &&
+        /^[a-z]/.test(next)
+      ) {
+        // Page-break continuation — drop the blank line; text will merge naturally
+        continue;
+      }
+    }
+    result.push(line);
+  }
+
+  // Collapse runs of 3+ blank lines down to 2 (one paragraph break)
+  return result.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+
 function parsePDFs(): Post[] {
   const pdfDir = path.join(process.cwd(), 'public', 'pdfs');
   if (!fs.existsSync(pdfDir)) return [];
@@ -288,7 +332,8 @@ function parsePDFs(): Post[] {
   const txtFiles = fs.readdirSync(pdfDir).filter((f) => f.endsWith('.txt'));
 
   for (const txtFile of txtFiles) {
-    const content = fs.readFileSync(path.join(pdfDir, txtFile), 'utf-8');
+    const raw = fs.readFileSync(path.join(pdfDir, txtFile), 'utf-8');
+    const content = cleanPdfText(raw);
     const baseName = txtFile.replace('.txt', '');
     const meta = PDF_METADATA[baseName];
     const title = meta?.title || baseName.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());

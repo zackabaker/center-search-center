@@ -85,8 +85,8 @@ function inlineMarkdown(
   onTerm: (query: string, display: string) => void,
   key: number
 ): React.ReactNode {
-  // Split on bold, italic, code, and citation brackets
-  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[[^\]]+\])/g);
+  // Split on bold, italic, code, markdown links [text](url), and plain brackets
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[[^\]]+\]\([^)]+\)|\[[^\]]+\])/g);
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**'))
       return <strong key={i} className="font-semibold text-gray-900 dark:text-white">{linkTerms(part.slice(2, -2), onTerm, key * 1000 + i)}</strong>;
@@ -94,6 +94,17 @@ function inlineMarkdown(
       return <em key={i}>{linkTerms(part.slice(1, -1), onTerm, key * 1000 + i)}</em>;
     if (part.startsWith('`') && part.endsWith('`'))
       return <code key={i} className="font-mono text-[0.85em] bg-gray-100 dark:bg-gray-700 px-1 rounded">{part.slice(1, -1)}</code>;
+    // Markdown link [label](url) — renders as a real anchor
+    if (/^\[[^\]]+\]\([^)]+\)$/.test(part)) {
+      const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+      if (m) return (
+        <Link key={i} href={m[2]}
+          className="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium">
+          {m[1]}
+        </Link>
+      );
+    }
+    // Plain citation bracket [Source]
     if (part.startsWith('[') && part.endsWith(']'))
       return <span key={i} className="text-blue-600 dark:text-blue-400 font-medium">{part}</span>;
     // Plain text — link any CS terms
@@ -370,7 +381,7 @@ export default function AskClient() {
             ← Archive
           </Link>
           <span className="text-gray-200 dark:text-gray-700">|</span>
-          <h1 className="text-sm font-semibold text-gray-900 dark:text-white">Ask the Archive</h1>
+          <h1 className="text-sm font-semibold text-gray-900 dark:text-white">Ask AI</h1>
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-0.5 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
@@ -440,9 +451,9 @@ export default function AskClient() {
           {messages.length === 0 && (
             <div className="py-12 text-center">
               <p className="text-xs font-mono text-gray-400 uppercase tracking-widest mb-2">Center Study Center</p>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Ask the Archive</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Ask AI</h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 max-w-md mx-auto mb-8 leading-relaxed">
-                Ask any question across the complete Center Study archive. Key terms in responses are clickable — follow any concept deeper.
+                Describe what you&apos;re looking for and the AI will surface the best direct quotes from the archive — passages you wouldn&apos;t find with keyword search.
               </p>
               <div className="grid sm:grid-cols-2 gap-2 max-w-2xl mx-auto text-left">
                 {SUGGESTED.map(q => (

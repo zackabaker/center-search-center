@@ -50,7 +50,7 @@ export default function HomeSearch() {
                 : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
             }`}
           >
-            Ask
+            Ask AI
           </button>
           <button
             type="button"
@@ -105,7 +105,7 @@ export default function HomeSearch() {
       <p className="text-center text-xs text-gray-400 mt-2">
         {mode === 'ask' ? (
           <>
-            <span className="text-gray-600 dark:text-gray-300 font-medium">Ask</span> synthesizes an answer from the archive
+            <span className="text-gray-600 dark:text-gray-300 font-medium">Ask AI</span> finds the best quotes from the archive
           </>
         ) : (
           <>

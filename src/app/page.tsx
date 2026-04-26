@@ -29,7 +29,7 @@ export default function Home() {
               Intro
             </Link>
             <Link href="/ask" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
-              Ask
+              Ask AI
             </Link>
             <Link href="/guide/concepts" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
               Concepts
@@ -71,8 +71,8 @@ export default function Home() {
           >
             <span className="text-xl">💬</span>
             <div className="text-center">
-              <p className="text-sm font-medium text-white dark:text-gray-900">Ask</p>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 hidden sm:block">Synthesized answers</p>
+              <p className="text-sm font-medium text-white dark:text-gray-900">Ask AI</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 hidden sm:block">Quotes from the archive</p>
             </div>
           </Link>
           <Link
