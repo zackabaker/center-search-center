@@ -256,14 +256,20 @@ export function searchEntries(entries: SearchEntry[], query: string): SearchResu
     if (orMode) {
       let anyMatch = false;
       for (const term of orTerms) {
-        if (lowerTitle.includes(term)) { score += 100; anyMatch = true; }
+        // Use titleWords (tokenized) so we match whole words, not substrings
+        const inTitle = entry.titleWords.some((w) => w === term) ||
+          (term.length >= 4 && entry.titleWords.some((w) => w.startsWith(term)));
+        if (inTitle) { score += 100; anyMatch = true; }
         else if (entry.contentWords.some((w) => w === term)) { score += 10; anyMatch = true; }
         else if (entry.contentWords.some((w) => w.startsWith(term))) { score += 5; anyMatch = true; }
       }
       if (!anyMatch && phrases.length === 0) return { entry, score: -1 };
     } else {
       for (const term of mustTerms) {
-        if (lowerTitle.includes(term)) {
+        // Use titleWords (tokenized) so we match whole words, not substrings
+        const inTitle = entry.titleWords.some((w) => w === term) ||
+          (term.length >= 4 && entry.titleWords.some((w) => w.startsWith(term)));
+        if (inTitle) {
           score += 100;
         } else if (entry.contentWords.some((w) => w === term)) {
           score += 10;

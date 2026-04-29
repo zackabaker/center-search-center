@@ -42,10 +42,12 @@ function highlight(text: string, query: string) {
   if (!clean) return text;
   const escaped = clean.split(/\s+/).filter(Boolean).map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
   if (!escaped) return text;
-  const regex = new RegExp(`(${escaped})`, 'gi');
+  // \b ensures whole-word-only highlights — "test" won't light up inside "latest"
+  const regex = new RegExp(`\\b(${escaped})\\b`, 'gi');
   const parts = text.split(regex);
+  // Odd-indexed parts are the captured matches (guaranteed by split with capturing group)
   return parts.map((part, i) =>
-    regex.test(part)
+    i % 2 === 1
       ? <mark key={i} className="bg-yellow-200 text-yellow-900 rounded-sm px-0.5">{part}</mark>
       : part
   );
@@ -57,7 +59,7 @@ export default function SearchPageClient({ posts }: { posts: Post[] }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const liveDebounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const initialQ = searchParams.get('q') || '';
   const [query, setQuery] = useState(initialQ);
@@ -77,7 +79,7 @@ export default function SearchPageClient({ posts }: { posts: Post[] }) {
   // Focus input on mount
   useEffect(() => { inputRef.current?.focus(); }, []);
 
-  // Run search when committed query changes
+  // Run search when committed query changes — search-index is in-memory, runs synchronously
   useEffect(() => {
     if (!committed.trim()) {
       setResults([]);
@@ -85,18 +87,13 @@ export default function SearchPageClient({ posts }: { posts: Post[] }) {
       setIsSearching(false);
       return;
     }
-    setIsSearching(true);
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => {
-      const found = searchEntries(entries, committed);
-      setResults(found);
-      setPage(0);
-      setIsSearching(false);
-      const cleanQ = committed.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
-      const firstTerm = cleanQ.split(/\s+/)[0];
-      if (firstTerm) setCorpusCount(countPostsWithTerm(entries, firstTerm));
-    }, 80);
-    return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
+    const found = searchEntries(entries, committed);
+    const cleanQ = committed.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
+    const firstTerm = cleanQ.split(/\s+/)[0];
+    setResults(found);
+    setPage(0);
+    setCorpusCount(firstTerm ? countPostsWithTerm(entries, firstTerm) : null);
+    setIsSearching(false);
   }, [committed, entries]);
 
   // Update URL when committed query changes
@@ -110,10 +107,28 @@ export default function SearchPageClient({ posts }: { posts: Post[] }) {
     window.history.replaceState({}, '', url.toString());
   }, [committed]);
 
+  // Immediate commit (Enter, Search button, recent searches)
   const handleSubmit = useCallback((q: string) => {
     const trimmed = q.trim();
+    if (liveDebounceRef.current) clearTimeout(liveDebounceRef.current);
+    setIsSearching(false);
     setCommitted(trimmed);
     if (trimmed) { saveRecent(trimmed); setRecentSearches(getRecent()); }
+  }, []);
+
+  // Live search: commit after 200 ms of inactivity
+  const handleInputChange = useCallback((value: string) => {
+    setQuery(value);
+    if (liveDebounceRef.current) clearTimeout(liveDebounceRef.current);
+    if (!value.trim()) {
+      setCommitted('');
+      setIsSearching(false);
+      return;
+    }
+    setIsSearching(true);
+    liveDebounceRef.current = setTimeout(() => {
+      setCommitted(value.trim());
+    }, 200);
   }, []);
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -172,7 +187,7 @@ export default function SearchPageClient({ posts }: { posts: Post[] }) {
             ref={inputRef}
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => handleInputChange(e.target.value)}
             onKeyDown={handleInputKeyDown}
             placeholder='Search… try "originary scene" AND resentment'
             className="flex-1 px-3 py-3.5 text-base sm:text-lg outline-none bg-transparent"
