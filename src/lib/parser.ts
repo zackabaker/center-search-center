@@ -38,6 +38,27 @@ function excerpt(content: string, maxLen = 200): string {
   return cleaned.slice(0, maxLen).replace(/\s+\S*$/, '') + '...';
 }
 
+// Fix spacing artifacts from HTML-to-text conversion on GABlog posts.
+// When tags like <em>, <a>, <strong> are stripped, surrounding spaces disappear:
+//   "Veblen's<em>The Theory</em>Obviously" → "Veblen'sThe TheoryObviously"
+// Two patterns to catch:
+//   1. Period/!/? directly before a capital → missing sentence space
+//      "class.Obviously" → "class. Obviously"
+//   2. Lowercase/quote directly before a capital → missing word space
+//      "Veblen'sThe" → "Veblen's The"
+//      "classObviously" → "class Obviously"
+function fixGABlogSpacing(text: string): string {
+  return text
+    // Sentence boundary: lowercase char + punctuation + UPPERCASE (no space)
+    // e.g. "class.Obviously" → "class. Obviously"
+    .replace(/([a-z])([.!?])([A-Z])/g, '$1$2 $3')
+    // Word boundary: lowercase/closing-quote/closing-paren + UPPERCASE (no space)
+    // e.g. "Veblen'sThe" → "Veblen's The", "theoryObviously" → "theory Obviously"
+    // Excludes runs that look like camelCase abbreviations by requiring prev char is
+    // a common word-ending character.
+    .replace(/([a-z'"\)])([A-Z][a-z])/g, '$1 $2');
+}
+
 function parseGABlogPosts(text: string): Post[] {
   const posts: Post[] = [];
   const entries = text.split(/\n\nTitle: /);
@@ -68,12 +89,13 @@ function parseGABlogPosts(text: string): Post[] {
 
     if (!title || !content) continue;
 
+    const cleanedContent = fixGABlogSpacing(content);
     const slug = 'gablog-' + slugify(title);
     posts.push({
       slug,
       title,
-      content,
-      excerpt: excerpt(content),
+      content: cleanedContent,
+      excerpt: excerpt(cleanedContent),
       date: null,
       source: 'gablog' as ContentSource,
     });
