@@ -3,6 +3,8 @@ import { getAllPosts } from '@/lib/parser';
 import SearchPageClient from './SearchPageClient';
 import type { Metadata } from 'next';
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: 'Search',
   description: 'Full-text search across the Center Study archive',
