@@ -8,7 +8,9 @@ export interface SearchEntry {
   date: string | null;
   titleWords: string[];
   contentWords: string[];
-  content: string;
+  /** First 1500 chars of content — used for context snippet generation only.
+   *  Full content is NOT sent to the client to keep the serialized payload small. */
+  snippetContent: string;
   readingTime: number;
 }
 
@@ -156,14 +158,15 @@ export function buildSearchEntries(posts: Post[]): SearchEntry[] {
     date: post.date,
     titleWords: tokenize(post.title),
     contentWords: uniqueWords(tokenize(post.content)),
-    content: post.content,
+    // Only keep first 1500 chars for snippet generation — full content stays on server
+    snippetContent: post.content.slice(0, 1500),
     readingTime: calcReadingTime(post.content),
   }));
 }
 
-function findMatchingSentence(content: string, query: string): string | null {
+function findMatchingSentence(snippetContent: string, query: string): string | null {
   const lowerQuery = query.toLowerCase();
-  const sentences = content.split(/(?<=[.!?])\s+|(?:\n\n+)/);
+  const sentences = snippetContent.split(/(?<=[.!?])\s+|(?:\n\n+)/);
   for (const sentence of sentences) {
     if (sentence.toLowerCase().includes(lowerQuery)) {
       const trimmed = sentence.trim();
@@ -226,7 +229,7 @@ export function parseQuery(raw: string): ParsedQuery {
 export function countPostsWithTerm(entries: SearchEntry[], term: string): number {
   const lower = term.toLowerCase();
   return entries.filter((e) =>
-    e.title.toLowerCase().includes(lower) || e.content.toLowerCase().includes(lower)
+    e.titleWords.some((w) => w.includes(lower)) || e.contentWords.some((w) => w.includes(lower))
   ).length;
 }
 
@@ -239,17 +242,21 @@ export function searchEntries(entries: SearchEntry[], query: string): SearchResu
   const scored = entries.map((entry) => {
     let score = 0;
     const lowerTitle = entry.title.toLowerCase();
-    const lowerContent = entry.content.toLowerCase();
+    // Use snippetContent for phrase/NOT matching (full content not available client-side)
+    const lowerSnippet = entry.snippetContent.toLowerCase();
 
     for (const notTerm of notTerms) {
-      if (lowerTitle.includes(notTerm) || lowerContent.includes(notTerm)) {
+      if (lowerTitle.includes(notTerm) || entry.contentWords.some((w) => w === notTerm)) {
         return { entry, score: -1 };
       }
     }
 
     for (const phrase of phrases) {
       if (lowerTitle.includes(phrase)) score += 600;
-      else if (lowerContent.includes(phrase)) score += 60;
+      // Check snippetContent first (first 1500 chars); if phrase falls later in a long
+      // post the contentWords check catches individual phrase tokens as a fallback.
+      else if (lowerSnippet.includes(phrase)) score += 60;
+      else if (phrase.split(/\s+/).every((w) => entry.contentWords.some((cw) => cw.startsWith(w)))) score += 30;
       else return { entry, score: -1 };
     }
 
@@ -301,7 +308,7 @@ export function searchEntries(entries: SearchEntry[], query: string): SearchResu
     .slice(0, 60)
     .map((s) => ({
       entry: s.entry,
-      contextSnippet: findMatchingSentence(s.entry.content, snippetQuery) || s.entry.excerpt,
+      contextSnippet: findMatchingSentence(s.entry.snippetContent, snippetQuery) || s.entry.excerpt,
     }));
 }
 
