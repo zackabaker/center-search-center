@@ -230,6 +230,108 @@ const PDF_METADATA: Record<string, { title: string; source?: ContentSource }> = 
   },
 };
 
+// ── Twitter / X ───────────────────────────────────────────────────────────────
+// tweets.json is written by scripts/fetch-tweets.ts.
+// Tweets are grouped by conversation_id so threads appear as a single Post.
+
+interface TweetRecord {
+  id: string;
+  text: string;
+  created_at: string;
+  conversation_id: string;
+  in_reply_to_user_id?: string;
+  public_metrics?: {
+    like_count: number;
+    retweet_count: number;
+    reply_count: number;
+  };
+}
+
+function tweetTitle(text: string, date: string): string {
+  // Strip trailing URLs (t.co links) and @mentions at the very start
+  const stripped = text
+    .replace(/^(@\w+\s+)+/, '')   // leading mentions (replies)
+    .replace(/https?:\/\/\S+/g, '')
+    .trim();
+  if (!stripped || stripped.length < 8) {
+    return `Tweet — ${date}`;
+  }
+  const words = stripped.split(/\s+/);
+  if (words.length <= 14) return stripped;
+  return words.slice(0, 14).join(' ') + '…';
+}
+
+function parseTweets(): Post[] {
+  const tweetsPath = path.join(process.cwd(), 'src', 'data', 'tweets.json');
+  if (!fs.existsSync(tweetsPath)) return [];
+
+  let data: { author_id: string; tweets: TweetRecord[] };
+  try {
+    data = JSON.parse(fs.readFileSync(tweetsPath, 'utf-8'));
+  } catch { return []; }
+
+  const { author_id, tweets } = data;
+  if (!tweets?.length) return [];
+
+  // Group by conversation_id so threads become a single Post.
+  // Tweets without conversation_id (shouldn't happen) fall through as singles.
+  const threads = new Map<string, TweetRecord[]>();
+  for (const t of tweets) {
+    const key = t.conversation_id || t.id;
+    if (!threads.has(key)) threads.set(key, []);
+    threads.get(key)!.push(t);
+  }
+
+  const posts: Post[] = [];
+
+  for (const [conversationId, group] of threads) {
+    // Sort thread chronologically
+    group.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+
+    // Root = the tweet that started the conversation (its own id == conversation_id)
+    // If not present (we only have replies), use the earliest tweet.
+    const rootTweet = group.find((t) => t.id === conversationId) ?? group[0];
+
+    // Exclude threads whose root is a reply to someone else — unless author_id is known
+    // and this thread contains at least one tweet the author sent (always true since we
+    // fetched from their timeline). Keep everything.
+
+    // Build content: all tweet texts joined, with subtle separator for multi-tweet threads
+    const content = group.length === 1
+      ? rootTweet.text
+      : group.map((t, i) => (i === 0 ? t.text : `\n${t.text}`)).join('\n');
+
+    const dateObj = new Date(rootTweet.created_at);
+    const dateStr = dateObj.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+    });
+
+    const title = tweetTitle(rootTweet.text, dateStr);
+    const totalLikes = group.reduce((s, t) => s + (t.public_metrics?.like_count ?? 0), 0);
+
+    posts.push({
+      slug: `twitter-${conversationId}`,
+      title,
+      content,
+      excerpt: excerpt(rootTweet.text),
+      date: dateStr,
+      source: 'twitter' as ContentSource,
+      likes: totalLikes || undefined,
+      url: `https://x.com/${author_id ? 'bouvard38829538' : 'i'}/status/${conversationId}`,
+    });
+  }
+
+  // Newest-first
+  posts.sort((a, b) => {
+    if (!a.date || !b.date) return 0;
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+
+  return posts;
+}
+
 function parseRedditComments(): Post[] {
   const redditPath = path.join(process.cwd(), 'src', 'data', 'reddit_comments.json');
   if (!fs.existsSync(redditPath)) return [];
@@ -390,6 +492,7 @@ export function parseAllContent(): Post[] {
   if (substackMatch) allPosts.push(...parseSubstackPosts(substackMatch[1]));
   allPosts.push(...parseRedditComments());
   allPosts.push(...parsePDFs());
+  allPosts.push(...parseTweets());
 
   // Decode HTML entities in all text fields
   for (const post of allPosts) {

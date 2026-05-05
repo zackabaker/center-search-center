@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
   substack: 'Substack', gablog: 'GABlog', book: 'Book', pdf: 'PDF', reddit: 'Reddit',
+  twitter: 'X / Twitter',
 };
 const SOURCE_COLORS: Record<ContentSource, string> = {
   substack: 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300',
@@ -18,6 +19,7 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
   book:     'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300',
   pdf:      'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300',
   reddit:   'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300',
+  twitter:  'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
 };
 
 export default function StatsPage() {

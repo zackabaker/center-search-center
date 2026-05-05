@@ -1,4 +1,4 @@
-export type ContentSource = 'substack' | 'gablog' | 'book' | 'pdf' | 'reddit';
+export type ContentSource = 'substack' | 'gablog' | 'book' | 'pdf' | 'reddit' | 'twitter';
 
 export interface Post {
   slug: string;

@@ -17,6 +17,7 @@ const TABS: { key: FilterOption; label: string }[] = [
   { key: 'book', label: 'Book' },
   { key: 'pdf', label: 'PDFs' },
   { key: 'reddit', label: 'Reddit' },
+  { key: 'twitter', label: 'X / Twitter' },
 ];
 
 export default function FilterTabs({ active, onChange, counts }: FilterTabsProps) {

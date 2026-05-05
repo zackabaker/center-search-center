@@ -18,6 +18,7 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   book: 'Anthropomorphics',
   pdf: 'PDF',
   reddit: 'Reddit',
+  twitter: 'X / Twitter',
 };
 
 const SOURCE_COLORS: Record<ContentSource, string> = {
@@ -26,6 +27,7 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
   book: 'bg-purple-100 text-purple-800',
   pdf: 'bg-green-100 text-green-800',
   reddit: 'bg-red-100 text-red-800',
+  twitter: 'bg-slate-100 text-slate-700',
 };
 
 export async function generateStaticParams() {

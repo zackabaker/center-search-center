@@ -9,10 +9,12 @@ interface SearchBarProps { posts: Post[]; }
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
   substack: 'Substack', gablog: 'GABlog', book: 'Book', pdf: 'PDF', reddit: 'Reddit',
+  twitter: 'X / Twitter',
 };
 const SOURCE_COLORS: Record<ContentSource, string> = {
   substack: 'bg-orange-100 text-orange-800', gablog: 'bg-blue-100 text-blue-800',
-  book: 'bg-purple-100 text-purple-800', pdf: 'bg-green-100 text-green-800', reddit: 'bg-red-100 text-red-800',
+  book: 'bg-purple-100 text-purple-800', pdf: 'bg-green-100 text-green-800',
+  reddit: 'bg-red-100 text-red-800', twitter: 'bg-slate-100 text-slate-700',
 };
 
 function highlightMatch(text: string, query: string) {

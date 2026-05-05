@@ -24,10 +24,12 @@ const SOURCE_COLORS: Record<string, string> = {
   book:     'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
   pdf:      'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
   reddit:   'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300',
+  twitter:  'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
 };
 
 const SOURCE_LABELS: Record<string, string> = {
   substack: 'Substack', gablog: 'GABlog', book: 'Book', pdf: 'PDF', reddit: 'Reddit',
+  twitter: 'X / Twitter',
 };
 
 const SUGGESTED = [
