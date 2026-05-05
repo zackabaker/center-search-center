@@ -87,6 +87,38 @@ body {
 }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
+/* ── View Transitions ──────────────────────────────────────────── */
+/* The center icon morphs from the home hero (80px) to the search bar
+   icon (24px) when the user submits a search. The browser handles
+   all interpolation; we just control duration and easing. */
+::view-transition-group(center-icon) {
+  animation-duration: 0.45s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Cross-fade the old/new icon content smoothly */
+::view-transition-old(center-icon) {
+  animation: 0.3s ease-out both csc-vt-fade-out;
+}
+::view-transition-new(center-icon) {
+  animation: 0.35s 0.1s ease-in both csc-vt-fade-in;
+}
+
+@keyframes csc-vt-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes csc-vt-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Root transition: fast page swap, no jarring flash */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.2s;
+}
+
 /* ── Print styles ──────────────────────────────────────────────── */
 @media print {
   .print\:hidden, [class*="print:hidden"] { display: none !important; }

@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Concept Pages',
-  description: 'Core concepts of Center Study — each with originary definition, archive development, and exemplary passages.',
+  description: 'Core concepts of Center Study — each with archive passages, key texts, and links into the corpus.',
 };
 
 const TIERS = [
@@ -45,7 +45,7 @@ export default function ConceptsIndexPage() {
         <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-4 mb-2">Layer II · Imperative</p>
         <h1 className="text-2xl sm:text-3xl font-bold mb-3 text-gray-900 dark:text-white">Concept Pages</h1>
         <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
-          Attend to each concept. Not as a definition to be memorized but as a directed act of naming — pointing at something in the archive that was always there but needed a name. Each page links to the posts where the concept is most developed. Follow the links.
+          Each concept page collects real passages from the archive where the concept is named and developed. Follow the links. The definitions are in the texts themselves.
         </p>
       </div>
 
@@ -71,7 +71,11 @@ export default function ConceptsIndexPage() {
                         </h3>
                         <span className="text-xs text-gray-400 dark:text-gray-500 hidden sm:block">{concept!.subtitle}</span>
                       </div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{concept!.definition}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
+                        {concept!.passages[0]
+                          ? `"${concept!.passages[0].text.slice(0, 120)}${concept!.passages[0].text.length > 120 ? '…' : ''}"`
+                          : concept!.subtitle}
+                      </p>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <span className="text-xs text-gray-400 dark:text-gray-500">{concept!.posts.length} posts</span>

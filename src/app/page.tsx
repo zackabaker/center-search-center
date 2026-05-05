@@ -1,6 +1,5 @@
 import HomeSearch from '@/components/HomeSearch';
 import DarkModeToggle from '@/components/DarkModeToggle';
-import CenterIcon from '@/components/CenterIcon';
 import Link from 'next/link';
 
 // Cache this page for 24 hours — no need to re-parse the corpus on every visit
@@ -90,7 +89,6 @@ export default function Home() {
 
       {/* Hero */}
       <header className="max-w-3xl mx-auto px-4 pt-14 pb-12 text-center">
-        <CenterIcon />
         <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white mb-5">
           Center Study Center
         </h1>

@@ -291,8 +291,11 @@ export default function SearchPageClient({
       {/* Search input */}
       <div className="mb-6">
         <div className="relative flex items-center border-2 border-gray-200 focus-within:border-gray-400 rounded-xl bg-white dark:bg-gray-900 dark:border-gray-700 dark:focus-within:border-gray-500 transition-colors">
-          {/* Center study icon — replaces static magnifying glass; speeds up when searching */}
-          <div className="ml-3 flex-shrink-0">
+          {/* Center study icon — reacts to search state; shared view-transition with home icon */}
+          <div
+            className="ml-3 flex-shrink-0"
+            style={{ viewTransitionName: 'center-icon' } as React.CSSProperties}
+          >
             <AnimatedSearchIcon size={24} speed={iconSpeed} />
           </div>
           <input
