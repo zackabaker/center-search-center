@@ -33,6 +33,12 @@ export default function StatsPage() {
     return acc;
   }, {});
 
+  // Words per source
+  const wordsBySource = posts.reduce<Record<string, number>>((acc, p) => {
+    acc[p.source] = (acc[p.source] || 0) + p.content.split(/\s+/).length;
+    return acc;
+  }, {});
+
   const byYear = posts.reduce<Record<string, number>>((acc, p) => {
     if (!p.date) return acc;
     const year = p.date.slice(0, 4);
@@ -71,7 +77,7 @@ export default function StatsPage() {
         ))}
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-6 mb-8">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {/* By source */}
         <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
           <h2 className="font-semibold text-gray-900 dark:text-white mb-4">Posts by Source</h2>
@@ -93,6 +99,37 @@ export default function StatsPage() {
                 </div>
               ))}
           </div>
+        </div>
+
+        {/* Words by source */}
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
+          <h2 className="font-semibold text-gray-900 dark:text-white mb-4">Words by Source</h2>
+          <div className="space-y-2.5">
+            {(Object.entries(bySource) as [ContentSource, number][])
+              .sort((a, b) => (wordsBySource[b[0]] || 0) - (wordsBySource[a[0]] || 0))
+              .map(([src, count]) => {
+                const words = wordsBySource[src] || 0;
+                const avg = count > 0 ? Math.round(words / count) : 0;
+                const maxWords = Math.max(...Object.values(wordsBySource));
+                return (
+                  <div key={src} className="flex items-center gap-3">
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${SOURCE_COLORS[src]} w-20 text-center flex-shrink-0`}>
+                      {SOURCE_LABELS[src]}
+                    </span>
+                    <div className="flex-1 bg-gray-100 dark:bg-gray-800 rounded-full h-2 overflow-hidden">
+                      <div
+                        className="h-full bg-gray-400 dark:bg-gray-500 rounded-full"
+                        style={{ width: `${(words / maxWords) * 100}%` }}
+                      />
+                    </div>
+                    <span className="text-sm text-gray-600 dark:text-gray-300 w-28 text-right text-xs">
+                      {words.toLocaleString()} w · {avg.toLocaleString()} avg
+                    </span>
+                  </div>
+                );
+              })}
+          </div>
+          <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">Total words · avg words/post</p>
         </div>
 
         {/* Top terms */}

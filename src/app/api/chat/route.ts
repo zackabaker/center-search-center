@@ -317,11 +317,13 @@ function retrieveChunks(query: string, maxChunks = 25): ChunkWithMeta[] {
   const substackSlots = (bySource['substack'] || []).slice(0, 10).map(p => p.post);
   const pdfSlots = [...(bySource['pdf'] || []), ...(bySource['book'] || [])].slice(0, 3).map(p => p.post);
   const gablogSlots = (bySource['gablog'] || []).slice(0, 10).map(p => p.post);
-  // Reddit excluded from Ask — too fragmentary for synthesis context
+  // Twitter: include top 5 matching threads — pithy compressed ideas worth surfacing
+  const twitterSlots = (bySource['twitter'] || []).slice(0, 5).map(p => p.post);
+  // Reddit excluded — too fragmentary for synthesis context
 
   const topPosts: (typeof scoringPosts[0]['post'])[] = [];
   const seen = new Set<string>();
-  for (const p of [...substackSlots, ...pdfSlots, ...gablogSlots]) {
+  for (const p of [...substackSlots, ...pdfSlots, ...gablogSlots, ...twitterSlots]) {
     if (!seen.has(p.slug)) { seen.add(p.slug); topPosts.push(p); }
   }
 
@@ -345,15 +347,16 @@ function retrieveChunks(query: string, maxChunks = 25): ChunkWithMeta[] {
     chunksBySource[chunk.source].push(chunk);
   }
 
-  const ssChunks = (chunksBySource['substack'] || []).slice(0, 18);
+  const ssChunks = (chunksBySource['substack'] || []).slice(0, 15);
   const pdfBookChunks = [
     ...(chunksBySource['pdf'] || []),
     ...(chunksBySource['book'] || []),
   ].slice(0, 6);
-  const remaining = maxChunks - ssChunks.length - pdfBookChunks.length;
+  const twitterChunks = (chunksBySource['twitter'] || []).slice(0, 4);
+  const remaining = maxChunks - ssChunks.length - pdfBookChunks.length - twitterChunks.length;
   const gablogChunks = (chunksBySource['gablog'] || []).slice(0, Math.max(remaining, 5));
 
-  return [...ssChunks, ...pdfBookChunks, ...gablogChunks]
+  return [...ssChunks, ...pdfBookChunks, ...gablogChunks, ...twitterChunks]
     .sort((a, b) => b.score - a.score)
     .slice(0, maxChunks);
 }
@@ -364,6 +367,7 @@ function formatChunksForPrompt(chunks: ChunkWithMeta[]): string {
     gablog: 'GABlog',
     book: 'Book',
     pdf: 'PDF',
+    twitter: 'X / Twitter',
   };
 
   return chunks

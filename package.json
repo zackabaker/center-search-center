@@ -7,6 +7,7 @@
     "prebuild": "npx tsx scripts/fetch-new-posts.ts || true",
     "build": "next build",
     "extract-pdfs": "npx tsx scripts/extract-pdf.ts",
+    "fetch-tweets": "npx tsx scripts/fetch-tweets.ts",
     "start": "next start",
     "lint": "eslint"
   },

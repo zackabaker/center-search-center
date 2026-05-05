@@ -140,6 +140,37 @@ function calcReadingTime(text: string): number {
   return Math.max(1, Math.round(words / 230));
 }
 
+// ── Light stemmer ────────────────────────────────────────────────────────────
+// Strips common inflectional suffixes to a shared root. Applied at index-build
+// time (each word is indexed under BOTH its original form AND its stem) and at
+// query time (the query term is also looked up by stem). This enables
+// "resentment" to find posts where only "resent" appears, and vice versa.
+export function stemWord(w: string): string {
+  const n = w.length;
+  if (n <= 4) return w;
+  // Longest suffixes first — order is critical
+  if (n > 9 && w.endsWith('ically'))  return w.slice(0, -6);
+  if (n > 8 && w.endsWith('ations'))  return w.slice(0, -6);
+  if (n > 8 && w.endsWith('nesses'))  return w.slice(0, -6);
+  if (n > 7 && w.endsWith('ation'))   return w.slice(0, -5);
+  if (n > 7 && w.endsWith('ments'))   return w.slice(0, -5);
+  if (n > 7 && w.endsWith('iness'))   return w.slice(0, -5);
+  if (n > 6 && w.endsWith('ness'))    return w.slice(0, -4);
+  if (n > 6 && w.endsWith('ment'))    return w.slice(0, -4);
+  if (n > 6 && w.endsWith('ings'))    return w.slice(0, -4);
+  if (n > 5 && w.endsWith('ing'))     return w.slice(0, -3);
+  if (n > 5 && w.endsWith('ity'))     return w.slice(0, -3);
+  if (n > 5 && w.endsWith('ism'))     return w.slice(0, -3);
+  if (n > 5 && w.endsWith('ist'))     return w.slice(0, -3);
+  if (n > 5 && w.endsWith('ied'))     return w.slice(0, -3) + 'y';
+  if (n > 5 && w.endsWith('ies'))     return w.slice(0, -3) + 'y';
+  if (n > 4 && w.endsWith('ed'))      return w.slice(0, -2);
+  if (n > 5 && w.endsWith('ly'))      return w.slice(0, -2);
+  if (n > 5 && w.endsWith('al'))      return w.slice(0, -2);
+  if (n > 4 && w.endsWith('s') && !w.endsWith('ss')) return w.slice(0, -1);
+  return w;
+}
+
 export function buildSearchEntries(posts: Post[]): SearchEntry[] {
   return posts.map((post) => ({
     slug: post.slug,
@@ -151,8 +182,8 @@ export function buildSearchEntries(posts: Post[]): SearchEntry[] {
     // Strip stopwords from content words — reduces payload and index size.
     // Phrase queries still work because they search raw snippetContent text.
     contentWords: uniqueWords(tokenize(post.content)).filter((w) => !STOPWORDS.has(w)),
-    // Up to 8000 chars for phrase matching + snippet generation
-    snippetContent: post.content.slice(0, 8000),
+    // Up to 20000 chars for phrase matching + snippet generation
+    snippetContent: post.content.slice(0, 20000),
     readingTime: calcReadingTime(post.content),
   }));
 }
@@ -168,15 +199,31 @@ export interface WordIndex {
 
 /** Build once client-side from entries (cheap one-time cost on mount). */
 export function buildWordIndex(entries: SearchEntry[]): WordIndex {
-  const byWord = new Map<string, number[]>();
+  // Use Sets during build to avoid duplicates when adding stemmed forms
+  const byWordSet = new Map<string, Set<number>>();
+
+  const add = (word: string, idx: number) => {
+    let s = byWordSet.get(word);
+    if (!s) { s = new Set(); byWordSet.set(word, s); }
+    s.add(idx);
+  };
+
   for (let i = 0; i < entries.length; i++) {
     // Index both content words and title words in the same map
     const words = new Set([...entries[i].contentWords, ...entries[i].titleWords]);
     for (const w of words) {
-      const arr = byWord.get(w);
-      if (arr) arr.push(i);
-      else byWord.set(w, [i]);
+      add(w, i);
+      // Also index under the stem — enables reverse morphological matching
+      // (e.g. "resentment" in doc found by querying "resent", and vice versa)
+      const s = stemWord(w);
+      if (s !== w) add(s, i);
     }
+  }
+
+  // Convert sets → sorted arrays (sorted for binary search)
+  const byWord = new Map<string, number[]>();
+  for (const [w, set] of byWordSet) {
+    byWord.set(w, [...set].sort((a, b) => a - b));
   }
   const sortedVocab = [...byWord.keys()].sort();
   return { byWord, sortedVocab };
@@ -318,10 +365,16 @@ export function searchEntries(
   if (wordIndex) {
     const getTermIndices = (term: string): number[] => {
       const exact = wordIndex.byWord.get(term) ?? [];
-      // Only do prefix expansion for terms long enough to be meaningful
-      if (term.length < 4) return [...exact];
+      const stemmed = stemWord(term);
+      // Also look up the stem of the query term (catches derived forms in both directions)
+      const stemExact = stemmed !== term ? (wordIndex.byWord.get(stemmed) ?? []) : [];
+      if (term.length < 4) return [...new Set([...exact, ...stemExact])];
       const prefixed = getPrefixCandidates(wordIndex, term);
-      return [...new Set([...exact, ...prefixed])];
+      // Prefix-expand the stem too (e.g. query "resentment" → stem "resent" → prefix finds "resentful" etc.)
+      const stemPrefixed = (stemmed !== term && stemmed.length >= 4)
+        ? getPrefixCandidates(wordIndex, stemmed)
+        : [];
+      return [...new Set([...exact, ...stemExact, ...prefixed, ...stemPrefixed])];
     };
 
     if (!orMode && (mustTerms.length > 0 || phrases.length > 0)) {
@@ -406,9 +459,9 @@ export function searchEntries(
       }
     }
 
-    // Source weight: GABlog/Substack are primary; Reddit supplementary
+    // Source weight: GABlog/Substack are primary; tweets and Reddit supplementary
     const SOURCE_WEIGHT: Record<string, number> = {
-      gablog: 1.0, substack: 1.0, pdf: 0.9, book: 0.9, reddit: 0.25,
+      gablog: 1.0, substack: 1.0, pdf: 0.9, book: 0.9, reddit: 0.25, twitter: 0.35,
     };
     const weight = SOURCE_WEIGHT[entry.source] ?? 1.0;
 

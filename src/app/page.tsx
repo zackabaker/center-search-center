@@ -80,6 +80,9 @@ export default function Home() {
             <Link href="/guide/concepts" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
               Concepts
             </Link>
+            <Link href="/reading-list" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
+              Reading List
+            </Link>
             <DarkModeToggle />
           </div>
         </div>

@@ -38,8 +38,14 @@ export async function generateStaticParams() {
 export const dynamicParams = true;
 export const revalidate = 3600;
 
-export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+export default async function PostPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const [{ slug }, { q }] = await Promise.all([params, searchParams]);
   const post = getPostBySlug(slug);
   if (!post) notFound();
 
@@ -64,11 +70,14 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       <main className="max-w-3xl mx-auto px-4 py-6 sm:py-12 overflow-x-hidden">
         {/* Top nav */}
         <div className="flex items-center justify-between mb-6 sm:mb-8 print:hidden">
-          <Link href="/" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900">
+          <Link
+            href={q ? `/search?q=${encodeURIComponent(q)}` : '/'}
+            className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            Back
+            {q ? 'Back to results' : 'Back'}
           </Link>
           <ReadingControls />
         </div>

@@ -190,6 +190,29 @@ const ASK_COUNT_KEY = 'csc-ask-count';
 const NAMES_THRESHOLD = 5;
 const NAMES_REGEX = /\b(name|names|naming|book of names|proper name|proper names)\b/i;
 
+// ── Response cache ─────────────────────────────────────────────────────────────
+const CACHE_KEY = 'csc-ask-cache';
+const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
+
+interface CacheEntry { question: string; answer: Answer; ts: number; }
+
+function getCached(question: string): Answer | null {
+  try {
+    const entries: CacheEntry[] = JSON.parse(localStorage.getItem(CACHE_KEY) || '[]');
+    const hit = entries.find(e => e.question === question && Date.now() - e.ts < CACHE_TTL);
+    return hit?.answer ?? null;
+  } catch { return null; }
+}
+
+function setCache(question: string, answer: Answer) {
+  try {
+    const entries: CacheEntry[] = JSON.parse(localStorage.getItem(CACHE_KEY) || '[]');
+    const filtered = entries.filter(e => e.question !== question && Date.now() - e.ts < CACHE_TTL).slice(0, 49);
+    filtered.unshift({ question, answer, ts: Date.now() });
+    localStorage.setItem(CACHE_KEY, JSON.stringify(filtered));
+  } catch { /* ignore storage errors */ }
+}
+
 export default function AskClient() {
   const [currentQuestion, setCurrentQuestion] = useState('');
   const [answer, setAnswer] = useState<Answer | null>(null);
@@ -232,12 +255,20 @@ export default function AskClient() {
     if (!q.trim() || isLoading) return;
     const question = q.trim();
     setInput('');
-    setIsLoading(true);
     setCurrentQuestion(question);
-    setAnswer({ content: '' });
 
     // Snap to top for fresh session view
     if (mainRef.current) mainRef.current.scrollTop = 0;
+
+    // Cache hit — serve instantly without hitting the API
+    const cached = getCached(question);
+    if (cached) {
+      setAnswer(cached);
+      return;
+    }
+
+    setIsLoading(true);
+    setAnswer({ content: '' });
 
     // Increment lifetime ask counter
     try {
@@ -287,7 +318,10 @@ export default function AskClient() {
       }
 
       const followUps = extractFollowUps(content, question);
-      setAnswer({ content, sources, followUps });
+      const finalAnswer = { content, sources, followUps };
+      setAnswer(finalAnswer);
+      // Cache the completed answer for instant replay
+      setCache(question, finalAnswer);
     } catch (err) {
       setAnswer({
         content: `Error: ${err instanceof Error ? err.message : 'Something went wrong'}`,

@@ -11,6 +11,7 @@ import {
   buildWordIndex,
   searchEntries,
   countPostsWithTerm,
+  stemWord,
 } from '@/lib/search-index';
 import FilterTabs from '@/components/FilterTabs';
 
@@ -95,6 +96,42 @@ function applySearchSyntax(syntax: string, currentQuery: string): string {
 
 const PAGE_SIZE = 30;
 const SECONDARY_SOURCES: ContentSource[] = ['reddit', 'twitter'];
+
+// ── "Did you mean" helpers ────────────────────────────────────────────────────
+function levenshtein(a: string, b: string): number {
+  if (a === b) return 0;
+  const m = a.length, n = b.length;
+  if (m === 0) return n;
+  if (n === 0) return m;
+  const prev = Array.from({ length: n + 1 }, (_, i) => i);
+  for (let i = 1; i <= m; i++) {
+    const curr = [i];
+    for (let j = 1; j <= n; j++) {
+      curr[j] = a[i - 1] === b[j - 1]
+        ? prev[j - 1]
+        : 1 + Math.min(prev[j], curr[j - 1], prev[j - 1]);
+    }
+    prev.splice(0, prev.length, ...curr);
+  }
+  return prev[n];
+}
+
+function findClosestTerm(term: string, vocab: string[]): string | null {
+  if (term.length < 4) return null;
+  const stemmed = stemWord(term);
+  let best: string | null = null;
+  let bestDist = 2; // only suggest if within 2 edits
+  for (const w of vocab) {
+    if (w.length < 4) continue;
+    if (Math.abs(w.length - term.length) > bestDist + 1) continue;
+    // Quick first-char filter (most typos don't change first letter)
+    if (w[0] !== term[0] && w[0] !== stemmed[0]) continue;
+    const d = Math.min(levenshtein(term, w), levenshtein(stemmed, w));
+    if (d > 0 && d < bestDist) { bestDist = d; best = w; }
+    if (d === 1) break; // can't improve on edit-distance 1
+  }
+  return best;
+}
 
 export default function SearchPageClient({
   entries,
@@ -229,6 +266,15 @@ export default function SearchPageClient({
   const isImplicitPhrase = hasQuery && committed.startsWith('"') && committed.endsWith('"') &&
     !query.startsWith('"');
 
+  // "Did you mean" — only computed when primary results are empty
+  const didYouMean = useMemo(() => {
+    if (!committed || visibleResults.length > 0 || secondaryFiltered.length > 0) return null;
+    const clean = committed.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
+    const firstTerm = clean.split(/\s+/)[0];
+    if (!firstTerm || firstTerm.length < 4) return null;
+    return findClosestTerm(firstTerm, wordIndex.sortedVocab);
+  }, [committed, visibleResults.length, secondaryFiltered.length, wordIndex.sortedVocab]);
+
   const SYNTAX_HINTS = ['"exact phrase"', 'term AND term', 'term NOT term', 'term OR term'] as const;
 
   return (
@@ -312,6 +358,17 @@ export default function SearchPageClient({
                   <>
                     <span className="font-medium text-gray-900">{visibleResults.length}</span>
                     <span>result{visibleResults.length !== 1 ? 's' : ''}</span>
+                    {/* Secondary results hint — visible before the reveal button */}
+                    {!showSecondary && filter === 'all' && secondaryFiltered.length > 0 && (
+                      <span className="text-gray-400">
+                        · <button
+                            onClick={() => setShowSecondary(true)}
+                            className="hover:text-gray-600 underline underline-offset-2"
+                          >
+                            +{secondaryFiltered.length} from Reddit &amp; X
+                          </button>
+                      </span>
+                    )}
                     {corpusCount !== null && (
                       <span className="text-gray-400">
                         · term in <span className="text-gray-600">{corpusCount}</span> of {totalPosts} posts
@@ -436,6 +493,18 @@ export default function SearchPageClient({
           {!hasResults && !isSearching && visibleResults.length === 0 && (
             <div className="text-center py-12 text-gray-400">
               <p className="text-base mb-2">No results for &ldquo;{committed}&rdquo;</p>
+              {didYouMean && (
+                <p className="text-sm mb-3">
+                  Did you mean{' '}
+                  <button
+                    onClick={() => { setQuery(didYouMean); handleSubmit(didYouMean); }}
+                    className="text-blue-600 hover:underline font-medium"
+                  >
+                    {didYouMean}
+                  </button>
+                  ?
+                </p>
+              )}
               <p className="text-sm">
                 {isImplicitPhrase
                   ? 'Searching as exact phrase. Try switching to "term AND term" for looser matching.'
