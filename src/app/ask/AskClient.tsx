@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { CS_TERMS_SORTED, extractFollowUps } from '@/lib/cs-terms';
+import AnimatedSearchIcon from '@/components/AnimatedSearchIcon';
 
 interface Source {
   slug: string;
@@ -477,15 +478,12 @@ export default function AskClient() {
                     {renderMarkdown(answer.content, fontSize, handleTermClick)}
                   </div>
                 ) : (
-                  /* Skeleton while AI text loads */
-                  <div className="space-y-3 animate-pulse">
-                    <div className="border-l-2 border-amber-200 pl-4 space-y-2 py-1">
-                      <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-full"/>
-                      <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-11/12"/>
-                      <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-4/5"/>
-                    </div>
-                    <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-full mt-4"/>
-                    <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-3/4"/>
+                  /* Animated circles while streaming */
+                  <div className="flex flex-col items-center py-8 gap-3">
+                    <AnimatedSearchIcon size={64} speed={4} />
+                    <p className="text-xs text-gray-400 dark:text-gray-600 font-mono tracking-wide">
+                      searching the archive…
+                    </p>
                   </div>
                 )}
               </div>

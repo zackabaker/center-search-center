@@ -14,6 +14,7 @@ import {
   stemWord,
 } from '@/lib/search-index';
 import FilterTabs from '@/components/FilterTabs';
+import AnimatedSearchIcon from '@/components/AnimatedSearchIcon';
 
 type FilterOption = 'all' | ContentSource;
 
@@ -277,16 +278,11 @@ export default function SearchPageClient({
 
   const SYNTAX_HINTS = ['"exact phrase"', 'term AND term', 'term NOT term', 'term OR term'] as const;
 
+  // Speed: idle=1 (slow, like home), typing=2 (medium), searching=7 (fast)
+  const iconSpeed = isSearching ? 7 : query ? 2 : 1;
+
   return (
     <main className="max-w-4xl mx-auto px-4 py-6 sm:py-10">
-      {/* Loading bar */}
-      {isSearching && (
-        <div className="fixed top-0 left-0 right-0 z-50 h-0.5 bg-gray-100 overflow-hidden">
-          <div className="h-full bg-gray-700" style={{ animation: 'loadbar 1.1s ease-in-out infinite' }} />
-          <style>{`@keyframes loadbar{0%{transform:translateX(-100%)}100%{transform:translateX(280%)}}`}</style>
-        </div>
-      )}
-
       {/* Back link */}
       <div className="mb-6">
         <Link href="/" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">← Home</Link>
@@ -294,10 +290,11 @@ export default function SearchPageClient({
 
       {/* Search input */}
       <div className="mb-6">
-        <div className="relative flex items-center border-2 border-gray-200 focus-within:border-gray-400 rounded-xl bg-white transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400 ml-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+        <div className="relative flex items-center border-2 border-gray-200 focus-within:border-gray-400 rounded-xl bg-white dark:bg-gray-900 dark:border-gray-700 dark:focus-within:border-gray-500 transition-colors">
+          {/* Center study icon — replaces static magnifying glass; speeds up when searching */}
+          <div className="ml-3 flex-shrink-0">
+            <AnimatedSearchIcon size={24} speed={iconSpeed} />
+          </div>
           <input
             ref={inputRef}
             type="text"
@@ -305,11 +302,8 @@ export default function SearchPageClient({
             onChange={(e) => handleInputChange(e.target.value)}
             onKeyDown={handleInputKeyDown}
             placeholder="Search the archive…"
-            className="flex-1 px-3 py-3.5 text-base sm:text-lg outline-none bg-transparent"
+            className="flex-1 px-3 py-3.5 text-base sm:text-lg outline-none bg-transparent dark:text-white dark:placeholder-gray-500"
           />
-          {isSearching && (
-            <div className="h-4 w-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mr-3" />
-          )}
           {query && (
             <button
               onClick={() => { setQuery(''); setCommitted(''); inputRef.current?.focus(); }}
@@ -530,15 +524,23 @@ export default function SearchPageClient({
 
       {/* Empty state */}
       {!hasQuery && (
-        <div className="text-center py-12 text-gray-400">
-          <p className="text-sm mb-4">Search across {totalPosts} posts from Substack, GABlog, Books &amp; PDFs</p>
+        <div className="text-center py-8 text-gray-400">
+          <div className="flex justify-center mb-6">
+            <AnimatedSearchIcon size={88} speed={1} />
+          </div>
+          <p className="text-sm mb-1 text-gray-500 dark:text-gray-400">
+            Search across {totalPosts} posts
+          </p>
+          <p className="text-xs text-gray-400 dark:text-gray-600 mb-6">
+            Substack · GABlog · Books · PDFs · X / Twitter
+          </p>
           {recentSearches.length > 0 && (
             <div>
-              <p className="text-xs mb-3">Recent searches</p>
+              <p className="text-xs mb-3 text-gray-400">Recent searches</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {recentSearches.map((s) => (
                   <button key={s} onClick={() => { setQuery(s); handleSubmit(s); }}
-                    className="px-2 py-1 bg-gray-100 rounded text-xs text-gray-600 hover:bg-gray-200">
+                    className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-xs text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700">
                     {s}
                   </button>
                 ))}

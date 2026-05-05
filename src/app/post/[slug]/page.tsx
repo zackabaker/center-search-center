@@ -72,12 +72,12 @@ export default async function PostPage({
         <div className="flex items-center justify-between mb-6 sm:mb-8 print:hidden">
           <Link
             href={q ? `/search?q=${encodeURIComponent(q)}` : '/'}
-            className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900"
+            className="inline-flex items-center gap-2 px-3 py-2 -ml-3 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 transition-colors"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            {q ? 'Back to results' : 'Back'}
+            <span className="text-base font-medium">{q ? 'Back to results' : 'Back'}</span>
           </Link>
           <ReadingControls />
         </div>
