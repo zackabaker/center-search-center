@@ -12,8 +12,7 @@ interface Source {
   snippet?: string;
 }
 
-interface Message {
-  role: 'user' | 'assistant';
+interface Answer {
   content: string;
   sources?: Source[];
   followUps?: string[];
@@ -54,7 +53,6 @@ const termPattern = CS_TERMS_SORTED.map(t =>
 ).join('|');
 const TERM_REGEX = new RegExp(`\\b(${termPattern})\\b`, 'gi');
 
-// Convert a plain text segment into React nodes, linking CS terms
 function linkTerms(
   text: string,
   onTerm: (query: string, display: string) => void,
@@ -85,7 +83,6 @@ function inlineMarkdown(
   onTerm: (query: string, display: string) => void,
   key: number
 ): React.ReactNode {
-  // Split on bold, italic, code, markdown links [text](url), and plain brackets
   const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[[^\]]+\]\([^)]+\)|\[[^\]]+\])/g);
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**'))
@@ -94,7 +91,6 @@ function inlineMarkdown(
       return <em key={i}>{linkTerms(part.slice(1, -1), onTerm, key * 1000 + i)}</em>;
     if (part.startsWith('`') && part.endsWith('`'))
       return <code key={i} className="font-mono text-[0.85em] bg-gray-100 dark:bg-gray-700 px-1 rounded">{part.slice(1, -1)}</code>;
-    // Markdown link [label](url) — renders as a real anchor
     if (/^\[[^\]]+\]\([^)]+\)$/.test(part)) {
       const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
       if (m) return (
@@ -104,10 +100,8 @@ function inlineMarkdown(
         </Link>
       );
     }
-    // Plain citation bracket [Source]
     if (part.startsWith('[') && part.endsWith(']'))
       return <span key={i} className="text-blue-600 dark:text-blue-400 font-medium">{part}</span>;
-    // Plain text — link any CS terms
     return <span key={i}>{linkTerms(part, onTerm, key * 1000 + i)}</span>;
   });
 }
@@ -190,23 +184,13 @@ function renderMarkdown(
   return elements;
 }
 
-const SESSION_KEY = 'csc-ask-session';
-const MAX_SAVED = 12; // max messages to persist
 const ASK_COUNT_KEY = 'csc-ask-count';
-const NAMES_THRESHOLD = 5; // messages before the hint appears
-
-// Questions about naming/names also reveal the easter egg
+const NAMES_THRESHOLD = 5;
 const NAMES_REGEX = /\b(name|names|naming|book of names|proper name|proper names)\b/i;
 
 export default function AskClient() {
-  const [messages, setMessages] = useState<Message[]>(() => {
-    // Restore last session from localStorage on first render
-    if (typeof window === 'undefined') return [];
-    try {
-      const saved = localStorage.getItem(SESSION_KEY);
-      return saved ? (JSON.parse(saved) as Message[]) : [];
-    } catch { return []; }
-  });
+  const [currentQuestion, setCurrentQuestion] = useState('');
+  const [answer, setAnswer] = useState<Answer | null>(null);
   const [askCount, setAskCount] = useState<number>(() => {
     if (typeof window === 'undefined') return 0;
     try { return parseInt(localStorage.getItem(ASK_COUNT_KEY) || '0', 10); } catch { return 0; }
@@ -214,25 +198,12 @@ export default function AskClient() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [fontSize, setFontSize] = useState<FontSize>('md');
-  const [saveable, setSaveable] = useState<Message | null>(null);
   const [linkCopied, setLinkCopied] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
-  const answerTopRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const router = useRouter();
   const didAutoSubmit = useRef(false);
-
-  // Persist session to localStorage whenever messages change
-  useEffect(() => {
-    try {
-      if (messages.length > 0) {
-        localStorage.setItem(SESSION_KEY, JSON.stringify(messages.slice(-MAX_SAVED)));
-      } else {
-        localStorage.removeItem(SESSION_KEY);
-      }
-    } catch {}
-  }, [messages]);
 
   useEffect(() => {
     const q = searchParams.get('q');
@@ -250,25 +221,21 @@ export default function AskClient() {
     }
   }, [input]);
 
-  const scrollToAnswerTop = useCallback(() => {
-    if (answerTopRef.current && mainRef.current) {
-      const container = mainRef.current;
-      const target = answerTopRef.current;
-      const offset = target.offsetTop - container.offsetTop - 24;
-      container.scrollTo({ top: offset, behavior: 'smooth' });
-    }
-  }, []);
+  // When a CS term is clicked in a response, submit directly
+  function handleTermClick(query: string) {
+    submit(query);
+  }
 
-  // When a CS term is clicked in a response, navigate to /ask?q=
-  const handleTermClick = useCallback((query: string) => {
-    router.push(`/ask?q=${encodeURIComponent(query)}`);
-  }, [router]);
-
-  async function submit(question: string) {
-    if (!question.trim() || isLoading) return;
+  async function submit(q: string) {
+    if (!q.trim() || isLoading) return;
+    const question = q.trim();
     setInput('');
     setIsLoading(true);
-    setSaveable(null);
+    setCurrentQuestion(question);
+    setAnswer({ content: '' });
+
+    // Snap to top for fresh session view
+    if (mainRef.current) mainRef.current.scrollTop = 0;
 
     // Increment lifetime ask counter
     try {
@@ -277,18 +244,13 @@ export default function AskClient() {
       setAskCount(next);
     } catch {}
 
-    const newMessages: Message[] = [...messages, { role: 'user', content: question }];
-    setMessages(newMessages);
-    setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
-    requestAnimationFrame(() => scrollToAnswerTop());
-
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: question,
-          history: newMessages.slice(-8).map(m => ({ role: m.role, content: m.content })),
+          history: [],
         }),
       });
 
@@ -312,41 +274,21 @@ export default function AskClient() {
             const data = JSON.parse(line);
             if (data.text) {
               content += data.text;
-              setMessages(prev => {
-                const next = [...prev];
-                next[next.length - 1] = { role: 'assistant', content, sources };
-                return next;
-              });
+              setAnswer({ content, sources });
             }
             if (data.sources) {
               sources = data.sources;
-              setMessages(prev => {
-                const next = [...prev];
-                next[next.length - 1] = { role: 'assistant', content, sources };
-                return next;
-              });
+              setAnswer({ content, sources });
             }
-          } catch { /* skip */ }
+          } catch { /* skip malformed lines */ }
         }
       }
 
-      // Generate follow-up questions from completed answer
       const followUps = extractFollowUps(content, question);
-      const finalMsg: Message = { role: 'assistant', content, sources, followUps };
-      setMessages(prev => {
-        const next = [...prev];
-        next[next.length - 1] = finalMsg;
-        return next;
-      });
-      setSaveable(finalMsg);
+      setAnswer({ content, sources, followUps });
     } catch (err) {
-      setMessages(prev => {
-        const next = [...prev];
-        next[next.length - 1] = {
-          role: 'assistant',
-          content: `Error: ${err instanceof Error ? err.message : 'Something went wrong'}`,
-        };
-        return next;
+      setAnswer({
+        content: `Error: ${err instanceof Error ? err.message : 'Something went wrong'}`,
       });
     } finally {
       setIsLoading(false);
@@ -358,11 +300,10 @@ export default function AskClient() {
   }
 
   function downloadAnswer() {
-    if (!saveable) return;
-    const q = messages.findLast(m => m.role === 'user')?.content || 'query';
-    const filename = q.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 60) + '.md';
-    const srcs = saveable.sources?.map(s => `- [[${s.title}]] (${SOURCE_LABELS[s.source] || s.source})`).join('\n') || '';
-    const md = `# ${q}\n\n${saveable.content}${srcs ? `\n\n## Sources\n\n${srcs}` : ''}\n`;
+    if (!answer?.content || !currentQuestion) return;
+    const filename = currentQuestion.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 60) + '.md';
+    const srcs = answer.sources?.map(s => `- [[${s.title}]] (${SOURCE_LABELS[s.source] || s.source})`).join('\n') || '';
+    const md = `# ${currentQuestion}\n\n${answer.content}${srcs ? `\n\n## Sources\n\n${srcs}` : ''}\n`;
     const blob = new Blob([md], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -370,7 +311,7 @@ export default function AskClient() {
     URL.revokeObjectURL(url);
   }
 
-  const lastAssistantIdx = messages.reduce((acc, m, i) => m.role === 'assistant' ? i : acc, -1);
+  const showNamesHint = askCount >= NAMES_THRESHOLD || NAMES_REGEX.test(currentQuestion);
 
   return (
     <div className="h-screen bg-white dark:bg-gray-950 flex flex-col overflow-hidden">
@@ -384,6 +325,7 @@ export default function AskClient() {
           <h1 className="text-sm font-semibold text-gray-900 dark:text-white">Ask AI</h1>
         </div>
         <div className="flex items-center gap-3">
+          {/* Font size */}
           <div className="flex items-center gap-0.5 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
             {(['sm', 'md', 'lg'] as FontSize[]).map(s => (
               <button
@@ -399,7 +341,8 @@ export default function AskClient() {
               </button>
             ))}
           </div>
-          {saveable && (
+          {/* Download */}
+          {answer?.content && !isLoading && (
             <button
               onClick={downloadAnswer}
               className="text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -411,44 +354,44 @@ export default function AskClient() {
               Save .md
             </button>
           )}
-          {messages.length > 0 && (() => {
-            const lastQ = [...messages].reverse().find(m => m.role === 'user')?.content;
-            return lastQ ? (
-              <button
-                onClick={async () => {
-                  const url = `${window.location.origin}/ask?q=${encodeURIComponent(lastQ)}`;
-                  await navigator.clipboard.writeText(url);
-                  setLinkCopied(true);
-                  setTimeout(() => setLinkCopied(false), 2000);
-                }}
-                className="text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                title="Copy sharable link"
-              >
-                {linkCopied ? (
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>
-                ) : (
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
-                )}
-                {linkCopied ? 'Copied!' : 'Share'}
-              </button>
-            ) : null;
-          })()}
-          {messages.length > 0 && (
+          {/* Share */}
+          {currentQuestion && (
             <button
-              onClick={() => { setMessages([]); setSaveable(null); }}
+              onClick={async () => {
+                const url = `${window.location.origin}/ask?q=${encodeURIComponent(currentQuestion)}`;
+                await navigator.clipboard.writeText(url);
+                setLinkCopied(true);
+                setTimeout(() => setLinkCopied(false), 2000);
+              }}
+              className="text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              title="Copy sharable link"
+            >
+              {linkCopied ? (
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>
+              ) : (
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+              )}
+              {linkCopied ? 'Copied!' : 'Share'}
+            </button>
+          )}
+          {/* New question */}
+          {currentQuestion && (
+            <button
+              onClick={() => { setCurrentQuestion(''); setAnswer(null); }}
               className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-400 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             >
-              Clear
+              New
             </button>
           )}
         </div>
       </header>
 
-      {/* Messages — overflow-anchor:none stops browser scroll-anchoring from
-           chasing new streaming content and jerking the user away from what they're reading */}
+      {/* Main scroll area */}
       <main ref={mainRef} className="flex-1 overflow-y-auto" style={{ overflowAnchor: 'none' }}>
-        <div className="max-w-3xl mx-auto px-4 py-8 space-y-10">
-          {messages.length === 0 && (
+        <div className="max-w-3xl mx-auto px-4 py-8">
+
+          {!currentQuestion ? (
+            /* ── Landing / empty state ── */
             <div className="py-12 text-center">
               <p className="text-xs font-mono text-gray-400 uppercase tracking-widest mb-2">Center Study Center</p>
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Ask AI</h2>
@@ -469,124 +412,136 @@ export default function AskClient() {
               <p className="text-xs text-gray-400 mt-6">
                 Answers download as <code className="font-mono">.md</code> — file into Obsidian to build your own wiki.
               </p>
-            </div>
-          )}
-
-          {messages.map((msg, i) => (
-            <div key={i}>
-              {msg.role === 'user' ? (
-                <div className="flex justify-end">
-                  <div className="max-w-xl bg-gray-100 dark:bg-gray-800 rounded-2xl px-5 py-3 text-base text-gray-900 dark:text-white">
-                    {msg.content}
-                  </div>
-                </div>
-              ) : (
-                <div ref={i === lastAssistantIdx ? answerTopRef : undefined}>
-
-                  {/* ── Source post cards — rendered as soon as sources arrive ── */}
-                  {msg.sources && msg.sources.length > 0 ? (
-                    <div className="mb-6">
-                      <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
-                        Top posts
-                      </p>
-                      <div className="flex flex-col gap-2">
-                        {msg.sources.slice(0, 6).map((src, j) => (
-                          <Link
-                            key={j}
-                            href={`/post/${src.slug}`}
-                            className="group block rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800/60 transition-all px-4 py-3"
-                          >
-                            <div className="flex items-start justify-between gap-3">
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-2 mb-1">
-                                  <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 ${SOURCE_COLORS[src.source] || 'bg-gray-100 text-gray-600'}`}>
-                                    {SOURCE_LABELS[src.source] || src.source}
-                                  </span>
-                                </div>
-                                <p className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug mb-1">
-                                  {src.title}
-                                </p>
-                                {src.snippet && (
-                                  <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">
-                                    {src.snippet}
-                                  </p>
-                                )}
-                              </div>
-                              <svg className="w-4 h-4 text-gray-300 dark:text-gray-600 group-hover:text-blue-400 transition-colors flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                              </svg>
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  ) : isLoading && i === messages.length - 1 ? (
-                    /* Loading skeleton while sources are being fetched */
-                    <div className="mb-6">
-                      <p className="text-xs font-mono text-gray-300 dark:text-gray-600 uppercase tracking-widest mb-3">Finding posts…</p>
-                      <div className="flex flex-col gap-2">
-                        {[1,2,3].map(k => (
-                          <div key={k} className="rounded-xl border border-gray-100 dark:border-gray-800 px-4 py-3 animate-pulse">
-                            <div className="h-2.5 bg-gray-100 dark:bg-gray-800 rounded w-16 mb-2"/>
-                            <div className="h-3.5 bg-gray-100 dark:bg-gray-800 rounded w-3/4 mb-1.5"/>
-                            <div className="h-2.5 bg-gray-100 dark:bg-gray-800 rounded w-full"/>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ) : null}
-
-                  {/* ── AI framing — brief analytical orientation ── */}
-                  {msg.content && (
-                    <div className="pt-3 border-t border-gray-100 dark:border-gray-800">
-                      <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
-                        From the archive
-                      </p>
-                      <div>
-                        {renderMarkdown(msg.content, fontSize, handleTermClick)}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Follow-up questions */}
-                  {msg.followUps && msg.followUps.length > 0 && !isLoading && (
-                    <div className="mt-5 pt-4 border-t border-gray-100 dark:border-gray-800">
-                      <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2.5">Go deeper</p>
-                      <div className="flex flex-col gap-1.5">
-                        {msg.followUps.map((q, j) => (
-                          <button
-                            key={j}
-                            onClick={() => submit(q)}
-                            className="text-left text-sm px-3 py-2.5 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-600 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-900 transition-all flex items-start gap-2 group"
-                          >
-                            <svg className="w-3 h-3 mt-1 text-gray-300 dark:text-gray-600 group-hover:text-blue-400 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                            </svg>
-                            {q}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+              {showNamesHint && (
+                <div className="mt-6">
+                  <Link
+                    href="/names"
+                    className="text-xs text-gray-300 dark:text-gray-600 hover:text-gray-400 dark:hover:text-gray-500 transition-colors"
+                  >
+                    there is a book of names
+                  </Link>
                 </div>
               )}
             </div>
-          ))}
-          {/* Book of Names hint — visible after threshold or if user asks about names */}
-          {(askCount >= NAMES_THRESHOLD || messages.some(m => m.role === 'user' && NAMES_REGEX.test(m.content))) && (
-            <div className="pb-4 pt-2 text-center">
-              <Link
-                href="/names"
-                className="text-xs text-gray-300 dark:text-gray-600 hover:text-gray-400 dark:hover:text-gray-500 transition-colors"
-              >
-                there is a book of names
-              </Link>
+          ) : (
+            /* ── Question + Answer view ── */
+            <div>
+              {/* Prominent question heading */}
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 leading-snug">
+                {currentQuestion}
+              </h2>
+
+              {/* From the archive — AI content (quotes first, posts below) */}
+              <div className="mb-8">
+                <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
+                  From the archive
+                </p>
+                {answer?.content ? (
+                  <div>
+                    {renderMarkdown(answer.content, fontSize, handleTermClick)}
+                  </div>
+                ) : (
+                  /* Skeleton while AI text loads */
+                  <div className="space-y-3 animate-pulse">
+                    <div className="border-l-2 border-amber-200 pl-4 space-y-2 py-1">
+                      <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-full"/>
+                      <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-11/12"/>
+                      <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-4/5"/>
+                    </div>
+                    <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-full mt-4"/>
+                    <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-3/4"/>
+                  </div>
+                )}
+              </div>
+
+              {/* Top posts — source cards below the quotes */}
+              <div className="mb-8">
+                <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
+                  Top posts
+                </p>
+                {answer?.sources && answer.sources.length > 0 ? (
+                  <div className="flex flex-col gap-2">
+                    {answer.sources.slice(0, 6).map((src, j) => (
+                      <Link
+                        key={j}
+                        href={`/post/${src.slug}`}
+                        className="group block rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800/60 transition-all px-4 py-3"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 ${SOURCE_COLORS[src.source] || 'bg-gray-100 text-gray-600'}`}>
+                                {SOURCE_LABELS[src.source] || src.source}
+                              </span>
+                            </div>
+                            <p className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug mb-1">
+                              {src.title}
+                            </p>
+                            {src.snippet && (
+                              <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">
+                                {src.snippet}
+                              </p>
+                            )}
+                          </div>
+                          <svg className="w-4 h-4 text-gray-300 dark:text-gray-600 group-hover:text-blue-400 transition-colors flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  /* Skeleton while sources load */
+                  <div className="flex flex-col gap-2 animate-pulse">
+                    {[1, 2, 3].map(k => (
+                      <div key={k} className="rounded-xl border border-gray-100 dark:border-gray-800 px-4 py-3">
+                        <div className="h-2.5 bg-gray-100 dark:bg-gray-800 rounded w-16 mb-2"/>
+                        <div className="h-3.5 bg-gray-100 dark:bg-gray-800 rounded w-3/4 mb-1.5"/>
+                        <div className="h-2.5 bg-gray-100 dark:bg-gray-800 rounded w-full"/>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Follow-up questions */}
+              {answer?.followUps && answer.followUps.length > 0 && !isLoading && (
+                <div className="pt-4 border-t border-gray-100 dark:border-gray-800 mb-6">
+                  <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2.5">Go deeper</p>
+                  <div className="flex flex-col gap-1.5">
+                    {answer.followUps.map((q, j) => (
+                      <button
+                        key={j}
+                        onClick={() => submit(q)}
+                        className="text-left text-sm px-3 py-2.5 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-600 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-900 transition-all flex items-start gap-2 group"
+                      >
+                        <svg className="w-3 h-3 mt-1 text-gray-300 dark:text-gray-600 group-hover:text-blue-400 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        {q}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Book of names hint */}
+              {showNamesHint && !isLoading && (
+                <div className="py-4 text-center">
+                  <Link
+                    href="/names"
+                    className="text-xs text-gray-300 dark:text-gray-600 hover:text-gray-400 dark:hover:text-gray-500 transition-colors"
+                  >
+                    there is a book of names
+                  </Link>
+                </div>
+              )}
             </div>
           )}
         </div>
       </main>
 
-      {/* Input */}
+      {/* Input footer */}
       <footer className="border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-4 flex-shrink-0">
         <div className="max-w-3xl mx-auto flex gap-3 items-end">
           <textarea
