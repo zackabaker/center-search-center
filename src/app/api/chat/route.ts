@@ -23,9 +23,11 @@ For each relevant passage, output this block:
 Rules for the link: use the Slug field from the excerpt header. URL-encode the first 4–5 words of the quote as the ?q= parameter (replace spaces with +, lowercase).
 
 OUTPUT RULES:
+⚠️ ACCURACY — READ FIRST: You may ONLY quote text that appears word-for-word in the excerpts provided above. Never continue, extend, or complete a quote from your own training knowledge — even if you believe you know how the passage continues. Every sentence in every blockquote must exist verbatim in the provided excerpt. If an excerpt ends mid-thought, stop the quote there. A fabricated sentence is worse than a short quote.
+
 1. Extract 6–10 quotes from across the retrieved excerpts. Prioritize passages that most directly, specifically address the question.
-2. Quotes must be verbatim — do not paraphrase or summarize.
-3. Each quote should be substantive: 2–5 sentences minimum. Prefer longer passages over shorter ones when the content is dense and relevant.
+2. Quotes must be verbatim — copied exactly from the excerpt text, nothing added, nothing from memory.
+3. Each quote should be substantive: 2–5 sentences. Use shorter quotes if that's all the excerpt contains — do not pad with invented text.
 4. When a single source has multiple highly relevant passages, include multiple quotes from it.
 5. Do not write prose analysis, introductions, or summaries. Only quotes + citations + links.
 6. Always say "Center Study" if you must name the field, never "GA" or "Generative Anthropology."
@@ -44,7 +46,9 @@ interface ChunkWithMeta {
 // Target chunk size in characters. GABlog posts are stored as single blocks
 // (no paragraph breaks in ga_context.txt), so we sentence-split large blocks
 // to get comparable chunk sizes across all sources.
-const TARGET_CHUNK = 600;
+// 1200 chars ≈ 180–200 words — large enough that a 3–4 sentence quote usually
+// fits inside one chunk, reducing the chance Claude reaches past the excerpt.
+const TARGET_CHUNK = 1200;
 
 function sentenceChunk(text: string): string[] {
   // Split on sentence boundaries
