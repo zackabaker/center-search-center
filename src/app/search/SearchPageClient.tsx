@@ -1,14 +1,16 @@
 'use client';
 
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ContentSource } from '@/lib/types';
 import {
   SearchEntry,
+  SearchResult,
+  WordIndex,
+  buildWordIndex,
   searchEntries,
   countPostsWithTerm,
-  SearchResult,
 } from '@/lib/search-index';
 import FilterTabs from '@/components/FilterTabs';
 
@@ -37,20 +39,56 @@ function saveRecent(q: string) {
   localStorage.setItem(RECENT_KEY, JSON.stringify(r.slice(0, MAX_RECENT)));
 }
 
+// ── Highlight matching terms in a text node ──────────────────────────────────
 function highlight(text: string, query: string) {
   const clean = query.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
   if (!clean) return text;
-  const escaped = clean.split(/\s+/).filter(Boolean).map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+  const escaped = clean
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    .join('|');
   if (!escaped) return text;
-  // \b ensures whole-word-only highlights — "test" won't light up inside "latest"
   const regex = new RegExp(`\\b(${escaped})\\b`, 'gi');
   const parts = text.split(regex);
-  // Odd-indexed parts are the captured matches (guaranteed by split with capturing group)
   return parts.map((part, i) =>
     i % 2 === 1
       ? <mark key={i} className="bg-yellow-200 text-yellow-900 rounded-sm px-0.5">{part}</mark>
       : part
   );
+}
+
+// ── Default to exact-phrase search ───────────────────────────────────────────
+// If the user hasn't typed any boolean operators or quotes, wrap the query in
+// quotes so it's treated as an exact phrase rather than an AND of loose terms.
+function commitQuery(raw: string): string {
+  const trimmed = raw.trim();
+  if (!trimmed) return '';
+  const hasOperators = /"/.test(trimmed) || /\b(AND|OR|NOT)\b/i.test(trimmed);
+  return hasOperators ? trimmed : `"${trimmed}"`;
+}
+
+// ── Transform current query when a syntax hint is clicked ────────────────────
+function applySearchSyntax(syntax: string, currentQuery: string): string {
+  const base = currentQuery.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
+  const words = base.split(/\s+/).filter(Boolean);
+  switch (syntax) {
+    case '"exact phrase"':
+      return base ? `"${base}"` : '"exact phrase"';
+    case 'term AND term':
+      if (words.length >= 2) return words.join(' AND ');
+      if (words.length === 1) return `${words[0]} AND `;
+      return 'term AND term';
+    case 'term NOT term':
+      if (words.length >= 1) return `${words[0]} NOT `;
+      return 'term NOT term';
+    case 'term OR term':
+      if (words.length >= 2) return words.join(' OR ');
+      if (words.length === 1) return `${words[0]} OR `;
+      return 'term OR term';
+    default:
+      return currentQuery;
+  }
 }
 
 const PAGE_SIZE = 30;
@@ -63,13 +101,12 @@ export default function SearchPageClient({
   totalPosts: number;
 }) {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const liveDebounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const initialQ = searchParams.get('q') || '';
   const [query, setQuery] = useState(initialQ);
-  const [committed, setCommitted] = useState(initialQ);
+  const [committed, setCommitted] = useState(initialQ ? commitQuery(initialQ) : '');
   const [filter, setFilter] = useState<FilterOption>('all');
   const [page, setPage] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
@@ -77,13 +114,15 @@ export default function SearchPageClient({
   const [corpusCount, setCorpusCount] = useState<number | null>(null);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
-  // Load recent searches
-  useEffect(() => { setRecentSearches(getRecent()); }, []);
+  // Build inverted index once from entries — transforms per-search O(n·k) scans
+  // to near-O(1) candidate lookup. Built client-side so it doesn't inflate the
+  // serialised ISR payload.
+  const wordIndex = useMemo<WordIndex>(() => buildWordIndex(entries), [entries]);
 
-  // Focus input on mount
+  useEffect(() => { setRecentSearches(getRecent()); }, []);
   useEffect(() => { inputRef.current?.focus(); }, []);
 
-  // Run search when committed query changes — search-index is in-memory, runs synchronously
+  // Run search when committed query changes
   useEffect(() => {
     if (!committed.trim()) {
       setResults([]);
@@ -91,16 +130,16 @@ export default function SearchPageClient({
       setIsSearching(false);
       return;
     }
-    const found = searchEntries(entries, committed);
+    const found = searchEntries(entries, committed, wordIndex);
     const cleanQ = committed.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
     const firstTerm = cleanQ.split(/\s+/)[0];
     setResults(found);
     setPage(0);
     setCorpusCount(firstTerm ? countPostsWithTerm(entries, firstTerm) : null);
     setIsSearching(false);
-  }, [committed, entries]);
+  }, [committed, entries, wordIndex]);
 
-  // Update URL when committed query changes
+  // Sync URL
   useEffect(() => {
     const url = new URL(window.location.href);
     if (committed.trim()) {
@@ -111,16 +150,17 @@ export default function SearchPageClient({
     window.history.replaceState({}, '', url.toString());
   }, [committed]);
 
-  // Immediate commit (Enter, Search button, recent searches)
+  // Immediate commit (Enter, Search button, hint clicks, recent searches)
   const handleSubmit = useCallback((q: string) => {
-    const trimmed = q.trim();
+    const normalized = commitQuery(q.trim());
     if (liveDebounceRef.current) clearTimeout(liveDebounceRef.current);
     setIsSearching(false);
-    setCommitted(trimmed);
-    if (trimmed) { saveRecent(trimmed); setRecentSearches(getRecent()); }
+    setCommitted(normalized);
+    const raw = q.trim();
+    if (raw) { saveRecent(raw); setRecentSearches(getRecent()); }
   }, []);
 
-  // Live search: commit after 200 ms of inactivity
+  // Live search: auto-phrase-wrap and commit after 100 ms of inactivity
   const handleInputChange = useCallback((value: string) => {
     setQuery(value);
     if (liveDebounceRef.current) clearTimeout(liveDebounceRef.current);
@@ -131,8 +171,8 @@ export default function SearchPageClient({
     }
     setIsSearching(true);
     liveDebounceRef.current = setTimeout(() => {
-      setCommitted(value.trim());
-    }, 200);
+      setCommitted(commitQuery(value.trim()));
+    }, 100);
   }, []);
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -140,7 +180,6 @@ export default function SearchPageClient({
     if (e.key === 'Escape') { setQuery(''); setCommitted(''); inputRef.current?.blur(); }
   };
 
-  // Filter results by source
   const filtered = useMemo(
     () => filter === 'all' ? results : results.filter((r) => r.entry.source === filter),
     [results, filter]
@@ -166,22 +205,28 @@ export default function SearchPageClient({
   const hasQuery = committed.trim().length > 0;
   const hasResults = filtered.length > 0;
 
+  // Whether the current search is an auto-wrapped phrase (no explicit operators)
+  const isImplicitPhrase = hasQuery && committed.startsWith('"') && committed.endsWith('"') &&
+    !query.startsWith('"');
+
+  const SYNTAX_HINTS = ['"exact phrase"', 'term AND term', 'term NOT term', 'term OR term'] as const;
+
   return (
     <main className="max-w-4xl mx-auto px-4 py-6 sm:py-10">
-      {/* Loading bar — shown while search is running */}
+      {/* Loading bar */}
       {isSearching && (
         <div className="fixed top-0 left-0 right-0 z-50 h-0.5 bg-gray-100 overflow-hidden">
-          <div className="h-full bg-gray-700 animate-[loading-bar_1.2s_ease-in-out_infinite]" style={{width: '60%', animation: 'loadbar 1.1s ease-in-out infinite'}} />
+          <div className="h-full bg-gray-700" style={{ animation: 'loadbar 1.1s ease-in-out infinite' }} />
           <style>{`@keyframes loadbar{0%{transform:translateX(-100%)}100%{transform:translateX(280%)}}`}</style>
         </div>
       )}
 
-      {/* Header */}
+      {/* Back link */}
       <div className="mb-6">
         <Link href="/" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">← Home</Link>
       </div>
 
-      {/* Search input — always visible, full width */}
+      {/* Search input */}
       <div className="mb-6">
         <div className="relative flex items-center border-2 border-gray-200 focus-within:border-gray-400 rounded-xl bg-white transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400 ml-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -193,7 +238,7 @@ export default function SearchPageClient({
             value={query}
             onChange={(e) => handleInputChange(e.target.value)}
             onKeyDown={handleInputKeyDown}
-            placeholder='Search… try "originary scene" AND resentment'
+            placeholder="Search the archive…"
             className="flex-1 px-3 py-3.5 text-base sm:text-lg outline-none bg-transparent"
           />
           {isSearching && (
@@ -218,12 +263,17 @@ export default function SearchPageClient({
           </button>
         </div>
 
-        {/* Operator hints */}
+        {/* Syntax hints — clicking transforms the current query */}
         <div className="flex flex-wrap gap-2 mt-2">
-          {['"exact phrase"', 'term AND term', 'term NOT term', 'term OR term'].map((tip) => (
+          {SYNTAX_HINTS.map((tip) => (
             <button
               key={tip}
-              onClick={() => { setQuery(tip); inputRef.current?.focus(); }}
+              onClick={() => {
+                const transformed = applySearchSyntax(tip, query);
+                setQuery(transformed);
+                handleSubmit(transformed);
+                inputRef.current?.focus();
+              }}
               className="px-2 py-0.5 bg-gray-100 rounded text-[11px] text-gray-500 hover:bg-gray-200 font-mono transition-colors"
             >
               {tip}
@@ -235,15 +285,23 @@ export default function SearchPageClient({
       {/* Results area */}
       {hasQuery && (
         <>
-          {/* Stats + filter tabs */}
           <div className="mb-4">
             <div className="flex items-center justify-between mb-3">
-              <div className="text-sm text-gray-500">
+              <div className="text-sm text-gray-500 flex items-center gap-2 flex-wrap">
                 {hasResults ? (
                   <>
-                    <span className="font-medium text-gray-900">{filtered.length}</span> result{filtered.length !== 1 ? 's' : ''}
+                    <span className="font-medium text-gray-900">{filtered.length}</span>
+                    <span>result{filtered.length !== 1 ? 's' : ''}</span>
                     {corpusCount !== null && (
-                      <span className="text-gray-400"> · term in <span className="text-gray-600">{corpusCount}</span> of {totalPosts} posts</span>
+                      <span className="text-gray-400">
+                        · term in <span className="text-gray-600">{corpusCount}</span> of {totalPosts} posts
+                      </span>
+                    )}
+                    {/* Mode indicator: shows when query was auto-wrapped as phrase */}
+                    {isImplicitPhrase && (
+                      <span className="text-[11px] px-1.5 py-0.5 rounded bg-amber-50 text-amber-600 border border-amber-200 font-mono">
+                        exact phrase
+                      </span>
                     )}
                   </>
                 ) : isSearching ? (
@@ -260,7 +318,7 @@ export default function SearchPageClient({
           {/* Result list */}
           {hasResults && (
             <div className="space-y-3">
-              {pageItems.map(({ entry, contextSnippet }: SearchResult) => (
+              {pageItems.map(({ entry, contextSnippet, occurrences }: SearchResult) => (
                 <div key={entry.slug} className="group bg-white border border-gray-200 rounded-xl p-4 hover:border-gray-300 hover:shadow-sm transition-all">
                   <div className="flex items-start gap-3">
                     <div className="flex-1 min-w-0">
@@ -270,6 +328,11 @@ export default function SearchPageClient({
                         </span>
                         {entry.date && <span className="text-xs text-gray-400">{entry.date}</span>}
                         <span className="text-xs text-gray-400">{entry.readingTime} min read</span>
+                        {occurrences > 0 && (
+                          <span className="text-xs text-gray-400">
+                            {occurrences} occurrence{occurrences !== 1 ? 's' : ''}
+                          </span>
+                        )}
                       </div>
                       <Link
                         href={postUrl(entry.slug)}
@@ -281,7 +344,6 @@ export default function SearchPageClient({
                         {highlight(contextSnippet, committed)}
                       </p>
                     </div>
-                    {/* Always visible on mobile, hover-only on desktop */}
                     <a
                       href={postUrl(entry.slug)}
                       target="_blank"
@@ -333,11 +395,15 @@ export default function SearchPageClient({
             </div>
           )}
 
-          {/* No results tips */}
+          {/* No results */}
           {!hasResults && !isSearching && (
             <div className="text-center py-12 text-gray-400">
               <p className="text-base mb-2">No results for &ldquo;{committed}&rdquo;</p>
-              <p className="text-sm">Try removing AND/NOT operators, or use fewer terms.</p>
+              <p className="text-sm">
+                {isImplicitPhrase
+                  ? 'Searching as exact phrase. Try switching to "term AND term" for looser matching.'
+                  : 'Try removing AND/NOT operators, or use fewer terms.'}
+              </p>
               {recentSearches.length > 0 && (
                 <div className="mt-6">
                   <p className="text-xs mb-2">Recent searches:</p>

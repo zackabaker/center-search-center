@@ -7,9 +7,10 @@ export interface SearchEntry {
   source: Post['source'];
   date: string | null;
   titleWords: string[];
+  /** Unique, non-stop content words — used for term matching and inverted index.
+   *  Stopwords excluded to keep payload small; phrase matching uses snippetContent. */
   contentWords: string[];
-  /** First 1500 chars of content — used for context snippet generation only.
-   *  Full content is NOT sent to the client to keep the serialized payload small. */
+  /** Up to 8000 chars of content — used for phrase matching and snippet generation. */
   snippetContent: string;
   readingTime: number;
 }
@@ -17,10 +18,12 @@ export interface SearchEntry {
 export interface SearchResult {
   entry: SearchEntry;
   contextSnippet: string;
+  /** Approximate occurrence count of the first search term in snippetContent. */
+  occurrences: number;
 }
 
+// ── Stopword list ────────────────────────────────────────────────────────────
 const STOPWORDS = new Set([
-  // Articles, conjunctions, prepositions
   'the','a','an','and','or','but','in','on','at','to','for','of','with',
   'by','from','up','about','into','through','is','are','was','were','be',
   'been','being','have','has','had','do','does','did','will','would','could',
@@ -29,7 +32,6 @@ const STOPWORDS = new Set([
   'their','what','which','who','when','where','how','why','all','any',
   'both','each','few','more','most','other','some','such','no','not',
   'only','same','so','than','too','very','just','as','if','then',
-  // Common verbs / filler
   'also','even','like','get','make','made','take','taken','give','given',
   'come','go','going','said','say','see','think','know','one','two','three',
   'them','him','her','who','that','than','then','thus','here','there',
@@ -55,26 +57,20 @@ const STOPWORDS = new Set([
   'try','trying','turn','type','upon','various','via','view','views',
 ]);
 
-// Core vocabulary of Generative Anthropology — sourced from the GA Glossary.
-// The concept index shows ONLY words that match these roots/stems (plus
-// domain-adjacent terms discovered from corpus frequency).
+// Core vocabulary of Generative Anthropology — used by getSignificantTerms.
 export const GA_DOMAIN_VOCAB = new Set([
-  // ── Originary / Scene / Event ──────────────────────────────────────────
   'originary','scene','event','hypothesis','aborted','appropriation',
   'sparagmos','victim','exemplary','firstness','secondness','thirdness',
   'iterative','ostensive','declarative','imperative','interrogative',
-  // ── Mimesis / Desire ───────────────────────────────────────────────────
   'mimesis','mimetic','mimicism','mimism','desire','resentment','violence',
   'deferral','deferred','crisis','scapegoating','scapegoat','sacrificial',
   'sacrifice','ritual','sacred','sacrality','sacral','desacralization',
   'post-sacrificial','victimary','sparagmos',
-  // ── Center / Sign ──────────────────────────────────────────────────────
   'center','centeredness','centering','centerlessness','centered',
   'decentered','omnicentrism','signifying','transcendental','sign',
   'signing','signification','significance','threshold','asymmetric',
   'asymmetrical','presencing','presence','imaginary','representation',
   'representational','scenic','scene',
-  // ── Language / Grammar ────────────────────────────────────────────────
   'ostensive','declarative','imperative','interrogative','attentional',
   'attentionality','attention','linguistic','language','grammar',
   'construction','syntax','metalanguage','nominalization','logocentrism',
@@ -82,13 +78,11 @@ export const GA_DOMAIN_VOCAB = new Set([
   'frame','chunking','utterance','literacy','generative','declarativity',
   'imperativity','intersubjective','intersubjectivity','intentionality',
   'intentional','collective','joint','ostension',
-  // ── Anthropology / Culture ────────────────────────────────────────────
   'anthropology','anthropological','anthropomorphics','culture','cultural',
   'ritual','myth','narrative','mythological','axial','neolithic',
   'paleolithic','hominid','primate','evolution','evolutionary',
   'consciousness','cognition','cognitive','embodied','embodiment',
   'emic','etic','semantic','semiotic','semiotics',
-  // ── Power / Politics / Society ────────────────────────────────────────
   'power','sovereignty','sovereign','authority','legitimacy','hierarchy',
   'hierarchical','bureaucracy','bureaucratic','chiefdom','tributarianism',
   'tribute','big man','jouvenelian','liberal','liberalism','tyranny',
@@ -97,23 +91,18 @@ export const GA_DOMAIN_VOCAB = new Set([
   'reactionary','leftism','freedom','individualism','universalism',
   'rights','justice','morality','moral','ethics','ethical','law','legal',
   'victimary','victimhood','resentment','nihilism',
-  // ── Discipline / Disciplinarity ───────────────────────────────────────
   'discipline','disciplinary','disciplinarity','interdisciplinary',
   'transdisciplinary','one-big-discipline','inquiry','explanation',
   'description','thematization','scientism','logocentrism','rationality',
   'wisdom','thinking','pedagogy','pedagogical','teaching','literacy',
-  // ── Economics / Markets ───────────────────────────────────────────────
   'market','markets','capital','money','economic','economy','exchange',
   'reciprocity','familial','tributarian',
-  // ── Aesthetics / Art ─────────────────────────────────────────────────
   'aesthetics','aesthetic','esthetic','art','artistic','satire','satiric',
   'originary-satire','high-art','popular','esthetic','contemplation',
   'sublime','beauty','graceful',
-  // ── Gans / GA thinkers ───────────────────────────────────────────────
   'gans','girard','girardian','derrida','derridean','husserl','peirce',
   'peircean','saussure','chomsky','wittgenstein','jouvenel','hegel',
   'hegelian','nietzsche','nietzschean','darwin','darwinian',
-  // ── Key compound concepts ─────────────────────────────────────────────
   'originary-scene','originary-event','originary-sign','originary-hypothesis',
   'shared-attention','joint-attention','minimal','minimalism',
   'deferral','deferred-violence','aborted','gesture',
@@ -121,7 +110,6 @@ export const GA_DOMAIN_VOCAB = new Set([
   'totem','totemic','monotheism','monotheistic','polytheism','religion',
   'religious','metaphysics','metaphysical','ontology','ontological',
   'epistemology','epistemological',
-  // ── Misc GA concepts ─────────────────────────────────────────────────
   'resentment','cringing','dogma','paradox','pragmatic','practice',
   'embodied','re-embedment','embedment','omnicentrism','verticism',
   'prometheanism','usurpation','charismatic','transgressive','graceful',
@@ -132,11 +120,12 @@ export const GA_DOMAIN_VOCAB = new Set([
   'iteration','iterative','surplus','scarcity','abundance',
 ]);
 
+// ── Tokeniser ────────────────────────────────────────────────────────────────
 function tokenize(text: string): string[] {
   return text
     .toLowerCase()
-    // Hyphens become spaces so "Hermann-Hoppe" → ["hermann","hoppe"]
-    // and "post-sacrificial" → ["post","sacrificial"]; apostrophes kept for contractions
+    // Hyphens become spaces so "Hermann-Hoppe" → ["hermann","hoppe"],
+    // "post-sacrificial" → ["post","sacrificial"]. Apostrophes kept.
     .replace(/[^a-z0-9\s']/g, ' ')
     .split(/\s+/)
     .filter((w) => w.length > 1);
@@ -159,33 +148,70 @@ export function buildSearchEntries(posts: Post[]): SearchEntry[] {
     source: post.source,
     date: post.date,
     titleWords: tokenize(post.title),
-    contentWords: uniqueWords(tokenize(post.content)),
-    // Keep up to 8000 chars for snippet generation — covers most posts fully.
-    // With brotli compression on ISR this adds ~40 bytes/post on the wire.
+    // Strip stopwords from content words — reduces payload and index size.
+    // Phrase queries still work because they search raw snippetContent text.
+    contentWords: uniqueWords(tokenize(post.content)).filter((w) => !STOPWORDS.has(w)),
+    // Up to 8000 chars for phrase matching + snippet generation
     snippetContent: post.content.slice(0, 8000),
     readingTime: calcReadingTime(post.content),
   }));
 }
 
-function findMatchingSentence(snippetContent: string, query: string): string | null {
-  const lowerQuery = query.toLowerCase();
-  const sentences = snippetContent.split(/(?<=[.!?])\s+|(?:\n\n+)/);
-  for (const sentence of sentences) {
-    if (sentence.toLowerCase().includes(lowerQuery)) {
-      const trimmed = sentence.trim();
-      if (trimmed.length < 10) continue;
-      if (trimmed.length <= 220) return trimmed;
-      const matchIndex = trimmed.toLowerCase().indexOf(lowerQuery);
-      const start = Math.max(0, matchIndex - 80);
-      const end = Math.min(trimmed.length, matchIndex + query.length + 80);
-      let snippet = trimmed.slice(start, end);
-      if (start > 0) snippet = '...' + snippet;
-      if (end < trimmed.length) snippet = snippet + '...';
-      return snippet;
+// ── Inverted index ───────────────────────────────────────────────────────────
+
+export interface WordIndex {
+  /** word → sorted array of entry indices */
+  byWord: Map<string, number[]>;
+  /** all indexed words, sorted — enables binary-search prefix matching */
+  sortedVocab: string[];
+}
+
+/** Build once client-side from entries (cheap one-time cost on mount). */
+export function buildWordIndex(entries: SearchEntry[]): WordIndex {
+  const byWord = new Map<string, number[]>();
+  for (let i = 0; i < entries.length; i++) {
+    // Index both content words and title words in the same map
+    const words = new Set([...entries[i].contentWords, ...entries[i].titleWords]);
+    for (const w of words) {
+      const arr = byWord.get(w);
+      if (arr) arr.push(i);
+      else byWord.set(w, [i]);
     }
   }
-  return null;
+  const sortedVocab = [...byWord.keys()].sort();
+  return { byWord, sortedVocab };
 }
+
+/** Binary-search prefix matching — returns entry indices for all words starting with prefix. */
+function getPrefixCandidates(idx: WordIndex, prefix: string): number[] {
+  const { sortedVocab, byWord } = idx;
+  let lo = 0, hi = sortedVocab.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    if (sortedVocab[mid] < prefix) lo = mid + 1;
+    else hi = mid;
+  }
+  const result: number[] = [];
+  for (let i = lo; i < sortedVocab.length && sortedVocab[i].startsWith(prefix); i++) {
+    const arr = byWord.get(sortedVocab[i]);
+    if (arr) for (const n of arr) result.push(n);
+  }
+  return result;
+}
+
+/** Intersect multiple entry-index arrays → entries that contain ALL terms. */
+function intersectCandidates(arrays: number[][]): Set<number> {
+  if (arrays.length === 0) return new Set();
+  const sets = arrays.map((a) => new Set(a));
+  const [smallest] = [...sets].sort((a, b) => a.size - b.size);
+  const result = new Set<number>();
+  for (const idx of smallest) {
+    if (sets.every((s) => s.has(idx))) result.add(idx);
+  }
+  return result;
+}
+
+// ── Query parser ─────────────────────────────────────────────────────────────
 
 export interface ParsedQuery {
   phrases: string[];
@@ -229,39 +255,124 @@ export function parseQuery(raw: string): ParsedQuery {
   return { phrases, mustTerms, notTerms, orTerms, orMode, raw: highlightRaw };
 }
 
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+function findMatchingSentence(snippetContent: string, query: string): string | null {
+  const lowerQuery = query.toLowerCase();
+  const sentences = snippetContent.split(/(?<=[.!?])\s+|(?:\n\n+)/);
+  for (const sentence of sentences) {
+    if (sentence.toLowerCase().includes(lowerQuery)) {
+      const trimmed = sentence.trim();
+      if (trimmed.length < 10) continue;
+      if (trimmed.length <= 220) return trimmed;
+      const matchIndex = trimmed.toLowerCase().indexOf(lowerQuery);
+      const start = Math.max(0, matchIndex - 80);
+      const end = Math.min(trimmed.length, matchIndex + query.length + 80);
+      let snippet = trimmed.slice(start, end);
+      if (start > 0) snippet = '...' + snippet;
+      if (end < trimmed.length) snippet = snippet + '...';
+      return snippet;
+    }
+  }
+  return null;
+}
+
+/** Count how many times `term` appears in `text` (case-insensitive). */
+function countInText(text: string, term: string): number {
+  if (!term) return 0;
+  const lower = text.toLowerCase();
+  const t = term.toLowerCase();
+  let count = 0, pos = 0;
+  while ((pos = lower.indexOf(t, pos)) !== -1) { count++; pos += t.length; }
+  return count;
+}
+
 export function countPostsWithTerm(entries: SearchEntry[], term: string): number {
   const lower = term.toLowerCase();
   return entries.filter((e) => {
     if (e.titleWords.some((w) => w.includes(lower))) return true;
-    const wordSet = new Set(e.contentWords);
-    // exact match first (fast), then prefix scan
-    return wordSet.has(lower) || e.contentWords.some((w) => w.startsWith(lower));
+    // Check exact and prefix in content words
+    if (e.contentWords.some((w) => w === lower || w.startsWith(lower))) return true;
+    // Also scan raw snippet for compound / hyphenated occurrences
+    return e.snippetContent.toLowerCase().includes(lower);
   }).length;
 }
 
-export function searchEntries(entries: SearchEntry[], query: string): SearchResult[] {
+// ── Core search ──────────────────────────────────────────────────────────────
+
+export function searchEntries(
+  entries: SearchEntry[],
+  query: string,
+  wordIndex?: WordIndex,
+): SearchResult[] {
   const { phrases, mustTerms, notTerms, orTerms, orMode, raw } = parseQuery(query);
   if (phrases.length === 0 && mustTerms.length === 0 && orTerms.length === 0) return [];
 
   const snippetQuery = phrases.length > 0 ? phrases[0] : raw;
 
-  const scored = entries.map((entry) => {
+  // ── Candidate pre-filtering via inverted index ──────────────────────────────
+  // Narrows from all 819 entries to only those containing the required terms.
+  // For a rare proper noun like "Hoppe" this goes from 819 iterations → 2.
+  let indicesToScore: number[];
+
+  if (wordIndex) {
+    const getTermIndices = (term: string): number[] => {
+      const exact = wordIndex.byWord.get(term) ?? [];
+      // Only do prefix expansion for terms long enough to be meaningful
+      if (term.length < 4) return [...exact];
+      const prefixed = getPrefixCandidates(wordIndex, term);
+      return [...new Set([...exact, ...prefixed])];
+    };
+
+    if (!orMode && (mustTerms.length > 0 || phrases.length > 0)) {
+      // AND / phrase mode: entries must contain ALL required terms
+      const required = [
+        ...mustTerms,
+        ...phrases.flatMap((p) => p.split(/\s+/).filter((w) => w.length >= 3)),
+      ];
+      if (required.length > 0) {
+        indicesToScore = [...intersectCandidates(required.map(getTermIndices))];
+      } else {
+        indicesToScore = entries.map((_, i) => i);
+      }
+    } else if (orMode && (orTerms.length > 0 || phrases.length > 0)) {
+      // OR mode: union of all term candidates
+      const all = new Set<number>();
+      [...orTerms, ...phrases.flatMap((p) => p.split(/\s+/).filter((w) => w.length >= 3))]
+        .forEach((t) => getTermIndices(t).forEach((i) => all.add(i)));
+      indicesToScore = [...all];
+    } else {
+      indicesToScore = entries.map((_, i) => i);
+    }
+  } else {
+    indicesToScore = entries.map((_, i) => i);
+  }
+
+  // ── Scoring ─────────────────────────────────────────────────────────────────
+  const scored = indicesToScore.map((entryIdx) => {
+    const entry = entries[entryIdx];
     let score = 0;
     const lowerTitle = entry.title.toLowerCase();
     const lowerSnippet = entry.snippetContent.toLowerCase();
-    // O(1) exact lookups instead of O(n) .some() on every query
+    // O(1) exact lookups
     const wordSet = new Set(entry.contentWords);
 
+    // NOT terms — exclude immediately
     for (const notTerm of notTerms) {
-      if (lowerTitle.includes(notTerm) || wordSet.has(notTerm)) {
+      if (lowerTitle.includes(notTerm) || wordSet.has(notTerm) ||
+          entry.contentWords.some((w) => w.startsWith(notTerm))) {
         return { entry, score: -1 };
       }
     }
 
+    // Phrase terms
     for (const phrase of phrases) {
       if (lowerTitle.includes(phrase)) score += 600;
       else if (lowerSnippet.includes(phrase)) score += 60;
-      else if (phrase.split(/\s+/).every((w) => entry.contentWords.some((cw) => cw.startsWith(w)))) score += 30;
+      // Fallback: all phrase words exist in document (words must be ≥ 3 chars to count)
+      else if (phrase.split(/\s+/).every((w) =>
+        w.length < 3 || entry.contentWords.some((cw) => cw.startsWith(w))
+      )) score += 30;
       else return { entry, score: -1 };
     }
 
@@ -272,7 +383,10 @@ export function searchEntries(entries: SearchEntry[], query: string): SearchResu
           (term.length >= 4 && entry.titleWords.some((w) => w.startsWith(term)));
         if (inTitle) { score += 100; anyMatch = true; }
         else if (wordSet.has(term)) { score += 10; anyMatch = true; }
-        else if (entry.contentWords.some((w) => w.startsWith(term))) { score += 5; anyMatch = true; }
+        // Prefix expansion only for terms ≥ 4 chars to avoid false positives
+        else if (term.length >= 4 && entry.contentWords.some((w) => w.startsWith(term))) {
+          score += 5; anyMatch = true;
+        }
       }
       if (!anyMatch && phrases.length === 0) return { entry, score: -1 };
     } else {
@@ -283,7 +397,8 @@ export function searchEntries(entries: SearchEntry[], query: string): SearchResu
           score += 100;
         } else if (wordSet.has(term)) {
           score += 10;
-        } else if (entry.contentWords.some((w) => w.startsWith(term))) {
+        } else if (term.length >= 4 && entry.contentWords.some((w) => w.startsWith(term))) {
+          // Prefix match only for longer terms — avoids "or"→"originary" false positives
           score += 5;
         } else if (phrases.length === 0) {
           return { entry, score: -1 };
@@ -291,14 +406,9 @@ export function searchEntries(entries: SearchEntry[], query: string): SearchResu
       }
     }
 
-    // Source priority multiplier: GABlog and Substack are primary sources;
-    // Reddit comments are supplementary and should appear well below them.
+    // Source weight: GABlog/Substack are primary; Reddit supplementary
     const SOURCE_WEIGHT: Record<string, number> = {
-      gablog:   1.0,
-      substack: 1.0,
-      pdf:      0.9,
-      book:     0.9,
-      reddit:   0.25,
+      gablog: 1.0, substack: 1.0, pdf: 0.9, book: 0.9, reddit: 0.25,
     };
     const weight = SOURCE_WEIGHT[entry.source] ?? 1.0;
 
@@ -311,12 +421,14 @@ export function searchEntries(entries: SearchEntry[], query: string): SearchResu
     .slice(0, 60)
     .map((s) => ({
       entry: s.entry,
-      contextSnippet: findMatchingSentence(s.entry.snippetContent, snippetQuery) || s.entry.excerpt,
+      contextSnippet:
+        findMatchingSentence(s.entry.snippetContent, snippetQuery) || s.entry.excerpt,
+      occurrences: countInText(s.entry.snippetContent, snippetQuery),
     }));
 }
 
-// Returns terms for the concept index. Prioritizes GA domain vocabulary;
-// supplements with corpus-frequent longer words that aren't generic English.
+// ── Concept index ────────────────────────────────────────────────────────────
+
 export function getSignificantTerms(
   entries: SearchEntry[],
   minCount = 2,
@@ -336,7 +448,6 @@ export function getSignificantTerms(
 
   const results: { term: string; count: number; isDomain: boolean }[] = [];
 
-  // Common suffixes that form valid derivatives of a domain root word
   const DERIVATION_SUFFIXES = ['s','ed','ing','er','ers','al','ity','ism','ist','ize','izes',
     'ized','tion','tions','ness','ment','ments','ly','ical','ically'];
 
@@ -344,10 +455,8 @@ export function getSignificantTerms(
     if (GA_DOMAIN_VOCAB.has(term)) return true;
     for (const vocab of GA_DOMAIN_VOCAB) {
       if (vocab.length < 5) continue;
-      // Allow only clean suffix derivations: vocab + suffix = term
       for (const suffix of DERIVATION_SUFFIXES) {
         if (term === vocab + suffix) return true;
-        // Handle e-dropping: "deferr" -> "deferral", "originar" -> "originarily"
         if (vocab.endsWith('e') && term === vocab.slice(0, -1) + suffix) return true;
       }
     }
@@ -356,8 +465,6 @@ export function getSignificantTerms(
 
   for (const [term, count] of freq.entries()) {
     const domain = isDomainTerm(term);
-
-    // Include domain terms at lower frequency threshold; generic terms need higher freq + length
     if (domain && count >= minCount) {
       results.push({ term, count, isDomain: true });
     } else if (!domain && count >= 8 && term.length >= 7) {
@@ -367,7 +474,6 @@ export function getSignificantTerms(
 
   return results
     .sort((a, b) => {
-      // Domain terms first within the same count band
       if (a.isDomain !== b.isDomain) return a.isDomain ? -1 : 1;
       return b.count - a.count;
     })
