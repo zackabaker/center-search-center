@@ -135,7 +135,9 @@ export const GA_DOMAIN_VOCAB = new Set([
 function tokenize(text: string): string[] {
   return text
     .toLowerCase()
-    .replace(/[^a-z0-9\s'-]/g, ' ')
+    // Hyphens become spaces so "Hermann-Hoppe" → ["hermann","hoppe"]
+    // and "post-sacrificial" → ["post","sacrificial"]; apostrophes kept for contractions
+    .replace(/[^a-z0-9\s']/g, ' ')
     .split(/\s+/)
     .filter((w) => w.length > 1);
 }
@@ -158,8 +160,9 @@ export function buildSearchEntries(posts: Post[]): SearchEntry[] {
     date: post.date,
     titleWords: tokenize(post.title),
     contentWords: uniqueWords(tokenize(post.content)),
-    // Only keep first 1500 chars for snippet generation — full content stays on server
-    snippetContent: post.content.slice(0, 1500),
+    // Keep up to 8000 chars for snippet generation — covers most posts fully.
+    // With brotli compression on ISR this adds ~40 bytes/post on the wire.
+    snippetContent: post.content.slice(0, 8000),
     readingTime: calcReadingTime(post.content),
   }));
 }
@@ -228,9 +231,12 @@ export function parseQuery(raw: string): ParsedQuery {
 
 export function countPostsWithTerm(entries: SearchEntry[], term: string): number {
   const lower = term.toLowerCase();
-  return entries.filter((e) =>
-    e.titleWords.some((w) => w.includes(lower)) || e.contentWords.some((w) => w.includes(lower))
-  ).length;
+  return entries.filter((e) => {
+    if (e.titleWords.some((w) => w.includes(lower))) return true;
+    const wordSet = new Set(e.contentWords);
+    // exact match first (fast), then prefix scan
+    return wordSet.has(lower) || e.contentWords.some((w) => w.startsWith(lower));
+  }).length;
 }
 
 export function searchEntries(entries: SearchEntry[], query: string): SearchResult[] {
@@ -242,19 +248,18 @@ export function searchEntries(entries: SearchEntry[], query: string): SearchResu
   const scored = entries.map((entry) => {
     let score = 0;
     const lowerTitle = entry.title.toLowerCase();
-    // Use snippetContent for phrase/NOT matching (full content not available client-side)
     const lowerSnippet = entry.snippetContent.toLowerCase();
+    // O(1) exact lookups instead of O(n) .some() on every query
+    const wordSet = new Set(entry.contentWords);
 
     for (const notTerm of notTerms) {
-      if (lowerTitle.includes(notTerm) || entry.contentWords.some((w) => w === notTerm)) {
+      if (lowerTitle.includes(notTerm) || wordSet.has(notTerm)) {
         return { entry, score: -1 };
       }
     }
 
     for (const phrase of phrases) {
       if (lowerTitle.includes(phrase)) score += 600;
-      // Check snippetContent first (first 1500 chars); if phrase falls later in a long
-      // post the contentWords check catches individual phrase tokens as a fallback.
       else if (lowerSnippet.includes(phrase)) score += 60;
       else if (phrase.split(/\s+/).every((w) => entry.contentWords.some((cw) => cw.startsWith(w)))) score += 30;
       else return { entry, score: -1 };
@@ -263,22 +268,20 @@ export function searchEntries(entries: SearchEntry[], query: string): SearchResu
     if (orMode) {
       let anyMatch = false;
       for (const term of orTerms) {
-        // Use titleWords (tokenized) so we match whole words, not substrings
         const inTitle = entry.titleWords.some((w) => w === term) ||
           (term.length >= 4 && entry.titleWords.some((w) => w.startsWith(term)));
         if (inTitle) { score += 100; anyMatch = true; }
-        else if (entry.contentWords.some((w) => w === term)) { score += 10; anyMatch = true; }
+        else if (wordSet.has(term)) { score += 10; anyMatch = true; }
         else if (entry.contentWords.some((w) => w.startsWith(term))) { score += 5; anyMatch = true; }
       }
       if (!anyMatch && phrases.length === 0) return { entry, score: -1 };
     } else {
       for (const term of mustTerms) {
-        // Use titleWords (tokenized) so we match whole words, not substrings
         const inTitle = entry.titleWords.some((w) => w === term) ||
           (term.length >= 4 && entry.titleWords.some((w) => w.startsWith(term)));
         if (inTitle) {
           score += 100;
-        } else if (entry.contentWords.some((w) => w === term)) {
+        } else if (wordSet.has(term)) {
           score += 10;
         } else if (entry.contentWords.some((w) => w.startsWith(term))) {
           score += 5;
