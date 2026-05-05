@@ -94,6 +94,7 @@ function applySearchSyntax(syntax: string, currentQuery: string): string {
 }
 
 const PAGE_SIZE = 30;
+const SECONDARY_SOURCES: ContentSource[] = ['reddit', 'twitter'];
 
 export default function SearchPageClient({
   entries,
@@ -115,6 +116,7 @@ export default function SearchPageClient({
   const [results, setResults] = useState<SearchResult[]>([]);
   const [corpusCount, setCorpusCount] = useState<number | null>(null);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const [showSecondary, setShowSecondary] = useState(false);
 
   // Build inverted index once from entries — transforms per-search O(n·k) scans
   // to near-O(1) candidate lookup. Built client-side so it doesn't inflate the
@@ -137,6 +139,7 @@ export default function SearchPageClient({
     const firstTerm = cleanQ.split(/\s+/)[0];
     setResults(found);
     setPage(0);
+    setShowSecondary(false);
     setCorpusCount(firstTerm ? countPostsWithTerm(entries, firstTerm) : null);
     setIsSearching(false);
   }, [committed, entries, wordIndex]);
@@ -187,8 +190,22 @@ export default function SearchPageClient({
     [results, filter]
   );
 
-  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
-  const pageItems = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+  // Split into primary (substack/gablog/book/pdf) and secondary (reddit/X)
+  // when in "all" view — if a source filter is active, show everything for that source
+  const { primaryFiltered, secondaryFiltered } = useMemo(() => {
+    if (filter !== 'all') return { primaryFiltered: filtered, secondaryFiltered: [] };
+    return {
+      primaryFiltered: filtered.filter((r) => !SECONDARY_SOURCES.includes(r.entry.source)),
+      secondaryFiltered: filtered.filter((r) => SECONDARY_SOURCES.includes(r.entry.source)),
+    };
+  }, [filtered, filter]);
+
+  const visibleResults = showSecondary || filter !== 'all'
+    ? filtered
+    : primaryFiltered;
+
+  const totalPages = Math.ceil(visibleResults.length / PAGE_SIZE);
+  const pageItems = visibleResults.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
   const counts: Record<FilterOption, number> = useMemo(() => ({
     all: results.length,
@@ -206,7 +223,7 @@ export default function SearchPageClient({
     `/post/${slug}${committed.trim() ? `?q=${encodeURIComponent(committed.trim())}` : ''}`;
 
   const hasQuery = committed.trim().length > 0;
-  const hasResults = filtered.length > 0;
+  const hasResults = visibleResults.length > 0 || secondaryFiltered.length > 0;
 
   // Whether the current search is an auto-wrapped phrase (no explicit operators)
   const isImplicitPhrase = hasQuery && committed.startsWith('"') && committed.endsWith('"') &&
@@ -293,8 +310,8 @@ export default function SearchPageClient({
               <div className="text-sm text-gray-500 flex items-center gap-2 flex-wrap">
                 {hasResults ? (
                   <>
-                    <span className="font-medium text-gray-900">{filtered.length}</span>
-                    <span>result{filtered.length !== 1 ? 's' : ''}</span>
+                    <span className="font-medium text-gray-900">{visibleResults.length}</span>
+                    <span>result{visibleResults.length !== 1 ? 's' : ''}</span>
                     {corpusCount !== null && (
                       <span className="text-gray-400">
                         · term in <span className="text-gray-600">{corpusCount}</span> of {totalPosts} posts
@@ -315,7 +332,9 @@ export default function SearchPageClient({
               </div>
               <span className="text-xs text-gray-400 hidden sm:block">⌘K anywhere</span>
             </div>
-            {hasResults && <FilterTabs active={filter} onChange={handleFilterChange} counts={counts} />}
+            {(primaryFiltered.length > 0 || (showSecondary && secondaryFiltered.length > 0)) && (
+            <FilterTabs active={filter} onChange={handleFilterChange} counts={counts} />
+          )}
           </div>
 
           {/* Result list */}
@@ -365,6 +384,21 @@ export default function SearchPageClient({
             </div>
           )}
 
+          {/* Secondary sources reveal button */}
+          {!showSecondary && filter === 'all' && secondaryFiltered.length > 0 && (
+            <div className="mt-4 text-center">
+              <button
+                onClick={() => { setShowSecondary(true); }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 text-sm text-gray-500 hover:border-gray-300 hover:text-gray-700 transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+                Show {secondaryFiltered.length} result{secondaryFiltered.length !== 1 ? 's' : ''} from Reddit &amp; X
+              </button>
+            </div>
+          )}
+
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-1.5 mt-8 flex-wrap">
@@ -399,7 +433,7 @@ export default function SearchPageClient({
           )}
 
           {/* No results */}
-          {!hasResults && !isSearching && (
+          {!hasResults && !isSearching && visibleResults.length === 0 && (
             <div className="text-center py-12 text-gray-400">
               <p className="text-base mb-2">No results for &ldquo;{committed}&rdquo;</p>
               <p className="text-sm">
