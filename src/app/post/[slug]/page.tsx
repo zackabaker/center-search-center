@@ -32,7 +32,12 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
-  return posts.slice(0, 20).map((post) => ({ slug: post.slug }));
+  // Pre-render all primary content at build time so they load instantly.
+  // Twitter/reddit posts remain dynamic (dynamicParams=true) — they're
+  // rarely directly linked and load fast once the cache is warm.
+  return posts
+    .filter((p) => p.source !== 'twitter' && p.source !== 'reddit')
+    .map((post) => ({ slug: post.slug }));
 }
 
 export const dynamicParams = true;

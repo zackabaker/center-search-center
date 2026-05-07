@@ -41,22 +41,50 @@ function excerpt(content: string, maxLen = 200): string {
 // Fix spacing artifacts from HTML-to-text conversion on GABlog posts.
 // When tags like <em>, <a>, <strong> are stripped, surrounding spaces disappear:
 //   "Veblen's<em>The Theory</em>Obviously" → "Veblen'sThe TheoryObviously"
-// Two patterns to catch:
+//   "you<em>want</em>to" → "youwantto"
+// Three passes:
 //   1. Period/!/? directly before a capital → missing sentence space
-//      "class.Obviously" → "class. Obviously"
-//   2. Lowercase/quote directly before a capital → missing word space
-//      "Veblen'sThe" → "Veblen's The"
-//      "classObviously" → "class Obviously"
+//   2. Lowercase directly before a capital → missing word space
+//   3. Lowercase word concatenations — long runs where function/common words
+//      were merged; only targets words that rarely appear as substrings of
+//      other words (conservative list to minimize false positives)
 function fixGABlogSpacing(text: string): string {
-  return text
-    // Sentence boundary: lowercase char + punctuation + UPPERCASE (no space)
-    // e.g. "class.Obviously" → "class. Obviously"
+  // Words safe to split before when preceded by 3+ lowercase chars.
+  // Chosen because they very rarely appear embedded inside other English words
+  // at an arbitrary position (e.g. "maybe", "where", "which", "people"…).
+  const SAFE_SPLIT = [
+    // Long/specific — fewest false positives
+    'something', 'nothing', 'everything', 'because', 'whether',
+    'people', 'maybe', 'however', 'therefore', 'meanwhile',
+    // 5–6 letter words — generally safe
+    'which', 'where', 'while', 'think', 'would', 'could', 'should',
+    'might', 'there', 'their', 'these', 'those', 'other', 'still',
+    'after', 'before', 'about', 'again', 'every', 'never', 'often',
+    'always', 'place', 'world', 'point',
+    // 4-letter words — safe enough in context
+    'want', 'know', 'make', 'take', 'come', 'look', 'seem',
+    'what', 'when', 'that', 'this', 'each', 'such', 'many',
+    'also', 'just', 'even', 'then', 'than', 'once', 'only',
+    'into', 'onto', 'from', 'with', 'over', 'upon', 'they',
+    'them', 'have', 'been', 'will', 'does', 'more', 'most',
+    'same', 'some', 'like', 'well', 'very',
+  ].sort((a, b) => b.length - a.length); // longest-first to avoid partial matches
+
+  let result = text
+    // Pass 1: sentence boundary — "class.Obviously" → "class. Obviously"
     .replace(/([a-z])([.!?])([A-Z])/g, '$1$2 $3')
-    // Word boundary: lowercase/closing-quote/closing-paren + UPPERCASE (no space)
-    // e.g. "Veblen'sThe" → "Veblen's The", "theoryObviously" → "theory Obviously"
-    // Excludes runs that look like camelCase abbreviations by requiring prev char is
-    // a common word-ending character.
+    // Pass 2: lowercase→capital word boundary — "Veblen'sThe" → "Veblen's The"
     .replace(/([a-z'"\)])([A-Z][a-z])/g, '$1 $2');
+
+  // Pass 3: all-lowercase concatenations — only on runs ≥10 chars (below that
+  // risk of false positives outweighs benefit; legitimate long words are kept as-is
+  // unless they contain one of the safe-split words after ≥3 preceding chars)
+  for (const word of SAFE_SPLIT) {
+    const re = new RegExp(`([a-z]{3,})(${word})`, 'g');
+    result = result.replace(re, '$1 $2');
+  }
+
+  return result;
 }
 
 function parseGABlogPosts(text: string): Post[] {
@@ -513,8 +541,17 @@ export function parseAllContent(): Post[] {
   return allPosts;
 }
 
+// Module-level cache — populated on first call and reused for the lifetime
+// of the Node.js process. Clears on deploy (new process). This turns a
+// ~5-10 s re-parse (reading files + processing 3k+ tweets) into a ~0 ms
+// lookup for every request after the first.
+let _postsCache: Post[] | null = null;
+
 export function getAllPosts(): Post[] {
-  return parseAllContent();
+  if (!_postsCache) {
+    _postsCache = parseAllContent();
+  }
+  return _postsCache;
 }
 
 export function getPostBySlug(slug: string): Post | undefined {

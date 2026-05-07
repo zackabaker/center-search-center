@@ -84,7 +84,7 @@ The scene: a group of hominids converge on a central object — food, a body, so
 **What follows from the scene.** The center is constituted as sacred by the scene. The sign is the originary linguistic form, prior to the declarative sentence. Debt is the original economic relation — each participant owes the center their survival. Resentment is the original moral problem — each participant desired the object and did not get it. The juridical order is the original political problem — who administers the center's dispensation? Every major concept in Center Study is a development of some feature of this scene.`,
     relations: ['the-center', 'deferral', 'the-sacred', 'nomos', 'debt-and-credit', 'ostensive-imperative-declarative', 'resentment-victimary'],
     posts: [
-      { slug: 'pdf-the-origin-of-language', title: 'The Origin of Language (Introduction)', note: 'Katz\'s introduction situates the hypothesis against its main philosophical obstacles.' },
+      { slug: 'book-the-origin-of-language', title: 'The Origin of Language (Introduction)', note: 'Katz\'s introduction situates the hypothesis against its main philosophical obstacles.' },
       { slug: 'gablog-how-does-the-center-speak', title: 'How Does the Center Speak?', note: 'The originary scene as the foundation of all communication.' },
       { slug: 'book-anthropomorphics', title: 'Anthropomorphics', note: 'The fullest development of the scene\'s implications for grammar and politics.' },
     ],
@@ -92,7 +92,7 @@ The scene: a group of hominids converge on a central object — food, a body, so
       {
         text: 'The originary hypothesis locates the origin of language and hence of the human in the unanimous acceptance of the sign as the deferral of violence on a scene of extreme mimetic danger.',
         source: 'The Origin of Language (Introduction)',
-        sourceSlug: 'pdf-the-origin-of-language',
+        sourceSlug: 'book-the-origin-of-language',
       },
       {
         text: 'If the originary event is event and sign together, then there is no event without the sign being both emitted and iterated by all the participants on the scene — just as memories are not completed until they are recalled, or represented (and are therefore never complete), the event will only have taken place once it is represented in the sign.',
@@ -160,7 +160,7 @@ This is what Katz means when he writes: "If language is the deferral of violence
 **The rhetorical posture of each section of this guide** is itself a performance of this sequence: the entry point is ostensive (*this*), the concept pages are imperative (*attend to this*), the reading paths are declarative (*this is how to proceed*).`,
     relations: ['originary-scene', 'deferral', 'originary-grammar', 'scenic-design', 'the-center'],
     posts: [
-      { slug: 'pdf-the-origin-of-language', title: 'The Origin of Language', note: 'Gans\'s foundational account of the three forms.' },
+      { slug: 'book-the-origin-of-language', title: 'The Origin of Language', note: 'Gans\'s foundational account of the three forms.' },
       { slug: 'pdf-linguistic-turn-generative-literacy', title: 'The Linguistic Turn and Generative Literacy', note: 'The error of treating the declarative as primary.' },
       { slug: 'pdf-originary-technics', title: 'Originary Technics', note: 'The imperative as the origin of technology.' },
       { slug: 'book-anthropomorphics', title: 'Anthropomorphics', note: 'The originary grammar that follows from the three forms.' },
@@ -169,7 +169,7 @@ This is what Katz means when he writes: "If language is the deferral of violence
       {
         text: 'If you assume that the declarative sentence is the primary linguistic form, you will never think to ask, or to think one can ask, whence it derived — even if a moment\'s reflection must convince us that it must have derived from some previous linguistic form.',
         source: 'The Origin of Language (Introduction)',
-        sourceSlug: 'pdf-the-origin-of-language',
+        sourceSlug: 'book-the-origin-of-language',
       },
     ],
     selfReference: 'This page is imperative in mode: it commands you to attend to the order of the forms. It cannot prove its claim without already using all three forms simultaneously. That circularity is not a defect — it is what the concept predicts.',
@@ -195,7 +195,7 @@ On the originary scene, the first sign is sacred in the precise sense that it bi
     posts: [
       { slug: 'pdf-esthetic-sacred-originary-modernity', title: 'The Esthetic, the Sacred, and Originary Modernity', note: 'The most sustained treatment of sacred/significant distinction and modernity\'s sacralities.' },
       { slug: 'book-anthropomorphics', title: 'Anthropomorphics', note: 'Post-sacrificial centrality and the debt to the center.' },
-      { slug: 'pdf-the-origin-of-language', title: 'The Origin of Language', note: 'The sacred as constitutional to the originary scene.' },
+      { slug: 'book-the-origin-of-language', title: 'The Origin of Language', note: 'The sacred as constitutional to the originary scene.' },
     ],
     passages: [
       {
@@ -439,7 +439,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **The implied center in victimary discourse.** Every act of victimary resentment implies a center that it appeals to — a standard of justice, a vision of how things should be distributed, an authority that could redress the grievance. The victimary cannot abolish the center; it can only transfer allegiance from the occupied center to a projected ideal center. Center Study's task is to make that implied center visible and to ask whether it is adequate to the obligations it is being asked to discharge.`,
     relations: ['the-center', 'originary-scene', 'the-sacred', 'nomos', 'succession', 'anthropomorphics'],
     posts: [
-      { slug: 'pdf-the-origin-of-language', title: 'The Origin of Language (Introduction)', note: 'Victimary humanism as the primary obstacle to the originary hypothesis.' },
+      { slug: 'book-the-origin-of-language', title: 'The Origin of Language (Introduction)', note: 'Victimary humanism as the primary obstacle to the originary hypothesis.' },
       { slug: 'pdf-the-anthropoetics-of-power', title: 'The Anthropoetics of Power', note: 'Resentment toward the Big Man and its productive and destructive channels.' },
       { slug: 'pdf-nemesis-jouvenelian-liberal-model', title: 'Nemesis: The Jouvenelian vs. the Liberal Model', note: 'Anti-centerism as the pathology of liberal modernity.' },
     ],
@@ -447,7 +447,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
       {
         text: 'Victimary thinking, as a product of the twin iconic markers of World War II, Auschwitz and Hiroshima, frames all inequalities as instances of "oppression," to which the Nazi-Jew model can be applied.',
         source: 'The Origin of Language (Introduction)',
-        sourceSlug: 'pdf-the-origin-of-language',
+        sourceSlug: 'book-the-origin-of-language',
       },
       {
         text: 'We need to "care" about in order to transition to the "contributory," to be blunt, is a pathological anti-centerism.',
