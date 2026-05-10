@@ -42,45 +42,57 @@ function excerpt(content: string, maxLen = 200): string {
 // When tags like <em>, <a>, <strong> are stripped, surrounding spaces disappear:
 //   "Veblen's<em>The Theory</em>Obviously" → "Veblen'sThe TheoryObviously"
 //   "you<em>want</em>to" → "youwantto"
-// Three passes:
+//   "relations<em>between</em>us" → "relationsbetweentus"
+// Four passes:
 //   1. Period/!/? directly before a capital → missing sentence space
 //   2. Lowercase directly before a capital → missing word space
-//   3. Lowercase word concatenations — long runs where function/common words
-//      were merged; only targets words that rarely appear as substrings of
-//      other words (conservative list to minimize false positives)
+//   3a. Ordinal numbers directly before text (20thcentury → 20th century)
+//   3b. All-lowercase concatenations — split before common words that rarely
+//       appear as arbitrary substrings inside other English words
 function fixGABlogSpacing(text: string): string {
-  // Words safe to split before when preceded by 3+ lowercase chars.
-  // Chosen because they very rarely appear embedded inside other English words
-  // at an arbitrary position (e.g. "maybe", "where", "which", "people"…).
+  // Words safe to split BEFORE when preceded by 2+ lowercase chars.
+  // Sorted longest-first so longer words match before their shorter prefixes.
+  // Prepositions are safest (almost never inside other words); content words
+  // from the GA corpus are included where false-positive risk is low.
   const SAFE_SPLIT = [
-    // Long/specific — fewest false positives
-    'something', 'nothing', 'everything', 'because', 'whether',
-    'people', 'maybe', 'however', 'therefore', 'meanwhile',
-    // 5–6 letter words — generally safe
+    // Very long / highly specific — minimal false positives
+    'something', 'nothing', 'everything', 'therefore', 'meanwhile',
+    'however', 'because', 'whether', 'although', 'throughout',
+    'historical', 'secondary', 'economic', 'rational', 'cultural',
+    'original', 'natural', 'general', 'primary', 'modern', 'social',
+    'critical', 'century', 'reality', 'language', 'structure',
+    'people', 'maybe',
+    // Prepositions — virtually never appear as substrings inside content words
+    'between', 'through', 'against', 'around', 'within', 'without',
+    'beneath', 'beyond', 'across', 'along', 'among', 'inside', 'outside',
+    'toward', 'towards', 'during', 'unless', 'until', 'beside', 'besides',
+    'despite', 'except', 'since', 'under', 'above', 'below',
+    // Common verbs / modal — 5-6 letters
     'which', 'where', 'while', 'think', 'would', 'could', 'should',
     'might', 'there', 'their', 'these', 'those', 'other', 'still',
     'after', 'before', 'about', 'again', 'every', 'never', 'often',
-    'always', 'place', 'world', 'point',
-    // 4-letter words — safe enough in context
+    'always', 'place', 'world', 'point', 'human', 'moral',
+    // 4-letter words — ordered so they don't shadow longer siblings
     'want', 'know', 'make', 'take', 'come', 'look', 'seem',
     'what', 'when', 'that', 'this', 'each', 'such', 'many',
     'also', 'just', 'even', 'then', 'than', 'once', 'only',
     'into', 'onto', 'from', 'with', 'over', 'upon', 'they',
     'them', 'have', 'been', 'will', 'does', 'more', 'most',
     'same', 'some', 'like', 'well', 'very',
-  ].sort((a, b) => b.length - a.length); // longest-first to avoid partial matches
+  ].sort((a, b) => b.length - a.length);
 
   let result = text
     // Pass 1: sentence boundary — "class.Obviously" → "class. Obviously"
     .replace(/([a-z])([.!?])([A-Z])/g, '$1$2 $3')
     // Pass 2: lowercase→capital word boundary — "Veblen'sThe" → "Veblen's The"
-    .replace(/([a-z'"\)])([A-Z][a-z])/g, '$1 $2');
+    .replace(/([a-z'"\)])([A-Z][a-z])/g, '$1 $2')
+    // Pass 3a: ordinal + lowercase — "20thcentury" → "20th century"
+    .replace(/(\d+(?:st|nd|rd|th))([a-z])/gi, '$1 $2');
 
-  // Pass 3: all-lowercase concatenations — only on runs ≥10 chars (below that
-  // risk of false positives outweighs benefit; legitimate long words are kept as-is
-  // unless they contain one of the safe-split words after ≥3 preceding chars)
+  // Pass 3b: all-lowercase concatenations.
+  // Require 2+ preceding chars (catches "us" in "usthrough", "us through").
   for (const word of SAFE_SPLIT) {
-    const re = new RegExp(`([a-z]{3,})(${word})`, 'g');
+    const re = new RegExp(`([a-z]{2,})(${word})`, 'g');
     result = result.replace(re, '$1 $2');
   }
 
