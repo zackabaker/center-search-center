@@ -38,65 +38,87 @@ function excerpt(content: string, maxLen = 200): string {
   return cleaned.slice(0, maxLen).replace(/\s+\S*$/, '') + '...';
 }
 
-// Fix spacing artifacts from HTML-to-text conversion on GABlog posts.
-// When tags like <em>, <a>, <strong> are stripped, surrounding spaces disappear:
-//   "Veblen's<em>The Theory</em>Obviously" → "Veblen'sThe TheoryObviously"
-//   "you<em>want</em>to" → "youwantto"
-//   "relations<em>between</em>us" → "relationsbetweentus"
-// Four passes:
-//   1. Period/!/? directly before a capital → missing sentence space
-//   2. Lowercase directly before a capital → missing word space
-//   3a. Ordinal numbers directly before text (20thcentury → 20th century)
-//   3b. All-lowercase concatenations — split before common words that rarely
-//       appear as arbitrary substrings inside other English words
-function fixGABlogSpacing(text: string): string {
-  // Words safe to split BEFORE when preceded by 2+ lowercase chars.
-  // Sorted longest-first so longer words match before their shorter prefixes.
-  // Prepositions are safest (almost never inside other words); content words
-  // from the GA corpus are included where false-positive risk is low.
-  const SAFE_SPLIT = [
-    // Very long / highly specific — minimal false positives
-    'something', 'nothing', 'everything', 'therefore', 'meanwhile',
-    'however', 'because', 'whether', 'although', 'throughout',
-    'historical', 'secondary', 'economic', 'rational', 'cultural',
-    'original', 'natural', 'general', 'primary', 'modern', 'social',
-    'critical', 'century', 'reality', 'language', 'structure',
-    'people', 'maybe',
-    // Prepositions — virtually never appear as substrings inside content words
-    'between', 'through', 'against', 'around', 'within', 'without',
-    'beneath', 'beyond', 'across', 'along', 'among', 'inside', 'outside',
-    'toward', 'towards', 'during', 'unless', 'until', 'beside', 'besides',
-    'despite', 'except', 'since', 'under', 'above', 'below',
-    // Common verbs / modal — 5-6 letters
-    'which', 'where', 'while', 'think', 'would', 'could', 'should',
-    'might', 'there', 'their', 'these', 'those', 'other', 'still',
-    'after', 'before', 'about', 'again', 'every', 'never', 'often',
-    'always', 'place', 'world', 'point', 'human', 'moral',
-    // 4-letter words — ordered so they don't shadow longer siblings
-    'want', 'know', 'make', 'take', 'come', 'look', 'seem',
-    'what', 'when', 'that', 'this', 'each', 'such', 'many',
-    'also', 'just', 'even', 'then', 'than', 'once', 'only',
-    'into', 'onto', 'from', 'with', 'over', 'upon', 'they',
-    'them', 'have', 'been', 'will', 'does', 'more', 'most',
-    'same', 'some', 'like', 'well', 'very',
-  ].sort((a, b) => b.length - a.length);
+// ─────────────────────────────────────────────────────────────────────────────
+// SHARED TEXT NORMALISATION
+//
+// Three extraction pipelines each lose whitespace differently:
+//   GABlog  — HTML inline tags stripped without spaces
+//   PDF BLOB (power-and-paradox, generative-anthropology) — extractor joined
+//             visual lines without spaces; one giant line per paragraph
+//   PDF WRAPPED (all others) — extractor kept column soft-wraps as \n;
+//             ~55-char lines must be rejoined into prose paragraphs
+//
+// fixWordConcatenation() is the shared kernel; cleanPdfText() calls it.
+// ─────────────────────────────────────────────────────────────────────────────
 
-  let result = text
-    // Pass 1: sentence boundary — "class.Obviously" → "class. Obviously"
-    .replace(/([a-z])([.!?])([A-Z])/g, '$1$2 $3')
-    // Pass 2: lowercase→capital word boundary — "Veblen'sThe" → "Veblen's The"
-    .replace(/([a-z'"\)])([A-Z][a-z])/g, '$1 $2')
-    // Pass 3a: ordinal + lowercase — "20thcentury" → "20th century"
-    .replace(/(\d+(?:st|nd|rd|th))([a-z])/gi, '$1 $2');
+// Words safe to split BEFORE when preceded by >= 2 lowercase chars.
+// Sorted longest-first so longer patterns match before shorter prefixes.
+// Prepositions are safest (rarely embed in other words); content words
+// from the GA corpus added where false-positive risk is low.
+const SAFE_SPLIT_WORDS: string[] = [
+  // 9+ chars
+  'something', 'everything', 'therefore', 'meanwhile', 'throughout',
+  'historical', 'secondary', 'economic', 'rational', 'cultural',
+  'original', 'whatever', 'whenever', 'wherever', 'whoever', 'however',
+  'although', 'whether',
+  // 7-8 chars
+  'nothing', 'because', 'natural', 'general', 'primary', 'century',
+  'reality', 'language', 'structure', 'against', 'without', 'between',
+  'through', 'beneath', 'besides', 'towards', 'despite', 'outside',
+  'already', 'another', 'further', 'similar', 'central', 'perhaps',
+  'systems', 'history', 'subject', 'certain', 'present', 'crucial',
+  'always', 'people', 'modern', 'social', 'within', 'around',
+  'beyond', 'across', 'during', 'unless', 'inside', 'toward',
+  // 6 chars
+  'before', 'though', 'little', 'should', 'others', 'itself',
+  'indeed', 'simply', 'almost', 'having', 'taking', 'making',
+  'saying', 'giving', 'coming', 'things', 'rights', 'matter',
+  'manner', 'became', 'become', 'rather', 'cannot',
+  // 5 chars
+  'being', 'which', 'where', 'while', 'think', 'would', 'could',
+  'moral', 'human', 'world', 'every', 'their', 'there', 'these',
+  'those', 'other', 'still', 'after', 'about', 'again', 'never',
+  'often', 'place', 'point', 'along', 'among', 'above', 'below',
+  'until', 'maybe', 'might', 'since', 'under', 'aside', 'whose',
+  'order', 'state', 'power', 'given',
+  // 4 chars
+  'want', 'know', 'make', 'take', 'come', 'look', 'seem', 'need',
+  'what', 'when', 'that', 'this', 'each', 'such', 'many', 'also',
+  'just', 'even', 'then', 'than', 'once', 'only', 'into', 'onto',
+  'from', 'with', 'over', 'upon', 'they', 'them', 'have', 'been',
+  'will', 'does', 'more', 'most', 'same', 'some', 'like', 'well',
+  'very', 'thus', 'both', 'back', 'give', 'must', 'said', 'were',
+  'part', 'else', 'here', 'ways', 'role', 'form', 'lead', 'mean',
+  'kind', 'term', 'case', 'fact', 'word', 'idea', 'call', 'work',
+  'kept', 'move', 'used', 'turn', 'hold',
+].sort((a, b) => b.length - a.length); // longest-first to avoid partial overlaps
 
-  // Pass 3b: all-lowercase concatenations.
-  // Require 2+ preceding chars (catches "us" in "usthrough", "us through").
-  for (const word of SAFE_SPLIT) {
-    const re = new RegExp(`([a-z]{2,})(${word})`, 'g');
-    result = result.replace(re, '$1 $2');
+/**
+ * Fix word concatenation caused by whitespace-losing text extraction.
+ *
+ * Pass 1: sentence boundary  "class.Obviously"  -> "class. Obviously"
+ * Pass 2: word boundary      "Veblen'sThe"      -> "Veblen's The"
+ * Pass 3a: ordinals          "20thcentury"      -> "20th century"
+ * Pass 3b: all-lowercase     "rightsbetween"    -> "rights between"
+ *
+ * Pass 3b uses SAFE_SPLIT_WORDS (longest-first) and requires >= 2 preceding
+ * lowercase chars to avoid false positives at the start of legitimate words.
+ */
+function fixWordConcatenation(text: string): string {
+  let r = text
+    .replace(/([a-z])([.!?])([A-Z])/g, '$1$2 $3')       // pass 1
+    .replace(/([a-z'"\)])([A-Z][a-z])/g, '$1 $2')        // pass 2
+    .replace(/(\d+(?:st|nd|rd|th))([a-z])/gi, '$1 $2'); // pass 3a
+
+  for (const w of SAFE_SPLIT_WORDS) {                     // pass 3b
+    r = r.replace(new RegExp(`([a-z]{2,})(${w})`, 'g'), '$1 $2');
   }
+  return r;
+}
 
-  return result;
+// GABlog wrapper — kept as named function for parseGABlogPosts clarity
+function fixGABlogSpacing(text: string): string {
+  return fixWordConcatenation(text);
 }
 
 function parseGABlogPosts(text: string): Post[] {
@@ -444,48 +466,83 @@ function parseRedditComments(): Post[] {
   return posts;
 }
 
-// Clean browser-printed PDF artifacts:
-//   "5/9/25, 2:43 PMThe Anthropoetics of Power – ..."  (date/time + title header)
-//   "Page 12 of 23https://..."                          (page number + URL footer)
-// Then rejoin sentences that were split across page boundaries.
+/**
+ * Clean and normalise PDF text extracted from browser-printed PDFs.
+ *
+ * Two PDF extraction formats exist in this corpus:
+ *
+ * WRAPPED (most PDFs, avg line ~55 chars):
+ *   Each line is a visual column wrap from the PDF page. Paragraph breaks
+ *   are blank lines. Lines within a paragraph must be rejoined with a space;
+ *   end-of-line hyphens are soft hyphenation that should be removed.
+ *
+ * BLOB (power-and-paradox, generative-anthropology, avg line >400 chars):
+ *   The extractor joined every visual line within a paragraph into one
+ *   giant string without spaces. Paragraph breaks (blank lines) survive.
+ *   The word-concatenation fix handles the missing spaces.
+ *
+ * Both formats also suffer from:
+ *   - Browser-print headers/footers (date/time stamps, page numbers, URLs)
+ *   - Letter-spaced decorative titles ("T a l k   o f   t h e   C e n t e r")
+ *   - Word concatenations at extraction boundaries
+ */
 function cleanPdfText(raw: string): string {
+  // ── Step 1: strip browser-print headers and footers ───────────────────────
   const lines = raw.split('\n');
-  const cleaned: string[] = [];
-
+  const filtered: string[] = [];
   for (const line of lines) {
-    // Browser print header: date/time stamp followed by doc title
+    // "5/9/25, 2:43 PM  The Anthropoetics of Power..."
     if (/^\d{1,2}\/\d{1,2}\/\d{2,4},\s+\d+:\d+\s+[AP]M/.test(line)) continue;
-    // Page footer: "Page N of M" immediately followed by a URL (no space)
+    // "Page 12 of 23https://..."
     if (/^Page \d+ of \d+https?:\/\//.test(line)) continue;
-    // Standalone URL line
+    // Bare URL lines
     if (/^https?:\/\/\S+$/.test(line.trim())) continue;
-    cleaned.push(line);
+    filtered.push(line);
   }
 
-  // Rejoin sentences split across page breaks.
-  // After header removal a page break leaves: "...fragment\n\ncontinuation..."
-  // Signature: previous non-blank line ends without terminal punctuation,
-  // next non-blank line starts with a lowercase letter.
-  const result: string[] = [];
-  for (let i = 0; i < cleaned.length; i++) {
-    const line = cleaned[i];
-    if (line.trim() === '' && result.length > 0) {
-      const prev = result[result.length - 1];
-      const next = (cleaned[i + 1] || '').trim();
-      if (
-        prev.trim() !== '' &&
-        !/[.!?:;"')\]—]$/.test(prev.trim()) &&
-        /^[a-z]/.test(next)
-      ) {
-        // Page-break continuation — drop the blank line; text will merge naturally
-        continue;
-      }
-    }
-    result.push(line);
+  // ── Step 2: detect format ────────────────────────────────────────────────
+  const nonEmpty = filtered.filter(l => l.trim().length > 0);
+  const avgLineLen = nonEmpty.length
+    ? nonEmpty.reduce((s, l) => s + l.length, 0) / nonEmpty.length
+    : 0;
+  const isBlob = avgLineLen > 400;
+
+  let text = filtered.join('\n');
+
+  // ── Step 3 (WRAPPED only): rejoin visual soft-wraps into prose ───────────
+  // Single \n between two non-empty lines = PDF column wrap, not a paragraph
+  // break. Join with a space; if the line ended with a hyphen, dehyphenate.
+  if (!isBlob) {
+    text = text.replace(/([^\n])\n([^\n])/g, (_, before, after) =>
+      before.endsWith('-') ? before.slice(0, -1) + after : before + ' ' + after
+    );
+
+    // After rejoining, remaining blank lines (\n\n) should be paragraph breaks.
+    // Exception: a page break in the middle of a paragraph leaves a spurious
+    // blank line between text that doesn't end in terminal punctuation and
+    // continuation that starts with a lowercase letter -> merge.
+    text = text.replace(/([a-zA-Z0-9"'])\n\n([a-z])/g, '$1 $2');
   }
 
-  // Collapse runs of 3+ blank lines down to 2 (one paragraph break)
-  return result.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+  // ── Step 4: fix letter-spaced decorative text ────────────────────────────
+  // "T a l k   o f   t h e   C e n t e r" -> "Talk of the Center"
+  // Pattern: 4+ groups of (single letter + spaces) before a final letter.
+  text = text.replace(/([A-Za-z] ){4,}[A-Za-z]/g, m => m.replace(/ /g, ''));
+
+  // ── Step 5: fix word concatenation ───────────────────────────────────────
+  // Handles both BLOB (words jammed together across line-joins) and residual
+  // WRAPPED artifacts. Uses the shared fixWordConcatenation kernel.
+  text = fixWordConcatenation(text);
+
+  // ── Step 6: normalise whitespace ─────────────────────────────────────────
+  // Collapse 3+ blank lines to 2 (one paragraph separator).
+  // Collapse multiple spaces within lines to one space.
+  text = text
+    .replace(/ {2,}/g, ' ')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+
+  return text;
 }
 
 function parsePDFs(): Post[] {
