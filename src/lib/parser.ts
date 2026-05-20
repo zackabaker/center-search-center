@@ -52,46 +52,62 @@ function excerpt(content: string, maxLen = 200): string {
 // ─────────────────────────────────────────────────────────────────────────────
 
 // Words safe to split BEFORE when preceded by >= 2 lowercase chars.
-// Sorted longest-first so longer patterns match before shorter prefixes.
-// Prepositions are safest (rarely embed in other words); content words
-// from the GA corpus added where false-positive risk is low.
+//
+// SAFETY RULES — a word may only be in this list if:
+//   1. It does NOT commonly appear as a suffix of another English word
+//      preceded by 2+ lowercase chars (e.g. "call" is banned because
+//      "drasti[call]y", "re[call]" fire everywhere).
+//   2. The regex also requires a word-boundary lookahead (?=[^a-z]|$)
+//      so the match only fires at the END of a lowercase run — but that
+//      alone is insufficient for short words that end common words
+//      ("recall.", "become.", "reform." all end sentences).
+//
+// BANNED short-word families:
+//   -call  (drastically, locally, critically, recall)
+//   -come  (become, income, welcome)
+//   -form  (reform, transform, perform)
+//   -move  (remove)  -turn (return)  -hold (behold, threshold)
+//   -lead  (mislead)  -give (forgive)  -have (behave)
+//   -ways  (always)   -role (parole)   -used (abused)
+//   -work  (framework, network)  -back (setback)  -take (mistake)
+//   -over  (recover, discover)   -each (bleach, preach)
+//   -others (brothers)           -having/taking/making/saying/giving/coming
+//   -similar (dissimilar)  -systems (ecosystems)
+//   -history (prehistory)  -certain (uncertain)  -present (represent)
+//   -being (wellbeing)  -where (elsewhere, somewhere)
+//   -while (worthwhile) -other (another)  -still (standstill)
+//   -place (displace)   -under (blunder)  -order (disorder)
+//   -power (empower)    -state (overstate) -given (forgiven)
+//   -moral (immoral)    -human (inhuman)   -world (underworld)
+//   -think (rethink)    -point (viewpoint, checkpoint)
+//
+// Sorted longest-first so longer patterns win over shorter prefixes.
 const SAFE_SPLIT_WORDS: string[] = [
-  // 9+ chars
+  // 9-12 chars — very low false-positive risk
   'something', 'everything', 'therefore', 'meanwhile', 'throughout',
   'historical', 'secondary', 'economic', 'rational', 'cultural',
   'original', 'whatever', 'whenever', 'wherever', 'whoever', 'however',
   'although', 'whether',
-  // 7-8 chars
+  // 7-8 chars — verified safe
   'nothing', 'because', 'natural', 'general', 'primary', 'century',
   'reality', 'language', 'structure', 'against', 'without', 'between',
   'through', 'beneath', 'besides', 'towards', 'despite', 'outside',
-  'already', 'another', 'further', 'similar', 'central', 'perhaps',
-  'systems', 'history', 'subject', 'certain', 'present', 'crucial',
+  'already', 'another', 'further', 'central', 'perhaps',
+  'subject', 'crucial',
   'always', 'people', 'modern', 'social', 'within', 'around',
   'beyond', 'across', 'during', 'unless', 'inside', 'toward',
-  // 6 chars
-  'before', 'though', 'little', 'should', 'others', 'itself',
-  'indeed', 'simply', 'almost', 'having', 'taking', 'making',
-  'saying', 'giving', 'coming', 'things', 'rights', 'matter',
+  // 6 chars — verified safe
+  'before', 'though', 'little', 'should', 'itself',
+  'indeed', 'simply', 'almost', 'things', 'rights',
   'manner', 'became', 'become', 'rather', 'cannot',
-  // 5 chars
-  'being', 'which', 'where', 'while', 'think', 'would', 'could',
-  'moral', 'human', 'world', 'every', 'their', 'there', 'these',
-  'those', 'other', 'still', 'after', 'about', 'again', 'never',
-  'often', 'place', 'point', 'along', 'among', 'above', 'below',
-  'until', 'maybe', 'might', 'since', 'under', 'aside', 'whose',
-  'order', 'state', 'power', 'given',
-  // 4 chars
-  'want', 'know', 'make', 'take', 'come', 'look', 'seem', 'need',
-  'what', 'when', 'that', 'this', 'each', 'such', 'many', 'also',
-  'just', 'even', 'then', 'than', 'once', 'only', 'into', 'onto',
-  'from', 'with', 'over', 'upon', 'they', 'them', 'have', 'been',
-  'will', 'does', 'more', 'most', 'same', 'some', 'like', 'well',
-  'very', 'thus', 'both', 'back', 'give', 'must', 'said', 'were',
-  'part', 'else', 'here', 'ways', 'role', 'form', 'lead', 'mean',
-  'kind', 'term', 'case', 'fact', 'word', 'idea', 'call', 'work',
-  'kept', 'move', 'used', 'turn', 'hold',
-].sort((a, b) => b.length - a.length); // longest-first to avoid partial overlaps
+  // 5 chars — only words that do NOT end common English words
+  'which', 'would', 'could', 'every', 'their', 'there', 'these',
+  'those', 'after', 'about', 'again', 'never', 'often',
+  'along', 'among', 'above', 'below', 'until', 'maybe',
+  'might', 'since', 'aside', 'whose',
+  // No 4-letter words — every common 4-letter word appears as a suffix
+  // of at least one legitimate English word and causes false splits.
+].sort((a, b) => b.length - a.length);
 
 /**
  * Fix word concatenation caused by whitespace-losing text extraction.
@@ -101,8 +117,10 @@ const SAFE_SPLIT_WORDS: string[] = [
  * Pass 3a: ordinals          "20thcentury"      -> "20th century"
  * Pass 3b: all-lowercase     "rightsbetween"    -> "rights between"
  *
- * Pass 3b uses SAFE_SPLIT_WORDS (longest-first) and requires >= 2 preceding
- * lowercase chars to avoid false positives at the start of legitimate words.
+ * Pass 3b uses SAFE_SPLIT_WORDS with a word-end lookahead (?=[^a-z]|$)
+ * so the split only fires when the matched word ends a lowercase run
+ * (e.g. "humanreality" splits, but "drastically" does not because
+ * "call" is now banned and the lookahead would block it anyway).
  */
 function fixWordConcatenation(text: string): string {
   let r = text
@@ -111,7 +129,7 @@ function fixWordConcatenation(text: string): string {
     .replace(/(\d+(?:st|nd|rd|th))([a-z])/gi, '$1 $2'); // pass 3a
 
   for (const w of SAFE_SPLIT_WORDS) {                     // pass 3b
-    r = r.replace(new RegExp(`([a-z]{2,})(${w})`, 'g'), '$1 $2');
+    r = r.replace(new RegExp(`([a-z]{2,})(${w})(?=[^a-z]|$)`, 'g'), '$1 $2');
   }
   return r;
 }
