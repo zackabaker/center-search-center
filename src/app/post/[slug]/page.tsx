@@ -2,6 +2,7 @@ import { getAllPosts, getPostBySlug } from '@/lib/parser';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ContentSource } from '@/lib/types';
+import type { Metadata } from 'next';
 import HighlightedContent from '@/components/HighlightedContent';
 import ReadingProgress from '@/components/ReadingProgress';
 import ReadingControls from '@/components/ReadingControls';
@@ -33,6 +34,43 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
   reddit: 'bg-red-100 text-red-800',
   twitter: 'bg-slate-100 text-slate-700',
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
+  if (!post) return { title: 'Post not found' };
+
+  const excerpt = post.content
+    .replace(/\n+/g, ' ')
+    .trim()
+    .slice(0, 160)
+    .replace(/\s+\S*$/, '') + '…';
+
+  const url = `https://center.study/post/${slug}`;
+
+  return {
+    title: `${post.title} | Center Study Center`,
+    description: excerpt,
+    openGraph: {
+      title: post.title,
+      description: excerpt,
+      url,
+      siteName: 'Center Study Center',
+      type: 'article',
+      ...(post.date ? { publishedTime: post.date } : {}),
+    },
+    twitter: {
+      card: 'summary',
+      title: post.title,
+      description: excerpt,
+    },
+    alternates: { canonical: url },
+  };
+}
 
 export async function generateStaticParams() {
   const posts = getAllPosts();

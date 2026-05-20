@@ -1,5 +1,6 @@
 import HomeSearch from '@/components/HomeSearch';
 import DarkModeToggle from '@/components/DarkModeToggle';
+import RandomPostButton from '@/components/RandomPostButton';
 import Link from 'next/link';
 import { getAllPosts } from '@/lib/parser';
 
@@ -73,6 +74,11 @@ export default function Home() {
   // "On this day" — posts published on today's month/day in any past year
   const today = new Date();
   const allPosts = getAllPosts();
+
+  // Slugs for random post button — exclude twitter/reddit (too short)
+  const randomSlugs = allPosts
+    .filter((p) => p.source !== 'twitter' && p.source !== 'reddit')
+    .map((p) => p.slug);
   const onThisDay = allPosts.filter((p) => {
     if (!p.date) return false;
     try {
@@ -131,7 +137,7 @@ export default function Home() {
 
       {/* Navigation cards */}
       <div className="max-w-3xl mx-auto px-4 pb-14">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <Link
             href="/intro"
             className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
@@ -162,6 +168,7 @@ export default function Home() {
               <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">Key vocabulary index</p>
             </div>
           </Link>
+          <RandomPostButton slugs={randomSlugs} />
         </div>
       </div>
 
@@ -210,9 +217,14 @@ export default function Home() {
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Browse by source</h2>
               <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">Explore the full archive organized by where it came from</p>
             </div>
-            <Link href="/guide/timeline" className="text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
-              Timeline →
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link href="/author/katz" className="text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+                Katz →
+              </Link>
+              <Link href="/author/bouvard" className="text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+                Bouvard →
+              </Link>
+            </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {BROWSE_SOURCES.map(({ source, label, description, color }) => (
