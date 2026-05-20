@@ -391,6 +391,24 @@ export default function SearchPageClient({
           )}
           </div>
 
+          {/* Ask AI CTA — appears whenever there's a committed query */}
+          {committed && (
+            <Link
+              href={`/ask?q=${encodeURIComponent(committed)}`}
+              className="group flex items-center justify-between gap-3 mb-4 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 hover:border-gray-400 dark:hover:border-gray-500 hover:bg-white dark:hover:bg-gray-800 transition-all"
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <span className="text-base flex-shrink-0">✦</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300 truncate">
+                  Ask AI: <span className="font-medium">&ldquo;{committed}&rdquo;</span>
+                </span>
+              </div>
+              <span className="text-xs text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 flex-shrink-0 transition-colors">
+                Get a narrative answer →
+              </span>
+            </Link>
+          )}
+
           {/* Result list */}
           {hasResults && (
             <div className="space-y-3">

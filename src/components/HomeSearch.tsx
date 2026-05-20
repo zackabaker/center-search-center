@@ -6,6 +6,20 @@ import AnimatedSearchIcon from '@/components/AnimatedSearchIcon';
 
 type Mode = 'search' | 'ask';
 
+// Suggested starter queries — good entry points into the archive
+const SUGGESTIONS = [
+  'originary hypothesis',
+  'resentment',
+  'deferral',
+  'scenic representation',
+  'sovereignty',
+  'the center',
+  'imperative',
+  'moral model',
+  'firstness',
+  'language origin',
+];
+
 export default function HomeSearch() {
   const [query, setQuery] = useState('');
   const [mode, setMode] = useState<Mode>('search');
@@ -27,35 +41,38 @@ export default function HomeSearch() {
     return () => window.removeEventListener('keydown', handler);
   }, [router]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const q = query.trim();
-    setIsNavigating(true); // icon jumps to speed 10 immediately
-
-    const navigate = () => {
-      if (mode === 'ask') {
-        if (q) router.push(`/ask?q=${encodeURIComponent(q)}`);
-        else router.push('/ask');
+  const navigate = (q: string, m: Mode) => {
+    setIsNavigating(true);
+    const go = () => {
+      if (m === 'ask') {
+        router.push(q ? `/ask?q=${encodeURIComponent(q)}` : '/ask');
       } else {
-        if (q) router.push(`/search?q=${encodeURIComponent(q)}`);
-        else router.push('/search');
+        router.push(q ? `/search?q=${encodeURIComponent(q)}` : '/search');
       }
     };
-
-    // Brief pause so the speed-up is visible, then trigger view transition
     setTimeout(() => {
       if (typeof document !== 'undefined' && 'startViewTransition' in document) {
         (document as Document & { startViewTransition: (cb: () => void) => void })
-          .startViewTransition(navigate);
+          .startViewTransition(go);
       } else {
-        navigate();
+        go();
       }
     }, 160);
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigate(query.trim(), mode);
+  };
+
+  const handleSuggestion = (term: string) => {
+    setQuery(term);
+    navigate(term, mode);
+  };
+
   return (
     <>
-      {/* Icon — reacts to state; shared view-transition-name with the search bar icon */}
+      {/* Icon */}
       <div
         className="mx-auto mb-6 flex justify-center"
         style={{ viewTransitionName: 'center-icon' } as React.CSSProperties}
@@ -63,14 +80,14 @@ export default function HomeSearch() {
         <AnimatedSearchIcon size={80} speed={iconSpeed} />
       </div>
 
-      <form onSubmit={handleSubmit} className="w-full max-w-xl mx-auto">
+      <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto">
         {/* Mode toggle */}
-        <div className="flex items-center justify-center gap-1 mb-3">
-          <div className="flex items-center gap-0.5 bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5">
+        <div className="flex items-center justify-center mb-4">
+          <div className="flex items-center gap-0.5 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
             <button
               type="button"
               onClick={() => setMode('search')}
-              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
                 mode === 'search'
                   ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm'
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
@@ -81,18 +98,19 @@ export default function HomeSearch() {
             <button
               type="button"
               onClick={() => setMode('ask')}
-              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
                 mode === 'ask'
                   ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm'
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
-              AI Search
+              ✦ AI Search
             </button>
           </div>
         </div>
 
-        <div className="relative flex items-center border-2 border-gray-200 dark:border-gray-700 focus-within:border-gray-400 dark:focus-within:border-gray-500 rounded-xl bg-white dark:bg-gray-900 transition-colors">
+        {/* Search bar — tall, prominent */}
+        <div className="relative flex items-center border-2 border-gray-200 dark:border-gray-700 focus-within:border-gray-500 dark:focus-within:border-gray-400 rounded-2xl bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-all">
           <input
             type="text"
             value={query}
@@ -100,26 +118,51 @@ export default function HomeSearch() {
             placeholder={
               mode === 'ask'
                 ? 'Ask a question about the archive…'
-                : 'Search for a term or phrase…'
+                : 'Search for a concept or phrase…'
             }
-            className="flex-1 px-4 py-3 text-base outline-none bg-transparent text-gray-700 dark:text-gray-200 placeholder-gray-400"
+            className="flex-1 px-5 py-4 text-lg outline-none bg-transparent text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
             autoComplete="off"
+            autoFocus
           />
+
+          {query && (
+            <button
+              type="button"
+              onClick={() => setQuery('')}
+              className="p-2 mr-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 hover:text-gray-600 transition-colors"
+              aria-label="Clear"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
 
           <button
             type="submit"
             disabled={isNavigating}
-            className="mr-2 px-4 py-2 rounded-lg text-sm font-medium bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors flex-shrink-0 disabled:opacity-60"
+            className="mr-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors flex-shrink-0 disabled:opacity-60"
           >
-            {mode === 'ask' ? 'AI Search' : 'Search'}
+            {mode === 'ask' ? 'Ask' : 'Search'}
           </button>
         </div>
 
-        <p className="text-center text-xs text-gray-400 mt-2">
-          {mode === 'ask'
-            ? 'AI retrieves the best quotes from the archive'
-            : 'Keyword search finds matching texts instantly'}
-        </p>
+        {/* Suggested terms */}
+        <div className="mt-4">
+          <p className="text-xs text-gray-400 dark:text-gray-500 text-center mb-2">Try searching for</p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {SUGGESTIONS.map((term) => (
+              <button
+                key={term}
+                type="button"
+                onClick={() => handleSuggestion(term)}
+                className="px-3 py-1.5 text-xs rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all"
+              >
+                {term}
+              </button>
+            ))}
+          </div>
+        </div>
       </form>
     </>
   );
