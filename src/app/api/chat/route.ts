@@ -218,8 +218,26 @@ function extractQueryTerms(query: string): string[] {
     }
   }
 
-  // Merge: base terms (minus stop words) + all injected synonyms
-  const all = new Set([...baseTerms, ...injected]);
+  // De-pluralize: for each base term that ends in a common plural suffix,
+  // also add the singular so "transmissions" matches "transmission",
+  // "passages" matches "passage", etc.
+  const depluralized = new Set<string>();
+  for (const term of baseTerms) {
+    if (term.length >= 5 && term.endsWith('s') && !term.endsWith('ss')) {
+      // ies → y (e.g. identities → identity)
+      if (term.endsWith('ies')) depluralized.add(term.slice(0, -3) + 'y');
+      // ions → ion (e.g. transmissions → transmission)
+      else if (term.endsWith('ions')) depluralized.add(term.slice(0, -1));
+      // plain plural: strip trailing s (e.g. scenes → scene, passages → passage)
+      else depluralized.add(term.slice(0, -1));
+    }
+    // Also add gerund/past forms: "attenuated" → "attenuate", "deferring" → "defer"
+    if (term.length >= 6 && term.endsWith('ing')) depluralized.add(term.slice(0, -3));
+    if (term.length >= 6 && term.endsWith('ed')) depluralized.add(term.slice(0, -2));
+  }
+
+  // Merge: base terms + synonym injections + de-pluralized forms
+  const all = new Set([...baseTerms, ...injected, ...depluralized]);
   return Array.from(all).filter((w) => w.trim().length > 0);
 }
 
@@ -345,10 +363,20 @@ function retrieveChunks(query: string, maxChunks = 25): ChunkWithMeta[] {
   const allChunks: ChunkWithMeta[] = [];
   for (const post of topPosts) {
     const chunks = chunkPost(post);
+    let postHasScoredChunk = false;
     for (const chunk of chunks) {
       const score = scoreChunk(chunk.text, queryTerms, bigrams);
       if (score > 0) {
         allChunks.push({ ...chunk, score });
+        postHasScoredChunk = true;
+      }
+    }
+    // Title-match chunk guarantee: post scored at post-level (e.g. title contains query term)
+    // but no body chunks scored — this happens when a term only appears in the title.
+    // Inject the first 2 body chunks with a small baseline so the post isn't silently dropped.
+    if (!postHasScoredChunk && chunks.length > 0) {
+      for (const chunk of chunks.slice(0, 2)) {
+        allChunks.push({ ...chunk, score: 0.1 });
       }
     }
   }
