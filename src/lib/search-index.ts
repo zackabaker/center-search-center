@@ -459,6 +459,21 @@ export function searchEntries(
       }
     }
 
+    // Multi-term title bonus: all query terms appear in title → strong relevance signal
+    if (mustTerms.length > 1) {
+      const allInTitle = mustTerms.every((t) =>
+        entry.titleWords.some((w) => w === t || (t.length >= 4 && w.startsWith(t)))
+      );
+      if (allInTitle) score += 300;
+    }
+
+    // Recency boost: recent posts from primary sources ranked slightly higher
+    if (entry.date) {
+      const daysOld = (Date.now() - new Date(entry.date).getTime()) / 86_400_000;
+      if (daysOld < 60) score *= 1.2;
+      else if (daysOld < 365) score *= 1.08;
+    }
+
     // Source weight: GABlog/Substack are primary; tweets and Reddit supplementary
     const SOURCE_WEIGHT: Record<string, number> = {
       gablog: 1.0, substack: 1.0, pdf: 0.9, book: 0.9, reddit: 0.25, twitter: 0.35,
@@ -558,4 +573,27 @@ export function getRelatedEntries(
     .slice(0, limit)
     .filter((s) => s.overlap > 5)
     .map((s) => s.entry);
+}
+
+/**
+ * Compute top terms for a single post — used by the Concordance component.
+ * Returns words sorted by: domain terms first, then by frequency.
+ */
+export function getPostTermFrequency(
+  content: string,
+  topN = 25
+): { word: string; count: number; isDomain: boolean }[] {
+  const freq = new Map<string, number>();
+  for (const w of tokenize(content)) {
+    if (STOPWORDS.has(w) || w.length < 4 || /^\d+$/.test(w)) continue;
+    freq.set(w, (freq.get(w) || 0) + 1);
+  }
+  return [...freq.entries()]
+    .map(([word, count]) => ({ word, count, isDomain: GA_DOMAIN_VOCAB.has(word) }))
+    .filter(({ count, isDomain }) => (isDomain ? count >= 1 : count >= 5))
+    .sort((a, b) => {
+      if (a.isDomain !== b.isDomain) return a.isDomain ? -1 : 1;
+      return b.count - a.count;
+    })
+    .slice(0, topN);
 }

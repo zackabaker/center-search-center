@@ -63,19 +63,39 @@ export default function ReadingListClient() {
             </button>
           ))}
         </div>
-        {!isEmpty && (
-          <button
-            onClick={handleClear}
-            onBlur={() => setConfirmClear(false)}
-            className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
-              confirmClear
-                ? 'border-red-300 text-red-600 bg-red-50 hover:bg-red-100'
-                : 'border-gray-200 text-gray-400 hover:text-gray-600 hover:border-gray-300'
-            }`}
-          >
-            {confirmClear ? 'Confirm clear?' : 'Clear'}
-          </button>
-        )}
+        <div className="flex items-center gap-2">
+          {tab === 'saved' && list.length > 0 && (
+            <button
+              onClick={() => {
+                const data = JSON.stringify({ exported: new Date().toISOString(), posts: list }, null, 2);
+                const blob = new Blob([data], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'center-study-saved.json';
+                a.click();
+                URL.revokeObjectURL(url);
+              }}
+              title="Export saved posts as JSON"
+              className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-400 hover:text-gray-600 hover:border-gray-300 transition-colors"
+            >
+              Export
+            </button>
+          )}
+          {!isEmpty && (
+            <button
+              onClick={handleClear}
+              onBlur={() => setConfirmClear(false)}
+              className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
+                confirmClear
+                  ? 'border-red-300 text-red-600 bg-red-50 hover:bg-red-100'
+                  : 'border-gray-200 text-gray-400 hover:text-gray-600 hover:border-gray-300'
+              }`}
+            >
+              {confirmClear ? 'Confirm clear?' : 'Clear'}
+            </button>
+          )}
+        </div>
       </div>
 
       {isEmpty ? (

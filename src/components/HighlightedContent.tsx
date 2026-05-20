@@ -1,12 +1,72 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useRef, useState, useCallback, Suspense } from 'react';
+import { useEffect, useRef, useState, useCallback, Suspense, useMemo } from 'react';
+import { CS_TERMS } from '@/lib/cs-terms';
 
 interface HighlightedContentProps {
   paragraphs: string[];
   postTitle?: string;
   postUrl?: string;
+}
+
+// ── Inline concept linking ────────────────────────────────────────────────────
+// Build linkable terms once: 2+ words (specific enough), or single words ≥ 10
+// chars (very domain-specific). Sorted longest-first so multi-word phrases
+// match before their components.
+const LINKABLE_TERMS = CS_TERMS
+  .filter((t) => t.term.split(' ').length >= 2 || t.term.length >= 10)
+  .sort((a, b) => b.term.length - a.term.length);
+
+/**
+ * Split `text` into an array of strings and <a> nodes for matched concepts.
+ * Only the FIRST occurrence of each term per paragraph is linked.
+ */
+function linkifyParagraph(text: string, linkedAlready: Set<string>): React.ReactNode[] {
+  if (!text || LINKABLE_TERMS.length === 0) return [text];
+
+  // Find all non-overlapping matches
+  interface Match { start: number; end: number; original: string; term: string; }
+  const matches: Match[] = [];
+  const occupied = new Set<number>();
+
+  for (const { term } of LINKABLE_TERMS) {
+    if (linkedAlready.has(term)) continue; // already linked in a previous paragraph
+    const idx = text.toLowerCase().indexOf(term.toLowerCase());
+    if (idx === -1) continue;
+    // Check no position overlap with an already-claimed match
+    let overlap = false;
+    for (let i = idx; i < idx + term.length; i++) {
+      if (occupied.has(i)) { overlap = true; break; }
+    }
+    if (overlap) continue;
+    matches.push({ start: idx, end: idx + term.length, original: text.slice(idx, idx + term.length), term });
+    for (let i = idx; i < idx + term.length; i++) occupied.add(i);
+    linkedAlready.add(term);
+  }
+
+  if (matches.length === 0) return [text];
+
+  matches.sort((a, b) => a.start - b.start);
+  const nodes: React.ReactNode[] = [];
+  let last = 0;
+
+  for (const { start, end, original, term } of matches) {
+    if (start > last) nodes.push(text.slice(last, start));
+    nodes.push(
+      <a
+        key={start}
+        href={`/search?q=${encodeURIComponent(term)}`}
+        className="underline decoration-dotted decoration-gray-300 dark:decoration-gray-600 hover:decoration-blue-500 dark:hover:decoration-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+        title={`Search: ${term}`}
+      >
+        {original}
+      </a>
+    );
+    last = end;
+  }
+  if (last < text.length) nodes.push(text.slice(last));
+  return nodes;
 }
 
 function CopyParaButton({ text, title, url }: { text: string; title: string; url: string }) {
@@ -178,6 +238,19 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
 
   const pageUrl = typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}` : postUrl;
 
+  // Pre-compute concept links across all paragraphs so each term is linked once
+  const linkedParagraphs = useMemo(() => {
+    const linkedAlready = new Set<string>();
+    return paragraphs.map((p) => {
+      const isBlockquote = p.startsWith('>') || p.startsWith('_');
+      const text = isBlockquote ? p.replace(/^>\s*/, '').replace(/^_|_$/g, '') : p;
+      // Don't linkify headings — they're structural, not prose
+      const isHeading = /^#{1,3}\s/.test(p);
+      const nodes = isHeading ? [text] : linkifyParagraph(text, linkedAlready);
+      return { isBlockquote, text, nodes };
+    });
+  }, [paragraphs]);
+
   return (
     <>
       {query && matchCount > 0 && (
@@ -200,18 +273,16 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
         </div>
       )}
       <div ref={contentRef} className="prose text-gray-800">
-        {paragraphs.map((p, i) => {
+        {linkedParagraphs.map(({ isBlockquote, text, nodes }, i) => {
           const id = `p-${i + 1}`;
-          const isBlockquote = p.startsWith('>') || p.startsWith('_');
-          const text = isBlockquote ? p.replace(/^>\s*/, '').replace(/^_|_$/g, '') : p;
           const controls = (
             <span className="inline-flex items-center gap-1 ml-2 align-middle print:hidden">
               <PermalinkButton id={id} />
               <CopyParaButton text={text} title={postTitle} url={pageUrl} />
             </span>
           );
-          if (isBlockquote) return <blockquote key={i} id={id} className="group scroll-mt-20"><p>{text}{controls}</p></blockquote>;
-          return <p key={i} id={id} className="group scroll-mt-20">{text}{controls}</p>;
+          if (isBlockquote) return <blockquote key={i} id={id} className="group scroll-mt-20"><p>{nodes}{controls}</p></blockquote>;
+          return <p key={i} id={id} className="group scroll-mt-20">{nodes}{controls}</p>;
         })}
       </div>
     </>

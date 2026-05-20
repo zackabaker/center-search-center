@@ -1,8 +1,9 @@
 import HomeSearch from '@/components/HomeSearch';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import Link from 'next/link';
+import { getAllPosts } from '@/lib/parser';
 
-// Cache this page for 24 hours — no need to re-parse the corpus on every visit
+// Revalidate daily — "on this day" section needs to refresh
 export const revalidate = 86400;
 
 const SOURCE_LABELS: Record<string, string> = {
@@ -59,7 +60,27 @@ const FEATURED = [
   },
 ];
 
+const BROWSE_SOURCES = [
+  { source: 'gablog',    label: 'GABlog',       description: "Katz's theoretical blog — originary grammar in development", color: 'hover:border-blue-400 dark:hover:border-blue-600' },
+  { source: 'substack',  label: 'Substack',     description: "Bouvard's applied essays on AI, governance, and technology",  color: 'hover:border-orange-400 dark:hover:border-orange-600' },
+  { source: 'pdf',       label: 'PDFs',          description: 'Academic papers, lectures, and longer works',                  color: 'hover:border-green-400 dark:hover:border-green-600' },
+  { source: 'book',      label: 'Book',          description: 'Anthropomorphics — systematic originary grammar',              color: 'hover:border-purple-400 dark:hover:border-purple-600' },
+  { source: 'reddit',    label: 'Reddit',        description: 'Discussions from r/Absolutistneoreaction',                     color: 'hover:border-red-400 dark:hover:border-red-600' },
+  { source: 'twitter',   label: 'X / Twitter',   description: 'Threads and notes',                                            color: 'hover:border-slate-400 dark:hover:border-slate-600' },
+];
+
 export default function Home() {
+  // "On this day" — posts published on today's month/day in any past year
+  const today = new Date();
+  const allPosts = getAllPosts();
+  const onThisDay = allPosts.filter((p) => {
+    if (!p.date) return false;
+    try {
+      const d = new Date(p.date);
+      return d.getMonth() === today.getMonth() && d.getDate() === today.getDate();
+    } catch { return false; }
+  });
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
 
@@ -81,6 +102,12 @@ export default function Home() {
             </Link>
             <Link href="/reading-list" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
               Reading List
+            </Link>
+            <Link href="/browse/gablog" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
+              Browse
+            </Link>
+            <Link href="/guide/timeline" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
+              Timeline
             </Link>
             <Link href="/download" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
               Download
@@ -174,6 +201,66 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* Browse by source */}
+      <div className="border-t border-gray-100 dark:border-gray-800">
+        <div className="max-w-5xl mx-auto px-4 py-10">
+          <div className="flex items-baseline justify-between mb-6">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Browse by source</h2>
+              <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">Explore the full archive organized by where it came from</p>
+            </div>
+            <Link href="/guide/timeline" className="text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+              Timeline →
+            </Link>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {BROWSE_SOURCES.map(({ source, label, description, color }) => (
+              <Link
+                key={source}
+                href={`/browse/${source}`}
+                className={`group block p-4 rounded-xl border border-gray-200 dark:border-gray-700 ${color} hover:shadow-sm transition-all bg-white dark:bg-gray-900`}
+              >
+                <p className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1">{label}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{description}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* On this day */}
+      {onThisDay.length > 0 && (
+        <div className="border-t border-gray-100 dark:border-gray-800">
+          <div className="max-w-5xl mx-auto px-4 py-10">
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">On this day</h2>
+              <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">
+                Published on {today.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} in past years
+              </p>
+            </div>
+            <div className="space-y-2">
+              {onThisDay.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/post/${post.slug}`}
+                  className="group flex items-center gap-3 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-900/50 -mx-2 px-2 rounded-lg transition-colors"
+                >
+                  <span className="text-xs text-gray-400 w-10 shrink-0 font-mono">
+                    {new Date(post.date!).getFullYear()}
+                  </span>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium shrink-0 ${SOURCE_COLORS[post.source] || 'bg-gray-100 text-gray-600'}`}>
+                    {SOURCE_LABELS[post.source] || post.source}
+                  </span>
+                  <span className="text-sm text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
+                    {post.title}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

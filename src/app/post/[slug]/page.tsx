@@ -11,6 +11,10 @@ import CitationButton from '@/components/CitationButton';
 import Annotations from '@/components/Annotations';
 import TrackView from '@/components/TrackView';
 import ShareButton from '@/components/ShareButton';
+import TableOfContents from '@/components/TableOfContents';
+import PostNavigation from '@/components/PostNavigation';
+import Concordance from '@/components/Concordance';
+import { getPostTermFrequency } from '@/lib/search-index';
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
   substack: 'Bouvard Substack',
@@ -32,9 +36,6 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
-  // Pre-render all primary content at build time so they load instantly.
-  // Twitter/reddit posts remain dynamic (dynamicParams=true) — they're
-  // rarely directly linked and load fast once the cache is warm.
   return posts
     .filter((p) => p.source !== 'twitter' && p.source !== 'reddit')
     .map((post) => ({ slug: post.slug }));
@@ -67,6 +68,22 @@ export default async function PostPage({
     );
 
   const externalUrl = post.url || `https://center.study/post/${slug}`;
+
+  // ── Prev / Next within source ──────────────────────────────────────────────
+  const sourcePosts = allPosts
+    .filter((p) => p.source === post.source)
+    .sort((a, b) => {
+      if (a.date && b.date) return new Date(a.date).getTime() - new Date(b.date).getTime();
+      if (a.date && !b.date) return -1;
+      if (!a.date && b.date) return 1;
+      return a.title.localeCompare(b.title);
+    });
+  const currentIdx = sourcePosts.findIndex((p) => p.slug === slug);
+  const prevPost = currentIdx > 0 ? sourcePosts[currentIdx - 1] : null;
+  const nextPost = currentIdx < sourcePosts.length - 1 ? sourcePosts[currentIdx + 1] : null;
+
+  // ── Concordance ────────────────────────────────────────────────────────────
+  const termFreq = getPostTermFrequency(post.content, 25);
 
   return (
     <>
@@ -127,6 +144,9 @@ export default async function PostPage({
             </div>
           </header>
 
+          {/* Table of contents — only renders if 3+ headings found */}
+          <TableOfContents paragraphs={paragraphs} />
+
           <HighlightedContent
             paragraphs={paragraphs}
             postTitle={post.title}
@@ -134,8 +154,18 @@ export default async function PostPage({
           />
         </article>
 
+        {/* Key terms concordance */}
+        <Concordance terms={termFreq} />
+
         <Annotations slug={slug} />
         <RelatedPosts currentSlug={slug} allPosts={allPosts} />
+
+        {/* Prev / Next in source */}
+        <PostNavigation
+          prev={prevPost ? { slug: prevPost.slug, title: prevPost.title, date: prevPost.date } : null}
+          next={nextPost ? { slug: nextPost.slug, title: nextPost.title, date: nextPost.date } : null}
+          source={post.source}
+        />
       </main>
     </>
   );
