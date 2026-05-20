@@ -53,7 +53,7 @@ export default function TimelinePage() {
   const years = [...byYear.keys()].sort((a, b) => Number(b) - Number(a));
 
   return (
-    <main className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+    <main className="max-w-4xl mx-auto px-4 pt-8 pb-24 sm:py-12">
       {/* Back link */}
       <div className="mb-6">
         <Link
@@ -93,30 +93,28 @@ export default function TimelinePage() {
               {/* Posts in year */}
               <div className="space-y-px">
                 {posts.map((post) => (
-                  <div
+                  <Link
                     key={post.slug}
-                    className="group flex items-center gap-3 py-2.5 border-b border-gray-50 dark:border-gray-800/60 last:border-b-0"
+                    href={`/post/${post.slug}`}
+                    className="group flex items-start gap-3 py-3 min-h-[44px] border-b border-gray-50 dark:border-gray-800/60 last:border-b-0 hover:bg-gray-50 dark:hover:bg-gray-900/40 -mx-2 px-2 rounded transition-colors"
                   >
                     {/* Date */}
-                    <span className="text-xs text-gray-400 dark:text-gray-500 w-14 flex-shrink-0 tabular-nums">
+                    <span className="text-xs text-gray-400 dark:text-gray-500 w-14 flex-shrink-0 tabular-nums pt-0.5">
                       {formatShortDate(post.date!)}
                     </span>
 
                     {/* Source badge */}
                     <span
-                      className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 ${SOURCE_COLOR[post.source]}`}
+                      className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 mt-0.5 ${SOURCE_COLOR[post.source]}`}
                     >
                       {SOURCE_ABBREV[post.source]}
                     </span>
 
-                    {/* Title */}
-                    <Link
-                      href={`/post/${post.slug}`}
-                      className="text-sm text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors leading-snug flex-1 min-w-0 truncate"
-                    >
+                    {/* Title — wraps instead of truncating */}
+                    <span className="text-sm text-gray-800 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug flex-1 min-w-0">
                       {post.title}
-                    </Link>
-                  </div>
+                    </span>
+                  </Link>
                 ))}
               </div>
             </section>

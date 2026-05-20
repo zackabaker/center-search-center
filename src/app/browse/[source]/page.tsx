@@ -93,7 +93,7 @@ export default async function BrowseSourcePage({
   const pagePosts = sorted.slice(pageStart, pageStart + PAGE_SIZE);
 
   return (
-    <main className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+    <main className="max-w-4xl mx-auto px-4 pt-8 pb-24 sm:py-12">
       {/* Back link */}
       <div className="mb-6">
         <Link
@@ -145,34 +145,37 @@ export default async function BrowseSourcePage({
         ))}
       </div>
 
-      {/* Pagination */}
+      {/* Pagination — full-width rows on mobile, side-by-side on desktop */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between mt-6">
-          {currentPage > 1 ? (
-            <Link
-              href={`/browse/${src}?page=${currentPage - 1}`}
-              className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-500"
-            >
-              &larr; Newer
-            </Link>
-          ) : (
-            <span />
-          )}
+        <div className="mt-6 space-y-2 sm:space-y-0 sm:flex sm:items-center sm:justify-between">
+          {/* Prev / Next stacked on mobile */}
+          <div className="flex gap-2">
+            {currentPage > 1 ? (
+              <Link
+                href={`/browse/${src}?page=${currentPage - 1}`}
+                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1 min-h-[44px] px-5 py-3 rounded-xl border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-500 transition-colors"
+              >
+                ← Newer
+              </Link>
+            ) : (
+              <span className="flex-1 sm:flex-none" />
+            )}
 
-          <span className="text-xs text-gray-400 dark:text-gray-500">
+            {currentPage < totalPages ? (
+              <Link
+                href={`/browse/${src}?page=${currentPage + 1}`}
+                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1 min-h-[44px] px-5 py-3 rounded-xl border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-500 transition-colors"
+              >
+                Older →
+              </Link>
+            ) : (
+              <span className="flex-1 sm:flex-none" />
+            )}
+          </div>
+
+          <span className="block text-center sm:text-right text-xs text-gray-400 dark:text-gray-500">
             Page {currentPage} of {totalPages}
           </span>
-
-          {currentPage < totalPages ? (
-            <Link
-              href={`/browse/${src}?page=${currentPage + 1}`}
-              className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-500"
-            >
-              Older &rarr;
-            </Link>
-          ) : (
-            <span />
-          )}
         </div>
       )}
     </main>

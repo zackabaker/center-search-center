@@ -282,7 +282,7 @@ export default function SearchPageClient({
   const iconSpeed = isSearching ? 7 : query ? 2 : 1;
 
   return (
-    <main className="max-w-4xl mx-auto px-4 py-6 sm:py-10">
+    <main className="max-w-4xl mx-auto px-4 pt-6 pb-24 sm:py-10">
       {/* Back link */}
       <div className="mb-6">
         <Link href="/" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">← Home</Link>
@@ -455,17 +455,17 @@ export default function SearchPageClient({
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-1.5 mt-8 flex-wrap">
+            <div className="flex items-center justify-center gap-2 mt-8 flex-wrap">
               <button onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={page === 0}
-                className="px-3 py-1.5 text-sm rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed">
-                Prev
+                className="min-h-[44px] px-4 py-2.5 text-sm rounded-xl border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                ← Prev
               </button>
               <div className="flex items-center gap-1">
                 {Array.from({ length: totalPages }, (_, i) => {
                   if (i === 0 || i === totalPages - 1 || Math.abs(i - page) <= 1) {
                     return (
                       <button key={i} onClick={() => setPage(i)}
-                        className={`w-8 h-8 text-sm rounded-lg ${i === page ? 'bg-gray-900 text-white' : 'hover:bg-gray-100 text-gray-600'}`}>
+                        className={`w-10 h-10 text-sm rounded-xl transition-colors ${i === page ? 'bg-gray-900 text-white' : 'hover:bg-gray-100 text-gray-600'}`}>
                         {i + 1}
                       </button>
                     );
@@ -477,10 +477,10 @@ export default function SearchPageClient({
                 })}
               </div>
               <button onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))} disabled={page === totalPages - 1}
-                className="px-3 py-1.5 text-sm rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed">
-                Next
+                className="min-h-[44px] px-4 py-2.5 text-sm rounded-xl border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                Next →
               </button>
-              <span className="text-xs text-gray-400 ml-2">
+              <span className="w-full text-center text-xs text-gray-400">
                 {page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, filtered.length)} of {filtered.length}
               </span>
             </div>
