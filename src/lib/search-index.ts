@@ -305,7 +305,10 @@ export function parseQuery(raw: string): ParsedQuery {
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 function findMatchingSentence(snippetContent: string, query: string): string | null {
+  const lower = snippetContent.toLowerCase();
   const lowerQuery = query.toLowerCase();
+
+  // 1. Exact phrase match within a sentence — fastest path
   const sentences = snippetContent.split(/(?<=[.!?])\s+|(?:\n\n+)/);
   for (const sentence of sentences) {
     if (sentence.toLowerCase().includes(lowerQuery)) {
@@ -321,7 +324,70 @@ function findMatchingSentence(snippetContent: string, query: string): string | n
       return snippet;
     }
   }
-  return null;
+
+  // 2. Proximity search — finds the window where all query words appear
+  //    closest together, even when they're not literally adjacent.
+  //    e.g. "cities safe" will match "Cities must not be made safe precisely."
+  const words = lowerQuery.split(/\s+/).filter((w) => w.length >= 3);
+  if (words.length === 0) return null;
+
+  // Collect positions of every query word in the full content
+  const allPositions: number[][] = words.map((word) => {
+    const positions: number[] = [];
+    let pos = 0;
+    while ((pos = lower.indexOf(word, pos)) !== -1) {
+      positions.push(pos);
+      pos += word.length;
+    }
+    return positions;
+  });
+
+  // If any word has no positions at all, no match possible
+  if (allPositions.some((p) => p.length === 0)) return null;
+
+  // For each occurrence of the first word, find the closest occurrence of every
+  // other word. Pick the anchor position whose total spread is smallest.
+  let bestCenter = -1;
+  let bestSpread = Infinity;
+
+  for (const anchor of allPositions[0]) {
+    let lo = anchor, hi = anchor + words[0].length;
+    let valid = true;
+    for (let i = 1; i < allPositions.length; i++) {
+      const positions = allPositions[i];
+      // Binary search for the position closest to anchor
+      let left = 0, right = positions.length - 1;
+      let closest = positions[0];
+      while (left <= right) {
+        const mid = (left + right) >> 1;
+        if (Math.abs(positions[mid] - anchor) < Math.abs(closest - anchor)) {
+          closest = positions[mid];
+        }
+        if (positions[mid] < anchor) left = mid + 1;
+        else right = mid - 1;
+      }
+      // Give up if the words are too far apart (> 600 chars ≈ one long paragraph)
+      if (Math.abs(closest - anchor) > 600) { valid = false; break; }
+      lo = Math.min(lo, closest);
+      hi = Math.max(hi, closest + words[i].length);
+    }
+    if (!valid) continue;
+    const spread = hi - lo;
+    if (spread < bestSpread) {
+      bestSpread = spread;
+      bestCenter = Math.floor((lo + hi) / 2);
+    }
+  }
+
+  if (bestCenter === -1) return null;
+
+  // Expand around the cluster center to get a readable ~260-char snippet
+  const start = Math.max(0, bestCenter - 130);
+  const end = Math.min(snippetContent.length, bestCenter + 130);
+  let snippet = snippetContent.slice(start, end).trim();
+  if (start > 0) snippet = '…' + snippet;
+  if (end < snippetContent.length) snippet = snippet + '…';
+  return snippet;
 }
 
 /** Count how many times `term` appears in `text` (case-insensitive). */
