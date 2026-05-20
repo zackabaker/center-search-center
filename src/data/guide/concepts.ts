@@ -41,7 +41,7 @@ The center is never absent from human activity. Where it appears absent, it has 
 **Omnicentrism** — the post-sacrificial condition in which every individual is potentially a center — does not abolish the center but distributes its function across the social order. The imperative of omnicentrism is not that centers disappear but that violent centralization be continuously deferred. That deferral is the moral obligation constituted by the originary scene.`,
     relations: ['originary-scene', 'deferral', 'the-sacred', 'resentment-victimary', 'succession', 'nomos'],
     posts: [
-      { slug: 'gablog-how-does-the-center-speak', title: 'How Does the Center Speak?', note: 'The opening post of the archive. Begin here.' },
+      { slug: 'gablog-the-discourse-of-the-center', title: 'The Discourse of the Center', note: 'The center as the organizing structure of all discourse. Begin here.' },
       { slug: 'pdf-event-origin-center', title: 'Event, Origin, Center', note: 'The center as presupposition of all institutional action, including journalism.' },
       { slug: 'book-anthropomorphics', title: 'Anthropomorphics', note: 'The extended treatment of signifying center vs. occupied center.' },
       { slug: 'pdf-talk-of-the-center-adam-katz', title: 'Talk of the Center', note: 'How all social interaction is organized around the problem of the center.' },

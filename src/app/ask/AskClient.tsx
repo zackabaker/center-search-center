@@ -354,11 +354,16 @@ export default function AskClient() {
     <div className="h-screen bg-white dark:bg-gray-950 flex flex-col overflow-hidden">
       {/* Header */}
       <header className="border-b border-gray-100 dark:border-gray-800 px-4 py-3 flex items-center justify-between max-w-4xl mx-auto w-full flex-shrink-0">
-        <div className="flex items-center gap-4">
-          <Link href="/" className="text-sm text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-            ← Archive
+        <div className="flex items-center gap-3">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 font-medium transition-colors text-sm"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back
           </Link>
-          <span className="text-gray-200 dark:text-gray-700">|</span>
           <h1 className="text-sm font-semibold text-gray-900 dark:text-white">Ask AI</h1>
         </div>
         <div className="flex items-center gap-3">
