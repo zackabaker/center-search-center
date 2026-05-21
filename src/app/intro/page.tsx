@@ -185,9 +185,9 @@ export default function IntroPage() {
               </div>
               <div className="flex-1">
                 <p className="font-semibold text-gray-900 dark:text-white">Center Study</p>
-                <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">Adam Katz &amp; Dennis Bouvard · GABlog, Substack, <em>Anthropomorphics</em></p>
+                <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">Adam Katz · GABlog, Substack (as Dennis Bouvard), <em>Anthropomorphics</em></p>
                 <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                  Takes GA&rsquo;s originary hypothesis and keeps the center in view across all human organization — from the first ritual scene through kingship, the state, money, media, and code. Reads every social order as an effect of the engagement between periphery and center. Rebuilds the vocabularies of the human sciences from originary grammar. Always asks: <em>who actually holds the center here, and on what terms?</em>
+                  Takes GA&rsquo;s originary hypothesis and keeps the center in view across all human organization — from the first ritual scene through kingship, the state, money, media, and code. Reads every social order as an effect of the engagement between periphery and center. Rebuilds the vocabularies of the human sciences from originary grammar. Always asks: <em>who actually holds the center here, and on what terms?</em> Katz writes theory on GABlog and under the pen name Dennis Bouvard on Substack.
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {['the center', 'originary grammar', 'succession', 'imperative exchange', 'scenic design'].map((t) => (

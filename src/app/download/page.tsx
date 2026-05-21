@@ -28,7 +28,7 @@ const SOURCE_META: Record<
   },
   book: {
     label: 'Anthropomorphics',
-    description: 'Chapters from Eric Gans\'s book Anthropomorphics',
+    description: 'Chapters from Adam Katz\'s book on systematic originary grammar',
     color: 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
   },
   pdf: {

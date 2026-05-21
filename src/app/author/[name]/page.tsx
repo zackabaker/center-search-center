@@ -9,7 +9,7 @@ const AUTHORS = {
     name: 'Adam Katz',
     handle: 'katz',
     sources: ['gablog', 'pdf', 'book'] as ContentSource[],
-    bio: 'Adam Katz is the primary theorist of Center Study. Through the GABlog (~480 posts since 2007), academic PDFs, and co-authorship of Anthropomorphics, he develops originary grammar and applies it to language, power, juridical order, and the nature of the center.',
+    bio: 'Adam Katz is the author of Center Study. Through the GABlog (~480 posts since 2007), academic PDFs, and Anthropomorphics, he develops originary grammar and applies it to language, power, juridical order, and the nature of the center. He also writes applied essays on AI, governance, and contemporary politics on Substack under the pen name Dennis Bouvard.',
     color: 'blue',
     colorClasses: {
       badge: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
@@ -25,7 +25,7 @@ const AUTHORS = {
     name: 'Dennis Bouvard',
     handle: 'bouvard',
     sources: ['substack'] as ContentSource[],
-    bio: 'Dennis Bouvard applies the originary framework to contemporary questions of technology, governance, currency, and AI. His Substack (~127 essays) traces how Center Study concepts illuminate the digital economy, political succession, and the anthropology of the algorithm.',
+    bio: 'Dennis Bouvard is the pen name used by Adam Katz for his Substack writing. These ~127 essays apply the originary framework to contemporary questions of technology, governance, currency, and AI — tracing how Center Study concepts illuminate the digital economy, political succession, and the anthropology of the algorithm.',
     color: 'orange',
     colorClasses: {
       badge: 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
@@ -131,9 +131,19 @@ export default async function AuthorPage({
 
       {/* Author header */}
       <div className="mb-10">
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white mb-2">
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white mb-1">
           {author.name}
         </h1>
+        {name === 'bouvard' && (
+          <p className="text-sm text-gray-400 dark:text-gray-500 mb-2">
+            pen name of <Link href="/author/katz" className="underline hover:text-gray-700 dark:hover:text-gray-300 transition-colors">Adam Katz</Link>
+          </p>
+        )}
+        {name === 'katz' && (
+          <p className="text-sm text-gray-400 dark:text-gray-500 mb-2">
+            also writes as <Link href="/author/bouvard" className="underline hover:text-gray-700 dark:hover:text-gray-300 transition-colors">Dennis Bouvard</Link>
+          </p>
+        )}
         <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl mb-4">
           {author.bio}
         </p>
