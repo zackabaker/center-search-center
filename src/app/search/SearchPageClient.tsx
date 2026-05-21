@@ -282,7 +282,7 @@ export default function SearchPageClient({
   const iconSpeed = isSearching ? 7 : query ? 2 : 1;
 
   return (
-    <main className="max-w-4xl mx-auto px-4 pt-6 pb-24 sm:py-10">
+    <main className="max-w-4xl mx-auto px-4 pt-6 pb-24 sm:py-10 overflow-x-hidden">
       {/* Back link */}
       <div className="mb-6">
         <Link href="/" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">← Home</Link>
@@ -384,7 +384,7 @@ export default function SearchPageClient({
                   `No results for "${committed}"`
                 )}
               </div>
-              <span className="text-xs text-gray-400 hidden sm:block">⌘K anywhere</span>
+              <span className="text-xs text-gray-400 hidden md:block flex-shrink-0">⌘K anywhere</span>
             </div>
             {(primaryFiltered.length > 0 || (showSecondary && secondaryFiltered.length > 0)) && (
             <FilterTabs active={filter} onChange={handleFilterChange} counts={counts} />
@@ -413,7 +413,7 @@ export default function SearchPageClient({
           {hasResults && (
             <div className="space-y-3">
               {pageItems.map(({ entry, contextSnippet, occurrences }: SearchResult) => (
-                <div key={entry.slug} className="group bg-white border border-gray-200 rounded-xl p-4 hover:border-gray-300 hover:shadow-sm transition-all">
+                <div key={entry.slug} className="group bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm transition-all">
                   <div className="flex items-start gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1.5 flex-wrap">
@@ -424,25 +424,26 @@ export default function SearchPageClient({
                         <span className="text-xs text-gray-400">{entry.readingTime} min read</span>
                         {occurrences > 0 && (
                           <span className="text-xs text-gray-400">
-                            {occurrences} occurrence{occurrences !== 1 ? 's' : ''}
+                            {occurrences}×
                           </span>
                         )}
                       </div>
                       <Link
                         href={postUrl(entry.slug)}
-                        className="block font-semibold text-gray-900 hover:text-blue-600 transition-colors mb-1.5"
+                        className="block font-semibold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-1.5 break-words"
                       >
                         {highlight(entry.title, committed)}
                       </Link>
-                      <p className="text-sm text-gray-600 leading-relaxed">
+                      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed break-words">
                         {highlight(contextSnippet, committed)}
                       </p>
                     </div>
+                    {/* Open button — hidden on mobile (tap the title instead) */}
                     <a
                       href={postUrl(entry.slug)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-shrink-0 flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-gray-200 text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-all sm:opacity-0 sm:group-hover:opacity-100 text-xs font-medium"
+                      className="hidden sm:flex flex-shrink-0 items-center gap-1 px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-all sm:opacity-0 sm:group-hover:opacity-100 text-xs font-medium"
                       title="Open"
                     >
                       Open
