@@ -150,12 +150,12 @@ export default function Home() {
           </Link>
           <Link
             href="/ask"
-            className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-900 dark:border-white bg-gray-900 dark:bg-white hover:opacity-80 transition-all"
+            className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
           >
             <span className="text-xl">💬</span>
             <div className="text-center">
-              <p className="text-sm font-medium text-white dark:text-gray-900">Ask AI</p>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 hidden sm:block">Quotes from the archive</p>
+              <p className="text-sm font-medium text-gray-900 dark:text-white">Ask AI</p>
+              <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">Quotes from the archive</p>
             </div>
           </Link>
           <Link
