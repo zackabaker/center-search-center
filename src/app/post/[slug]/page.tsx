@@ -157,6 +157,16 @@ export default async function PostPage({
 
             {/* Action buttons */}
             <div className="flex flex-wrap items-center gap-2 print:hidden">
+              <a
+                href={`/post/${slug}/text`}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
+                title="Open clean reading view — share this URL to ElevenReader, Voice Dream, or any TTS app. On iPhone: tap Share → ElevenReader. For Safari Reader, tap the ᴬA icon in the address bar, then the speaker."
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072M12 6a7 7 0 010 12m-3.536-9.536a5 5 0 000 7.072" />
+                </svg>
+                Listen
+              </a>
               <ShareButton title={post.title} url={`https://center.study/post/${slug}`} />
               <BookmarkButton post={{ slug, title: post.title, source: post.source, date: post.date, savedAt: '' }} />
               <CitationButton
