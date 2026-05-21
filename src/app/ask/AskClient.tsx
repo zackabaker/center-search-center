@@ -71,7 +71,8 @@ function linkTerms(
           key={`${key}-${i}`}
           onClick={() => onTerm(match.query, part)}
           title={`Ask the archive about "${part}"`}
-          className="underline decoration-dotted underline-offset-2 hover:decoration-solid hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
+          style={{ touchAction: 'manipulation' }}
+          className="text-blue-700 dark:text-blue-400 underline decoration-dotted underline-offset-2 hover:decoration-solid hover:text-blue-800 dark:hover:text-blue-300 active:text-blue-900 dark:active:text-blue-200 active:bg-blue-50 dark:active:bg-blue-900/30 rounded px-0.5 -mx-0.5 py-0.5 -my-0.5 transition-colors cursor-pointer"
         >
           {part}
         </button>
