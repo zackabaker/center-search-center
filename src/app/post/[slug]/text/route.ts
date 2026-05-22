@@ -50,12 +50,26 @@ export async function GET(
       !p.match(/^Share$/)
     );
 
+  // Escape HTML but render markdown links [text](url) as actual <a> tags.
+  // Strategy: extract links first, escape everything else, re-insert link HTML.
+  function paragraphHtml(raw: string): string {
+    // First, extract links, escape everything else, then re-insert links
+    const links: string[] = [];
+    const withPlaceholders = raw.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (_, text, url) => {
+      links.push(`<a href="${escapeHtml(url)}" rel="noopener">${escapeHtml(text)}</a>`);
+      return `\x00${links.length - 1}\x00`;
+    });
+    const escaped = escapeHtml(withPlaceholders);
+    return escaped.replace(/\x00(\d+)\x00/g, (_, idx) => links[parseInt(idx)]);
+  }
+
   const bodyHtml = paragraphs
-    .map((p) => {
+    .map((p, i) => {
       if (p.startsWith('# '))   return `<h2>${escapeHtml(p.slice(2))}</h2>`;
       if (p.startsWith('## '))  return `<h3>${escapeHtml(p.slice(3))}</h3>`;
       if (p.startsWith('### ')) return `<h4>${escapeHtml(p.slice(4))}</h4>`;
-      return `<p>${escapeHtml(p)}</p>`;
+      const cls = i === 0 ? ' class="first-para"' : '';
+      return `<p${cls}>${paragraphHtml(p)}</p>`;
     })
     .join('\n');
 
@@ -195,6 +209,23 @@ export async function GET(
 
     #btn-theme { font-size: 15px; padding: 5px 8px; }
 
+    /* ── Listen note ── */
+    .listen-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 12px;
+      color: var(--meta-color);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 36px;
+      line-height: 1.5;
+    }
+    .listen-note strong { color: var(--fg); font-weight: 600; }
+
     /* ── Back link ── */
     .back-link {
       display: inline-block;
@@ -234,9 +265,22 @@ export async function GET(
       hanging-punctuation: first last;
     }
 
-    /* First paragraph — slightly larger cap or drop feel isn't possible in plain HTML,
-       but we can remove the top margin so it flows directly from the divider */
-    .content p:first-child { margin-top: 0; }
+    .content p.first-para {
+      margin-top: 0;
+      text-indent: 1.8em;
+    }
+
+    /* ── Inline links (from [text](url) in source) ── */
+    .content a {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-color: var(--meta-color);
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+    }
+    .content a:hover {
+      text-decoration-color: var(--fg);
+    }
 
     .content h2, .content h3, .content h4 {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -276,6 +320,13 @@ export async function GET(
   </div>
 
   <a class="back-link" href="${canonicalUrl}">← center.study</a>
+
+  <div class="listen-note" role="note">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink:0;margin-top:1px">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M12 6a7 7 0 010 12m-3.536-9.536a5 5 0 000 7.072"/>
+    </svg>
+    <span>This page is designed for listening apps — open it in <strong>ElevenReader</strong>, <strong>Voice Dream</strong>, or tap <strong>Share → ElevenReader</strong> on iPhone. On Safari, tap the <strong>ᴬA</strong> icon then the speaker to use Reader mode.</span>
+  </div>
 
   <h1 class="title">${escapeHtml(post.title)}</h1>
   <div class="meta">${escapeHtml(metaParts)}</div>

@@ -19,6 +19,52 @@ const LINKABLE_TERMS = CS_TERMS
   .sort((a, b) => b.term.length - a.term.length);
 
 /**
+ * Parse markdown-style links [text](url) in a paragraph and return segments.
+ * Each segment is either a plain string or a rendered <a> element.
+ * Text segments are passed through linkifyParagraph for concept linking.
+ */
+function renderParagraphNodes(
+  rawText: string,
+  linkedAlready: Set<string>,
+  paraIndex: number
+): React.ReactNode[] {
+  const mdLinkRe = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
+  const segments: React.ReactNode[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  let segKey = 0;
+
+  while ((m = mdLinkRe.exec(rawText)) !== null) {
+    if (m.index > last) {
+      // plain text before the link — run concept linking
+      segments.push(...linkifyParagraph(rawText.slice(last, m.index), linkedAlready).map((n, j) =>
+        typeof n === 'string' ? n : <span key={`${paraIndex}-pre-${segKey++}-${j}`}>{n}</span>
+      ));
+    }
+    segments.push(
+      <a
+        key={`${paraIndex}-link-${segKey++}`}
+        href={m[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 dark:text-blue-400 hover:underline"
+      >
+        {m[1]}
+      </a>
+    );
+    last = mdLinkRe.lastIndex;
+  }
+
+  if (last < rawText.length) {
+    segments.push(...linkifyParagraph(rawText.slice(last), linkedAlready).map((n, j) =>
+      typeof n === 'string' ? n : <span key={`${paraIndex}-post-${segKey++}-${j}`}>{n}</span>
+    ));
+  }
+
+  return segments.length > 0 ? segments : linkifyParagraph(rawText, linkedAlready);
+}
+
+/**
  * Split `text` into an array of strings and <a> nodes for matched concepts.
  * Only the FIRST occurrence of each term per paragraph is linked.
  */
@@ -241,13 +287,13 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
   // Pre-compute concept links across all paragraphs so each term is linked once
   const linkedParagraphs = useMemo(() => {
     const linkedAlready = new Set<string>();
-    return paragraphs.map((p) => {
+    return paragraphs.map((p, i) => {
       const isBlockquote = p.startsWith('>') || p.startsWith('_');
       const text = isBlockquote ? p.replace(/^>\s*/, '').replace(/^_|_$/g, '') : p;
       // Don't linkify headings — they're structural, not prose
       const isHeading = /^#{1,3}\s/.test(p);
-      const nodes = isHeading ? [text] : linkifyParagraph(text, linkedAlready);
-      return { isBlockquote, text, nodes };
+      const nodes = isHeading ? [text] : renderParagraphNodes(text, linkedAlready, i);
+      return { isBlockquote, text, nodes, isFirst: i === 0 };
     });
   }, [paragraphs]);
 
@@ -273,7 +319,7 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
         </div>
       )}
       <div ref={contentRef} className="prose text-gray-800">
-        {linkedParagraphs.map(({ isBlockquote, text, nodes }, i) => {
+        {linkedParagraphs.map(({ isBlockquote, text, nodes, isFirst }, i) => {
           const id = `p-${i + 1}`;
           const controls = (
             <span className="inline-flex items-center gap-1 ml-2 align-middle print:hidden">
@@ -282,7 +328,15 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
             </span>
           );
           if (isBlockquote) return <blockquote key={i} id={id} className="group scroll-mt-20"><p>{nodes}{controls}</p></blockquote>;
-          return <p key={i} id={id} className="group scroll-mt-20">{nodes}{controls}</p>;
+          return (
+            <p
+              key={i}
+              id={id}
+              className={`group scroll-mt-20${isFirst ? ' indent-6 sm:indent-8' : ''}`}
+            >
+              {nodes}{controls}
+            </p>
+          );
         })}
       </div>
     </>
