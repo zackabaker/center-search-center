@@ -45,6 +45,7 @@ export async function GET(
     .filter((p) =>
       !p.includes('Thanks for reading Center Study Center') &&
       !p.includes('Thanks for reading GA Newsletter') &&
+      !p.includes('reader-supported publication') &&
       !p.match(/^Subscribe$/) &&
       !p.match(/^Share$/)
     );
@@ -99,22 +100,22 @@ export async function GET(
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     /* ── Font-size steps: 0=small 1=default 2=large 3=xl ── */
-    :root                    { --fs: 20px; --lh: 1.85; }
-    [data-fs="0"]            { --fs: 17px; --lh: 1.8;  }
-    [data-fs="1"]            { --fs: 20px; --lh: 1.85; }
-    [data-fs="2"]            { --fs: 23px; --lh: 1.9;  }
-    [data-fs="3"]            { --fs: 26px; --lh: 1.95; }
+    :root                    { --fs: 21px; --lh: 1.9; }
+    [data-fs="0"]            { --fs: 18px; --lh: 1.82; }
+    [data-fs="1"]            { --fs: 21px; --lh: 1.9;  }
+    [data-fs="2"]            { --fs: 24px; --lh: 1.95; }
+    [data-fs="3"]            { --fs: 27px; --lh: 2.0;  }
 
-    /* ── Light theme ── */
+    /* ── Light theme — warm paper, not harsh white ── */
     :root {
-      --bg:          #ffffff;
-      --fg:          #111111;
-      --meta-color:  #888;
-      --border:      #e8e8e8;
-      --toolbar-bg:  rgba(255,255,255,0.92);
-      --toolbar-border: #e0e0e0;
-      --btn-hover:   #f0f0f0;
-      --btn-active:  #e4e4e4;
+      --bg:          #f9f6f1;
+      --fg:          #1c1917;
+      --meta-color:  #8a8278;
+      --border:      #e2ddd7;
+      --toolbar-bg:  rgba(249,246,241,0.93);
+      --toolbar-border: #d8d3cc;
+      --btn-hover:   #ede9e3;
+      --btn-active:  #e0dbd4;
     }
 
     /* ── Dark theme — warm, easy on eyes, Kindle-inspired ── */
@@ -132,9 +133,9 @@ export async function GET(
     html, body { background: var(--bg); color: var(--fg); }
 
     body {
-      max-width: min(660px, 100% - 48px);
+      max-width: min(700px, 100% - 48px);
       margin: 0 auto;
-      padding: 64px 0 100px;
+      padding: 72px 0 120px;
       font-family: 'Lora', Palatino, 'Palatino Linotype', Georgia, serif;
       font-size: var(--fs);
       line-height: var(--lh);
@@ -144,11 +145,11 @@ export async function GET(
 
     @media (max-width: 600px) {
       body { padding: 48px 0 80px; }
-      :root    { --fs: 18px; }
-      [data-fs="0"] { --fs: 16px; }
-      [data-fs="1"] { --fs: 18px; }
-      [data-fs="2"] { --fs: 21px; }
-      [data-fs="3"] { --fs: 24px; }
+      :root         { --fs: 19px; --lh: 1.85; }
+      [data-fs="0"] { --fs: 17px; --lh: 1.8; }
+      [data-fs="1"] { --fs: 19px; --lh: 1.85; }
+      [data-fs="2"] { --fs: 22px; --lh: 1.9; }
+      [data-fs="3"] { --fs: 25px; --lh: 1.95; }
     }
 
     /* ── Toolbar ── */
@@ -229,7 +230,7 @@ export async function GET(
 
     /* ── Body copy ── */
     .content p {
-      margin-bottom: 1.6em;
+      margin-bottom: 1.7em;
       hanging-punctuation: first last;
     }
 

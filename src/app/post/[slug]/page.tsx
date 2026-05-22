@@ -103,7 +103,9 @@ export default async function PostPage({
     .filter((p) =>
       !p.includes('Thanks for reading Center Study Center') &&
       !p.includes('Thanks for reading GA Newsletter') &&
-      !p.match(/^Subscribe$/)
+      !p.includes('reader-supported publication') &&
+      !p.match(/^Subscribe$/) &&
+      !p.match(/^Share$/)
     );
 
   const externalUrl = post.url || `https://center.study/post/${slug}`;

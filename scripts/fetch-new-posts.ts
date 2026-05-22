@@ -49,7 +49,8 @@ function htmlToPlainText(html: string): string {
     .replace(/<br\s*\/?>/gi, '\n')
     .replace(/<\/p>/gi, '\n\n')
     .replace(/<\/div>/gi, '\n')
-    .replace(/<[^>]+>/g, '')
+    .replace(/<[^>]+>/g, ' ')   // space, not '': prevents word concatenation at tag boundaries
+    .replace(/[ \t]{2,}/g, ' ') // collapse runs of spaces (but preserve newlines)
     // Decode ALL numeric HTML entities (&#8217; → ', &#8220; → ", etc.)
     .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
     .replace(/&#x([0-9a-fA-F]+);/g, (_, code) => String.fromCharCode(parseInt(code, 16)))

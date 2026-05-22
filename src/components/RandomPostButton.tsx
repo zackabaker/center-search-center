@@ -1,14 +1,10 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 export default function RandomPostButton({ slugs }: { slugs: string[] }) {
-  const router = useRouter();
-
   function handleClick() {
     if (slugs.length === 0) return;
     const slug = slugs[Math.floor(Math.random() * slugs.length)];
-    router.push(`/post/${slug}`);
+    window.location.href = `/post/${slug}`;
   }
 
   return (

@@ -124,13 +124,13 @@ const SAFE_SPLIT_WORDS: string[] = [
  */
 function fixWordConcatenation(text: string): string {
   let r = text
-    .replace(/([a-z])([.!?])([A-Z])/g, '$1$2 $3')       // pass 1
-    .replace(/([a-z'"”’\)])([A-Z][a-z])/g, '$1 $2') // pass 2
-    .replace(/”([A-Za-z])/g, '” $1')           // pass 2b: curly closing-quote + letter
-    .replace(/(\d+(?:st|nd|rd|th))([a-z])/gi, '$1 $2'); // pass 3a
+    .replace(/([a-z])([.!?])([A-Z])/g, '$1$2 $3')
+    .replace(/([a-z'””'\\)])([A-Z][a-z])/g, '$1 $2')
+    .replace(/”([A-Za-z])/g, '” $1')
+    .replace(/(\d+(?:st|nd|rd|th))([a-z])/gi, '$1 $2');
 
-  for (const w of SAFE_SPLIT_WORDS) {                     // pass 3b
-    r = r.replace(new RegExp(`([a-z]{2,})(${w})(?=[^a-z]|$)`, 'g'), '$1 $2');
+  for (const w of SAFE_SPLIT_WORDS) {
+    r = r.replace(new RegExp('([a-z]{2,})(' + w + ')(?=[^a-z]|$)', 'g'), '$1 $2');
   }
   return r;
 }
