@@ -84,17 +84,27 @@ function excerpt(content: string, maxLen = 200): string {
 // Sorted longest-first so longer patterns win over shorter prefixes.
 const SAFE_SPLIT_WORDS: string[] = [
   // 9-12 chars — very low false-positive risk
+  // REMOVED: 'rational'  → false-splits 'generational', 'operational'
+  // REMOVED: 'cultural'  → false-splits 'agricultural', 'multicultural'
+  // REMOVED: 'historical' → false-splits 'ahistorical', 'prehistorical'
+  // REMOVED: 'original'  → false-splits 'unoriginal'
+  // REMOVED: 'economic'  → false-splits 'macroeconomic', 'socioeconomic'
+  // REMOVED: 'natural'   → false-splits 'supernatural', 'unnatural'
+  // REMOVED: 'structure' → false-splits 'infrastructure', 'superstructure'
+  // REMOVED: 'reality'   → false-splits 'unreality', 'hyperreality'
+  // REMOVED: 'social'    → false-splits 'antisocial'
+  // REMOVED: 'modern'    → false-splits 'postmodern'
+  // REMOVED: 'language'  → false-splits 'metalanguage'
   'something', 'everything', 'therefore', 'meanwhile', 'throughout',
-  'historical', 'secondary', 'economic', 'rational', 'cultural',
-  'original', 'whatever', 'whenever', 'wherever', 'whoever', 'however',
+  'secondary', 'whatever', 'whenever', 'wherever', 'whoever', 'however',
   'although', 'whether',
   // 7-8 chars — verified safe
-  'nothing', 'because', 'natural', 'general', 'primary', 'century',
-  'reality', 'language', 'structure', 'against', 'without', 'between',
+  'nothing', 'because', 'general', 'primary', 'century',
+  'against', 'without', 'between',
   'through', 'beneath', 'besides', 'towards', 'despite', 'outside',
   'already', 'another', 'further', 'central', 'perhaps',
   'subject', 'crucial',
-  'always', 'people', 'modern', 'social', 'within', 'around',
+  'always', 'people', 'within', 'around',
   'beyond', 'across', 'during', 'unless', 'inside', 'toward',
   // 6 chars — verified safe
   'before', 'though', 'little', 'should', 'itself',
@@ -135,9 +145,40 @@ function fixWordConcatenation(text: string): string {
   return r;
 }
 
-// GABlog wrapper — kept as named function for parseGABlogPosts clarity
+// GABlog wrapper — restores paragraph structure lost during HTML scraping.
+//
+// The gablog HTML stored each article as <p>...</p><p>...</p> blocks.
+// When those tags were stripped without inserting whitespace, paragraph
+// boundaries collapsed into sentence-runs like "...terrain.I would like..."
+//
+// fixWordConcatenation pass 1 adds a SPACE at "[a-z].[A-Z]" boundaries.
+// Here we go further and promote those to DOUBLE-NEWLINES so the page
+// renderer can split them back into proper paragraph elements.
+//
+// Only .[A-Z] boundaries that had NO original space (i.e. were genuine
+// paragraph-break artifacts) are affected — within-paragraph sentence
+// transitions like "strong. However" already had spaces and are untouched.
 function fixGABlogSpacing(text: string): string {
-  return fixWordConcatenation(text);
+  // Step 1: fix inline word concatenations (all passes)
+  let r = fixWordConcatenation(text);
+
+  // Step 2: promote sentence-boundary joins → paragraph breaks.
+  // After step 1, former "</p><p>" boundaries look like ". Capital" (space).
+  // Legitimate within-paragraph mid-sentence spaces are indistinguishable,
+  // so we convert ALL ". Capital" patterns — this recreates one paragraph
+  // per original HTML paragraph, which is the correct structure.
+  // Pattern covers: lowercase/closing-quote/closing-paren before punct.
+  r = r
+    // "...terrain. I would..." — normal lowercase before period
+    .replace(/([a-z’”'"])([.!?]) ([A-Z])/g, '$1$2\n\n$3')
+    // "...policy). I would..." — closing paren + period before capital
+    .replace(/\)([.!?]) ([A-Z])/g, ')$1\n\n$2');
+
+  // Step 3: fix colon-word joins ":the" → ": the" (not paragraph breaks,
+  // just missing punctuation space within a sentence).
+  r = r.replace(/([a-z]):([a-z])/g, '$1: $2');
+
+  return r;
 }
 
 function parseGABlogPosts(text: string): Post[] {
