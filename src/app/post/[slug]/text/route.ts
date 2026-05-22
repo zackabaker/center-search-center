@@ -1,9 +1,10 @@
 import { getPostBySlug } from '@/lib/parser';
 import { NextRequest } from 'next/server';
 
-// Clean, minimal HTML endpoint — no JS, no navigation chrome.
+// Clean, minimal HTML endpoint — no navigation chrome.
 // Designed for TTS apps (ElevenReader, Voice Dream, etc.) and Safari Reader mode.
 // Share this URL directly to any listen app for the best experience.
+// Dark mode toggle stores preference in localStorage; respects prefers-color-scheme by default.
 
 const SOURCE_LABELS: Record<string, string> = {
   substack: 'Substack',
@@ -80,95 +81,145 @@ export async function GET(
   <meta property="og:url" content="${canonicalUrl}" />
   ${post.date ? `<meta property="article:published_time" content="${post.date}" />` : ''}
 
+  <!-- Apply saved dark-mode preference before first paint to avoid flash -->
+  <script>
+    (function () {
+      try {
+        var pref = localStorage.getItem('reader-theme');
+        if (pref === 'dark' || (!pref && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 48px 20px 80px;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 19px;
-      line-height: 1.75;
-      color: #1a1a1a;
-      background: #fff;
+    /* ── Light theme (default) ── */
+    :root {
+      --bg: #faf9f7;
+      --fg: #1a1a1a;
+      --meta: #666;
+      --border: #ddd;
+      --btn-bg: rgba(0,0,0,.06);
+      --btn-hover: rgba(0,0,0,.11);
     }
 
-    @media (prefers-color-scheme: dark) {
-      body { background: #111; color: #e8e8e8; }
-      .back-link { color: #aaa; }
-      .back-link:hover { color: #eee; }
-      .meta { color: #888; }
-      .source-link { color: #888; }
-      .divider { border-color: #333; }
+    /* ── Dark theme ── */
+    html.dark {
+      --bg: #131310;
+      --fg: #e6e3db;
+      --meta: #888;
+      --border: #2e2e2b;
+      --btn-bg: rgba(255,255,255,.08);
+      --btn-hover: rgba(255,255,255,.14);
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    body {
+      max-width: min(720px, 100% - 40px);
+      margin: 0 auto;
+      padding: 52px 0 96px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 21px;
+      line-height: 1.8;
     }
 
     @media (max-width: 640px) {
-      body { font-size: 17px; padding: 32px 16px 64px; }
+      body { font-size: 19px; padding: 36px 0 72px; }
     }
 
+    /* ── Dark-mode toggle button ── */
+    #theme-toggle {
+      position: fixed;
+      top: 14px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 50%;
+      background: var(--btn-bg);
+      color: var(--fg);
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .15s;
+      z-index: 10;
+    }
+    #theme-toggle:hover { background: var(--btn-hover); }
+
+    /* ── Nav link ── */
     .back-link {
       display: inline-block;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-size: 13px;
-      color: #666;
+      color: var(--meta);
       text-decoration: none;
-      margin-bottom: 32px;
+      margin-bottom: 36px;
     }
-    .back-link:hover { color: #333; }
+    .back-link:hover { color: var(--fg); }
 
+    /* ── Header ── */
     h1.title {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: clamp(22px, 5vw, 30px);
+      font-size: clamp(24px, 5vw, 34px);
       font-weight: 700;
-      line-height: 1.25;
+      line-height: 1.2;
       letter-spacing: -0.02em;
-      margin-bottom: 12px;
-      color: inherit;
+      margin-bottom: 14px;
+      color: var(--fg);
     }
 
     .meta {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-size: 13px;
-      color: #666;
-      margin-bottom: 36px;
+      color: var(--meta);
+      margin-bottom: 40px;
     }
 
-    .divider {
-      border: none;
-      border-top: 1px solid #e0e0e0;
-      margin: 36px 0;
-    }
-
+    /* ── Body copy ── */
     .content p {
-      margin-bottom: 1.2em;
+      margin-bottom: 1.35em;
     }
 
     .content h1, .content h2, .content h3 {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-weight: 700;
-      margin: 1.8em 0 0.6em;
+      margin: 2em 0 0.65em;
       line-height: 1.3;
-      color: inherit;
+      color: var(--fg);
     }
-    .content h1 { font-size: 1.4em; }
-    .content h2 { font-size: 1.2em; }
+    .content h1 { font-size: 1.35em; }
+    .content h2 { font-size: 1.15em; }
     .content h3 { font-size: 1.05em; }
 
+    /* ── Footer ── */
     .source-link {
       display: block;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-size: 13px;
-      color: #888;
+      color: var(--meta);
       text-decoration: none;
-      margin-top: 48px;
+      margin-top: 56px;
       padding-top: 24px;
-      border-top: 1px solid #e0e0e0;
+      border-top: 1px solid var(--border);
     }
-    .source-link:hover { color: #333; }
+    .source-link:hover { color: var(--fg); }
   </style>
 </head>
 <body>
+
+  <!-- Dark / light toggle -->
+  <button id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+    <span id="theme-icon"></span>
+  </button>
 
   <a class="back-link" href="${canonicalUrl}">← Back to center.study</a>
 
@@ -180,6 +231,25 @@ export async function GET(
   </div>
 
   ${post.url ? `<a class="source-link" href="${escapeHtml(post.url)}" rel="noopener">View original →</a>` : ''}
+
+  <script>
+    (function () {
+      var html = document.documentElement;
+      var btn  = document.getElementById('theme-toggle');
+      var icon = document.getElementById('theme-icon');
+
+      function isDark() { return html.classList.contains('dark'); }
+
+      function setIcon() { icon.textContent = isDark() ? '☀' : '☾'; }
+      setIcon();
+
+      btn.addEventListener('click', function () {
+        html.classList.toggle('dark');
+        try { localStorage.setItem('reader-theme', isDark() ? 'dark' : 'light'); } catch (e) {}
+        setIcon();
+      });
+    })();
+  </script>
 
 </body>
 </html>`;
