@@ -217,9 +217,10 @@ function parseSubstackPosts(text: string): Post[] {
 
     let date: string | null = null;
     let likes: number | undefined;
+    let explicitUrl: string | null = null;
     let contentStart = 1;
 
-    for (let i = 1; i < lines.length && i < 8; i++) {
+    for (let i = 1; i < lines.length && i < 10; i++) {
       const line = lines[i].trim();
       // Date line: **Mon DD, YYYY** or **Month DD, YYYY**
       const dateMatch = line.match(/^\*\*([A-Z][a-z]+ \d{1,2}, \d{4})\*\*$/);
@@ -232,6 +233,13 @@ function parseSubstackPosts(text: string): Post[] {
       const likesMatch = line.match(/^\*\*Likes:\*\*\s*(\d+)/);
       if (likesMatch) {
         likes = parseInt(likesMatch[1], 10);
+        contentStart = i + 1;
+        continue;
+      }
+      // URL override: **URL:** https://... (used when Substack slug differs from title-derived slug)
+      const urlMatch = line.match(/^\*\*URL:\*\*\s*(https?:\/\/\S+)/);
+      if (urlMatch) {
+        explicitUrl = urlMatch[1];
         contentStart = i + 1;
         continue;
       }
@@ -254,7 +262,7 @@ function parseSubstackPosts(text: string): Post[] {
       date,
       source: 'substack' as ContentSource,
       likes,
-      url: `https://dennisbouvard.substack.com/p/${substackSlug}`,
+      url: explicitUrl ?? `https://dennisbouvard.substack.com/p/${substackSlug}`,
     });
   }
 
