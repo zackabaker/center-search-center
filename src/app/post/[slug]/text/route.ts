@@ -2,9 +2,8 @@ import { getPostBySlug } from '@/lib/parser';
 import { NextRequest } from 'next/server';
 
 // Clean, minimal HTML endpoint — no navigation chrome.
-// Designed for TTS apps (ElevenReader, Voice Dream, etc.) and Safari Reader mode.
-// Share this URL directly to any listen app for the best experience.
-// Dark mode toggle stores preference in localStorage; respects prefers-color-scheme by default.
+// Designed for direct reading, TTS apps (ElevenReader, Voice Dream, etc.), and Safari Reader mode.
+// Dark mode toggle + font-size steps stored in localStorage.
 
 const SOURCE_LABELS: Record<string, string> = {
   substack: 'Substack',
@@ -39,7 +38,6 @@ export async function GET(
   const readingTime = Math.max(1, Math.round(wordCount / 230));
   const sourceLabel = SOURCE_LABELS[post.source] ?? post.source;
 
-  // Filter out subscribe prompts and newsletter footers
   const paragraphs = post.content
     .split(/\n\n+/)
     .map((p) => p.trim())
@@ -52,10 +50,9 @@ export async function GET(
 
   const bodyHtml = paragraphs
     .map((p) => {
-      // Preserve heading structure if the paragraph starts with # markers
-      if (p.startsWith('# '))  return `<h1>${escapeHtml(p.slice(2))}</h1>`;
-      if (p.startsWith('## ')) return `<h2>${escapeHtml(p.slice(3))}</h2>`;
-      if (p.startsWith('### ')) return `<h3>${escapeHtml(p.slice(4))}</h3>`;
+      if (p.startsWith('# '))   return `<h2>${escapeHtml(p.slice(2))}</h2>`;
+      if (p.startsWith('## '))  return `<h3>${escapeHtml(p.slice(3))}</h3>`;
+      if (p.startsWith('### ')) return `<h4>${escapeHtml(p.slice(4))}</h4>`;
       return `<p>${escapeHtml(p)}</p>`;
     })
     .join('\n');
@@ -74,14 +71,16 @@ export async function GET(
   <title>${escapeHtml(post.title)}</title>
   <meta name="description" content="${escapeHtml(paragraphs[0]?.slice(0, 160) ?? '')}" />
   <link rel="canonical" href="${canonicalUrl}" />
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="${escapeHtml(post.title)}" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="${canonicalUrl}" />
+  <meta property="og:title"   content="${escapeHtml(post.title)}" />
+  <meta property="og:type"    content="article" />
+  <meta property="og:url"     content="${canonicalUrl}" />
   ${post.date ? `<meta property="article:published_time" content="${post.date}" />` : ''}
 
-  <!-- Apply saved dark-mode preference before first paint to avoid flash -->
+  <!-- Quality reading serif — loads fast, cached across sessions -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Apply saved theme + font-size before first paint (no FOUC) -->
   <script>
     (function () {
       try {
@@ -89,6 +88,8 @@ export async function GET(
         if (pref === 'dark' || (!pref && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.classList.add('dark');
         }
+        var sz = parseInt(localStorage.getItem('reader-font-step') || '1', 10);
+        if (sz >= 0 && sz <= 3) document.documentElement.dataset.fs = sz;
       } catch (e) {}
     })();
   </script>
@@ -96,132 +97,183 @@ export async function GET(
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ── Light theme (default) ── */
+    /* ── Font-size steps: 0=small 1=default 2=large 3=xl ── */
+    :root                    { --fs: 20px; --lh: 1.85; }
+    [data-fs="0"]            { --fs: 17px; --lh: 1.8;  }
+    [data-fs="1"]            { --fs: 20px; --lh: 1.85; }
+    [data-fs="2"]            { --fs: 23px; --lh: 1.9;  }
+    [data-fs="3"]            { --fs: 26px; --lh: 1.95; }
+
+    /* ── Light theme ── */
     :root {
-      --bg: #faf9f7;
-      --fg: #1a1a1a;
-      --meta: #666;
-      --border: #ddd;
-      --btn-bg: rgba(0,0,0,.06);
-      --btn-hover: rgba(0,0,0,.11);
+      --bg:          #ffffff;
+      --fg:          #111111;
+      --meta-color:  #888;
+      --border:      #e8e8e8;
+      --toolbar-bg:  rgba(255,255,255,0.92);
+      --toolbar-border: #e0e0e0;
+      --btn-hover:   #f0f0f0;
+      --btn-active:  #e4e4e4;
     }
 
-    /* ── Dark theme ── */
+    /* ── Dark theme — warm, easy on eyes, Kindle-inspired ── */
     html.dark {
-      --bg: #131310;
-      --fg: #e6e3db;
-      --meta: #888;
-      --border: #2e2e2b;
-      --btn-bg: rgba(255,255,255,.08);
-      --btn-hover: rgba(255,255,255,.14);
+      --bg:          #1c1917;
+      --fg:          #cec9c0;
+      --meta-color:  #6e6861;
+      --border:      #2d2a26;
+      --toolbar-bg:  rgba(28,25,23,0.95);
+      --toolbar-border: #3a3630;
+      --btn-hover:   #2a2724;
+      --btn-active:  #333028;
     }
 
-    html, body {
-      background: var(--bg);
-      color: var(--fg);
-    }
+    html, body { background: var(--bg); color: var(--fg); }
 
     body {
-      max-width: min(720px, 100% - 40px);
+      max-width: min(660px, 100% - 48px);
       margin: 0 auto;
-      padding: 52px 0 96px;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 21px;
-      line-height: 1.8;
+      padding: 64px 0 100px;
+      font-family: 'Lora', Palatino, 'Palatino Linotype', Georgia, serif;
+      font-size: var(--fs);
+      line-height: var(--lh);
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
     }
 
-    @media (max-width: 640px) {
-      body { font-size: 19px; padding: 36px 0 72px; }
+    @media (max-width: 600px) {
+      body { padding: 48px 0 80px; }
+      :root    { --fs: 18px; }
+      [data-fs="0"] { --fs: 16px; }
+      [data-fs="1"] { --fs: 18px; }
+      [data-fs="2"] { --fs: 21px; }
+      [data-fs="3"] { --fs: 24px; }
     }
 
-    /* ── Dark-mode toggle button ── */
-    #theme-toggle {
+    /* ── Toolbar ── */
+    #toolbar {
       position: fixed;
-      top: 14px;
-      right: 16px;
-      width: 36px;
-      height: 36px;
-      border: none;
-      border-radius: 50%;
-      background: var(--btn-bg);
-      color: var(--fg);
-      font-size: 16px;
-      cursor: pointer;
+      top: 12px;
+      right: 14px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      transition: background .15s;
-      z-index: 10;
+      gap: 2px;
+      background: var(--toolbar-bg);
+      border: 1px solid var(--toolbar-border);
+      border-radius: 10px;
+      padding: 4px 6px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
     }
-    #theme-toggle:hover { background: var(--btn-hover); }
 
-    /* ── Nav link ── */
+    #toolbar button {
+      border: none;
+      background: transparent;
+      color: var(--fg);
+      cursor: pointer;
+      border-radius: 6px;
+      padding: 5px 9px;
+      font-size: 13px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      line-height: 1;
+      transition: background .12s;
+      min-width: 32px;
+    }
+    #toolbar button:hover  { background: var(--btn-hover); }
+    #toolbar button:active { background: var(--btn-active); }
+
+    #toolbar .divider {
+      width: 1px;
+      height: 18px;
+      background: var(--toolbar-border);
+      margin: 0 3px;
+    }
+
+    #btn-theme { font-size: 15px; padding: 5px 8px; }
+
+    /* ── Back link ── */
     .back-link {
       display: inline-block;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-size: 13px;
-      color: var(--meta);
+      color: var(--meta-color);
       text-decoration: none;
-      margin-bottom: 36px;
+      margin-bottom: 40px;
+      letter-spacing: .01em;
     }
     .back-link:hover { color: var(--fg); }
 
-    /* ── Header ── */
+    /* ── Title ── */
     h1.title {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: clamp(24px, 5vw, 34px);
+      font-size: clamp(26px, 6vw, 40px);
       font-weight: 700;
-      line-height: 1.2;
-      letter-spacing: -0.02em;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
       margin-bottom: 14px;
       color: var(--fg);
     }
 
+    /* ── Meta ── */
     .meta {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-size: 13px;
-      color: var(--meta);
-      margin-bottom: 40px;
+      color: var(--meta-color);
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
     }
 
     /* ── Body copy ── */
     .content p {
-      margin-bottom: 1.35em;
+      margin-bottom: 1.6em;
+      hanging-punctuation: first last;
     }
 
-    .content h1, .content h2, .content h3 {
+    /* First paragraph — slightly larger cap or drop feel isn't possible in plain HTML,
+       but we can remove the top margin so it flows directly from the divider */
+    .content p:first-child { margin-top: 0; }
+
+    .content h2, .content h3, .content h4 {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-weight: 700;
-      margin: 2em 0 0.65em;
-      line-height: 1.3;
+      margin: 2.2em 0 0.7em;
+      line-height: 1.25;
       color: var(--fg);
+      letter-spacing: -0.01em;
     }
-    .content h1 { font-size: 1.35em; }
-    .content h2 { font-size: 1.15em; }
-    .content h3 { font-size: 1.05em; }
+    .content h2 { font-size: 1.3em; }
+    .content h3 { font-size: 1.12em; }
+    .content h4 { font-size: 1.0em; letter-spacing: .04em; text-transform: uppercase; }
 
-    /* ── Footer ── */
+    /* ── Footer source link ── */
     .source-link {
       display: block;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-size: 13px;
-      color: var(--meta);
+      color: var(--meta-color);
       text-decoration: none;
-      margin-top: 56px;
+      margin-top: 64px;
       padding-top: 24px;
       border-top: 1px solid var(--border);
+      letter-spacing: .01em;
     }
     .source-link:hover { color: var(--fg); }
   </style>
 </head>
 <body>
 
-  <!-- Dark / light toggle -->
-  <button id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-    <span id="theme-icon"></span>
-  </button>
+  <!-- Toolbar: font size + dark mode -->
+  <div id="toolbar" role="toolbar" aria-label="Reading controls">
+    <button id="btn-sm" title="Smaller text" aria-label="Decrease font size">A−</button>
+    <button id="btn-lg" title="Larger text"  aria-label="Increase font size">A+</button>
+    <div class="divider"></div>
+    <button id="btn-theme" title="Toggle dark mode" aria-label="Toggle dark mode">☾</button>
+  </div>
 
-  <a class="back-link" href="${canonicalUrl}">← Back to center.study</a>
+  <a class="back-link" href="${canonicalUrl}">← center.study</a>
 
   <h1 class="title">${escapeHtml(post.title)}</h1>
   <div class="meta">${escapeHtml(metaParts)}</div>
@@ -235,19 +287,28 @@ export async function GET(
   <script>
     (function () {
       var html = document.documentElement;
-      var btn  = document.getElementById('theme-toggle');
-      var icon = document.getElementById('theme-icon');
+      var STEPS = 4;
 
+      /* ── Theme ── */
+      var btnTheme = document.getElementById('btn-theme');
       function isDark() { return html.classList.contains('dark'); }
-
-      function setIcon() { icon.textContent = isDark() ? '☀' : '☾'; }
-      setIcon();
-
-      btn.addEventListener('click', function () {
+      function setThemeIcon() { btnTheme.textContent = isDark() ? '☀' : '☾'; }
+      setThemeIcon();
+      btnTheme.addEventListener('click', function () {
         html.classList.toggle('dark');
         try { localStorage.setItem('reader-theme', isDark() ? 'dark' : 'light'); } catch (e) {}
-        setIcon();
+        setThemeIcon();
       });
+
+      /* ── Font size ── */
+      var step = parseInt(html.dataset.fs || '1', 10);
+      function applyStep(s) {
+        step = Math.max(0, Math.min(STEPS - 1, s));
+        html.dataset.fs = step;
+        try { localStorage.setItem('reader-font-step', step); } catch (e) {}
+      }
+      document.getElementById('btn-sm').addEventListener('click', function () { applyStep(step - 1); });
+      document.getElementById('btn-lg').addEventListener('click', function () { applyStep(step + 1); });
     })();
   </script>
 
