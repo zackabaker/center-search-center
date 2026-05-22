@@ -44,6 +44,7 @@ export async function GET(
     .filter((p) => p.length > 20)
     .filter((p) =>
       !p.includes('Thanks for reading Center Study Center') &&
+      !p.includes('Thanks for reading GA Newsletter') &&
       !p.match(/^Subscribe$/) &&
       !p.match(/^Share$/)
     );

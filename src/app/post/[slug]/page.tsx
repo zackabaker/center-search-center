@@ -102,6 +102,7 @@ export default async function PostPage({
     .filter((p) => p.trim())
     .filter((p) =>
       !p.includes('Thanks for reading Center Study Center') &&
+      !p.includes('Thanks for reading GA Newsletter') &&
       !p.match(/^Subscribe$/)
     );
 
