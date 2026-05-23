@@ -97,7 +97,9 @@ function applySearchSyntax(syntax: string, currentQuery: string): string {
 }
 
 const PAGE_SIZE = 30;
-const SECONDARY_SOURCES: ContentSource[] = ['reddit', 'twitter'];
+// Reddit and Twitter are archive-only — excluded from all search results.
+// They remain accessible via /download and /browse/reddit, /browse/twitter.
+const EXCLUDED_SOURCES: ContentSource[] = ['reddit', 'twitter'];
 
 // ── "Did you mean" helpers ────────────────────────────────────────────────────
 function levenshtein(a: string, b: string): number {
@@ -155,7 +157,6 @@ export default function SearchPageClient({
   const [results, setResults] = useState<SearchResult[]>([]);
   const [corpusCount, setCorpusCount] = useState<number | null>(null);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  const [showSecondary, setShowSecondary] = useState(false);
 
   // Build inverted index once from entries — transforms per-search O(n·k) scans
   // to near-O(1) candidate lookup. Built client-side so it doesn't inflate the
@@ -173,12 +174,12 @@ export default function SearchPageClient({
       setIsSearching(false);
       return;
     }
-    const found = searchEntries(entries, committed, wordIndex);
+    const found = searchEntries(entries, committed, wordIndex)
+      .filter((r) => !EXCLUDED_SOURCES.includes(r.entry.source));
     const cleanQ = committed.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
     const firstTerm = cleanQ.split(/\s+/)[0];
     setResults(found);
     setPage(0);
-    setShowSecondary(false);
     setCorpusCount(firstTerm ? countPostsWithTerm(entries, firstTerm) : null);
     setIsSearching(false);
   }, [committed, entries, wordIndex]);
@@ -229,19 +230,7 @@ export default function SearchPageClient({
     [results, filter]
   );
 
-  // Split into primary (substack/gablog/book/pdf) and secondary (reddit/X)
-  // when in "all" view — if a source filter is active, show everything for that source
-  const { primaryFiltered, secondaryFiltered } = useMemo(() => {
-    if (filter !== 'all') return { primaryFiltered: filtered, secondaryFiltered: [] };
-    return {
-      primaryFiltered: filtered.filter((r) => !SECONDARY_SOURCES.includes(r.entry.source)),
-      secondaryFiltered: filtered.filter((r) => SECONDARY_SOURCES.includes(r.entry.source)),
-    };
-  }, [filtered, filter]);
-
-  const visibleResults = showSecondary || filter !== 'all'
-    ? filtered
-    : primaryFiltered;
+  const visibleResults = filtered;
 
   const totalPages = Math.ceil(visibleResults.length / PAGE_SIZE);
   const pageItems = visibleResults.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
@@ -252,9 +241,10 @@ export default function SearchPageClient({
     gablog: results.filter((r) => r.entry.source === 'gablog').length,
     book: results.filter((r) => r.entry.source === 'book').length,
     pdf: results.filter((r) => r.entry.source === 'pdf').length,
-    reddit: results.filter((r) => r.entry.source === 'reddit').length,
-    twitter: results.filter((r) => r.entry.source === 'twitter').length,
     lecture: results.filter((r) => r.entry.source === 'lecture').length,
+    // reddit/twitter excluded from search — kept for TypeScript completeness
+    reddit: 0,
+    twitter: 0,
   }), [results]);
 
   const handleFilterChange = (f: FilterOption) => { setFilter(f); setPage(0); };
@@ -263,20 +253,20 @@ export default function SearchPageClient({
     `/post/${slug}${committed.trim() ? `?q=${encodeURIComponent(committed.trim())}` : ''}`;
 
   const hasQuery = committed.trim().length > 0;
-  const hasResults = visibleResults.length > 0 || secondaryFiltered.length > 0;
+  const hasResults = visibleResults.length > 0;
 
   // Whether the current search is an auto-wrapped phrase (no explicit operators)
   const isImplicitPhrase = hasQuery && committed.startsWith('"') && committed.endsWith('"') &&
     !query.startsWith('"');
 
-  // "Did you mean" — only computed when primary results are empty
+  // "Did you mean" — only computed when results are empty
   const didYouMean = useMemo(() => {
-    if (!committed || visibleResults.length > 0 || secondaryFiltered.length > 0) return null;
+    if (!committed || visibleResults.length > 0) return null;
     const clean = committed.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
     const firstTerm = clean.split(/\s+/)[0];
     if (!firstTerm || firstTerm.length < 4) return null;
     return findClosestTerm(firstTerm, wordIndex.sortedVocab);
-  }, [committed, visibleResults.length, secondaryFiltered.length, wordIndex.sortedVocab]);
+  }, [committed, visibleResults.length, wordIndex.sortedVocab]);
 
   const SYNTAX_HINTS = ['"exact phrase"', 'term AND term', 'term NOT term', 'term OR term'] as const;
 
@@ -357,17 +347,6 @@ export default function SearchPageClient({
                   <>
                     <span className="font-medium text-gray-900">{visibleResults.length}</span>
                     <span>result{visibleResults.length !== 1 ? 's' : ''}</span>
-                    {/* Secondary results hint — visible before the reveal button */}
-                    {!showSecondary && filter === 'all' && secondaryFiltered.length > 0 && (
-                      <span className="text-gray-400">
-                        · <button
-                            onClick={() => setShowSecondary(true)}
-                            className="hover:text-gray-600 underline underline-offset-2"
-                          >
-                            +{secondaryFiltered.length} from Reddit &amp; X
-                          </button>
-                      </span>
-                    )}
                     {corpusCount !== null && (
                       <span className="text-gray-400">
                         · term in <span className="text-gray-600">{corpusCount}</span> of {totalPosts} posts
@@ -388,9 +367,9 @@ export default function SearchPageClient({
               </div>
               <span className="text-xs text-gray-400 hidden md:block flex-shrink-0">⌘K anywhere</span>
             </div>
-            {(primaryFiltered.length > 0 || (showSecondary && secondaryFiltered.length > 0)) && (
-            <FilterTabs active={filter} onChange={handleFilterChange} counts={counts} />
-          )}
+            {visibleResults.length > 0 && (
+              <FilterTabs active={filter} onChange={handleFilterChange} counts={counts} />
+            )}
           </div>
 
           {/* Ask AI CTA — appears whenever there's a committed query */}
@@ -459,20 +438,6 @@ export default function SearchPageClient({
             </div>
           )}
 
-          {/* Secondary sources reveal button */}
-          {!showSecondary && filter === 'all' && secondaryFiltered.length > 0 && (
-            <div className="mt-4 text-center">
-              <button
-                onClick={() => { setShowSecondary(true); }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 text-sm text-gray-500 hover:border-gray-300 hover:text-gray-700 transition-colors"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-                Show {secondaryFiltered.length} result{secondaryFiltered.length !== 1 ? 's' : ''} from Reddit &amp; X
-              </button>
-            </div>
-          )}
 
           {/* Pagination */}
           {totalPages > 1 && (
