@@ -119,6 +119,49 @@ body {
   animation-duration: 0.2s;
 }
 
+/* ── Reading / Sepia mode ───────────────────────────────────────── */
+/* Applied when ReadingControls sets data-reading-mode="sepia" on <html> */
+html[data-reading-mode="sepia"] {
+  --background: #f7f3ea;
+  --foreground: #2c1a0e;
+}
+
+html[data-reading-mode="sepia"] .prose {
+  color: #2c1a0e;
+}
+
+html[data-reading-mode="sepia"] .prose blockquote {
+  color: #6b4c30;
+  border-color: #c4a882;
+}
+
+/* Override Tailwind gray-text utilities inside article reading areas */
+html[data-reading-mode="sepia"] article p,
+html[data-reading-mode="sepia"] article li,
+html[data-reading-mode="sepia"] article h1,
+html[data-reading-mode="sepia"] article h2,
+html[data-reading-mode="sepia"] article h3 {
+  color: #2c1a0e;
+}
+
+html[data-reading-mode="sepia"] article blockquote p {
+  color: #6b4c30;
+}
+
+/* Night reading mode — deeper than the default dark mode */
+html[data-reading-mode="night"] {
+  --background: #0d0d0d;
+  --foreground: #d4caba;
+}
+
+html[data-reading-mode="night"] article p,
+html[data-reading-mode="night"] article li,
+html[data-reading-mode="night"] article h1,
+html[data-reading-mode="night"] article h2,
+html[data-reading-mode="night"] article h3 {
+  color: #d4caba;
+}
+
 /* ── Print styles ──────────────────────────────────────────────── */
 @media print {
   .print\:hidden, [class*="print:hidden"] { display: none !important; }

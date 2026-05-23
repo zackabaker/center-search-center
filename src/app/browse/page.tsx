@@ -46,23 +46,22 @@ const SOURCES = [
     badge: 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
     dot: 'bg-purple-400',
   },
+] as const;
+
+// Research archive: reply threads and tweet collections have limited UX
+// Kept for researchers via the download section; not surfaced in main browse
+const RESEARCH_SOURCES = [
   {
     slug: 'reddit',
     label: 'Reddit',
     author: 'Adam Katz',
-    description: 'Posts and discussions from r/Absolutistneoreaction — shorter-form theory, Q&A, and debate.',
-    color: 'border-red-200 dark:border-red-900/50 hover:border-red-400 dark:hover:border-red-600',
-    badge: 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
-    dot: 'bg-red-400',
+    description: 'Posts and discussions from r/Absolutistneoreaction. Note: reply context is limited without the full thread.',
   },
   {
     slug: 'twitter',
     label: 'X / Twitter',
     author: 'Adam Katz',
-    description: 'Threads, notes, and aphorisms from X (formerly Twitter). Compressed formulations of ideas developed at length elsewhere.',
-    color: 'border-slate-200 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500',
-    badge: 'bg-slate-100 text-slate-800 dark:bg-slate-800/40 dark:text-slate-300',
-    dot: 'bg-slate-400',
+    description: 'Threads, notes, and aphorisms. Compressed formulations developed at length elsewhere.',
   },
 ] as const;
 
@@ -185,6 +184,54 @@ export default async function BrowsePage() {
           );
         })}
       </div>
+
+      {/* Research archive — collapsed by default */}
+      <details className="mt-10 group">
+        <summary className="flex items-center gap-2 cursor-pointer list-none text-sm text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 transition-colors select-none">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-3.5 w-3.5 transition-transform group-open:rotate-90"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+          Research archive
+          <span className="text-xs text-gray-300 dark:text-gray-700">
+            — Reddit &amp; X threads (limited UX; full data in{' '}
+            <Link href="/download" className="underline hover:text-gray-500 dark:hover:text-gray-500">download</Link>)
+          </span>
+        </summary>
+
+        <div className="mt-4 space-y-3 pl-1">
+          <p className="text-xs text-gray-400 dark:text-gray-500 leading-relaxed max-w-2xl">
+            Reddit and Twitter/X posts are included in the archive but have UX limitations: replies lack context and thread structure is lost. The full data is available in the{' '}
+            <Link href="/download" className="text-blue-600 dark:text-blue-400 hover:underline">download section</Link>
+            {' '}for researchers who want the complete corpus.
+          </p>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {RESEARCH_SOURCES.map((source) => {
+              const count = countsBySource[source.slug] ?? 0;
+              return (
+                <div key={source.slug} className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{source.label}</span>
+                      <span className="ml-2 text-xs text-gray-400 dark:text-gray-600">{count.toLocaleString()} posts</span>
+                    </div>
+                    <Link
+                      href={`/browse/${source.slug}`}
+                      className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+                    >
+                      Browse →
+                    </Link>
+                  </div>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 leading-relaxed">{source.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </details>
 
     </main>
   );

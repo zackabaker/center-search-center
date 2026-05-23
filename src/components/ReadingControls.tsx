@@ -2,12 +2,29 @@
 
 import { useState, useEffect } from 'react';
 
+type ReadingMode = 'normal' | 'sepia' | 'night';
+
+const MODE_LABELS: Record<ReadingMode, string> = {
+  normal: 'Default',
+  sepia: 'Sepia',
+  night: 'Night',
+};
+
+const MODE_SEQUENCE: ReadingMode[] = ['normal', 'sepia', 'night'];
+
 export default function ReadingControls() {
   const [fontSize, setFontSize] = useState(16);
+  const [readingMode, setReadingMode] = useState<ReadingMode>('normal');
 
   useEffect(() => {
     const saved = localStorage.getItem('csc-font-size');
     if (saved) setFontSize(parseInt(saved, 10));
+
+    const savedMode = localStorage.getItem('csc-reading-mode') as ReadingMode | null;
+    if (savedMode && MODE_SEQUENCE.includes(savedMode)) {
+      setReadingMode(savedMode);
+      applyMode(savedMode);
+    }
   }, []);
 
   useEffect(() => {
@@ -16,23 +33,86 @@ export default function ReadingControls() {
     localStorage.setItem('csc-font-size', String(fontSize));
   }, [fontSize]);
 
+  function applyMode(mode: ReadingMode) {
+    const root = document.documentElement;
+    if (mode === 'normal') {
+      root.removeAttribute('data-reading-mode');
+      // Restore dark class state without interfering
+    } else {
+      root.setAttribute('data-reading-mode', mode);
+      // Night mode also enables dark class for UI elements
+      if (mode === 'night') {
+        root.classList.add('dark');
+      } else {
+        // Sepia removes dark (use light theme background)
+        root.classList.remove('dark');
+      }
+    }
+  }
+
+  function cycleMode() {
+    const currentIdx = MODE_SEQUENCE.indexOf(readingMode);
+    const next = MODE_SEQUENCE[(currentIdx + 1) % MODE_SEQUENCE.length];
+    setReadingMode(next);
+    applyMode(next);
+    localStorage.setItem('csc-reading-mode', next);
+  }
+
+  const modeIcon = readingMode === 'normal'
+    ? (
+      // Sun / default
+      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m8.66-9h-1M4.34 12h-1m15.07-5.66l-.71.71M6.34 17.66l-.71.71M17.66 17.66l-.71-.71M6.34 6.34l-.71-.71M12 7a5 5 0 100 10A5 5 0 0012 7z" />
+      </svg>
+    )
+    : readingMode === 'sepia'
+    ? (
+      // Warm / book icon
+      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+      </svg>
+    )
+    : (
+      // Moon / night
+      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+      </svg>
+    );
+
   return (
-    <div className="flex items-center gap-2 text-gray-400">
+    <div className="flex items-center gap-3 text-gray-400 print:hidden">
+      {/* Reading mode toggle */}
       <button
-        onClick={() => setFontSize((s) => Math.max(13, s - 1))}
-        className="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 hover:text-gray-600 text-xs font-bold"
-        title="Decrease font size"
+        onClick={cycleMode}
+        title={`Reading mode: ${MODE_LABELS[readingMode]} — click to cycle`}
+        className={`flex items-center gap-1 px-2 py-1 rounded text-xs transition-colors ${
+          readingMode !== 'normal'
+            ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300'
+            : 'hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300'
+        }`}
       >
-        A-
+        {modeIcon}
+        <span className="text-[10px] font-medium">{MODE_LABELS[readingMode]}</span>
       </button>
-      <span className="text-xs w-6 text-center">{fontSize}</span>
-      <button
-        onClick={() => setFontSize((s) => Math.min(24, s + 1))}
-        className="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 hover:text-gray-600 text-sm font-bold"
-        title="Increase font size"
-      >
-        A+
-      </button>
+
+      {/* Font size */}
+      <div className="flex items-center gap-1">
+        <button
+          onClick={() => setFontSize((s) => Math.max(13, s - 1))}
+          className="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300 text-xs font-bold transition-colors"
+          title="Decrease font size"
+        >
+          A-
+        </button>
+        <span className="text-xs w-5 text-center tabular-nums">{fontSize}</span>
+        <button
+          onClick={() => setFontSize((s) => Math.min(24, s + 1))}
+          className="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300 text-sm font-bold transition-colors"
+          title="Increase font size"
+        >
+          A+
+        </button>
+      </div>
     </div>
   );
 }

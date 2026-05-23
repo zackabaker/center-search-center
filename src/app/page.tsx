@@ -83,8 +83,6 @@ const BROWSE_SOURCES = [
   { source: 'substack',  label: 'Substack',     description: "Bouvard's applied essays on AI, governance, and technology",  color: 'hover:border-orange-400 dark:hover:border-orange-600' },
   { source: 'pdf',       label: 'PDFs',          description: 'Academic papers, lectures, and longer works',                  color: 'hover:border-green-400 dark:hover:border-green-600' },
   { source: 'book',      label: 'Book',          description: 'Anthropomorphics — systematic originary grammar',              color: 'hover:border-purple-400 dark:hover:border-purple-600' },
-  { source: 'reddit',    label: 'Reddit',        description: 'Discussions from r/Absolutistneoreaction',                     color: 'hover:border-red-400 dark:hover:border-red-600' },
-  { source: 'twitter',   label: 'X / Twitter',   description: 'Threads and notes',                                            color: 'hover:border-slate-400 dark:hover:border-slate-600' },
 ];
 
 export default function Home() {
