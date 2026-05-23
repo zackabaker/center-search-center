@@ -16,6 +16,8 @@ import TableOfContents from '@/components/TableOfContents';
 import PostNavigation from '@/components/PostNavigation';
 import Concordance from '@/components/Concordance';
 import { getPostTermFrequency, buildSearchEntries, getRelatedEntries } from '@/lib/search-index';
+import { MarkPostRead } from '@/components/MarkPostRead';
+import NextInPath from '@/components/NextInPath';
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
   substack: 'Bouvard Substack',
@@ -229,6 +231,9 @@ export default async function PostPage({
                 on desktop the sidebar shows a compact top-3 list, and the full list stays here too */}
             <RelatedPosts currentSlug={slug} allPosts={allPosts} />
 
+            {/* Next in reading path */}
+            <NextInPath slug={slug} />
+
             {/* Prev / Next in source — always below article */}
             <PostNavigation
               prev={prevPost ? { slug: prevPost.slug, title: prevPost.title, date: prevPost.date } : null}
@@ -285,6 +290,7 @@ export default async function PostPage({
           </aside>
 
         </div>
+        <MarkPostRead slug={slug} />
       </main>
     </>
   );

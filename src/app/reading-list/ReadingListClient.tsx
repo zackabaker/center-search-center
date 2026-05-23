@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useReadingList, SavedPost } from '@/hooks/useReadingList';
 import { useReadingHistory } from '@/hooks/useReadingHistory';
@@ -28,6 +28,14 @@ export default function ReadingListClient() {
   const { history, clear: clearHistory } = useReadingHistory();
   const [tab, setTab] = useState<'saved' | 'history'>('saved');
   const [confirmClear, setConfirmClear] = useState(false);
+  const [readSlugs, setReadSlugs] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    try {
+      const stored: string[] = JSON.parse(localStorage.getItem('csc-read-posts') || '[]');
+      setReadSlugs(new Set(stored));
+    } catch {}
+  }, []);
 
   const handleClear = () => {
     if (!confirmClear) { setConfirmClear(true); return; }
@@ -132,6 +140,11 @@ export default function ReadingListClient() {
                     <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${SOURCE_COLORS[post.source] || 'bg-gray-100 text-gray-600'}`}>
                       {SOURCE_LABELS[post.source] || post.source}
                     </span>
+                    {readSlugs.has(post.slug) && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300">
+                        Read
+                      </span>
+                    )}
                     {post.date && <span className="text-xs text-gray-400">{post.date}</span>}
                     <span className="text-xs text-gray-400">
                       {tab === 'saved'
