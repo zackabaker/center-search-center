@@ -87,13 +87,10 @@ export default function IntroPage() {
         Introduction to Center Study
       </h1>
 
-      {/* Dual epigraph */}
-      <div className="mb-12 space-y-2 border-l-2 border-gray-200 dark:border-gray-700 pl-4">
+      {/* Epigraph */}
+      <div className="mb-12 border-l-2 border-gray-200 dark:border-gray-700 pl-4">
         <p className="text-sm text-gray-500 dark:text-gray-400 italic leading-relaxed">
           &ldquo;We are beings bound to the center: everything that we say, think or do is homage to the center.&rdquo;
-        </p>
-        <p className="text-sm text-gray-400 dark:text-gray-500 italic leading-relaxed">
-          &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it.&rdquo;
         </p>
       </div>
 

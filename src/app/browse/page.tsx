@@ -118,17 +118,17 @@ export default async function BrowsePage() {
         <Link href="/search" className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-all">
           Full-text search
         </Link>
+        <Link href="/concepts" className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-all">
+          Concepts
+        </Link>
         <Link href="/guide/timeline" className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-all">
-          Timeline view
+          Timeline
         </Link>
         <Link href="/stats" className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-all">
-          Archive stats
-        </Link>
-        <Link href="/guide/reading-paths" className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-all">
-          Reading paths
+          Stats
         </Link>
         <Link href="/lectures" className="px-3 py-1.5 rounded-lg text-xs font-medium border border-amber-200 dark:border-amber-900/50 text-amber-700 dark:text-amber-400 hover:border-amber-400 dark:hover:border-amber-600 hover:text-amber-900 dark:hover:text-amber-200 transition-all">
-          Lecture series
+          Lectures
         </Link>
       </div>
 
