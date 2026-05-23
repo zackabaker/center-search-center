@@ -125,6 +125,9 @@ export default function Home() {
             <Link href="/guide/reading-paths" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
               Reading Paths
             </Link>
+            <Link href="/browse" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
+              Browse
+            </Link>
             <Link href="/reading-list" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
               Saved
             </Link>
