@@ -48,17 +48,27 @@ The center is never absent from human activity. Where it appears absent, it has 
     ],
     passages: [
       {
+        text: 'The center is whatever interferes with violent centralization.',
+        source: 'Revivalistics',
+        sourceSlug: 'substack-revivalistics',
+      },
+      {
         text: 'What is a center? Whatever can invoke and be referenced by an ostensive sign: the center is both cause and product of the sign—as cause it subsists beyond any particular reference, and as product it is continually renewed. Invoking the sign exceeds the reference, though—it is already the beginning of an imperative. So, a center is a locus of imperative exchange—whatever about the object commands the issuance of the ostensive sign is also an agency of which requests can be made.',
         source: 'Anthropomorphics',
         sourceSlug: 'book-anthropomorphics',
       },
       {
-        text: 'A center establishes a hierarchy—at the very least between center and margin. But every other hierarchy is modeled on the hierarchy between center and margin—hierarchies are only possible if there is a center.',
-        source: 'Anthropomorphics',
-        sourceSlug: 'book-anthropomorphics',
+        text: 'All human existence is an exchange with the center. The first message from the center is to defer appropriation, a message "heard" by all participants on the scene. Once deferral has been effected, the means of the deferral (the sign) can be deployed in new circumstances, to defer new conflicts.',
+        source: 'How Does the Center Speak?',
+        sourceSlug: 'gablog-how-does-the-center-speak',
       },
       {
-        text: 'The center issues signs to those on the margin, who in turn convey those signs to one another in collaborations and deliberations that produce signs issued back to the center.',
+        text: 'There is always a center whenever humans are arranged in relation to each other, and the center is always occupied, even if only by a sacred carcass. All the continuities and discontinuities in human history follow from successive attempts to occupy, hold, expand the reach of, or replace, the center or its present occupant.',
+        source: 'Scale',
+        sourceSlug: 'substack-scale',
+      },
+      {
+        text: 'A center establishes a hierarchy—at the very least between center and margin. But every other hierarchy is modeled on the hierarchy between center and margin—hierarchies are only possible if there is a center.',
         source: 'Anthropomorphics',
         sourceSlug: 'book-anthropomorphics',
       },

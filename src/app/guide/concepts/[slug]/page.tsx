@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { CONCEPTS, getConceptBySlug } from '@/data/guide/concepts';
+import GoBack from '@/components/GoBack';
 import type { Metadata } from 'next';
 
 export function generateStaticParams() {
@@ -34,9 +35,7 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
     <main className="max-w-3xl mx-auto px-4 py-10">
       {/* Header */}
       <div className="mb-8">
-        <Link href="/concepts" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
-          ← All concepts
-        </Link>
+        <GoBack label="← Back" />
         <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-4 mb-1">
           Concept
         </p>
@@ -56,6 +55,30 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
           Ask AI about {concept.title}
         </Link>
       </div>
+
+      {/* AI overview — clearly labelled */}
+      {concept.body && (
+        <section className="mb-10 rounded-xl border border-amber-100 dark:border-amber-900/40 bg-amber-50 dark:bg-amber-950/20 px-5 py-4">
+          <div className="flex items-center gap-2 mb-3">
+            <h2 className="text-xs font-mono text-amber-700 dark:text-amber-500 uppercase tracking-widest">
+              AI Overview
+            </h2>
+            <span className="text-[10px] text-amber-600/70 dark:text-amber-600/50 italic">
+              — AI-generated synthesis. Verify claims against the archive passages and linked texts below.
+            </span>
+          </div>
+          <div className="prose prose-sm max-w-none text-gray-700 dark:text-gray-300 leading-relaxed space-y-3">
+            {concept.body.split('\n\n').map((para, i) => (
+              <p key={i} className="text-sm leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: para
+                  .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                  .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+                }}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Passages — primary content, from the archive */}
       {concept.passages.length > 0 && (
@@ -131,8 +154,8 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
 
       {/* Bottom nav */}
       <div className="border-t border-gray-200 dark:border-gray-800 pt-6 flex items-center justify-between text-sm">
-        <Link href="/guide/concepts" className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">← All concepts</Link>
-        <Link href={`/ask?q=${askQuery}`} className="text-gray-500 dark:text-gray-400 hover:text-blue-500 transition-colors">Ask AI →</Link>
+        <GoBack label="← Back" />
+        <Link href={askHref} className="text-gray-500 dark:text-gray-400 hover:text-blue-500 transition-colors">Ask AI →</Link>
       </div>
     </main>
   );
