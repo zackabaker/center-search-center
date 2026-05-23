@@ -130,8 +130,8 @@ export default function Home() {
         <HomeSearch />
       </header>
 
-      {/* Discover — random posts for quick listening, always visible on mobile */}
-      <div className="max-w-xl mx-auto px-4 pb-8 sm:pb-0">
+      {/* Discover — random posts for quick listening, mobile only */}
+      <div className="sm:hidden max-w-xl mx-auto px-4 pb-8">
         <RandomPostButton />
       </div>
 
