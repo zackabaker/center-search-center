@@ -147,7 +147,10 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
   }
 
   return (
-    <div className="space-y-4 text-gray-800 dark:text-gray-200">
+    <div
+      className="space-y-4 text-gray-800 dark:text-gray-200"
+      style={{ fontSize: 'var(--prose-font-size)', lineHeight: 'var(--prose-line-height)' }}
+    >
       {linkedParagraphs.map(({ isBlockquote, isHeading, text, nodes }, i) => {
         const id = `p-${i + 1}`;
 

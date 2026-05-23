@@ -135,6 +135,9 @@ export default async function PostPage({
   // ── Concordance ────────────────────────────────────────────────────────────
   const termFreq = getPostTermFrequency(post.content, 25);
 
+  // ── Headings (for conditional Contents sidebar) ────────────────────────────
+  const hasHeadings = paragraphs.filter((p) => /^#{1,3}\s/.test(p)).length >= 3;
+
   // ── Related posts (for sidebar compact list) ───────────────────────────────
   const allEntries = getCachedAllEntries();
   const currentEntry = allEntries.find((e) => e.slug === slug);
@@ -260,17 +263,21 @@ export default async function PostPage({
           {/* ── Sticky sidebar — desktop only ── */}
           <aside className="hidden lg:block sticky top-6 self-start space-y-0 print:hidden">
 
-            {/* Contents */}
-            <div className="pb-5">
-              <p className={SIDEBAR_LABEL}>Contents</p>
-              <TableOfContents paragraphs={paragraphs} />
-            </div>
+            {/* Contents — only shown when post has ≥3 headings */}
+            {hasHeadings && (
+              <div className="pb-5">
+                <p className={SIDEBAR_LABEL}>Contents</p>
+                <TableOfContents paragraphs={paragraphs} />
+              </div>
+            )}
 
-            {/* Divider */}
-            <div className="border-t border-gray-100 dark:border-gray-800 pt-5 pb-5">
-              <p className={SIDEBAR_LABEL}>Key terms</p>
-              <Concordance terms={termFreq} />
-            </div>
+            {/* Key Terms — compact mode: no outer chrome, terms always visible */}
+            {termFreq.length > 0 && (
+              <div className={`${hasHeadings ? 'border-t border-gray-100 dark:border-gray-800 ' : ''}pt-5 pb-5`}>
+                <p className={SIDEBAR_LABEL}>Key terms</p>
+                <Concordance terms={termFreq} compact />
+              </div>
+            )}
 
             {/* Related — compact top-3 */}
             {relatedEntries.length > 0 && (
