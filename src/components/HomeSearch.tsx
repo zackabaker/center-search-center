@@ -6,18 +6,23 @@ import AnimatedSearchIcon from '@/components/AnimatedSearchIcon';
 
 type Mode = 'search' | 'ask';
 
-// Suggested starter queries — good entry points into the archive
+// Suggested starter queries — mix of core theory and contemporary applications
 const SUGGESTIONS = [
-  'originary hypothesis',
+  'the center',
   'resentment',
   'deferral',
-  'scenic representation',
+  'succession',
   'sovereignty',
-  'the center',
-  'imperative',
-  'moral model',
-  'firstness',
-  'language origin',
+  'AI',
+  'media',
+  'money',
+  'debt',
+  'power',
+  'scapegoating',
+  'prediction markets',
+  'technology',
+  'governance',
+  'names',
 ];
 
 export default function HomeSearch() {
@@ -93,7 +98,7 @@ export default function HomeSearch() {
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
-              Find texts
+              Search
             </button>
             <button
               type="button"
@@ -104,7 +109,7 @@ export default function HomeSearch() {
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
-              ✦ Ask the archive
+              ✦ Ask AI
             </button>
           </div>
         </div>
