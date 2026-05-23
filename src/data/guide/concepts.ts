@@ -48,7 +48,17 @@ The center is never absent from human activity. Where it appears absent, it has 
     ],
     passages: [
       {
-        text: 'The center is paradoxically within the structure and outside it. The center is at the center of the totality, and yet, since the center does not belong to the totality (is not part of the totality), the totality has its center elsewhere. The center is not the center.',
+        text: 'What is a center? Whatever can invoke and be referenced by an ostensive sign: the center is both cause and product of the sign—as cause it subsists beyond any particular reference, and as product it is continually renewed. Invoking the sign exceeds the reference, though—it is already the beginning of an imperative. So, a center is a locus of imperative exchange—whatever about the object commands the issuance of the ostensive sign is also an agency of which requests can be made.',
+        source: 'Anthropomorphics',
+        sourceSlug: 'book-anthropomorphics',
+      },
+      {
+        text: 'A center establishes a hierarchy—at the very least between center and margin. But every other hierarchy is modeled on the hierarchy between center and margin—hierarchies are only possible if there is a center.',
+        source: 'Anthropomorphics',
+        sourceSlug: 'book-anthropomorphics',
+      },
+      {
+        text: 'The center issues signs to those on the margin, who in turn convey those signs to one another in collaborations and deliberations that produce signs issued back to the center.',
         source: 'Anthropomorphics',
         sourceSlug: 'book-anthropomorphics',
       },
@@ -56,11 +66,6 @@ The center is never absent from human activity. Where it appears absent, it has 
         text: 'The very operation of all the institutions of information production and provision presupposes an unwavering orientation toward the central authority, regardless of how decentralized things seem, or how impossible we might think it is to locate the sources of power and decision making.',
         source: 'Event, Origin, Center',
         sourceSlug: 'pdf-event-origin-center',
-      },
-      {
-        text: 'Morality would have to be thought of in "vertical" rather than "horizontal" terms — that is, there is no reciprocity that is not mediated by a center.',
-        source: 'Nemesis: The Jouvenelian vs. the Liberal Model',
-        sourceSlug: 'pdf-nemesis-jouvenelian-liberal-model',
       },
     ],
     selfReference: 'This concept page is itself centered: every other concept in this guide radiates from it. The center of the concept of the center is the originary scene. Look there.',
@@ -90,14 +95,19 @@ The scene: a group of hominids converge on a central object — food, a body, so
     ],
     passages: [
       {
-        text: 'The originary hypothesis locates the origin of language and hence of the human in the unanimous acceptance of the sign as the deferral of violence on a scene of extreme mimetic danger.',
-        source: 'The Origin of Language (Introduction)',
-        sourceSlug: 'book-the-origin-of-language',
+        text: 'Gans assumes that the mimetic crisis is organized around some object of appetitive attention—most likely some food source, perhaps a recent kill. Ordinarily, among the higher primate species, the object would be consumed in order, first by the Alpha animal, then by the Beta, and so on. But on this occasion, the mimetic rivalry induced by the object overrides the pecking order as all members of the group move toward the object at the center. Appetite becomes "desire," that is, a social phenomenon involving one\'s relation to others and not merely the object itself.',
+        source: 'Anthropomorphics',
+        sourceSlug: 'book-anthropomorphics',
       },
       {
-        text: 'If the originary event is event and sign together, then there is no event without the sign being both emitted and iterated by all the participants on the scene — just as memories are not completed until they are recalled, or represented (and are therefore never complete), the event will only have taken place once it is represented in the sign.',
-        source: 'Attentionality and Originary Ethics',
-        sourceSlug: 'pdf-attentionality-originary-ethics',
+        text: 'The gesture indicates a renunciation, perhaps momentary (but that is enough), of the desired object. This, what Gans calls "the gesture of aborted appropriation," is the first sign. The rivalrous imitation that first propels the group toward center and potentially cataclysmic violence is converted into a pacifying imitation that de-escalates the crisis; the order provided by the animal pecking order is replaced by an order mediated by the sign, which defers violence through representation. A new species is born: the human, the only species, as Gans puts it, that poses a greater danger to its own survival than is posed to it by anything in its environment.',
+        source: 'Anthropomorphics',
+        sourceSlug: 'book-anthropomorphics',
+      },
+      {
+        text: 'The paradoxes of deferral we see on the originary scene are enduring features of the human. That which we desire and that therefore thrusts itself upon our attention, is given excess desirability through our mimetic relations with our fellows—desiring something is inseparable from imagining others desiring it. For this very reason we are forbidden our object of desire, as we intuit the violence implicit in our approach to it.',
+        source: 'Anthropomorphics',
+        sourceSlug: 'book-anthropomorphics',
       },
     ],
     selfReference: 'This page is itself a scene: you are oriented toward the concept of the originary scene, which points you toward the center. Reading this is already an instance of what it describes — shared attention at a textual center.',
@@ -127,12 +137,17 @@ This is what Katz means when he writes: "If language is the deferral of violence
     ],
     passages: [
       {
-        text: 'Language is going to be generative even if we act as if it is representational — pretensions to a secure metalanguage really serve to guarantee a moral or political certainty that avoids the problem of creating in some space of language the shared attention directed towards some center.',
-        source: 'The Linguistic Turn and Generative Literacy',
-        sourceSlug: 'pdf-linguistic-turn-generative-literacy',
+        text: '"Deferral," meanwhile, perfectly captures the position within the act itself, along with its fundamental contingency, between the convergence heading toward destruction and what will perhaps be no more than the mere delay of that tendency.',
+        source: 'On Deferral',
+        sourceSlug: 'gablog-on-deferral',
       },
       {
-        text: 'The linguistic turn entails a hypothesis: that the metaphysical scene of humanism, predicated upon the metalinguistics of literacy, has reached its limits as a means of deferring violence.',
+        text: 'Such questions emerge from an understandable misunderstanding of deferral, the more advanced forms of which allow for plenty of eating, drinking, lovemaking, fighting (where necessary) and anything else needed for a full human life. The immediate effect of deferral is not an intolerable feeling of privation, since deferral emerges in response to accumulating desire more than to need—rather, the effect is of a new world opening up.',
+        source: 'The Generativity of Deferral',
+        sourceSlug: 'gablog-the-generativity-of-deferral',
+      },
+      {
+        text: 'Language is going to be generative even if we act as if it is representational — pretensions to a secure metalanguage really serve to guarantee a moral or political certainty that avoids the problem of creating in some space of language the shared attention directed towards some center.',
         source: 'The Linguistic Turn and Generative Literacy',
         sourceSlug: 'pdf-linguistic-turn-generative-literacy',
       },
@@ -167,9 +182,19 @@ This is what Katz means when he writes: "If language is the deferral of violence
     ],
     passages: [
       {
-        text: 'If you assume that the declarative sentence is the primary linguistic form, you will never think to ask, or to think one can ask, whence it derived — even if a moment\'s reflection must convince us that it must have derived from some previous linguistic form.',
-        source: 'The Origin of Language (Introduction)',
-        sourceSlug: 'book-the-origin-of-language',
+        text: 'This first sign is an "ostensive" sign, which means it says nothing "about" anything, it just indicates and preserves mere presence. Think of the kinds of expressions we use to alert others to an emergency situation—"fire!"; "man overboard!"—and you get the idea. Before anything can be done or examined, our attention must first of all be fixed on this thing.',
+        source: 'Originary Technics',
+        sourceSlug: 'pdf-originary-technics',
+      },
+      {
+        text: 'The imperative is a result of an "inappropriate ostensive." One member of the community issues the ostensive sign in the absence of the object, and another member of the community then supplies the object. The declarative emerges in response to a problem raised by the imperative—what we might call an "inappropriate imperative." There would be imperatives that couldn\'t be fulfilled, raising the specter of a breakdown of linguistic presence.',
+        source: 'Anthropomorphics',
+        sourceSlug: 'book-anthropomorphics',
+      },
+      {
+        text: 'Beyond the heuristic value of originary grammar, I will insist on taking it quite literally: there is no way we could ever be doing anything that is not following an imperative within a network of imperatives deriving from an ostensive world and explicated by declaratives. We are semiotic beings, composed of signs and signs ourselves, and the ostensive, imperative, interrogative and declarative are the most elementary signs. All we do is try to follow what the center is telling us to do.',
+        source: 'Anthropomorphics',
+        sourceSlug: 'book-anthropomorphics',
       },
     ],
     selfReference: 'This page is imperative in mode: it commands you to attend to the order of the forms. It cannot prove its claim without already using all three forms simultaneously. That circularity is not a defect — it is what the concept predicts.',
@@ -199,9 +224,14 @@ On the originary scene, the first sign is sacred in the precise sense that it bi
     ],
     passages: [
       {
-        text: 'The sacred inheres in the "profane" use of language in the constraint of meaning that binds the sign independently of any ritual context. This minimal sacred inherent in the laws of language is too weak to support a god or a law of ritual sacrifice; it can guarantee only the most parsimonious of anthropologies.',
-        source: 'The Esthetic, the Sacred, and Originary Modernity',
-        sourceSlug: 'pdf-esthetic-sacred-originary-modernity',
+        text: 'The sacred is an indirect, unaware representation of sociality, since the human contribution to the construction of sacrality cannot be explicitly represented. Directly representing the social was also the project of secular thought, but the project turned out to be impossible on those terms because the "human" individual must be taken as its own origin, with the signs that mediate between humans mere expressions of what is always already internal to the human individual.',
+        source: 'Anthropomorphics',
+        sourceSlug: 'book-anthropomorphics',
+      },
+      {
+        text: 'The originary event is also the origin of resentment: the same sacred Being that preserves the community restrains desire while endowing the object with a sacrality that enhances its desirability.',
+        source: 'The Anthropoetics of Power',
+        sourceSlug: 'pdf-the-anthropoetics-of-power',
       },
       {
         text: 'Rather than sacred and secular, I would propose we distinguish between the liturgical and the secular, as different modes of sacrality conferring upon either God or humans respectively the generative power constitutive of a given institution or practice.',
@@ -235,6 +265,11 @@ This is why liberal rights theory is incoherent from a Center Study perspective 
     ],
     passages: [
       {
+        text: 'Carl Schmitt took the Greek word "nomos," usually translated as "law," but in a broad sense including "norms," to refer to an originary division of land, a partition, by its first inhabitants. Whether the land has been conquered, discovered, or shared with another people, the nomos grounds the community in a more or less equal distribution and a more or less tacit covenant. The distribution may be according to contributions to the founding, or pre-existing power relations, and the covenant might be retrojected to the origin in order to conceal a more unilateral event, but, either way, the nomos provides a point of reference for all communal events going forward: they can be judged by the degree of their conformity to the nomos.',
+        source: 'Sovereignty, Nomos and Parrhesia',
+        sourceSlug: 'gablog-sovereignty-nomos-and-parrhesia',
+      },
+      {
         text: 'In the case of conquest, distribution takes the form of what Carl Schmitt called the "Nomos," an originary division of land among the participants in the conquest, no doubt proportional to their respective contributions. If we think of the center as the source of distribution and also as the effect of its distributions, we will never be able to imagine it makes sense to think of rights without corresponding obligations.',
         source: 'Anthropomorphics',
         sourceSlug: 'book-anthropomorphics',
@@ -266,6 +301,11 @@ The alternative — succession by committee, by popular vote, by competitive mar
       { slug: 'book-anthropomorphics', title: 'Anthropomorphics', note: 'The center\'s current occupant chooses the successor.' },
     ],
     passages: [
+      {
+        text: 'The mode of succession is the most important question for assessing a social order—how is the center transferred from one occupant to the next tells us everything important we need to know about that social order. I want to further extend that argument now so as to apply it to all practices—everywhere, succession is the sign of success. Whatever you do or say is meaningful and important insofar as you create the place for and when possible install your successor.',
+        source: 'Successful Succession',
+        sourceSlug: 'gablog-successful-succession',
+      },
       {
         text: 'The foundation of any practice, in that case, is what I am calling "singularized succession in perpetuity." Whatever is involved in considering the conditions that might prepare a wide enough range of suitable candidates, available resources, training, public recognition and acceptance, even participation in practices of succession — all that is part of the practice.',
         source: 'Originary Technics',
@@ -301,9 +341,14 @@ The alternative — succession by committee, by popular vote, by competitive mar
     ],
     passages: [
       {
-        text: 'The only possible repayment of this debt is to defer violent centralization wherever one sees it.',
-        source: 'Anthropomorphics',
-        sourceSlug: 'book-anthropomorphics',
+        text: 'The imperial order institutes a juridical order in order to replace this asymmetrical reciprocity with symmetry between the subjects in relation to the center, whose occupant is beyond all reciprocity.',
+        source: 'Tethering and Toggling: Ritual, Juridical and Disciplinary',
+        sourceSlug: 'substack-tethering-and-toggling-ritual-juridical-and-disciplinary',
+      },
+      {
+        text: 'The juridical is in fact an imperial construct, intervening in the reciprocity of families, clans and tribes, and that reciprocity also contains certain limits that anticipate the juridical, but in this case the reciprocity falls on the head of the family, clan or tribe, to whom something is "owed." The imperial institution of justice is therefore quite hostile to the heads and chiefs and the extended kinship relations they embody.',
+        source: 'On the Juridical-Disciplinary Line',
+        sourceSlug: 'substack-on-the-juridical-disciplinary-line',
       },
     ],
     selfReference: 'This page adjudicates the concept of the juridical. It cannot do so without already being an instance of the juridical function — the rendering of a determination that claims binding force. You may appeal.',
@@ -343,6 +388,11 @@ The alternative — succession by committee, by popular vote, by competitive mar
         source: 'There Is No Economy',
         sourceSlug: 'pdf-there-is-no-economy',
       },
+      {
+        text: 'The Big Man renders everyone dependent upon him, entirely for "merit-based" reasons, and this is a debt which can never be paid back. Out-gifting others therefore becomes a model for the initial power differential.',
+        source: 'Discipline and Debt',
+        sourceSlug: 'gablog-discipline-and-debt',
+      },
     ],
     selfReference: 'The reader is now indebted to this text for what it has made available. The only repayment is to read the posts it points toward and extend the analysis.',
   },
@@ -380,6 +430,11 @@ The alternative — succession by committee, by popular vote, by competitive mar
         source: 'Scenic Design Practices',
         sourceSlug: 'gablog-scenic-design-practices',
       },
+      {
+        text: '"technics" is the scenic design component of the constitution of the human; the human is scenic from the start, definitively, constitutively, but scenes, once in existence, need to be maintained and constructed; the first deliberately constructed scenes were ritual scenes, composed so as to situate the community in a relation to the sacrificial center so as to facilitate and maximize the exchange entered into with that center.',
+        source: 'Originary Grammar as Model for Scenic Design Intelligence',
+        sourceSlug: 'substack-originary-grammar-as-model-for-scenic-design-intelligence',
+      },
     ],
     selfReference: 'This guide is a scenic design artifact — an attempt to construct a scene in which the reader can orient toward the center of Center Study. Its failures are scenic failures.',
   },
@@ -408,12 +463,17 @@ The alternative — succession by committee, by popular vote, by competitive mar
     ],
     passages: [
       {
-        text: 'There can\'t really be a more fundamental human relation than pedagogy, and firstness on the originary scene and thereafter is really a pedagogical relation; even more, a linguistic pedagogy relation. Pedagogy is fractally hierarchical.',
+        text: 'The human is modeled on the non-human center—this is why I call the human science I am presenting here an "anthropomorphics." Humans anthropomorphized themselves before they could carry out this operation on anything else.',
         source: 'Anthropomorphics',
         sourceSlug: 'book-anthropomorphics',
       },
       {
-        text: 'This is what creates the possibility for each and every one of us to become a center — that is, as one who is not to be sacrificed or violently centralized. We owe the God who has revealed this to us everything, which is to say all that makes up our own centrality.',
+        text: '"anthropomorphics" was also meant to foreground the artificiality of the human, from the beginning—we were always already imitating the center that was itself nothing more than a vectorization of our converging desires turned back at us through a prohibition. This was a way of distancing myself from GA\'s or any humanism and insisting on the historicity of the human.',
+        source: 'Anthropomorphics (Substack)',
+        sourceSlug: 'substack-anthropomorphics',
+      },
+      {
+        text: 'There can\'t really be a more fundamental human relation than pedagogy, and firstness on the originary scene and thereafter is really a pedagogical relation; even more, a linguistic pedagogy relation. Pedagogy is fractally hierarchical.',
         source: 'Anthropomorphics',
         sourceSlug: 'book-anthropomorphics',
       },
@@ -445,14 +505,19 @@ The alternative — succession by committee, by popular vote, by competitive mar
     ],
     passages: [
       {
-        text: 'Victimary thinking, as a product of the twin iconic markers of World War II, Auschwitz and Hiroshima, frames all inequalities as instances of "oppression," to which the Nazi-Jew model can be applied.',
-        source: 'The Origin of Language (Introduction)',
-        sourceSlug: 'book-the-origin-of-language',
+        text: 'Resentment is our scandalized reaction to the existence of situations where this symmetrical configuration is not maintained. Unequal treatment of anyone constitutes a disequilibrium that is scandalous because it seems to threaten the community with return to originary chaos. I am not merely upset at my own ill-treatment; I am in terror of the potential disintegration of the entire social order.',
+        source: 'The Anthropoetics of Power',
+        sourceSlug: 'pdf-the-anthropoetics-of-power',
       },
       {
-        text: 'We need to "care" about in order to transition to the "contributory," to be blunt, is a pathological anti-centerism.',
-        source: 'Event, Origin, Center',
-        sourceSlug: 'pdf-event-origin-center',
+        text: 'Our resentful reaction to inequality reveals our belief in the moral model—an ostensive belief like the foxhole belief in God. Resentment points to the act of injustice, makes it known. God remains the implicit audience of our resentment as he was of our plea for help, but now we expect the rest of the human community to share our reaction.',
+        source: 'The Anthropoetics of Power',
+        sourceSlug: 'pdf-the-anthropoetics-of-power',
+      },
+      {
+        text: 'But victimary thinking enacts this resistance and refusal as a resentment of firstness: Nazism\'s extremities are just the extension of the striving for pre-eminence among nations, among firms in the economy, among ideological and religious claims, and so on.',
+        source: 'Deconstructing the Victimary',
+        sourceSlug: 'gablog-deconstructing-the-victimary',
       },
     ],
     selfReference: 'The reader who resists this account of resentment is already demonstrating it — the desire to exempt oneself from a structural analysis is the resentful desire to be the exception. Note that and proceed.',
@@ -478,6 +543,16 @@ The alternative — succession by committee, by popular vote, by competitive mar
       { slug: 'book-anthropomorphics', title: 'Anthropomorphics', note: 'The uninsurable and its relation to the center\'s irreducibility.' },
     ],
     passages: [
+      {
+        text: 'So, I can now replace the clumsy "occupant of the center" with "pointman," as a more resonant and less technical-sounding synonym. Nor is seeking out the pointman a merely passive stance—it\'s not waiting for Godot, because there are a lot of candidates out there and you\'re looking for them, testing them when they emerge, drawing conclusions from events they create, contributing to the conditions of their platforming.',
+        source: 'The Pointman',
+        sourceSlug: 'substack-the-pointman',
+      },
+      {
+        text: 'Like the Axial Age sacrificial figure, the pointman must draw all attention to himself, and must compel everyone to choose whether to join or deny him. Everyone will be marked by the degree to which they keep "faith" with him. We are speaking of the latest iteration of the Big Man, which also means that what is now commemorated is the pointman\'s reception, seizure and eventual transfer of power.',
+        source: 'The Pointman',
+        sourceSlug: 'substack-the-pointman',
+      },
       {
         text: 'Most disciplined individuals (in economic terms: those with the longest time preference), who will therefore seek each other out, recognize one another, and model modes of deferral for the less disciplined.',
         source: 'The Marginal Anthropomorph',
@@ -511,9 +586,19 @@ The alternative — succession by committee, by popular vote, by competitive mar
     ],
     passages: [
       {
-        text: 'Language is going to be generative even if we act as if it is representational — pretensions to a secure metalanguage really serve to guarantee a moral or political certainty that avoids the problem of creating in some space of language the shared attention directed towards some center.',
-        source: 'The Linguistic Turn and Generative Literacy',
-        sourceSlug: 'pdf-linguistic-turn-generative-literacy',
+        text: 'The burden of this book is to follow those trails and work out a social, political and cultural theory, or, as I will call it, an "anthropomorphics," as an originary grammar of the center. So, I will show that speaking in terms of the imperatives we are conveying, or hearing, from the center, when discussing declarative sentences and discourse, will yield insights unavailable when following more conventional imperatives to speak about sentences and discourses in terms of meanings packaged by one mind for others according to specific explicit and tacit rules.',
+        source: 'Anthropomorphics',
+        sourceSlug: 'book-anthropomorphics',
+      },
+      {
+        text: 'What we could say is that ritual is primarily ostensive, with imperative derived from the center and declaratives serving to determine which imperative to obey in particular cases; while the juridical ends up with an imperative, something someone is commanded to do or refrain from doing, and gathers ostensives and declaratives together to that end.',
+        source: 'Back to Grammar',
+        sourceSlug: 'substack-back-to-grammar',
+      },
+      {
+        text: 'A way of thinking involves a new vocabulary and grammar; it puts words to new use, generates new questions and imperatives. Any new way of thinking would do this; all the more so must one founded upon an account of the origin of language; all the more so an account of the origin of language that sees language as constitutive of the human.',
+        source: 'Idioms of Inquiry',
+        sourceSlug: 'gablog-idioms-of-inquiry',
       },
     ],
     selfReference: 'This page is written in originary grammar — it uses the declarative to point toward the scene-dependent conditions for the declarative\'s own possibility. The self-reference is not a trick; it is the method.',
@@ -543,7 +628,17 @@ The alternative — succession by committee, by popular vote, by competitive mar
     ],
     passages: [
       {
-        text: 'The center is not created by violence but by the deferral of violence — the Big Man occupies it by giving rather than taking, by distributing rather than seizing.',
+        text: 'The Big Man, through enterprise, discipline, and what Gans calls "producer\'s desire" accumulates goods and prestige that place him above the egalitarian community. The Big Man marks the beginning of wealth accumulation, individual liberty, and social hierarchy. Even more, the Big Man usurps the ritual center of the community, taking on a sacred status, ultimately becoming a kind of God King.',
+        source: 'The Anthropoetics of Power',
+        sourceSlug: 'pdf-the-anthropoetics-of-power',
+      },
+      {
+        text: 'The resentment that is generated and resolved by the sacred center is now directed towards the Big Man: on the one hand, every one, and especially rivals, envy him his place; on the other hand, and even more importantly, all members of the community insist that he enforce a "just" distribution of goods, with "just" being based on the model of the originary scene.',
+        source: 'The Anthropoetics of Power',
+        sourceSlug: 'pdf-the-anthropoetics-of-power',
+      },
+      {
+        text: 'Civilization is the generalization of the experience of the Big Man, in which authority is generated by self-denial, generosity and concern for and action on the community as a whole—not necessarily its complete generalization (any civilization will contain the less and uncivilized), but the steady inclusion of more social spaces.',
         source: 'The Anthropoetics of Power',
         sourceSlug: 'pdf-the-anthropoetics-of-power',
       },
@@ -573,9 +668,14 @@ The alternative — succession by committee, by popular vote, by competitive mar
     ],
     passages: [
       {
-        text: 'The aborted gesture is the sign because it is the imitation of another\'s imitation of one\'s own imitation — the convergence of gestures is the sign\'s unanimity condition.',
+        text: 'That which we desire and that therefore thrusts itself upon our attention, is given excess desirability through our mimetic relations with our fellows—desiring something is inseparable from imagining others desiring it. For this very reason we are forbidden our object of desire, as we intuit the violence implicit in our approach to it.',
         source: 'Anthropomorphics',
         sourceSlug: 'book-anthropomorphics',
+      },
+      {
+        text: 'mimesis is first of itself negentropic insofar as the capacity of members of a group to learn from each other enhances each member of the group\'s ability to resist entropic tendencies; but mimesis itself turns entropic once it interferes with other group stabilizing mechanisms (the pecking order) and, more precisely, subtracts rather than adding information regarding the action sequence.',
+        source: 'Mimesis, the Center and Auto-Immunology',
+        sourceSlug: 'pdf-mimesis-center-auto-immunology',
       },
     ],
     selfReference: 'The reader of this guide imitates the reading practices it models. That imitation is not a failure of originality — it is how the discipline constitutes its community. The guide is mimetically structured from first word to last.',
@@ -602,7 +702,12 @@ The alternative — succession by committee, by popular vote, by competitive mar
     ],
     passages: [
       {
-        text: 'The sparagmos — the tearing apart of the central object and its distribution to all — is the originary economic act: the first distribution, establishing the template that all subsequent distributions must answer to.',
+        text: 'In the sparagmos, the tension generated by the prior restraint is loosened, and so this danger does present itself as the community attacks the meal in this unprecedented manner. Resentment at the object itself, for imposing restraint and refusing itself, intensifies the devouring of the body. The only thing preventing each member from overreaching his bounds and turning on his fellows is the sign itself, which we can imagine working within the sparagmos as a kind of reminder of the collective limits making this peaceful consumption possible.',
+        source: 'Anthropomorphics',
+        sourceSlug: 'book-anthropomorphics',
+      },
+      {
+        text: 'Following the sparagmos, as the community faces each other over the remains of their victim/meal/deity, the sign would be issued once again, this time pointing to the remainders and mementos of the sacred being, marking the first ritual.',
         source: 'Anthropomorphics',
         sourceSlug: 'book-anthropomorphics',
       },
@@ -632,9 +737,19 @@ The alternative — succession by committee, by popular vote, by competitive mar
     ],
     passages: [
       {
-        text: 'Desire is appetite for something generated by social prohibition — not a pre-social drive constrained from outside but an appetite constituted by the very constraint that appears to limit it.',
+        text: 'Appetite becomes "desire," that is, a social phenomenon involving one\'s relation to others and not merely the object itself. Desire intensifies the mimetic crisis.',
         source: 'Anthropomorphics',
         sourceSlug: 'book-anthropomorphics',
+      },
+      {
+        text: 'desire cannot coincide with meaning: the purer the desire, the more any interference with that desire must be destroyed, intellectually and physically, if possible. Desire cannot tolerate an independent reality within which the object might embed itself and thereby resist possession. And by possession, I mean absolute, unquestioned, permanent possession—which is what desire aims at.',
+        source: 'The Grammar of Desire and Resentment',
+        sourceSlug: 'gablog-the-grammar-of-desire-and-resentment',
+      },
+      {
+        text: 'To put it in grammatical terms, desire involves the object issuing imperatives to the subject—come and get me; be who you can be once you have me; protect me from all others, etc.—but insofar as the object then resists possession, or breaks the promises implicit in its beckoning, the subject is reduced to issuing imperatives to the object.',
+        source: 'The Grammar of Desire and Resentment',
+        sourceSlug: 'gablog-the-grammar-of-desire-and-resentment',
       },
     ],
     selfReference: 'The reader desires to understand Center Study. That desire is itself scenic — it requires the center (the archive), the prohibition (you cannot simply take the meaning; you must read), and the deferral (this guide, these concepts, this patient approach). The desire to understand is desire in the Center Study sense.',
@@ -666,6 +781,11 @@ The alternative — succession by committee, by popular vote, by competitive mar
         source: 'Anthropomorphics',
         sourceSlug: 'book-anthropomorphics',
       },
+      {
+        text: 'A completely marketized order is, as Eric Gans has pointed out, an "omnicentric" one. In that case, one\'s response to the emergence of new resentments or conflicts is to seek or create new centers. But any new center must draw upon the resources and authority of some existing center. At the very least, it must employ the linguistic reserves of existing centers.',
+        source: 'The Linguistic Turn and Generative Literacy',
+        sourceSlug: 'pdf-linguistic-turn-generative-literacy',
+      },
     ],
     selfReference: 'This concept page occupies a center in the guide. The reader is at the periphery. But the reader is also a potential center — this guide\'s omnicentric commitment is to make you capable of occupying the center of Center Study for yourself.',
   },
@@ -695,7 +815,12 @@ The alternative — succession by committee, by popular vote, by competitive mar
     ],
     passages: [
       {
-        text: 'The sign is the aborted gesture of appropriation — the hand that goes out and stops, and in stopping, becomes the first representation. Not "I want this" but just: this.',
+        text: 'A sign has meaning insofar as it can be repeated, which is to say, repeated as the same sign. We can go further and say that the meaning of a sign is precisely the various ways and occasions upon which it can be repeated. One\'s understanding of a sign is demonstrated by the ways one is able to repeat it and have it accepted as that sign. But since a sign refers to a shared center, others, whose cooperation, or even attention, cannot be ensured, meaning can never be guaranteed in advance.',
+        source: 'Signing Up',
+        sourceSlug: 'gablog-signing-up',
+      },
+      {
+        text: 'Whether we speak in terms of a Peircean "symbol," or the distinction between signifier and signified, the sign is different from any form of non-human communication insofar as the operation of any sign is both conventional and historical while being outside of conventionality and history. Words only mean what they mean insofar as a community of language users "agrees" that that is what they mean.',
         source: 'Anthropomorphics',
         sourceSlug: 'book-anthropomorphics',
       },
@@ -725,9 +850,14 @@ The alternative — succession by committee, by popular vote, by competitive mar
     ],
     passages: [
       {
-        text: 'There can\'t really be a more fundamental human relation than pedagogy, and firstness on the originary scene and thereafter is really a pedagogical relation; even more, a linguistic pedagogy relation.',
-        source: 'Anthropomorphics',
-        sourceSlug: 'book-anthropomorphics',
+        text: 'Considered at its most minimal, language is grounded, as Michael Tomasello along with Eric Gans has shown, in joint attention—the capacity to pay attention to the same thing at the same time, to know that we are doing it, and to know that we know (to let each other know). It should be possible, then, to analyze all human, which is to say social, phenomena, in terms of forms of attention, articulated in ever more complex ways.',
+        source: 'The Attentional Structure of Sovereignty',
+        sourceSlug: 'gablog-the-attentional-structure-of-sovereignty',
+      },
+      {
+        text: 'formal representation is itself ethical, is indeed the origin and resource of any ethics, so that ethics cannot be thought outside of it. At the same time, formal representation cannot be thought outside of ethics, since the "formality" of the representation lies in the shared attention it effects, and in this shared attention lies any ethics. In shared, or joint attention, is the fundamental equality-on-the-scene that constitutes the human.',
+        source: 'Attentionality and Originary Ethics',
+        sourceSlug: 'pdf-attentionality-originary-ethics',
       },
     ],
     selfReference: 'Reading is an act of attentionality — directing your attention toward a text that directs its attention toward a center. The guide asks you to attend to what the archive attends to. That asking is itself an exercise in third-order attentionality.',
@@ -756,9 +886,19 @@ The alternative — succession by committee, by popular vote, by competitive mar
     ],
     passages: [
       {
-        text: 'Every medium takes over a portion of the ritual function — constituting the community by staging shared attention on a central object. The crisis of contemporary media is the crisis of ritual without the sacred.',
-        source: 'Media as Ritual',
-        sourceSlug: 'substack-media-as-ritual',
+        text: 'What we speak of as ritual is distribution from the center returning to the center including the process of distributing people so as to manage the distribution and return.',
+        source: 'Tethering and Toggling: Ritual, Juridical and Disciplinary',
+        sourceSlug: 'substack-tethering-and-toggling-ritual-juridical-and-disciplinary',
+      },
+      {
+        text: 'The form of ritual is dictated by the center, which is to say the intentions of the center are embedded in a community\'s rituals. But they are not made explicit by rituals which, by definition, embody tacit knowledge. Understanding what the center wants involves, then, a reading of rituals or, more precisely, the attribution of intentions to the figures populating the ritual.',
+        source: 'The Anthropoetics of Power',
+        sourceSlug: 'pdf-the-anthropoetics-of-power',
+      },
+      {
+        text: 'The first ritual following the originary scene itself would have aimed at eliminating the unevenness necessary to that scene (the staggered procession in which the sign would have been issued) by having everyone enact the originary event in sync.',
+        source: 'There Is No Economy',
+        sourceSlug: 'pdf-there-is-no-economy',
       },
     ],
     selfReference: 'This guide performs a mild ritual function: it re-enacts the founding scene of Center Study for each new reader. Every reading of the guide reconstitutes the community that faces the archive.',
@@ -787,9 +927,14 @@ The alternative — succession by committee, by popular vote, by competitive mar
     ],
     passages: [
       {
-        text: 'An idiom is not a style — it is the scenic signature of a practice, the irreducible way it orients toward its center. To translate an idiom is to create a new scene, not to carry meaning between scenes unchanged.',
-        source: 'Idiom and the Differend',
-        sourceSlug: 'substack-idiom-and-the-differend',
+        text: 'An idiom is this articulation of group membership, the sharing of a sacred center, and its anthropological "surplus," or awareness that the signs designating that center might be otherwise and in fact are otherwise, having their equivalents in every other group. The preservation of an idiom, moreover, depends upon sharpening the differences between equivalents rather than ironing them out.',
+        source: 'The Right of the Idiom Yet Again',
+        sourceSlug: 'gablog-the-right-of-the-idiom-yet-again',
+      },
+      {
+        text: '"Idiomatic intelligence" has us keep in mind the resistance to translation the ongoing naming constitutive of any event-scene undergoes and the corresponding need for translation practices. "Idiomatic intelligence" incorporates the ritual, or the most originary modes of commemoration, in a way that "formalization," drawing almost exclusively upon the juridical, doesn\'t.',
+        source: 'Generating Idiomatic Intelligences and Translation Practices',
+        sourceSlug: 'substack-generating-idiomatic-intelligences-and-translation-practices',
       },
     ],
     selfReference: 'Center Study has an idiom. This guide is written in it — or as close to it as a guide can get. The reader who has followed the guide to this point has begun to acquire the idiom, even if they cannot yet name what they have acquired.',
