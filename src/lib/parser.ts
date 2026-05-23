@@ -226,17 +226,51 @@ function parseBook(): Post[] {
   if (!fs.existsSync(bookPath)) return [];
 
   const content = fs.readFileSync(bookPath, 'utf-8');
-  // Strip the markdown title line for the excerpt
   const contentBody = content.replace(/^#[^\n]*\n+/, '').trim();
+  const lines = contentBody.split('\n');
 
-  return [{
+  const posts: Post[] = [];
+
+  // Detect chapter boundaries: lines matching exactly _Chapter Title_
+  const chapters: { title: string; line: number }[] = [];
+  for (let i = 0; i < lines.length; i++) {
+    const m = lines[i].trim().match(/^_([^_\n]{3,60})_$/);
+    if (m) chapters.push({ title: m[1], line: i });
+  }
+
+  if (chapters.length > 0) {
+    // One post per chapter — each is short enough for full phrase matching
+    for (let i = 0; i < chapters.length; i++) {
+      const { title, line } = chapters[i];
+      const endLine = i + 1 < chapters.length ? chapters[i + 1].line : lines.length;
+      const chapterContent = lines.slice(line + 1, endLine).join('\n').trim();
+      if (!chapterContent) continue;
+
+      posts.push({
+        slug: 'book-anthropomorphics-' + slugify(title),
+        title,
+        content: chapterContent,
+        excerpt: excerpt(chapterContent),
+        date: null,
+        source: 'book' as ContentSource,
+        // Link back to the full book for the "View original" button
+        url: 'https://adamkatz.substack.com/p/anthropomorphics-an-originary-grammar',
+      });
+    }
+  }
+
+  // Full book entry — kept for backward compat (concept page links, intro page, etc.)
+  // Its search value is mostly as an overview; chapters handle specific queries.
+  posts.push({
     slug: 'book-anthropomorphics',
     title: 'Anthropomorphics: An Originary Grammar of the Center',
     content: contentBody,
     excerpt: excerpt(contentBody),
     date: null,
     source: 'book' as ContentSource,
-  }];
+  });
+
+  return posts;
 }
 
 function parseSubstackPosts(text: string): Post[] {
