@@ -319,6 +319,28 @@ export async function GET(
       letter-spacing: .01em;
     }
     .source-link:hover { color: var(--fg); }
+
+    /* ── Share button ── */
+    #btn-share-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 13px 16px;
+      margin-bottom: 28px;
+      background: var(--fg);
+      color: var(--bg);
+      border: none;
+      border-radius: 12px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: -0.01em;
+      transition: opacity .15s;
+    }
+    #btn-share-main:active { opacity: 0.75; }
   </style>
 </head>
 <body>
@@ -332,6 +354,13 @@ export async function GET(
   </div>
 
   <a class="back-link" href="${canonicalUrl}">← center.study</a>
+
+  <button id="btn-share-main" aria-label="Share this post">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+    </svg>
+    Share
+  </button>
 
   <div class="listen-note" role="note">
     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink:0;margin-top:1px">
@@ -353,6 +382,23 @@ export async function GET(
     (function () {
       var html = document.documentElement;
       var STEPS = 4;
+
+      /* ── Share ── */
+      var btnShareMain = document.getElementById('btn-share-main');
+      var postTitle = ${JSON.stringify(post.title)};
+      btnShareMain.addEventListener('click', function () {
+        var url = window.location.href;
+        if (navigator.share) {
+          navigator.share({ title: postTitle, url: url }).catch(function () {});
+        } else {
+          navigator.clipboard.writeText(url).then(function () {
+            btnShareMain.textContent = '✓ Link copied';
+            setTimeout(function () {
+              btnShareMain.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg> Share';
+            }, 2000);
+          }).catch(function () {});
+        }
+      });
 
       /* ── Theme ── */
       var btnTheme = document.getElementById('btn-theme');
