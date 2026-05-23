@@ -1,6 +1,5 @@
 import HomeSearch from '@/components/HomeSearch';
 import DarkModeToggle from '@/components/DarkModeToggle';
-import RandomPostButton from '@/components/RandomPostButton';
 import Link from 'next/link';
 import { getAllPosts } from '@/lib/parser';
 
@@ -21,43 +20,61 @@ const SOURCE_COLORS: Record<string, string> = {
   book:     'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
 };
 
-// Hand-picked entry points — good starting places for a new reader
-const FEATURED = [
+// Curated entry points grouped by reader interest
+const FEATURED_GROUPS = [
   {
-    slug: 'substack-the-prospects-of-the-hypothesis',
-    title: 'The Prospects of the Hypothesis',
-    source: 'substack',
-    description: 'What it means to carry the originary hypothesis forward, and what kind of thinking it demands.',
+    label: 'New to Center Study',
+    description: 'Start here',
+    posts: [
+      {
+        slug: 'substack-the-prospects-of-the-hypothesis',
+        title: 'The Prospects of the Hypothesis',
+        source: 'substack',
+        description: 'What it means to carry the originary hypothesis forward, and what kind of thinking it demands.',
+      },
+      {
+        slug: 'substack-originary-hypothesis-as-mobius-strip',
+        title: 'Originary Hypothesis as Möbius Strip',
+        source: 'substack',
+        description: 'The paradox at the origin: why the hypothesis repels the very understanding it demands.',
+      },
+    ],
   },
   {
-    slug: 'pdf-power-and-paradox',
-    title: 'Power and Paradox',
-    source: 'pdf',
-    description: 'A systematic account of power from the originary scene through sovereignty and political order.',
+    label: 'Political Theory',
+    description: 'Center, sovereignty, succession',
+    posts: [
+      {
+        slug: 'pdf-power-and-paradox',
+        title: 'Power and Paradox',
+        source: 'pdf',
+        description: 'A systematic account of power from the originary scene through sovereignty and political order.',
+      },
+      {
+        slug: 'gablog-sovereign-commands-anarchistic-demands',
+        title: 'Sovereign Commands, Anarchistic Demands',
+        source: 'gablog',
+        description: 'The originary distinction between command and demand, and its consequences for political thought.',
+      },
+      {
+        slug: 'gablog-power-and-paradox',
+        title: 'Power and Paradox',
+        source: 'gablog',
+        description: 'Katz on the irreducible paradox of power: how authority is constituted through the very resentment it generates.',
+      },
+    ],
   },
   {
-    slug: 'substack-learncoin',
-    title: 'Learncoin',
-    source: 'substack',
-    description: 'On AI, currency, and the anthropology of value — Center Study applied to the digital economy.',
-  },
-  {
-    slug: 'substack-originary-hypothesis-as-mobius-strip',
-    title: 'Originary Hypothesis as Möbius Strip',
-    source: 'substack',
-    description: 'The paradox at the origin: why the hypothesis repels the very understanding it demands.',
-  },
-  {
-    slug: 'gablog-sovereign-commands-anarchistic-demands',
-    title: 'Sovereign Commands, Anarchistic Demands',
-    source: 'gablog',
-    description: 'The originary distinction between command and demand, and its consequences for political thought.',
-  },
-  {
-    slug: 'gablog-power-and-paradox',
-    title: 'Power and Paradox',
-    source: 'gablog',
-    description: 'Katz on the irreducible paradox of power: how authority is constituted through the very resentment it generates.',
+    label: 'AI, Money, Governance',
+    description: 'Contemporary applications',
+    posts: [
+      {
+        slug: 'substack-learncoin',
+        title: 'Learncoin',
+        source: 'substack',
+        description: 'On AI, currency, and the anthropology of value — Center Study applied to the digital economy.',
+      },
+    ],
   },
 ];
 
@@ -75,10 +92,6 @@ export default function Home() {
   const today = new Date();
   const allPosts = getAllPosts();
 
-  // Slugs for random post button — exclude twitter/reddit (too short)
-  const randomSlugs = allPosts
-    .filter((p) => p.source !== 'twitter' && p.source !== 'reddit')
-    .map((p) => p.slug);
   const onThisDay = allPosts.filter((p) => {
     if (!p.date) return false;
     try {
@@ -96,27 +109,24 @@ export default function Home() {
           <span className="text-sm font-semibold text-gray-900 dark:text-white tracking-tight">
             Center Study Center
           </span>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-5">
             <Link href="/intro" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
-              Intro
+              Start
+            </Link>
+            <Link href="/search" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
+              Search
             </Link>
             <Link href="/ask" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
-              Ask AI
+              Ask
             </Link>
-            <Link href="/guide/concepts" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
+            <Link href="/concepts" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
               Concepts
             </Link>
+            <Link href="/guide/reading-paths" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
+              Reading Paths
+            </Link>
             <Link href="/reading-list" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
-              Reading List
-            </Link>
-            <Link href="/browse/gablog" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
-              Browse
-            </Link>
-            <Link href="/guide/timeline" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
-              Timeline
-            </Link>
-            <Link href="/download" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
-              Download
+              Saved
             </Link>
             <DarkModeToggle />
           </div>
@@ -142,9 +152,12 @@ export default function Home() {
             href="/intro"
             className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
           >
-            <span className="text-xl">📖</span>
+            {/* Book-open icon */}
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
             <div className="text-center">
-              <p className="text-sm font-medium text-gray-900 dark:text-white">Intro</p>
+              <p className="text-sm font-medium text-gray-900 dark:text-white">Start</p>
               <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">Introduction to Center Study</p>
             </div>
           </Link>
@@ -152,58 +165,88 @@ export default function Home() {
             href="/ask"
             className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
           >
-            <span className="text-xl">💬</span>
+            {/* Chat-bubble icon */}
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
             <div className="text-center">
-              <p className="text-sm font-medium text-gray-900 dark:text-white">Ask AI</p>
-              <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">Quotes from the archive</p>
+              <p className="text-sm font-medium text-gray-900 dark:text-white">Ask</p>
+              <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">Ask the archive</p>
             </div>
           </Link>
           <Link
-            href="/guide/concepts"
+            href="/concepts"
             className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
           >
-            <span className="text-xl">🗂</span>
+            {/* Tag/label icon */}
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+            </svg>
             <div className="text-center">
               <p className="text-sm font-medium text-gray-900 dark:text-white">Concepts</p>
               <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">Key vocabulary index</p>
             </div>
           </Link>
-          <RandomPostButton slugs={randomSlugs} />
+          <Link
+            href="/guide/reading-paths"
+            className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
+          >
+            {/* Map/path icon */}
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6-10l6-3m0 13l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 10m0-3v13" />
+            </svg>
+            <div className="text-center">
+              <p className="text-sm font-medium text-gray-900 dark:text-white">Reading Paths</p>
+              <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">Curated reading sequences</p>
+            </div>
+          </Link>
         </div>
       </div>
 
-      {/* Featured posts */}
+      {/* Featured posts — grouped by reader interest */}
       <div className="border-t border-gray-100 dark:border-gray-800">
         <div className="max-w-5xl mx-auto px-4 py-10">
-          <div className="flex items-baseline justify-between mb-6">
+          <div className="flex items-baseline justify-between mb-8">
             <div>
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Start reading</h2>
-              <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">A few good entry points into the archive</p>
+              <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">Curated entry points by topic</p>
             </div>
             <Link href="/search" className="text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
               Browse all texts →
             </Link>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {FEATURED.map((post) => (
-              <Link
-                key={post.slug}
-                href={`/post/${post.slug}`}
-                className="group flex flex-col gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
-              >
-                <div className="flex items-center gap-2">
-                  <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${SOURCE_COLORS[post.source]}`}>
-                    {SOURCE_LABELS[post.source]}
-                  </span>
+          <div className="space-y-8">
+            {FEATURED_GROUPS.map((group) => (
+              <div key={group.label}>
+                <div className="flex items-baseline gap-3 mb-3">
+                  <h3 className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest">
+                    {group.label}
+                  </h3>
+                  <span className="text-xs text-gray-300 dark:text-gray-700">{group.description}</span>
                 </div>
-                <p className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
-                  {post.title}
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-                  {post.description}
-                </p>
-              </Link>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {group.posts.map((post) => (
+                    <Link
+                      key={post.slug}
+                      href={`/post/${post.slug}`}
+                      className="group flex flex-col gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${SOURCE_COLORS[post.source]}`}>
+                          {SOURCE_LABELS[post.source]}
+                        </span>
+                      </div>
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
+                        {post.title}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                        {post.description}
+                      </p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>

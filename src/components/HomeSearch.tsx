@@ -93,7 +93,7 @@ export default function HomeSearch() {
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
-              Keyword Search
+              Find texts
             </button>
             <button
               type="button"
@@ -104,7 +104,7 @@ export default function HomeSearch() {
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
-              ✦ AI Search
+              ✦ Ask the archive
             </button>
           </div>
         </div>

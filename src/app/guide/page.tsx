@@ -40,24 +40,28 @@ export default function GuidePage() {
         <h2 className="text-xs font-mono text-gray-400 uppercase tracking-widest mb-5">The Archive</h2>
         <div className="space-y-4 text-base leading-relaxed text-gray-700 dark:text-gray-300">
           <p>
-            The home page shows the full archive in reverse chronological order. Use the filter tabs —
-            <strong className="text-gray-900 dark:text-white"> All · GABlog · Substack · PDFs · Book · Reddit</strong> —
-            to narrow by source. Each post shows its title, source, date, and a short excerpt.
-            Click any post to read the full text.
+            The home page is organized around search and curated entry points. Use{' '}
+            <Link href="/search" className="underline underline-offset-2 hover:text-gray-900 dark:hover:text-white transition-colors">Search</Link>{' '}
+            to find texts by keyword or phrase, or{' '}
+            <Link href="/browse/gablog" className="underline underline-offset-2 hover:text-gray-900 dark:hover:text-white transition-colors">browse by source</Link>{' '}
+            to see the full archive for a given collection. The{' '}
+            <Link href="/guide/timeline" className="underline underline-offset-2 hover:text-gray-900 dark:hover:text-white transition-colors">Timeline</Link>{' '}
+            shows all dated posts in chronological order.
           </p>
           <p>
-            The <strong className="text-gray-900 dark:text-white">search bar</strong> (press{' '}
+            <strong className="text-gray-900 dark:text-white">Full-text search</strong> (press{' '}
             <kbd className="px-1.5 py-0.5 text-xs font-mono bg-gray-100 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">⌘K</kbd>{' '}
             or{' '}
             <kbd className="px-1.5 py-0.5 text-xs font-mono bg-gray-100 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">Ctrl K</kbd>)
-            runs fuzzy search across titles and content in real time. Results are ranked by relevance and show which source they come from.
+            runs across titles and full content in real time. Results are ranked by relevance,
+            filtered by source, and show context snippets with highlighted matches.
           </p>
           <div className="grid sm:grid-cols-2 gap-3 pt-2">
             {[
-              { label: 'GABlog', desc: 'Adam Katz\'s theoretical blog — the main site of originary grammar in development', href: '/?filter=gablog', color: 'hover:border-blue-400 dark:hover:border-blue-500' },
-              { label: 'Substack', desc: 'Dennis Bouvard\'s applied essays on AI, governance, money, language, and technology', href: '/?filter=substack', color: 'hover:border-orange-400 dark:hover:border-orange-500' },
-              { label: 'PDFs', desc: 'Academic papers and longer works by Katz, Gans, and collaborators', href: '/?filter=pdf', color: 'hover:border-green-400 dark:hover:border-green-500' },
-              { label: 'Book', desc: 'Anthropomorphics — a systematic originary grammar of the center', href: '/?filter=book', color: 'hover:border-purple-400 dark:hover:border-purple-500' },
+              { label: 'GABlog', desc: 'Adam Katz\'s theoretical blog — the main site of originary grammar in development', href: '/browse/gablog', color: 'hover:border-blue-400 dark:hover:border-blue-500' },
+              { label: 'Substack', desc: 'Dennis Bouvard\'s applied essays on AI, governance, money, language, and technology', href: '/browse/substack', color: 'hover:border-orange-400 dark:hover:border-orange-500' },
+              { label: 'PDFs', desc: 'Academic papers and longer works by Katz, Gans, and collaborators', href: '/browse/pdf', color: 'hover:border-green-400 dark:hover:border-green-500' },
+              { label: 'Book', desc: 'Anthropomorphics — a systematic originary grammar of the center', href: '/browse/book', color: 'hover:border-purple-400 dark:hover:border-purple-500' },
             ].map(({ label, desc, href, color }) => (
               <Link
                 key={href}
