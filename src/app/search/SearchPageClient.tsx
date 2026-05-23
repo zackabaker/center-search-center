@@ -291,7 +291,7 @@ export default function SearchPageClient({
             value={query}
             onChange={(e) => handleInputChange(e.target.value)}
             onKeyDown={handleInputKeyDown}
-            placeholder="Search all texts…"
+            placeholder="Search or ask AI…"
             className="flex-1 px-3 py-3.5 text-base sm:text-lg outline-none bg-transparent dark:text-white dark:placeholder-gray-500"
           />
           {query && (
