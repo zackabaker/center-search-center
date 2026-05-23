@@ -800,3 +800,117 @@ The alternative — succession by committee, by popular vote, by competitive mar
 export function getConceptBySlug(slug: string): Concept | undefined {
   return CONCEPTS.find((c) => c.slug === slug);
 }
+
+/**
+ * Maps lowercase single-word (or short-phrase) terms to their concept-page slug.
+ * Used by the Concordance, A–Z index, and ClickableTerm to route clicks to
+ * /guide/concepts/[slug] instead of search/ask whenever a concept page exists.
+ */
+export const TERM_TO_CONCEPT_SLUG: Record<string, string> = {
+  // The Center
+  'center': 'the-center',
+  'centers': 'the-center',
+  'centered': 'the-center',
+
+  // Deferral
+  'deferral': 'deferral',
+  'defer': 'deferral',
+  'deferred': 'deferral',
+  'deferring': 'deferral',
+  'defers': 'deferral',
+
+  // Ostensive / Imperative / Declarative
+  'ostensive': 'ostensive-imperative-declarative',
+  'imperative': 'ostensive-imperative-declarative',
+  'declarative': 'ostensive-imperative-declarative',
+  'ostensives': 'ostensive-imperative-declarative',
+  'imperatives': 'ostensive-imperative-declarative',
+  'declaratives': 'ostensive-imperative-declarative',
+
+  // The Sacred
+  'sacred': 'the-sacred',
+  'sacrality': 'the-sacred',
+  'sacralities': 'the-sacred',
+
+  // Nomos
+  'nomos': 'nomos',
+  'nomic': 'nomos',
+
+  // Succession
+  'succession': 'succession',
+  'successor': 'succession',
+  'successors': 'succession',
+
+  // The Juridical
+  'juridical': 'the-juridical',
+
+  // Debt and Credit
+  'debt': 'debt-and-credit',
+  'debts': 'debt-and-credit',
+  'credit': 'debt-and-credit',
+  'credits': 'debt-and-credit',
+
+  // Scenic Design
+  'scenic': 'scenic-design',
+
+  // Anthropomorphics / Metaperson
+  'anthropomorphics': 'anthropomorphics',
+  'metaperson': 'anthropomorphics',
+  'metapersons': 'anthropomorphics',
+
+  // Resentment / Victimary
+  'resentment': 'resentment-victimary',
+  'resentments': 'resentment-victimary',
+  'victimary': 'resentment-victimary',
+  'anticenterism': 'resentment-victimary',
+  'anti-centerism': 'resentment-victimary',
+
+  // The Pointman / The Uninsurable
+  'pointman': 'pointman-uninsurable',
+  'pointmen': 'pointman-uninsurable',
+  'uninsurable': 'pointman-uninsurable',
+
+  // Originary Grammar
+  'grammar': 'originary-grammar',
+  'infralinguistic': 'originary-grammar',
+  'infralinguistics': 'originary-grammar',
+  'generative literacy': 'originary-grammar',
+
+  // Big Man
+  'big man': 'big-man',
+  'big-man': 'big-man',
+
+  // Mimesis
+  'mimesis': 'mimesis',
+  'mimetic': 'mimesis',
+  'mimeticism': 'mimesis',
+  'mimetically': 'mimesis',
+
+  // Sparagmos
+  'sparagmos': 'sparagmos',
+
+  // Desire
+  'desire': 'desire',
+  'desires': 'desire',
+
+  // Omnicentrism
+  'omnicentrism': 'omnicentrism',
+  'omnicentric': 'omnicentrism',
+  'omnicentrist': 'omnicentrism',
+
+  // The Sign
+  'sign': 'the-sign',
+  'signs': 'the-sign',
+
+  // Attentionality
+  'attentionality': 'attentionality',
+
+  // Ritual
+  'ritual': 'ritual',
+  'rituals': 'ritual',
+
+  // Idiom
+  'idiom': 'idiom',
+  'idioms': 'idiom',
+  'idiomatic': 'idiom',
+};

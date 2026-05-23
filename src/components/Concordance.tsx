@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { TERM_TO_CONCEPT_SLUG } from '@/data/guide/concepts';
 
 interface Term {
   word: string;
@@ -47,10 +48,16 @@ export default function Concordance({ terms }: Props) {
         <div className="mt-4 space-y-2">
           {visible.map(({ word, count, isDomain }) => {
             const pct = maxCount > 0 ? (count / maxCount) * 100 : 0;
+            // Link domain terms to their concept page when one exists;
+            // fall back to a full-text search for everything else.
+            const conceptSlug = TERM_TO_CONCEPT_SLUG[word.toLowerCase()];
+            const href = conceptSlug
+              ? `/guide/concepts/${conceptSlug}`
+              : `/search?q=${encodeURIComponent(word)}`;
             return (
               <div key={word} className="flex items-center gap-3">
                 <Link
-                  href={`/search?q=${encodeURIComponent(word)}`}
+                  href={href}
                   className={`w-40 shrink-0 text-sm truncate hover:underline ${
                     isDomain
                       ? 'font-bold text-gray-900 dark:text-gray-100'

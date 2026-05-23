@@ -33,7 +33,7 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
     <main className="max-w-3xl mx-auto px-4 py-10">
       {/* Header */}
       <div className="mb-8">
-        <Link href="/guide/concepts" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
+        <Link href="/concepts" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
           ← All concepts
         </Link>
         <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-4 mb-1">

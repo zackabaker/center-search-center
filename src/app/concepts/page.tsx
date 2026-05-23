@@ -1,6 +1,6 @@
 import { getAllPosts } from '@/lib/parser';
 import { buildSearchEntries, getSignificantTerms, GA_DOMAIN_VOCAB } from '@/lib/search-index';
-import { CONCEPTS } from '@/data/guide/concepts';
+import { CONCEPTS, TERM_TO_CONCEPT_SLUG } from '@/data/guide/concepts';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
@@ -216,18 +216,25 @@ export default async function ConceptsPage({
                 <div className="columns-2 sm:columns-3 md:columns-4 gap-x-6">
                   {azData!.byLetter[letter]
                     .sort((a, b) => a.term.localeCompare(b.term))
-                    .map(({ term, count, isGlossary }) => (
-                      <div key={term} className="break-inside-avoid mb-1.5">
-                        <Link
-                          href={`/ask?q=${encodeURIComponent(`What is "${term}" in Center Study?`)}`}
-                          className="group inline-flex items-baseline gap-1.5 text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                        >
-                          <span className={`inline-block w-1.5 h-1.5 rounded-full flex-shrink-0 self-center mr-0.5 ${isGlossary ? 'bg-blue-400' : 'bg-gray-300 dark:bg-gray-600'}`} />
-                          <span className="text-gray-800 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400">{term}</span>
-                          <span className="text-[10px] text-gray-400 dark:text-gray-500 group-hover:text-blue-400 dark:group-hover:text-blue-500">{count}</span>
-                        </Link>
-                      </div>
-                    ))}
+                    .map(({ term, count, isGlossary }) => {
+                      // Prefer concept page, fall back to Ask AI
+                      const conceptSlug = TERM_TO_CONCEPT_SLUG[term.toLowerCase()];
+                      const href = conceptSlug
+                        ? `/guide/concepts/${conceptSlug}`
+                        : `/ask?q=${encodeURIComponent(`What is "${term}" in Center Study?`)}`;
+                      return (
+                        <div key={term} className="break-inside-avoid mb-1.5">
+                          <Link
+                            href={href}
+                            className="group inline-flex items-baseline gap-1.5 text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                          >
+                            <span className={`inline-block w-1.5 h-1.5 rounded-full flex-shrink-0 self-center mr-0.5 ${isGlossary ? 'bg-blue-400' : 'bg-gray-300 dark:bg-gray-600'}`} />
+                            <span className="text-gray-800 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400">{term}</span>
+                            <span className="text-[10px] text-gray-400 dark:text-gray-500 group-hover:text-blue-400 dark:group-hover:text-blue-500">{count}</span>
+                          </Link>
+                        </div>
+                      );
+                    })}
                 </div>
               </section>
             ))}
