@@ -71,7 +71,7 @@ function linkTerms(
         <button
           key={`${key}-${i}`}
           onClick={() => onTerm(match.query, part)}
-          title={`Ask the archive about "${part}"`}
+          title={`Ask AI about "${part}"`}
           style={{ touchAction: 'manipulation' }}
           className="text-blue-700 dark:text-blue-400 underline decoration-dotted underline-offset-2 hover:decoration-solid hover:text-blue-800 dark:hover:text-blue-300 active:text-blue-900 dark:active:text-blue-200 active:bg-blue-50 dark:active:bg-blue-900/30 rounded px-0.5 -mx-0.5 py-0.5 -my-0.5 transition-colors cursor-pointer"
         >
@@ -493,10 +493,10 @@ export default function AskClient() {
                 {currentQuestion}
               </h2>
 
-              {/* From the archive — AI content (quotes first, posts below) */}
+              {/* AI answer — synthesized from texts */}
               <div className="mb-8">
                 <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
-                  From the archive
+                  AI Answer
                 </p>
                 {answer?.content ? (
                   <div>
@@ -507,7 +507,7 @@ export default function AskClient() {
                   <div className="flex flex-col items-center py-8 gap-3">
                     <AnimatedSearchIcon size={64} speed={4} />
                     <p className="text-xs text-gray-400 dark:text-gray-600 font-mono tracking-wide">
-                      searching the archive…
+                      reading the texts…
                     </p>
                   </div>
                 )}

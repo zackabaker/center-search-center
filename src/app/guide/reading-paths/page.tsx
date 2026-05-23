@@ -5,22 +5,16 @@ import { READING_PATHS } from '@/data/guide/reading-paths';
 
 export const metadata: Metadata = {
   title: 'Reading Paths — Center Study',
-  description: 'An AI-curated reading path through the Center Study archive, tailored to your interests and practice.',
+  description: 'Find your entry point into Center Study. AI-curated reading paths tailored to your interests and practice.',
 };
 
 export default function ReadingPathsPage() {
   return (
     <main className="max-w-4xl mx-auto px-4 py-10">
       <div className="mb-10">
-        <Link href="/guide" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
-          ← Guide
-        </Link>
-        <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-4 mb-2">
-          Layer III · Declarative
-        </p>
         <h1 className="text-2xl sm:text-3xl font-bold mb-3 text-gray-900 dark:text-white">Find Your Reading Path</h1>
         <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
-          Center Study is a practice, not a curriculum. The entry point is wherever you already are. Tell the archive what you are working on or stuck on — it will find the thread that runs through it.
+          Center Study is a practice, not a curriculum. The entry point is wherever you already are. Describe what you are working on or stuck on — and get a reading path built for you.
         </p>
       </div>
 

@@ -156,7 +156,7 @@ export default function StatsPage() {
             ))}
           </div>
           <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">
-            Count = posts containing the term · Click to ask the archive.
+            Count = posts containing the term · Click to Ask AI.
           </p>
         </div>
       </div>
