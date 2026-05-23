@@ -126,15 +126,11 @@ export default function Home() {
         <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white mb-5">
           Center Study Center
         </h1>
-        <p className="text-sm text-gray-400 dark:text-gray-500 italic mb-8 max-w-lg mx-auto leading-relaxed">
-          &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it&rdquo;
-        </p>
-
         <HomeSearch />
       </header>
 
-      {/* Navigation cards */}
-      <div className="max-w-3xl mx-auto px-4 pb-14">
+      {/* Navigation cards — hidden on mobile (bottom nav handles it) */}
+      <div className="hidden sm:block max-w-3xl mx-auto px-4 pb-14">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <Link
             href="/intro"
@@ -205,8 +201,8 @@ export default function Home() {
           </div>
 
           <div className="space-y-8">
-            {FEATURED_GROUPS.map((group) => (
-              <div key={group.label}>
+            {FEATURED_GROUPS.map((group, idx) => (
+              <div key={group.label} className={idx > 0 ? 'hidden sm:block' : ''}>
                 <div className="flex items-baseline gap-3 mb-3">
                   <h3 className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest">
                     {group.label}
@@ -240,8 +236,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Browse by source */}
-      <div className="border-t border-gray-100 dark:border-gray-800">
+      {/* Browse by source — hidden on mobile (Browse tab handles it) */}
+      <div className="hidden sm:block border-t border-gray-100 dark:border-gray-800">
         <div className="max-w-5xl mx-auto px-4 py-10">
           <div className="flex items-baseline justify-between mb-6">
             <div>

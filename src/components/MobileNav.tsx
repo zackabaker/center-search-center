@@ -52,7 +52,7 @@ export default function MobileNav() {
   const pathname = usePathname();
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 sm:hidden bg-white/95 dark:bg-[#111111]/95 backdrop-blur border-t border-gray-100 dark:border-gray-800 pb-4">
+    <div className="fixed bottom-0 left-0 right-0 z-40 sm:hidden bg-white/95 dark:bg-[#111111]/95 backdrop-blur border-t border-gray-100 dark:border-gray-800" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
       <div className="flex items-stretch justify-around">
         {navItems.map(({ href, label, icon }) => {
           const isActive =
