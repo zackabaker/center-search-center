@@ -104,8 +104,14 @@ export async function GET(
         if (pref === 'dark' || (!pref && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.classList.add('dark');
         }
+        var mobile = window.innerWidth <= 600;
+        var SIZES = mobile ? ['17px','19px','22px','26px'] : ['18px','21px','25px','29px'];
+        var LHS   = mobile ? ['1.8','1.85','1.92','1.98'] : ['1.82','1.9','1.95','2.0'];
         var sz = parseInt(localStorage.getItem('reader-font-step') || '1', 10);
-        if (sz >= 0 && sz <= 3) document.documentElement.dataset.fs = sz;
+        if (sz < 0 || sz > 3) sz = 1;
+        // inline style beats any stylesheet rule — no specificity fight
+        document.documentElement.style.setProperty('--fs', SIZES[sz]);
+        document.documentElement.style.setProperty('--lh', LHS[sz]);
       } catch (e) {}
     })();
   </script>
@@ -113,12 +119,8 @@ export async function GET(
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ── Font-size steps: 0=small 1=default 2=large 3=xl ── */
-    :root                    { --fs: 21px; --lh: 1.9; }
-    [data-fs="0"]            { --fs: 18px; --lh: 1.82; }
-    [data-fs="1"]            { --fs: 21px; --lh: 1.9;  }
-    [data-fs="2"]            { --fs: 24px; --lh: 1.95; }
-    [data-fs="3"]            { --fs: 27px; --lh: 2.0;  }
+    /* ── Font size set via JS style.setProperty — no [data-fs] selectors needed ── */
+    :root { --fs: 21px; --lh: 1.9; }
 
     /* ── Light theme — warm paper, not harsh white ── */
     :root {
@@ -158,12 +160,8 @@ export async function GET(
     }
 
     @media (max-width: 600px) {
-      body { padding: 64px 0 80px; }
-      :root         { --fs: 19px; --lh: 1.85; }
-      [data-fs="0"] { --fs: 17px; --lh: 1.8; }
-      [data-fs="1"] { --fs: 19px; --lh: 1.85; }
-      [data-fs="2"] { --fs: 22px; --lh: 1.9; }
-      [data-fs="3"] { --fs: 25px; --lh: 1.95; }
+      body { padding: 48px 0 80px; }
+      :root { --fs: 19px; --lh: 1.85; }
     }
 
     /* ── Toolbar ── */
@@ -189,25 +187,30 @@ export async function GET(
       color: var(--fg);
       cursor: pointer;
       border-radius: 6px;
-      padding: 5px 9px;
-      font-size: 13px;
+      padding: 8px 12px;
+      font-size: 14px;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-weight: 500;
       line-height: 1;
       transition: background .12s;
-      min-width: 32px;
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
     }
     #toolbar button:hover  { background: var(--btn-hover); }
     #toolbar button:active { background: var(--btn-active); }
 
     #toolbar .divider {
       width: 1px;
-      height: 18px;
+      height: 20px;
       background: var(--toolbar-border);
-      margin: 0 3px;
+      margin: 0 2px;
     }
 
-    #btn-theme { font-size: 15px; padding: 5px 8px; }
+    #btn-theme { font-size: 16px; }
 
     /* ── Listen note ── */
     .listen-note {
@@ -347,8 +350,8 @@ export async function GET(
 
   <!-- Toolbar: font size + dark mode -->
   <div id="toolbar" role="toolbar" aria-label="Reading controls">
-    <button id="btn-sm" title="Smaller text" aria-label="Decrease font size">A−</button>
-    <button id="btn-lg" title="Larger text"  aria-label="Increase font size">A+</button>
+    <button id="btn-sm" title="Smaller text" aria-label="Decrease font size">A<sup style="font-size:9px">−</sup></button>
+    <button id="btn-lg" title="Larger text"  aria-label="Increase font size">A<sup style="font-size:9px">+</sup></button>
     <div class="divider"></div>
     <button id="btn-theme" title="Toggle dark mode" aria-label="Toggle dark mode">☾</button>
   </div>
@@ -412,10 +415,17 @@ export async function GET(
       });
 
       /* ── Font size ── */
-      var step = parseInt(html.dataset.fs || '1', 10);
+      var mobile = window.innerWidth <= 600;
+      var SIZES = mobile ? ['17px','19px','22px','26px'] : ['18px','21px','25px','29px'];
+      var LHS   = mobile ? ['1.8','1.85','1.92','1.98'] : ['1.82','1.9','1.95','2.0'];
+      var step = parseInt(localStorage.getItem('reader-font-step') || '1', 10);
+      if (step < 0 || step >= SIZES.length) step = 1;
+
       function applyStep(s) {
-        step = Math.max(0, Math.min(STEPS - 1, s));
-        html.dataset.fs = step;
+        step = Math.max(0, Math.min(SIZES.length - 1, s));
+        // inline style.setProperty beats all stylesheet rules — no specificity conflict
+        html.style.setProperty('--fs', SIZES[step]);
+        html.style.setProperty('--lh', LHS[step]);
         try { localStorage.setItem('reader-font-step', step); } catch (e) {}
       }
       document.getElementById('btn-sm').addEventListener('click', function () { applyStep(step - 1); });
