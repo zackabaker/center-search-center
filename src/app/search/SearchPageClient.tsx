@@ -291,7 +291,7 @@ export default function SearchPageClient({
             value={query}
             onChange={(e) => handleInputChange(e.target.value)}
             onKeyDown={handleInputKeyDown}
-            placeholder="Search the archive…"
+            placeholder="Search all texts…"
             className="flex-1 px-3 py-3.5 text-base sm:text-lg outline-none bg-transparent dark:text-white dark:placeholder-gray-500"
           />
           {query && (
@@ -360,7 +360,7 @@ export default function SearchPageClient({
                   `No results for "${committed}"`
                 )}
               </div>
-              <span className="text-xs text-gray-400 hidden md:block flex-shrink-0">⌘K anywhere</span>
+              <span className="text-xs text-gray-400 hidden md:block flex-shrink-0" />
             </div>
             {visibleResults.length > 0 && (
               <FilterTabs active={filter} onChange={handleFilterChange} counts={counts} />
@@ -371,15 +371,15 @@ export default function SearchPageClient({
           {committed && (
             <Link
               href={`/ask?q=${encodeURIComponent(query || committed.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim())}`}
-              className="group flex items-center justify-between gap-3 mb-4 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 hover:border-gray-400 dark:hover:border-gray-500 hover:bg-white dark:hover:bg-gray-800 transition-all"
+              className="group flex items-center justify-between gap-3 mb-5 px-4 py-3.5 rounded-xl border border-blue-200 dark:border-blue-900/50 bg-blue-50 dark:bg-blue-950/30 hover:border-blue-400 dark:hover:border-blue-700 hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-all"
             >
               <div className="flex items-center gap-2.5 min-w-0">
-                <span className="text-base flex-shrink-0">✦</span>
-                <span className="text-sm text-gray-700 dark:text-gray-300 truncate">
-                  Ask the archive: <span className="font-medium">{query || committed.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim()}</span>
+                <span className="text-base flex-shrink-0 text-blue-500">✦</span>
+                <span className="text-sm text-blue-900 dark:text-blue-200 truncate font-medium">
+                  Ask AI: <span className="font-normal opacity-80">{query || committed.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim()}</span>
                 </span>
               </div>
-              <span className="text-xs text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 flex-shrink-0 transition-colors">
+              <span className="text-xs text-blue-500 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 flex-shrink-0 transition-colors font-medium">
                 Get a narrative answer →
               </span>
             </Link>
@@ -516,7 +516,7 @@ export default function SearchPageClient({
             Search across {totalPosts} posts
           </p>
           <p className="text-xs text-gray-400 dark:text-gray-600 mb-6">
-            Substack · GABlog · Books · PDFs · X / Twitter
+            Substack · GABlog · Books · PDFs · Lectures
           </p>
           {recentSearches.length > 0 && (
             <div>

@@ -192,7 +192,7 @@ export default async function ConceptsPage({
               <span className="inline-block w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600" />
               Corpus term ({azData.totalTerms - azData.glossaryTerms})
             </span>
-            <span className="ml-auto text-gray-400">{azData.totalTerms.toLocaleString()} terms across {azData.totalPosts.toLocaleString()} posts — click any term to ask the archive</span>
+            <span className="ml-auto text-gray-400">{azData.totalTerms.toLocaleString()} terms across {azData.totalPosts.toLocaleString()} posts — click any term to Ask AI</span>
           </div>
 
           {/* Alphabet jump bar */}

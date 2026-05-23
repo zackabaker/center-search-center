@@ -101,28 +101,19 @@ export default function IntroPage() {
       <section className="mb-16">
         <div className="space-y-4 text-base leading-relaxed text-gray-700 dark:text-gray-300">
           <p>
-            Center Study is a transdisciplinary discourse descended from Generative Anthropology (GA). Its animating claim is simple, strange, and productive: all human existence is organized around a center. Not a physical center — a formal one. The center is where collective attention gathers, where authority resides, where resentment collects and is ultimately deferred. &ldquo;All human existence is an exchange with the center,&rdquo; as Adam Katz puts it. &ldquo;The first message from the center is to defer appropriation.&rdquo;
+            Center Study is a transdisciplinary discourse descended from Generative Anthropology — the study of human society and culture in the light of the originary hypothesis, formulated by Eric Gans in <em>The Origin of Language</em> (1980). The originary hypothesis is of the origin of language, which is also the origin of the human and the sacred.
           </p>
           <p>
-            Most of the human sciences start from the bottom — from the individual, from natural rights, from the social contract. Center Study starts from the center instead. Every social institution, every political form, every medium of exchange can be read as an attempt to hold the center, displace the center, or deny that any center exists. This introduction covers the intellectual lineage, the originary hypothesis that grounds the discourse, the grammar derived from it, and the diagnostic questions Center Study brings to politics, history, and contemporary life.
+            The hypothesis: a group of hominids is converging on a single central object. Mimetic desire has broken down the pecking order that limits violence in animal groups — everyone wants the same thing, and they are closing in on it together. At the moment of crisis, someone converts the grasping gesture into a pointing gesture. Appropriation becomes sign. This is the first word: iterable, addressed to all the others, referring to the shared object — symbolic rather than merely indexical. From this single scene, language, community, and the sacred emerge simultaneously. The object, deferred rather than consumed, becomes the first sacred thing. The group, constituted by shared attention, becomes the first human community.
+          </p>
+          <p>
+            Center Study departs from Generative Anthropology by staying focused on the <em>enduring</em> nature of the center — not just its origin but its ongoing operation in every subsequent form of human social life. That first ritual, sacrificial center eventually gets seized: first by the Big Man, then the chief, the sacred king, the emperor, the state. Center Study follows this thread and reads any social order as an effect of the engagement between periphery and center. Every institution, every political form, every medium of exchange is an attempt to hold the center, occupy it, or deny that any center exists.
+          </p>
+          <p>
+            This means thinking always in terms of scenes and an originary grammar — ostensive (pointing, naming), imperative (demand), interrogative (question), declarative (proposition) — tracing every concept back to a scene in which some exchange with the center is at stake. Politically, it produces a critique of any theory that starts from &ldquo;the bottom&rdquo; — from the free individual, the social contract, natural rights — insisting instead on starting from the center, from where authority was established and the terms of all future exchange were set.
           </p>
         </div>
       </section>
-
-      {/* ── From the Archive ─────────────────────────────────────────────── */}
-      <div className="mb-16">
-        <blockquote className="border-l-2 border-gray-300 dark:border-gray-600 pl-5">
-          <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed italic mb-3">
-            &ldquo;What is a center? Whatever can invoke and be referenced by an ostensive sign: the center is both cause and product of the sign — as cause it subsists beyond any particular reference, and as product it is continually renewed. Invoking the sign exceeds the reference — it is already the beginning of an imperative. So, a center is a locus of imperative exchange — whatever about the object commands the issuance of the ostensive sign is also an agency of which requests can be made.&rdquo;
-          </p>
-          <footer className="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500">
-            <Link href="/post/book-anthropomorphics" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
-              Anthropomorphics
-            </Link>
-            <span>— Adam Katz</span>
-          </footer>
-        </blockquote>
-      </div>
 
       {/* ── Intellectual Lineage ─────────────────────────────────────────── */}
       <section className="mb-16">
@@ -481,17 +472,17 @@ export default function IntroPage() {
         </div>
       </section>
 
-      {/* ── How to use this archive ──────────────────────────────────────── */}
+      {/* ── How to use this site ──────────────────────────────────────── */}
       <section className="mb-12">
         <h2 className="text-xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2 text-gray-900 dark:text-white">
-          How to use this archive
+          How to read Center Study
         </h2>
         <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
           <p>
-            Center Study is a living discourse, not a completed doctrine. The archive covers 25+ years of writing across three main venues: <strong className="text-gray-800 dark:text-gray-200">GABlog</strong> (theoretical development — originary grammar, succession, the center through history, the grammar of institutions); <strong className="text-gray-800 dark:text-gray-200">Substack</strong> as Dennis Bouvard (contemporary applications — AI, money, governance, politics, the algorithmic center); and the <strong className="text-gray-800 dark:text-gray-200"><em>Anthropomorphics</em> book</strong> (a systematic treatment of the metapersonal structure of culture).
+            Center Study is a living discourse, not a completed doctrine. It spans 25+ years of writing across three main venues: <strong className="text-gray-800 dark:text-gray-200">GABlog</strong> (theoretical development — originary grammar, succession, the center through history, the grammar of institutions); <strong className="text-gray-800 dark:text-gray-200">Substack</strong> as Dennis Bouvard (contemporary applications — AI, money, governance, politics, the algorithmic center); and the <strong className="text-gray-800 dark:text-gray-200"><em>Anthropomorphics</em> book</strong> (a systematic treatment of the metapersonal structure of culture).
           </p>
           <p>
-            Reading strategies differ. Some begin with concept definitions and follow the links; others start with a contemporary topic — AI, sovereignty, money — and read back into the theoretical foundations as needed. The <em>Ask the Archive</em> feature can synthesize answers from across the full corpus. <em>Key Concepts</em> defines the vocabulary precisely, with real passages from the texts. <em>Reading Paths</em> offer curated sequences for specific interests.
+            Reading strategies differ. Some begin with concept definitions and follow the links; others start with a contemporary topic — AI, sovereignty, money — and read back into the theoretical foundations as needed. <em>Ask AI</em> synthesizes answers from across the full corpus and surfaces passages you would not find with keyword search. <em>Key Concepts</em> defines the vocabulary precisely. <em>Reading Paths</em> offer curated sequences for specific interests and fields.
           </p>
           <p>
             The difficulty of Center Study is not obscurantism — it is that the hypothesis genuinely repels easy summary. The only way to understand it is to encounter it in the texts themselves.
@@ -525,11 +516,11 @@ export default function IntroPage() {
         <div className="grid gap-3 sm:grid-cols-2">
           <Link href="/concepts" className="group block p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900">
             <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Key Concepts</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Center, deferral, resentment, the sacred — defined with passages from the archive</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Center, deferral, resentment, the sacred — defined with passages from the texts</p>
           </Link>
           <Link href="/ask" className="group block p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900">
-            <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Ask the Archive</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">AI-synthesized answers grounded in the full corpus</p>
+            <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Ask AI</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Ask any question — get synthesized answers grounded in the full corpus</p>
           </Link>
           <Link href="/browse/gablog" className="group block p-4 rounded-xl border border-blue-100 dark:border-blue-900/40 hover:border-blue-400 dark:hover:border-blue-600 hover:shadow-sm transition-all bg-white dark:bg-gray-900">
             <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">GABlog — Katz</p>

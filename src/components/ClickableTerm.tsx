@@ -26,7 +26,7 @@ export default function ClickableTerm({ children, query, className = '' }: Click
   return (
     <button
       onClick={handleClick}
-      title={conceptSlug ? `View concept: ${children}` : `Ask the archive about "${children}"`}
+      title={conceptSlug ? `View concept: ${children}` : `Ask AI about "${children}"`}
       className={`underline decoration-dotted underline-offset-2 hover:decoration-solid hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer ${className}`}
     >
       {children}

@@ -5,14 +5,10 @@ import { usePathname } from 'next/navigation';
 import DarkModeToggle from '@/components/DarkModeToggle';
 
 const NAV_LINKS = [
-  { href: '/intro',               label: 'Start' },
-  { href: '/search',              label: 'Search' },
-  { href: '/ask',                 label: 'Ask' },
-  { href: '/concepts',            label: 'Concepts' },
-  { href: '/lectures',            label: 'Lectures' },
-  { href: '/guide/reading-paths', label: 'Reading Paths' },
-  { href: '/browse',              label: 'Browse' },
-  { href: '/reading-list',        label: 'Saved' },
+  { href: '/intro',   label: 'Start' },
+  { href: '/search',  label: 'Search' },
+  { href: '/ask',     label: 'Ask AI' },
+  { href: '/browse',  label: 'Browse' },
 ];
 
 export default function SiteNav() {

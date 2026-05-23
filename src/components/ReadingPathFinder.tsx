@@ -239,12 +239,14 @@ export default function ReadingPathFinder() {
   );
 
   const PROMPT_SUGGESTIONS = [
-    'I work in institutional design and leadership',
-    "I'm interested in AI and large language models",
-    'I want to understand money and financial systems',
-    "I'm a poet or literary scholar",
-    'I study governance and political theory',
-    "I'm stuck on the relationship between language and power",
+    'I work in leadership or institutional design',
+    "I'm interested in AI and what it means for human intelligence",
+    "I study or practice law",
+    "I'm a writer or work with language",
+    "I want to understand what money and debt really are",
+    "I study religion, ritual, or the sacred",
+    "I work in technology or build things",
+    "I'm troubled by what's happening to media and journalism",
   ];
 
   return (
@@ -364,7 +366,7 @@ export default function ReadingPathFinder() {
             href="/ask"
             className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
           >
-            Ask the archive about any of these texts →
+            Ask AI about any of these texts →
           </Link>
         </div>
       )}
