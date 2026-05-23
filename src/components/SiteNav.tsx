@@ -5,10 +5,10 @@ import { usePathname } from 'next/navigation';
 import DarkModeToggle from '@/components/DarkModeToggle';
 
 const NAV_LINKS = [
-  { href: '/intro',   label: 'Start' },
-  { href: '/search',  label: 'Search' },
-  { href: '/ask',     label: 'Ask AI' },
-  { href: '/browse',  label: 'Browse' },
+  { href: '/intro',               label: 'Start' },
+  { href: '/search',              label: 'Search' },
+  { href: '/guide/reading-paths', label: 'Reading Paths' },
+  { href: '/browse',              label: 'Browse' },
 ];
 
 export default function SiteNav() {
@@ -30,9 +30,7 @@ export default function SiteNav() {
               href === '/'
                 ? pathname === '/'
                 : pathname === href ||
-                  pathname.startsWith(href + '/') ||
-                  // concept detail pages live under /guide/concepts but nav item is /concepts
-                  (href === '/concepts' && pathname.startsWith('/guide/concepts'));
+                  pathname.startsWith(href + '/');
             return (
               <Link
                 key={href}
