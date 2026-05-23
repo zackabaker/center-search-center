@@ -226,6 +226,8 @@ export default function AskClient() {
   const [isLoading, setIsLoading] = useState(false);
   const [fontSize, setFontSize] = useState<FontSize>('md');
   const [linkCopied, setLinkCopied] = useState(false);
+  // Concept seed: set when arriving from a concept page
+  const [conceptSeed, setConceptSeed] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
@@ -234,9 +236,11 @@ export default function AskClient() {
 
   useEffect(() => {
     const q = searchParams.get('q');
+    const concept = searchParams.get('concept');
+    if (concept) setConceptSeed(concept);
     if (q && !didAutoSubmit.current) {
       didAutoSubmit.current = true;
-      submit(q);
+      submit(q, concept ?? undefined);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
@@ -250,10 +254,10 @@ export default function AskClient() {
 
   // When a CS term is clicked in a response, submit directly
   function handleTermClick(query: string) {
-    submit(query);
+    submit(query, conceptSeed ?? undefined);
   }
 
-  async function submit(q: string) {
+  async function submit(q: string, concept?: string) {
     if (!q.trim() || isLoading) return;
     const question = q.trim();
     setInput('');
@@ -286,6 +290,7 @@ export default function AskClient() {
         body: JSON.stringify({
           message: question,
           history: [],
+          ...(concept ? { concept } : {}),
         }),
       });
 
@@ -470,6 +475,19 @@ export default function AskClient() {
             /* ── Question + Answer view ── */
             <div>
               {/* Prominent question heading */}
+              {conceptSeed && (
+                <div className="mb-3">
+                  <Link
+                    href={`/guide/concepts/${conceptSeed}`}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800 hover:border-purple-400 transition-colors"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                    </svg>
+                    Concept context: {conceptSeed.replace(/-/g, ' ')}
+                  </Link>
+                </div>
+              )}
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 leading-snug">
                 {currentQuestion}
               </h2>

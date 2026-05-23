@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ContentSource } from '@/lib/types';
 import type { Metadata } from 'next';
 import HighlightedContent from '@/components/HighlightedContent';
+import { PostContent } from '@/components/PostContent';
 import ReadingProgress from '@/components/ReadingProgress';
 import ReadingControls from '@/components/ReadingControls';
 import RelatedPosts from '@/components/RelatedPosts';
@@ -214,11 +215,21 @@ export default async function PostPage({
                 <TableOfContents paragraphs={paragraphs} />
               </div>
 
-              <HighlightedContent
-                paragraphs={paragraphs}
-                postTitle={post.title}
-                postUrl={`https://center.study/post/${slug}`}
-              />
+              {/* PostContent: paragraph deep-linking (¶) + concept term cross-links.
+                  HighlightedContent is kept for search-result highlighting when q is present. */}
+              {q ? (
+                <HighlightedContent
+                  paragraphs={paragraphs}
+                  postTitle={post.title}
+                  postUrl={`https://center.study/post/${slug}`}
+                />
+              ) : (
+                <PostContent
+                  content={post.content}
+                  postTitle={post.title}
+                  postUrl={`https://center.study/post/${slug}`}
+                />
+              )}
             </article>
 
             {/* Below-article sections — hidden on desktop (shown in sidebar instead) */}

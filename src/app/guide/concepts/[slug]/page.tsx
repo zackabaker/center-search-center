@@ -28,6 +28,7 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
     .filter(Boolean);
 
   const askQuery = encodeURIComponent(`What is ${concept.title} in Center Study?`);
+  const askHref = `/ask?q=${askQuery}&concept=${concept.slug}`;
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
@@ -46,7 +47,7 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
 
         {/* Ask AI shortcut */}
         <Link
-          href={`/ask?q=${askQuery}`}
+          href={askHref}
           className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-800 dark:hover:text-gray-200 transition-all"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

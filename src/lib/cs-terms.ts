@@ -126,6 +126,107 @@ export const CS_TERM_MAP = new Map<string, CSTerm>(
   CS_TERMS.map(t => [t.term.toLowerCase(), t])
 );
 
+/**
+ * Maps CS term text (lowercase) to a /guide/concepts/[slug] route where a
+ * dedicated concept page exists. Terms not listed here fall back to the
+ * /search?q= link used in HighlightedContent.
+ *
+ * Slugs correspond to entries in src/data/guide/concepts.ts.
+ */
+export const TERM_TO_CONCEPT_SLUG: Record<string, string> = {
+  // the-center
+  'center': 'the-center',
+  'periphery': 'the-center',
+  'center-periphery': 'the-center',
+
+  // originary-scene
+  'originary scene': 'originary-scene',
+  'originary hypothesis': 'originary-scene',
+  'aborted appropriation': 'originary-scene',
+  'sparagmos': 'sparagmos',
+
+  // deferral
+  'deferral': 'deferral',
+  'deferred': 'deferral',
+
+  // ostensive-imperative-declarative
+  'ostensive': 'ostensive-imperative-declarative',
+  'imperative': 'ostensive-imperative-declarative',
+  'declarative': 'ostensive-imperative-declarative',
+  'interrogative': 'ostensive-imperative-declarative',
+  'originary grammar': 'originary-grammar',
+
+  // the-sacred
+  'sacred': 'the-sacred',
+  'sacrality': 'the-sacred',
+  'transcendence': 'the-sacred',
+
+  // nomos / sovereignty
+  'nomos': 'nomos',
+  'sovereignty': 'nomos',
+
+  // succession
+  'succession': 'succession',
+  'singularized succession in perpetuity': 'succession',
+
+  // the-juridical
+  'juridical': 'the-juridical',
+  'disciplinary': 'the-juridical',
+
+  // debt-and-credit
+  'debt to the center': 'debt-and-credit',
+  'there is no economy but only the debt to the center': 'debt-and-credit',
+  'credit': 'debt-and-credit',
+  'tributary': 'debt-and-credit',
+  'tributarianism': 'debt-and-credit',
+  'metonymy': 'debt-and-credit',
+
+  // scenic-design
+  'scenic design': 'scenic-design',
+  'scenic': 'scenic-design',
+  'scene': 'scenic-design',
+  'big scene': 'scenic-design',
+  'expectant scene': 'scenic-design',
+  'scene stacking': 'scenic-design',
+
+  // resentment-victimary
+  'resentment': 'resentment-victimary',
+  'victimary': 'resentment-victimary',
+  'anti-centerism': 'resentment-victimary',
+  'tokenization of resentment': 'resentment-victimary',
+
+  // pointman-uninsurable
+  'pointman': 'pointman-uninsurable',
+  'the pointman': 'pointman-uninsurable',
+
+  // big-man
+  'big man': 'big-man',
+  'out-gifting': 'big-man',
+  'rotating dictatorship': 'big-man',
+
+  // mimesis
+  'mimesis': 'mimesis',
+  'mimetic': 'mimesis',
+  'mimetic crisis': 'mimesis',
+
+  // the-sign
+  'sign': 'the-sign',
+  'inscription': 'the-sign',
+  'tokenization': 'the-sign',
+  'sampling': 'the-sign',
+
+  // attentionality
+  'attentionality': 'attentionality',
+  'attentional': 'attentionality',
+
+  // idiom
+  'idiom': 'idiom',
+  'idiomatic': 'idiom',
+  'idiomatic intelligence': 'idiom',
+  'idiomclining': 'idiom',
+  'transfer idiom': 'idiom',
+};
+
 // Sorted by length descending so multi-word phrases match before their components
 export const CS_TERMS_SORTED = [...CS_TERMS].sort((a, b) => b.term.length - a.term.length);
 

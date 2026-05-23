@@ -124,6 +124,21 @@ export default function IntroPage() {
         </div>
       </section>
 
+      {/* ── From the Archive ─────────────────────────────────────────────── */}
+      <div className="mb-16">
+        <blockquote className="border-l-2 border-gray-300 dark:border-gray-600 pl-5">
+          <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed italic mb-3">
+            &ldquo;What is a center? Whatever can invoke and be referenced by an ostensive sign: the center is both cause and product of the sign — as cause it subsists beyond any particular reference, and as product it is continually renewed. Invoking the sign exceeds the reference — it is already the beginning of an imperative. So, a center is a locus of imperative exchange — whatever about the object commands the issuance of the ostensive sign is also an agency of which requests can be made.&rdquo;
+          </p>
+          <footer className="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500">
+            <Link href="/post/book-anthropomorphics" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
+              Anthropomorphics
+            </Link>
+            <span>— Adam Katz</span>
+          </footer>
+        </blockquote>
+      </div>
+
       {/* ── Intellectual Lineage ─────────────────────────────────────────── */}
       <section className="mb-16">
         <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-6">
@@ -451,14 +466,26 @@ export default function IntroPage() {
         </div>
       </section>
 
-      {/* ── The Paradox ─────────────────────────────────────────────────── */}
+      {/* ── What makes this hard ────────────────────────────────────────── */}
       <section className="mb-12">
-        <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-6">
-          <p className="text-base leading-relaxed text-gray-700 dark:text-gray-300 italic mb-4">
-            The originary hypothesis cannot claim the clarity of a system or the comfort of a tradition. It finds itself in that uncomfortable zone between all available positions — atheist to believers, speculative to philosophers, transdisciplinary to every discipline it touches. It is like a perfectly materialist refutation of materialism.
+        <h2 className="text-xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2 text-gray-900 dark:text-white">
+          What makes this hard
+        </h2>
+        <div className="rounded-xl border border-amber-200 dark:border-amber-900/40 bg-amber-50 dark:bg-amber-950/20 p-5 mb-4">
+          <p className="text-sm text-amber-900 dark:text-amber-200 font-medium mb-1.5">The hypothesis repels the download it demands</p>
+          <p className="text-sm text-amber-800 dark:text-amber-300 leading-relaxed">
+            &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it.&rdquo; This is not a warning about difficulty in the usual sense — it is a structural feature of the discourse. You cannot understand Center Study from the outside; you can only begin from within a particular text, and extend from there.
           </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            The hypothesis repels the kind of initiatory revelatory download that is nevertheless the only way of understanding it. The human is that being who is a greater danger to himself than is posed by any external danger — and who requires, therefore, a center that can hold. The archive is always ready to take on questions.
+        </div>
+        <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+          <p>
+            <strong className="text-gray-800 dark:text-gray-200">The vocabulary is technical and self-referential.</strong> Terms like <em>originary</em>, <em>scenic</em>, <em>deferral</em>, <em>attentionality</em> don&rsquo;t map cleanly onto existing frameworks. The Key Concepts section below defines them with real passages from the texts — that is probably the most direct entry.
+          </p>
+          <p>
+            <strong className="text-gray-800 dark:text-gray-200">The hypothesis sits between all available positions.</strong> It cannot claim the clarity of a system or the comfort of a tradition. It finds itself in an uncomfortable zone — atheist to believers, too speculative to philosophers, transdisciplinary to every discipline it touches. It is, as Katz puts it, like a perfectly materialist refutation of materialism.
+          </p>
+          <p>
+            <strong className="text-gray-800 dark:text-gray-200">The best entry point varies by reader.</strong> Some find the originary scene immediately clarifying. Others find the political applications — succession, sovereignty, the algorithmic center — more tractable first. Start where it grabs you and read back into the foundations as needed.
           </p>
         </div>
       </section>
@@ -486,6 +513,24 @@ export default function IntroPage() {
         <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
           Start reading
         </h2>
+
+        {/* Read this first */}
+        <div className="mb-5">
+          <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Read this first</p>
+          <Link
+            href="/post/gablog-the-discourse-of-the-center"
+            className="group block p-4 rounded-xl border border-gray-900 dark:border-gray-200 bg-gray-900 dark:bg-gray-900 hover:opacity-90 transition-opacity"
+          >
+            <p className="text-[10px] text-gray-400 dark:text-gray-500 mb-1 font-mono uppercase tracking-widest">GABlog · Adam Katz</p>
+            <p className="font-semibold text-white leading-snug group-hover:text-blue-300 dark:group-hover:text-blue-400 transition-colors">
+              The Discourse of the Center
+            </p>
+            <p className="text-sm text-gray-300 dark:text-gray-400 mt-1 leading-relaxed">
+              The organizing structure of all discourse seen from the center. The clearest single-post entry into the core claim.
+            </p>
+          </Link>
+        </div>
+
         <div className="grid gap-3 sm:grid-cols-2">
           <Link href="/concepts" className="group block p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900">
             <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Key Concepts</p>

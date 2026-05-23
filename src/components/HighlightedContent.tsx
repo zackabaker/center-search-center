@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState, useCallback, Suspense, useMemo } from 'react';
-import { CS_TERMS } from '@/lib/cs-terms';
+import { CS_TERMS, TERM_TO_CONCEPT_SLUG } from '@/lib/cs-terms';
 
 interface HighlightedContentProps {
   paragraphs: string[];
@@ -99,12 +99,15 @@ function linkifyParagraph(text: string, linkedAlready: Set<string>): React.React
 
   for (const { start, end, original, term } of matches) {
     if (start > last) nodes.push(text.slice(last, start));
+    const conceptSlug = TERM_TO_CONCEPT_SLUG[term.toLowerCase()];
+    const href = conceptSlug ? `/guide/concepts/${conceptSlug}` : `/search?q=${encodeURIComponent(term)}`;
+    const linkTitle = conceptSlug ? `Concept: ${term}` : `Search: ${term}`;
     nodes.push(
       <a
         key={start}
-        href={`/search?q=${encodeURIComponent(term)}`}
-        className="underline decoration-dotted decoration-gray-300 dark:decoration-gray-600 hover:decoration-blue-500 dark:hover:decoration-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-        title={`Search: ${term}`}
+        href={href}
+        className="underline decoration-dotted decoration-gray-400 dark:decoration-gray-600 hover:decoration-gray-700 dark:hover:decoration-gray-400 transition-colors"
+        title={linkTitle}
       >
         {original}
       </a>

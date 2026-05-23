@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { getAllPosts } from '@/lib/parser';
 import { Post } from '@/lib/types';
+import { getConceptBySlug } from '@/data/guide/concepts';
 
 const anthropic = new Anthropic();
 
@@ -426,7 +427,7 @@ ${chunk.text}`;
 
 export async function POST(request: Request) {
   try {
-    const { message, history } = await request.json();
+    const { message, history, concept } = await request.json();
 
     if (!message || typeof message !== 'string') {
       return Response.json({ error: 'Message is required' }, { status: 400 });
@@ -437,6 +438,18 @@ export async function POST(request: Request) {
         { error: 'ANTHROPIC_API_KEY not configured' },
         { status: 500 }
       );
+    }
+
+    // Build concept seed context if a concept slug was passed
+    let conceptContextBlock = '';
+    if (concept && typeof concept === 'string') {
+      const conceptData = getConceptBySlug(concept);
+      if (conceptData && conceptData.passages.length > 0) {
+        const passageText = conceptData.passages
+          .map((p, i) => `[Concept passage ${i + 1}] From "${p.source}":\n"${p.text}"`)
+          .join('\n\n');
+        conceptContextBlock = `CONCEPT CONTEXT: The user is reading the concept page for "${conceptData.title}" and has asked a related question. These are the defining passages for this concept — treat them as high-priority anchors when synthesizing your answer:\n\n${passageText}\n\n---\n\n`;
+      }
     }
 
     // Retrieve relevant chunks (synchronous, in-memory)
@@ -467,8 +480,8 @@ export async function POST(request: Request) {
 
     // Build the user message with retrieved context
     const contextBlock = chunks.length > 0
-      ? `Here are the most relevant excerpts from the Center Study archive:\n\n${formatChunksForPrompt(chunks)}\n\n---\n\nUser question: ${message}`
-      : `No relevant excerpts were found for this query.\n\nUser question: ${message}`;
+      ? `${conceptContextBlock}Here are the most relevant excerpts from the Center Study archive:\n\n${formatChunksForPrompt(chunks)}\n\n---\n\nUser question: ${message}`
+      : `${conceptContextBlock}No relevant excerpts were found for this query.\n\nUser question: ${message}`;
 
     // Build message history for multi-turn
     const messages: { role: 'user' | 'assistant'; content: string }[] = [];
