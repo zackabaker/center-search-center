@@ -1,9 +1,9 @@
 import { getAllPosts, getPostBySlug } from '@/lib/parser';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import { ContentSource } from '@/lib/types';
 import type { Metadata } from 'next';
-import HighlightedContent from '@/components/HighlightedContent';
 import { PostContent } from '@/components/PostContent';
 import ReadingProgress from '@/components/ReadingProgress';
 import ReadingControls from '@/components/ReadingControls';
@@ -19,6 +19,14 @@ import Concordance from '@/components/Concordance';
 import { getPostTermFrequency, buildSearchEntries, getRelatedEntries } from '@/lib/search-index';
 import { MarkPostRead } from '@/components/MarkPostRead';
 import NextInPath from '@/components/NextInPath';
+import PostSearchContext, { BackButton } from '@/components/PostSearchContext';
+
+// Module-level cache — computed once per server-process lifetime (survives warm serverless invocations)
+let _cachedAllEntries: ReturnType<typeof buildSearchEntries> | null = null;
+function getCachedAllEntries() {
+  if (!_cachedAllEntries) _cachedAllEntries = buildSearchEntries(getAllPosts());
+  return _cachedAllEntries;
+}
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
   substack: 'Bouvard Substack',
@@ -87,12 +95,10 @@ export const revalidate = 3600;
 
 export default async function PostPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ q?: string }>;
 }) {
-  const [{ slug }, { q }] = await Promise.all([params, searchParams]);
+  const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) notFound();
 
@@ -130,7 +136,7 @@ export default async function PostPage({
   const termFreq = getPostTermFrequency(post.content, 25);
 
   // ── Related posts (for sidebar compact list) ───────────────────────────────
-  const allEntries = buildSearchEntries(allPosts);
+  const allEntries = getCachedAllEntries();
   const currentEntry = allEntries.find((e) => e.slug === slug);
   const relatedEntries = currentEntry ? getRelatedEntries(currentEntry, allEntries, 3) : [];
 
@@ -143,15 +149,16 @@ export default async function PostPage({
       <main className="max-w-3xl lg:max-w-6xl mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden lg:overflow-x-visible">
         {/* Top nav — full width */}
         <div className="flex items-center justify-between mb-6 sm:mb-8 print:hidden">
-          <Link
-            href={q ? `/search?q=${encodeURIComponent(q)}` : '/'}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 font-medium transition-colors text-sm"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-            </svg>
-            {q ? 'Back to results' : 'Back'}
-          </Link>
+          <Suspense fallback={
+            <Link href="/" className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 font-medium transition-colors text-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back
+            </Link>
+          }>
+            <BackButton />
+          </Suspense>
           <ReadingControls />
         </div>
 
@@ -215,21 +222,18 @@ export default async function PostPage({
                 <TableOfContents paragraphs={paragraphs} />
               </div>
 
-              {/* PostContent: paragraph deep-linking (¶) + concept term cross-links.
-                  HighlightedContent is kept for search-result highlighting when q is present. */}
-              {q ? (
-                <HighlightedContent
+              {/* PostSearchContext: client component that reads ?q from the URL.
+                  - With q: renders HighlightedContent (search-result highlighting)
+                  - Without q: renders PostContent (paragraph deep-linking + concept links)
+                  Suspense fallback renders PostContent immediately so static HTML is useful. */}
+              <Suspense fallback={<PostContent content={post.content} postTitle={post.title} postUrl={`https://center.study/post/${slug}`} />}>
+                <PostSearchContext
                   paragraphs={paragraphs}
-                  postTitle={post.title}
-                  postUrl={`https://center.study/post/${slug}`}
-                />
-              ) : (
-                <PostContent
                   content={post.content}
                   postTitle={post.title}
                   postUrl={`https://center.study/post/${slug}`}
                 />
-              )}
+              </Suspense>
             </article>
 
             {/* Below-article sections — hidden on desktop (shown in sidebar instead) */}
