@@ -1,0 +1,59 @@
+'use client';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import DarkModeToggle from '@/components/DarkModeToggle';
+
+const NAV_LINKS = [
+  { href: '/intro',               label: 'Start' },
+  { href: '/search',              label: 'Search' },
+  { href: '/ask',                 label: 'Ask' },
+  { href: '/concepts',            label: 'Concepts' },
+  { href: '/lectures',            label: 'Lectures' },
+  { href: '/guide/reading-paths', label: 'Reading Paths' },
+  { href: '/browse',              label: 'Browse' },
+  { href: '/reading-list',        label: 'Saved' },
+];
+
+export default function SiteNav() {
+  const pathname = usePathname();
+
+  return (
+    <nav className="sticky top-0 z-30 bg-white/90 dark:bg-gray-950/90 backdrop-blur border-b border-gray-100 dark:border-gray-800 print:hidden">
+      <div className="max-w-5xl mx-auto px-4 h-12 flex items-center justify-between">
+        <Link
+          href="/"
+          className="text-sm font-semibold text-gray-900 dark:text-white tracking-tight hover:opacity-70 transition-opacity flex-shrink-0"
+        >
+          Center Study Center
+        </Link>
+
+        <div className="flex items-center gap-4 sm:gap-5 overflow-x-auto no-scrollbar">
+          {NAV_LINKS.map(({ href, label }) => {
+            const isActive =
+              href === '/'
+                ? pathname === '/'
+                : pathname === href ||
+                  pathname.startsWith(href + '/') ||
+                  // concept detail pages live under /guide/concepts but nav item is /concepts
+                  (href === '/concepts' && pathname.startsWith('/guide/concepts'));
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`text-xs whitespace-nowrap transition-colors hidden sm:block ${
+                  isActive
+                    ? 'text-gray-900 dark:text-white font-medium'
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                }`}
+              >
+                {label}
+              </Link>
+            );
+          })}
+          <DarkModeToggle />
+        </div>
+      </div>
+    </nav>
+  );
+}

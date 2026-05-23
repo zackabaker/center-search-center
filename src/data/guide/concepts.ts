@@ -41,6 +41,7 @@ The center is never absent from human activity. Where it appears absent, it has 
 **Omnicentrism** — the post-sacrificial condition in which every individual is potentially a center — does not abolish the center but distributes its function across the social order. The imperative of omnicentrism is not that centers disappear but that violent centralization be continuously deferred. That deferral is the moral obligation constituted by the originary scene.`,
     relations: ['originary-scene', 'deferral', 'the-sacred', 'resentment-victimary', 'succession', 'nomos'],
     posts: [
+      { slug: 'lecture-the-center', title: 'Lecture 4: The Center', note: 'Attention vs. intention; occupied vs. signifying center; how to hear the command of the center today. The clearest introductory lecture on the concept.' },
       { slug: 'gablog-the-discourse-of-the-center', title: 'The Discourse of the Center', note: 'The center as the organizing structure of all discourse. Begin here.' },
       { slug: 'pdf-event-origin-center', title: 'Event, Origin, Center', note: 'The center as presupposition of all institutional action, including journalism.' },
       { slug: 'book-anthropomorphics', title: 'Anthropomorphics', note: 'The extended treatment of signifying center vs. occupied center.' },
@@ -99,6 +100,8 @@ The scene: a group of hominids converge on a central object — food, a body, so
 **What follows from the scene.** The center is constituted as sacred by the scene. The sign is the originary linguistic form, prior to the declarative sentence. Debt is the original economic relation — each participant owes the center their survival. Resentment is the original moral problem — each participant desired the object and did not get it. The juridical order is the original political problem — who administers the center's dispensation? Every major concept in Center Study is a development of some feature of this scene.`,
     relations: ['the-center', 'deferral', 'the-sacred', 'nomos', 'debt-and-credit', 'ostensive-imperative-declarative', 'resentment-victimary'],
     posts: [
+      { slug: 'lecture-origin', title: 'Lecture 1: Origin', note: 'Why "origin" is unavoidable as a concept — the prohibition, Derrida, and what it means to posit an origin that must be hypothetical.' },
+      { slug: 'lecture-mimetic', title: 'Lecture 2: Mimetic', note: 'Girard\'s mimesis, Gans\'s decisive step beyond it — how the sign arrests mimetic rivalry rather than accelerating it.' },
       { slug: 'book-the-origin-of-language', title: 'The Origin of Language (Introduction)', note: 'Katz\'s introduction situates the hypothesis against its main philosophical obstacles.' },
       { slug: 'gablog-how-does-the-center-speak', title: 'How Does the Center Speak?', note: 'The originary scene as the foundation of all communication.' },
       { slug: 'book-anthropomorphics', title: 'Anthropomorphics', note: 'The fullest development of the scene\'s implications for grammar and politics.' },
@@ -141,6 +144,7 @@ This is what Katz means when he writes: "If language is the deferral of violence
 **Deferral and institutions.** Every institution can be analyzed as a deferral mechanism. The question is not whether institutions defer violence — they all do — but *how* they defer it, *how well*, and at *what cost*. Institutions that pretend to be centerless, that deny their own deferral function, tend to defer less effectively. The pathology of modernity is not too much deferral but deferral that disavows itself.`,
     relations: ['originary-scene', 'the-center', 'the-sacred', 'ostensive-imperative-declarative', 'scenic-design'],
     posts: [
+      { slug: 'lecture-deferral-of-violence', title: 'Lecture 3: Deferral of Violence', note: 'Why "deferral" is more minimal than postpone or delay — the concept that keeps us inside the scene rather than abstracting from it.' },
       { slug: 'pdf-linguistic-turn-generative-literacy', title: 'The Linguistic Turn and Generative Literacy', note: 'The fullest statement of deferral as language\'s function.' },
       { slug: 'gablog-how-does-the-center-speak', title: 'How Does the Center Speak?', note: 'Deferral as the first message from the center.' },
       { slug: 'pdf-talk-of-the-center-adam-katz', title: 'Talk of the Center', note: 'How all cultural production is organized around deferral.' },
@@ -185,6 +189,7 @@ This is what Katz means when he writes: "If language is the deferral of violence
 **The rhetorical posture of each section of this guide** is itself a performance of this sequence: the entry point is ostensive (*this*), the concept pages are imperative (*attend to this*), the reading paths are declarative (*this is how to proceed*).`,
     relations: ['originary-scene', 'deferral', 'originary-grammar', 'scenic-design', 'the-center'],
     posts: [
+      { slug: 'lecture-the-sign', title: 'Lecture 5: The Sign', note: 'Derrida\'s critique of the sign, Gans\'s resolution — and why "sample" may be a better framing than "sign" for the digital age.' },
       { slug: 'book-the-origin-of-language', title: 'The Origin of Language', note: 'Gans\'s foundational account of the three forms.' },
       { slug: 'pdf-linguistic-turn-generative-literacy', title: 'The Linguistic Turn and Generative Literacy', note: 'The error of treating the declarative as primary.' },
       { slug: 'pdf-originary-technics', title: 'Originary Technics', note: 'The imperative as the origin of technology.' },
@@ -672,6 +677,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **Exhaustive imitation.** Bouvard develops the concept of exhaustive imitation — the attempt to imitate so completely that no remainder of the model's particularity escapes. Exhaustive imitation is the pathological extreme of mimesis: rather than deferring the model's desire, it attempts to entirely reproduce the model, eliminating the difference that makes imitation generative. AI systems face this problem structurally: trained to predict, they approach exhaustive imitation of the corpus, which eliminates the scenic position from which genuine sign-use is possible.`,
     relations: ['originary-scene', 'deferral', 'the-sacred', 'resentment-victimary', 'sparagmos'],
     posts: [
+      { slug: 'lecture-mimetic', title: 'Lecture 2: Mimetic', note: 'The clearest introductory account — mimesis from Girard through Gans, why the sign defers rather than accelerates mimetic rivalry, and what it means to acknowledge our mimetic constitution.' },
       { slug: 'pdf-mimesis-center-auto-immunology', title: 'Mimesis, the Center and Auto-Immunology', note: 'Mimesis as the structural condition of institution-building and its pathologies.' },
       { slug: 'substack-exhaustive-imitation', title: 'Exhaustive Imitation', note: 'Bouvard on the limits of imitation and the AI problem.' },
       { slug: 'pdf-the-anthropoetics-of-power', title: 'The Anthropoetics of Power', note: 'Mimetic desire and the Big Man\'s usurpation of the center.' },
@@ -818,6 +824,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **Bouvard and inscription.** Bouvard extends the concept of the sign into the analysis of inscription, tokenization, and data — the ways in which the scene's central reference is marked, stored, and circulated across time and infrastructure. Every mark is a sign; every inscription is a scene. The digital archive is a vast sign system whose originary structure is still the aborted gesture of appropriation — still the conversion of appetite into attention.`,
     relations: ['originary-scene', 'deferral', 'the-sacred', 'mimesis', 'originary-grammar'],
     posts: [
+      { slug: 'lecture-the-sign', title: 'Lecture 5: The Sign', note: 'Derrida\'s critique, Gans\'s resolution via the Name-of-God, and why "sample" may ultimately be a better word than "sign."' },
       { slug: 'book-the-origin-of-language', title: 'The Origin of Language', note: 'Gans\'s foundational account of the sign as aborted gesture.' },
       { slug: 'pdf-linguistic-turn-generative-literacy', title: 'The Linguistic Turn and Generative Literacy', note: 'The sign as the completion of the linguistic turn.' },
       { slug: 'book-anthropomorphics', title: 'Anthropomorphics', note: 'The sign and the grammar of scenes.' },

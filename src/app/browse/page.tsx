@@ -95,10 +95,7 @@ export default async function BrowsePage() {
 
       {/* Header */}
       <div className="mb-8">
-        <Link href="/" className="text-sm text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-          ← Home
-        </Link>
-        <h1 className="text-2xl sm:text-3xl font-bold mt-3 mb-1 text-gray-900 dark:text-white">Archive</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold mt-2 mb-1 text-gray-900 dark:text-white">Archive</h1>
         <div className="flex items-center gap-4">
           <p className="text-gray-500 dark:text-gray-400 text-sm">
             {totalNonTwitter.toLocaleString()} texts across 6 venues

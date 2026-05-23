@@ -275,11 +275,6 @@ export default function SearchPageClient({
 
   return (
     <main className="max-w-4xl mx-auto px-4 pt-6 pb-24 sm:py-10 overflow-x-hidden">
-      {/* Back link */}
-      <div className="mb-6">
-        <Link href="/" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">← Home</Link>
-      </div>
-
       {/* Search input */}
       <div className="mb-6">
         <div className="relative flex items-center border-2 border-gray-200 focus-within:border-gray-400 rounded-xl bg-white dark:bg-gray-900 dark:border-gray-700 dark:focus-within:border-gray-500 transition-colors">

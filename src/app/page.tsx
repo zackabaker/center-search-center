@@ -1,5 +1,4 @@
 import HomeSearch from '@/components/HomeSearch';
-import DarkModeToggle from '@/components/DarkModeToggle';
 import Link from 'next/link';
 import { getAllPosts } from '@/lib/parser';
 
@@ -121,42 +120,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
-
-      {/* Top nav */}
-      <nav className="sticky top-0 z-30 bg-white/80 dark:bg-gray-950/80 backdrop-blur border-b border-gray-100 dark:border-gray-800">
-        <div className="max-w-5xl mx-auto px-4 h-12 flex items-center justify-between">
-          <span className="text-sm font-semibold text-gray-900 dark:text-white tracking-tight">
-            Center Study Center
-          </span>
-          <div className="flex items-center gap-5">
-            <Link href="/intro" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
-              Start
-            </Link>
-            <Link href="/search" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
-              Search
-            </Link>
-            <Link href="/ask" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
-              Ask
-            </Link>
-            <Link href="/concepts" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
-              Concepts
-            </Link>
-            <Link href="/guide/reading-paths" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
-              Reading Paths
-            </Link>
-            <Link href="/lectures" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
-              Lectures
-            </Link>
-            <Link href="/browse" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
-              Browse
-            </Link>
-            <Link href="/reading-list" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
-              Saved
-            </Link>
-            <DarkModeToggle />
-          </div>
-        </div>
-      </nav>
 
       {/* Hero */}
       <header className="max-w-3xl mx-auto px-4 pt-14 pb-12 text-center">

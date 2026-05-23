@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import DarkModeToggle from '@/components/DarkModeToggle';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -84,21 +83,7 @@ export default function IntroPage() {
   return (
     <main className="max-w-3xl mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden">
 
-      {/* Top bar */}
-      <div className="flex items-center justify-between mb-10 print:hidden">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 font-medium transition-colors text-sm"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </Link>
-        <DarkModeToggle />
-      </div>
-
-      <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-gray-900 dark:text-white">
+      <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 mt-4 text-gray-900 dark:text-white">
         Introduction to Center Study
       </h1>
 
@@ -161,6 +146,12 @@ export default function IntroPage() {
                 <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                   Humans are fundamentally imitative. Imitation generates rivalry; rivalry generates collective violence; violence is discharged onto a scapegoat whose expulsion restores peace. The scapegoat becomes sacred. Girard&rsquo;s founding violence generates religion, culture, and institutions — but it gives us a corpse where Center Study finds a sign.
                 </p>
+                <blockquote className="mt-3 mb-2 border-l-2 border-amber-200 dark:border-amber-800 pl-3 text-xs text-gray-500 dark:text-gray-400 italic leading-relaxed">
+                  &ldquo;You can test the seriousness of any social theory by the seriousness with which it takes mimesis. Mimesis is obviously a very ancient concept, prominent in Plato and Aristotle, but as far as I know until René Girard it was never pursued all the way down — it&rsquo;s one thing to say humans are mimetic beings, but it&rsquo;s another to say that mimesis makes the human.&rdquo;
+                  <cite className="not-italic block mt-1 text-gray-400 dark:text-gray-500">
+                    — Adam Katz, <Link href="/post/lecture-mimetic" className="text-blue-500 hover:underline">Lecture 2: Mimetic</Link>
+                  </cite>
+                </blockquote>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {['mimesis', 'scapegoat', 'sacrifice', 'violence'].map((t) => (
                     <Link key={t} href={`/search?q=${encodeURIComponent(t)}`}
@@ -551,6 +542,10 @@ export default function IntroPage() {
           <Link href="/guide/reading-paths" className="group block p-4 rounded-xl border border-green-100 dark:border-green-900/40 hover:border-green-400 dark:hover:border-green-600 hover:shadow-sm transition-all bg-white dark:bg-gray-900">
             <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Reading Paths</p>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Curated sequences for specific topics and interests</p>
+          </Link>
+          <Link href="/lectures" className="group block p-4 rounded-xl border border-amber-100 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-600 hover:shadow-sm transition-all bg-white dark:bg-gray-900">
+            <p className="font-semibold text-gray-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">Lecture Series</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Five introductory lectures: Origin → Mimetic → Deferral → Center → Sign</p>
           </Link>
           <Link href="/search" className="group block p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900">
             <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Full-text search</p>

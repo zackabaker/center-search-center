@@ -36,14 +36,6 @@ export default async function LecturesPage() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-8 sm:py-14">
 
-      {/* Back */}
-      <Link
-        href="/"
-        className="text-sm text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-      >
-        ← Home
-      </Link>
-
       {/* Header */}
       <div className="mt-4 mb-10">
         <div className="flex items-center gap-2.5 mb-3">
