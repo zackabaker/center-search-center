@@ -190,7 +190,7 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
           <div
             key={id}
             id={id}
-            className={`group relative scroll-mt-20${i === 0 ? ' pl-6 sm:pl-8' : ''}`}
+            className="group relative scroll-mt-20"
           >
             {pilcrow}
             <p className="text-base leading-relaxed">{nodes}</p>
