@@ -1,4 +1,5 @@
 import HomeSearch from '@/components/HomeSearch';
+import RandomPostButton from '@/components/RandomPostButton';
 import Link from 'next/link';
 import { getAllPosts } from '@/lib/parser';
 
@@ -128,6 +129,11 @@ export default function Home() {
         </h1>
         <HomeSearch />
       </header>
+
+      {/* Discover — random posts for quick listening, always visible on mobile */}
+      <div className="max-w-xl mx-auto px-4 pb-8 sm:pb-0">
+        <RandomPostButton />
+      </div>
 
       {/* Navigation cards — hidden on mobile (bottom nav handles it) */}
       <div className="hidden sm:block max-w-3xl mx-auto px-4 pb-14">
