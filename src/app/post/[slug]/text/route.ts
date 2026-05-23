@@ -149,7 +149,7 @@ export async function GET(
     body {
       max-width: min(700px, 100% - 48px);
       margin: 0 auto;
-      padding: 72px 0 120px;
+      padding: 80px 0 120px;
       font-family: 'Lora', Palatino, 'Palatino Linotype', Georgia, serif;
       font-size: var(--fs);
       line-height: var(--lh);
@@ -158,7 +158,7 @@ export async function GET(
     }
 
     @media (max-width: 600px) {
-      body { padding: 48px 0 80px; }
+      body { padding: 64px 0 80px; }
       :root         { --fs: 19px; --lh: 1.85; }
       [data-fs="0"] { --fs: 17px; --lh: 1.8; }
       [data-fs="1"] { --fs: 19px; --lh: 1.85; }
@@ -226,17 +226,29 @@ export async function GET(
     }
     .listen-note strong { color: var(--fg); font-weight: 600; }
 
-    /* ── Back link ── */
+    /* ── Back link (fixed, mirrors toolbar on the right) ── */
     .back-link {
-      display: inline-block;
+      position: fixed;
+      top: 12px;
+      left: 14px;
+      display: inline-flex;
+      align-items: center;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-size: 13px;
-      color: var(--meta-color);
+      font-weight: 500;
+      color: var(--fg);
       text-decoration: none;
-      margin-bottom: 40px;
       letter-spacing: .01em;
+      background: var(--toolbar-bg);
+      border: 1px solid var(--toolbar-border);
+      border-radius: 10px;
+      padding: 6px 11px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
     }
-    .back-link:hover { color: var(--fg); }
+    .back-link:hover  { background: var(--btn-hover); }
+    .back-link:active { background: var(--btn-active); }
 
     /* ── Title ── */
     h1.title {
