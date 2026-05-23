@@ -162,19 +162,14 @@ function fixGABlogSpacing(text: string): string {
   // Step 1: fix inline word concatenations (all passes)
   let r = fixWordConcatenation(text);
 
-  // Step 2: promote sentence-boundary joins → paragraph breaks.
-  // After step 1, former "</p><p>" boundaries look like ". Capital" (space).
-  // Legitimate within-paragraph mid-sentence spaces are indistinguishable,
-  // so we convert ALL ". Capital" patterns — this recreates one paragraph
-  // per original HTML paragraph, which is the correct structure.
-  // Pattern covers: lowercase/closing-quote/closing-paren before punct.
-  r = r
-    // "...terrain. I would..." — normal lowercase before period
-    .replace(/([a-z’”'"])([.!?]) ([A-Z])/g, '$1$2\n\n$3')
-    // "...policy). I would..." — closing paren + period before capital
-    .replace(/\)([.!?]) ([A-Z])/g, ')$1\n\n$2');
+  // Step 2 (removed): sentence-boundary → paragraph-break conversion was
+  // incorrectly splitting every sentence into its own paragraph. The original
+  // ga_context.txt stores each post as a single block of prose with no
+  // paragraph markers, so converting “. Capital” → “\n\n” destroys readability.
+  // The text already reads as coherent prose after word-concat fixes; we don't
+  // try to reconstruct paragraph structure heuristically.
 
-  // Step 3: fix colon-word joins ":the" → ": the" (not paragraph breaks,
+  // Step 3: fix colon-word joins “:the” -> “: the” (not paragraph breaks,
   // just missing punctuation space within a sentence).
   r = r.replace(/([a-z]):([a-z])/g, '$1: $2');
 
