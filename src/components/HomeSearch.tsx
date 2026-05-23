@@ -122,12 +122,11 @@ export default function HomeSearch() {
             onChange={(e) => setQuery(e.target.value)}
             placeholder={
               mode === 'ask'
-                ? 'Ask a question about the archive…'
+                ? 'Ask anything about these texts…'
                 : 'Search for a concept or phrase…'
             }
             className="flex-1 px-5 py-4 text-lg outline-none bg-transparent text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
             autoComplete="off"
-            autoFocus
           />
 
           {query && (
