@@ -16,6 +16,7 @@ const TABS: { key: FilterOption; label: string }[] = [
   { key: 'gablog', label: 'GABlog' },
   { key: 'book', label: 'Book' },
   { key: 'pdf', label: 'PDFs' },
+  { key: 'lecture', label: 'Lectures' },
   { key: 'reddit', label: 'Reddit' },
   { key: 'twitter', label: 'X / Twitter' },
 ];

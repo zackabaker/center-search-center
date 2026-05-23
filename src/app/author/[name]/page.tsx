@@ -47,6 +47,7 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   pdf: 'PDF',
   reddit: 'Reddit',
   twitter: 'X / Twitter',
+  lecture: 'Lecture Series',
 };
 
 const SOURCE_COLORS: Record<ContentSource, string> = {
@@ -56,6 +57,7 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
   pdf: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
   reddit: 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
   twitter: 'bg-slate-100 text-slate-800 dark:bg-slate-800/40 dark:text-slate-300',
+  lecture: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
 };
 
 export async function generateStaticParams() {

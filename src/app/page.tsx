@@ -11,6 +11,7 @@ const SOURCE_LABELS: Record<string, string> = {
   gablog: 'GABlog',
   pdf: 'PDF',
   book: 'Book',
+  lecture: 'Lecture',
 };
 
 const SOURCE_COLORS: Record<string, string> = {
@@ -18,6 +19,7 @@ const SOURCE_COLORS: Record<string, string> = {
   gablog:   'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
   pdf:      'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
   book:     'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
+  lecture:  'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300',
 };
 
 // Curated entry points grouped by reader interest
@@ -97,10 +99,11 @@ const FEATURED_GROUPS = [
 ];
 
 const BROWSE_SOURCES = [
-  { source: 'gablog',    label: 'GABlog',       description: "Katz's theoretical blog — originary grammar in development", color: 'hover:border-blue-400 dark:hover:border-blue-600' },
-  { source: 'substack',  label: 'Substack',     description: "Bouvard's applied essays on AI, governance, and technology",  color: 'hover:border-orange-400 dark:hover:border-orange-600' },
-  { source: 'pdf',       label: 'PDFs',          description: 'Academic papers, lectures, and longer works',                  color: 'hover:border-green-400 dark:hover:border-green-600' },
-  { source: 'book',      label: 'Book',          description: 'Anthropomorphics — systematic originary grammar',              color: 'hover:border-purple-400 dark:hover:border-purple-600' },
+  { source: 'gablog',    label: 'GABlog',          description: "Katz's theoretical blog — originary grammar in development", color: 'hover:border-blue-400 dark:hover:border-blue-600',   href: '/browse/gablog' },
+  { source: 'substack',  label: 'Substack',        description: "Bouvard's applied essays on AI, governance, and technology",  color: 'hover:border-orange-400 dark:hover:border-orange-600', href: '/browse/substack' },
+  { source: 'pdf',       label: 'PDFs',             description: 'Academic papers and longer works',                            color: 'hover:border-green-400 dark:hover:border-green-600',   href: '/browse/pdf' },
+  { source: 'book',      label: 'Book',             description: 'Anthropomorphics — systematic originary grammar',             color: 'hover:border-purple-400 dark:hover:border-purple-600', href: '/browse/book' },
+  { source: 'lecture',   label: 'Lecture Series',   description: 'Five introductory lectures: Origin → Mimetic → Deferral → Center → Sign', color: 'hover:border-amber-400 dark:hover:border-amber-600', href: '/lectures' },
 ];
 
 export default function Home() {
@@ -140,6 +143,9 @@ export default function Home() {
             </Link>
             <Link href="/guide/reading-paths" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
               Reading Paths
+            </Link>
+            <Link href="/lectures" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
+              Lectures
             </Link>
             <Link href="/browse" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block">
               Browse
@@ -289,10 +295,10 @@ export default function Home() {
             </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {BROWSE_SOURCES.map(({ source, label, description, color }) => (
+            {BROWSE_SOURCES.map(({ source, label, description, color, href }) => (
               <Link
                 key={source}
-                href={`/browse/${source}`}
+                href={href}
                 className={`group block p-4 rounded-xl border border-gray-200 dark:border-gray-700 ${color} hover:shadow-sm transition-all bg-white dark:bg-gray-900`}
               >
                 <p className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1">{label}</p>

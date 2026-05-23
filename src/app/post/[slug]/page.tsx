@@ -35,6 +35,7 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   pdf: 'PDF',
   reddit: 'Reddit',
   twitter: 'X / Twitter',
+  lecture: 'Lecture Series',
 };
 
 const SOURCE_COLORS: Record<ContentSource, string> = {
@@ -44,6 +45,7 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
   pdf: 'bg-green-100 text-green-800',
   reddit: 'bg-red-100 text-red-800',
   twitter: 'bg-slate-100 text-slate-700',
+  lecture: 'bg-amber-100 text-amber-800',
 };
 
 export async function generateMetadata({

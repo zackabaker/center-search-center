@@ -46,6 +46,11 @@ const SOURCE_META: Record<
     description: 'Threads and notes from X (formerly Twitter)',
     color: 'bg-slate-100 text-slate-800 dark:bg-slate-800/40 dark:text-slate-300',
   },
+  lecture: {
+    label: 'Lecture Series',
+    description: 'Five introductory lectures for Center Study by Adam Katz',
+    color: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
+  },
 };
 
 export default function DownloadPage() {

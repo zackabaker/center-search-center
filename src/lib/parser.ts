@@ -672,6 +672,52 @@ function parsePDFs(): Post[] {
   return posts;
 }
 
+// ── Lectures ──────────────────────────────────────────────────────────────────
+// src/data/lectures.md — 5 Adam Katz introductory lectures for Center Study.
+// Format: sections separated by "# Title" headings (top-level markdown headers).
+
+const LECTURE_ORDER = [
+  'origin',
+  'mimetic',
+  'deferral-of-violence',
+  'the-center',
+  'the-sign',
+];
+
+function parseLectures(): Post[] {
+  const lecturesPath = path.join(process.cwd(), 'src', 'data', 'lectures.md');
+  if (!fs.existsSync(lecturesPath)) return [];
+  const raw = fs.readFileSync(lecturesPath, 'utf-8');
+
+  // Split on top-level headings: lines starting with "# " (single #)
+  const sections = raw.split(/^# /m).filter(Boolean);
+
+  const posts: Post[] = [];
+  let lectureNum = 0;
+
+  for (const section of sections) {
+    const firstNewline = section.indexOf('\n');
+    if (firstNewline === -1) continue;
+    const title = section.slice(0, firstNewline).trim();
+    const body = section.slice(firstNewline + 1).trim();
+    if (!title || !body) continue;
+
+    lectureNum += 1;
+    const slug = 'lecture-' + slugify(title);
+
+    posts.push({
+      slug,
+      title: `Lecture ${lectureNum}: ${title}`,
+      content: body,
+      excerpt: excerpt(body),
+      date: null,
+      source: 'lecture' as ContentSource,
+    });
+  }
+
+  return posts;
+}
+
 export function parseAllContent(): Post[] {
   const filePath = path.join(process.cwd(), 'src', 'data', 'ga_context.txt');
   const raw = fs.readFileSync(filePath, 'utf-8');
@@ -687,6 +733,7 @@ export function parseAllContent(): Post[] {
   allPosts.push(...parseRedditComments());
   allPosts.push(...parsePDFs());
   allPosts.push(...parseTweets());
+  allPosts.push(...parseLectures());
 
   // Decode HTML entities in all text fields
   for (const post of allPosts) {

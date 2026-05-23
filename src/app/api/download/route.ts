@@ -11,6 +11,7 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   pdf: 'PDF',
   reddit: 'Reddit',
   twitter: 'X / Twitter',
+  lecture: 'Lecture Series',
 };
 
 export async function GET(req: NextRequest) {
