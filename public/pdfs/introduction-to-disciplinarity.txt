@@ -1,22 +1,19 @@
-
-
 An Introduction to
 Disciplinarity
 Adam Katz
+
 Department of English
 Quinnipiac University
 Hamden, CT 06518
 Adam.Katz@quinnipiac.edu
+
 In his 1968 “Introduction” to his study of The Civilizing
 Process, Norbert Elias considers the question of why,
 regardless of its theoretical and empirical absurdity, the
 notion of a “monadic,” enclosed “self,” opposed to, and
 ontologically separate from, “society,” became the
-commonsense in the 19
-th
- and 20
-th
- century West. His answer
+th  th
+commonsense in the 19 and 20 century West. His answer
 is that the notion of an autonomous self, one that can be
 abstracted from everyday concerns, and counterposed to an
 “objective” external reality, was a necessary concomitant to
@@ -37,6 +34,7 @@ this point, it is possible to turn our attention to
 anthropological inquiry and thereby construct a more
 socially immersed understanding of the self—an
 understanding that his own study has set in motion.
+
 I take Elias to be heralding the emergence of new
 “disciplinary order,” in which new modes of sustained
 attention, accreted gradually from the monotheistic
@@ -62,16 +60,15 @@ inquiry, in that case, must not only self-reflexively examine
 its own disciplinary conditions of possibility but also remain
 attentive to the sedimentations of previous processes of
 inquiry.
+
 An equally profound implication of Elias’s study is that, once
 we have (as Elias is doing) proceeded to broach all that is
-entailed by 19
 th
- century standards of decency (for Elias the
+entailed by 19 century standards of decency (for Elias the
 height of the modes of formality and indirectness he
 associates with manners, to be followed by some relaxation
-from the mid-20
 th
- century on), those standards of decency
+from the mid-20 century on), those standards of decency
 and the religious and metaphysical assumptions in which
 they have been embedded can no longer be taken for
 granted. While asserting a strict neutrality regarding
@@ -96,6 +93,7 @@ Life, that the great religions and philosophies were
 themselves, ultimately, inquiries, and inquiries into the
 conditions of possibility of self-transcendence enabled by
 disciplinary advances.
+
 A discipline is a space of shared attention, considered as a
 space of inquiry. We can thus distinguish it from the moral,
 ritual and esthetic modes of shared attention—those that
@@ -116,6 +114,7 @@ the participants on the scene know that they have all
 deferred appropriation because they know, and such
 knowledge can only be acquired “emically,” by what Michael
 Polanyi calls “indwelling” within the scene.
+
 Now, we can take a step back into the “etic” and say that
 each participant is “laying a bet” within a prisoner’s
 dilemma-type game. This is a step back into the etic
@@ -158,6 +157,7 @@ restructuring one’s actions so as to make the object
 accessible in new ways. Scaffolded over ritual, moral and
 esthetic actions, then, is at least a minimal study of those
 actions—a disciplinary space.
+
 The disciplinary space is an engine of differentiations,
 turning the object into a generator of new signs. Determining
 which aspect of an object, in its sacral and appropriative
@@ -205,6 +205,7 @@ exists—so, for example, we can explore God’s reality with
 complete indifference to any question of God’s existence)
 and participants in those spaces accede to the demand that
 we never stop thinking about it.
+
 Rather than attempting to devise rules for inquiry, then, it is
 more illuminating to follow inquiry along the boundaries it
 shares with ritual, morality and esthetics. Ritual is already a
@@ -226,6 +227,7 @@ anomalous to the normal practices of the community, and
 this will be done all the more effectively to the extent that the
 anomalous is displayed fully, in all its disruptive relation to
 the existing terms of inquiry.
+
 Disciplines cannot survive without a rigorously applied
 egalitarian morality: anyone within the discipline can be
 heard as long as they follow the (often tacit) procedures of
@@ -264,6 +266,7 @@ procedures, what counts as a violation of procedure, meta-
 rules regarding which violations can be repatriated within the
 discipline, etc., are a question of further inquiry that both
 presupposes and revises the rough equality of the discipline.
+
 The connection between the esthetic and inquiry is perhaps
 easiest to see. The spectator’s oscillation between sign and
 object might begin as an inchoate impasse between desire
@@ -291,6 +294,7 @@ life. The duck/rabbit image that so fascinated Wittgenstein
 provides a good model for this—the most minimal work of
 esthetic inquiry would simply be to make us see the duck
 when we are more likely to see the rabbit, and vice versa.
+
 Remaining within a disciplinary space involves iterating the
 originary gesture of converting designations into
 constructions of reality. This entails converting given, tacitly
@@ -318,6 +322,7 @@ their own way, as the penalties for those “genuine” crimes
 are today. In that case, “crime” is a constitutive element of
 social order or, as Durkheim puts it, “a factor in public health,
 an integrative element in any society” (98).
+
 The tendency of any discipline is to make the founding
 concepts of the discipline reciprocally constitutive: to make
 crime a constituent of law abidingness, sickness a
@@ -344,6 +349,7 @@ system from another marks the limits of the relativization of
 the founding concepts, which is also to say that the purpose
 of relativization is to enable us to mark that boundary of the
 discipline.
+
 The relativizations I have been producing here, between
 morality and ethics, and between ritual, morality, esthetics
 and inquiry, also serve the purpose of marking the
@@ -443,6 +449,7 @@ of disciplinary spaces within a disciplinary order that can
 
 never entirely disembed from ritual, morality and esthetics,
 because any disciplinary space is a scene among scenes.
+
 We can assume that the construction of a disciplinary space
 in the sense of a bounded space of inquiry will serve the
 same purpose as any scene—that of deferring violence. The
@@ -455,6 +462,7 @@ As Eric Voegelin argued in his analysis of Plato’s founding of
 philosophy, such autonomous disciplines situate themselves
 within a social crisis that they undertake to develop and
 disseminate the means of deferring. As Voegelin writes:
+
 Philosophy . . . has its origin in the resistance of the soul to
 its destruction by society. Philosophy in this sense, as an act
 of resistance illuminated by conceptual understanding, has
@@ -464,6 +472,7 @@ of right order and its reconstitution in his own soul becomes
 the substantive center of a new community which, by its
 existence, relieves the pressure of the surrounding corrupt
 society. (Order and History Vol. 3 123)
+
 It would follow, then, that the notion of discipline in its more
 punitive and educational (for example, Foucauldian) senses,
 
@@ -486,6 +495,7 @@ conditions of the new industrial working class, would be
 those asked to found modern school systems, reform
 prisons and police departments, manage factories and so
 on.
+
 In other words, the notion of discipline is one: it is an
 extension of the concept of deferral, as the originary
 hypothesis understands it: a signifying of desire and
@@ -551,6 +561,7 @@ all of these disciplines do not recognize each other, that is
 
 because they have not yet (and maybe never will be)
 brought into a relation of mutual control with each other.
+
 The internal marketplace of the discipline produces results
 made available on the external market to those outside of
 the discipline. One doesn’t need to understand a new
@@ -578,6 +589,7 @@ control with biology. (It also follows that inquiries into the
 
 moral and ethical implications of scientific innovations need
 to take this broader field of disciplines into account.)
+
 Assuming a disciplinary order would lead us to frame
 discussions of the market in terms of overlapping disciplines:
 the shared space of interest and inquiry comes first,
@@ -599,6 +611,7 @@ generates shareable observations that would not have been
 available otherwise. The task of sorting out the relations
 between all these disciplines is itself a disciplinary one, in
 part a kind of expertise in debunking.
+
 Jane Jacobs’ analysis of the emergence of new work within
 an economy in her The Economy of Cities not only illustrates
 
@@ -616,6 +629,7 @@ into business manufacturing them; “bra-making now stood
 as an activity in its own right.” From attending from the
 undergarments to their effect on the dress, this particular
 undergarment became a focus of attention in its own right.
+
 Jacobs goes on to observe that “[o]nce one gets the hang of
 the process [i.e., of how new work is added to old] it is not
 only entertaining to track down the progressions of D [old
@@ -642,6 +656,7 @@ originary event, the analysis of any phenomenon into its
 constitutive elements and their categorical constitution must
 take an originary turn into the event responsible for the
 emergence of the categories.
+
 The same analysis of all institutions as disciplinary spaces
 applies to institutions apparently distant from inquiry
 understood narrowly, such as political and military ones: first
@@ -657,6 +672,7 @@ but, increasingly, characterized by ambiguous and shifting
 relations between various regulatory, police, and therapeutic
 
 disciplines.
+
 Undesirable, disreputable and even evil activities might have
 a disciplinary component (as will virtually any human
 activity) but an understanding of disciplinarity makes clear
@@ -685,6 +701,7 @@ loyalty, the criminal gang is necessarily hierarchical, since
 
 someone must enforce loyalty and the loyalty of all to that
 enforcer must exceed his towards any of them.
+
 Evil, then, can be known by the way it resists overlapping
 with neighboring disciplines: the teacher can want the
 student to become a fellow teacher, the doctor can want the
@@ -703,6 +720,7 @@ their must always remain a larger pool of potential victims
 who will never be admitted); and, at the extreme, the Nazi
 cannot want the Jew to join him in his study of the most
 expeditious way of exterminating unwanted racial groups.
+
 If one accepts the model presented thus far of post-ritual
 social orders as comprised of overlapping and neighboring
 disciplines interrelated through mutual control, it follows that
@@ -730,6 +748,7 @@ of our tasks, where we are most obviously doing nothing
 more than sorting students so as to determine their location
 in their next step on the bureaucratic ladder. As Olson
 argues,
+
 In a modern bureaucratic world, knowledge, virtue and ability
 take on a new form. Institutions such as science preempt
 knowledge, justice systems preempt virtue, and functional
@@ -740,6 +759,7 @@ form of private mental states and moral traits of individuals
 than in the form of competence in the roles, norms, and rules
 of the formal bureaucratic institutions in which they live and
 work. (288)
+
 These value transformations result from the accountability of
 the discipline, or its self-representation before a public,
 which is to say other disciplines. The discipline adapts itself
@@ -766,6 +786,7 @@ that extent replacing inquiry with prefabricated criteria.
 Disciplines, then, in order to survive, must become spaces
 carved out of and in resistance to the very bureaucracies
 they have secreted.
+
 Understanding the emergence of the bureaucratic out of the
 disciplinary and disciplinary resistance to bureaucratization
 requires that we relativize this boundary between the
@@ -805,6 +826,7 @@ already known, but that itself may only be known from within
 another disciplinary space that through its own
 bureaucratization mistakes a harnessing of resources to
 sustain a beleaguered truth for dogmatism and paranoia.
+
 It is only through the creation of new disciplinary spaces that
 the distinction between discipline and bureaucracy can be
 determined. Indeed, modern esthetic developments, or at
@@ -812,24 +834,23 @@ least one prominent line of them, can be seen in a new light
 once we consider them in terms of the dialectic of discipline
 and bureaucracy, and those developments can shed light on
 that dialectic. The para-science, “‘pataphysics,” invented by
-the 19
 th
- century French playwright and novelist Alfred Jarry
+the 19 century French playwright and novelist Alfred Jarry
 as “the science of imaginary solutions and the laws
-governing exceptions,” and the font of a wide range of 20
 th
+governing exceptions,” and the font of a wide range of 20
 century artistic movements, including surrealism, the Oulipo,
 
 and conceptual art, responds, I would suggest, to the
 emergence and proliferation of bureaucratic discourse and
 the normalization processes they have been bound up with
-since the 19
 th
- century. The way in which practitioners of
+since the 19 century. The way in which practitioners of
 ‘pataphysics exploit the reversibility of scientific and other
 authoritative modernizing discourses can be seen in Rene
 Daumal’s parody/extension of the scientific revolution
 introduced by quantum physics:
+
 The impartial observer of modern science will seize this
 opportunity to point out that modern science is, despite the
 unanimous belief of its friends and its enemies, an
@@ -845,6 +866,7 @@ as the sign of the existence of some matter is an irreducible
 abstract, a mathematical indetermination. What’s more,
 thanks to the Probabilities, the unintelligibility of the
 unintelligible has become intelligible. (80-1)
+
 Just as, according to Olson, capacities and virtues become
 roles and rules within systems, a pacifist can take on the role
 
@@ -860,6 +882,7 @@ disciplinary/bureaucratic discourse, deconstructing the
 bureaucratization of language by returning to their
 constitutive condition the distinctions whose primacy
 bureaucracy makes synonymous with its own authority.
+
 “The laws governing exceptions” makes sense in the light of
 the retrieval of the disciplinary out of the bureaucratic.
 Exceptions to, or anomalies of, bureaucratic rule, are the
@@ -907,6 +930,7 @@ probability is decreased due to excessive interference and
 consequent uncertainty in the variables. The difference is
 where they lie on the continuum leading from disciplinarity to
 bureaucracy.
+
 We can describe the kind of ‘pata-inquiry I am assigning to
 disciplinarity more precisely. Let’s grant that any social
 activity is rule-governed, at least tacitly. Under normal
@@ -938,16 +962,19 @@ inquiry) is interested only in the creation of the
 complementary anomaly—another disciplinary space would
 have to take on the task of resettling the field that
 ‘pataphysics unsettles.
+
 Disciplinary thinking, located on the boundary between the
 disciplinary and the bureaucratic, directs our attention,
 simultaneously, to the bureaucratic as seen by the
 disciplinary and the disciplinary as seen by the bureaucratic.
-Ta ke   t h e   fo l l o w i n g   m o c k   d e s c r i p t i o n   o f   a   P h D   t h e s i s   b y   B a r t
+Take the following mock description of a PhD thesis by Bart
 Plantenga in his novel, Spermatagonia: The Isle of Man:
+
 During the course of my PhD I began to gravitate towards
 the Muzak-like qualities of laughter, beneficial sound that
 reflects society positively, confirms its values of family, work,
 religion, freedom within the parameters of consumerism.
+
 I studied laughter’s coercive (cooptative) laughtrack
 strategies; how they trained people to laugh on certain cues
 and quips. Keep the funny bone sufficiently activated with no
@@ -959,11 +986,12 @@ that are not funny. Put a laughtrack over a documentary of
 the Nazi Death Camps and people can be made to laugh. I
 know, I did the study, which was published in the Journal of
 Mass Psychiatry, vol. 16, no. 3. Took segments of Alain
-Resnais’ Night & Fog... and added some laughtrack I lifted
+Resnais’ Night & Fog… and added some laughtrack I lifted
 from a failed sitcom. It was there, I have it on tape—
 cognitive, chuckling dissonance, man. Involuntary laughter,
 involuntary manslaughter—NOT totally opposing ideas. (12-
 13)
+
 Plantenga here brings out the inseparability of genuine
 inquiry and its bureaucratic deformation into a means of
 manipulation: laughtracks are there for a reason, and it would
@@ -998,6 +1026,7 @@ effects (the regularized relation between laughter and
 ratings) not only has the discipline of comedy been
 displaced but so, also, has the disciplinary inquiry into
 various forms of inducing laughter.
+
 We could imagine this distinction as follows: the audience
 could enter the discipline initiated by the comic by trying to
 figure out what makes a joke or routine funny, using it as a
@@ -1051,6 +1080,7 @@ notice further residues of representable desire. Bureaucracy
 seeks to eliminate that margin of error by ensuring the
 recipient fits the delivery and designing the delivery to match
 the prepared recipient.
+
 Olson, as I suggested earlier, associates the emergence of
 bureaucratic culture with the spread of literacy. Olson and
 others have done extensive work on the transformations
@@ -1060,6 +1090,7 @@ will argue, more specifically, for viewing disciplinary thinking
 as a specific form of thinking within literate modes of
 thought but also within the aporias of those modes of
 thought.
+
 Olson’s theory of writing in The World on Paper advances
 beyond the pathbreaking work of Eric Havelock and others
 by reversing the relation between syntactic writing (writing
@@ -1075,6 +1106,7 @@ inventory (so, the first syntactical writing comes when it
 becomes possible to write “3 goats” instead of “goat goat
 goat”), itself provides the model for language that writing
 proceeds to institutionalize:
+
 Once a writing system has a syntax, the emblems or tokens
 can now be seen as words rather than as emblems and the
 constructions can be seen as a proposition rather than a list.
@@ -1093,6 +1125,7 @@ and for the introspective awareness of speech as composed
 
 of grammatical constituents, namely, words. (77, emphasis
 Olson’s)
+
 While the “invention” of the declarative sentence certainly
 precedes that of writing by many millennia, it is with the
 invention of writing that the declarative sentence can be
@@ -1109,6 +1142,7 @@ becomes possible to argue about what “good” or “God”
 “really means”—it has some stable meaning, insofar as its
 permanence is evident in its written form, but it has no
 obvious or direct connection to any particular meaning.
+
 Once language can be broken down into words and
 sentences, two things happen: first, specific words and
 sentences can be preserved in an exact form, and that
@@ -1137,6 +1171,7 @@ consequences of the ability to manipulate language
 introduced by writing—to pulverize and recombine it—are
 further intensified, as McLuhan noted, in the wake of the
 printing revolution in the early modern world.
+
 I now propose processing this intellectual development
 through a distinction Michael Tomasello makes in his recent
 book, A Natural History of Human Thinking, between “joint
@@ -1160,6 +1195,7 @@ meanings independent of any instance of their use, and
 rather than simply being able to understand another’s mind
 we are able and, indeed, compelled, to conform to the edicts
 of the “objectivity” comprising a “collective intentionality.”
+
 Now, the emergence of collective intentionality certainly, like
 the declarative sentence, precedes the development of
 writing—I am arguing not for the simultaneity of these
@@ -1188,6 +1224,7 @@ everywhere, always and no one (although it’s worth noting
 that the ideal sentence is simultaneously and paradoxically
 cancelled in the Jewish name of God, since no one could in
 fact felicitously say it without claiming to be that God).
+
 The critique of Western metaphysics, shadowing it from the
 beginning, but becoming increasingly powerful over the past
 century and a half, can, then, be distilled into the following
@@ -1243,6 +1280,7 @@ the structure. The simplest way of doing that is by
 sensationalizing and demonizing any deviation while
 sentimentalizing the rediscovery of the element within its
 place.
+
 Disciplines are invariably organized around founding, quasi-
 sacred texts (this is true of even the most informal
 disciplines, including those founded upon self-help books,
@@ -1260,8 +1298,8 @@ discipline compared to some other bureaucratized mode of
 thought, and the joint attention directed at it is to preserve
 its centrality to the discipline by preventing its
 bureaucratization in turn (“one might take K to simply be
-saying... but if we look at this passage we can see that he is
-really...”). The member of the discipline resists the text’s re-
+saying… but if we look at this passage we can see that he is
+really…”). The member of the discipline resists the text’s re-
 absorption in the bureaucratic commonplaces it
 distinguishes itself from in two ways. First, by continuing the
 work of breaking up and reorganizing bureaucratic discourse
@@ -1313,6 +1351,7 @@ one’s environment, wherein there is always a new threshold
 of attention emerging in response to one’s withdrawal of
 oneself from the world of attended to objects, which is to
 say from mimetic competition:
+
 I began aligning every breath with sounds of external
 phenomena—a shout, the DINGLE-DANGLE of the passing
 ice cream truck, grumbling 18-wheelers, airplane overhead,
@@ -1321,6 +1360,7 @@ high heels. In this way my breath could hitch a furtive ride on
 other molecules of sound to ultimately dissolve in some
 greater ambience. Like my autobiography written in invisible
 ink. (90-1).
+
 Kees’ disciplined disappearance gets taken up by the same
 media systems he used to manipulate (and, in another
 period of his life, participate more directly in): “his
@@ -1341,59 +1381,82 @@ actions in one’s own actions through the transformation of
 deferred actions into signs of new scenes of possible
 actions, to the becoming a tissue of signs modeling the
 possibility of transforming any scene into a sign.
+
 Works Cited
+
 Agamben, Giorgio. The Highest Poverty: Monastic Rules and
 Form-of-Life. Translated by Adam Kotsko. Stanford
 University Press, 2013.
+
 Daumal, Rene. Pataphysical Essays. Translated by Thomas
 Vosteen. Wakefield Press, 2012.
+
 Durkheim, Emile. The Rules of Sociological Method and
 Selected Texts. Edited with an Introduction by Steven Lukes.
 Translated by W.D. Halls. The Free Press, 1982.
+
 Elias, Norbert. The Civilizing Process: Sociogenetic and
 Psychogenetic Investigations. Translated by Edmund
 Jephcott. Blackwell, 1994.
+
 Foucault, Michel. Discipline and Punish: The Birth of the
 Prison. Translated by Alan Sheridan. Vintage, 1995.
+
 Gans, Eric. Originary Thinking: Elements of Generative
 Anthropology. Standford University Press, 1993.
 
 ⸻-. The Origin of Language: A Formal Theory of
 Representation. University of California Press, 1981.
+
 Jacobs, Jane. The Economy of Cities. Random House, 1970.
+
 Jarry, Alfred. Selected Works. Edited by Roger Shattuck and
 Simon Watson Taylor. Grove Press, 1965.
+
 McLuhan, Marshall. The Gutenberg Galaxy. Signet, 1969.
+
 Olson, David. Psychological Theory and Educational Reform:
 How School Remakes Mind and Society. Cambridge
 University Press, 2003.
+
 ⸻-. The World on Paper: The Conceptual and Cognitive
 Implications of Writing and Reading. Cambridge University
 Press, 1994.
+
 Peirce, Charles Sanders. Selected Writings (Values in a
 Universe of Chance). Edited with an Introduction and Notes
 by Philip P. Weiner. Dover, 1958.
+
 Plantenga, Bart. Spermatogonia, The Isle of Man.
 Autonomedia, 2004.
+
 Polanyi, Michael. The Tacit Dimension. Doubleday & Co.,
 1967.
+
 Rieff, Philip. Charisma: The Gift of Grace, and How It Has
 Been Taken From Us. Pantheon, 2007.
 
 Sloterdijk, Peter. You Must Change Your Life. Polity, 2013.
+
 Sukenick, Ronald. Narralogues: Truth in Fiction. SUNY Press,
 2000.
-To m a s e l l o ,   M i c h a e l .  A Natural History of Human Thinking.
+
+Tomasello, Michael. A Natural History of Human Thinking.
 Harvard University Press, 2014.
+
 Veale, Tony. Exploding the Creativity Myth: The
 Computational Foundations of Linguistic Creativity.
 Bloomsbury Academic, 2012.
+
 Voegelin, Eric. Order and History (Volume 3): Plato and
 Aristotle. (Collected Works of Eric Voegelin, Volume 16.)
 University of Missouri Press, 1999.
+
 Notes
+
 1. Polanyi tells of an essay published in the Proceedings of
 the Royal Society in 1947:
+
 It described some fairly simple experiments which
 proved, in the author’s opinion, that a hydrogen atom
 impinging on a metal wire could transmit to it energies
@@ -1414,6 +1477,7 @@ some hidden factors of no great interest, but which he
 could have hardly identified at the time. He should have
 ignored his observation, for he ought to have known that
 there must be something wrong with it. (65)
+
 This intuitive sense that some claim just can’t be right
 regardless of whether or not one knows why is constitutive
 of any disciplinary space. (back)

@@ -1,14 +1,13 @@
-
-
 The Linguistic Turn and
 Generative Literacy
 Adam Katz
+
 Abstract:
+
 This essay argues that only generative anthropology can
 complete the “linguistic turn” that has dominated much of
-20
 th
- century thought. Completing the linguistic turn is
+20 century thought. Completing the linguistic turn is
 essential because the metalanguages of humanism and
 metaphysics obscure the forms of authority needed to
 ensure intelligent participation in institutions and hierarchical
@@ -22,6 +21,7 @@ and human order. Replacing metalanguages with
 “infralanguages” enables us to remain aware of ourselves as
 beings within language as a way of clarifying our reciprocal
 relations to each other.
+
 Keywords: generative anthropology; linguistic turn;
 infralanguage; metalanguage; inscription; natural semantic
 primes; metaphysics; the center
@@ -37,7 +37,8 @@ provide an adequate and therefore legitimating picture of
 what is outside of language, is generative—that is, it is
 relationships intrinsic to representational structures that
 create what we call truth, reality, nature, the good and so on.
-To   s a y   t h a t   l a n g u a g e   i s   g e n e r a t i v e   i s   t o   s a y   t h a t   t h e
+
+To say that language is generative is to say that the
 meanings of signs are to be found in their effects on other
 signs, not in reference to reality: the main question, then,
 becomes, what are the levers or mechanisms within sign
@@ -47,6 +48,7 @@ instead of trying to prove that your discourse represents
 reality better, the question is how to enter existing
 discourses in such a way as to modify and eventually
 become them.
+
 Anna Wierzbicka’s discussion of modern English in her
 Experience, Evidence and Sense: The Cultural Legacy of
 English (2010) provides us with an example of what entering
@@ -61,13 +63,14 @@ and cultural specificity of these terms, but that these are
 among the very words English speakers take to be most
 universal and commonsensical. It’s no coincidence that
 these are the words with which we take ourselves to be
-describing our access to what lies outside of language.  It
+describing our access to what lies outside of language.  It
 lies outside of Wierzbicka’s inquiry to explain how these
 words operated generatively upon the English language, but
 I would suggest that raising and answering that kind of
 question is, in the wake of the linguistic turn, central to any
 aesthetic, moral, ethical or political inquiry. It may very well
 be all such an inquiry entails.
+
 The generativity of language, at least in the post-
 structuralist forms given it by Derrida’s claim that there is no
 outside of the text or Rorty’s (1979) injunction to “keep the
@@ -91,6 +94,7 @@ the sign will be recognized as identical—indeed, we take
 such measures and construct such rules precisely because
 there is no internal essence of the sign (or some reality it
 presumably refers to) that makes it the same.
+
 There are two ways in which the identity of the sign can be
 established. One, all participants on a scene can agree that
 the sign is the same according to some agreed upon criteria
@@ -107,6 +111,7 @@ problem with relying on metalanguage, or what Drucker
 is subject to the same self-difference as the language it tries
 
 to control.
+
 Language is going to be generative even if we act as if it is
 representational—pretensions to a secure metalanguage
 really serve to guarantee a moral or political certainty that
@@ -127,6 +132,7 @@ regarding the correctness of sentences and the uses of
 words—which is to say, it is literacy that enshrines the
 declarative sentence as the primary form of language—
 metaphysics is just further elaboration on this.
+
 Insofar as we rely on notation and metalanguage, then, we
 imagine ourselves to be present on a simulated, always
 already constructed scene, with guarantees provided in
@@ -147,11 +153,12 @@ represented scene. Since the scene of writing and reading
 can be represented on that scene itself, introducing a
 difference within the scene, this elision generates anomalies
 within metalanguage.
+
 These anomalies open the intrinsically imitative and
 therefore pedagogical dimension of language use that
 metaphysical presence occludes. This pedagogical
 dimension can only be enacted “infralinguistically,” to use
-Bruno Latour’s (2007: 49) term.  In place of the hierarchy
+Bruno Latour’s (2007: 49) term.  In place of the hierarchy
 between language and metalanguage we have the
 performance of the difference of the metalinguistically
 guaranteed sign through its representation until its event
@@ -173,6 +180,7 @@ the way new media have changed our understanding of
 address to his fellow political scientists, or whomever he
 takes his public to be, enacting the kind of pluralism his
 argument claims to be possible or necessary?
+
 I have been implicitly suggesting an infralinguistic strategy or
 vocation for GA, whereby we speak and write in “originary”
 and “generative” English (or any other language). The basic
@@ -189,6 +197,7 @@ that literacy is itself a second revelation, broadly parallel to
 the emergence of the Big Man—the revelation here being, as
 I pointed out before, the autonomy of the declarative
 sentence.
+
 We can make further use of Olson to get a sense of what the
 implications of bringing this revelation to the fore as part of
 the linguistic turn might be. Olson (2016) points out that the
@@ -207,6 +216,7 @@ This allows for another innovation of literacy: the distinction
 between the meaning of an utterance, and the speaker’s
 meaning—we can now represent all kinds of ways in which
 the two can be at odds.
+
 These verbs then get nominalized and we get new entities,
 like “assumptions,” and whole new disciplines organized so
 as to study them. All the human sciences are derived from
@@ -222,6 +232,7 @@ ourselves, within GA, are also thoroughly immersed in the
 metalanguage of literacy—the difference is, we can know it,
 and know why, and propose new disciplinary articulations
 that show such words to be scene- and event-dependent.
+
 Working “inscriptively,” then, would involve accepting that
 writing is scenic itself, rather than an attempt to construct a
 universally shared and permanent speech scene. There is no
@@ -253,6 +264,7 @@ obvious instances, even seeming counter-instances, in
 terms of these concepts—for example, noting the
 infralinguistic dimension inseparable from the most
 rigorously applied metalanguage.
+
 Insofar as we have a new center, we want to derive all
 meaning from that center or, what comes to the same thing,
 that center calls upon us to affirm or name the world in its
@@ -267,6 +279,7 @@ the subsequent scenes. Words that bear with them histories
 distributed across self-referential networks are going to be
 
 more generative.
+
 Metalinguistic terms resist operationalization—what, exactly,
 are we doing when we “assume” something? Are we always
 assuming what we assume? If not, what’s the difference
@@ -274,6 +287,7 @@ between when we’re assuming and when we’re not? The
 later Wittgenstein was fascinated and perhaps appalled by
 the evanescence of the “referents” of such meta-linguistic
 terms.[2]
+
 It is precisely such terms we can operationalize
 infralinguistically. If we make a study of “assumptions,” it is
 not to define and categorize them or to leverage “hidden”
@@ -284,6 +298,7 @@ imagine “assumptionless” linguistic performances; or
 performances that are all assumptions, right there on the
 surface. The purpose here being to show that such
 imagining would require new forms of joint attention.
+
 If language is the deferral of violence, the only thing we are
 ever talking about is how we are going about deferring
 violence. Forms of language that can be moved across
@@ -299,6 +314,7 @@ doing is helping them to know this. This knowledge must lie
 in their own discourses, their own vocabulary—if they are
 going to speak GA with us they would first have to see that
 their own discourse is always already GA.
+
 We’re all always and only talking about how we are deferring
 violence, but if we don’t all always know this it is because the
 sign can only refer to a single center, not centeredness in
@@ -313,6 +329,7 @@ sample, a possible center. Our interest in that possible
 utterance, or sample, then, is in how it can be iterated and
 disseminated in ways that would make more explicit our
 talking about the way we are deferring violence.
+
 It is this practice of sampling, taking pieces of language and
 pointing them at new centers, that makes language
 generative, memorable and effective. The linguistic turn
@@ -349,6 +366,7 @@ obfuscates the problem of central authority which, within the
 market model, can at best be seen as an instrument of
 marketization but is as likely to be seen as an obstacle to be
 weakened.
+
 I see the “state centralization” model as more plausible than
 the “market” model, because the state centralization model
 can account for market relations (a central authority can
@@ -357,7 +375,7 @@ case: if the world is becoming increasingly marketized, why
 the massive growth of the state? Now, the relevance of this
 question to the “completion of the linguistic turn” is as
 follows. A completely marketized order is, as Eric Gans has
-pointed out, an “omnicentric” one.[3]  In that case, one’s
+pointed out, an “omnicentric” one.[3]  In that case, one’s
 response to the emergence of new resentments or conflicts
 is to seek or create new centers. But any new center must
 draw upon the resources and authority of some existing
@@ -385,6 +403,7 @@ That desires and resentments are constitutively socially
 leveraged can never be acknowledged by the market model.
 And this means that metalinguistic assertions of humanistic
 essentialism cannot be set aside.
+
 Within the state centralization or, we could now say,
 “unicentric,” model, we are committed to fully embedding
 desires and resentments in their enacted and articulated
@@ -405,6 +424,7 @@ need for metalanguage because authority is completely
 infralinguistic: the exercise of authority produces the frame
 within which all the references point back to the form of
 authority.
+
 Omnicentrism, like metaphysics, must put the declarative
 form first, because the assertion of a spontaneously
 generated center must first of all repudiate some command
@@ -445,33 +465,45 @@ violence by registering the violent effects of those attempts;
 teaching writing courses as studies in the discipline of
 composition—to suggest a few examples as food for
 thought.
+
 Works Cited
+
 Buchler, Julius. Philosophical Writings of Peirce. Dover, 1955.
+
 Drucker, Johanna. What Is?: Nine Epistemological Essays.
 Cuneiform Press, 2013.
-Gans, Eric.  Originary Thinking: Elements of Generative
-Anthropology.  Stanford University Press, 1993.
+
+Gans, Eric.  Originary Thinking: Elements of Generative
+Anthropology.  Stanford University Press, 1993.
 
 Latour, Bruno. Reassembling the Social: An Introduction to
 Actor-Network Theory. Oxford University Press, 2007.
+
 Olson, David. The Mind on Paper: Reading, Consciousness
-and Rationality. Cambridge University Press, 2016.
+and Rationality. Cambridge University Press, 2016.
+
 ⸻-. The World On Paper: The Conceptual and Cognitive
 Implications of Writing and Reading. Cambridge University
 Press, 1994.
-Thomas, Francis Noël and Mark Turner.  Clear and Simple as
+
+Thomas, Francis Noël and Mark Turner.  Clear and Simple as
 the Truth: Writing Classic Prose. Princeton University Press,
 2011.
+
 Wierzbicka, Anna. Experience, Evidence, & Sense: The
 Hidden Cultural Legacy of English. Oxford University Press,
 2010.
+
 Wittgenstein, Ludwig. Philosophical Investigations.
 Translated by G.E.M. Anscombe. Basil Blackwell, 1958.
+
 Notes
+
 [1] Wierzbicka traces the specifically English notion of
 “experience” as a word referring to a process involving
 observation, self-observation and present feeling
 overwhelmingly to Locke’s usage:
+
 The double prototype—Locke’s ‘see and feel’—ensures that,
 
 while Locke’s conception of experience was not
@@ -485,15 +517,18 @@ terminological and conceptual equation between two
 varieties of knowledge—that based on the thought ‘this is
 happening to me now’ and that based on the thought ‘this is
 happening here now.’
+
 When one compares Locke’s model of experience with that
 analyzed in section 2.3, one is struck, above all, by the
 similarities: Clearly the conception reflected in modern
 phrases like a frightening experience or a weird experience
 was built on the foundation of Lockean epistemology (53).
+
 Wierzbicka does add that “there are noticeable differences
 between the two models,” but those are differences that
 presuppose that “foundation.”
-To   t a ke   a n o t h e r   e x a m p l e ,   W i e r z b i c k a   a t t r i b u t e s   t o   Lo c ke
+
+To take another example, Wierzbicka attributes to Locke
 considerable influence in shifting the meaning of “evidence”
 from those truths which are undeniable (“evident”) to the
 one calling for epistemic care and modesty: “But although
@@ -505,6 +540,7 @@ absolute as that previously linked with faith, ‘mathematical
 certainty,’ or, indeed, an ‘ocular proof’: as Locke put it,
 ‘certainty and demonstration, are things we must not, in
 these matters, pretend to.
+
 Locke’s views on these matters were no doubt symptomatic
 of a wider mood of the British Enlightenment, and above all,
 they were themselves hugely influential: it is widely
@@ -512,6 +548,7 @@ acknowledged that epistemic caution and modesty
 preached by Locke had an enormous impact on his
 contemporaries and on many subsequent generations of his
 readers (146).
+
 [2] To take just one out of many possible examples in his
 Philosophical Investigations, we might look at his brief
 discussion in sections 101-105 of the “ideal” that “there
@@ -530,4 +567,5 @@ literate beings, we have constructed a logic out of “actual
 language,” projected that logic onto that language, and then
 find the language less “real” because the grammar doesn’t
 seem to be “there.”
+
 [3] See, for example, Originary Thinking, 219.

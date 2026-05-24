@@ -1,5 +1,3 @@
-
-
 Event, Origin, Center
 Let’s start with “journalism.” You watch a cable or news
 show, or read (probably online) an article in a newspaper,
@@ -23,13 +21,14 @@ or the serving of what is ultimately a state function) or as
 state-like itself (as issuing its own executive orders, making
 policy changes, as its charter and state law authorizes it to
 do).
+
 This raises the question of how the news media ever
 becomes something other than a stenographer,
 
 broadcasting the actions and decisions of government and
 its auxiliaries. It is the licitness spectrum that makes this
 possible: a government organ, or political party (or
-corporate, or...) decision or action might be illegal, or
+corporate, or…) decision or action might be illegal, or
 improperly arrived at or carried out, or can lead to
 consequences unanticipated by the initial act or decision. In
 other words, what is of interest is some kind of discrepancy.
@@ -47,8 +46,9 @@ subordinates, perhaps); and to say that an act or decision
 was a mistake or disaster is also to indicate and incite certain
 kinds of later, ultimately official assessments of and
 reactions to those decisions.
+
 But how does an actor within the news media know and
-come to report that an act or decision of government (or...) is
+come to report that an act or decision of government (or…) is
 illegal, improper or incorrect? Only by having access to
 actors within, but to at least some extent at odds with, the
 governing decision maker, is this possible. This might be a
@@ -77,6 +77,7 @@ where the news media acts as a “praetorian guard” for a
 particular administration, that just means that the state
 factions whose influence they amplify are behind that
 administration as well.
+
 This further means, though, that the news media are still
 stenographers, only of specific factions within institutions.
 
@@ -102,6 +103,7 @@ spending, or public health policy, or labor policy, needs to be
 directed one way or another. Needless to say, it is always
 possible for a bureaucratic faction to select and promote one
 study over others.
+
 In a sense, the analysis is still not significantly different if we
 bring in what seem to be the most powerful global forces,
 the giant corporations operating according to the logic of
@@ -123,6 +125,7 @@ its rivals in its own field—all of which, again, has to pass
 through the state bureaucracy and its competing factions
 because capital cannot imagine operating outside of law,
 official currency, and the policing power of the state.
+
 None of this, of course, says anything about the quality of
 any of these acts or decisions—one study can be better than
 another (although what that means cannot be determined
@@ -154,6 +157,7 @@ institutional-power relationship outlined above without losing
 your ability to make moral distinctions—a re-orientation
 which the notion of the “red pill” describes as well as any
 readily imaginable alternative.
+
 My purpose in conducting this little analysis here is to bring
 into focus an observation and, then, a question: first, the
 very operation of all the institutions of information
@@ -179,6 +183,7 @@ factions must always be opposed to any consolidation of
 power at the center that would make transitions of power
 less disruptive—or, we might say, less suggestive of new
 opportunities.
+
 So, a new question: how did the occupation of central
 authority become programmatically insecure? But let’s step
 back a bit: why is there someone at the center in the first
@@ -202,6 +207,7 @@ the Stack has simply created a new field for the central
 authorities (in their global competitions and hierarchies) and
 their adjutant institutions to play exactly the same game
 they’ve been playing all along.
+
 It’s impossible to report something without giving it an event
 structure—that is, a basic beginning-middle-end narrative
 structure. It’s also impossible to report something without
@@ -229,6 +235,7 @@ even one with the most absolute or emergency powers, are
 “peripheral” or off center insofar as they refer back to the
 authority vested in that figure prior to and enabling this
 particular act.
+
 So, all of humanity is made up of peripheral events. Why
 should this be the case? I would work with what I take to be a
 strong definition of “event”: something that happens and
@@ -265,14 +272,15 @@ closure in mind. Otherwise, you would have no way of
 knowing what counts as a “part.” “Analyzing” the event is
 just another way of imposing closure upon it—you have to
 take as given what you purport to produce.
-To   h a v e   e v e n t s ,   t o   p a r t i c i p a t e   i n   e v e n t s ,   i s   t o   b e   h u m a n .   Ye s ,
+
+To have events, to participate in events, is to be human. Yes,
 nothing in nature happens exactly the same way two times.
 But nothing happens in nature, either. For whom would
 
 things happen, other than people? There’s no escaping
 anthropocentrism—those most intent on denouncing and
 transcending anthropocentrism have coined the term
-“A n t h r o p o c e n e ”   fo r   t h e   c u r r e n t   p e r i o d   i n   e a r t h   h i s t o r y,   w h i c h
+“Anthropocene” for the current period in earth history, which
 suggests that we need to transcend anthropocentrism
 because it has drawn the entire earth and its environment
 into its deathly vortex. It’s hard to get more anthropocentric
@@ -283,6 +291,7 @@ intellectually productive to do so, but this will always involve
 re-constituting the irreducibility of the human as constitutive
 of those boundaries. So, we come back to the question: why
 is the human constituted through the event?
+
 The simplest answer is that the human emerged in an event.
 This seems theological, and so virtually all “serious” thinkers
 flee from it, but until the threshold of the human can be
@@ -306,6 +315,7 @@ stipulating the transferability of the sign but, of course, as
 Rousseau already pointed out, there seems to be no way of
 imagining arriving at such an agreement other than through
 the use of language itself. But there is a way.
+
 The best way of hypothesizing the origin of language (and
 the human) has turned out to be through considering the
 logic of imitation. This is paradoxical, because imitation
@@ -333,6 +343,7 @@ blocks thinking about imitation in an originary direction. It’s
 only when external forms of mediation collapses that we can
 think imitation in originary terms, which at first merely
 radicalizes the crisis.
+
 Still, we must have come out of our mimetic crises somehow
 —after all, we’re still here. Mimetic crisis represents the
 destruction of community—but that also means that the key
@@ -357,6 +368,7 @@ work made the inquiry inescapable, and provided it with its
 problematic. Something about violence toward an object of
 mediation must lie at the conversion of mimesis from
 community destroying to community creating.
+
 Right now, we really have two ways of thinking about the
 conversion of the mimetic crisis into an origin. Fortunately,
 they are both very good ways, even if one is, on the crucial
@@ -375,7 +387,7 @@ community. He is simultaneously villain and savior—in this
 duality, Girard locates the origin of mythology. And the
 duplicity of mythology, since the responsibility of the
 community for the murder of the savior must be disavowed.
-Ta ke   t h e   m y t h   o f   P r o m e t h e u s ,   w h o   s a v e d   a n d   o r i g i n a t e d
+Take the myth of Prometheus, who saved and originated
 
 humanity by providing it with tools, knowledge and fire, and
 was punished severely for it—not by “us,” of course—
@@ -385,6 +397,7 @@ likely in some innovation, the sacred order of the community,
 and his gifts can only be received and enjoyed insofar as the
 lynching he suffered as a result can be denied, and thereby
 ritually retrieved.
+
 This account would already let us see why there must be a
 center, and why the center can’t quite be “human,” even
 when it is occupied by one. If someone sees his fellow desire
@@ -411,6 +424,7 @@ desire, in which case it is the shared consumption, and then
 unanimously acknowledged locus of absence, of the initial
 object of desire, that makes the center the foundation of the
 community.
+
 Before I proceed, I’d like to ask a question: where are we
 here? Within what discipline? It’s definitely not philosophy;
 indeed, my sense of the incommensurability of mimetic
@@ -447,6 +461,7 @@ Regardless, it is an imperious, intellectually ravenous, and
 therefore “imperialist” mode of thought. It takes its
 incommensurability with all hitherto existing thought as a
 challenge.
+
 Here’s the limit of Girard’s hypothesis: there’s no reason why
 some animal group, even an exceptionally intelligent one,
 should view ganging up on and killing one of its members as
@@ -470,6 +485,7 @@ can add that the issuance of a gesture after the crisis has
 already been resolved is less likely than a sign when the
 crisis is at its height, and therefore most urgently needs to
 be abated—that would make it effective and memorable.
+
 If it’s more likely that violence was averted before, rather
 than commemorated after, the fact, then there’s also no
 need to assume a human victim at the center. Gans slices
@@ -502,6 +518,7 @@ be imitated. It is a sign of deferral, and allows everyone to
 formally acknowledge a new order, enabling them to
 proceed to an orderly, shared consumption of the central
 object.
+
 Gans and others, very much including myself, have
 reiterated this originary hypothesis many, many times, and
 so I try to do it differently on each occasion, so as to make it
@@ -546,6 +563,7 @@ that would have lead the first to hesitate and others to
 imitate him and thereby generate secondary hypotheses but
 without ever getting “inside” the scene sufficiently to cancel
 its revelatory nature as an event.
+
 The origin of language, representation as the deferral of
 violence, the human as that species that poses a greater
 danger to itself than is presented to it by anything external:
@@ -579,7 +597,8 @@ difference. If the first one to issue what will have become the
 sign once others imitate him is, in fact, imitated, then the
 central object, which is let be for the moment, becomes
 other, and everyone becomes other to each other through it.
-To   a c t ,   t o   d o   s o m e t h i n g ,   i s ,   t h e n ,   t o   p r o d u c e   o r   p r e s e n t
+
+To act, to do something, is, then, to produce or present
 some other that defers the crisis of sameness. We would be
 satisfied with nothing less than an impossible degree of
 sameness without the imposition of this other. This means
@@ -601,6 +620,7 @@ from the center. As Gans has put it, the first sign is the
 Name-of-God, and the center is sacred. The center is other,
 and in being the same in relation to it we are other to each
 other. The problem of “what to do” is to listen to the center.
+
 So, what does that mean? How do we tell whether we or
 another are listening more or less closely to the center? We
 are always already listening to the center, insofar as there is
@@ -632,7 +652,7 @@ responses aggravates the crisis of sameness, the center
 needs to be restored, and this means one has to “read the
 room,” and reading the room means imagining a new
 configuration that would make us other to each other again.
-Yo u   a re ,  o f   c o u rs e ,  i n   t h e   ro o m   yo u   a re   re a d i n g ,  a n d   s o
+You are, of course, in the room you are reading, and so
 reading the room involves getting a read on others reading of
 you, especially if you are ahead of the game in determining
 the crisis, in which case your moves in “sensing” and eliciting
@@ -641,6 +661,7 @@ others take in your movements. Listening to the center
 entails reorganizing the field on which you all move by
 following the way others follow you as you defer the onset of
 terminal sameness or, we could say, entropy.
+
 History, then, is the history of the center, and, in fact, we
 have something we can call “history” because it is possible
 for a human being to occupy the center. A human will occupy
@@ -664,6 +685,7 @@ will likely blame the well meaning mediator (was he, really,
 well meaning?). How we manage our relations with—listen to
 —the humans we put at the center is the heart of all our
 morality, ethics and politics.
+
 We have all had the experience of being angry toward
 someone while simultaneously realizing that there is some
 “disproportion” between our anger and the actions and
@@ -705,6 +727,7 @@ altered circumstances. You can feel that you are protecting
 
 the center here by eliminating this usurper of the center, who
 has abused the privilege of being placed at the center.
+
 We can see that in this scenario the other is kept at the
 center and the “agent” displaces his own centeredness,
 claiming to act only in the name of another center
@@ -759,6 +782,7 @@ can really never be anything more than the coincidence of
 power and responsibility in the one delegated to settle the
 
 dispute.
+
 It’s very hard to imagine everyone, in any setting, having
 exactly equal power and therefore exactly equal
 responsibility—it’s even harder to imagine, albeit a bit easier
@@ -792,6 +816,7 @@ right level of generality (that is, without specifying the
 obligatory form of sacrality, form of government, and so on):
 from each according to his abilities, to each according to his
 needs.
+
 This slogan was made famous by Marx’s Critique of the
 Gotha Program, so it is easy to attribute to it an ultra-
 egalitarian, oikophobic altruistic meaning. If looked at
@@ -817,6 +842,7 @@ whether industrial, educational, artistic, scientific, or
 anything else—is it maximizing the meeting of needs and the
 exercise of abilities, both in itself and in its contribution to
 the entire order.
+
 So, the demand we can make on the occupant of the social
 center is that power and responsibility be matched in that
 person, who really just stands at the apex of gradations of
@@ -876,6 +902,7 @@ center, and we can all leverage our own “orbiting” centers so
 as to make the social center continue and ever more closely
 approach serving as the source of the articulation of power
 and responsibility, needs and abilities.
+
 There is obviously no clear path from the social order we live
 in to the kind I’m describing. But we can start to see a path
 by minimizing what seem like massive, insurmountable,
@@ -904,6 +931,7 @@ stance (one could also construct the implicit scenario,
 however unlikely, by which a chain of command from the
 occupant of the center to circle protecting the speaker and
 expelling his enemies would materialize).
+
 Also, however fake, there are institutions in which are located
 levers of power, even if in some cases just the power to shut
 the institution down. You can want to do nothing, but you
@@ -945,6 +973,7 @@ of the center is indeed fake, the commands it issues will,
 indeed, be wildly contradictory and impossible to follow
 consistently. All you’re asking for is commands you can
 actually obey.
+
 The flip side of adopting the posture of the infiltrator is
 making yourself uninfiltratable. I’m talking about educating
 
@@ -971,6 +1000,7 @@ into the kind of people who only care about where the real
 levers of power are, and how they operate, and how all the
 smaller interlocking levers fit in. It will always be possible to
 find some way of speaking legitimately about the system.
+
 Along with the whole array of institutions, there will continue
 to be the system of planetary-scale computation, which will
 endure any but the most extreme social breakdown, but at
@@ -1007,6 +1037,7 @@ process data using models. But let’s be human enough to
 enter into the automated cognitive process of the algorithms
 and ask, what does the algorithmic order “want”? I think the
 answer would be “more, and better curated, data.”
+
 We want cities to be safer, people to be healthier, children to
 be more intelligent, air and water to be cleaner, and so on,
 while recognizing there will always be more than one way to
@@ -1046,6 +1077,7 @@ synthesis, albeit imperfect, of all the intentions input to the
 system so as to produce coherent shared intentions. This
 was as true of the earliest sacrificial scenes as it is of today’s
 computerized world.
+
 So, planetary computation is to be delinked from liberalism.
 That, then, is the goal of the infiltration: to feed data
 indigestible to the churnings of algorithmic alimentary

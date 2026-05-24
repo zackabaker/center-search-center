@@ -1,5 +1,3 @@
-
-
 Originary Technics
 A paradoxical effect of the spread of writing was to produce
 a conception of the self as constituted by an inviolable
@@ -20,6 +18,7 @@ so often takes on the form of utopian projections predicated
 upon humans finally attaining absolute mastery over the
 machine world or dystopian nightmares in which the
 technology comes to master us.
+
 There is a tradition of more sophisticated thinking about
 technology, including thinkers like Lewis Mumford, Gilbert
 Simondon, and Bernard Stiegler, which sees humans and
@@ -73,6 +72,7 @@ beyond the physical presence of both parties to the speech
 act and can therefore be delayed and transformed: the two
 parties must already "understand" each other in order to
 ascertain whether the imperative has in fact been obeyed.
+
 This understanding must come before the issuance of an
 imperative, which means that the first speech act must
 institute this understanding—that is, it must be reciprocal
@@ -99,6 +99,7 @@ we use to alert others to an emergency situation—"fire!";
 "man overboard!"—and you get the idea. Before anything
 can be done or examined, our attention must first of all be
 fixed on this thing.
+
 In the sequence of the emergence of the speech forms, as
 hypothesized by Gans, the imperative follows the ostensive.
 In that case, we might say that technology, insofar as we
@@ -226,6 +227,7 @@ regimented manner as well as the demand to produce those
 who can make and use knives. With the ever expanding
 design of the scene, the designers are themselves designed
 in such a way as to sustain the system of design.
+
 For imperatives to be issued from a higher level within the
 social order there needs to first be a higher level of the social
 order. This can only be the case once the ritual center is
@@ -257,6 +259,7 @@ is governance. Within any technological order, the machines
 will be modeled on and complement the activities of human
 collectives, while human collectives will be modeled on
 actual or possible machinic articulations.
+
 My hypothesis here, then, is that the bursting of technology
 beyond the bounds of ritual that we have seen since, say, the
 Renaissance, can still be described as scenic design without
@@ -283,6 +286,7 @@ would compel a single activity from each subsequent or
 simultaneous operator all the way down to the end user.
 These single activities might be quite complex and require a
 high level of skill, discipline and concentration to complete.
+
 But if there is no more ritual center, on whose behalf, in what
 system of exchange, is all this frenzied building taking place?
 The answer is simple: on behalf of that which replaced the
@@ -302,7 +306,7 @@ deliberating agent) according to some vaguely specified but
 likely residually sacrificial mode of morality. How do we even
 say whether a particular technological development is
 "good" or "bad," "harmful" or "helpful," or a bit of both?
-To d a y   w e   s e e   d i s p u t e s   o v e r   w h e t h e r   t h i s   o r   t h a t   i n n o v a t i o n   i s
+Today we see disputes over whether this or that innovation is
 even "real." Rather than reiterating the demand (issued by
 and to whom, exactly?) to make "technology" conform to
 this or that externally established standard, we would do
@@ -311,6 +315,7 @@ perfection of the imperative within the framework of
 technology as a form of governance within which we are all
 always already designed and designers, albeit in ways that
 are highly differentiated and asymmetrical.
+
 I would begin with the simple question of how one knows
 one has done something. If you paint your house, but it rains
 immediately after and washes all the paint away, you haven't
@@ -357,6 +362,7 @@ recognition and acceptance, even participation in practices
 of succession—all that is part of the practice, however
 important it might be to explicitly thematize one element or
 another.
+
 This understanding of practice implies a particular kind of
 social order, one in which precisely this kind of continuity is
 staged from the top down, so that a central and particularly
@@ -396,12 +402,13 @@ practices. The sacred is rerouted to the significant—doing
 things that mean something in the sense that someone
 could follow up on them in ways that you would recognize as
 a follow up—which it was always conjoined with anyway.
+
 There is nothing utopian in this social logic because it also
 describes what everyone is already trying to do, even if it
 tends to be most explicit in families where parents want their
 children to grow up to be more or less better versions of
 what the parents imagine they'd be growing up to become
-under those conditions, and to have children who in turn...
+under those conditions, and to have children who in turn…
 Political leaders, in proportion to their strength as leaders,
 select and promote successors who will continue their
 agenda; any conscientious worker in any industry

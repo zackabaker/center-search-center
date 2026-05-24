@@ -1,20 +1,16 @@
-
-
-
-
 The Origin of Language
+
 A New Edition
+
 Eric Gans
 
 Introduction by Adam Katz
- 
- 
+
 Spuyten Duyvil
 
- 
 Editor’s Introduction:
 The Origin of Language and the Anthropological Imagination
- 
+
 Foreword
 Chapter 1: Introduction
 Chapter 2: The Linguistic Dialectic
@@ -32,14 +28,13 @@ Chapter 13: Negation as Predication: The Origin of the Declarative
 Chapter 14: The Declarative Model
 Chapter 15: The Esthetics of Linguistic Forms
 Conclusion
- 
+
 GA Bibliography
 About the Author
 Copyright Information
- 
 
- 
 Introduction:
+
 The Origin of Language
 and the Anthropological Imagination In this new edition
 of The Origin of Language, originally published in 1981, Eric Gans
@@ -49,6 +44,7 @@ declarative sentence. In doing so, he shows how the earliest human group
 would have gone from using a single, “ostensive” sign, to a variety of
 ostensive signs, to the use of imperatives and then, finally, the declarative
 sentence.
+
 It is astonishing that no one had ever considered the necessity of doing
 something like this, much less attempted it, because how else could one
 have imagined that humans would have gone from no language at all to
@@ -210,8 +206,8 @@ also substitutes for things. Sacrifice and the prohibitions associated
 with it would have created communal peace for early hominid groups
 and a safe space for mothers and their babies in particular.
 The victimising process was therefore the missing link between
-the  animal and  human worlds  that  explains the  humanisation of
-primates, and  hunting and  the  domestication of  animals were  also
+the animal and human worlds that explains the humanisation of
+primates, and hunting and the domestication of animals were also
 motivated by the need for a stock of sacrificial victims. Scape-goating
 and sacrifice are the basis of all ritual and archaic religion generally,
 and archaic religion is the basis of all political and cultural institutions.
@@ -232,7 +228,7 @@ point of mentioning Girard’s claim that “experimental proof” cannot be
 expected with regard to a hypothesis of origin, but we must rely on its
 “great explanatory power” (evidence of which it already seems Hallpike
 does not believe can be forthcoming). Hallpike continues:
-Girard’s  belief  that  scape-goating could  have  been  the  source of
+Girard’s belief that scape-goating could have been the source of
 language because it involves the substitution of the arbitrarily chosen
 victim faces two major problems, the first of which is a simple matter
 of evidence, or rather the lack of it. We simply know nothing about the
@@ -242,17 +238,17 @@ might have been either, and attempts to do so are pure speculation.
 Indeed, we actually have no direct evidence for when grammatical
 language emerged. By ‘grammatical’ I mean, for example, predication
 – the ability to say that something or someone has certain qualities;
-distinguishing between acting on  and  being  acted  upon;  questions;
-negation, and  referring to  past  and  future. This  raises  the  second
-problem, which is  that  it  is  hard  to  see  how  any  symbolic culture
+distinguishing between acting on and being acted upon; questions;
+negation, and referring to past and future. This raises the second
+problem, which is that it is hard to see how any symbolic culture
 would be possible at all without language. This is because the relation
 between a symbol and what it stands for, while drawn from nature, is
 not a representation of it. For example, among the Konso of Ethiopia,
 white is an inauspicious colour, but without language how could a
 group of people decide that white rather than black or some other
 colour should be regarded as inauspicious? (Indeed, how could the
-very  idea  of  ‘inauspicious’  come  to  be  understood by  a  group  of
-people without language?) In  fact,  the  Konso regard white as
+very idea of ‘inauspicious’ come to be understood by a group of
+people without language?) In fact, the Konso regard white as
 inauspicious because it is the colour of bone, of death, therefore, and
 also the colour of cotton, which ripens during the hottest and driest
 part of the year. Black, on the other hand, is the colour of the life-
@@ -309,37 +305,37 @@ determined to bar the way to any inquiry into the transformation of the
 understand the constitution of the human, but only observe all the different
 things beings we know to be human do.
 To continue:
- 
+
 We can now move on to his general theory of imitation or mimesis.
 There is no doubt that human culture could not exist without imitation,
 notably by children imitating their parents and other adults. We all
 have a natural tendency to imitate our peers as well, and important
 people or classes also have a very powerful influence on fashions of
 all kinds. The overall effect of imitation is therefore to create social
-solidarity so  it  seems very  strange, even  perverse, that  Girard
+solidarity so it seems very strange, even perverse, that Girard
 considers it the principal basis of conflict. A fundamental weakness in
 his theory is that he assumes as the typical example of mimesis that
 only one object is available to be desired by the model, so that he and
 the imitator then inevitably come into competition over it, like the two
 children in the earlier example. But in fact this must be very rare, and
-what  is  far  more  typical is  imitation of  something that  is  readily
+what is far more typical is imitation of something that is readily
 reproduced and plentiful, such as a form of dress like a New Guinea
 penis-sheath, or some form of bodily decoration. We may imagine a
 prominent hunter who puts a streak of red ochre down his nose which
 is then imitated by all the other hunters in the band. Since there is
-plenty of  red  ochre  to  go  around,  how  could  this  act  of  mimesis
+plenty of red ochre to go around, how could this act of mimesis
 possibly bring about conflict? The obvious outcome is far more likely
 to be solidarity – the group now has its own emblem to distinguish
 itself from others.
-This  example also  reminds us  that  imitation by  itself  is  quite
-unable to  explain culture, because  someone has  first  to  create  or
+This example also reminds us that imitation by itself is quite
+unable to explain culture, because someone has first to create or
 discover the desirable things that are imitated. The hunter who first put
 the red stripe down his nose, the child who first noticed the interesting
 toy, and the man who carved the Lion Man statue were all creators, not
 
 imitators. Societies, too, potentially have a wide range of traits which
 can be imitated, and this means that people must choose in some way
-between these  possibilities. Here  again, mimesis is  not  enough to
+between these possibilities. Here again, mimesis is not enough to
 explain the facts. (4-5)
 In addition to imitation, there is creation and/or discovery—after all,
 there has to be something to be imitated in the first place. Mimetic theory
@@ -551,16 +547,16 @@ point along the way, Gans’s analysis follows the implication of the newly
 emergent speech form for the evolving structure of language as an
 increasingly flexible cultural form. For example, he points out that by
 attributing to the imperative “nascent grammaticality”
- 
+
 the situation of the imperative on the grammatical scale between the
 ostensive and the declarative follows immediately. The ostensive is
-meaningless in  the  absence of  its  referent; the  declarative can  do
+meaningless in the absence of its referent; the declarative can do
 without a real-world referent. The imperative operates in the absence
 of its object-nominal or -verbal, but can be satisfied only upon the
 object’s being made present. The declarative stands at the end of the
 scale of grammaticality as the telos of linguistic evolution, after which
 no substantial progress is possible. This explains, if it does not excuse,
-the  grammarians’  inclination to  treat  all  other  forms  as  imperfect
+the grammarians’ inclination to treat all other forms as imperfect
 declaratives irrespective of their evolutionary status. (49)
 Gans consistently points out the ways in which the completed and
 “obvious” nature of our grammar gets in the way of imagining that
@@ -572,15 +568,15 @@ any need of such a referent, the strong plausibility of the imperative having
 come between the ostensive and the declarative is established. Gans then
 points out the effects of this development upon grammar:
 As we have noted, the ostensive makes no formal distinction between
-verbals and  nominals; because verbality proper is  a  quality of
+verbals and nominals; because verbality proper is a quality of
 predicates, the very term “verbal” is at this stage an anachronism. . .
-Yet  the  fact  that  in  mature languages the  imperative is  always
+Yet the fact that in mature languages the imperative is always
 considered to be a form of the verb, and that nominal imperatives like
 “Scalpel!” are categorized, if at all, as elliptical forms of the verbal
 imperative (“[give me the] scalpel!”), cannot simply be attributed to
-the  perversity of  grammarians.  What  it  demonstrates is  that  by
+the perversity of grammarians. What it demonstrates is that by
 subordinating the appearance of the desired object to the action of the
-interlocutor,  the  imperative has  already taken  a  major  step  in  the
+interlocutor, the imperative has already taken a major step in the
 direction of predication. (49)
 So, we go from an absence of formal distinctions to the preliminary
 form of such a distinction. Again, Gans points out how these distinctions
@@ -594,7 +590,7 @@ of the ostensive:
 The scene of representation, once established in the originary event,
 can be recreated between any two members of the community, because
 once the protection of nonviolent presence vested in the sacred object
-is  deemed to  extend over  nonritual communication within the
+is deemed to extend over nonritual communication within the
 community, the size of the group involved would be unimportant. In
 the originary event that gives birth to human desire, the individual
 desires of the participants for the sacred object cannot be satisfied; the
@@ -606,13 +602,13 @@ significance.
 Thus the imperative is a more “secular” mode than the ostensive,
 one more oriented to the practical world. Its existence alongside the
 ostensive allows for continued dialogue—for example, the surgeon’s
-conversation with  the  assistant who  passes him  the  requested
+conversation with the assistant who passes him the requested
 instruments: “Scalpel!” – “Scalpel!” “Forceps!” – “Forceps!” and so
 on. This was not possible with the ostensive, which outside the ritual
 context is rather a means for revealing an unexpected presence than for
-facilitating continued action. It  is  indeed difficult  to  imagine a
+facilitating continued action. It is indeed difficult to imagine a
 cooperative work situation without the imperative, the use of which
-would tend  to  contribute to  the  lexical categorizing of  necessary
+would tend to contribute to the lexical categorizing of necessary
 implements and therefore to their distinctly cultural quality as tools.
 (51-2)
 The ostensive form creates and is created by community, and does so
@@ -638,21 +634,21 @@ wholly absent in the collective and present ostensive, are fully developed in
 the declarative, and emergent in the imperative:
 We have seen that the temporality of the imperative, that is, its tense,
 is the prolongation of the linguistic scene in awaiting. The time of
-awaiting is  both  real,  lived  time  standing outside the  scene stricto
+awaiting is both real, lived time standing outside the scene stricto
 sensu and a prolongation of the presence intended by the utterance.
 
 Thus the imperative includes within itself a model of a time other than
-that  of  its  moment  of  utterance. We  should contrast this  with  the
+that of its moment of utterance. We should contrast this with the
 simple identity of linguistic and real time in the ostensive, where the
 time of linguistic presence remains, as in the originary event, merely
-the  time  of  deferral  of  action while  attending to  the  speaker.  The
+the time of deferral of action while attending to the speaker. The
 ostensive model has no temporal dimension; the word and its referent
-coexist in  the  same  suspended  present. The  temporality of  the
+coexist in the same suspended present. The temporality of the
 imperative, although not yet a true tense independent of the scene of
-communication, like  that  of  the  declarative, is  if  not  a  temporal
+communication, like that of the declarative, is if not a temporal
 mapping of reality on language, already a mapping of language on
-reality.  The  hearer of  the  ostensive can  immediately verify its
-informational content for  himself, and  so  to  speak discard the
+reality. The hearer of the ostensive can immediately verify its
+informational content for himself, and so to speak discard the
 linguistic model that conveyed it; the hearer of the imperative must
 retain the model as a guide for his conduct, “verifying” it only upon
 the conclusion of his performance. (54)
@@ -663,13 +659,13 @@ come to be marked linguistically. (We can already anticipate that part of
 what will distinguish the declarative is that the temporality of the scene
 constructed linguistically has no relation to the temporality of the utterance
 itself.) The ostensive is immediately verifiable, while the imperative
-provides a “guide for... conduct,” introducing an ethical dimension to the
+provides a “guide for… conduct,” introducing an ethical dimension to the
 emergence of the new speech form: when we relate to each other
 “imperatively,” we are separate but interdependent beings, potentially
 cooperative, potentially critical, sharing the presuppositions that make
 social being possible while being ready to set aside the confirmation of
 those presuppositions in the interest of getting something done.
- 
+
 The genesis of the notion of person follows similar lines, although in
 contrast to that of tense, it can undergo internal differentiation in the
 context of the imperative model. The verbal imperative is personalized
@@ -681,14 +677,14 @@ means identical to a run-by-Y. And as in the case of governance, the
 
 specificity of action on the part of the hearer of the verbal imperative
 may be presumed to be included in the intention of the speaker. Thus if
-several hearers are  present and  the  speaker requests a  hammer
+several hearers are present and the speaker requests a hammer
 (Hammer!), the intentional model includes only the hammer. Even if
 one person is specifically addressed, this intentional structure is not
 violated if someone else brings the hammer, although the speaker’s
 expectations may be. But if he says “Come!” to one of the group, then
 the coming he is requesting could not normally be performed by any
 other.
-Now  at  this  point  “person” simply means second person, the
+Now at this point “person” simply means second person, the
 contrast with the first person not having any basis in the intentional
 structure, the third being for the moment undefined. The speaker is
 normally at least the “dative” object of the imperative, and he may on
@@ -737,9 +733,7 @@ version of Heidegger’s. And, therefore, as providing a more powerful and, I
 stress, still undiscovered, way into all the deconstructive questions raised in
 Heidegger’s wake—questions which, along with many others in the human
 sciences, seem to be in desperate need of rethinking.
- 
 
- 
 Foreword
 I For years my intellectual universe has been increasingly characterized by
 dissociation. Nearly forty years ago I formulated a heuristic hypothesis that
@@ -748,6 +742,7 @@ although this idea first appeared in 1981 in a well-publicized major
 university press book, and has since been reproduced and refined in
 numerous print and web publications, it remains virtually invisible, and is
 never referenced in “scientific” works dealing with the origin of language.
+
 Nonetheless, a small group of academics have remained attached to this
 idea, allowing Anthropoetics (anthropoetics.ucla.edu) to appear
 uninterruptedly since 1995. In 2007, this group became the Generative
@@ -758,7 +753,7 @@ important? While thousands of intellectuals spent decades enthralled, as
 some still are, with the Derridean idea of la différance as exposing the lie of
 the “presence” of the sign to our consciousness, and debunking the
 oppressive dominance of the Center privileging male over female, white
-over black, right over left... only a tiny handful appreciate seeing deferral
+over black, right over left… only a tiny handful appreciate seeing deferral
 explained simply and apolitically as a stepping back from mimetically
 enhanced “instinctive” violence, a modification of René Girard’s “emissary
 murder” conception of human origin that I think more faithful to its spirit
@@ -845,7 +840,7 @@ but even more than Girard’s writing, it is allergic to being name-dropped
 into a mix of other fashionable notions. Although GA’s notion of deferral
 derives from Derrida’s idea of différance, the two cannot simply be “used”
 alongside each other.
- 
+
 Language is not “about reality”
 
 William Flesch, whose presence at our 2017 Stockholm GASC I greatly
@@ -905,7 +900,7 @@ about “reality.” Henry Frankfort’s ironic concept of BS (online at
 http://www.stoa.org.uk/topics/bullshit/pdf/on-bullshit.pdf; see Chronicle
 475), comes closer to its original purpose, which is, to use Durkheim’s
 term, to create “solidarity.”
- 
+
 The sacred and the significant are originarily identical They only come
 to differentiate themselves on the scene of representation that their common
 manifestation inaugurates. The notion that it is we who attribute
@@ -957,19 +952,16 @@ words, the first sentence of The Origin of Language in 1981, were:
 Mysteries should not be multiplied beyond necessity. To allow us to better
 understand ourselves by grasping the pre-rational foundation of language
 and culture is GA’s purpose. It is also, I believe, that of human science.
- 
 
- 
 II. Sign and Event
 The originary hypothesis is close to forty years old, having first been
 formulated during my visit to Johns Hopkins in 1978. Not only have some
 of its basic constituents changed, notably the dropping of Girard’s lynch
-mob  conception not  long  after  the  1981  publication of The Origin of
+mob conception not long after the 1981 publication of The Origin of
 Language, but over the years I have tended to emphasize different elements
 of the scenario. On the occasion of this new edition it is useful to recall a
 few of those aspects that I have had less occasion to reiterate in recent
 years, but which strike me as having a renewed relevance in our day.
- 
 
 Minimality
 The first Origin of Language put great emphasis on the Ockham’s-razor
@@ -1017,7 +1009,6 @@ psychologists have shown us that people ceaselessly misunderstand the
 fancied they were designating a significant/sacred object, but what they
 were “really” doing was finding a new outlet for their overactive neurons.
 We must unlearn this effectively brainless attitude.
- 
 
 Eventfulness
 All of which leads me to a related and even more important element of the
@@ -1036,7 +1027,7 @@ the sign.
 A corollary of this reflection is that not just the originary use of
 language but every use of language must be understood as an event, a term
 that must be understood as referring to every human, cultural phenomenon.
- 
+
 Language and “Writing”
 One of Derrida’s most famous and significant points about language was
 that, in contrast to the apparent immediacy of speech, the truly exemplary
@@ -1093,7 +1084,6 @@ doubt repeated a number of times before its discovery of
 sacrality/significance became universally accepted, but it was an event from
 the start, a memorable occasion, if not the memorable occasion that we find
 in “myths of language origin”—or in the first sentence of Genesis.
- 
 
 Philosophy and Anthropology
 Philosophy understands all this, in its way. Hegel’s world-spirit is in fact the
@@ -1158,15 +1148,12 @@ stands, undamaged and undaunted, as solitary now as it was when I first
 formulated it in 1978. If only in tribute to its ability to survive in the near-
 total absence of institutional support for nearly four decades, I hope the
 reader will be willing to give it a second look.
- 
 
 Eric Gans
 
 Santa Monica
 January 1, 2019
- 
 
- 
 Chapter 1.
 Introduction Let me repeat the first sentence of the original 1981
 edition of The Origin of Language (TOOL): Mysteries should not be
@@ -1179,6 +1166,7 @@ mystery from without, we can assume that we will never understand it fully
 as the product of simpler components, which is another way of saying that
 faith will always be necessary, that we can only postulate, not demonstrate,
 the human essence we seek to explain.
+
 Nonetheless, there is no need for mysticism. The object of Generative
 Anthropology (GA) is, like that of all human science, to minimize the
 mystery of the human sign, the sacred, and the other cultural phenomena
@@ -1239,9 +1227,9 @@ The Hand (Edinburgh, 2003), which expresses a view largely compatible
 
 with GA, as I had occasion to remark a propos of Tallis’ keynote address at
 the annual Generative Anthropology Summer Conference in 2014.
- 
+
 * * *
- 
+
 Let us then rehearse the basic scenario of the hypothesized originary event.
 The purpose of this scenario, and of the originary hypothesis in general, is
 not to offer a guess as to was wirklich geschehen ist, but to provide a
@@ -1326,9 +1314,9 @@ dimension to animal existence. This dimension can be understood as that of
 eventfulness itself, in which an incident leaves its trace as a sign shared with
 the community rather than a mere epigenetic inflection: an event in the
 human sense is ipso facto a signified.
- 
+
 * * *
- 
+
 The originary event cannot simply be assumed to have occurred in the
 minimalist fashion that this exposition of the originary hypothesis
 describes. Any such hypothesis must be in some sense a just-so story. But
@@ -1356,9 +1344,9 @@ our evidence for consciousness itself in a sense beyond animal awareness.
 The scene of consciousness exists in individuals when and only when it
 subsists as well as a scene of representation shared by other members of the
 group, as the basis for a cultural/linguistic community.
- 
+
 * * *
- 
+
 In my early descriptions of the originary event, I assumed that all the
 participants, fearful of making the first move and being attacked by the
 others, spontaneously aborted their appropriative gestures toward the
@@ -1417,9 +1405,9 @@ representation permits each of us as individuals. Thus even if all the
 members of the group got the idea of the sign at the same time, the essential
 point is that each of them would have to grasp it as an individual reflecting
 on the scene shared with his fellows.
- 
+
 * * *
- 
+
 No doubt my depiction of the psychological nuances of the communicative
 relationship thus established is wholly speculative, but what must be
 understood as its minimal core is the sense, for the first time, of a scenic
@@ -1429,15 +1417,14 @@ reflex,” but through a gesture that has so to speak turned back upon itself as
 
 a self-conscious, voluntary act, one that will be understood by all as
 referring to the common interdicted, sacred, significant object of desire.
- 
 
- 
 Chapter 2.
 The Linguistic Dialectic The most significant difference
 between this work and other accounts of language origin lies in its proposed
 outline, on the basis of the hypothetical originary event of language/culture,
 of the evolution of the basic utterance-forms, from the ostensive through the
 imperative to the declarative.
+
 Given the lack of empirical evidence to guide this account, it may
 remind philosophically minded readers of Hegel’s Logik and its dialectical
 derivation of the categories of thought via the principles of negation and
@@ -1468,9 +1455,9 @@ granted. For GA, the Achilles’ heel of philosophy is its failure to understand
 the secondarity of the declarative proposition to language—hence to the
 human—itself. Whence the need to elaborate a model of the dialectic
 connecting originary language to the declarative form.
- 
+
 * * *
- 
+
 Once humans learned to defer mimetic violence through signs, they were
 faced with the dialectical tension that the following chapters describe
 between the use of language to express the desire of a speaker and its
@@ -1507,7 +1494,7 @@ Imagination [Stanford University Press, 2007], I examined various
 philosophical accounts of the origin of language in the early modern era;
 none of these philosophes, to my knowledge, ever attempted to describe the
 evolution of the declarative proposition from more elementary forms.) * * *
- 
+
 This series of dialectical “moments” is constructed on the basis of a logic
 whose plausibility has not been tested experimentally; I would be happy to
 see empirical psychology attempt such a test. But although the specific
@@ -1546,9 +1533,9 @@ conversely, it is only because the originary model of the objects of our
 desire is the sacred that we can bear to have their presence deferred by
 chains of representations that may or may not permit us eventually to attain
 them.
- 
+
 * * *
- 
+
 In the original edition of TOOL, this formal dialectic was prolonged by a
 discussion of the super-linguistic categories of dialogue and discourse. But
 having reviewed this material, it seems to me to lie outside the limits of a
@@ -1557,9 +1544,7 @@ declarative sentence has emerged, the ways in which sentences can be put
 together in longer units is no longer truly an element of the formal theory of
 representation, but belongs to the history of cultural institutions. Hence I
 have not reprised this material in this new edition.
- 
 
- 
 Chapter 3.
 A Derridean Parenthesis
 Il n’y aura pas de nom unique, fût-il le nom de l’être. Et il faut le penser
@@ -1589,7 +1574,7 @@ enfin propre. Telle est la question qui s’inscrit dans l’affirmation jouée 
 différance. Elle porte (sur) chacun des membres de cette phrase : “L’être /
 parle / partout et toujours / à travers / toute / langue /.”
 Jacques Derrida.
- 
+
 There will be no unique name, be it the name of being. And we must think
 this without nostalgia, that is, outside the myth of the purely maternal or
 
@@ -1620,7 +1605,7 @@ that is inscribed in the played/performed affirmation [affirmation jouée] of
 la différance. It bears (on) each element of this sentence: “Being / speaks /
 everywhere and always / through / every / language /.”
 Jacques Derrida.
- 
+
 Although for GA, Jacques Derrida’s notion of la différance is second in
 importance only to René Girard’s conception of the mimetic origin of the
 sacred, I never had the opportunity to discuss these matters with Derrida,
@@ -1652,9 +1637,9 @@ Derrida incapable of dealing with the paradoxical nature of the enigma,
 which could be clarified only in a language structurally different from the
 language of the sacred that he borrows, with irony and bad conscience,
 from Heidegger.
- 
+
 * * *
- 
+
 The linguistic foundation for la différance is Saussure’s famous dictum that
 in language there is nothing but differences. This is obviously true at the
 boundaries of the physical components of language; a phoneme can only be
@@ -1681,9 +1666,9 @@ deferral that allows for difference, la différance, is the deferral of
 appropriation and thereby of the practical, “horizontal” world of
 instrumentality. This deferral creates the néant, the empty scenic space of
 contemplation, in which the new dimension of meaning can emerge.
- 
+
 * * *
- 
+
 Derrida develops his “non-concept” of la différance over fourteen pages.
 The “misspelling,” which in French cannot be heard, and is therefore an
 artifact of writing, the form of language that does away with “presence” and
@@ -1731,9 +1716,8 @@ the end of the great tradition of metaphysics and were straining great
 intellectual powers to seek a way out of it. But they failed to realize that
 reaching this goal requires the addition of a new anthropological dimension
 to their conceptual analysis. Their language, like that of Sartre and the other
-major philosophical minds of the 20
 th
- century, is, following in the footsteps
+major philosophical minds of the 20 century, is, following in the footsteps
 of the more empirical-minded Husserl, but open as the latter was not to the
 resentful dissatisfaction of Nietzsche, an attempt to think through what Kant
 had recognized as the aporias of thought itself. But “thought” is not an
@@ -1742,9 +1726,8 @@ of human existence, in a scene that is not merely internal to the individual
 consciousness, as for Sartre and phenomenology in general, but situates the
 human mind in the sole context in which it can exist and has ever existed,
 which is that of a linguistic, cultural human community.
- 
+
 * * *
- 
 
 Once this is done, one realizes in all humility that the “end” of metaphysics
 in no way brings with it the solution to the world’s problems. I remain
@@ -1766,21 +1749,19 @@ the neurological substrate of the scene of representation, both individual
 and collective, will take place in a more cooperative environment. Only
 then will we truly be able to speak of the end, or more prudently, of the
 Wendung (turning point) of the metaphysical era.
- 
 
- 
 Chapter 4.
 Formal and Institutional Representation
 The first edition of TOOL was chiefly devoted to a discussion of the basic
 utterance-forms (ostensive, imperative, interrogative, declarative),
 speculating on how they might have evolved from the original ostensive
 gesture/sign. This sequence of forms will be developed in the following
-chapters. This  focus  on  language rather  than  ritual, formal  rather  than
+chapters. This focus on language rather than ritual, formal rather than
 institutional representation, was reflected in the book’s subtitle: A Formal
 Theory of Representation.
- 
+
 * * *
- 
+
 As the reader may have realized, the originary event of language as I have
 described it is also that of sacred ritual. Indeed, the spectacle of a group of
 humans whose gestures designate a central object inaccessible to them not
@@ -1821,9 +1802,9 @@ after the sparagmos realizes the difference between these two modes of
 significance. The animal itself is eaten as an object of appetite, but the sign
 remains as a reminder of its transcendent central role, as designating the
 “transcendental signified,” or more simply, as the name-of-God.
- 
+
 * * *
- 
+
 It is the aim of GA to dissolve the frontiers between empirical anthropology
 and “human science” on the one hand, and on the other, the speculative
 anthropology we call philosophy. Philosophy originated in Greece with the
@@ -1850,9 +1831,9 @@ ritual aspect of the originary event is well documented, and cannot be
 discussed without concrete reference to actual practices. This task
 transcends the speculative limits of GA, but the anthropological community
 would surely benefit from taking GA’s originary insights into account.
- 
+
 * * *
- 
+
 The preceding chapter sought to demonstrate the underlying affinity of
 Jacques Derrida’s conception of la différance with the aims of GA.
 Derrida’s original French neologism is not unsurprisingly richer than the
@@ -1924,9 +1905,9 @@ name-of-God is a guarantor not of tyranny but of the human community’s
 liberation from the reign of the strongest. The equality before God that
 monotheism would later make explicit in the face of the god-kings of the
 ancient empires was there at the birth of human society.
- 
+
 * * *
- 
+
 The relationship between language and ritual has scarcely been explored in
 recent decades. The nineteenth century Sanskritist Max Müller saw
 language as emerging in the context of sacred ritual, and the coevality of
@@ -1939,7 +1920,7 @@ legitimate themselves and their laws from a moral point of view is to claim
 that they have somehow been anointed by a deity or in some other
 supernatural way.
 A Natural History of Human Morality (Harvard, 2016): 131
- 
+
 is emblematic of the désinvolture of not just one highly respected scholar
 but of the entire field.
 No one expects contemporary linguists to share Müller’s concern for
@@ -1967,24 +1948,22 @@ The identity of origin, God, and the Word / Logos / Verbum affirmed in
 the first line of the Gospel of John is inscribed thereby in Christianity and in
 Western civilization as a whole. It is time we began once more to take it
 seriously.
- 
 
- 
 Chapter 5.
 The Ostensive
 In any account of the genesis of language, one must assume that the first
 linguistic sign was both absolutely new, a “symbolic” sign (Peirce), yet as
 close as possible to what animals were capable of producing. I have always
-been amazed that the recent accounts I  have read, such as the one in
-Fauconnier and Turner’s How Do We  Think  (Basic Books, 2002; see
+been amazed that the recent accounts I have read, such as the one in
+Fauconnier and Turner’s How Do We Think (Basic Books, 2002; see
 Chronicle 528), simply neglect this question. This is no doubt a residue of
-the metaphysical tradition of Western philosophy that has  since the
-beginning taken the existence of  propositional language for granted. This
+the metaphysical tradition of Western philosophy that has since the
+beginning taken the existence of propositional language for granted. This
 tradition has persisted throughout the entire history of philosophy, and the
-attempts in the Early Modern  era (see my The Scenic Imagination
+attempts in the Early Modern era (see my The Scenic Imagination
 [Stanford, 2007]) to theorize the origin of human culture, and in some cases
-specifically of  language, culminating in  Freud’s  father-murder scenario in
-Totem and Taboo,  never penetrated mainstream philosophical discourse,
+specifically of language, culminating in Freud’s father-murder scenario in
+Totem and Taboo, never penetrated mainstream philosophical discourse,
 even among thinkers whose avowed intention was to abolish
 “metaphysics”—for which they had a rather different definition than mine.
 As I have described the originary event, the first linguistic sign was an
@@ -2015,9 +1994,9 @@ become more intelligent, but because with the growth of our intelligence we
 have become more mimetic. One wonders why this rather obvious point is
 so difficult to communicate in a world of people capable of solving
 differential equations and describing multi-dimensional vector spaces.
- 
+
 * * *
- 
+
 In order that the originary ostensive gesture become a sign, it cannot be the
 simple negation of the original gesture of appropriation. Here as elsewhere,
 we can well imagine that similar interruptions of the attempt to obtain
@@ -2090,9 +2069,9 @@ paleontologists who study such things as the evolution of the vocal tract,
 and even of the hand—for some have speculated that the relative lack of
 pigmentation in the palm gives evidence of the use of the hands for
 communication.
- 
+
 * * *
- 
+
 Once we have provided a plausible understanding of the genesis of the
 originary sign, the rest of the development of language might be expected to
 belong to linguistics proper—save that we have no clear evidence of any
@@ -2150,9 +2129,8 @@ females in the origin of language. If men indeed used language before
 women, Eve’s taking up the snake’s suggestion to acquire forbidden
 knowledge when Adam had remained content to name the animals is a
 fascinating parable of the productivity of resentment.
- 
+
 * * *
- 
 
 Thus we may assume that at some point there emerged an ostensive
 language by means of which individuals could communicate in small non-
@@ -2209,13 +2187,11 @@ exist, even signs that can presumably be easily verified, this verification,
 being independent of the sign itself, may fail, and the sign-user may use this
 fact to deliberately mislead. Higher animals are known to practice
 deception, but only a human being can be a liar.
- 
 
- 
 Chapter 6.
 Linguistics of the Ostensive
-Thus far  we have been concerned with the hypothetical preconditions for
-the  existence of  the  ostensive  utterance form.  We  now  turn  to  the
+Thus far we have been concerned with the hypothetical preconditions for
+the existence of the ostensive utterance form. We now turn to the
 “linguistics” of what we can conceive of as “ostensive language.” Here we
 can benefit from the observation of ostensives in our own language.
 In the originary event, the central referent is not detachable from the
@@ -2247,7 +2223,7 @@ demonstrates, reflect the tension between the different standpoints of
 
 speaker and hearer. It is this tension that will lead, through the dialectic of
 desire and paradox, to the mature form of the declarative.
- 
+
 The Intentional Structure of the Ostensive
 The ease with which we construct complex declarative sentences inspires in
 us the illusion that such sentences reveal “transparently,” as Sartre affirmed
@@ -2301,7 +2277,6 @@ The ostensive “word,” itself a complete utterance, does not possess the
 context-free conceptual status of our own vocabulary. The establishment of
 the ostensive within the profane world outside the sphere of ritual will
 reveal the contradictions latent in its model of reality.
- 
 
 Dialectic of the Ostensive
 The originary sign had no place in a lexicon, not simply because it was
@@ -2373,9 +2348,9 @@ significant presence. Once it becomes accepted as an utterance-form in its
 own right, the word would signify not the presence of its referent but the
 desire of the speaker for (the power conferred by) this presence. The
 ostensive will then have become an imperative.
- 
+
 * * *
- 
+
 A possible framework for such a development is linguistic apprenticeship.
 One must learn the words of the language before grasping the totality of
 
@@ -2408,9 +2383,9 @@ does not follow, of course, that the historical ostensive-imperative evolution
 was equally instantaneous. We cannot exclude the possibility that linguistic
 signs, as opposed to prehuman “calls,” may have retained for many
 generations a strictly communal, religious function.
- 
+
 * * *
- 
+
 In sum, because the ontology of the ostensive remains, like that of the
 sacred, dependent on a public scene, even with the lowering of the
 threshold of significance to permit its application to the profane world, the
@@ -2435,14 +2410,12 @@ ontological proof obtained its reward. In the imperative form, the desire of
 the individual soul, to which the ostensive had provided a means of
 expression but not an accepted vehicle for its communication, attains
 significance in the eyes of the community.
- 
 
- 
 Chapter 7.
 The Imperative I
 Linguistics, even in our post-Chomskian era, still takes NP + VP as the
-fundamental form  of  the  sentence; anything less  is  a  “defective”
-transformation. But once we attempt to explain how à  partir de rien NP
+fundamental form of the sentence; anything less is a “defective”
+transformation. But once we attempt to explain how à partir de rien NP
 became associated with VP, we discover that this synchronic model not only
 does not provide us with an answer, but does not even permit us to ask the
 question. Thus the foundation of one of the most advanced human sciences
@@ -2499,7 +2472,7 @@ wholly altruistic, warning the hearer of a danger to which the speaker is
 immune. It creates a symmetrical stance with regard to its object, which it
 situates on the scene of representation as equally present to all interlocutors,
 retaining the nonviolent symmetry of the originary sign.
- 
+
 The Collective Imperative It is not a priori apparent from the
 consideration of the two forms simply as intentional structures that the
 imperative should be a less public form than the ostensive. If the ostensive
@@ -2604,9 +2577,9 @@ indeed difficult to imagine a cooperative work situation without the
 imperative, the use of which would tend to contribute to the lexical
 categorizing of necessary implements and therefore to their distinctly
 cultural quality as tools.
- 
+
 * * *
- 
+
 It is significant that in Wittgenstein’s 1953 Philosophical Investigations,
 which bring together the linguistic speculations that occupied him during
 the last decades of his life, the “language games” that he analyzes turn
@@ -2629,9 +2602,7 @@ place. It is nonetheless significant that the last great theoretician of the
 philosophical proposition, the thinker who raised the declarative to an
 ontological principle, ended his philosophical career fascinated by what he
 clearly intuited were more originary elementary linguistic forms.
- 
 
- 
 Chapter 8.
 The Imperative II
 The Intentional Structure of the Imperative The
@@ -2641,6 +2612,7 @@ universe as containing one significant present object. That of the imperative
 is more complex, and this complexity is expressed as well in the existence
 of variant forms, such as the “collective imperative” and the third- and first-
 person forms.
+
 In its primitive stage, the imperative has the same linguistic substance
 as the ostensive. The appropriate reaction would then depend on the
 interpretation of the utterance: either the referent is present, and is being
@@ -2688,7 +2660,7 @@ the interlocutors’ virtual presence on the linguistic scene until the assigned
 task is carried out, independently of other worldly claims. The deferral
 constitutive of linguistic presence now becomes the awaiting of an
 anticipated action.
- 
+
 Grammatical Form Our discussion up to this point, concerned exclusively
 with intentional structure, has maintained the assumption that the primitive
 form of the imperative was substantially identical to that of the ostensive.
@@ -2825,9 +2797,9 @@ symmetrically “shifting” gestures, even as the accusative object of an
 imperative verb, the speaker is never in symmetry with the hearer. The
 performance requested of the hearer implies no contrast with one by the
 speaker.
- 
+
 * * *
- 
+
 Once the imperative acquires functionality in the profane world, it is easy
 enough to conceive how its third- and first-person-plural (Let’s) forms
 might have evolved. The use of language to assign tasks would naturally
@@ -2837,18 +2809,16 @@ be done, whether to make it present or to construct it from scratch, would
 (like Wittgenstein’s language games) not remain limited to the dialogue of
 two interlocutors. However, the paradigm in which all three persons play
 parallel roles as subjects of a verb cannot exist prior to the declarative.
- 
 
- 
 Chapter 9.
 Elementary Forms and Grammatical Structures
-The preceding discussion  has  shown that  the  requirement  of  human
-performance in  the  imperative  is  the  source of  the  categories of  tense,
-person, and  governance that  will  become the  touchstones  of  the
+The preceding discussion has shown that the requirement of human
+performance in the imperative is the source of the categories of tense,
+person, and governance that will become the touchstones of the
 grammaticality of the declarative sentence. By grammaticality we simply
 mean an utterance’s capacity for presenting a model of reality no longer
 dependent on the conditions obtaining during the communication situation,
-having corrected  by  means of  “shifting” elements chosen from  these
+having corrected by means of “shifting” elements chosen from these
 categories for the specificity of time and speaker.
 But because we cannot discuss these categories in terms of a
 hypothetical imperative language, our presentation has unavoidably been
@@ -2940,7 +2910,7 @@ elementary form of the recursivity that Chomsky sees, rightly if taken in a
 broad enough sense, as the mark of human language in opposition to pre-
 human signaling systems, is simply the speaker’s linguistic reference to
 himself.
- 
+
 Dialectic of the Imperative (I)
 The intentional structure of the imperative has up to this point been
 presented as a structure in equilibrium: a verbal request establishes an
@@ -3070,17 +3040,15 @@ representational response available. The hearer thus can be said to feel the
 need to maintain linguistic presence, as the speaker wished, even if he
 cannot provide real-world satisfaction for the latter’s desire. It is this need
 that will give rise to the declarative form.
- 
 
- 
 Chapter 10.
 The Fundamental Asymmetry of the Speech
 Situation
 The contradiction in the intentional structure of the imperative between
-the  speaker’s  and  the  hearer’s  intentions reflects the  fundamental
+the speaker’s and the hearer’s intentions reflects the fundamental
 asymmetry of the speech situation, which emerges at this stage, and which
 is not so much resolved in the higher forms as made explicit and thereby
-deferred. This  asymmetry was  in  fact  present from  the  beginning, even
+deferred. This asymmetry was in fact present from the beginning, even
 independently of the assumption that not all the members of the originary
 group grasped the meaning of the sign at the same moment.
 In the originary event, each individual’s participation in
@@ -3181,9 +3149,8 @@ time, providing an epistemological link between the subject matter and the
 theory that purports to explain it, can the discourse that performs this task
 properly claim for itself the name of science.
 
- 
 * * *
- 
+
 From this perspective, the logical impossibility of complete self-inclusion
 does not prevent the construction of new forms to resolve whatever
 contradictions may arise, and it is to our analysis of this process of
@@ -3264,9 +3231,9 @@ fall from grace where each speaker begins to suspect the “subjectivity” of
 his fellows. This suspicion is a step on the road to the objectivity of
 scientific discourse, and well as an incentive for the construction of ever-
 more-powerful modes of deferral.
- 
+
 * * *
- 
+
 The second stage in our dialectic, the passage from the ostensive to the
 imperative, requires less comment. Here we are much closer to the
 opposition represented in our schema, because the hearer of the
@@ -3310,14 +3277,12 @@ standpoint of intentional structure, however, the external functionality of the
 imperative request is irrelevant; the speaker’s desire as expressed by the
 imperative is “significant” by definition. Whence the disequilibrium that
 will lead to the emergence of the declarative form.
- 
 
- 
 Chapter 11.
 Imperative Dialogue
 By his acceptance of the speaker’s desire, the addressee of the imperative
 becomes not merely the latter’s hearer but his interlocutor. Thus he hears
-not  only  the  utterance but  the  person, and  by  hearing the  utterance as  a
+not only the utterance but the person, and by hearing the utterance as a
 personal one, he comes to assume on the scene of representation the role of
 member of the community and respecter of its norms of significance. In this
 fashion, the addressee of the imperative creates the possibility of dialogue
@@ -3399,7 +3364,6 @@ utterance is recognized by the addressee of the imperative—the negative-
 ostensive resolution of his paradoxical situation will become possible. It
 suffices that the materials of which this solution is constructed be available:
 the ostensive, and the concept, or more precisely the operator, of negation.
- 
 
 Negation and the Imperative
 The ostensive admits of no negation because its referent is required to be
@@ -3475,10 +3439,9 @@ norm, the original pronouncement of which may even be attributed to a
 sacred being. But even in this case, the communal authority of the norm and
 the awaiting it imposes is realized in the speech situation through the
 intermediary of the speaker’s own authority.
- 
 
 * * *
- 
+
 The negative imperative, as it appears from this discussion, is not an
 independent linguistic form; it differs from the prescriptive variety only in
 its content. It would further be a mistake to classify the positive/negative
@@ -3553,17 +3516,14 @@ imperative language, and thus its highest level of what we may call
 “thought” or “reasoning”—manipulation of linguistic models as context-
 free substitutes for/models of reality.
 
- 
-
- 
 Chapter 12.
 Dialectic of the Imperative (II)
-From a  grammatical standpoint, operators are different from, but similar
+From a grammatical standpoint, operators are different from, but similar
 to, modifiers, traditional grammarians emphasizing the similarities, modern
 linguists, the differences. Negation is, in imperative as in mature language,
-the  most extreme case  because it  is  the  most unambiguously
-transformational in  character,  requiring for  its  application a  preexisting
-linguistic expression. In  the  imperative, negation (or  more  properly
+the most extreme case because it is the most unambiguously
+transformational in character, requiring for its application a preexisting
+linguistic expression. In the imperative, negation (or more properly
 interdiction) requires for its formulation the designation of a substantial
 performance that could always in principle be the object of a prescriptive
 imperative.
@@ -3650,9 +3610,9 @@ in which to ask the metalinguistic question of what “Don’t!” means,
 because its utterance intends unavoidably its real-time context. Its evolution
 into a true negative, which is at the same time the genesis of the declarative,
 must therefore depend on its inappropriate use.
- 
+
 * * *
- 
+
 We have been assuming that the hearer of the imperative, knowing the
 requested object to be unavailable, requires a means of expressing this fact
 to the speaker. But we cannot consider that on the one hand he possesses the
@@ -3799,9 +3759,9 @@ But this is too negative a formulation: what the negative ostensive presents
 is simply the state of affairs, not as an object of desire in itself, but on the
 contrary, insofar as it withstands the desire to modify it. Which is to say,
 that the lexeme of negation/interdiction has become a predicate.
- 
+
 * * *
- 
+
 This defeat of desire by reality is, in the sphere of representation, an
 immensely significant triumph of objectivity. The inappropriate (positive)
 ostensive opened the domain of linguistic representation to the infinity of
@@ -3828,9 +3788,7 @@ moment of mutual presence—the inappropriate negative ostensive is
 functionless. Conversely, its functioning makes the universe beyond this
 presence and its extension through imperative awaiting for the first time a
 possible source of the significant.
- 
 
- 
 Chapter 13.
 Negation as Predication:
 The Origin of the Declarative The negative ostensive is a
@@ -3841,6 +3799,7 @@ beginning and the end of the first speaker’s awaiting of this object. If we
 imagine a conversation consisting of a series of such exchanges, this name
 is all that can be said “about” each object, that is, just enough to identify it
 as the topic of both linguistic and real interest.
+
 In contrast, let us stipulate that the negative ostensive is acceptable to
 the first speaker as terminating, at least for the moment, the awaiting
 created by his request. Then the role of the object as topic would remain as
@@ -3855,9 +3814,9 @@ coordinate element of the requested performance, the not-hammer or not-
 run being both a kind of hammer or run and a specified inaction, hence a
 kind of “not-,” in the negative ostensive the preexistence of the hammer as
 topic makes its absence for the first time a true predicate.
- 
+
 * * *
- 
+
 Thus the negative ostensive is the germ of the declarative sentence. The
 widespread existence, alongside the subject-predicate form, of the topic-
 comment sentence, for example in Chinese and Japanese, lends support to
@@ -3901,9 +3860,8 @@ and the big (thing) being a hammer. It is only in the declarative that, the
 sentence topic having an a priori existence, its qualities can be predicated of
 it as accidents of a substance.
 
- 
 * * *
- 
+
 As an example of the evolution that might have led to the multiplication of
 predicative terms, consider the case of locatives. Clearly locative
 expressions, which can be formulated gesturally by pointing, must have
@@ -3935,26 +3893,23 @@ the simple imperative on the one hand and the simple interrogative on the
 other. The degree of urgency of the situation and the spatial extent of
 “presence” for the speaker define a continuum between the surgeon’s urgent
 demand for a scalpel and a casual request made to an indifferent stranger.
- 
+
 * * *
- 
 
 With the derivation of the declarative sentence we reach the final stage of
 the dialectic of linguistic form per se. The further evolution of linguistic
 representation will take place on a higher level, that of discourse, within
 which the declarative sentence is of course predominant.
- 
 
- 
 Chapter 14.
 The Declarative Model
 With the derivation of the declarative sentence we have reached the final
 moment of the dialectic of linguistic form per se. The chief obstacle to the
-comprehension of  the  intentional  structure of  the  declarative is  its
+comprehension of the intentional structure of the declarative is its
 familiarity to us. We write of the lower forms from the telic perspective of
 the higher. But having attained the final stage of linguistic evolution, we
 find ourselves writing about the structures of the declarative sentence in
-declarative sentences. The  paradoxes generated by  desire  in  elementary
+declarative sentences. The paradoxes generated by desire in elementary
 language, which had led to the evolution of the elementary forms, can now
 be converted without syntactic innovation into logical paradoxes.
 The declarative sentence may be described as a predication about a
@@ -3999,9 +3954,9 @@ If grammarians and linguists fail to comprehend the elementary linguistic
 forms because they see them as degenerate declaratives, logicians and
 language philosophers misunderstand the higher linguistic forms in viewing
 them as avant la lettre elements of logical discourse.
- 
+
 * * *
- 
+
 The original negative-ostensive form of the declarative does not include a
 verb. The subject and negative operator are simply “coupled,” without a
 verb to be—as in Russian, which, however, supplies the omitted copula in
@@ -4090,7 +4045,6 @@ declarative sentence already possesses an implicit tense. Once this has been
 more clearly established, the emergence of the verb as the general
 predicative form will follow, because, as we shall show, tense is an
 essentially verbal category.
- 
 
 Linguistic Present and Linguistic Presence As a negative ostensive, the
 nascent declarative would appear to stand in the same dependent relation
@@ -4210,16 +4164,14 @@ be made “context-free” without reference to the linguistic presence in
 which their messages are conveyed, but in human language this presence
 can never simply be ignored, if language is to continue to serve as our
 means of liberation from prelinguistic violence.
- 
 
- 
 Chapter 15.
 The Esthetics of Linguistic Forms
 The declarative sentence, as a “context-free” model of reality, offers us the
-possibility of  an  objective understanding of  the  universe.  It  is  the
+possibility of an objective understanding of the universe. It is the
 foundation of scientific discourse, which makes explicit and rigorous the
 decontextualizing elements of the declarative model by calling for empirical
-verification/falsification, eventually  in  the  controlled environment of  the
+verification/falsification, eventually in the controlled environment of the
 laboratory. But the declarative is by the same token the origin of fiction,
 which exploits its liberation from the discursive context in the opposite
 fashion, as a source not of objectivity but of the free representation and
@@ -4503,17 +4455,15 @@ centrality of the esthetic/sacred element in the genesis of language, and
 understanding the “context-free” declarative as a product of linguistic
 evolution that liberates us from the immediacy of the speech-situation,
 would substitute a historical dialectic for this dialogue de sourds.
- 
 
- 
 Conclusion
 Having come to the end of this second edition of The Origin of Language,
 the reader may wonder whether taking up this “new way of thinking” based
 on the originary hypothesis has been worth the trouble. Why should the
-intellectual world  reject its  current division of  labor,  evolved over
+intellectual world reject its current division of labor, evolved over
 generations, that leaves the question of human origins, including that of
-language as  only  one  of  humanity’s  many distinctive components
-(opposable thumb, bipedalism, neoteny,  “aquatic ape”...), to  empirical
+language as only one of humanity’s many distinctive components
+(opposable thumb, bipedalism, neoteny, “aquatic ape”…), to empirical
 scientists, whether paleontologists, neuroscientists, primate ethologists,
 laboratory psychologists, or of course, linguists, while the more abstract
 aspects of human consciousness that can be systematized by some kind of
@@ -4582,7 +4532,7 @@ anthropological understanding of not just “the religious” in the
 Durkheimian sense of the domain of communal as opposed to individual
 values, but of the sacred in its originary manifestation. Rejecting the trivial
 denigration of religion in recent years (God Is Not Good, The God
-Delusion...), GA situates the God-creates-man/man-creates-God dichotomy
+Delusion…), GA situates the God-creates-man/man-creates-God dichotomy
 at our hypothetical point of origin, granting to both sides an equivalent
 understanding of the anthropological issues involved. By following
 Ockham’s razor and minimizing the parameters that define the human, GA
@@ -4682,9 +4632,7 @@ and again throughout history, that seeking the truth about whatever we are
 curious about, be it dark matter or the origin of human language, is our best
 way of improving our practical grasp of reality. It is in this spirit that I offer
 this new edition of The Origin of Language.
- 
 
- 
 GA Bibliography
 
 Eric Gans
@@ -4710,7 +4658,7 @@ Science and Faith: The Anthropology of Revelation. Second edition.
 Aurora Colo.: Noesis Press (Deferrals & Disciplines), 2015.
 Adam Katz and Eric Gans. The First Shall Be The Last: Rethinking
 Antisemitism. Leiden: Brill, 2015.
- 
+
 ***********
 Andrew Bartlett, Mad Scientist, Impossible Human: An Essay on
 Generative Anthropology. Aurora, Colo.: Davies Group, 2014.
@@ -4722,7 +4670,6 @@ Adam Katz, ed., The Originary Hypothesis: A Minimal Proposal for
 Humanistic Inquiry. Aurora, Colo.: Davies Group, 2007.
 Richard van Oort, The End of Literature. Aurora, Colo.: Davies Group,
 2009.
- 
 
 Secondary works Stéphane Vinolo. René Girard: Du mimétisme à
 l’hominisation. L’Harmattan, 2005. Ch. 4, part iii: 207-16. «L’anthropologie
@@ -4742,7 +4689,6 @@ Imagination.”
 Roman Katsman. “Eric Gans’s Thinking on Origin, Culture, and the
 Jewish Question vis-à-vis Hermann Cohen’s Heritage.” Journal of Jewish
 Thought & Philosophy 23 (2015): 236–255.
- 
 
 Eric Gans is Distinguished Professor Emeritus of French and Francophone
 Studies at UCLA, where he taught for 45 years. With The Origin of
@@ -4767,8 +4713,9 @@ writing in Connecticut.
 
 © 1981, 2019 Eric Gans Introduction © 2019 Adam Katz ISBN 978-1-
 949966-13-8 pbk. | 978-1-949966-14-5 hdc.
- 
+
 Library of Congress Cataloging-in-Publication Data for the Print Edition:
+
 Names: Gans, Eric Lawrence, 1941- author. | Katz, Adam, writer of
 introduction.
 Title: The origin of language : a new edition / Eric Gans ; introduction by

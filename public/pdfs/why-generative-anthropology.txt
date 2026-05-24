@@ -1,12 +1,12 @@
-
-
 Why Generative
 Anthropology? – Guest
 columnist: Peter Goldman
 Eric Gans
+
 This is the text of Peter’s “Introduction to GA,” delivered on
 June 27, 2013, at the opening of the 7th Annual Generative
 Anthropology Summer Conference at UCLA:
+
 There have been many attempts to set the humanities on a
 scientific basis: phenomenology, structuralism, sociobiology,
 various functionalist accounts. Yet, in my estimation, there
@@ -37,6 +37,7 @@ language, this implies that we know what language is. And
 this is a problem, because the understanding of language
 assumed in many such analyses is naïve at best, and
 incoherent at worst.
+
 A definition of language is required to place the humanities
 on a truly scientific basis. Clifford Geertz writes, “The initial
 problem of any science [is] defining its object of study in
@@ -54,6 +55,7 @@ in place, we can make genuine progress, establishing the
 answer to key questions, and building on previous work. GA
 gives us a basis on which to evaluate the existing body of
 humanistic scholarship and sort out the gold from the dross.
+
 Another reason why we need a coherent theory of language
 is to answer the deconstructive critique of meaning as
 “undecidable.” Deconstruction has had a profound effect
@@ -73,6 +75,7 @@ incorporating his insights, refuting his errors, and actually
 going beyond it (see Eric Gans’s article “Differences” in
 Modern Language Notes [MLN] v. 96 no. 4 [Spring 1996]
 pp. 792-808).
+
 The third reason we need a coherent theory of the origin of
 language is because anthropologists and linguists have
 
@@ -94,6 +97,7 @@ communal, scenic character, a point to which I’ll return. If
 language is really qualitatively different from animal
 communication, then it follows that the best way to
 understand it is in terms of its origin.
+
 The first claim of GA is that a hypothesis of the origin of
 language is the necessary basis for the study of human
 culture. Eric Gans has presented one such hypothesis, which
@@ -150,6 +154,7 @@ or not. There’s no such thing as being a little bit pregnant.
 It’s the same thing with language; even if we start with a very
 small degree of linguistic consciousness, it’s still a radically
 new quality.
+
 The claim that the origin of language was an event also
 follows from the scenic, communal nature of language.
 Genetic modifications happen first at the level of the
@@ -169,6 +174,7 @@ already are simply not adaptive, because of the energy costs
 involved in maintaining them. It’s because we have language
 and culture that a large brain becomes adaptive. Human
 evolution is driven essentially by the existence of language.
+
 So the next question is, what kind of event is the origin of
 language, and what motivates it. Why does language exist at
 all? Professor Gans defines the human as the species for
@@ -209,6 +215,7 @@ that language is adaptive for the species even if it didn’t
 originate in a genetic mutation; we can communicate and
 cooperate, defer violence, and as a result we have colonized
 most of our planet.
+
 Our originary hypothesis begins with a hominid species that
 is becoming more mimetic; because imitation is an adaptive
 
@@ -230,6 +237,7 @@ of causality as animal behavior, much less the physical
 sciences. The emission of the first sign is a free act, the first
 free act, and as such cannot be reduced to its prior
 conditions.
+
 Gans hypothesizes that a group of our hominid ancestors
 have surrounded an appetitive object, such as a large
 mammal after a successful hunt. Normally, the alpha male
@@ -257,6 +265,7 @@ object as taboo or sacred: too desirable and dangerous to be
 appropriated. This sign defers the violence threatening the
 group; hence Gans’s capsule definition of culture as “the
 deferral of violence through representation.”
+
 Gans calls this event a “little bang” rather than a “big bang,”
 suggesting that while this event is remembered, and
 remembered as significant, it would not have totally
@@ -279,6 +288,7 @@ be said, then, that (mature) language developed gradually;
 but we insist that its origin must have been an event, a
 radical break from previous modes of communication and
 social organization.
+
 The consequences of this hypothesis are large. Eric Gans
 and the students of GA have developed these results in a
 large body of published work, although there is still much
@@ -311,6 +321,7 @@ ritual. But we each have our own private center of sacrality—
 a major theme of the New Testament. Modernity can be
 described as the development of this originary potential,
 what is sometimes called individualism.
+
 It seems fair to say that the claim that language is scenic has
 not made a big impact in the humanities. I think that for most
 people, this sounds like just another way of saying that
@@ -325,6 +336,7 @@ scene functions to defer violence and enable community;
 potential violence is transcended or sublimated as
 “meaning.” GA insists on ethical functionality as essential for
 our understanding of any cultural phenomenon.
+
 This short essay is necessarily only the beginning of a full
 justification of GA, and I expect that readers will have a host
 of questions and objections. I encourage you to read more

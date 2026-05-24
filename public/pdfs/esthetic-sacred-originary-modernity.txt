@@ -1,12 +1,12 @@
-
-
 The Esthetic, the Sacred, and
 Originary Modernity
 Adam Katz
+
 Department of English
 Quinnipiac University
 Hamden, CT 06518
 Adam.Katz@quinnipiac.edu
+
 In a fairly recent Chronicle of Love & Resentment (326),
 “Return of the Sacred I–the Sacred and the Significant,” Eric
 Gans focuses on the distinction between the “sacred” and
@@ -25,6 +25,7 @@ form of sacrality that need not inhere in ritual. Indeed, Gans
 concludes this Chronicle by presenting the significant less in
 
 contrast to the sacred than as a more minimal form of it:
+
 From the institutional standpoint of ritual, this
 utterance [i.e., the Word of God] is constrained by
 the event as a whole, but from the formal
@@ -40,6 +41,7 @@ sacred inherent in the laws of language is too weak
 to support a god or a law of ritual sacrifice; it can
 guarantee only the most parsimonious of
 anthropologies.
+
 Here, the scare quotes around “profane” seem to suggest
 that the use of the term is metaphorical, which is to say this
 marked usage is straining against the constraints of the
@@ -58,6 +60,7 @@ reside in the strength of the “will that opposes the
 participants’ desire to possess the central object” (Chronicle
 326). And there is no reason why the strength of that will
 must depend upon the presence of ritual.
+
 Rather than viewing the significant as an attenuated form of
 the sacred, we can re-frame the issue by attributing
 “significance” to the sign and sacrality to the object. Both
@@ -95,6 +98,7 @@ that the sign must already be repeated on the originary
 scene and, as I will go on to suggest momentarily, this
 iteration of the sign should be seen as regulating the
 sparagmos as well.
+
 On the originary scene, the sign is put forth by the first user;
 which it to say, when it is put forth it is not yet sign; it
 becomes a “little bit” more sign when it is imitated by the
@@ -126,6 +130,7 @@ object by making it available for consumption. Insofar as the
 sign provides such an abstract rule (once we know how, and
 what it means to, act upon or “implement” it), the sign has
 thereby been immaterialized.
+
 This formulation is meant to address a serious problem we
 confront when we pursue the implications of my claim that
 the presence of the sacred cannot be diminished in any
@@ -154,6 +159,7 @@ Which would be fine, if such an order didn’t require—and if
 GA, as a thinking of the center, wasn’t uniquely qualified to
 offer—critical reflection capable of transcending the daily
 verdicts of the market.
+
 I am willing to wager that such an order does require such
 reflection because unqualified omni-centrism would further
 mean that the participants in the market are incapable of
@@ -179,6 +185,7 @@ fraud, distributing benefits in accord with inscrutable and
 arbitrary norms, but also it would be more sharply perceived
 as intelligence, with each outcome seeming to be the result
 of self-interested calculation.
+
 The anthropology of the “last” is that of Othello’s Iago:
 humans are indeed equal, but in their determination to turn
 the constitutive biases of the system in their favor. That is,
@@ -216,6 +223,7 @@ equipped to produce as many of such “guarantors” as might
 be needed, than it is clear that the conditions prior to the
 emission of the originary sign “produced” the capacity to
 emit it.
+
 The lasts, by themselves, could not threaten society, except
 at the margins. It is the alliance of the lasts with the products
 of the ongoing crisis in firstness in the post-Christian West
@@ -237,6 +245,7 @@ cultural categories. Forms of sacrality, or hallowed sites,
 whether liturgical or secular in origin and character, would be
 the islands of transcendence framing and channeling those
 desires and resentments.
+
 Modernity emerges out of the crisis of the unified Christian
 
 world of the late medieval period, so it would be most
@@ -261,6 +270,7 @@ would not be one in which everyone takes up the cross and
 literally imitates Christ, but one in which the ever-present
 possibility of doing so is explicitly acknowledged and
 instances of actually doing so are honored and remembered.
+
 Once the specific liturgical forms in which this
 acknowledgement is bound up can no longer defer the new
 forms of rivalry and violence attendant upon the emergence
@@ -285,6 +295,7 @@ defines political absolutism and religious delusion as the
 Other of the Truth possessed by the rationalist subject,
 defined, tautologically, as one who is free from and sees
 through such myths.
+
 Rather than simply jettisoning the Christian event, though,
 this would-be sceneless Enlightenment produces a parody
 of it: the founding, traumatic event of the anti-scenic
@@ -315,6 +326,7 @@ reduce the difference between the radical Enlightenment
 and the Romanticism invented by Rousseau, which also
 involves a kind of inverted version of the Christian scene in
 the sacrifice of the marginal individual by “society.”
+
 The other possible remaking of the Christian scene would
 involve a retrieval of an Old Testament-inspired “political
 Hebraism”: a form of republicanism defined territorially and
@@ -349,11 +361,11 @@ from the struggles of the English and Dutch against the
 Spanish Empire, to the British struggle for New World
 
 dominance over the French, to the American founding, up
-through the struggle against the 20
 th
- century
+through the struggle against the 20 century
 totalitarianisms and the presence of today’s divergent paths
 separating Europe and America.
+
 This latter, originary, modernity allows for the proliferation of
 spaces where firstness, in forms of freedom that can then be
 packaged and distributed in the marketplace, is possible;
@@ -369,6 +381,7 @@ constitutional self-government—that can be modified and
 re-shaped as needed to account for new rivalries and
 resentments. But it is precisely this adaptability and flexibility
 that accelerates the victimary stampede.
+
 If what most enrages, though, is precisely the impersonal
 workings of the “machinery” of the marketplace and
 government—because it is this impersonality that is taken as
@@ -398,6 +411,7 @@ matter, deliberately blasphemous or “pagan” sites of
 resistant self-fashioning could be shown to be unintelligible
 without the groundwork laid by those prior transformative
 revelations.
+
 This secular sacrality ensures that we can transcend any
 possible disjunction between the sacred and the esthetic,
 and render unnecessary any narrative that would see the
@@ -417,6 +431,7 @@ and acting as a screen for the frustrated desire of the Other,
 demonstrating in one’s own person the internality of the
 obstacles to that desire, and presenting poles of mimetic
 attraction upon scenes representing its transcendence.
+
 Meanwhile, insofar as the sacrality we honor no longer
 depends upon its being protected from “secularizing”
 influences, it no longer needs to be distanced from the
@@ -443,6 +458,7 @@ taking responsibility for new chains of events which are
 nevertheless pointedly dependent for their completion upon
 those fellow sign-users who would have (and perhaps did)
 initially resist them.
+
 Let’s return to the chiastic model I presented earlier. If what
 initiates any act of semiosis is the experience of the danger
 of mimetic rivalry, which is to say, an increase of doubt
@@ -469,15 +485,19 @@ new style and norm which invites participation and an
 improvised iteration; a style and norm that draws attention to
 its own constitution as a dictation taken from the intelligence
 of the center.
+
 Notes
+
 1. I would like to thank Andrew Bartlett for pointing out the
 relevance of this passage from Signs of Paradox to my
 discussion. (back)
+
 Works Cited
+
 Gans, Eric. Signs of Paradox: Irony, Resentment and Other
 Mimetic Structures. Stanford: U P, 1997.
+
 ⸻-. “Return of the Sacred, I: The Sacred and the
 Significant.” Chronicles of Love and Resentment no. 326.
 dec. 17, 2005. Available <http:
 anthropoetics.ucla.edu/views/vw326.htm>.
-
