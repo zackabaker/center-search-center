@@ -1,5 +1,3 @@
-
-
 Mimesis, the Center and
 Auto-Immunology: A Review
 of Daniel Ross’s
@@ -7,10 +5,12 @@ Psychopolitical Anaphylaxis:
 Steps Toward a Metacosmics.
 Open Humanities Press 2021.
 Adam Katz
+
 Department of English
 Quinnipiac University
 Hamden, CT 06518
 Adam.Katz@quinnipiac.edu
+
 It’s long past time for originary thinking to think technics,
 which is emerging, in the wake of the work of Gilbert
 Simondon and Bernard Stiegler in particular, as a term to
@@ -31,6 +31,7 @@ intelligible on this small scale: we know what it means to be
 envious of a neighbor, resentful of a more successful
 coworker, to desire the possessions or attributes of another
 person.
+
 Our representational technologies are suited to this scale,
 but these concepts don’t scale up in any obvious way. What
 can it mean to speak, on a social scale, of millions of people
@@ -45,6 +46,7 @@ manner (some resent a lot, others less so, some not at all)?
 Occasionally resenting, while at other times going about
 their business? Wavering between resentment and
 admiration, or indifference?
+
 As soon as we try to explain some event or history trajectory
 using such terms, we will find that we need to at least
 
@@ -62,6 +64,7 @@ there is any sustained thinking of technics in GA, and we
 can’t scale up without it; and once we do scale up, our
 concepts will take on a different shape, at least insofar as we
 apply them to the historical world.
+
 Fortunately, the world of academic theory has turned its
 attention to questions of technics and technology: there is
 the work of Benjamin Bratton, and the Strelka research
@@ -93,6 +96,7 @@ subjectivities that must be presupposed as a basis of
 liberalism and democracy: to put it simply, there can be no
 more external human “measure” of the justice of social and
 political arrangements.
+
 Part of this new thinking of technics results from the
 reception of thinkers of technics like André Leroi-Gourhan
 and Gilbert Simondon whom one might say were
@@ -117,6 +121,7 @@ emerging from it as “negentropic” (terms Stiegler and now
 Ross take over from systems theory and cybernetics) we
 already have the terms on which we can learn from Ross and
 perhaps teach him a few things in turn.
+
 The technophobia of humanists and poststructuralists alike
 has been complemented by a “biophobia,” or a terror of
 seeing human life as continuous with life in general. Here, as
@@ -135,6 +140,7 @@ continued this line of inquiry, preventing his project, in Ross’s
 view, from fulfilling its early promise due to a reluctance to
 pursue the history of “inscription” beyond anything that
 could be called “writing.”
+
 Stiegler retrieves this promise of a grammatology. Rather
 than writing, it is, for Stigler, technics that has been
 suppressed by metaphysics. The very fact that it is still
@@ -159,6 +165,7 @@ the human community. Technics, then, begins with the
 from other marks and defers the meaning indicated by the
 mark insofar as that meaning can only be redeemed by
 subsequent marks.
+
 Stiegler acknowledges the question: whence tertiary
 retention? He speaks of a “default of origin,” which anyone
 cognizant of the originary hypothesis will find unsatisfactory.
@@ -177,6 +184,7 @@ gradual process in which humans would find themselves
 with tertiary retention without realizing how they came by it—
 as if the various “marks” made by our hominid predecessors
 came, imperceptibly, to take on a new character.
+
 But that just means that the originary hypothesis has a
 different account of tertiary retention, of the objectification
 of memory in some material. Where, exactly, though? The
@@ -198,6 +206,7 @@ movements, arrangements and props that organize the
 scene through the accretion of the memories of the group in
 its ongoing dialogue with the center is the origin of
 technology.
+
 Life is a struggle against entropy, which is to say, it is what
 Ross refers as to as the “negentropic” counter-tendency to
 entropy. The construction of internal systems engaged in
@@ -231,6 +240,7 @@ a highly improbable, indeed extraordinary, restoration of
 information exchange amongst members of the group and
 erects the tertiary retention that must henceforth be
 protected for its negentropic effectiveness.
+
 I can’t recall any discussions in GA that take the notion of the
 “scenic” literally enough to consider that scenes need to be
 constructed, and constructed in such a way as shape
@@ -247,6 +257,7 @@ arranged so as to derive information from the center. If we
 think scenically in this way, we are prepared to enter fully
 into commerce with discourses such as Ross’s, and provide
 an anthropological “density” lacking in Ross’s discussion.
+
 Such scenic thinking, that is, is what will enable GA to scale
 up. Indeed, rather than Ross’s still subject-centered analysis
 of the political, which remains focused on the kinds of
@@ -260,6 +271,7 @@ democratic centralizing anti-centrism. We can think of the
 kind of scenes that need to be constructed in each case so
 as ensure that information flows back and forth between
 center and periphery.
+
 There would be plenty of room for productive disagreements
 
 here—a liberal case might be made, for example, to the
@@ -276,6 +288,7 @@ keep us aware that all of us, as participants in the design of
 whatever scenes we contribute to, are ourselves fully
 products of the scenes we have rehearsed on and for,
 scenes designed by those whose work we continue.
+
 Stiegler, as Ross points out, draws upon the invention of
 alphabetic writing, as analyzed in the work of the linguist
 Sylvain Auroux, to develop the concept of “grammatization,”
@@ -286,6 +299,7 @@ discrimination and analysis, not necessarily conscious, of the
 discrete phonetic elements that would become the letters”
 (38). This is critical to Stiegler’s revision and continuation of
 the project of grammatology initiated by Derrida:
+
 Stiegler’s genius was to recognize that a process of
 
 spatialization, materialization, discretization and analysis lies
@@ -304,7 +318,8 @@ the worker that had to become subject to a process of
 grammatization in order for the mechanization and
 automation of industrial manufacturing to be established in
 the nineteenth century. (ibid)
-We can see in this discussion the prerequisite for Stiegler ’s
+
+We can see in this discussion the prerequisite for Stiegler’s
 notion of “proletarianization” that he sees as having
 accompanied industrialization, as the knowledge, tacit and
 inherited, as well as explicit, of workers gets expropriated
@@ -321,6 +336,7 @@ the gesture, refining so that it serves more effectively in the
 more or less effective depending upon how it is designed so
 as to preserve the memory of everything that has “worked”
 in previous scenes, in response to disruptive events.
+
 Moreover, ritual is meant to do something and make
 something happen, even if what it makes happen is not
 exactly what the participants imagine it does (is not the
@@ -338,6 +354,7 @@ technics from its ritual origins. Technology would still be a
 practice of materializing memory, but in this case memory of
 those external interventions which discretized gesture for
 some unprecedented purpose.
+
 Meanwhile, the expropriation of the knowledge of workers
 brought about by grammatization does make possible new
 
@@ -359,6 +376,7 @@ new industrializing elites will focus directly on simply
 immunizing the new arrangements against this disruptive
 resentment, thereby further disqualifying and alienating the
 displaced target populations.
+
 The necessary scenic conditions, that is, are daunting. This
 is part of the “pharmacological” nature of all transformations
 in the social “exoskeleton,” in which what is medicine is also
@@ -376,6 +394,7 @@ sharp distinction between “information” and “knowledge,”
 and I think we could say that information is the direct
 descendant of ritual insofar as its use is measured by the
 immediate transformation it effects.
+
 But information can be, like currency, constantly pumped
 into the system so as to become “useful” in simulated, ritual-
 like ways, while being ultimately worse than useless, that is,
@@ -413,6 +432,7 @@ calculations of global financial institutions) on all spheres of
 life. And this expropriation is predicated, paradoxically, on
 the naturalization of what are necessarily artificial socio-
 economic relations:
+
 Hayek’s version of the cosmo-local is therefore
 fundamentally based on a denial of Stiegler’s demonstration
 that the condition of all neganthropic order is artificial and
@@ -425,6 +445,7 @@ care-ful reinvention of knowledge and not just the
 assumption that existing knowledge guarantees successful
 adjustment to changed economico-technological conditions.
 (264)
+
 At this point, Ross’s very ambitious book is taking on the
 global economy, which it’s hard to imagine anyone, at this
 point, seeing as very just or functional. Whatever one’s
@@ -439,6 +460,7 @@ control over economic activity and beholden to no sovereign
 power (only perhaps a few of which could exercise any
 control, and that only through very intrusive and coercive
 mechanisms).
+
 Ross advocates a transition to what he calls a “contributory
 economy,” without saying very much about what that looks
 like or how to get there. Ross’s book is refreshingly free of
@@ -452,6 +474,7 @@ bringing about any kind of change without collapsing into
 laughable clichés about “grass-roots movements,” one ends
 up fixing one’s eyes on the very figures who seem to be the
 problem—those with power.
+
 This is another way of saying that Ross, while admirably
 avoiding the trap of indulging in yet another set of political
 fantasies involved in “decentralization,” does not want to
@@ -466,6 +489,7 @@ he traces from Empedocles through Nietzsche and Freud,
 that would see reality as composed of a perpetual struggle
 between opposing forces, with this mode of thought
 enabling the “metacosmical” program Ross calls for.
+
 All this remains within contemporary philosophical debates:
 what tensions, exactly, are to be “composed” in such a way
 as to ensure the kind of “localizations” required for
@@ -484,6 +508,7 @@ and the USSR in the Cold War) send the political and
 ideological system into overdrive, sending out antibodies
 that extirpate anything the liberal democratic order
 considers anomalous?
+
 This auto-immune disorder has the paradoxical result of
 attacking every form of social attachment that can’t be
 “read” by the “programs” created by the neoliberal
@@ -499,11 +524,11 @@ explore these questions without seeming to worry too much
 whether they are too “like” either “extreme” may be a sign
 that some autoimmune adjustment is possible. We may be
 ready to devote our political resources to something other
-than mopping up after either of the two great 20
 th
- century
+than mopping up after either of the two great 20 century
 
 conflicts.
+
 What we need to “care” about in order to transition to the
 “contributory,” to be blunt, is a pathological anti-centerism.
 (We could say that the “West” is best defined, not in terms
@@ -519,6 +544,7 @@ fighting against some other more powerful center. Everyone
 wants power to fight the power, without ever wanting to
 acknowledge that this constitutes an admission that there
 will always be power.
+
 Not only does each national state use every crisis and
 pseudo-crisis to reach more deeply into every aspect of its
 subject’s lives (and, therefore, Ross wants to point out,
@@ -539,6 +565,7 @@ become worthy of emulation. This is how you turn poison
 into medicine: study people in their social roles with an
 interest in everything that might make them actionable
 models.
+
 I’m not talking about some anodyne “character matters”
 political pablum or, if we want to apply that label, we’d have
 to keep in mind that only someone who fills his office is
@@ -551,6 +578,7 @@ order seems to draw upon models such as the medieval city
 or small town, but ritual order is equally endogenous while
 involving more of a “prayerful” than a “careful” relation, not
 just to other members, but to the center.
+
 A prayer involves an exchange of imperatives: tell me how to
 serve you. At its most refined, or most “technical,” the
 imperative exchange enacted in prayer distills itself into
@@ -562,6 +590,7 @@ more than the exchange itself. Moreover, such an exchange
 relation is the proper relation to those whom we emulate or
 would emulate or, for that matter, to those who might
 emulate us.
+
 If such relations are impossible and even unthinkable, well,
 then, that is what needs to be remedied, and if you want to
 say that doing so is impossible and unthinkable, I will simply
@@ -574,7 +603,7 @@ any orders from you until you’ve provided me with a full
 account of the infrastructures ungirding your power (how
 you came by it, with whose help, in whose interest, at whose
 expense, in conformity with or denial of which legal
-mechanisms or principles...)—to my satisfaction, of course.
+mechanisms or principles…)—to my satisfaction, of course.
 This is the resentment that scales up and proliferates virally
 across the social and political order without regard to
 distinctions between right and left. More local resentments,
@@ -595,12 +624,13 @@ have in our personal data; governments are no less
 interested in such data, to the point where traditional ways of
 thinking about privacy and civil liberties seem pathetically
 outdated.
+
 We as individuals are equally (desperately) dependent upon
 reliable data from power centers, whether they be
 governments, corporations, or other institutions like
 universities—or, for that matter, “rogue” sources we may
 trust more but themselves must claim some access to
-secure data banks.  Data is becoming more currency than
+secure data banks.  Data is becoming more currency than
 currency itself; indeed, isn’t one of the virtues attributed to
 money that it provides reliable and up-to-date information
 on the field of social desires and distribution of resources
@@ -622,6 +652,7 @@ does know things about our respective milieus that no one
 else does, even if it may sometimes be the case that the
 proper questioning or framing is required to elicit such
 knowledge.
+
 So, rehearsing for the improbable means enhancing one’s
 curatorial capacities so that one is increasingly competent in
 providing data that might be of use to the center and sifting
@@ -638,6 +669,7 @@ requires “imagining” expanded scenes, upon which the data
 one has at hand might take on very different meanings as it
 is included in very different data sets over time and across
 space within the various mnemotechnical institutions.
+
 And it requires the habit of treating as data what is not
 ordinarily seen as such, like one’s everyday use of language,
 which, in a sense is where all data exchange finds its
@@ -655,6 +687,7 @@ can’t say that we know what it means to follow an order,
 what can we say we know? Restoring such basic linguistic
 capacities is the first order of business in contributing to the
 kind of “metacosmos” Ross would have us turn our sights to.
+
 For GA, meanwhile, this focus on data exchange serves as a
 reminder that we are always on a scene, even if the scenes
 upon which we act today are more likely to be disciplinary
@@ -681,28 +714,40 @@ under the influence of various information “highs.” It enables
 us, that is, to model ways of thinking and acting worthy of
 emulation, so that GA can become integral to the
 contributory economy.
+
 Bibliography
+
 Amoore, Louise. Cloud Ethics: Algorithms and the Attributes
 of Ourselves. Duke University Press, 2020.
+
 Bratton, Benjamin. The Stack: On Software and Sovereignty.
 The MIT Press, 2016.
 
-Bucher, Taina. If... Then: Algorithmic Power and Politics.
+Bucher, Taina. If… Then: Algorithmic Power and Politics.
 Oxford University Press, 2018.
+
 Colomina, Beatriz and Mark Wigley. Are We Human? Notes
 on an Archeology of Design. Lars Muller Publications, 2017.
+
 Halpern, Orit. Beautiful Data: A History of Vision and Reason
-Since 1945. Duke University Press, 2015.
+Since 1945. Duke University Press, 2015.
+
 Hui, Yuk. Art and Cosmotechnics. e-flux Architecture, 2021.
+
 ⸻-. The Question Concerning Technology in China: An
 Essay in Cosmotechnics. Urbanomic, 2016.
+
 Leroi-Gourhan, Andre. Gesture and Speech. MIT Press,
 2018.
+
 Simondon, Gilbert. UI. University of Minnesota Press, 2017.
-Stiegler, Bernard. Te c h n i c s   a n d   T i m e   1 :   T h e   F a u l t   o f
+
+Stiegler, Bernard. Technics and Time 1: The Fault of
 Epimetheus. Stanford: Stanford University Press, 1998.
-⸻-. Te c h n i c s   a n d   T i m e   2 :   D i s o r i e n t a t i o n. Stanford:
+
+⸻-. Technics and Time 2: Disorientation. Stanford:
 Stanford University Press, 2009.
-⸻-.Te c h n i c s   a n d   T i m e   3 :   C i n e m a t i c   T i m e   a n d   t h e
+
+⸻-.Technics and Time 3: Cinematic Time and the
 Question of Malaise. Stanford: Stanford University Press,
 2010.

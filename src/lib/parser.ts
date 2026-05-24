@@ -137,7 +137,9 @@ function fixWordConcatenation(text: string): string {
     .replace(/([a-z])([.!?])([A-Z])/g, '$1$2 $3')
     .replace(/([a-z'””'\\)])([A-Z][a-z])/g, '$1 $2')
     .replace(/”([A-Za-z])/g, '” $1')
-    .replace(/(\d+(?:st|nd|rd|th))([a-z])/gi, '$1 $2');
+    .replace(/(\d+(?:st|nd|rd|th))([a-z])/gi, '$1 $2')
+    // digit immediately before a title-case word: “1991Rights” → “1991 Rights”
+    .replace(/(\d)([A-Z][a-z])/g, '$1 $2');
 
   for (const w of SAFE_SPLIT_WORDS) {
     r = r.replace(new RegExp('([a-z]{2,})(' + w + ')(?=[^a-z]|$)', 'g'), '$1 $2');

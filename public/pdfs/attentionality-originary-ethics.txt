@@ -1,19 +1,20 @@
-
-
 Attentionality and Originary
 Ethics: Upclining
 Adam Katz
+
 Department of English
 Quinnipiac University
 Hamden, CT 06518
 Adam.Katz@quinnipiac.edu
+
 However paradoxical it may seem, I venture to suggest that
 our age threatens one day to appear in the history of human
 culture as marked by the most dramatic and difficult trial of
 all, the discovery of and training in the meaning of the
 ‘simplest’ acts of existence: seeing, listening, speaking,
-reading...
+reading…
 Louis Althusser, Reading Capital, 15
+
 An act of pure attention, if you are capable of it, will bring its
 own answer. And you choose that object to concentrate
 upon, which will best focus your consciousness. Every real
@@ -21,9 +22,11 @@ discovery made, ever serious and significant decision ever
 reached, was reached and made by divination. The soul stirs,
 and makes an act of pure attention, and that is a discovery.
 D.H. Lawrence, “Etruscan Places,” 55.
+
 In a recent Chronicle of Love and Resentment, Eric Gans
 
 frames the ethical function of language as follows:
+
 In all the years in which I have attempted to explain GA in
 writing and in speech, I have tended to place the major
 emphasis on representation, and in particular on “formal
@@ -66,7 +69,8 @@ resources we need for thinking about ethics lie in joint
 attention, in our ability to point to something, and
 approaching ethics in this way might enable us to create
 more minimal, more pared down, ethical vocabularies.
-To   s t a r t   w i t h ,   i f   w e   c a n   fo l d   m o r a l   r e c i p r o c i t y   i n t o   t h e   s h a r e d
+
+To start with, if we can fold moral reciprocity into the shared
 attention constitutive of the sign and scene, couldn’t we say
 that what is immoral and a denial of reciprocity is whatever
 interrupts that shared attention? There are two ways shared
@@ -139,6 +143,7 @@ use this knowledge to help patients block the fearful
 emotions they experience when recalling a traumatic event,
 converting chronic sources of debilitating anxiety into benign
 trips down memory lane.
+
 If the originary event is event and sign together, then there is
 no event without the sign being both emitted and iterated by
 all the participants on the scene—just as memories are not
@@ -162,6 +167,7 @@ turning the event into a sign—a sign, I would suggest, that
 prevents the one violent event from becoming the first in a
 series of such events compulsively suffered and/or
 committed.
+
 I would call this restoration of the line of attention the “loop”
 in the line of attention, and undergoing this looping is what I
 would call “ostentation,” which is where ethical being is
@@ -176,6 +182,7 @@ attention, or whether one has proactively identified a break
 or fixated upon (and thereby aggravated) the source of the
 break in that line can only be known in the aftermath on a
 new, converted scene of joint attention.
+
 We keep the line of attention going by language learning—
 every loop in the line of attention involves an encounter of
 idioms. While it would be absurd to say that each of us
@@ -213,6 +220,7 @@ note that we are able to compose are, really, then, variant
 constructions, and “thinking” a process of transforming
 
 chunks and commonplaces into such variant constructions.
+
 Ethical being involves not so much learning the language of
 the other, or teaching the other one’s own language,
 because “language” is not a static entity that can stand still
@@ -227,6 +235,7 @@ have not been attending to the same thing after all, and our
 recourse is to attend to what we normally attend from:
 language, or the possibility of joint attention, an indication of
 faith in the capacity of shared deferral.
+
 If new language is always emerging on the margins of any
 semiotic encounter then two things follow: first, that this
 emergent language upsets the rough symmetry of the
@@ -260,6 +269,7 @@ into the newly formed joint attention—and joint attention is
 self-authenticating, recognizing only such precursors and
 origins as it needs to sustain itself in the face of distractions
 and fixations.
+
 The joints of language include far more than the elements of
 speech—there is tone, for example, and also within speech
 itself there is phonosemantics, but beyond that there is
@@ -296,6 +306,7 @@ based, implicitly, on one’s right to what one can defend. He
 does, though, have an understanding of fairness and is
 constituting a scene around himself through his gesture and
 posture.
+
 Gesture and posture do not seem to work the same way as
 the levels of spoken language—they not are composed of a
 system of intrinsically meaningless elements, nor are they
@@ -354,6 +365,7 @@ that each signifying act makes sense by heightening or
 singling out respect for at least some of these rules and
 boundaries, even if this respect is shown by violating and
 transgressing others.
+
 The insistence upon the entanglement of mind and body in
 language events evokes the Sapir-Whorf hypothesis that
 there are no universally shared cognitive concepts outside of
@@ -385,6 +397,7 @@ to identify the “emergent language” I am arguing is central to
 ethics, but a good way to get there is through a discussion of
 one way in which the hypothesis has proven generative for
 some cognitive linguists.
+
 Dan Slobin sums up a problem, derived from linguistic
 theories of grammaticalization, and that has been engaging
 cognitive linguists, when he points out that “[t]here is a cline
@@ -393,6 +406,7 @@ specialized grammatical morphemes” (426). The cognitive
 linguists Dedre Gentner and Lena Boroditsky use this
 distinction to modify the Whorfian problem by proposing
 what they call a “division of dominance”:
+
 At one extreme, concrete nouns—terms for objects and
 animate beings—follow cognitive-perceptual dominance.
 They denote entities that can be individuated on the basis of
@@ -405,6 +419,7 @@ independent of language. Verbs and prepositions—even
 between. Unlike closed-class terms, they have denotational
 functions, but the composition of the events and relations
 they denote is negotiated via language. (216-7)
+
 So, at the first extreme, thought is independent of language,
 which in practice we can take to mean first, easily and
 uncontroversially translatable; and, second, readily reducible
@@ -421,6 +436,7 @@ grammaticalization relativizes the distinction between the
 domains of dominance, since content items make their way
 down the “cline” to grammatical ones. “Basic verbs,”
 according to Slobin,
+
 appear at the beginnings of grammaticization clines
 because, when they are used in a conversational context,
 they contrast with the more specific verbs that could be
@@ -429,16 +445,18 @@ those more specific meanings were not intended. This opens
 
 the way for the kind of pragmatic inferencing and reanalysis
 that lie at the heart of grammaticization.
+
 Given these facts, it is evident that the special character of
 grammaticizable notions has its origin, in part, in the lexical
 items from which grammatical items are prone to develop.
 That is, the “open class” is already organized into general
 and specialized terms—and this division can be accounted
 for by quite ordinary psycholinguistic and communicative
-processes... Why are such words prone to grammaticize?
+processes… Why are such words prone to grammaticize?
 Because of their generality they are both highly frequent and
 likely to be used in contexts in which the speaker does not
 intend to communicate a specialized meaning. (433-4)
+
 Slobin goes on to give the example of verbs designating
 “taking”—if I use a more specialized verb like “grasp” or
 “seize,” I wish to draw attention to the manner of taking
@@ -449,6 +467,7 @@ draw attention to a more general domain of activity
 grammaticalization, which might involve becoming an
 “auxiliary” verb or, in the case of “take” entering into a range
 of idioms (take over, take on, take it to, take down, etc.).
+
 The process of grammaticalization is surely shaped, as
 Slobin says, “by the online demands on the speaker to be
 maximally clear within pragmatic constraints and maximally
@@ -472,6 +491,7 @@ happens here is that a possibility within language opens a
 possibility within thought—the distinction between “take”
 and “seize” makes it possible to imagine “taking
 responsibility,” or “taking one’s time.”
+
 At this point, originary thinking moves beyond cognitive
 linguistics, because we must assume that there were a few
 words and then many, and those few words must have
@@ -505,7 +525,7 @@ development and language learning: “thinking” is initiated
 when a piece of a chunk “sticks out” (because the chunk is
 used mistakenly, because it is learned so well as to become
 material rather than transparent, because it collides with
-other chunks...), is withheld from its normal circulation, and
+other chunks…), is withheld from its normal circulation, and
 opens up a new grammatical and semantic domain. This
 
 withholding from normal circulation, in fact, conforms to the
@@ -516,6 +536,7 @@ ways, but is instead being (in)completed in this way. And the
 (in)completion in the case of the aborted act/gesture can
 also be generalized to a range of as yet unanticipated
 situations, whereas acts are bound to a restricted context.
+
 The consequences for ethics of this reciprocal implication
 and generation of language and thinking are as follows.
 Ethical concepts like “equality” and “fairness” are not really
@@ -565,6 +586,7 @@ exclusively to searching the will of God, but rather that those
 
 called to such renunciation should be honored as models to
 imitate, to the extent that one can, in one’s daily life.
+
 A study in ethics, then, can be reduced to the study of those
 practices, norms and institutions, which is to say, a study of
 disciplines, in the fullest sense of the word(2): including both
@@ -599,7 +621,8 @@ satisfaction, to new ways in which, as Tomasello puts in in
 describing the young child’s internalization of the linguistic
 symbol, we can become aware of how the “current situation
 may be attentionally construed by ‘us’” (13).
-To   i n s t i t u t e   a   w o r d   i n   t h i s   w a y   i s   t o   c o n s t r u c t   a   r u l e   fo r   i t s
+
+To institute a word in this way is to construct a rule for its
 use, a rule designed to prevent other possible usages, and a
 rule drawn from some actual or imagined domain of prior
 usage. Perhaps the earliest such procedure is the ubiquitous
@@ -640,24 +663,27 @@ which they have dedicated themselves have considerable
 advantages over the defenders of deferral and discipline.
 This is the advantage exploited for quite a while by Marxism
 in which, in Michael Polanyi’s terms
-[s]cientific skepticism and moral perfectionism join forces...
+
+[s]cientific skepticism and moral perfectionism join forces…
 in a movement denouncing any appeal to moral ideals as
 futile and dishonest. Its perfectionism demands a total
 
 transformation of society; but this utopian project is not
 allowed to declare itself. It conceals its moral motives by
 embodying them in a struggle for power, believed to bring
-about automatically the aims of utopia... The power of
+about automatically the aims of utopia… The power of
 Marxism lies in uniting the two contradictory forces of the
 modern mind into a single political doctrine. Thus originated
 a world-embracing idea. In which moral doubt is frenzied by
 moral fury and moral fury is armed by scientific nihilism. (59-
 60)
+
 Understandably, it took liberal citizens quite a while to find
 means of defending themselves from this combination of
 frenzy and scientific nihilism disguised as oscillations
 between skepticism and certainty; perhaps they have not yet
 completely learned how to do so.
+
 A proliferation of disciplines comes in the wake of the
 decline of a shared sacrality—God is no longer named, but
 the word/names that found the disciplines (“society,”
@@ -761,6 +787,7 @@ nothing more than elaborate justifications for such a
 be assumed to be potential “incubators” of such outbreaks,
 and their monitoring a significant, if not central, concern of
 ethical thinking.
+
 Proceduralist tendencies in modern art are part of this
 process of monitoring. Producing a work according to an
 arbitrary rule is preparatory for noting and countering
@@ -826,6 +853,7 @@ of both, indeed all, sets of rules.(3) The euphemism is the
 tribute evil must pay to joint attention and it can always be
 taken up so as to direct attention towards the complex of
 distraction and fixation constitutive of the euphemism.
+
 Ethical behavior in everyday life, then, relies on the creation
 of little disciplinary spaces out of the available semiotic
 material. This doesn’t mean that all those who “just” treat
@@ -854,6 +882,7 @@ dilemmas, something new disciplinary procedures must at
 least gesture towards. Some distinction between newly
 generalized/retrieved term and more specialized
 instantiations will be necessary to constitute the space.)
+
 My discussion, thus far, conflates religious, cultural, esthetic
 and scientific practices under the category of the
 “disciplinary.” I think this is essentially correct, insofar as all
@@ -887,10 +916,12 @@ don’t. In each case language learning is maximized because
 other discourses are allowed to induce the kind of semiotic
 crises that allow for new problems of language to emerge
 between us.
+
 David Olson, near the conclusion of his study of the role of
 
 education in literate and therefore bureaucratic societies,
 asserts that
+
 In a modern bureaucratic world, knowledge, virtue and ability
 take on new form. Institutions such as science preempt
 knowledge, justice systems preempt virtue, and functional
@@ -900,14 +931,15 @@ form of private mental states and moral traits of individuals
 than in the form of competence in the roles, norms, and rules
 of the formal bureaucratic institutions in which they live and
 work. (288)
+
 Olson is, of course, right, and yet “we can conclude with x
 degree of certainty that, given the assessment of evidence
 according to the established procedures, subject to follow
-up research regarding certain inconclusive results...” cannot
-completely replace “I think that...”; nor can “the aggregate
+up research regarding certain inconclusive results…” cannot
+completely replace “I think that…”; nor can “the aggregate
 well-being of the community, measured according to the
 following metrics and subject to international comparison, is
-likely to decline...” completely replace “I refuse to...”. “If,” as
+likely to decline…” completely replace “I refuse to…”. “If,” as
 Olson continues, “these institutions fall apart, personal
 competence and private virtues tend to vanish with them,” it
 is equally the case that without reserves of personal
@@ -934,12 +966,13 @@ meaning, can sustain the generativity of the disciplines.
 Upclining is originary thinking—retrieving the word forward,
 withholding a more general meaning yet to be instantiated
 from the general semantic circulation, is the way of living in
-anomalies and paradoxes. It may be true that “I think that...”
-and “I refuse to...” are no longer worth very much but we can
+anomalies and paradoxes. It may be true that “I think that…”
+and “I refuse to…” are no longer worth very much but we can
 “post” ourselves within disciplines, iterating distracting
 entrances that allow for attention to be directed to the
 discipline as such, and attention to disciplinarity is the form
 attention to scenicity takes today.
+
 The definition of ethics as upclining might, finally, allow us to
 
 revisit the critique of White Guilt and victimary discourse
@@ -980,6 +1013,7 @@ from the perpetual exposure of hypocrisy, and the liberated
 are delivered to the competition to commit the
 transgressions that expose the biggest gap between
 assertions of deferral and actual appropriation.
+
 The cognitive linguistics from which I have drawn much of
 my discussion of language learning, joint attention and
 disciplinarity speaks, like the phenomenological and Gestalt
@@ -1019,30 +1053,37 @@ to the gazes issuing from other versions, through which
 come other gazings from more distant but maybe, once
 attended to within the disciplinary space, more intimate,
 overlapping spaces.
+
 Works Cited
+
 Althusser, Louis, and Etienne Balibar. Reading Capital.
 Translated by Ben Brewster. London: New Left Books, 1972.
 
 Bowerman, Melissa, and Stephen C. Levinson, eds.
 Language Acquisition and Conceptual Development.
 Language, Culture, and Cognition 3. Cambridge, UK; New
-Yo r k :   C a m b r i d g e   U n i ve rs i t y   P re ss ,  2 0 0 1.
+York: Cambridge University Press, 2001.
+
 Gans, Eric. “Originary Ethics.” The Chronicles of Love and
 Resentment. No. 431. September 15, 2012.
 http://anthropoetics.ucla.edu/views/vw431.htm
+
 Gentner, Dedre, and Lera Boroditsky. “Individuation,
 Relativity and Early Word Learning,.” in In Language
 Acquisition and Conceptual Development, edited by Melissa
 Bowerman and Stephen C. Levinson, ed.,214-56. Language,
 Culture, and Cognition 3. Cambridge, UK; New York:
 Cambridge University Press, 2001. 214-256.
+
 Hall, Stephen S. “Repairing Bad Memories.” MIT Technology
 Review, Monday June 17, 2013,
 http://m.technologyreview.com/featuredstory/515981/repairi
 ng-bad-memories/.
+
 Kriss, Sam. “Book of Lamentations.” The New Inquiry.
 October 18, 2013. http://thenewinquiry.com/essays/book-of-
 lamentations/
+
 Lawrence, D.H. D.H. Lawrence and Italy: Twilight in Italy. Sea
 and Sardinia. Etruscan Places. New York:, Penguin Books,
 1972.
@@ -1052,38 +1093,49 @@ Reformulation of the Linguistic Relativity Hypothesis.
 Studies in the Social and Cultural Foundations of Language.
 12. Cambridge, UK; New York: Cambridge University Press,
 1992.
+
 Olson, David R. Psychological Theory and Educational
 Reform: How School Remakes Mind and Society.
 Cambridge, UK; New York: Cambridge University Press,
 2003.
+
 Polanyi, Michael. The Tacit Dimension. Chicago: University of
 Chicago Press, 1966.
+
 Rieff, Philip. Charisma: The Gift of Grace and How It Has
 Been Taken From Us. New York: Vintage, 2008.
+
 Slobin, Dan I. “Form-function Relations: How do Children
 Find out What They Are?” In Language Acquisition and
 Conceptual Development, edited by Melissa Bowerman and
 Stephen C. Levinson, 406-449. Cambridge, UK; New York:
 Cambridge University Press, 2001.
+
 Sloterdijk, Peter. You Must Change Your Life. Translated by
 Wieland Hoban. Cambridge, UK; Malden, MA: Polity Press,
 2013.
-To m a s e l l o ,   M i c h a e l . Constructing a Language: A User-Based
+
+Tomasello, Michael. Constructing a Language: A User-Based
 Theory of Language Acquisition. Cambridge, MA: Harvard
 
 University Press, 2005.
+
 Whorf, Benjamin Lee. Language, Thought and Reality:
 Selected Writings. Cambridge, MA: The MIT Press, 1956.
+
 Notes
+
 1. For discussions of the Sapir-Whorf hypothesis, the best
 place to begin is Whorf’s Language, Thought and Reality; for
 a more recent discussion, see John A. Lucy, Language
 Diversity and Thought: A Reformulation of the Linguistic
 Relativity Hypothesis, Cambridge, UK; New York: Cambridge
 University Press, 1992. (back)
+
 2. Such a study has gotten well under way in Peter
 Sloterdijk’s You Must Change Your Life, albeit not on the
 linguistic terms I will propose here. (back)
+
 3. For a very enlightening and enjoyable example of the kind
 of thing I have in mind, or at least one kind, see Sam Kriss’s
 “The New Lamentations,” an essay in the online journal The
@@ -1094,4 +1146,3 @@ this way, it seems to me, a hypothetical origin of psychiatry
 from which the discipline could be imagined to have
 deviated is indirectly proposed, and therefore a possible
 post within the discipline. (back)
-

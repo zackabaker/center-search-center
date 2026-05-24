@@ -1,71 +1,1249 @@
-Generative Anthropology asthe One Big DisciplineAdam KatzDepartment of EnglishQuinnipiac UniversityHamden, CT 06518Adam.Katz@quinnipiac.eduIf the originary hypothesis entails that all human possibilitiesmust be implicit in, and therefore traceable back to, theoriginary scene, then it follows that Generative Anthropologymust be the human science. And if Generative Anthropologyis the human science, it must be both incommensurable withand inclusive of all existing human sciences. This placesthinkers within GA in a somewhat anomalous position: a tiny,at best barely noticed minority within the human sciencesconsidering itself the practitioners of the only genuinescience. This raises the question of what our relationship tothe other human sciences should be. But before thatquestion comes another one: what, exactly, counts as ahuman science, and what should a human science be doing?The notion that the human sciences should be modeled onthe physical sciences, presupposing an objective, neutralobserver, universally transparent categories and even
+Generative Anthropology as
+the One Big Discipline
+Adam Katz
 
-mathematical methods, and the equivalent of theexperimental method, has been discredited. The fact thathuman inquirers are part of the phenomena they areinquiring into makes the human sciences a qualitativelydifferent enterprise. (I will leave aside the question of howunquestioned these assumptions are for the physicalsciences themselves.)We cannot establish any pre- or trans-historical startingpoint for the human sciences—we always begin withintraditions of inquiry. All of these traditions have their origin insome break with one ritual or mythological order or another.Some kind of institution or practice that is unintelligible, andyet a source of sanctioned behavior and modes of activitywithin the existing order, must be what initiates the breakand prompts attempts to understand it. Institutions such asmoney, markets, writing, and republican and democraticgovernments might all qualify, and, indeed, we see all ofthese in what, in the West at least, is the first human science,Greek philosophy. The question addressed by Plato in TheRepublic is still the question all human sciences, more or lessdirectly, must be trying to ask: what is a good way for peopleto live together? Within a ritual order, such questions couldnot be asked: the way to live is the way we have always lived,as prescribed by the ritual order and explained by themythological order. So, a recognition of some disorderingelement, and a consideration of how to return to a “good”
+Department of English
+Quinnipiac University
+Hamden, CT 06518
+Adam.Katz@quinnipiac.edu
 
-order, is central to the human sciences.Richard Seaford makes a very strong case for money beingthe disordering element at the origin of ancient Greekmetaphysics. The universality, eternity, and convertibility ofmoney all find their equivalents in metaphysics, and Seafordeven provides a compelling reading of Greek tragedy,showing that money is recognized as the disorderingelement in the Greek polis. Furthermore, the variousantinomies of metaphysics, such as between the materialand the ideal, the individual and society, all find theirequivalent in money as well. At the same time, metaphysicshad to be written down, the effect of writing and thesubsequent confusion over the meaning of words wassystematically reflected upon in Plato’s texts, and a paralleltradition represented by scholars like Eric Havelock, WalterOng, and, more recently, David Olson, has, equallycompellingly, identified the structure of writing with the formof post-mythical thought. These are overlapping andcomplementary analyses—I am just giving a reason why I amgoing to proceed to make sense of the development of thehuman sciences in terms of writing, while making the pointthat I would be more than happy to see the same set ofquestions pursued from the standpoint of the emergence ofthe full monetization Seaford locates in ancient Greece.If the human sciences emerge out of the identification of an
+If the originary hypothesis entails that all human possibilities
+must be implicit in, and therefore traceable back to, the
+originary scene, then it follows that Generative Anthropology
+must be the human science. And if Generative Anthropology
+is the human science, it must be both incommensurable with
+and inclusive of all existing human sciences. This places
+thinkers within GA in a somewhat anomalous position: a tiny,
+at best barely noticed minority within the human sciences
+considering itself the practitioners of the only genuine
+science. This raises the question of what our relationship to
+the other human sciences should be. But before that
+question comes another one: what, exactly, counts as a
+human science, and what should a human science be doing?
+The notion that the human sciences should be modeled on
+the physical sciences, presupposing an objective, neutral
+observer, universally transparent categories and even
 
-element that disorders the ritual/mythical order whilecreating at least the elements or possibility of a new order,we can further assume that some mythical form or contentmust remain within the new human science, andfurthermore, that anything that we could take to be agenuine advance in the human sciences would be theelimination of some mythical element in the discourse ordiscipline in question, and its replacement with a conceptgenerated within that discourse or discipline. That conceptwill be, further, a contribution to the distinction between the(dis)ordering element and the ritual/mythical order fromwhich it breaks. It is under such conditions that we couldspeak of the emergence of a “discipline”: to be within thediscipline is to take as the center of your attention the de-mythicizing (dis)ordering institution or practice; to remainoutside of the discipline is to indiscriminately mix mythicalwith post-mythical elements. So, we now have a preliminaryway of talking about what would count as a genuine traditionof inquiry within the human sciences.We also have a way of distinguishing between stronger andweaker contributions to any such tradition. Certainly onecriterion would be, as I have just pointed out, identifying thebreak between the mythical and post-mythical, and tracingall the consequences of the break. But a morecomprehensive criterion would be—since, after all, whateverenabled the break must have already been possible within
+mathematical methods, and the equivalent of the
+experimental method, has been discredited. The fact that
+human inquirers are part of the phenomena they are
+inquiring into makes the human sciences a qualitatively
+different enterprise. (I will leave aside the question of how
+unquestioned these assumptions are for the physical
+sciences themselves.)
 
-the mythical—which discourse can conceptualize the breakwhile simultaneously identifying the continuity from the onesocial order to the other. But if the new order has an origin insuch a break, while nevertheless sharing with that earliersocial order some previous origin, the human sciences musteither address (“scientifically”) or suppress (“mythically”)the problem of origins. That means that the questionregarding a “good” social order becomes the question: whyis there a social/human order in the first place? The problemof origins is in its intrinsically paradoxical character, as wasalready noted by Plato at the origin of metaphysics:whatever we see in the new form must have already beenpresent, at least potentially, in the old form. How could ahuman science, then, hypothesize regarding the originwithout simply projecting back into the previous form thosefeatures of the human that most define our current order,which, after all, is the most fully developed form of thehuman as such? This projection of current social relationsback to earlier ones is the mythical form taken by the humansciences: it is equivalent to the explanation of ritual by myth.It is easy to see why speculation on origins, whether ofhumanity or even of a relatively trivial cultural form, is almostunanimously denounced. But such denunciations cannotprevent historical and cross-cultural inquiries frommythicizing in this way: only a genuinely post-mythicalscience of the originary can do so.
+We cannot establish any pre- or trans-historical starting
+point for the human sciences—we always begin within
+traditions of inquiry. All of these traditions have their origin in
+some break with one ritual or mythological order or another.
+Some kind of institution or practice that is unintelligible, and
+yet a source of sanctioned behavior and modes of activity
+within the existing order, must be what initiates the break
+and prompts attempts to understand it. Institutions such as
+money, markets, writing, and republican and democratic
+governments might all qualify, and, indeed, we see all of
+these in what, in the West at least, is the first human science,
+Greek philosophy. The question addressed by Plato in The
+Republic is still the question all human sciences, more or less
+directly, must be trying to ask: what is a good way for people
+to live together? Within a ritual order, such questions could
+not be asked: the way to live is the way we have always lived,
+as prescribed by the ritual order and explained by the
+mythological order. So, a recognition of some disordering
+element, and a consideration of how to return to a “good”
 
-The originary hypothesis provides such a science. Anaccount of the origins of the originary hypothesis will help usto understand how this can be the case. Eric Gans’s accountof his articulation of Rene Girard and Jacques Derrida pointsus in two extremely interesting directions. First, throughDerrida, to the “linguistic turn” in 20th century thought, thatnot quite conclusive blow to traditional metaphysics, whichimposed the recognition that every concept is constituted bythe subordinate term to which it nevertheless claims priority;second, through Girard, back through a history of inquiries(including Freud and early 20th century anthropology) intoconstitutive violence, into what we might call that in thearchaic world which our modernity leaves us least preparedto see. This yoking together of, not opposites but certainly“disparates,” is a disciplinary origin we can always return toas ground. For Derrida, of course, his deconstruction of thespeech/writing distinction is a decentering move, but thefact that this decentering can never be definitivelyaccomplished seems to suggest a permanence to the“center” beyond whatever form of political oppressionDerrida and his successors might like to attribute to it. In thatcase, the sign creates the center through deferral, and it is acenter that could always be decentered—by another center.The fact that the sign can be repeated, or iterated, is thefoundation of writing, but is “always already” to be found inspeech or, for that matter, in the aborted gesture ofappropriation the originary hypothesis takes to be at the
+order, is central to the human sciences.
 
-origin of the human. And it is that iterated sign that makes itpossible to account for why even the scapegoat sceneGirard constructs could be memorable, and accrete newlayers of ritual and myth; and if Girard’s scapegoat scenerequires the sign, then the generation of the sign no longerrequires the scapegoating.So, it is this relation between the iterability of the sign, thecenter that makes that iterability possible, and theparticipants on the margin who construct themselvesthrough this relation to the center that provides for thecontinuity from the ritual/mythic to an order in which normsand mimetic models must refer explicitly to social, ordesacralized relations. Derridean deconstruction pointed tomythical residues in the human sciences, and even to a ritualviolence implicit in perpetual recentering, while in finding thisviolence to reside in language, he developed the victimarytendency in postmodern culture to its furthest extent. Theproblem of human origin becomes the problem of controllingviolence as it becomes the problem of the origin oflanguage. Only the most stubborn mythical element of thehuman sciences, the belief that structures are enduringwhile events are mere effects of those structures, which is tosay, that the declarative sentence represents realitycomprehensively while the more restricted speech formsmerely “implement” declarative statements, needs to beovercome. The originary hypothesis accomplishes this
+Richard Seaford makes a very strong case for money being
+the disordering element at the origin of ancient Greek
+metaphysics. The universality, eternity, and convertibility of
+money all find their equivalents in metaphysics, and Seaford
+even provides a compelling reading of Greek tragedy,
+showing that money is recognized as the disordering
+element in the Greek polis. Furthermore, the various
+antinomies of metaphysics, such as between the material
+and the ideal, the individual and society, all find their
+equivalent in money as well. At the same time, metaphysics
+had to be written down, the effect of writing and the
+subsequent confusion over the meaning of words was
+systematically reflected upon in Plato’s texts, and a parallel
+tradition represented by scholars like Eric Havelock, Walter
+Ong, and, more recently, David Olson, has, equally
+compellingly, identified the structure of writing with the form
+of post-mythical thought. These are overlapping and
+complementary analyses—I am just giving a reason why I am
+going to proceed to make sense of the development of the
+human sciences in terms of writing, while making the point
+that I would be more than happy to see the same set of
+questions pursued from the standpoint of the emergence of
+the full monetization Seaford locates in ancient Greece.
 
-through the claim that only in a singular event could a signboth marginally and qualitatively different from a gesture ofappropriation be the vehicle of the discovery that signs deferviolence.If myths explain rituals, the human sciences study practicesthat refer to some social center. The conceptual equipmentof Greek philosophy may have been provided by theemergence of money and writing, but its explicit object ofinquiry was the social order in the age of the “tyrant,” that is,the post-sacral king who made visible, by exploiting it, theclass differences of the post-ritual order. A good societywas, in its initial formulation, a society without tyranny, andfor the human sciences this has not changed. The terms ofall human practices are set by a social center that may, ormay not be, tyrannical—depending on what the humansciences tell us. Every event is therefore a judgment of thesocial center. But every event is also an event of language.The emergence of the post-sacral order in which “tyranny”becomes possible coincides with the emergence ofalphabetic writing, itself a product, according to the scholarof literacy, David Olson, of the transformation of languageitself into an object of inquiry, starting with the invention ofthe alphabet to represent speech, but ultimately focused onthe problem of reproducing a speech situation in the newmedium of writing. This leads to the need to distinguish,metalinguistically, between (using the terminology of
+If the human sciences emerge out of the identification of an
 
-analytical philosophy) “using” and “mentioning” words, withthe latter referring to an inquiry into how language is used.With writing, then, comes linguistic metalanguage: implicit,tacit norms of speech are made explicit, and thereforesystematized. This means that language use can beassessed: words can be spelled correctly or incorrectly;words can be used properly (according to their agreed upondefinition) or improperly; sentences can be grammatical orungrammatical. With these distinctions come others,concerning clarity and logicality:The metalinguistic concept of a sentence brings theseunderlying structures into consciousness as objects withparticular properties such as clear or ambiguous,grammatical or ungrammatical, and, importantly, as impliedor entailed. Such inferences are justified by appeal towording rather than belief. (116).The question of implications and entailments are particularlyimportant here because these concepts implicate theexpectations we have of one another in a literate culture. Thedistinction between the “words on the page” and intendedmeaning is constitutive of a literate culture, and whensomeone is considered a “bad reader,” what is usually meantis that he or she fails to make this distinction consistently.The metalanguage for representing speech acts in writtendiscourse includes all of the concepts one is expected to use
+element that disorders the ritual/mythical order while
+creating at least the elements or possibility of a new order,
+we can further assume that some mythical form or content
+must remain within the new human science, and
+furthermore, that anything that we could take to be a
+genuine advance in the human sciences would be the
+elimination of some mythical element in the discourse or
+discipline in question, and its replacement with a concept
+generated within that discourse or discipline. That concept
+will be, further, a contribution to the distinction between the
+(dis)ordering element and the ritual/mythical order from
+which it breaks. It is under such conditions that we could
+speak of the emergence of a “discipline”: to be within the
+discipline is to take as the center of your attention the de-
+mythicizing (dis)ordering institution or practice; to remain
+outside of the discipline is to indiscriminately mix mythical
+with post-mythical elements. So, we now have a preliminary
+way of talking about what would count as a genuine tradition
+of inquiry within the human sciences.
 
-as a “critical thinker”:The concept sentence is special in that it allows one to treatan expression as mentioned rather than used and tocomment on it as grammatical, as a premise, as entailed byan earlier sentence and so on. This lexicon is greatlyelaborated in literate discourse to include such concepts asstatement, claim, assertion, suggestion, inference, orconclusion, concepts important for critical thought. (125)Writing, then introduces a disciplinary structure intolanguage, bringing into focus features of language that canthen be used for purposes of inquiry and instruction. Thisalso means, that while distinctions between written spokenlanguage and persist, the capacities for thinking generatedby literate metalanguage enter into and restructure spokenlanguage as well: we certainly don’t need to write in order tobe able to “infer” or “doubt.”The implications of literate metalanguage go much further.Olson, in his earlier The World on Paper, had pointed outthat the written sentence represents an entire speech act,but it must do so without the thick context that embedsspeech carried out by members of a community, in a specificsituation. For example, in an oral culture, if one person, inreporting another’s speech, wanted to communicate theuncertainty of that other person, she could simply repeatwhat that person said in a hesitant tone of voice. “Tone” is
+We also have a way of distinguishing between stronger and
+weaker contributions to any such tradition. Certainly one
+criterion would be, as I have just pointed out, identifying the
+break between the mythical and post-mythical, and tracing
+all the consequences of the break. But a more
+comprehensive criterion would be—since, after all, whatever
+enabled the break must have already been possible within
 
-one of the many elements of the speech situation that isunavailable in writing, so, the uncertainty must be conveyedwith words: it is possible, of course, to simply write, “hewasn’t sure,” but various other ways are developed toconvey a wide range of tones: he “suggested,” “conjectured,”“believed,” and so on. Good writing, in this case, would bewriting that sufficiently supplements what is lost in“translation” from spoken to written language.Olson comes back to this question, in his recent The Mindon Paper, by addressing the norms of “prose,” by way ofMark Turner and Francis-Noel Thomas’s Clear and Simple asthe Truth: Writing Classic Prose:The classical style takes for granted two of the features thatmodern, enlightened readers now find objectionable, theassumption that language is transparent to the reality itdescribes and, second, that it can reveal object [sic?] truths.Further, the Classical style even denies it is a style; it takesitself to be a naked, natural way of speaking… I shall regardthe Classical style as the set of norms and standards forevaluating prose in a way similar to those norms thatregulate the meaning of words and the logical properties ofsentences. Thus prose is a critical, metalinguistic conceptthat articulates the norms and standards for much of writtenlanguage and, subsequently, for careful speech. (142)It is easy to see that the goal of classic prose is to
+the mythical—which discourse can conceptualize the break
+while simultaneously identifying the continuity from the one
+social order to the other. But if the new order has an origin in
+such a break, while nevertheless sharing with that earlier
+social order some previous origin, the human sciences must
+either address (“scientifically”) or suppress (“mythically”)
+the problem of origins. That means that the question
+regarding a “good” social order becomes the question: why
+is there a social/human order in the first place? The problem
+of origins is in its intrinsically paradoxical character, as was
+already noted by Plato at the origin of metaphysics:
+whatever we see in the new form must have already been
+present, at least potentially, in the old form. How could a
+human science, then, hypothesize regarding the origin
+without simply projecting back into the previous form those
+features of the human that most define our current order,
+which, after all, is the most fully developed form of the
+human as such? This projection of current social relations
+back to earlier ones is the mythical form taken by the human
+sciences: it is equivalent to the explanation of ritual by myth.
+It is easy to see why speculation on origins, whether of
+humanity or even of a relatively trivial cultural form, is almost
+unanimously denounced. But such denunciations cannot
+prevent historical and cross-cultural inquiries from
+mythicizing in this way: only a genuinely post-mythical
+science of the originary can do so.
 
-recuperate the distinction between written and spokenlanguage, or to simulate the assimilation of the former to thelatter. The writer of classical prose effaces himself, simplypointing out something in reality that he, along with hisreaders, look at. In other words, he constructs a scene thatremains tacit, and invites a suspension of disbelief allowingthe reader to inhabit that same scene, viewing the sameobject or event, as if converging lines united the two pointsof view on a single center. Classical prose is an almostperfect example of what Derrida called “presence,” and theentire post-structuralist critique of “metaphysics” couldperhaps be made much “clearer” if resituated as anargument over the extent to which we should accept whatOlson calls the “conceits” of classical prose.Where the critiques of metaphysics have been right in anextremely important way is in noting that what are in factfeatures of the metalanguage of literacy used to assesswritten discourse get retrojected as features of the human“mind” or “nature” that the categories of writtenmetalanguage merely construct representationally. To definethe human being as a “rational animal,” for example, is toread a feature of written discourse back into the form ofhuman being that produced that kind of discourse. To take“logic” as a natural way of representing how the mind worksand building entire cognitive science empires out of it is todo the same. The metalanguage of literacy supplements the
+The originary hypothesis provides such a science. An
+account of the origins of the originary hypothesis will help us
+to understand how this can be the case. Eric Gans’s account
+of his articulation of Rene Girard and Jacques Derrida points
+us in two extremely interesting directions. First, through
+th
+Derrida, to the “linguistic turn” in 20 century thought, that
+not quite conclusive blow to traditional metaphysics, which
+imposed the recognition that every concept is constituted by
+the subordinate term to which it nevertheless claims priority;
+second, through Girard, back through a history of inquiries
+th
+(including Freud and early 20 century anthropology) into
+constitutive violence, into what we might call that in the
+archaic world which our modernity leaves us least prepared
+to see. This yoking together of, not opposites but certainly
+“disparates,” is a disciplinary origin we can always return to
+as ground. For Derrida, of course, his deconstruction of the
+speech/writing distinction is a decentering move, but the
+fact that this decentering can never be definitively
+accomplished seems to suggest a permanence to the
+“center” beyond whatever form of political oppression
+Derrida and his successors might like to attribute to it. In that
+case, the sign creates the center through deferral, and it is a
+center that could always be decentered—by another center.
+The fact that the sign can be repeated, or iterated, is the
+foundation of writing, but is “always already” to be found in
+speech or, for that matter, in the aborted gesture of
+appropriation the originary hypothesis takes to be at the
 
-speech scene represented by writing: Olson focuses onmental and speech act verbs like “assume,” “suppose,”“contend,” “assert,” which supplement what AnnaWierzbicka shows to be universally shared primes like“think,” “say,” and “know,” and are in turn nominalized into“suppositions,” “assertions,” and so on. Once we have thesereifications, a disciplinary space focused on the relation, say,between “assumptions” and “statements” can be created.To return to my opening discussion, I have been takingwriting, as it has taken shape, through the metalanguage ofliteracy, studying the possibilities of iterating speech scenesas written (and read) texts in “classic prose” as the(dis)ordering social element that brings forth the kind ofshared reflection and discourse ultimately institutionalized inthe disciplines of the human sciences. All of the foundingconcepts of the human sciences, ancient and modern, like“society,” “mind,” “religion,” “language,” “intention” and so onare all supplemental “grounds” for the objects constructedwithin the disciplines. The point is not that the “entities”named by those words/concepts don’t exist; rather, it’s thatthey exist as products of inquiry within disciplines, withintraditions of inquiry, which is to say that they have aprovenance and can and often should be revised orreplaced. By now it is a commonplace to point out that touse a word like “religion” to refer to all the various forms ofChristianity, Judaism, Buddhism, Islam, Voodoo, tribal rituals,
+origin of the human. And it is that iterated sign that makes it
+possible to account for why even the scapegoat scene
+Girard constructs could be memorable, and accrete new
+layers of ritual and myth; and if Girard’s scapegoat scene
+requires the sign, then the generation of the sign no longer
+requires the scapegoating.
 
-and so on is modeled on Protestantism, with its distinctionbetween “individual faith,” on the one hand, and eitherChurch or State, on the other. To take the example of“intention,” meanwhile, the problem of identifying another’s“intention” is a post-literate one because it presupposes thepossibility that the speaker’s meaning might be differentthan the meaning of the words or sentences uttered by thespeaker. To speak about “intention” is to direct attention tothe former.Since the distinction between the speaker’s meaning and themeaning of words is central to the problem posed to writingof representing speech in abstraction from presence on thescene of speech, we can see the word/concept of “meaning”at the center of the metalanguage of literacy and, therefore,of the disciplines. What we could see as the founding of thedisciplines in Plato’s Republic does place “meaning” at thecenter: for example, the meaning of the word “good.” This isin fact an excellent example of the founding of the humansciences around some (dis)ordering, emergent socialelement. The word “good,” which is unproblematic as anadjective modifying various ways of being and activities (agood baker, a good warrior, a good father, etc.), which allhave their definition and evaluation implicit in the practicesthey are embedded in, becomes problematic when itbecomes necessary to name, describe, and assess activitiesthat don’t fall into traditional categories. It is only then that it
+So, it is this relation between the iterability of the sign, the
+center that makes that iterability possible, and the
+participants on the margin who construct themselves
+through this relation to the center that provides for the
+continuity from the ritual/mythic to an order in which norms
+and mimetic models must refer explicitly to social, or
+desacralized relations. Derridean deconstruction pointed to
+mythical residues in the human sciences, and even to a ritual
+violence implicit in perpetual recentering, while in finding this
+violence to reside in language, he developed the victimary
+tendency in postmodern culture to its furthest extent. The
+problem of human origin becomes the problem of controlling
+violence as it becomes the problem of the origin of
+language. Only the most stubborn mythical element of the
+human sciences, the belief that structures are enduring
+while events are mere effects of those structures, which is to
+say, that the declarative sentence represents reality
+comprehensively while the more restricted speech forms
+merely “implement” declarative statements, needs to be
+overcome.  The originary hypothesis accomplishes this
 
-becomes possible to ask whether someone is a “goodperson,” or a “good citizen,” or, indeed, to inquire into nounslike “goodness” or “the Good.” The human sciences havenever moved beyond this inquiry into the meaning of words,and cannot do so, no matter how data-driven they become.Here, Peirce’s pragmatism, which is the first attempt to thinkdisciplinarity I am familiar with, is especially helpful, becausefor Peirce, pragmatism is “merely a method of ascertainingthe meaning of hard words and abstract concepts.” And themethod of doing this “is no other than that experimentalmethod by which all the successful sciences . . . havereached the degrees of certainty that are severally proper tothem today” (“Pragmatism in Retrospect: A LastFormulation,” Buchler, 271). Pragmatism would then be akind of metalanguage of disciplinarity, or perhaps aninfralanguage, insofar as it need do no more than test themeaning of words on their own terms:The meaning of a proposition is itself a proposition. Indeed, itis no other than the very proposition of which it is themeaning: it is a translation of it. But of the myriads of formsinto which a proposition may be translated, what is the onethat is to be called its very meaning? It is, according to thepragmaticist, that form in which the proposition becomesapplicable to human conduct, not in these or those specialcircumstances, not when one entertains this or that special
+through the claim that only in a singular event could a sign
+both marginally and qualitatively different from a gesture of
+appropriation be the vehicle of the discovery that signs defer
+violence.
 
-design, but that form which is most directly applicable toself-control under every situation, and to every purpose.That is why he locates the meaning in future time, for futureconduct is the only conduct that is subject to self-control.But in order that that form of the proposition which is to betaken as its meaning should be applicable to every situationand to every purpose upon which the proposition has anybearing, it must be the simply the general description of allthe experimental phenomena which the assertion of theproposition virtually predicts. (261)So, if we advance a scientific proposition, or, let’s say, aclaim about reality, the meaning of that proposition is to befound in the future conduct it predicts. That conduct will beshaped by “special circumstances” and “special designs,”from which we must abstract the general form of conductwe have in mind. The forms of conduct which are then to betaken as tests of the proposition will themselves beembedded in yet other special circumstances and specialdesigns. One “situation,” in which the conduct is set, mustbe distinguished from other situations. Peirce is laying thegroundwork for conceptual distinctions that will have to bemade by future inquirers, and those future inquirers will beamong those whose conduct is being predicted. Thosefuture inquirers, since they are above all interested in inquiry,and therefore truth, and therefore in separating the objectsof their inquiry from those presuppositions and concerns
+If myths explain rituals, the human sciences study practices
+that refer to some social center. The conceptual equipment
+of Greek philosophy may have been provided by the
+emergence of money and writing, but its explicit object of
+inquiry was the social order in the age of the “tyrant,” that is,
+the post-sacral king who made visible, by exploiting it, the
+class differences of the post-ritual order. A good society
+was, in its initial formulation, a society without tyranny, and
+for the human sciences this has not changed. The terms of
+all human practices are set by a social center that may, or
+may not be, tyrannical—depending on what the human
+sciences tell us. Every event is therefore a judgment of the
+social center. But every event is also an event of language.
+The emergence of the post-sacral order in which “tyranny”
+becomes possible coincides with the emergence of
+alphabetic writing, itself a product, according to the scholar
+of literacy, David Olson, of the transformation of language
+itself into an object of inquiry, starting with the invention of
+the alphabet to represent speech, but ultimately focused on
+the problem of reproducing a speech situation in the new
+medium of writing. This leads to the need to distinguish,
+metalinguistically, between (using the terminology of
 
-which threaten to put an end to that inquiry, will also beespecially interested in acquiring the self-control regardingtheir own habits that is the effect and secondary aim ofinquiry. In the process of inquiry, the participants willgenerate as many translations of the proposition into otherpropositions, experiments, and forms of conduct as possible—otherwise, how could the discipline determine which is tobe called its very meaning? Thus, “[e]very connected seriesof experiments constitutes a single collective experiment”(260). Pierce would restrict this all embracing mode ofinquiry in which, as a later philosopher of science, GastonBachelard, would predict, “social interests will then bereversed once and for all: society will be made for school,not school for society” (The Formation of the Scientific Mind,249) to “hard words” and “abstract concepts,” but wouldn’tthe distinctions between “hard” and “easy” words, and“abstract” and “concrete” concepts, also have to made bysome discipline—a discipline that might very well redrawthese boundaries? With Pierce, then, we have a conceptionof disciplinarity as open-ended and aiming at discoveringtruths that will be universally acknowledged and taken intothe formation of habit and conduct, while being at the sametime dependent upon the collective conduct of those whowill have to follow a proposition through its myriadtranslations, knowing that the final one will never be arrivedat.
+analytical philosophy) “using” and “mentioning” words, with
+the latter referring to an inquiry into how language is used.
 
-So, we have the discipline of writing, which generates themetalanguage of literacy, which in turn launches a wholefleet of what Marshall McLuhan might have called“sleepwalking” disciplines that essentially reiterate the termsof that metalanguage. This would include every singlediscipline in the human sciences. Trying to define or analyzean entity like “mind” is, then, an essentially mystifiedendeavor. This is where Eric Gans’s definition of metaphysicsas the assumption that the declarative sentence is theprimary linguistic form takes on highly consequentialimplications. Metaphysics itself is just an inflation andconcealment of the metalanguage of literacy which reduceslanguage to its elements, which are in turn both real entitiesand parts of larger systems. To define a word is to treat it asconvertible into declarative sentences, and to make itinextricable from its grammatical relations. Again, I am notquite saying that phenomena like “mind,” “religion,”“language” and so on don’t exist—rather, I am saying thatthey exist as effects of disciplinary events that obscure theorigins and therefore meanings of these words themselves.In working to turn originary thinking into one big disciplinewe uncover those origins or originary structures and therebytransform the objects.Since writing is only possible because all signs are iterable,writing doesn’t come from the outside and invade aninnocent oral culture—writing and the metalanguage of
+With writing, then, comes linguistic metalanguage: implicit,
+tacit norms of speech are made explicit, and therefore
+systematized. This means that language use can be
+assessed: words can be spelled correctly or incorrectly;
+words can be used properly (according to their agreed upon
+definition) or improperly; sentences can be grammatical or
+ungrammatical. With these distinctions come others,
+concerning clarity and logicality:
 
-literacy it generates simply elicits, in a particular way, what isalready internal to language. What I propose targeting in themetalanguage of literacy is that it conceals its own originarystructure by treating signs as direct representations of“things,” “ideas,” “thoughts,” and so on. The metalanguageof literacy creates a system of cross-referentialnominalizations that purports to represent “reality.” This iswhat renders it immune to originary hypothesizing, and thebest way to address this immunity is to treat all humanactivity as originary hypothesizing. All questions of discourseand intellectual activity are therefore questions of what wemight call the re-discovery of language rather than relationsbetween language and something external, whether in theworld or the mind (everything external is already inlanguage). Originary thinking as the one big discipline is,therefore, to use a term taken from Bruno Latour,infralinguistic rather than metalinguistic:We have to resist pretending that actors have only alanguage while the analyst possesses the meta-language inwhich the first is ‘embedded’. As I said earlier, analysts areallowed to possess only some infra-language whose role issimply to help them become attentive to the actors’ ownfully developed meta-language, a reflexive account of whatthey are saying. In most cases, social explanations aresimply a superfluous addition that, instead of revealing theforces behind what is said, dissimulates what has been said,
+The metalinguistic concept of a sentence brings these
+underlying structures into consciousness as objects with
+particular properties such as clear or ambiguous,
+grammatical or ungrammatical, and, importantly, as implied
+or entailed. Such inferences are justified by appeal to
+wording rather than belief. (116).
 
-as Garfinkel has never tired of showing. (49)Latour associates metalinguistic “explanations” that positsome hidden “real” “behind” the intentions of actors with theimplication of the modern social sciences in socialengineering. The implication is that the human sciencesshould help others, including other human scientists, to findthe meaning of what they are saying, and in the process todevelop new linguistic capacities to discover what we aresaying. We might say than rather than generate the terms onwhich we identify, denounce, apologize for, constrain, orconvert actual or budding “tyrants,” the disciplines of thehuman sciences might help make explicit the ongoingnegotiations between a given practice and the social center.The founding gesture of a discipline is to turn anominalization produced elsewhere within the literate orderinto one that can guide inquiry: for example, from“hooliganism” as a pattern named by the press to “anti-social behavior,” with “causes.” This conversion furtherentails identifying some scene and event, however abstract,upon which a collective or typical agent does something(“History” is the biggest scene of all). The agent in questionmight be an author or artist, a nation, state, ethnicity orclass, a worshipper, a mind, a gendered subject, a citizen.The concepts and arguments within the discipline consist ofdiffering ways of distinguishing between what the agent
+The question of implications and entailments are particularly
+important here because these concepts implicate the
+expectations we have of one another in a literate culture. The
+distinction between the “words on the page” and intended
+meaning is constitutive of a literate culture, and when
+someone is considered a “bad reader,” what is usually meant
+is that he or she fails to make this distinction consistently.
+The metalanguage for representing speech acts in written
+discourse includes all of the concepts one is expected to use
 
-meant in doing whatever it does, and what it means that theagent meant that. Now, what it means to do that is toconstruct a relation between some margin and some center,a relation we can always locate in whatever distinction,implicit or explicit, the disciplinary language itself makesbetween unmarked and marked “doings” and “happenings.”For the disciplines, the center is not a ritual center to whichdonations are given and from which benefits are expected toflow; it is a source of authorized action that, if iterated, willconvert resentments into sharing among those iterating it.We don’t agree on which model of action fits thisdescription, hence the discipline, but we can now identifywhat the agents acting within the discipline are attempting,and have always been attempting.The infra and transdisciplinary inquiry into the disciplinedeploys the nominalizations generated by the discipline—“genre,” “norm,” “belief,” “behavior,” “mind,” “subject,” “text,”and so on—to mark differences in the activity within thediscipline itself. Everyone within the discipline becomes abearer of its originary structure. The question introducedinto the discipline, then, is what model of inquiry identifiesand enacts the model of action that converts resentmentsinto love. In this case, the model of action itself becomes amodel of inquiry: the agents we study are also seeking theauthorization of the center. Any nominalization can be usedto initiate this inquiry, by turning the nominalization into a
+as a “critical thinker”:
 
-verb referring to the disciplinary activity trying to name theobjects of its activity. In generating disciplinary events, theway of thinking predicated upon the event-al nature of thehuman can effect a continuous interference within thediscipline. The meaning of this kind of interference is tomake the question of meaning as centrality permanentacross the disciplines—to make it so that those within thediscipline cannot think about what they’re doing outside ofthis question.A transdisciplinary practice of GA, then, involves workingwithin the disciplines, probing the meaning of theirconstitutive concepts whose origin has been occluded orforgotten. This involves a combination of attentiveness andrespect, on the one hand, with complete irreverence, on theother. We should feel free to start from the assumption thatany and all concepts might be arbitrary impositions, situatedwithin historical, social and political settings that haveprovided them with values other than those of unfetteredinquiry. Disciplines inquire into their own histories all thetime, of course, and into the histories of their concepts, butwhat they can’t do is simultaneously address the word andthe referent—why is there this entity we call “society” or“mind,” and why do we call it “society” or “mind”? It’spossible, within the disciplines, to redefine one or the other—to say, “mind” should really mean y instead of x, or theconcept of “society” is strictly limited to post-ritual orders.
+The concept sentence is special in that it allows one to treat
+an expression as mentioned rather than used and to
+comment on it as grammatical, as a premise, as entailed by
+an earlier sentence and so on. This lexicon is greatly
+elaborated in literate discourse to include such concepts as
+statement, claim, assertion, suggestion, inference, or
+conclusion, concepts important for critical thought. (125)
 
-But the co-constitution of word and entity cannot begrasped, because that lies in the emergence of the humanscience disciplines from their (dis)ordering post-ritual/mythical elements, an emergence that I have identifiedwith the creation of a literate order.The meaning of a word, a sentence, a discourse is in itsorigin, but its origin is not simply a reference to somethingthat happened, after which other things happened becauseof it. An origin is the creation of shared attention directed atsomething, and of those sharing that attention becomingwho and what they are because of it. History is less astraight line and more a series of concentric circles, orperhaps vortices: each instant of shared attention includesthe attention directed to the practice that created theprevious such instant—it retrieves from that practicewhatever will provide the increment of deferral needed toensure that shared attention is sustained. Origins areinscribed within any practice, and we can always locate atleast a hypothetical version of them in our practices. Apractice, in Alisdair MacIntyre’s words, isAny coherent and complex form of socially establishedcooperative human activity through which goods internal tothat form of activity are realized in the course of trying toachieve those standards of excellence which are appropriateto, and partially definitive of that form of activity, with the
+Writing, then introduces a disciplinary structure into
+language, bringing into focus features of language that can
+then be used for purposes of inquiry and instruction. This
+also means, that while distinctions between written spoken
+language and persist, the capacities for thinking generated
+by literate metalanguage enter into and restructure spoken
+language as well: we certainly don’t need to write in order to
+be able to “infer” or “doubt.”
 
-result that human powers to achieve excellence, and humanconceptions to the ends and goods involved, aresystematically extended. (187)The power of MacIntyre’s definition is that it avoids utilitarianreductionism, which would see a practice as something onedoes for some extrinsically defined purpose, while at thesame time opening up internally constituted and coherentforms of activity and life to the transcendence they arealways already constituted by. For MacIntyre’s concepts like“goods” and “excellences,” I would use terms indicating anenhanced relation to a center. A “good” or a form of“excellence” represents an increment of deferral, and anincrement of deferral is the eliciting of more “information”from the center. On the originary scene, the central object“tells” the members on the margin to stay their hands, tocommit no violence against it, and, in committing no violenceagainst it, commit none against each other. Needless to say,the words for articulating this imperative were unavailable tothose participants on the originary scene; they are availableto us now because in subsequent scenes a mythologicalscene was constructed upon which the central object didperform certain acts, utter certain words, and interact withother figures; and, later, with the (dis)ordering impact ofmoney, writing, and the decline of kingship, it becamenecessary to attribute more complex and also more abstractmodes of ordering and distributing to the central entity.
+The implications of literate metalanguage go much further.
+Olson, in his earlier The World on Paper, had pointed out
+that the written sentence represents an entire speech act,
+but it must do so without the thick context that embeds
+speech carried out by members of a community, in a specific
+situation. For example, in an oral culture, if one person, in
+reporting another’s speech, wanted to communicate the
+uncertainty of that other person, she could simply repeat
+what that person said in a hesitant tone of voice. “Tone” is
 
-The center, then, persists, and we can say nothing that is nota speaking of the center. The center persists materially, inthe form of some kind of central authority, without which wehave no record of any community sustaining itself. But at thesame time it persists in the entirety of the ordering of ourpractices in such a way as will best ensure that this centralauthority, however placed there, does its duty. Out of theentirety of the ordering of our practices, we can, in furtherincrements of deferral carried out in disciplinary spaces,abstract more minimal models of practice from which we canhypothesize the other elements within the “entirety” mightspring. These minimal models of practice are what we takeourselves to be doing when we think about what we aredoing, which is, most fundamentally, engaging in inquiry intothe center. Disciplinary inquiry itself, then, models thepractices into which it inquires, by treating those practicesas modes of inquiry. Which means that originary inquirersare positioned so as to question participants in a givendiscipline regarding the meaning of their practices.There are two possible paths toward one big disciplinarity.The most familiar one, attempted by virtually every“revolutionary” theory in the human sciences (historicalmaterialism, psychoanalysis, even deconstruction in its way)is the establishment of a controlling meta-language. GAcertainly has the materials for taking this path, in a set of“foundational” concepts (desire, resentment, deferral,
+one of the many elements of the speech situation that is
+unavailable in writing, so, the uncertainty must be conveyed
+with words: it is possible, of course, to simply write, “he
+wasn’t sure,” but various other ways are developed to
+convey a wide range of tones: he “suggested,” “conjectured,”
+“believed,” and so on. Good writing, in this case, would be
+writing that sufficiently supplements what is lost in
+“translation” from spoken to written language.
 
-center, scene, sign, etc.) defined precisely and contextuallythrough a series of cultural, literary, and social analyses. Acontest of meta-languages is the almost universal, indeedpractically the only conceivable mode of contestation amongcompeting theories. You put forward your concepts, and Iput forward mine; we then look at various objects of analysisand each of us provides an “explanation,” with the “better” or“stronger” one winning.Of course, this is a big problem, since there is no theory-freecriterion for distinguishing between “stronger” and “weaker”analyses. We also know that there is no level playing field onwhich these meta-theory contests might take place—rather,the process is historical, with the new theory taking aim atthe dominant one. Post-structuralism hit North America inthe 1980s with sophisticated analyses of the Romantic poetsand canonical novelists like Melville, Hawthorne and Poebecause it was through its readings of such figures that theestablished New Criticism controlled the field. Which theoryprevails in the academy might depend far more upon whichprovides more opportunity for novel PhD theses, grantproposals, and tenure track positions, and what determinesthat?I’m not reducing everything to power relations, and bothNew Criticism and Poststructuralism provided powerful and,in their time, innovative ways of reading texts; but it would be
+Olson comes back to this question, in his recent The Mind
+on Paper, by addressing the norms of “prose,” by way of
+Mark Turner and Francis-Noel Thomas’s Clear and Simple as
+the Truth: Writing Classic Prose:
 
-very hard to show that one theory displaced the other simplybecause it was “better.” The Kuhnian theory of thereplacement of one theory by another through theemergence of anomalies in the existing system that multiplyand generate increasingly strained attempts at resolutionwithin the existing system, ultimately to be resolved within anew paradigm including the previous one as a limit case,might describe what happens in the natural sciences (I havemy doubts). But when it comes to the human sciences, thereis no doubt that a far more complicated process, closer tothe kinds of transformations described by Paul Feyerabend,in which economics, politics, and institutional imperativesweigh heavily, determines the outcome. We will never beable to market our wares in a free and open marketplacebefore informed “consumers,” and it’s hard to see even ayounger, leaner and meaner generation of originary thinkers(were such to emerge) engaging in the kind of marketing andpoliticking and just sheer ganging up that would be requiredfor a theory to prevail in the universities.There’s another reason to be skeptical about the grand fieldof meta-theoretical contest. Such struggles encouragepolemics, and polemics encourage the hardening of lines,the fetishization of intellectual materials and the introductionof coercion into matters where it has no rightful place. It wasnot only Marxists who turned conceptual differences into lifeand death organizational struggles (and vice versa);
+The classical style takes for granted two of the features that
+modern, enlightened readers now find objectionable, the
+assumption that language is transparent to the reality it
+describes and, second, that it can reveal object [sic?] truths.
+Further, the Classical style even denies it is a style; it takes
+itself to be a naked, natural way of speaking… I shall regard
+the Classical style as the set of norms and standards for
+evaluating prose in a way similar to those norms that
+regulate the meaning of words and the logical properties of
+sentences. Thus prose is a critical, metalinguistic concept
+that articulates the norms and standards for much of written
+language and, subsequently, for careful speech. (142)
 
-psychoanalysis almost immediately split into competingversions, with each singling out a particular element ofFreud’s analysis and anathematizing the others. It was notvery different with Derridean, Lacanian, Deleuzean, etc.,versions of poststructuralism. If there were to be aninstitutional stake in GA, enough to draw in “fresh blood,” wewould quickly see lines drawn over “orthodox” and“heretical” understandings of “resentment,” the “moralmodel,” and every other concept. Of course there need to bediscussions and there will always be disagreements over anytheory, GA certainly included, and disagreements, properlyconducted, are generative for any discipline. But the strugglefor institutional mastery doesn’t provide the field in whichthose kinds of disagreements could take place. I would alsoadd that the days of grand theoretical battles in theuniversity, at least the American university, are probablyover: between victimary inquisitions, budgetary shortfalls,and the business model imposed on universities, forcingEnglish Departments as much as anyone else to explain howthey will be providing students with the kind of “criticalthinking skills” they need to get jobs leaves little zest forgenuine theoretical battles.The other path toward “owning” the transdisciplinary fieldhas never, as far as I know, been tried. That path is learningto speak the theoretical languages we wish to supplant. Thisis more like body snatching than planet smashing. Let’s take
+It is easy to see that the goal of classic prose is to
 
-an example that has come up often lately, due to theimportance of cognitive psychology to the recent GASCconference in Stockholm: the computer model of the mind.Obviously the computer model is an antagonist to theoriginary hypothesis, insofar as it takes a product of humanthinking aimed at supplementing human thinking in certainareas and retrojects that product back as the model forhuman thinking itself. Saying that the mind is a computer isnot really all that different from saying that our bodies areautomobiles. It defines down the human essence to one ofour tools, rather than engaging in inquiry into the humanessence that enables us to create, use, and criticizecomputers and cars and to do many other things as well. Butonce we make our arguments, then what? The computermodel of mind enables the inquirer to describe in interestingand complex ways all kinds of things. If I say that as a resultof “experience” (refining an already existing “feedbackmechanism”) humans construct and continually revise“algorithms” for determining, automatically, specifiedresponses to probable phenomena, can it really be assertedthat nothing illuminating can emerge from such anapproach? When I am faced with a “choice,” I can, we mightsay, run some probability calculations, based on controlledscans of the field and subject to time constraints, so as tocontinually enhance the “effectiveness” of my choices. Atthe very least, the computer model is a source ofprovocative metaphors and ways of subverting various
+recuperate the distinction between written and spoken
+language, or to simulate the assimilation of the former to the
+latter. The writer of classical prose effaces himself, simply
+pointing out something in reality that he, along with his
+readers, look at. In other words, he constructs a scene that
+remains tacit, and invites a suspension of disbelief allowing
+the reader to inhabit that same scene, viewing the same
+object or event, as if converging lines united the two points
+of view on a single center. Classical prose is an almost
+perfect example of what Derrida called “presence,” and the
+entire post-structuralist critique of “metaphysics” could
+perhaps be made much “clearer” if resituated as an
+argument over the extent to which we should accept what
+Olson calls the “conceits” of classical prose.
 
-sentimentalisms.We can certainly speak and think in these ways because the“computer model of mind” is a language, with its rules,idioms and tacit assumptions (to use a famous metaphorfrom Wittgenstein, it’s one of those newer suburbs built, in aplanned and grid-like manner, around the more eccentric,improvised old city—perhaps an industrial park!), and we arelanguage-using beings. I find it irritating and exhausting torepeat the same arguments over and over, which is what onehas to do if one is determined to “refute” and “defeat” the“computer model of mind.” But we can speak to thecomputer model of mind by speaking within it. Asking anadherent to the computer model of mind to lay bare thealgorithms he has followed in constructing an experiment soas to test the working of the computer model of mind insome experimental subjects might be more instructive thanhectoring him with its contradictions and dehumanizingconsequences. The computer model of mind, like anydiscourse, has its origin and its originary structure (theiteration of its origin in its ongoing operations), and the wayto discover this is not just by going back to the records ofthat conference in 1944 or whenever (unsurprisingly, Ngramhas the “computer model of mind” shooting upward in themid-80s), but by noticing what kinds of things must be saidwithin the discipline and what kinds of things must not besaid: by entering it as if it was just emerging and its terms
+Where the critiques of metaphysics have been right in an
+extremely important way is in noting that what are in fact
+features of the metalanguage of literacy used to assess
+written discourse get retrojected as features of the human
+“mind” or “nature” that the categories of written
+metalanguage merely construct representationally. To define
+the human being as a “rational animal,” for example, is to
+read a feature of written discourse back into the form of
+human being that produced that kind of discourse. To take
+“logic” as a natural way of representing how the mind works
+and building entire cognitive science empires out of it is to
+do the same. The metalanguage of literacy supplements the
 
-need to be learned by applying them to its emergence. Bythus infiltrating the disciplines we might get them to speaktheir own truth, which (we must have faith in the power ofour own discourse here) must both iterate and evade itsoriginary structure.How do we remember our own origins while thus undercoverin the disciplines; how does One Big Discipline emerge fromwhat appears to be dispersal? The real “proof” of GA as the“strongest” theoretical discourse will be that it can keepshowing whatever disciplinary space it inhabits that it needsthe way of thinking only originary thinking can provide toaddress the anomalies in its own discourse, anomalies whichthe originary disciplinary inquirer will have trained himself todetect. The proof, that is, is in the way we will have clarifiedin a collaborative manner whatever those in that disciplinehave devoted themselves to studying—not in how wedistract them by pointing out mistakes that might not seemsuch, or seem relevant, to them. If we find ways to“represent” so as to defer resentments in the course of anyinquiry, we exemplify an originary intellectual “ethic,” whichcan in turn become a compelling topic of conversation.“Our” language, in other words, can take its place within thedisciplinary language, and that is where something likegenuine intellectual competition takes place, through theframings and counter-framings of intellectual collaborators.We would have to have faith that one day all might wake up
+speech scene represented by writing: Olson focuses on
+mental and speech act verbs like “assume,” “suppose,”
+“contend,” “assert,” which supplement what Anna
+Wierzbicka shows to be universally shared primes like
+“think,” “say,” and “know,” and are in turn nominalized into
+“suppositions,” “assertions,” and so on. Once we have these
+reifications, a disciplinary space focused on the relation, say,
+between “assumptions” and “statements” can be created.
 
-and find themselves speaking generative anthropology; ofcourse, along the way something like a crisis would have totake place in each of the various disciplines, and asubstantial part of what we are studying now are theelements of that possible crisis.One pertinent example of a transdisciplinary project bothallied with and serving as a useful model for GA is AnnaWierzbicka’s Natural Semantic Metalanguage. ThatWierzbicka harbors such ambitions for her NSM is evidentnot just from her own references to Leibniz’s aspiration tocreate a “universal characteristic” as an inspiration, but fromher use of the NSM to critique the limitations of otherdisciplines. So, for example, she points out that manyevolutionary psychologists “attribute the human evolutionarysuccess in large part to early humans’ superior capacity for‘mindreading’” (Imprisoned in English, 156). Wierzbicka goeson to point out that“Mindreading” is a nice metaphor, but not a self-explanatoryone, and like many other such metaphors popular amongscientists, it is bound to English, because “mind” is anEnglish word with no exact counterparts in most otherlanguages of the world. In its present day meaning, mindfocuses on thinking and knowing, to the exclusion ofemotions and values, and is quite different in this respectfrom the main counterparts of BODY encoded in other
+To return to my opening discussion, I have been taking
+writing, as it has taken shape, through the metalanguage of
+literacy, studying the possibilities of iterating speech scenes
+as written (and read) texts in “classic prose” as the
+(dis)ordering social element that brings forth the kind of
+shared reflection and discourse ultimately institutionalized in
+the disciplines of the human sciences. All of the founding
+concepts of the human sciences, ancient and modern, like
+“society,” “mind,” “religion,” “language,” “intention” and so on
+are all supplemental “grounds” for the objects constructed
+within the disciplines. The point is not that the “entities”
+named by those words/concepts don’t exist; rather, it’s that
+they exist as products of inquiry within disciplines, within
+traditions of inquiry, which is to say that they have a
+provenance and can and often should be revised or
+replaced. By now it is a commonplace to point out that to
+use a word like “religion” to refer to all the various forms of
+Christianity, Judaism, Buddhism, Islam, Voodoo, tribal rituals,
 
-languages….” (157)In an instance particularly relevant to GA, in Chapter 13 ofher Imprisoned in English, she addresses the work ofevolutionary cognitive psychologists like Michael Tomasello,Derek Bickerton, Merlin Donald and others. She not onlypoints out the limitations of their accounts of the emergenceof the human due to their assumption of the universality ofEnglish words like “believe,” “understand,” “perception,” and“goal,” but rewrites in primes the successive cognitiverevolutions hypothesized by these thinkers as havingeffected the transition from ape to human. She is able toconclude:From an NSM perspective, evidence reviewed in studiessuch as those mentioned above suggests that the“representational resources” of chimpanzees includeconceptual primes KNOW, SEE, WANT, and DO, but do notinclude THINK, which we find in the human language ofthought… Whether or not one accepts this conclusion, themethodological point still holds: here as elsewhere issuescan be clarified if the debate is freed from the conceptualdependence on English and articulated in simple, stable, andcross-translatable words like see, want, know and think (and,as noted before, say). (171)So, Wierzbicka sees her NSM as providing the basis for atransdisciplinary accounting for everything human. But her
+and so on is modeled on Protestantism, with its distinction
+between “individual faith,” on the one hand, and either
+Church or State, on the other. To take the example of
+“intention,” meanwhile, the problem of identifying another’s
+“intention” is a post-literate one because it presupposes the
+possibility that the speaker’s meaning might be different
+than the meaning of the words or sentences uttered by the
+speaker. To speak about “intention” is to direct attention to
+the former.
 
-approach is so radical that it subverts the way I think wewould be most likely to think about a grand transdisciplinarybreakthrough—ordinarily, such a breakthrough would involvea new way of “explaining” everything, which is to say areduction to a more abstract metalanguage. That wouldn’tsatisfy Wierzbicka, though, because any such unified fieldtheory would be offering its explanations in a particularlanguage, assuming the transparency of culturally specificterms, and therefore no explanations at all. For Wierzbicka,the transdiscipline must translate all of human thought andaction into a single, minimal language shared by alllanguages. This would really involve a rejection ofexplanation as the purpose of the social sciences, because,once everything can be translated in those words that canthemselves be translated no further because they areimmediately intelligible, what is there to explain?Explanations just translate into a more abstract languagewhat people would ordinarily discuss in more concrete ways,using everyday words—if the point is to translate into themost everyday of the everyday words, the purpose of inquiryis to contract rather than expand our vocabularies. (Since itseems to me that a condition of transdisciplinarity on theterms of the NSM would be to render one’s own basicconcepts and propositions into the primes, I’ll take the initialstep and translate “representation is the deferral of violence”as follows: “people say words because if people want to dobad things to others people feel like saying: ‘we don’t want
+Since the distinction between the speaker’s meaning and the
+meaning of words is central to the problem posed to writing
+of representing speech in abstraction from presence on the
+scene of speech, we can see the word/concept of “meaning”
+at the center of the metalanguage of literacy and, therefore,
+of the disciplines. What we could see as the founding of the
+disciplines in Plato’s Republic does place “meaning” at the
+center: for example, the meaning of the word “good.” This is
+in fact an excellent example of the founding of the human
+sciences around some (dis)ordering, emergent social
+element. The word “good,” which is unproblematic as an
+adjective modifying various ways of being and activities (a
+good baker, a good warrior, a good father, etc.), which all
+have their definition and evaluation implicit in the practices
+they are embedded in, becomes problematic when it
+becomes necessary to name, describe, and assess activities
+that don’t fall into traditional categories. It is only then that it
 
-to do these bad things now’.”)Indeed, what, exactly, gets “explained” or “proven” in thehuman sciences? “Prediction” is meaningless, becausehistory does not take place in a controlled space where wecan manipulate the variables. Anything we were to take as aconfirmed prediction would depend upon an arbitrarydelineation of the event in question. Did your theory predictthat Donald Trump would win the 2016 presidential election?First of all, millions of other people, even if they were in theminority, also predicted this—do their theories also getconfirmed? More important, “Donald Trump elected”represents a culmination of a whole series of events—didyou predict the precise margin of victory in Michigan? If not,does someone who came closer than you therefore have a“better” theory? Why isolate this particular prediction, whichis the kind made by pollsters and bookies, as the “test” of aparticular theory? All such questions are unanswerable, nomatter whether the event we choose is the “financial crisis of2008,” or the Bolshevik Revolution or Napoleon’s
+becomes possible to ask whether someone is a “good
+person,” or a “good citizen,” or, indeed, to inquire into nouns
+like “goodness” or “the Good.” The human sciences have
+never moved beyond this inquiry into the meaning of words,
+and cannot do so, no matter how data-driven they become.
 
-... [TRUNCATED — 50000 char limit reached] ...
+Here, Peirce’s pragmatism, which is the first attempt to think
+disciplinarity I am familiar with, is especially helpful, because
+for Peirce, pragmatism is “merely a method of ascertaining
+the meaning of hard words and abstract concepts.” And the
+method of doing this “is no other than that experimental
+method by which all the successful sciences . . . have
+reached the degrees of certainty that are severally proper to
+them today” (“Pragmatism in Retrospect: A Last
+Formulation,” Buchler, 271). Pragmatism would then be a
+kind of metalanguage of disciplinarity, or perhaps an
+infralanguage, insofar as it need do no more than test the
+meaning of words on their own terms:
+
+The meaning of a proposition is itself a proposition. Indeed, it
+is no other than the very proposition of which it is the
+meaning: it is a translation of it. But of the myriads of forms
+into which a proposition may be translated, what is the one
+that is to be called its very meaning? It is, according to the
+pragmaticist, that form in which the proposition becomes
+applicable to human conduct, not in these or those special
+circumstances, not when one entertains this or that special
+
+design, but that form which is most directly applicable to
+self-control under every situation, and to every purpose.
+That is why he locates the meaning in future time, for future
+conduct is the only conduct that is subject to self-control.
+But in order that that form of the proposition which is to be
+taken as its meaning should be applicable to every situation
+and to every purpose upon which the proposition has any
+bearing, it must be the simply the general description of all
+the experimental phenomena which the assertion of the
+proposition virtually predicts.  (261)
+
+So, if we advance a scientific proposition, or, let’s say, a
+claim about reality, the meaning of that proposition is to be
+found in the future conduct it predicts. That conduct will be
+shaped by “special circumstances” and “special designs,”
+from which we must abstract the general form of conduct
+we have in mind. The forms of conduct which are then to be
+taken as tests of the proposition will themselves be
+embedded in yet other special circumstances and special
+designs. One “situation,” in which the conduct is set, must
+be distinguished from other situations. Peirce is laying the
+groundwork for conceptual distinctions that will have to be
+made by future inquirers, and those future inquirers will be
+among those whose conduct is being predicted. Those
+future inquirers, since they are above all interested in inquiry,
+and therefore truth, and therefore in separating the objects
+of their inquiry from those presuppositions and concerns
+
+which threaten to put an end to that inquiry, will also be
+especially interested in acquiring the self-control regarding
+their own habits that is the effect and secondary aim of
+inquiry. In the process of inquiry, the participants will
+generate as many translations of the proposition into other
+propositions, experiments, and forms of conduct as possible
+—otherwise, how could the discipline determine which is to
+be called its very meaning? Thus, “[e]very connected series
+of experiments constitutes a single collective experiment”
+(260).  Pierce would restrict this all embracing mode of
+inquiry in which, as a later philosopher of science, Gaston
+Bachelard, would predict, “social interests will then be
+reversed once and for all: society will be made for school,
+not school for society” (The Formation of the Scientific Mind,
+249) to “hard words” and “abstract concepts,” but wouldn’t
+the distinctions between “hard” and “easy” words, and
+“abstract” and “concrete” concepts, also have to made by
+some discipline—a discipline that might very well redraw
+these boundaries? With Pierce, then, we have a conception
+of disciplinarity as open-ended and aiming at discovering
+truths that will be universally acknowledged and taken into
+the formation of habit and conduct, while being at the same
+time dependent upon the collective conduct of those who
+will have to follow a proposition through its myriad
+translations, knowing that the final one will never be arrived
+at.
+
+So, we have the discipline of writing, which generates the
+metalanguage of literacy, which in turn launches a whole
+fleet of what Marshall McLuhan might have called
+“sleepwalking” disciplines that essentially reiterate the terms
+of that metalanguage. This would include every single
+discipline in the human sciences. Trying to define or analyze
+an entity like “mind” is, then, an essentially mystified
+endeavor. This is where Eric Gans’s definition of metaphysics
+as the assumption that the declarative sentence is the
+primary linguistic form takes on highly consequential
+implications. Metaphysics itself is just an inflation and
+concealment of the metalanguage of literacy which reduces
+language to its elements, which are in turn both real entities
+and parts of larger systems. To define a word is to treat it as
+convertible into declarative sentences, and to make it
+inextricable from its grammatical relations. Again, I am not
+quite saying that phenomena like “mind,” “religion,”
+“language” and so on don’t exist—rather, I am saying that
+they exist as effects of disciplinary events that obscure the
+origins and therefore meanings of these words themselves.
+In working to turn originary thinking into one big discipline
+we uncover those origins or originary structures and thereby
+transform the objects.
+
+Since writing is only possible because all signs are iterable,
+writing doesn’t come from the outside and invade an
+innocent oral culture—writing and the metalanguage of
+
+literacy it generates simply elicits, in a particular way, what is
+already internal to language. What I propose targeting in the
+metalanguage of literacy is that it conceals its own originary
+structure by treating signs as direct representations of
+“things,” “ideas,” “thoughts,” and so on. The metalanguage
+of literacy creates a system of cross-referential
+nominalizations that purports to represent “reality.” This is
+what renders it immune to originary hypothesizing, and the
+best way to address this immunity is to treat all human
+activity as originary hypothesizing. All questions of discourse
+and intellectual activity are therefore questions of what we
+might call the re-discovery of language rather than relations
+between language and something external, whether in the
+world or the mind (everything external is already in
+language). Originary thinking as the one big discipline is,
+therefore, to use a term taken from Bruno Latour,
+infralinguistic rather than metalinguistic:
+
+We have to resist pretending that actors have only a
+language while the analyst possesses the meta-language in
+which the first is ‘embedded’. As I said earlier, analysts are
+allowed to possess only some infra-language whose role is
+simply to help them become attentive to the actors’ own
+fully developed meta-language, a reflexive account of what
+they are saying. In most cases, social explanations are
+simply a superfluous addition that, instead of revealing the
+forces behind what is said, dissimulates what has been said,
+
+as Garfinkel has never tired of showing. (49)
+
+Latour associates metalinguistic “explanations” that posit
+some hidden “real” “behind” the intentions of actors with the
+implication of the modern social sciences in social
+engineering.  The implication is that the human sciences
+should help others, including other human scientists, to find
+the meaning of what they are saying, and in the process to
+develop new linguistic capacities to discover what we are
+saying. We might say than rather than generate the terms on
+which we identify, denounce, apologize for, constrain, or
+convert actual or budding “tyrants,” the disciplines of the
+human sciences might help make explicit the ongoing
+negotiations between a given practice and the social center.
+
+The founding gesture of a discipline is to turn a
+nominalization produced elsewhere within the literate order
+into one that can guide inquiry: for example, from
+“hooliganism” as a pattern named by the press to “anti-
+social behavior,” with “causes.” This conversion further
+entails identifying some scene and event, however abstract,
+upon which a collective or typical agent does something
+(“History” is the biggest scene of all). The agent in question
+might be an author or artist, a nation, state, ethnicity or
+class, a worshipper, a mind, a gendered subject, a citizen.
+The concepts and arguments within the discipline consist of
+differing ways of distinguishing between what the agent
+
+meant in doing whatever it does, and what it means that the
+agent meant that. Now, what it means to do that is to
+construct a relation between some margin and some center,
+a relation we can always locate in whatever distinction,
+implicit or explicit, the disciplinary language itself makes
+between unmarked and marked “doings” and “happenings.”
+For the disciplines, the center is not a ritual center to which
+donations are given and from which benefits are expected to
+flow; it is a source of authorized action that, if iterated, will
+convert resentments into sharing among those iterating it.
+We don’t agree on which model of action fits this
+description, hence the discipline, but we can now identify
+what the agents acting within the discipline are attempting,
+and have always been attempting.
+
+The infra and transdisciplinary inquiry into the discipline
+deploys the nominalizations generated by the discipline—
+“genre,” “norm,” “belief,” “behavior,” “mind,” “subject,” “text,”
+and so on—to mark differences in the activity within the
+discipline itself. Everyone within the discipline becomes a
+bearer of its originary structure. The question introduced
+into the discipline, then, is what model of inquiry identifies
+and enacts the model of action that converts resentments
+into love. In this case, the model of action itself becomes a
+model of inquiry: the agents we study are also seeking the
+authorization of the center. Any nominalization can be used
+to initiate this inquiry, by turning the nominalization into a
+
+verb referring to the disciplinary activity trying to name the
+objects of its activity. In generating disciplinary events, the
+way of thinking predicated upon the event-al nature of the
+human can effect a continuous interference within the
+discipline. The meaning of this kind of interference is to
+make the question of meaning as centrality permanent
+across the disciplines—to make it so that those within the
+discipline cannot think about what they’re doing outside of
+this question.
+
+A transdisciplinary practice of GA, then, involves working
+within the disciplines, probing the meaning of their
+constitutive concepts whose origin has been occluded or
+forgotten. This involves a combination of attentiveness and
+respect, on the one hand, with complete irreverence, on the
+other. We should feel free to start from the assumption that
+any and all concepts might be arbitrary impositions, situated
+within historical, social and political settings that have
+provided them with values other than those of unfettered
+inquiry. Disciplines inquire into their own histories all the
+time, of course, and into the histories of their concepts, but
+what they can’t do is simultaneously address the word and
+the referent—why is there this entity we call “society” or
+“mind,” and why do we call it “society” or “mind”? It’s
+possible, within the disciplines, to redefine one or the other—
+to say, “mind” should really mean y instead of x, or the
+concept of “society” is strictly limited to post-ritual orders.
+
+But the co-constitution of word and entity cannot be
+grasped, because that lies in the emergence of the human
+science disciplines from their (dis)ordering post-
+ritual/mythical elements, an emergence that I have identified
+with the creation of a literate order.
+
+The meaning of a word, a sentence, a discourse is in its
+origin, but its origin is not simply a reference to something
+that happened, after which other things happened because
+of it. An origin is the creation of shared attention directed at
+something, and of those sharing that attention becoming
+who and what they are because of it. History is less a
+straight line and more a series of concentric circles, or
+perhaps vortices: each instant of shared attention includes
+the attention directed to the practice that created the
+previous such instant—it retrieves from that practice
+whatever will provide the increment of deferral needed to
+ensure that shared attention is sustained. Origins are
+inscribed within any practice, and we can always locate at
+least a hypothetical version of them in our practices. A
+practice, in Alisdair MacIntyre’s words, is
+
+Any coherent and complex form of socially established
+cooperative human activity through which goods internal to
+that form of activity are realized in the course of trying to
+achieve those standards of excellence which are appropriate
+to, and partially definitive of that form of activity, with the
+
+result that human powers to achieve excellence, and human
+conceptions to the ends and goods involved, are
+systematically extended. (187)
+
+The power of MacIntyre’s definition is that it avoids utilitarian
+reductionism, which would see a practice as something one
+does for some extrinsically defined purpose, while at the
+same time opening up internally constituted and coherent
+forms of activity and life to the transcendence they are
+always already constituted by. For MacIntyre’s concepts like
+“goods” and “excellences,” I would use terms indicating an
+enhanced relation to a center. A “good” or a form of
+“excellence” represents an increment of deferral, and an
+increment of deferral is the eliciting of more “information”
+from the center. On the originary scene, the central object
+“tells” the members on the margin to stay their hands, to
+commit no violence against it, and, in committing no violence
+against it, commit none against each other. Needless to say,
+the words for articulating this imperative were unavailable to
+those participants on the originary scene; they are available
+to us now because in subsequent scenes a mythological
+scene was constructed upon which the central object did
+perform certain acts, utter certain words, and interact with
+other figures; and, later, with the (dis)ordering impact of
+money, writing, and the decline of kingship, it became
+necessary to attribute more complex and also more abstract
+modes of ordering and distributing to the central entity.
+
+The center, then, persists, and we can say nothing that is not
+a speaking of the center. The center persists materially, in
+the form of some kind of central authority, without which we
+have no record of any community sustaining itself. But at the
+same time it persists in the entirety of the ordering of our
+practices in such a way as will best ensure that this central
+authority, however placed there, does its duty. Out of the
+entirety of the ordering of our practices, we can, in further
+increments of deferral carried out in disciplinary spaces,
+abstract more minimal models of practice from which we can
+hypothesize the other elements within the “entirety” might
+spring. These minimal models of practice are what we take
+ourselves to be doing when we think about what we are
+doing, which is, most fundamentally, engaging in inquiry into
+the center. Disciplinary inquiry itself, then, models the
+practices into which it inquires, by treating those practices
+as modes of inquiry. Which means that originary inquirers
+are positioned so as to question participants in a given
+discipline regarding the meaning of their practices.
+
+There are two possible paths toward one big disciplinarity.
+The most familiar one, attempted by virtually every
+“revolutionary” theory in the human sciences (historical
+materialism, psychoanalysis, even deconstruction in its way)
+is the establishment of a controlling meta-language. GA
+certainly has the materials for taking this path, in a set of
+“foundational” concepts (desire, resentment, deferral,
+
+center, scene, sign, etc.) defined precisely and contextually
+through a series of cultural, literary, and social analyses. A
+contest of meta-languages is the almost universal, indeed
+practically the only conceivable mode of contestation among
+competing theories. You put forward your concepts, and I
+put forward mine; we then look at various objects of analysis
+and each of us provides an “explanation,” with the “better” or
+“stronger” one winning.
+
+Of course, this is a big problem, since there is no theory-free
+criterion for distinguishing between “stronger” and “weaker”
+analyses. We also know that there is no level playing field on
+which these meta-theory contests might take place—rather,
+the process is historical, with the new theory taking aim at
+the dominant one. Post-structuralism hit North America in
+the 1980s with sophisticated analyses of the Romantic poets
+and canonical novelists like Melville, Hawthorne and Poe
+because it was through its readings of such figures that the
+established New Criticism controlled the field. Which theory
+prevails in the academy might depend far more upon which
+provides more opportunity for novel PhD theses, grant
+proposals, and tenure track positions, and what determines
+that?
+
+I’m not reducing everything to power relations, and both
+New Criticism and Poststructuralism provided powerful and,
+in their time, innovative ways of reading texts; but it would be
+
+very hard to show that one theory displaced the other simply
+because it was “better.” The Kuhnian theory of the
+replacement of one theory by another through the
+emergence of anomalies in the existing system that multiply
+and generate increasingly strained attempts at resolution
+within the existing system, ultimately to be resolved within a
+new paradigm including the previous one as a limit case,
+might describe what happens in the natural sciences (I have
+my doubts). But when it comes to the human sciences, there
+is no doubt that a far more complicated process, closer to
+the kinds of transformations described by Paul Feyerabend,
+in which economics, politics, and institutional imperatives
+weigh heavily, determines the outcome. We will never be
+able to market our wares in a free and open marketplace
+before informed “consumers,” and it’s hard to see even a
+younger, leaner and meaner generation of originary thinkers
+(were such to emerge) engaging in the kind of marketing and
+politicking and just sheer ganging up that would be required
+for a theory to prevail in the universities.
+
+There’s another reason to be skeptical about the grand field
+of meta-theoretical contest. Such struggles encourage
+polemics, and polemics encourage the hardening of lines,
+the fetishization of intellectual materials and the introduction
+of coercion into matters where it has no rightful place. It was
+not only Marxists who turned conceptual differences into life
+and death organizational struggles (and vice versa);
+
+psychoanalysis almost immediately split into competing
+versions, with each singling out a particular element of
+Freud’s analysis and anathematizing the others.  It was not
+very different with Derridean, Lacanian, Deleuzean, etc.,
+versions of poststructuralism. If there were to be an
+institutional stake in GA, enough to draw in “fresh blood,” we
+would quickly see lines drawn over “orthodox” and
+“heretical” understandings of “resentment,” the “moral
+model,” and every other concept. Of course there need to be
+discussions and there will always be disagreements over any
+theory, GA certainly included, and disagreements, properly
+conducted, are generative for any discipline. But the struggle
+for institutional mastery doesn’t provide the field in which
+those kinds of disagreements could take place. I would also
+add that the days of grand theoretical battles in the
+university, at least the American university, are probably
+over: between victimary inquisitions, budgetary shortfalls,
+and the business model imposed on universities, forcing
+English Departments as much as anyone else to explain how
+they will be providing students with the kind of “critical
+thinking skills” they need to get jobs leaves little zest for
+genuine theoretical battles.
+
+The other path toward “owning” the transdisciplinary field
+has never, as far as I know, been tried. That path is learning
+to speak the theoretical languages we wish to supplant. This
+is more like body snatching than planet smashing. Let’s take
+
+an example that has come up often lately, due to the
+importance of cognitive psychology to the recent GASC
+conference in Stockholm: the computer model of the mind.
+Obviously the computer model is an antagonist to the
+originary hypothesis, insofar as it takes a product of human
+thinking aimed at supplementing human thinking in certain
+areas and retrojects that product back as the model for
+human thinking itself. Saying that the mind is a computer is
+not really all that different from saying that our bodies are
+automobiles. It defines down the human essence to one of
+our tools, rather than engaging in inquiry into the human
+essence that enables us to create, use, and criticize
+computers and cars and to do many other things as well. But
+once we make our arguments, then what? The computer
+model of mind enables the inquirer to describe in interesting
+and complex ways all kinds of things. If I say that as a result
+of “experience” (refining an already existing “feedback
+mechanism”) humans construct and continually revise
+“algorithms” for determining, automatically, specified
+responses to probable phenomena, can it really be asserted
+that nothing illuminating can emerge from such an
+approach? When I am faced with a “choice,” I can, we might
+say, run some probability calculations, based on controlled
+scans of the field and subject to time constraints, so as to
+continually enhance the “effectiveness” of my choices. At
+the very least, the computer model is a source of
+provocative metaphors and ways of subverting various
+
+sentimentalisms.
+
+We can certainly speak and think in these ways because the
+“computer model of mind” is a language, with its rules,
+idioms and tacit assumptions (to use a famous metaphor
+from Wittgenstein, it’s one of those newer suburbs built, in a
+planned and grid-like manner, around the more eccentric,
+improvised old city—perhaps an industrial park!), and we are
+language-using beings. I find it irritating and exhausting to
+repeat the same arguments over and over, which is what one
+has to do if one is determined to “refute” and “defeat” the
+“computer model of mind.” But we can speak to the
+computer model of mind by speaking within it. Asking an
+adherent to the computer model of mind to lay bare the
+algorithms he has followed in constructing an experiment so
+as to test the working of the computer model of mind in
+some experimental subjects might be more instructive than
+hectoring him with its contradictions and dehumanizing
+consequences. The computer model of mind, like any
+discourse, has its origin and its originary structure (the
+iteration of its origin in its ongoing operations), and the way
+to discover this is not just by going back to the records of
+that conference in 1944 or whenever (unsurprisingly, Ngram
+has the “computer model of mind” shooting upward in the
+mid-80s), but by noticing what kinds of things must be said
+within the discipline and what kinds of things must not be
+said: by entering it as if it was just emerging and its terms
+
+need to be learned by applying them to its emergence. By
+thus infiltrating the disciplines we might get them to speak
+their own truth, which (we must have faith in the power of
+our own discourse here) must both iterate and evade its
+originary structure.
+
+How do we remember our own origins while thus undercover
+in the disciplines; how does One Big Discipline emerge from
+what appears to be dispersal? The real “proof” of GA as the
+“strongest” theoretical discourse will be that it can keep
+showing whatever disciplinary space it inhabits that it needs
+the way of thinking only originary thinking can provide to
+address the anomalies in its own discourse, anomalies which
+the originary disciplinary inquirer will have trained himself to
+detect. The proof, that is, is in the way we will have clarified
+in a collaborative manner whatever those in that discipline
+have devoted themselves to studying—not in how we
+distract them by pointing out mistakes that might not seem
+such, or seem relevant, to them. If we find ways to
+“represent” so as to defer resentments in the course of any
+inquiry, we exemplify an originary intellectual “ethic,” which
+can in turn become a compelling topic of conversation.
+“Our” language, in other words, can take its place within the
+disciplinary language, and that is where something like
+genuine intellectual competition takes place, through the
+framings and counter-framings of intellectual collaborators.
+We would have to have faith that one day all might wake up
+
+and find themselves speaking generative anthropology; of
+course, along the way something like a crisis would have to
+take place in each of the various disciplines, and a
+substantial part of what we are studying now are the
+elements of that possible crisis.
+
+One pertinent example of a transdisciplinary project both
+allied with and serving as a useful model for GA is Anna
+Wierzbicka’s Natural Semantic Metalanguage. That
+Wierzbicka harbors such ambitions for her NSM is evident
+not just from her own references to Leibniz’s aspiration to
+create a “universal characteristic” as an inspiration, but from
+her use of the NSM to critique the limitations of other
+disciplines. So, for example, she points out that many
+evolutionary psychologists “attribute the human evolutionary
+success in large part to early humans’ superior capacity for
+‘mindreading’” (Imprisoned in English, 156). Wierzbicka goes
+on to point out that
+
+“Mindreading” is a nice metaphor, but not a self-explanatory
+one, and like many other such metaphors popular among
+scientists, it is bound to English, because “mind” is an
+English word with no exact counterparts in most other
+languages of the world. In its present day meaning, mind
+focuses on thinking and knowing, to the exclusion of
+emotions and values, and is quite different in this respect
+from the main counterparts of BODY encoded in other
+
+languages….” (157)
+
+In an instance particularly relevant to GA, in Chapter 13 of
+her Imprisoned in English, she addresses the work of
+evolutionary cognitive psychologists like Michael Tomasello,
+Derek Bickerton, Merlin Donald and others. She not only
+points out the limitations of their accounts of the emergence
+of the human due to their assumption of the universality of
+English words like “believe,” “understand,” “perception,” and
+“goal,” but rewrites in primes the successive cognitive
+revolutions hypothesized by these thinkers as having
+effected the transition from ape to human. She is able to
+conclude:
+
+From an NSM perspective, evidence reviewed in studies
+such as those mentioned above suggests that the
+“representational resources” of chimpanzees include
+conceptual primes KNOW, SEE, WANT, and DO, but do not
+include THINK, which we find in the human language of
+thought… Whether or not one accepts this conclusion, the
+methodological point still holds: here as elsewhere issues
+can be clarified if the debate is freed from the conceptual
+dependence on English and articulated in simple, stable, and
+cross-translatable words like see, want, know and think (and,
+as noted before, say). (171)
+
+So, Wierzbicka sees her NSM as providing the basis for a
+transdisciplinary accounting for everything human. But her
+
+approach is so radical that it subverts the way I think we
+would be most likely to think about a grand transdisciplinary
+breakthrough—ordinarily, such a breakthrough would involve
+a new way of “explaining” everything, which is to say a
+reduction to a more abstract metalanguage. That wouldn’t
+satisfy Wierzbicka, though, because any such unified field
+theory would be offering its explanations in a particular
+language, assuming the transparency of culturally specific
+terms, and therefore no explanations at all. For Wierzbicka,
+the transdiscipline must translate all of human thought and
+action into a single, minimal language shared by all
+languages. This would really involve a rejection of
+explanation as the purpose of the social sciences, because,
+once everything can be translated in those words that can
+themselves be translated no further because they are
+immediately intelligible, what is there to explain?
+Explanations just translate into a more abstract language
+what people would ordinarily discuss in more concrete ways,
+using everyday words—if the point is to translate into the
+most everyday of the everyday words, the purpose of inquiry
+is to contract rather than expand our vocabularies. (Since it
+seems to me that a condition of transdisciplinarity on the
+terms of the NSM would be to render one’s own basic
+concepts and propositions into the primes, I’ll take the initial
+step and translate “representation is the deferral of violence”
+as follows: “people say words because if people want to do
+bad things to others people feel like saying: ‘we don’t want
+
+to do these bad things now’.”)
+
+Indeed, what, exactly, gets “explained” or “proven” in the
+human sciences? “Prediction” is meaningless, because
+history does not take place in a controlled space where we
+can manipulate the variables. Anything we were to take as a
+confirmed prediction would depend upon an arbitrary
+delineation of the event in question. Did your theory predict
+that Donald Trump would win the 2016 presidential election?
+First of all, millions of other people, even if they were in the
+minority, also predicted this—do their theories also get
+confirmed? More important, “Donald Trump elected”
+represents a culmination of a whole series of events—did
+you predict the precise margin of victory in Michigan? If not,
+does someone who came closer than you therefore have a
+“better” theory? Why isolate this particular prediction, which
+is the kind made by pollsters and bookies, as the “test” of a
+particular theory? All such questions are unanswerable, no
+matter whether the event we choose is the “financial crisis of
+2008,” or the Bolshevik Revolution or Napoleon’s defeat in
+Russia. These events are obviously not “isolated” in the way
+we would isolate “events” in a laboratory to test the results
+of a specific “input,” nor could they be (in a sense, the goal
+of “totalitarian” political movements is to make something
+like that possible, by making humans fit laboratory subjects
+—which means we should want events to be less
+predictable). You could certainly be better or worse at
+
+predicting things, but that would say more about your
+immediate knowledge of conditions on the ground (an
+officer in Napoleon’s army, a stockbroker on Wall Street, who
+sets aside his own desires and attempts to game the system,
+might do a good job of predicting such things), your wits and
+your experience than about the “strength” of your social
+theory. The same goes for attempting to test one social form
+against another: liberal democracy vs. monarchy vs.
+autocracy vs. religious rule, etc.
+
+Can anyone really show that this feature of this kind of
+society, which we see manifested in this particular society of
+this type in this way, has produced these specific effects,
+and will continue to do so in all societies of this type (or this
+particular one, for that matter) regardless of the infinite
+possible changes in surrounding conditions in the meantime
+(some of those changes produced by the “cause” we are
+trying to “isolate”)? And, anyway, a social theory can only, in
+a circular manner, tell us something about those elements of
+the social order it has framed as worthy of note, and of
+necessity must ignore whatever does not enter its frame. It’s
+possible that one’s predictions might get better as one
+focused on smaller and more marginal events. And this is
+just as true for what is presumably the “hardest” of the
+human sciences, economics. We could say that a better test
+of the strength of one’s theory is whether it provides its
+adherents the power to refrain from making predictions in
+
+the hope of winning the theory sweepstakes, because it
+focuses on something more important. In short, prediction is
+simply another mythic element of the human sciences, the
+modernized version of divination.
+
+What a human science is for is to help us see the meaning of
+events. GA should, I believe share this purpose with
+Wierzbicka’s NSM. We take (dis)ordering events, as they are
+registered by the most alert, thoughtful and/or symptomatic
+testimonies we can find, and we show the difference
+between what the speakers mean and what their words
+mean. This difference represents the speaker’s
+(mis)recognition of what the center has to say. In this way,
+we can ask pointed questions of those foundational
+disciplinary concepts that are reiterations of the
+metalanguage of literacy, and show how those concepts rely
+upon retrojected nominalizations. The disciplines
+presuppose their break from the ritual/mythic world while
+finding it impossible to articulate or even name that break;
+and for the same reason they must obscure their continuity
+with that world. They are compelled to saturate the speech
+situation they are intent on reproducing, which means they
+cannot examine the difference between writing and speech
+—that difference being writing’s constitutive “vocation” of
+studying the difference between speaker’s meaning and
+word’s meaning.
+
+A word like “cognition,” for example, is meant to establish a
+circumscribed mental “space” wherein certain measurable
+and replicable mental events can take place. It’s easy
+enough to see that the concept wants to eliminate from
+thinking what is singular and unreplicable, whether for
+personal or historical reasons, and to exclude from
+consideration what is external to the “mind,” such as the
+“body” or “language.” So an originary thinker within
+psychology might be bound to introduce all of that into
+“cognition,” with unpredictable effects upon the concept and
+the discipline organized around it. It is this forgetting of
+language, in particular, that we will find everywhere in the
+disciplines, the forgetting of the fact that concepts are
+words, with infralinguistic articulations and histories within
+traditions of inquiry; and this forgetting is required because
+of another forgetting, that it is precisely the disciplines that
+blind us to our (dis)continuity with the archaic scene, a
+(dis)continuity that lies at the origin of all the disciplines. To
+become one big discipline, it would be sufficient for GA to
+keep recalling that.
+
+The best way to elicit meaning from a sign, meanwhile, is to
+iterate it. Any repetition is a difference, but experimentation
+with a range of iterations, situating the sign in question in
+different contexts, with different tones, different “issuers,”
+and so on serves to reveal the difference between speaker’s
+meaning and sentence’s meaning. All the other possible
+
+meanings of the word can be brought to bear on
+hypothesizing possible differences between speaker’s
+meanings and sentence meanings. This form of repetition
+displaces the kind of repetition that supplements and
+saturates a scene of speech. The problem with the
+metaphysical non-scene of classical prose is that in
+supplementing the scene of recorded speech the writer
+relies upon the very nominalizations that a disciplinary scene
+of writing would inquire into: not only do specific
+“suppositions,” “ideas” and “implications” have histories and
+derive from traditions, but so do these very concepts
+themselves. Their historiality lies in their creation of a
+separate mental scene, unrelated to any center other than
+some anti-mythical self-creation. The speech scene is taken
+to be more originary than the writing that represents it, and
+so metaphysical-classical prose tries to efface the sign in its
+referent, while ultimately finding that referent to be nowhere
+but in its own self-creating mind. In the end, that’s the only
+way of erasing the inexplicable difference between speaker’s
+meaning and sentence’s meaning. In practicing the scene of
+writing and reading as just as originary as that of speech,
+meanwhile, one retrieves the originary gesture of
+signification.
+
+Even more, this mode of theorizing brings the constitutive
+problem of the good society, or how we are to live together,
+to the forefront of all social thinking, within any discipline. If
+
+the purpose or telos of sign use is to repeat the sign in such
+a way as to defer the new threat of violence, in the post-
+ritual/mythical order this means ensuring commensurability
+between speaker’s meaning and word’s meaning. In other
+words, the ethical dimension of social thinking aims at
+enabling all of us as speakers or sign-users to bring the
+meanings we intend into accord with the historical
+accretions implicit in the signs we use. Our words, in other
+words, should not be at cross-purposes with our intentions,
+because when that is the case violence becomes a more
+likely way of settling mimetic rivalries.
+
+In becoming one big discipline, GA first of all brings these
+two layers of meaning into accord within the disciplines
+themselves. The test, finally, of determining the
+commensurability of speaker meaning and sentence
+meaning in relation to the center is whether the disciplinary
+space can generate imperatives around whose fulfillment
+new spaces can emerge. David Olson advanced his inquiries
+into the cognitive effects of literacy by devising little
+experiments that enable us to see whether, say, a child of a
+particular age can distinguish between what someone says
+and what they mean. A GA transdiscipline, both immodest in
+its ambitions and humble in its respect for the accumulated
+wisdom of human practices, would do well to propose and
+devise such experiments, real and merely hypothetical, as
+frames for determining what mode of centrality a particular
+
+practice on the margin must be imagining as it works out the
+declarative language necessary for directing and reconciling
+the ostensive and imperative field in which it operates.
+
+Olson tests children’s ability to distinguish between
+speaker’s meaning and word (or sentence) meaning by
+setting up scenarios in which children observe a scene in
+which one person provides another with information. The
+experimenter then contrives it so the child comes to know
+something that either the speaker, the listener, or both, do
+not know. The question then becomes whether the child can
+distinguish what she knows from what the participants on
+the scene know: if the child, for example, has seen the
+speaker move some object to the green box after telling the
+listener it was in the red box, where will the child think the
+listener thinks it is? Distinguishing between the two levels, or
+perhaps poles, of meaning, is a question of realizing that
+different people can interpret a sentence in different ways,
+based upon the prior assumptions they bring to the
+situation: this is an ability, Olson hypothesizes, that is part of
+the acquisition of literacy. So, what would be the equivalent
+in social life of the child who thinks the listener thinks the
+object is in the green box because the child knows it is
+there? What would be the experiment that would enable us
+to test this? And what would be the equivalent of the
+acquisition of literacy, which enables the child to distinguish
+his own knowledge from another’s?
+
+We have recourse here to our founding concept of “deferral.”
+It is deferral that creates the center of the originary scene,
+and that therefore enables us to jointly attend to any object
+on any scene; and it is the ability to jointly attend to an
+object that generates a broader field of actual and possible
+objects organized around the central one. So, our question
+can be, how differentiated is what one person says from
+another person? Still, we’d need to have a clear criterion for
+“differentiation”; also, we’d have to take into account the
+ways in which, say, a schizophrenic’s or paranoid’s speech
+might be highly differentiated in ways that would indicate
+something other than an “increment” of deferral. One has to
+be able to “point to” the object as others do, and further
+direct their attention to something in or about the object
+others don’t notice. This “pointing to” would be, in the
+discourse employed by our “subject,” an internal, potentially
+self-referential marking of the distinction between this
+discourse and others. The inquirers themselves would have
+to be implicated in what they would take as a possible
+inquiry initiated by the subject: the distinctive “marking”
+would be distinctive insofar as it points to the resolution of
+some “anomaly” in an at least preliminary new “paradigm.”
+We inquirers could only notice the marking insofar as we
+could contribute to the further construction of the paradigm.
+
+But in social life, the anomalies of a particular paradigm must
+be exhausted far more thoroughly than in the laboratory
+
+setting; one might say that even the most apparently
+discredited paradigms are never conclusively discarded,
+once and for all; indeed, one might even say they never
+should be. It may be that pointing out the anomalies,
+persistently and ruthlessly, and embodying the position of
+the one who bears the exposure of the anomalies, is a way,
+or the way, of sustaining the deferral that allows possible
+paradigms, or frames, of various uses, to come into view. In
+fact, insisting on the anomalous nature of all discourse is a
+way of enacting the paradoxicality of all linguistic usage.
+Putting forth a speaker’s meaning that is the intent to inhabit
+both the “normal” and “revolutionary” positions within the
+“sentence’s meaning” would be the necessarily qualitative
+test of a further increment of deferral.
+
+So, provide someone with a discourse or, in doing
+“fieldwork,” examine the discourse with which one has
+provided oneself. Ask, first, what they think “everyone else”
+would make of this. They will provide you with an answer
+that you could map somewhere from the extreme, on one
+side, of saying that what I make of it is what everyone will
+make of it (it just means X); to, on the other extreme, of
+taking you through the way different readers or listeners
+would make sense of this or that portion of the discourse
+and therefore the discourse as a whole, differently. In other
+words, the “subject” either assumes, according to the
+“conceit” of classical prose, that we are all, always, on the
+
+same scene; or the subject is to some extent capable of
+participating in the scenic character of knowing. At each
+point along the way, we could identify how the ability to
+hypothesize new possible readings indicates the ability to
+defer the individual’s own imposition of his speaker’s
+meaning on the text. The farther along toward this latter pole
+the discourse moves, the more it becomes possible to ask,
+what would be the reading that would include them all, as an
+act of deferral that provides a model for a historically
+transformative mode of deferral: what we might call the
+originary-originating meaning. Of course, we inquirers would
+have to learn how to identify such a reading ourselves. In this
+way, the transdiscipline would itself be a mode of language
+learning by situating all language users, which is to say all
+language learners, within the field of contemporary
+language, which is to say, across the array of incremental
+deferrals and backslidings that constitute any cultural
+moment.
+
+Works Cited
+
+Latour, Bruno. Reassembling the Social: An Introduction to
+Actor-Network Theory. Oxford University Press, 2005.
+
+MacIntyre, Alisdair. After Virtue: A Study in Moral Theory,
+Second Edition. London: Duckworth, 1985.
+
+Olson, David R. The Mind on Paper: Reading, Consciousness
+
+and Rationality. Cambridge University Press, 2016.
+
+Olson, David R. The World on Paper: The Conceptual and
+Cognitive Implications of Writing and Reading. Cambridge
+University Press, 1994.
+
+Peirce, Charles Sanders. Philosophical Writings of Peirce.
+Edited by Justus Buchler. Dover, 1955.
+
+Seaford, Richard. Money and the Early Greek Mind: Homer,
+Philosophy, Tragedy. Cambridge University Press, 2004.
+
+Wierzbicka, Anna. Imprisoned in English: The Hazards of
+English as a Default Language. Oxford University Press,
+2013.
