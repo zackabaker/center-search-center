@@ -486,6 +486,9 @@ const PDF_METADATA: Record<string, { title: string; source?: ContentSource; url?
   'prosecuting-the-nomos-qa': {
     title: 'Prosecuting the Nomos: Q&A (Adam Katz)',
   },
+  'anglo-modernity-limits-thread': {
+    title: 'Anglo Modernity Reaching Its Limits (Adam Katz)',
+  },
   // Anthropoetics journal articles
   'anthropoetics-redemption-of-hostages': {
     title: 'The Redemption of Hostages (Adam Katz)',
