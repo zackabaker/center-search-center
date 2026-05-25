@@ -20,6 +20,17 @@ interface SourceMeta {
   dot: string;   // accent color for breadcrumb
 }
 
+// ── Source tab strip data ─────────────────────────────────────────────────────
+
+const SOURCE_TABS = [
+  { slug: 'gablog',   label: 'GABlog',           dot: 'bg-blue-400'   },
+  { slug: 'substack', label: 'Substack',          dot: 'bg-orange-400' },
+  { slug: 'threads',  label: 'Threads & Q&A',     dot: 'bg-violet-400' },
+  { slug: 'pdf',      label: 'Essays',            dot: 'bg-green-400'  },
+  { slug: 'book',     label: 'Anthropomorphics',  dot: 'bg-purple-400' },
+  { slug: 'all',      label: 'All',               dot: 'bg-gray-400'   },
+] as const;
+
 const SOURCE_META: Record<ValidSource, SourceMeta> = {
   substack: {
     label: 'Bouvard Substack',
@@ -124,22 +135,29 @@ export default async function BrowseSourcePage({
   const twitterCount = (src === 'threads' || src === 'all') ? allPosts.filter(p => p.source === 'twitter').length : 0;
 
   return (
-    <main className="max-w-4xl mx-auto px-4 pt-8 pb-24 sm:py-12">
+    <main className="max-w-4xl mx-auto px-4 pt-4 pb-24 sm:pt-8 sm:py-12">
 
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 mb-6 text-sm">
-        <Link
-          href="/browse"
-          className="text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
-        >
-          Archive
-        </Link>
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-300 dark:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${meta.color}`}>
-          {meta.label}
-        </span>
+      {/* ── Source tab strip — scrollable on mobile ─────────────────────────── */}
+      <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 mb-6">
+        <div className="flex gap-2 min-w-max">
+          {SOURCE_TABS.map((tab) => {
+            const isActive = src === tab.slug;
+            return (
+              <Link
+                key={tab.slug}
+                href={`/browse/${tab.slug}`}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
+                  isActive
+                    ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${tab.dot}`} />
+                {tab.label}
+              </Link>
+            );
+          })}
+        </div>
       </div>
 
       {/* Header */}

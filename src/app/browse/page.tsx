@@ -9,6 +9,15 @@ export const metadata: Metadata = {
 
 export const revalidate = 3600;
 
+const SOURCE_TABS = [
+  { slug: 'gablog',   label: 'GABlog',          dot: 'bg-blue-400'   },
+  { slug: 'substack', label: 'Substack',         dot: 'bg-orange-400' },
+  { slug: 'threads',  label: 'Threads & Q&A',    dot: 'bg-violet-400' },
+  { slug: 'pdf',      label: 'Essays',           dot: 'bg-green-400'  },
+  { slug: 'book',     label: 'Anthropomorphics', dot: 'bg-purple-400' },
+  { slug: 'all',      label: 'All',              dot: 'bg-gray-400'   },
+] as const;
+
 const SOURCES = [
   {
     slug: 'gablog',
@@ -122,6 +131,22 @@ export default async function BrowsePage() {
               Download corpus
             </Link>
           </div>
+        </div>
+      </div>
+
+      {/* ── Source tab strip — big tappable pills, scrollable on mobile ─────── */}
+      <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 mb-8">
+        <div className="flex gap-2 min-w-max">
+          {SOURCE_TABS.map((tab) => (
+            <Link
+              key={tab.slug}
+              href={`/browse/${tab.slug}`}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600 transition-colors"
+            >
+              <span className={`w-2 h-2 rounded-full flex-shrink-0 ${tab.dot}`} />
+              {tab.label}
+            </Link>
+          ))}
         </div>
       </div>
 
