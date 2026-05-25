@@ -10,7 +10,7 @@ export const revalidate = 3600;
 const REAL_SOURCES = ['substack', 'gablog', 'book', 'pdf', 'reddit', 'twitter'] as const;
 type RealSource = typeof REAL_SOURCES[number];
 
-const VALID_SOURCES = [...REAL_SOURCES, 'threads'] as const;
+const VALID_SOURCES = [...REAL_SOURCES, 'threads', 'all'] as const;
 type ValidSource = typeof VALID_SOURCES[number];
 
 interface SourceMeta {
@@ -63,6 +63,12 @@ const SOURCE_META: Record<ValidSource, SourceMeta> = {
     color: 'bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300',
     dot: 'text-violet-600 dark:text-violet-400',
   },
+  all: {
+    label: 'All Sources',
+    description: 'Every text in the archive — GABlog, Substack, Essays & Articles, Anthropomorphics, Reddit, and X — sorted chronologically. Use the year filter and sort controls to navigate.',
+    color: 'bg-gray-100 text-gray-800 dark:bg-gray-800/60 dark:text-gray-300',
+    dot: 'text-gray-500 dark:text-gray-400',
+  },
 };
 
 export function generateStaticParams() {
@@ -97,10 +103,11 @@ export default async function BrowseSourcePage({
 
   const allPosts = getAllPosts();
 
-  // 'threads' is a virtual source combining reddit + twitter
-  const sourcePosts = src === 'threads'
-    ? allPosts.filter((p) => p.source === 'reddit' || p.source === 'twitter')
-    : allPosts.filter((p) => p.source === (src as ContentSource));
+  // Virtual sources
+  const sourcePosts =
+    src === 'threads' ? allPosts.filter((p) => p.source === 'reddit' || p.source === 'twitter') :
+    src === 'all'     ? allPosts :
+    allPosts.filter((p) => p.source === (src as ContentSource));
 
   // Sort: dated posts newest-first, then undated alphabetically
   const sorted = [...sourcePosts].sort((a, b) => {
@@ -112,9 +119,9 @@ export default async function BrowseSourcePage({
 
   const totalCount = sorted.length;
 
-  // For threads, show Reddit and Twitter sub-counts
-  const redditCount = src === 'threads' ? allPosts.filter(p => p.source === 'reddit').length : 0;
-  const twitterCount = src === 'threads' ? allPosts.filter(p => p.source === 'twitter').length : 0;
+  // Sub-counts for virtual sources
+  const redditCount  = (src === 'threads' || src === 'all') ? allPosts.filter(p => p.source === 'reddit').length : 0;
+  const twitterCount = (src === 'threads' || src === 'all') ? allPosts.filter(p => p.source === 'twitter').length : 0;
 
   return (
     <main className="max-w-4xl mx-auto px-4 pt-8 pb-24 sm:py-12">
@@ -146,6 +153,11 @@ export default async function BrowseSourcePage({
             {src === 'threads' && (
               <span className="ml-1 text-[11px] text-gray-300 dark:text-gray-700">
                 ({redditCount} Reddit · {twitterCount} X)
+              </span>
+            )}
+            {src === 'all' && (
+              <span className="ml-1 text-[11px] text-gray-300 dark:text-gray-700">
+                across all sources
               </span>
             )}
           </span>
