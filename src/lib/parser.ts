@@ -199,6 +199,19 @@ function parseGABlogPosts(text: string): Post[] {
     const title = entry.slice(0, titleEnd).trim();
     let content = '';
 
+    // Extract optional Date: YYYY-MM field (appears between Title and Article lines)
+    let date: string | null = null;
+    const dateLineMatch = entry.match(/\nDate:\s*(\d{4}-\d{2})/);
+    if (dateLineMatch) {
+      const [yr, mo] = dateLineMatch[1].split('-');
+      const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const moIdx = parseInt(mo, 10) - 1;
+      if (moIdx >= 0 && moIdx < 12) {
+        date = `${MONTHS[moIdx]} ${yr}`;
+      }
+    }
+
     const articleMatch = entry.indexOf('Article: ');
     if (articleMatch !== -1) {
       content = entry.slice(articleMatch + 9).trim();
@@ -215,7 +228,7 @@ function parseGABlogPosts(text: string): Post[] {
       title,
       content: cleanedContent,
       excerpt: excerpt(cleanedContent),
-      date: null,
+      date,
       source: 'gablog' as ContentSource,
     });
   }
@@ -388,6 +401,12 @@ const PDF_METADATA: Record<string, { title: string; source?: ContentSource }> = 
   },
   'attentionality-originary-ethics': {
     title: 'Attentionality and Originary Ethics: Upclining (Adam Katz)',
+  },
+  'writing-pedagogy-katz': {
+    title: 'From Novice to Apprentice: A Pedagogy of "Academic Discourse" (Adam Katz)',
+  },
+  'writing-pedagogy-katz2': {
+    title: 'AI and Writing — Book Review (Adam Katz)',
   },
 };
 

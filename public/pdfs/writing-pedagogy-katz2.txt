@@ -1,0 +1,114 @@
+DOI: 10.37514/DBH-J.2024.12.1.08 Double Helix, Vol 12 (2024)
+
+Book Review
+
+AI and Writing. Sidney I. Dobrin. Broadview Press, 2023. 144 pages.
+
+Adam Katz
+Quinnipiac University
+
+I like to think that most of the assignments I give my students are AI-proof, meaning that
+students won’t try to complete them using AI, or doing so will be obvious and a failure to
+address them. But there are still some assignments—for example, small ones following up
+on some questions raised in class—that are a bit “leakier.” If I don’t detect their leakiness in
+advance, it becomes clear as soon as I start reading student responses that look suspiciously
+fake in the way we, as writing instructors, have come to recognize AI-generated work. Such
+situations raise all kinds of questions about our relationship with our students, but what I
+want to note here is that I’m not sure whether I give a more or less leaky assignment to see
+what the AIs might be able to do with it or what the students might be able to do with the AI.
+And I am, of course, aware that the AI-proof assignments I’m designing will very likely no
+longer be AI-proof one or two or three new large language models down the road, in which
+case defending a space for thinking independent of AI is a rearguard action. My thinking,
+then, is more an inquiry into what it would mean to automate one or another of the skills or
+practices I associate with literacy, productively focusing attention on how that skill or
+practice is composed, and therefore how it might be iterated and transferred to other reading
+and writing situations, with the endpoint of rendering the skill or practice irrelevant because
+it is transferable to a machine. We must somehow, then, learn to think within this paradox
+that what enables us to study human practice with increasing resolution is the very thing
+leading to the disappearance of that practice—and this might simply be a compressed and
+accelerated continuation of the history of human-technology relations.
+Some sense of this paradox is what I find missing in Sidney Dobrin’s very useful—
+maybe too useful—AI and Writing. Dobrin’s approach to AI in this short book, designed for
+classroom use, is comprehensive, pragmatic, theoretically and ethically informed, business-
+like and optimistic. He locates AI in the history of writing, addressing and contextualizing
+questions AI has raised regarding academic integrity, intellectual property, and bias, as he
+takes advantage of the uneasiness around AI to demystify these categories. He provides
+suggestions regarding assignment design and ways students can be introduced to various
+uses of AI. Each chapter begins with a list of “Learning Objectives,” with some things to think
+about before reading the chapter, and ends with “Questions for Discussion,” often including
+“provocative” ones that could serve to spark a class discussion (many of which I could
+imagine students using an AI to answer). Near the end, he takes readers, presumably
+teachers and students together, through a discussion of the economic transformations
+expected from generative AI (GenAI), along with the implications for career opportunities for
+students.
+Dobrin is taking the stance—and I’m not sure what other stance would be
+justifiable—that we should simply accept the existence of AI, while acknowledging the
+understandable qualms about it, and get on with the business of helping our students learn
+how to make the most of it: what skills will equip them to master AI and what mastering AI
+
+1
+
+Double Helix, Vol 12 (2024)
+
+will in turn enable them to do. So, for example, in a discussion of Skills that Benefit from GenAI,
+Dobrin mentions “problem solving and critical thinking”:
+
+Strong problem-solving and critical thinking skills are necessary in order to
+tackle the complex challenges of any workplace. You should be able to analyze
+problems, devise creative solutions, and evaluate the performance of
+competing models. GenAI can be useful here too, as it’s an ideal tool for testing
+hypotheses and running simulations. When prompted appropriately, many
+GenAI programs are also quite effective in offering innovative solutions to
+problems or sober and well-considered pro-and-con lists. (p. 99)
+
+The boundary separating what the human is doing and what the GenAI program is doing is
+rather blurry here. Other than prompting appropriately, the problem-solving and critical
+thinking seem to be done by the GenAI. Presumably, the user will also assess the results
+provided by the GenAI—out of however many simulations generated, one will be “better”
+than the others, meaning that we have a new “skill set” here that may not be exactly what we
+are accustomed to calling “problem-solving and critical thinking”: prompting and selecting
+from among the results of the prompt and then iterating this practice over and over again.
+Insofar as we come to think in potential “prompts,” the GenAI is no longer a simple “tool” that
+we are standing outside of and “using.” A precursor to this cognitive scenario (if “cognitive”
+is the right word) might be the tendency, developed as Google became the universally used
+interface with the internet, to think in search terms, which must be further refined with each
+new set of results. The system is using us as much as we are using it.
+The implication is that the emergent human “vocation” is to train AIs, as in the
+“supervised training” necessary for a computer program to, for example, consistently and
+accurately identify images of cats. Supervised training is one of the more notorious aspects
+of AI use, as Dobrin points out, quoting Sasha Luccioni:
+
+Essentially, once a model has been trained on a large quantity of unlabeled data
+. . . humans are then asked to interact with the model, coming up with prompts
+. . ., and provide their own answers or evaluate answers provided by the model.
+This data is used to continue training the model, which is then again tested by
+humans, ad nauseum, until the model is deemed good enough to be released
+into the world . . . . But that success has a dirty secret behind it: To keep the
+costs of AI low, the people providing this “human feedback” are underpaid,
+overexploited workers. (pp. 112–113)
+
+The question, then, is whether this essential labor, carried out by underpaid and
+overexploited workers can be “provocative,” as the most interesting and rewarding activity
+ever; that is, if it’s really essential, then it should become completely integrated into all
+economic, political and cultural institutions and at various levels of complexity, difficulty and
+urgency: anyone can tell cat from non-cat, but very few people will be able to judge whether,
+say, a weather model is off enough so that major climactic events might be missed, or
+economic projections on which billions of dollars and hundreds of thousands of individuals’
+economic futures might depend is over-weighing one patch of data—or, more precisely, what
+sort of search should be undertaken, or prompt designed, to answer such questions. So, those
+
+2
+
+Double Helix, Vol 12 (2024)
+
+capable of machine training at the higher levels will be much in demand, and such careers
+lucrative and, as intellectually demanding and socially important, very satisfying. We would
+all “always already” be interacting with databases, and part of that interaction would be
+examining and revising their composition. Whatever one might think of such a future, it’s
+hard to see how our present teaching tools—our Learning Outcomes and Rubrics—are
+adequate to educating the very different kinds of human who will populate it. But we will—
+and should—continue to see books like Dobrin’s, and eventually they will prompt the AIs in
+ways that elicit the necessary information on how we should best habituate ourselves to their
+omnipresence.
+
+3

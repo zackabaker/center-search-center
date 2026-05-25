@@ -1,0 +1,743 @@
+DOI: 10.37514/DBH-J.2024.12.1.02 Double Helix, Vol 12 (2024)
+
+Research Article
+
+From Novice to Apprentice: A Pedagogy of “Academic Discourse”
+
+Adam Katz
+Quinnipiac University
+
+Helen Bromhead (2009), in her The Reign of Truth and Faith: Epistemic Expressions in 16th
+and 17th Century English, tracked the transformation of English during this period from
+being a language of “certainty” to one of “doubt.” This dramatic shift, evident to anyone who
+reads, for example, Shakespeare or Donne next to Dryden or Swift, has long been noted—
+some might remember T. S. Eliot bemoaning a “dissociation of sensibility” following the
+period of the metaphysical poets. Bromhead traced the disappearance of some words
+(“forsooth,” “verily”) and the change in meaning of others (“surely,” “I suppose”) to identify
+the increasing uncertainty conveyed by epistemic expressions. Bromhead herself did not
+offer a broader socio-historical explanation for these changes but drew upon Anna
+Wierzbicka’s (2006) earlier accounts of transformations in English that Wierzbicka often
+traced back to Locke’s philosophical writings.
+I open with these references for a couple of reasons. First, Bromhead’s (2009)
+account of the transformation of epistemic expressions in English is strikingly similar to
+recent studies of the difference between academic discourse and more “popular”
+discourses carried out, in particular, by Laura Aull. As one example, and I will return to her
+work later, Aull (2020) found that as writers become familiar with the stance expectations
+of academic discourse, they use far fewer “boosters” (markers of stronger epistemic
+commitment) and far more “hedges” (markers of weaker epistemic commitment or doubt).
+The second reason is that I would like to introduce Wierzbicka’s (2010) work as providing a
+vocabulary and method for speaking about language in ways that might be pedagogically
+helpful. Wierzbicka (along with her associates) identified what she contended is a small
+number of words with equivalents in all languages. Setting aside the empirical support for
+her claims, which I cannot address here, I find her approach to be of interest because it
+allows us, as writing instructors, to trace movement between simpler and more complex
+expressions in ways that might make epistemic markers more visible to students. For
+Weirzbicka’s Natural Semantic Primes approach, subtle epistemic expressions like
+“suggest,” “assume,” “suppose,” “imply,” and so on, along with their nominalizations, can all
+be traced back to more familiar primes such as “true,” “think,” “know,” “say,” and a few
+others. The subtler epistemic terms can then be examined as implicating the writer in
+ongoing conversations in which the views, actual and anticipated, of others must be
+accounted for. This examination is consistent with Aull’s own account, which sees the
+weaker epistemic commitments of academic discourse as grounded in the metalinguistic
+awareness of one’s involvement in complex, overlapping conversations, in which various
+reference points, layers of arguments, and yet untested claims and hypotheses need to be
+acknowledged linguistically.
+Composition pedagogy has always relied on other disciplines, especially as it has
+struggled against reductive, standardizing pedagogies, such as those asking students to
+identify “main ideas” and “themes.” David Bartholomae drew heavily upon literary
+
+1
+
+Double Helix, Vol 12 (2024)
+
+criticism, such as the work of Richard Poirier, Edward Said, Harold Bloom, Stanley Fish and
+others. I see Bartholomae as exemplary because he never failed, even while acknowledging
+his debt to such thinkers (and readers), to mark the ways they presuppose the very reading
+capabilities (which is to say, modes of literacy) of their readers (and students) that, for
+Bartholomae, are the very things we cannot presuppose. Composition has come to rely
+more upon linguistics, as is the case with Aull and her sometime collaborator Zak Lancaster.
+Clearly all these inputs enrich our understanding of pedagogy and always leave us with the
+challenge of ensuring that concepts generated within these disciplinary spaces find their
+way into assignments that ask students to do the kinds of things that we could show them
+to be doing and that transfer to practices they can repeat and rework as academic readers
+and writers. Wierzbicka’s (2010) work on primes seems to me to meet that standard—
+unlike, I would suggest, attempts to introduce into composition theory poststructuralism,
+which never proposed any way of helping instructors meet any conceivable objectives of a
+first-year writing course, even one willing to challenge confining subjectivizations of
+students. Asking how we might get from “I think” to “I suppose” is a way of reflecting on
+language that might be made readily accessible to students.
+The same could be said of David Olson’s (2016) work on the cognitive implications
+of literacy in his The Mind on Paper, which addresses a metalinguistic phenomenon very
+similar to that studied by Bromhead (2009) and Aull (2020). Olson provided a very simple
+model for thinking about the linguistic and cognitive implications of literacy: he proposed
+that we think about writing as reported speech, but reported speech stripped of everything
+that, in oral communication, would contribute to the conveyance of meaning, such as
+gesture and tone. So, Olson argued, in an oral setting, if I am reporting someone else’s
+speech, I would imitate that speech, including its bodily incarnations—and if I want to
+discredit that speech, I would do so in the same way, for example by repeating the words of
+the other in a mocking way. Olson implicitly asked us to imagine how, then, one would
+preserve this meaning once the body and the presence of others on a scene are removed.
+Olson’s answer was that we would do so (and those creating written forms of
+communication did) by loading the lost meanings in verbal expressions: so, for example, if I
+want to show that I doubt the words I am reporting, and I can’t distance myself from them
+through gesture and tone, I need to say that so-and-so “claimed” or “seemed to think” that
+such and such was the case. Olson doesn’t seem to me to quite have said so, but it’s not hard
+to imagine transferring such practices to our “reporting” of our own speech.
+Olson, in turn, was relying here upon Francis-Noel Thomas and Mark Turner’s
+(2011) Clear and Simple as the Truth: Writing Classic Prose. Thomas and Turner identified
+what they called “classic prose,” which they traced back, interestingly, to Descartes, which is
+to say the same historical “break” upon which Bromhead (2009) focused. (Can such
+histories be made to come alive for students in first-year writing classes?) Classic prose is
+predicated upon what we can call a “scenic” principle: write as if you were looking at the
+events you are describing and you are drawing or inviting your reader into that scene.
+“Clear” writing would, then, place reader and writer on the same scene, seeing the same
+thing. This understanding of “clarity” is consistent with many uses of the term and,
+especially, with the insistence by teachers (and often students themselves) that writing be
+“clear.” Clarity essentially means unanimity: there would be no disagreement over what is
+being said. Demands for clarity will strike many of us as naïve, and for good reasons—even
+Thomas and Turner conceded the “fictional” nature of their ideal of prose. And yet it’s not
+
+2
+
+Double Helix, Vol 12 (2024)
+
+so easy to dismiss, for what else are we looking for when we ask a student, for example,
+“What are you getting at here?” or something along those lines? But we can direct demands
+for clarity to the constitution of a disciplinary space, or scene, which does, I would argue,
+always have what we could call an “ostensive” dimension, in which interlocutors need to
+confirm that they are indeed looking at the “same thing.” (Imagine looking through a
+microscope with an untrained eye and asking the biologist alongside you, “What am I
+looking at here?”)
+I have begun this article by proposing some ground rules and canonical texts for the
+ongoing construction of the anomalous discipline of composition (anomalous as in
+constitutively supplemental to other disciplines) because I want to take up and push to
+what seems to me its logical conclusion a very salutary development in composition: the
+Writing about Writing (WAW) movement. Writing about writing, first, solves or at least
+sharply focuses the problem over which, I think, every writing instructor has agonized:
+What should students read? We are enjoined, and enjoin our students, to remember that
+the “content” of the text is not what matters, as it is only a pretext for enacting certain
+practices as a reader and writer, but it’s not that easy to engage texts in the complex and
+recursive way we would like without caring at all about the subject matter. So, should we
+give students texts they are “interested” in, maybe dealing with topics important to their
+“generation” (social media!)? Aside from the condescending and, for the instructor,
+potentially humiliating implications of this pandering, why in the world should we assume
+that our students are all interested in the same thing? Have students vote on texts? Well,
+what about the minority? And how could we imagine they would choose the kinds of texts a
+composition course should be teaching, those that are at least a bit “over their heads,”
+unfamiliar and resistant to their commonplaces? The same goes with having individual
+students choose their own texts, with the added disadvantage that now we are not reading
+texts together. Writing about Writing solves the problem by uniting the purposes of the
+course with its content: The writing course is now “about” the very practices that it aims at
+providing its students access to. And, insofar as students are in a writing class, perhaps we
+have some right to assume they will be “interested” in writing. We can achieve precision in
+the identification of reading and writing practices and provide grounds for assuming that
+those practices will be nameable and therefore transferable. It is surely no coincidence that
+WAW and discussions of transfer in writing studies overlap so considerably, in concerns
+and participants.
+But, then, why not take the next step, and make the first-year writing course not only
+about writing but about the first-year writing course? This would entail having students
+read and engage with texts such as those of (in my own courses) Aull, Bartholomae, Zak
+Lancaster and Sarah Smith (her fascinating PhD dissertation, Error as Strategic Style)—so
+far. Students are thereby introduced to the terms and the conversations producing those
+terms constituting the course they are taking, and studies of student reading and the kinds
+of formulas found in student and academic writing can be presented and studied in the
+classroom. These texts are difficult, of course, and I continue here the tradition adopted and
+advanced by Bartholomae, who insisted that students be given texts and projects to work
+with that would be of interest to academics, rather than pseudo-projects like “research
+papers” where students find, summarize and synthesize a few texts on a familiar topic.
+(Although I don’t want to claim that Bartholomae would necessarily endorse the pedagogy
+I’m proposing.) If, taking Bartholomae’s side in the Bartholomae-Elbow debate, we assume
+
+3
+
+Double Helix, Vol 12 (2024)
+
+that the purpose of the first-year writing course is to “initiate” students into, or
+“acculturate” them to, the ways and habits of academic readers and writers, then in my
+proposed approach we are treating students as apprentice academics. This projects a
+model for students working in their disciplines, and even a somewhat “utopian” model for
+the organization of pedagogy in those disciplines, while first of all treating students as
+apprentices of academic discourse. The first-year writing course is, then, taking students
+from being novice to being apprentice academic writers. They are apprentices in our
+classes, which are teaching them to “apprentice” themselves across the disciplines. We
+might consider this “experiential learning” within the university itself.
+The simplest way to think of this transformation in modes of literacy from novice to
+apprentice is, as Bartholomae (2004) put it, “hav[ing] one set of commonplaces replaced
+with another” (p.103). Bartholomae here was drawing upon a crucial part of the rhetorical
+tradition, one which is consistent with tendencies in linguistics such as construction
+grammar and which enables us to speak directly about uses of language with minimal
+reference to intentions or cognitive states. The commonplaces students bring to the
+university are those, to refer back to a distinction made earlier, more suited to “boosters”:
+those that rely upon assumptions that “everyone knows.” The commonplaces students are
+to replace these with are, for starters, those that indicate epistemic modesty and gesture
+towards anticipated responses within an ongoing conversation, and are therefore made up
+of “hedges”: “it might be the case that ________,” “assuming ________, we could suggest,” and so
+on. Situating the replacement of one set of commonplaces by another in terms of an
+academic writing course, I would suggest the following formula: replacing lay concepts
+with concepts in some ongoing inquiry. We would be enabling students to acquire the
+metalinguistic awareness that concepts not directly put to work in present inquiry are all to
+some extent “lay” and will undergo transformation within the specific research context.
+This formula allows us to acknowledge student use of research aids like Wikipedia and AI,
+while designing the class to let them see that such aids, even when written by experts, will
+only approximate the work concepts do in the course of research.
+I am now going to focus on Aull’s (2020) work in particular as a promising site of
+such apprenticing insofar as her corpus studies of student writing and academic writing
+suggest lines of research that students can participate in from the moment they arrive in
+their composition classes. In her How Students Write: A Linguistic Analysis, Aull defined
+academic discourse (more precisely, she is distinguishing between first-year and upper-
+level student writing) in terms of “compression,” “coherence” and “civility.” By “civility,” Aull
+meant “diplomatic evidentiality . . . blending open-mindedness with well-informed
+conviction” (p. 6). Cohesion is “explicit coherence across parts of a text” (p. 7). Compression
+is the “use of dense phrasal detail” (p. 7). It’s worth noting that, while Aull associated
+specific linguistic features with each of these qualities, compression is the only one that has
+that feature built into its definition. Aull also noted that compression “makes upper-level
+writing particularly difficult to read and write, especially for those whose lexical and
+grammatical habits are distant from standardized written academic English” (p. 7). I will
+return to this, in my view, highly significant point later. For civility, the linguistic marker
+Aull pointed out is a prevalence of hedging over boosting (p. 136), while for coherence Aull
+pointed to a range of markers, including adverbs such as “also,” counters such as “however,”
+words and phrases showing correlation such as “thus,” and specification and certain
+determiners such as “same.” A research paper co-authored by Aull and Zak Lancaster
+
+4
+
+Double Helix, Vol 12 (2024)
+
+(2014), “Linguistic Markers of Stance in Early and Advanced Academic Writing: A Corpus-
+Based Comparison,” explores these markers of civility and coherence in greater detail.
+There, along with their discussion of hedging and boosting, Aull and Lancaster examined a
+wide range of markers of coherence (without using the term): reformulation and
+exemplification, and concessive/counter moves. They distinguished between more difficult
+formulae in each of these categories: for example, specification, requiring the writer to
+“reduce the scope of propositional content” (p. 16), tends to be more challenging than
+exemplification. Likewise, more advanced writers use “nevertheless” far more often than do
+beginning writers, who tend to rely upon “however” for their concede/counter moves,
+because “nevertheless” commits the writer to following exactly the material that has been
+conceded (“call[ing] for a greater orientation to refining the scope of one’s meaning by
+constructing a dialogic stance by conceding and countering complexities” [pp. 21–22]).
+For Aull and Lancaster (2014), all of these features of academic stance can be
+correlated to the following general aspects of stance: stance toward the material, stance
+toward the reader, and stance toward the “larger discourse community” (p. 24). They went
+on to privilege the latter, “the positioning of one’s argument amid existing views in a larger
+academic conversation,” first of all, because it is “an aspect of stance construction with
+which developing students may struggle with the most” (p. 24), but more importantly, I
+think, because it touches on the nature of academic discourse itself, which is that it is
+constituted by an ongoing conversation irreducible to the relation between writer and
+material or writer and reader. Only those participating in some form of disciplinary inquiry
+can be familiar with the history of those conversations as they are embedded in a particular
+text. In this context, I find it especially interesting that Aull and Lancaster’s study does not
+deal with “compression” at all because if compression is what makes academic discourse
+especially difficult to beginning writers, it may very well be because that is where academic
+discourse is particularly marked by that history of conversations. Take an example from
+Aull and Lancaster’s own essay:
+
+It therefore seems that, while more context-attentive, ethnographic studies of
+student writing are valuable (e.g., Beaufort, 2007; Cheng, 2008; Tardy, 2009),
+there is still a complementary contribution to be made by descriptive, large-
+scale corpus studies that compare stance patterns across stages from
+incoming university writers to more advanced academic writers. (p. 3)
+
+Here we have phrasal density, and we could imagine that this would be an especially
+difficult passage for students to work with: One could work with the notion of “studies of
+student writing,” but when we then add “ethnographic” and “context-attentive,” a history of
+conversations within writing studies, ethnography and perhaps other humanistic fields is
+alluded to in a way that outsiders would find impenetrable. On the face of it, though, it
+would be far more difficult to do a corpus-based study of compression, since compression is
+irreducible to the kinds of formulas characteristic of constructions of civility and coherence.
+And yet it is here where the text as an archive of conversations is especially manifest in
+academic discourse.
+But now I am discussing reading, which Aull (and Lancaster) didn’t address at all. In
+her concluding remarks in How Students Write, Aull (2020) pointed out that “the tenacity of
+institutionalized discourses calls for more radical options [than adding ‘more blended,
+
+5
+
+Double Helix, Vol 12 (2024)
+
+public-facing, analytical explanatory as well as persuasive argumentative genres’]” (p. 143),
+but while those options include asking students to take into account other views and
+perhaps write for academic audiences, they don’t touch on the problem of reading. Aull’s
+focus on discourse patterns in academic writing is consistent with Bartholomae’s insistence
+that composition focus on bringing students into academic discourse, despite what seems
+to be some ambivalence on her part. In her late discussion of compression, right after the
+passage I quoted above, Aull seemed to question the appropriateness of asking students to
+practice compression:
+
+Since discourse patterns expressed in student writing can be tacit, especially
+for novices and students who rarely receive A-grades, this patter of
+compressed noun phrases merits serious consideration: if we choose to
+privilege compressed, phrasal discourse, we should have good reasons why.
+With respect to this and other school discourse patterns, we should examine
+where intentional, relevant ways of thinking and writing end and where
+unquestioned discursive socialization begins [emphasis added]. (p. 137)
+
+The good reason for privileging compressed, phrasal discourse is that students need to be
+able to read texts using it, but, even more important, the distinction Aull wanted to make
+here between “intentional, relevant ways of thinking and writing” and “unquestioned
+discursive socialization” needs to be deconstructed. Such practices as “dialogues” and
+“conversations” necessarily involve “socialization” in the space of discourse, and
+socialization is always to some extent tacit, involuntary and even “unquestioned.” Only from
+within a densely constituted conversational space can one raise questions about the terms
+of the conversation. Bartholomae (2004) recognized this, ambivalently but unmistakably,
+when he spoke of students learning to write in “our” ways, to replace one set of
+commonplaces with another (this argument, of course, is central to the “Bartholomae-
+Elbow dispute”). And this recognition of the institutional character of academic writing—
+that it is a matter of power and not simply ideas—is also, I think, of a piece with his
+emphasis on the centrality of reading, and close reading, and of the kinds of texts academics
+would take seriously, in the composition classroom. As Aull pointed out on more than one
+occasion, academic discourse is “an acquired social language” (p. 144)—and how, exactly, is
+language acquired, if not at least in part “unquestioningly”?
+Aull’s (2015, 2020) studies of student writing make much more concrete and precise
+Bartholomae’s (2004) remarks on the specificity of academic discourse; Lancaster’s (2016)
+critique of Graff and Birkenstein’s They Say/I Say does even more so, by pointing out that
+they are right about academic discourse being formulaic but wrong about what the
+formulas are, showing how valuable the contributions this line of research is making to
+writing pedagogy. But Aull’s and Lancaster’s neglect of reading, or at least their failure to
+make it central to learning academic discourse, regresses behind Bartholomae’s work, and I
+think we see this in Aull’s hesitation to confront students with compression. But we can
+synthesize Aull’s and Lancaster’s work with Bartholomae’s in the way I proposed earlier: by
+having students read academic texts, and, moreover, academic texts dealing with writing
+and writing studies and, more specifically, texts dealing with composition studies itself.
+Texts like those of Aull, Bartholomae and Lancaster, for example. Following the logic of
+WAW and its argument that transfer is served by having students work with texts and
+
+6
+
+Double Helix, Vol 12 (2024)
+
+subject matter that provide them with a vocabulary for describing their own practices in a
+writing course, having students enter discussions of composition pedagogy makes them
+apprentices in composition studies and more broadly in academic discourse and the study
+of it. If we are to study the patterns of academic discourse and the patterns of student
+writing as they struggle to acquire academic discourse, and also wish to provide students
+with a meta-linguistic awareness of the contingent terms of that discourse, should we not
+invite them into those inquiries, providing them with “authentic” samples of academic
+discourse along with samples of their own equally “authentic” apprentice academic
+discourse to study?
+Doing so would require us to take the notion of learning academic discourse as
+language acquisition more seriously and maybe more literally than, to my knowledge, has
+been done within composition studies so far. The only way you acquire a language is by
+using it, with all the riskiness, inappropriateness and errors that entails, and that means
+bringing words and phrases from the academic text into the student’s writing—not just in
+the form of quotes, which are then summarized and paraphrased, but into the student’s
+own sentences. If we can usefully point out academic formulas to students, we can ask them
+to use those formulas, and the next step is to have them write their own sentences around
+the words from the academic text. To this end, I have designed a kind of prototypical
+(although, of course, fairly rare) academic sentence form, involving the use of phrases and
+clauses distinctive to and from different places in the text within a sentence that articulates
+those passages in some way, whether by contrast, in terms of causality, or further
+specification. The student then writes a certain number of follow-up sentences, the purpose
+of which is to account for the manner in which the passages have been articulated: Where is
+the contrast, the causal link or specification? The student should continue to use language
+from the text in these follow-up sentences, perhaps from these same passages but also from
+elsewhere in the text, as she practices entering and exiting the language of the text,
+gradually assimilating that language into her own. Aside from the direct engagement with
+the language of the text, such sentences produce a space for addressing other issues, such
+as the handling of quoted material and grammar, as not only is writing such complex
+sentences a challenge for many students, but the language of the text will often need to be
+“carved” in some way to work in the student’s sentences. Finally, what I am calling
+“combined” and “follow-up” sentences function as a practice of rereading, as students
+search for passages in the text that are repeated with a difference in the passages they use
+for their combined sentences.
+Here's an example of student work employing combined and follow-up sentences.
+We were reading Bartholomae’s (2004) “The Argument of Reading,” which works through
+some critiques of the New Criticism (each of which I would say Bartholomae to some extent
+endorsed while to some extent demurring from) while retrieving from the New Criticism
+(by way of engagement with some less celebrated practitioners of close reading) an
+understanding of “close reading” for the composition classroom. Here the student was
+working with a later passage where Bartholomae engaged with Terry Eagleton’s critique of
+what he took to be the inflated pretensions of the political stakes of the New Criticism:
+
+While Eagleton concludes that it was “really rather absurd” that “the Decline
+of the West was felt to be avertible by close reading” (250), Bartholomae
+views close reading as the holy grail of “the necessary preparation of a
+
+7
+
+Double Helix, Vol 12 (2024)
+
+writer” (245). Eagleton does not contend that close reading is “necessary”
+and thinks that the idea it being so is “absurd.” Bartholomae’s firm stance in
+favor of close reading is solidified again, and again throughout the essay
+“[arguing] that the introductory course should be a course in ‘close reading,”
+however, this he says is “the fundamental method of the New Criticism”
+(245). This seemingly contradicts Eagleton who has previously been in favor
+of the New Criticism, as he calls “the fundamental method of the New
+Criticism” (245) “absurd” (250). Eagleton attacks the New Criticism in a
+rather harsh manner in this section causing his previous words to be reread
+in a tone of mockery, whereas Bartholomae shifts to a more conciliatory
+approach. For example, new in Bartholomae’s stance is defending the New
+Criticism for heling citizens “to understand propaganda and the effects of
+control through mass media” (251), seemingly going against his previous
+argument that the “cultural studies course...has shown almost no interest in
+teaching students how to work with words” (249). Bartholomae now says
+that the New Criticism helps people understand the words behind
+“propaganda,” yet this discredits that students are not taught “how to work
+with words.” Later, he applauds the New Criticism’s close reading as “a means
+of investigation, a way to exercise discrimination in the face of commercial,
+political and cultural interests” (251). In this sense, there is a “moral urgency
+rooted in the sense that ‘words can do unexpected and disturbing things to
+you” (249). While Bartholomae initially connects this “moral urgency” (249)
+to Hum 6, there is an evident connection to New Criticism courses as well, for
+they taught people to see through “propaganda” (251).
+
+In working with the essay up until this point, the student would have developed a reading
+of Bartholomae’s stance toward “close reading” as “favorable” and would therefore have
+known that Eagleton’s ridicule of the claim made by critics such as F. R. Leavis that reading
+literature could reverse cultural decline would likely be opposed by Bartholomae (even
+though this is not guaranteed, because the relation between “close reading” and “New
+Criticism” has varied throughout the essay). So, the student looked for a passage where
+Bartholomae was arguing for “close reading,” of which there are many, and finds one from
+an earlier discussion of Mariolina Salvatori’s course. I would guess that designating close
+reading as the “holy grail” for Bartholomae is the student’s attempt to match the
+“heightened” stakes implicit in a phrase like the “Decline of the West” (a Spengler reference,
+which the student is extremely unlikely to be familiar with, made by Eagleton ironically,
+which the student may have some sense of). The first follow-up sentence, as we practiced,
+includes something from each of the passages included in the combined sentence, lining
+them up symmetrically.
+The student then composed another combined sentence, one that continues the
+argument with Eagleton constructed in the previous one, with Bartholomae now continuing
+(“solidifying”) his argument for the importance of close reading. Here, the use of “however”
+to set up a contrast between the two passages is less clear: Bartholomae has been
+distinguishing between the kind of close reading he’d like to see in the composition
+classroom from the kind of close reading advanced by the New Criticism, without exactly
+opposing it. Still, such an interpretive move on the student’s part must be assessed in terms
+
+8
+
+Double Helix, Vol 12 (2024)
+
+of the follow-up. The student now took up Bartholomae’s argument with Eagleton in the
+context of what seems to be a contradiction in Eagleton’s own argument: Bartholomae had
+quoted a passage from Eagleton comprised of somewhat too exuberant praise of the New
+Criticism (but which would nevertheless not be easily seen as ironic by a novice academic
+reader) followed by the one where Eagleton referred to the New Criticism’s ambitions more
+bluntly as “absurd.” The student could now “reread” the previous passage and note the tone
+of mockery (I will acknowledge that classroom discussion may have played a part here)
+without, though, revising the earlier reading of the two passages as “contradictory” (we
+could say this marks a particular stage in the student’s meta-awareness of the expectation
+that a finished text represent a consistent position rather than provide a linear record of
+the chronology of reading).
+The student did realize, though, that Bartholomae (2004) had shifted toward a more
+“conciliatory” approach to the New Criticism than he had displayed earlier, plausibly (or at
+least thoughtfully) attributing this to Bartholomae’s response to Eagleton’s “harsh”
+mockery. This realization positioned the student to see what was, in fact, new in
+Bartholomae’s position at this point, which is a stance more allied to those very political
+ambitions ridiculed by Eagleton. I would note here that the terms of the assignment compel
+the student to keep track of Eagleton’s stance toward the New Criticism, Bartholomae’s
+stance toward Eagleton, and Bartholomae’s stance, as mediated through his conversation
+with Eagleton, toward the New Criticism—at this point in the essay. Now, the contrast the
+student went on to set up between Bartholomae’s defense of the New Criticism and his
+criticism of the “cultural studies course” is, we could say, a misreading—but it is an
+interesting one, and not just a misreading. Bartholomae had critiqued cultural studies for
+showing no interest in student writing, certainly not on the level of the sentence, attributing
+this neglect to a valuation of its political concerns at the expense of a close concern with
+student reading and writing. The student, I would guess, saw here a “contradiction”
+between Bartholomae’s support of the political goals of the New Criticism and his seeming
+dismissal of the political concerns of cultural studies. In that case, the student’s
+“misreading” is noticing something important in the text.
+The student continued with this productive misreading by contrasting more of
+Bartholomae’s (2004) praise of the New Criticism with more of his critique of cultural
+studies—understandably, for this novice reader and writer, it is a challenge to distinguish
+between an author making similar sounding observations in different contexts and the
+author “contradicting himself.” This distinction is a marker of learning (a useful pedagogical
+heuristic is to require that students assume it is extremely unlikely that a professional
+academic will simply “contradict himself,” taking that phrase out of commission altogether).
+In the last two sentences, though, something very interesting happened. The student
+connected Bartholomae’s previous, on the face of it not only apolitical but even anti-
+political, discussion of the Hum 6 course at Harvard as a privileged model for thinking
+about close reading in composition to Bartholomae’s now more overtly political claims on
+behalf of close reading. The conclusions are not entirely clear, but the student was now
+transferring the (to most of the students somewhat bewildering) attribution of “moral
+urgency” from a more “literary” mode of reading to a different kind of “moral urgency,” that
+to be found in enabling students to identify and resist propagandistic claims on their
+attentions. An interesting next step might be to consider whether the ways in which words
+can do “unexpected and disturbing things to you” has something to do with “exercising
+
+9
+
+Double Helix, Vol 12 (2024)
+
+discrimination in the face of commercial, political and cultural interests.” The student didn’t
+take this step but positioned herself in relation to Bartholomae’s language in such a way
+that she (or another student reading her paper) might.
+Just as important as the way in which the combined and follow-up sentence
+assignment takes away the student’s recourse to summary and paraphrase and enables her
+to follow Bartholomae’s argument through some complex byways and even continue it a
+little is the way in which the assignment has students breaking up compressed phrases and
+resituating them within her own language. “Absurd” was extracted out of “really rather
+absurd,” “propaganda” out of “understand propaganda and the effects of control through
+mass media,” and “moral urgency” out of “moral urgency rooted in the sense . . . .” And, then,
+“moral urgency” and “propaganda” got put together as the former was now directed more
+specifically to the latter. This kind of dismantling and redirection of compressed passages
+creates the conditions for practices I have not yet attempted but will propose here (and
+attempt later): assignments asking students, first, to “reallocate” all of the words in the
+compressed passages to new sentences and, second, to create new compressed passages for
+themselves, such as, for example, “the moral urgency of investigating propaganda through
+close reading.” There is a specific kind of grammatical problem and lesson bound up in this
+kind of work, involving the possible conversions of clauses and phrases into each other. If,
+for example, I were to take the sentence previous to this one and remove the phrase “there
+is” (in general, it’s a question of removing the verb), we would then have “A specific kind of
+grammatical problem and lesson bound up in this kind of work,” a very long noun phrase
+that now needs a verb to be the head of a sentence. Such exercises not only help to
+demystify the kinds of academic discourse students find most intimidating but also provide
+indirect lessons in the plasticity of language, its manipulability, which are essential to
+dissolving the commonplaces students come into the university with.
+Another reason for designing assignments that have students bringing language
+from the text directly into their sentences in prominent ways is to resist students’ recourse
+to AI text generation. ChatGPT and other programs will produce adequate summaries and
+paraphrases that will be hard to distinguish (and impossible to prove different) from
+student writing, but so far these models can’t work with language from a text within
+another’s language in an effective way. Rather than seeing AI in merely negative, preventive
+terms, I would suggest taking the advent of AIs and the disruption they introduce into
+pedagogy as a sign that writing classrooms have to be sites of inquiry into language (just as
+the AIs themselves are products of new modes of inquiry into language) for students as
+well as faculty. The Turing test should, perhaps, have always been seen in interactive terms:
+as computers better approximate certain forms of human speech, it is to be expected that
+humans would start to value, explore, and experiment with forms of speech easier to
+distinguish from the products of computation. Even from a narrowly career perspective, it
+might help students to be put in mind that future employers might be suspicious of, say,
+letters of inquiry, that read too much as if they were AI-generated. As a result, writing
+courses might have license and even be pressured to encourage student writing that is
+more saturated in various references, idioms, tones, and so on—which is to say, that
+constitute archives of conversation operating at various levels, produced within a particular
+institutional and classroom space.
+The argument for seeing college writing as a passage from novice to apprentice
+takes on even more urgency in this context. The kinds of studies of academic discourse and
+
+10
+
+Double Helix, Vol 12 (2024)
+
+student writing conducted by Aull and Lancaster (2014) become even more interesting
+here, and more interesting in their limits. I’m going to discuss a course in research writing I
+taught in the spring 2024 semester, in which students were given the kind of work being
+research assistants for Aull and Lancaster’s project might call for, while pointing out the
+limitations of even what I was able to do. We worked with the aforementioned Aull and
+Lancaster’s “Linguistic Markers of Stance in Early and Advanced Academic Writing: A
+Corpus-Based Comparison,” an essay that distinguishes academic stance in terms of its
+open-ended, conversational nature, which can in turn be defined in terms of specific
+linguistic and rhetoric markers. Aull and Lancaster drew upon studies of academic
+discourse to establish three broad categories of it: first, markers of epistemic commitment,
+or the prevalence of hedges over boosters; second, code glosses, which include
+reformulations and exemplifications; and, third, adversative concession/contrast markers.
+For each category, Aull and Lancaster provided a list of words and phrases to guide a corpus
+search and distinguish between those words and phrases more commonly used by novice
+academic writers and those by more advanced ones.
+As a practice of reading, I have the students reconstruct the (or a hypothetical)
+argumentative or conversational space by writing the kind of combined sentences I
+described earlier, but with a specific focus on the ways they specify the concept of “stance”
+in terms of their continuation of Aull and Lancaster’s (2014) research project. I ask them to,
+first, construct a “lay” concept of stance by using familiar sources, such as Wikipedia and AI,
+and then follow the ways Aull and Lancaster differentiated their use of stance in a complex
+context. Students are asked to do this with the use of contrastive formulas such as “while
+‘stance’ could be defined as__________, Aull and Lancaster________.” The way in which Aull and
+Lancaster worked through their literature review can be followed in a similar way, with the
+difficulties of working with academic discourse addressed in terms of the histories of
+conversations presupposed by the discussion. An early point in the discussion, where Aull
+and Lancaster addressed the debate within composition studies of whether the
+composition class should presuppose the specific and irreducible nature of disciplinary
+discourse or, rather, acknowledge some basis for the “general skills” introductory writing
+course prevalent in the American academy provides a good and instructive example: It is
+extremely difficult for students to work out this distinction within a composition course, let
+alone in the subtle way Aull and Lancaster conceded the always already discipline-specific
+character of academic discourse while making space for their own study presupposing
+features of academic discourse that cross the disciplines by shifting the question to the
+need for inquiry into the habits and expectations of incoming students: “[d]espite the
+importance and prevalence of FY writing in the U.S. model of higher education, however, we
+know little about what discursive features might characterize argumentative texts
+produced by incoming student writers” (p. 3). But in the context of preparing students to
+join Aull and Lancaster’s research project as research assistants, “understanding” such
+arguments and distinctions can be folded into distinctions students will make in their own
+work on the corpus—as will, moreover, the practice of using Aull and Lancaster’s categories
+to examine their own writing.
+I provide the class with first-year and upper-level student papers from freely
+available corpora and ask them to identify the features Aull and Lancaster (2014) have
+singled out as markers of stance. This has turned out to be challenging and productive
+work, with a fairly simple baseline level, which virtually all students can do (locating words
+
+11
+
+Double Helix, Vol 12 (2024)
+
+like “almost,” “apparently,” “perhaps,” and so on), but since even the more obvious hedges
+or markers of reformulation and contrast depend on the context for their use, students
+need to make an argument for their designation within the sentences (at least) in which
+they are found. Even more, since it is easy enough to see that there are ways of fulfilling the
+discursive functions of academic discourse in ways that are not included on Aull and
+Lancaster’s list (presumably designed to set a threshold below which no significant findings
+could be made), students can be asked to propose new additions to the list. Doing so serves
+as a marker of their comprehension of Aull and Lancaster’s essay and project while also
+revealing all kinds of assumptions the students have regarding the working of discourse. So,
+for example, one student made the following argument (the bolded text is the excerpt from
+the sample student paper the student is working with):
+
+“Eliza Dresang wrote about a way of thinking she titled Radical Change,
+
+a theoretical construct [that] identifies and explains books with
+
+characteristics reflecting the types of interactivity, connectivity, and
+
+access that permeate our emerging digital society”
+
+“Identifies and explains” can be seen as a code gloss. Although is it not on the
+
+list exactly, it is like ‘that means’ or this means.’ Something is being explained
+
+in more detail creating a stronger argument. “Explains” lets us know more
+
+implicitly that an explanation is coming. However, it can also be seen as a
+
+booster because ‘show’ or ‘shows’ is on the list under booster. This could
+
+mean the same thing as ‘explains’ or identifies’. These words can suggest a
+
+greater degree of certainty.
+
+“Identify” and “explain” are not code glosses because such words introduce the claims that
+would then be glossed (“in other words,” “for example,” etc.), but the student here was
+learning to think in terms of models (“it is like ‘that means’ or ‘this means’”) while
+distinguishing the explanatory from other functions of discourse. Such a mistaken
+application of the concept of code gloss lays the groundwork, again with the frame of
+treating students as emerging apprentice academic writers, for making this further
+distinction between an explanation “proper” and a “supplementary” explanation or
+exemplification. Here is another sample, in which an easier identification is made alongside
+a “mistaken” or at least partial one that would require a more contextual reading:
+
+12
+
+Double Helix, Vol 12 (2024)
+
+“…and they advance one page at a time with a button push rather than
+
+by scrolling (1999). Certainly a technological leap at the time, these
+
+portable books paved the way for other book formats to emerge.”
+
+“Rather than” is on the list under contrast connector because the sentence
+
+states one thing, and then uses rather to state the opposite, creating
+
+contrast. The contrast is between advancing by one page and scrolling.
+
+“Certainly” is working as a booster because it is literally showing its
+
+certainty.
+
+The student’s work with “rather than” is adequate: It works with a word from the list and
+identifies the contrast being made here, even if we might want, within an expanded version
+of the assignment, to examine the implications of the distinction between “advancing by
+one page” and “scrolling.” But while “certainly” is, indeed, on the list of boosters and, in fact,
+does function that way here (a strong epistemic commitment to the claim that portable
+books were a technological leap at the time is expressed), “certainly” is more importantly
+functioning as a concession (but through which pedagogical practices do we make it
+possible to establish such levels of importance in the classroom space?), leading into a
+contrast between what was once relevant about portable books and their lesser relevance
+within a broader historical context.
+That there may be a wider variety of means of hedging, glossing, conceding and
+contrasting than allowed for by Aull and Lancaster’s (2014) list and, moreover, that what
+functions as a booster on one level might work as a gloss or concession on another, opens
+up the possibility of transforming Aull and Lancaster’s project, in the classroom and beyond
+(in the classroom as beyond), into a broader way of glossing and engaging conversationally
+with discourse. The slippage in the student’s work between code gloss and the claim to be
+glossed reflects a recognition that all discourse is glossing some other discourse and there
+is always some tacit concession and contrast in every assertion. In other words, the
+distinctions between grammar, pragmatics and semantics can be deconstructed in ways
+that can turn corpus searches, now aided by prompted AI, in specially curated corpora, into
+routine features of writing and writing pedagogy. Take the sentence I just wrote above: The
+slippage in the student’s work between code gloss and the claim to be glossed reflects a
+recognition that all discourse is glossing some other discourse and there is always some tacit
+concession and contrast in every assertion. A word like “slippage” includes some
+“concession” to those who might find the student’s work to simply be a mistaken
+application of Aull and Lancaster’s category, while “countering” with a new framing that
+suggests a “correctly” apprehended connection along with the “mistake.” “Reflects a
+recognition,” meanwhile, can be taken as a possible gloss on the claim that “all discourse is
+
+13
+
+Double Helix, Vol 12 (2024)
+
+glossing other discourse”: We can see that “all discourse is glossing all other discourse”
+because we can see what this student has seen and done.
+In my own gloss here, I am drawing upon Anna Wierzbicka’s (2010) Natural
+Semantic Primes (“can,” “see,” “because,” “do”) as a possible way of glossing discourse that
+might be made available to students. I would like to conclude by returning to the array of
+theoretical understandings of discourse I set up in introducing my discussion: Wierzbicka,
+Bromhead, Olson, and Turner and Thomas. What all of these theorists of language have in
+common is what we could call a “scenic” view of language—all of them insist on framing
+any utterance as taking place on some scene: for Wierzbicka and Bromhead (2009), any
+utterance can be dissolved into a scene upon which someone thinks, sees, or says, or hears
+something and something that someone might have done, and so on; for Olson (2016),
+there is a scene of speech recapitulated within a scene of writing that supplements the
+specifically oral elements of the scene of speech; for Thomas and Turner (2011), classic
+prose imagines and constructs a scene upon which reader and writer face some object or
+event. Even for Bartholomae (2004), there is always a scene of pedagogy, and this is the
+disciplinary framing I want to insist on for composition studies and for pedagogies of
+critical thinking more generally. We can speak of a scene of pedagogy as a scene of inquiry
+and a scene of apprenticeship, and what counts as a pedagogical scene is that some on the
+scene guide others to see the same thing as them, a “same thing” that is a construct of the
+scene itself. One reason for privileging a study of “stance” as I am doing is that “stance”
+likewise presupposes that it is the scene and everyone’s position on it that confers meaning
+on any utterance. Academic discourse might be seen as operating on a continuum between
+scenes directly constructed and engaged in the scene of writing and all those scenes
+presupposed, embedded in the terms of the discourse, referenced directly or indirectly in
+the text, with at least potentially recoverable traces left of all these scenes in the discourse.
+Hence the centrality of “compression,” which we might have an opportunity to bring onto a
+scaled-up pedagogical scene through a classroom use of machine learning searches into
+corpora. Signs of scenes near and far, actual and hypothetical, can be made present, while
+highlighting the presence of all on the pedagogical scene.
+Take a look at the opening of Bartholomae’s (2004) “The Argument of Reading,” the
+essay I used in my first-semester composition course in the fall 2024 semester:
+
+It is almost impossible to find a recent account of English (or English as a
+school subject) that does not begin with a reference to the problem of the
+new criticism and its legacy in the American classroom. The new criticism is
+everywhere, we are told; its hold on practice seems firm in spite of the ways
+its key texts and key figures have been routed by recent developments in
+theory and critical practice. (p. 244)
+
+There are a couple of hedges from Aull and Lancaster’s (2014) list here, but almost all of the
+hedging, glossing, conceding and countering was done below the threshold of their list.
+These omissions are no reflection on Aull and Lancaster’s research, which serves an
+important purpose well. It is, rather, to widen the scene upon which that research is set, to
+point to the possibility of articulating the large-scale with the minute, uniting close and
+distant reading. Bartholomae here was setting up a conversation with the New Criticism,
+with others about the New Criticism, with present claims and complaints about the New
+
+14
+
+Double Helix, Vol 12 (2024)
+
+Criticism, about the New Criticism’s history and the history of its reception, about its
+shaping of English, about the distinction between “English” and “English as a school
+subject,” about the discrepancy between the fate of its theoretical claims and its
+institutionalization, and so on. I am arguing for a pedagogical scene upon which such a
+reading scene might be made present, and the opening of a new research space on the
+pedagogical scene.
+
+References
+Aull, L. (2015). First-year university writing: A corpus-based study with implications for
+pedagogy. Palgrave Macmillan.
+Aull, L. (2020). How students write: A linguistic analysis. Modern Language Association of
+America.
+Aull, L., & Lancaster, Z. (2014). Linguistic markers of stance in early and advanced academic
+writing. Written Communication, 31(2), 151–183. https://doi.org/10.1177/07410
+88314527055
+Bartholomae, D. (2004). Writing on the margins: Essays on composition and teaching.
+Palgrave MacMillan.
+Bromhead, H. (2009). The reign of truth and faith: Epistemic expressions in 16th and 17th
+century English. De Gruyter Mouton.
+Lancaster, Z. (2016). Do academics really write this way? A corpus investigation of moves
+and templates in They say/I say. College Composition and Communication, 67(3),
+437–464. https://doi.org/10.58680/ccc201628067
+Olson, D. R. (2016). The mind on paper: Reading, consciousness and rationality. Cambridge
+University Press.
+Smith, S. (2016). Error as strategic style: Finessing the grammar checker [Doctoral
+dissertation, Georgia State University]. https://doi.org/10.57709/8849978
+Thomas, F-N., & Turner, M. (2011). Clear and simple as the truth: Writing classic prose (2nd
+ed.). Princeton University Press.
+Wierzbicka, A. (2006). English: Meaning and culture. Oxford University Press.
+Wierzbicka, A. (2010). Experience, evidence and sense: The hidden cultural legacy of English.
+Oxford University Press.
+
+15
