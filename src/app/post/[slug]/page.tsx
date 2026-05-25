@@ -93,13 +93,10 @@ export async function generateMetadata({
   };
 }
 
-export async function generateStaticParams() {
-  const posts = getAllPosts();
-  return posts
-    .filter((p) => p.source !== 'twitter' && p.source !== 'reddit')
-    .map((post) => ({ slug: post.slug }));
-}
-
+// Don't pre-render posts at build time — there are 700+ posts and pre-rendering
+// all of them exceeds Vercel's build disk limit (27 GB output). Instead, pages
+// are rendered on first request and cached at the CDN edge for 1 hour (ISR).
+// dynamicParams = true means unknown slugs are also rendered on demand.
 export const dynamicParams = true;
 export const revalidate = 3600;
 
