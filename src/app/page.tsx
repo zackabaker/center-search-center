@@ -290,7 +290,7 @@ export default function Home() {
                   className="group flex items-center gap-3 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-900/50 -mx-2 px-2 rounded-lg transition-colors"
                 >
                   <span className="text-xs text-gray-400 w-10 shrink-0 font-mono">
-                    {new Date(post.date!).getFullYear()}
+                    {post.date!.match(/\b(19|20)\d{2}\b/)?.[0] ?? ''}
                   </span>
                   <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium shrink-0 ${SOURCE_COLORS[post.source] || 'bg-gray-100 text-gray-600'}`}>
                     {SOURCE_LABELS[post.source] || post.source}
