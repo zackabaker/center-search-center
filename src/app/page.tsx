@@ -9,9 +9,8 @@ export const revalidate = 86400;
 const SOURCE_LABELS: Record<string, string> = {
   substack: 'Substack',
   gablog: 'GABlog',
-  pdf: 'PDF',
+  pdf: 'Essay',
   book: 'Book',
-  lecture: 'Lecture',
 };
 
 const SOURCE_COLORS: Record<string, string> = {
@@ -19,7 +18,6 @@ const SOURCE_COLORS: Record<string, string> = {
   gablog:   'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
   pdf:      'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
   book:     'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
-  lecture:  'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300',
 };
 
 // Curated entry points grouped by reader interest
@@ -101,9 +99,8 @@ const FEATURED_GROUPS = [
 const BROWSE_SOURCES = [
   { source: 'gablog',    label: 'GABlog',          description: "Katz's theoretical blog — originary grammar in development", color: 'hover:border-blue-400 dark:hover:border-blue-600',   href: '/browse/gablog' },
   { source: 'substack',  label: 'Substack',        description: "Bouvard's applied essays on AI, governance, and technology",  color: 'hover:border-orange-400 dark:hover:border-orange-600', href: '/browse/substack' },
-  { source: 'pdf',       label: 'PDFs',             description: 'Academic papers and longer works',                            color: 'hover:border-green-400 dark:hover:border-green-600',   href: '/browse/pdf' },
-  { source: 'book',      label: 'Book',             description: 'Anthropomorphics — systematic originary grammar',             color: 'hover:border-purple-400 dark:hover:border-purple-600', href: '/browse/book' },
-  { source: 'lecture',   label: 'Lecture Series',   description: 'Five introductory lectures: Origin → Mimetic → Deferral → Center → Sign', color: 'hover:border-amber-400 dark:hover:border-amber-600', href: '/lectures' },
+  { source: 'pdf',       label: 'Essays & Articles', description: 'Academic papers, journal articles, and lectures',          color: 'hover:border-green-400 dark:hover:border-green-600',   href: '/browse/pdf' },
+  { source: 'book',      label: 'Book',              description: 'Anthropomorphics — systematic originary grammar',            color: 'hover:border-purple-400 dark:hover:border-purple-600', href: '/browse/book' },
 ];
 
 export default function Home() {

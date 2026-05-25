@@ -19,8 +19,8 @@ import AnimatedSearchIcon from '@/components/AnimatedSearchIcon';
 type FilterOption = 'all' | ContentSource;
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
-  substack: 'Substack', gablog: 'GABlog', book: 'Book', pdf: 'PDF', reddit: 'Reddit',
-  twitter: 'X / Twitter', lecture: 'Lecture',
+  substack: 'Substack', gablog: 'GABlog', book: 'Book', pdf: 'Essays & Articles', reddit: 'Reddit',
+  twitter: 'X / Twitter',
 };
 const SOURCE_COLORS: Record<ContentSource, string> = {
   substack: 'bg-orange-100 text-orange-800',
@@ -29,7 +29,6 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
   pdf: 'bg-green-100 text-green-800',
   reddit: 'bg-red-100 text-red-800',
   twitter: 'bg-slate-100 text-slate-700',
-  lecture: 'bg-amber-100 text-amber-800',
 };
 
 const RECENT_KEY = 'csc-recent-searches';
@@ -241,7 +240,6 @@ export default function SearchPageClient({
     gablog: results.filter((r) => r.entry.source === 'gablog').length,
     book: results.filter((r) => r.entry.source === 'book').length,
     pdf: results.filter((r) => r.entry.source === 'pdf').length,
-    lecture: results.filter((r) => r.entry.source === 'lecture').length,
     // reddit/twitter excluded from search — kept for TypeScript completeness
     reddit: 0,
     twitter: 0,
@@ -516,7 +514,7 @@ export default function SearchPageClient({
             Search across {totalPosts} posts
           </p>
           <p className="text-xs text-gray-400 dark:text-gray-600 mb-6">
-            Substack · GABlog · Books · PDFs · Lectures
+            Substack · GABlog · Books · Essays &amp; Articles
           </p>
           {recentSearches.length > 0 && (
             <div>

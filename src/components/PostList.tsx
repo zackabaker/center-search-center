@@ -26,7 +26,6 @@ export default function PostList({ posts }: { posts: Post[] }) {
     gablog: posts.filter((p) => p.source === 'gablog').length,
     book: posts.filter((p) => p.source === 'book').length,
     pdf: posts.filter((p) => p.source === 'pdf').length,
-    lecture: posts.filter((p) => p.source === 'lecture').length,
     // kept for TypeScript completeness; tabs not shown
     reddit: 0,
     twitter: 0,

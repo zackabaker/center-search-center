@@ -8,10 +8,9 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   substack: 'Bouvard Substack',
   gablog: 'GABlog',
   book: 'Anthropomorphics',
-  pdf: 'PDF',
+  pdf: 'Essays & Articles',
   reddit: 'Reddit',
   twitter: 'X / Twitter',
-  lecture: 'Lecture Series',
 };
 
 export async function GET(req: NextRequest) {

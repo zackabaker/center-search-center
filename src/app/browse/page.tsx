@@ -30,9 +30,9 @@ const SOURCES = [
   },
   {
     slug: 'pdf',
-    label: 'PDFs',
+    label: 'Essays & Articles',
     author: 'Adam Katz',
-    description: 'Academic papers, lectures, and longer works. Includes The Anthropoetics of Power, Originary Technics, Attentionality and Originary Ethics, and more.',
+    description: 'Academic papers, journal articles, introductory lectures, and longer works. Includes The Anthropoetics of Power, Originary Technics, NER and JCRT articles, and the five introductory lectures.',
     color: 'border-green-200 dark:border-green-900/50 hover:border-green-400 dark:hover:border-green-600',
     badge: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
     dot: 'bg-green-400',
@@ -46,15 +46,6 @@ const SOURCES = [
     badge: 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
     dot: 'bg-purple-400',
   },
-  {
-    slug: 'lecture',
-    label: 'Lecture Series',
-    author: 'Adam Katz',
-    description: 'Five introductory lectures for Center Study: Origin, Mimetic, Deferral of Violence, The Center, The Sign. A sequential unfolding of the core concepts.',
-    color: 'border-amber-200 dark:border-amber-900/50 hover:border-amber-400 dark:hover:border-amber-600',
-    badge: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
-    dot: 'bg-amber-400',
-  },
 ] as const;
 
 // Research archive: reply threads and tweet collections have limited UX
@@ -64,7 +55,7 @@ const RESEARCH_SOURCES = [
     slug: 'reddit',
     label: 'Reddit',
     author: 'Adam Katz',
-    description: 'Posts and discussions from r/Absolutistneoreaction. Note: reply context is limited without the full thread.',
+    description: 'Discussions and Q&amp;A threads from Reddit — long-form responses reconstructed with full dialogue context.',
   },
   {
     slug: 'twitter',
@@ -98,7 +89,7 @@ export default async function BrowsePage() {
         <h1 className="text-2xl sm:text-3xl font-bold mt-2 mb-1 text-gray-900 dark:text-white">Archive</h1>
         <div className="flex items-center gap-4">
           <p className="text-gray-500 dark:text-gray-400 text-sm">
-            {totalNonTwitter.toLocaleString()} texts across 6 venues
+            {totalNonTwitter.toLocaleString()} texts across 5 venues
             <span className="text-gray-400 dark:text-gray-600 ml-1">(+{countsBySource['twitter'] ?? 0} tweets)</span>
           </p>
           <Link
@@ -127,7 +118,7 @@ export default async function BrowsePage() {
         <Link href="/stats" className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-all">
           Stats
         </Link>
-        <Link href="/lectures" className="px-3 py-1.5 rounded-lg text-xs font-medium border border-amber-200 dark:border-amber-900/50 text-amber-700 dark:text-amber-400 hover:border-amber-400 dark:hover:border-amber-600 hover:text-amber-900 dark:hover:text-amber-200 transition-all">
+        <Link href="/lectures" className="px-3 py-1.5 rounded-lg text-xs font-medium border border-green-200 dark:border-green-900/50 text-green-700 dark:text-green-400 hover:border-green-400 dark:hover:border-green-600 hover:text-green-900 dark:hover:text-green-200 transition-all">
           Lectures
         </Link>
       </div>

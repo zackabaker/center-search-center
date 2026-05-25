@@ -8,14 +8,13 @@ import Link from 'next/link';
 interface SearchBarProps { posts: Post[]; }
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
-  substack: 'Substack', gablog: 'GABlog', book: 'Book', pdf: 'PDF', reddit: 'Reddit',
-  twitter: 'X / Twitter', lecture: 'Lecture',
+  substack: 'Substack', gablog: 'GABlog', book: 'Book', pdf: 'Essay', reddit: 'Reddit',
+  twitter: 'X / Twitter',
 };
 const SOURCE_COLORS: Record<ContentSource, string> = {
   substack: 'bg-orange-100 text-orange-800', gablog: 'bg-blue-100 text-blue-800',
   book: 'bg-purple-100 text-purple-800', pdf: 'bg-green-100 text-green-800',
   reddit: 'bg-red-100 text-red-800', twitter: 'bg-slate-100 text-slate-700',
-  lecture: 'bg-amber-100 text-amber-800',
 };
 
 function highlightMatch(text: string, query: string) {
@@ -246,7 +245,7 @@ export default function SearchBar({ posts }: SearchBarProps) {
 
             {!query && !showRecent && (
               <div className="px-4 py-6 text-center text-gray-400 text-sm">
-                <p>Search across {posts.length} posts from Substack, GABlog, Books &amp; PDFs</p>
+                <p>Search across {posts.length} posts from Substack, GABlog, Books &amp; Essays</p>
                 <div className="mt-3 flex flex-wrap justify-center gap-2 text-xs">
                   {['"exact phrase"', 'term AND term', 'term NOT term', 'term OR term'].map((tip) => (
                     <button key={tip} onClick={() => setQuery(tip.replace(/"/g, '"').replace(/"/g, '"'))}
