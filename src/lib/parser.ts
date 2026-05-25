@@ -590,12 +590,19 @@ function cleanPdfText(raw: string): string {
   const lines = raw.split('\n');
   const filtered: string[] = [];
   for (const line of lines) {
-    // "5/9/25, 2:43 PM  The Anthropoetics of Power..."
-    if (/^\d{1,2}\/\d{1,2}\/\d{2,4},\s+\d+:\d+\s+[AP]M/.test(line)) continue;
+    const t = line.trim();
+    // "5/9/25, 2:43 PM  The Anthropoetics of Power..."  (date at start)
+    if (/^\d{1,2}\/\d{1,2}\/\d{2,4},\s+\d+:\d+\s+[AP]M/.test(t)) continue;
+    // "The Anthropoetics of Power – … 5/9/25, 2:43 PM"  (date at end)
+    if (/\d{1,2}\/\d{1,2}\/\d{2,4},\s+\d+:\d+\s+[AP]M$/.test(t)) continue;
     // "Page 12 of 23https://..."
-    if (/^Page \d+ of \d+https?:\/\//.test(line)) continue;
+    if (/^Page \d+ of \d+https?:\/\//.test(t)) continue;
+    // "https://example.com/path/ Page 12 of 23"  (URL then page number)
+    if (/^https?:\/\/\S+\s+Page \d+ of \d+/.test(t)) continue;
     // Bare URL lines
-    if (/^https?:\/\/\S+$/.test(line.trim())) continue;
+    if (/^https?:\/\/\S+$/.test(t)) continue;
+    // Website nav artifacts: "Share | Subscribe to…"
+    if (/^Share\s*\|/.test(t)) continue;
     filtered.push(line);
   }
 

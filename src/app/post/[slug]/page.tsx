@@ -65,16 +65,26 @@ export async function generateMetadata({
 
   const url = `https://center.study/post/${slug}`;
 
+  // ISO 8601 for OG article:published_time (parseable by crawlers)
+  const isoDate = post.date ? (() => {
+    try { return new Date(post.date).toISOString(); } catch { return undefined; }
+  })() : undefined;
+
+  // Author: Dennis Bouvard for Substack, Adam Katz for everything else
+  const authorName = post.source === 'substack' ? 'Dennis Bouvard' : 'Adam Katz';
+
   return {
     title: `${post.title} | Center Study Center`,
     description: excerpt,
+    authors: [{ name: authorName }],
     openGraph: {
       title: post.title,
       description: excerpt,
       url,
       siteName: 'Center Study Center',
       type: 'article',
-      ...(post.date ? { publishedTime: post.date } : {}),
+      ...(isoDate ? { publishedTime: isoDate } : {}),
+      authors: [authorName],
     },
     twitter: {
       card: 'summary',
@@ -111,13 +121,16 @@ export default async function PostPage({
   const paragraphs = post.content
     .split(/\n\n+/)
     .filter((p) => p.trim())
-    .filter((p) =>
-      !p.includes('Thanks for reading Center Study Center') &&
-      !p.includes('Thanks for reading GA Newsletter') &&
-      !p.includes('reader-supported publication') &&
-      !p.match(/^Subscribe$/) &&
-      !p.match(/^Share$/)
-    );
+    .filter((p) => {
+      const t = p.trim();
+      return (
+        !t.includes('Thanks for reading') &&
+        !t.includes('reader-supported publication') &&
+        !t.includes('Subscribe for free to receive new posts') &&
+        t !== 'Subscribe' &&
+        t !== 'Share'
+      );
+    });
 
   const externalUrl = post.url || `https://center.study/post/${slug}`;
 
