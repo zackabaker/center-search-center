@@ -101,6 +101,7 @@ const BROWSE_SOURCES = [
   { source: 'substack',  label: 'Substack',        description: "Bouvard's applied essays on AI, governance, and technology",  color: 'hover:border-orange-400 dark:hover:border-orange-600', href: '/browse/substack' },
   { source: 'pdf',       label: 'Essays & Articles', description: 'Academic papers, journal articles, and lectures',          color: 'hover:border-green-400 dark:hover:border-green-600',   href: '/browse/pdf' },
   { source: 'book',      label: 'Book',              description: 'Anthropomorphics — systematic originary grammar',            color: 'hover:border-purple-400 dark:hover:border-purple-600', href: '/browse/book' },
+  { source: 'threads',   label: 'Threads & Q&A',    description: 'Reddit dialogues and X threads — applied and conversational', color: 'hover:border-violet-400 dark:hover:border-violet-600', href: '/browse/threads' },
 ];
 
 export default function Home() {
@@ -175,16 +176,16 @@ export default function Home() {
             </div>
           </Link>
           <Link
-            href="/guide/reading-paths"
+            href="/browse"
             className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
           >
-            {/* Map/path icon */}
+            {/* Archive/grid icon */}
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6-10l6-3m0 13l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 10m0-3v13" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
             </svg>
             <div className="text-center">
-              <p className="text-sm font-medium text-gray-900 dark:text-white">Reading Paths</p>
-              <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">Curated reading sequences</p>
+              <p className="text-sm font-medium text-gray-900 dark:text-white">Archive</p>
+              <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">Browse all 830 texts</p>
             </div>
           </Link>
         </div>
@@ -198,8 +199,8 @@ export default function Home() {
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Start reading</h2>
               <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">Curated entry points by topic</p>
             </div>
-            <Link href="/search" className="text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
-              Browse all texts →
+            <Link href="/browse" className="text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+              Browse archive →
             </Link>
           </div>
 
