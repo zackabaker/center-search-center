@@ -71,6 +71,12 @@ export async function GET(
       if (p.startsWith('# '))   return `<h2>${escapeHtml(p.slice(2))}</h2>`;
       if (p.startsWith('## '))  return `<h3>${escapeHtml(p.slice(3))}</h3>`;
       if (p.startsWith('### ')) return `<h4>${escapeHtml(p.slice(4))}</h4>`;
+      if (p.trim() === '---')   return `<hr class="exchange-divider">`;
+      if (p.trim() === '[ADAM]') return `<div class="adam-label">Adam Katz</div>`;
+      const qMatch = p.match(/^\[Q:([^\]]*)\]\s*([\s\S]*)/);
+      if (qMatch) {
+        return `<div class="question-card"><div class="question-who">${escapeHtml(qMatch[1].trim())}</div><p class="question-text">${escapeHtml(qMatch[2].trim())}</p></div>`;
+      }
       const cls = i === 0 ? ' class="first-para"' : '';
       return `<p${cls}>${paragraphHtml(p)}</p>`;
     })
@@ -311,6 +317,49 @@ export async function GET(
     .content h2 { font-size: 1.3em; }
     .content h3 { font-size: 1.12em; }
     .content h4 { font-size: 1.0em; letter-spacing: .04em; text-transform: uppercase; }
+
+    /* ── Q&A conversation styling ── */
+    .exchange-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.4em 0;
+    }
+
+    .adam-label {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: #b45309;
+      margin: 1.8em 0 0.8em;
+    }
+    html.dark .adam-label { color: #d97706; }
+
+    .question-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 1.8em 0 0.6em;
+      background: transparent;
+    }
+
+    .question-who {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--meta-color);
+      margin-bottom: 8px;
+    }
+
+    .question-text {
+      font-size: 0.88em;
+      color: var(--meta-color);
+      line-height: 1.7;
+      font-style: italic;
+      margin: 0 !important;
+    }
 
     /* ── Footer source link ── */
     .source-link {
