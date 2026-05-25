@@ -42,13 +42,16 @@ export async function GET(
     .split(/\n\n+/)
     .map((p) => p.trim())
     .filter((p) => p.length > 20)
-    .filter((p) =>
-      !p.includes('Thanks for reading Center Study Center') &&
-      !p.includes('Thanks for reading GA Newsletter') &&
-      !p.includes('reader-supported publication') &&
-      !p.match(/^Subscribe$/) &&
-      !p.match(/^Share$/)
-    );
+    .filter((p) => {
+      const t = p.trim();
+      return (
+        !t.includes('Thanks for reading') &&
+        !t.includes('reader-supported publication') &&
+        !t.includes('Subscribe for free to receive new posts') &&
+        t !== 'Subscribe' &&
+        t !== 'Share'
+      );
+    });
 
   // Escape HTML but render markdown links [text](url) as actual <a> tags.
   // Strategy: extract links first, escape everything else, re-insert link HTML.

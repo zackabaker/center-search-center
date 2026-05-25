@@ -20,21 +20,35 @@ export const metadata: Metadata = {
     template: "%s | Center Study Center",
   },
   description:
-    "Searchable archive of the complete Center Study corpus — Bouvard/Katz's Substack and blog, Gans's Anthropomorphics, and key PDFs. 700+ texts on originary thinking.",
+    "Complete searchable archive of Adam Katz and Dennis Bouvard's Center Study writings — 700+ texts on originary thinking, the center, deferral, sovereignty, and the human sciences.",
   keywords: [
+    "Adam Katz",
+    "Dennis Bouvard",
     "Center Study",
     "Eric Gans",
-    "Bouvard/Katz",
+    "Generative Anthropology",
     "originary hypothesis",
     "originary scene",
     "Anthropomorphics",
     "deferral",
+    "the center",
+    "originary grammar",
+    "GABlog",
   ],
+  authors: [{ name: "Adam Katz" }, { name: "Dennis Bouvard" }],
   openGraph: {
     title: "Center Study Center",
     description:
-      "Searchable archive of 700+ texts in the Center Study tradition",
+      "Complete searchable archive of Adam Katz and Dennis Bouvard's Center Study writings — originary thinking, the center, deferral, sovereignty.",
     type: "website",
+    url: "https://center.study",
+    siteName: "Center Study Center",
+  },
+  twitter: {
+    card: "summary",
+    title: "Center Study Center",
+    description:
+      "Complete archive of Adam Katz / Dennis Bouvard's Center Study writings. 700+ texts, full-text search, AI Q&A.",
   },
 };
 
