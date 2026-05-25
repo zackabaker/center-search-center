@@ -441,6 +441,9 @@ function tweetTitle(text: string, date: string): string {
   return words.slice(0, 14).join(' ') + '…';
 }
 
+/** Minimum word count for a tweet thread to be published */
+const TWEET_MIN_WORDS = 150;
+
 function parseTweets(): Post[] {
   const tweetsPath = path.join(process.cwd(), 'src', 'data', 'tweets.json');
   if (!fs.existsSync(tweetsPath)) return [];
@@ -453,8 +456,13 @@ function parseTweets(): Post[] {
   const { author_id, tweets } = data;
   if (!tweets?.length) return [];
 
+  // Load AI-generated titles if available (produced by scripts/generate-tweet-titles.mjs)
+  const titlesPath = path.join(process.cwd(), 'src', 'data', 'tweet_titles.json');
+  const aiTitles: Record<string, string> = fs.existsSync(titlesPath)
+    ? JSON.parse(fs.readFileSync(titlesPath, 'utf-8'))
+    : {};
+
   // Group by conversation_id so threads become a single Post.
-  // Tweets without conversation_id (shouldn't happen) fall through as singles.
   const threads = new Map<string, TweetRecord[]>();
   for (const t of tweets) {
     const key = t.conversation_id || t.id;
@@ -469,17 +477,30 @@ function parseTweets(): Post[] {
     group.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
 
     // Root = the tweet that started the conversation (its own id == conversation_id)
-    // If not present (we only have replies), use the earliest tweet.
     const rootTweet = group.find((t) => t.id === conversationId) ?? group[0];
 
-    // Exclude threads whose root is a reply to someone else — unless author_id is known
-    // and this thread contains at least one tweet the author sent (always true since we
-    // fetched from their timeline). Keep everything.
+    // ── Quality filter ────────────────────────────────────────────────────────
+    // 1. Skip threads whose root is a reply to a different user (not Bouvard's
+    //    own thread — these are one-off replies with no self-contained narrative).
+    if (rootTweet.in_reply_to_user_id && rootTweet.in_reply_to_user_id !== author_id) {
+      continue;
+    }
 
-    // Build content: all tweet texts joined, with subtle separator for multi-tweet threads
-    const content = group.length === 1
-      ? rootTweet.text
-      : group.map((t, i) => (i === 0 ? t.text : `\n${t.text}`)).join('\n');
+    // Build full content: all tweet texts in the thread joined with newlines.
+    // Strip t.co tracking URLs that add no content.
+    const rawContent = group
+      .map(t => t.text.replace(/https:\/\/t\.co\/\S+/g, '').trim())
+      .filter(t => t.length > 0)
+      .join('\n\n');
+
+    // 2. Skip short single tweets or threads under the word floor.
+    const wordCount = rawContent.split(/\s+/).filter(Boolean).length;
+    if (wordCount < TWEET_MIN_WORDS) continue;
+
+    // 3. Skip threads that are almost entirely URLs (link-share posts).
+    const urlFraction = (group.reduce((s, t) => s + (t.text.match(/https:\/\/t\.co\/\S+/g)?.length ?? 0), 0))
+      / Math.max(group.length, 1);
+    if (urlFraction > 0.6 && wordCount < 200) continue;
 
     const dateObj = new Date(rootTweet.created_at);
     const dateStr = dateObj.toLocaleDateString('en-US', {
@@ -488,18 +509,19 @@ function parseTweets(): Post[] {
       day: '2-digit',
     });
 
-    const title = tweetTitle(rootTweet.text, dateStr);
+    // Title: prefer AI-generated, fall back to first words of root tweet
+    const title = aiTitles[conversationId] || tweetTitle(rawContent, dateStr);
     const totalLikes = group.reduce((s, t) => s + (t.public_metrics?.like_count ?? 0), 0);
 
     posts.push({
-      slug: `twitter-${conversationId}`,
+      slug:    `twitter-${conversationId}`,
       title,
-      content,
+      content: rawContent,
       excerpt: excerpt(rootTweet.text),
-      date: dateStr,
-      source: 'twitter' as ContentSource,
-      likes: totalLikes || undefined,
-      url: `https://x.com/${author_id ? 'bouvard38829538' : 'i'}/status/${conversationId}`,
+      date:    dateStr,
+      source:  'twitter' as ContentSource,
+      likes:   totalLikes || undefined,
+      url:     `https://x.com/bouvard38829538/status/${conversationId}`,
     });
   }
 
