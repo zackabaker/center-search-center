@@ -15,7 +15,7 @@ const SOURCE_COLORS: Record<string, string> = {
 };
 
 const SOURCE_LABELS: Record<string, string> = {
-  substack: 'Substack', gablog: 'GABlog', book: 'Book', pdf: 'PDF',
+  substack: 'Substack', gablog: 'GABlog', book: 'Book', pdf: 'Essay',
   reddit: 'Reddit', twitter: 'X / Twitter',
 };
 
@@ -49,7 +49,7 @@ export default function ReadingListClient() {
   return (
     <main className="max-w-3xl mx-auto px-4 pt-8 pb-24 sm:py-12">
       <div className="mb-8">
-        <Link href="/" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">← Archive</Link>
+        <Link href="/browse" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">← Archive</Link>
         <h1 className="text-2xl sm:text-3xl font-bold mt-3 mb-1 text-gray-900 dark:text-white">Reading List</h1>
         <p className="text-sm text-gray-500 dark:text-gray-400">Saved posts and reading history, stored in your browser.</p>
       </div>

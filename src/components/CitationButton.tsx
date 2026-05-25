@@ -47,6 +47,7 @@ export default function CitationButton({ title, date, source, url, slug }: Citat
     Chicago: `${authorFull}. "${title}." ${publisher}, ${fullDate}. ${externalUrl}.`,
     MLA: `${authorFull}. "${title}." ${publisher}, ${fullDate}, ${externalUrl}.`,
     APA: `${authorShort} (${year}). ${title}. ${publisher}. ${externalUrl}`,
+    BibTeX: `@misc{${authorFull.split(',')[0].toLowerCase()}${year}_${slug.replace(/^(gablog|substack|pdf|book|reddit|twitter)-/, '').slice(0, 20).replace(/-/g, '_')},\n  author       = {${authorFull}},\n  title        = {{${title}}},\n  year         = {${year}},\n  howpublished = {\\url{${externalUrl}}},\n  note         = {${publisher}}\n}`,
     Permalink: siteUrl,
   };
 
