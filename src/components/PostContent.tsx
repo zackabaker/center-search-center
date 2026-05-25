@@ -129,13 +129,22 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
   const linkedParagraphs = paragraphs.map((raw, i) => {
     const isBlockquote = raw.startsWith('>') || raw.startsWith('_');
     const isHeading = /^#{1,3}\s/.test(raw);
+    const isDivider = raw.trim() === '---';
+    const isBouvardLabel = raw.trim() === '[ADAM]';
+    // [Q:username] question text — Reddit Q&A conversation marker
+    const qMatch = (!isBlockquote && !isHeading && !isDivider && !isBouvardLabel)
+      ? raw.match(/^\[Q:([^\]]*)\]\s*([\s\S]*)/)
+      : null;
+    const questionCard = qMatch ? { questioner: qMatch[1].trim(), questionText: qMatch[2].trim() } : null;
+
     const text = isBlockquote
       ? raw.replace(/^>\s*/, '').replace(/^_|_$/g, '')
       : raw;
-    const nodes: React.ReactNode[] = isHeading
+    const skipLinkify = isHeading || isDivider || isBouvardLabel || !!questionCard;
+    const nodes: React.ReactNode[] = skipLinkify
       ? [text]
       : linkifyText(text, linkedAlready, i);
-    return { isBlockquote, isHeading, text, nodes };
+    return { isBlockquote, isHeading, isDivider, isBouvardLabel, questionCard, text, nodes };
   });
 
   function copyAnchor(id: string) {
@@ -151,7 +160,7 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
       className="space-y-6 text-gray-800 dark:text-gray-200"
       style={{ fontSize: 'var(--prose-font-size)', lineHeight: 'var(--prose-line-height)' }}
     >
-      {linkedParagraphs.map(({ isBlockquote, isHeading, text, nodes }, i) => {
+      {linkedParagraphs.map(({ isBlockquote, isHeading, isDivider, isBouvardLabel, questionCard, text, nodes }, i) => {
         const id = `p-${i + 1}`;
 
         // Pilcrow anchor button
@@ -165,6 +174,41 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
             {copiedId === id ? '✓' : '¶'}
           </button>
         );
+
+        // ── Horizontal rule (between Q&A exchanges) ───────────────────────────
+        if (isDivider) {
+          return <hr key={id} className="border-gray-100 dark:border-gray-800 my-2" />;
+        }
+
+        // ── Adam Katz speaker label (before Bouvard's response in Q&A) ────────
+        if (isBouvardLabel) {
+          return (
+            <div key={id} className="flex items-center gap-2.5 pt-1 pb-0.5">
+              <span className="text-[11px] font-semibold text-amber-600 dark:text-amber-400 tracking-wide whitespace-nowrap">
+                Adam Katz
+              </span>
+              <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
+            </div>
+          );
+        }
+
+        // ── Question card (Reddit Q&A questioner) ─────────────────────────────
+        if (questionCard) {
+          return (
+            <div
+              key={id}
+              id={id}
+              className="rounded-xl bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700 px-4 py-3 mt-2"
+            >
+              <div className="text-[10px] font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1.5">
+                {questionCard.questioner}
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-300 italic leading-relaxed">
+                {questionCard.questionText}
+              </p>
+            </div>
+          );
+        }
 
         if (isHeading) {
           const level = text.match(/^(#{1,3})\s/)?.[1]?.length ?? 2;

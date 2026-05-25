@@ -726,12 +726,10 @@ function renderRedditMarkdown(text: string): string {
 function formatRedditThread(thread: RedditThread): string {
   const blocks: string[] = [];
 
-  // Optional: include OP context if the first chain doesn't have a question
-  // (and the OP text is substantive)
-  const firstSubstantive = thread.chains.find(c => c.bouvard_words >= REDDIT_MIN_CHAIN_WORDS);
-  if (firstSubstantive?.is_op_reply && thread.op_text && thread.op_text.trim().length > 50) {
-    // OP text already included as chain.question; skip separate OP block
-  }
+  // Does this thread have any genuine Q&A exchanges? If so, use threaded format.
+  const hasQuestions = thread.chains.some(
+    c => c.question && c.bouvard_words >= REDDIT_MIN_CHAIN_WORDS
+  );
 
   for (const chain of thread.chains) {
     if (chain.bouvard_words < REDDIT_MIN_CHAIN_WORDS) continue;
@@ -742,14 +740,16 @@ function formatRedditThread(thread: RedditThread): string {
       const questioner = chain.questioner && chain.questioner !== '[deleted]'
         ? chain.questioner
         : 'Reader';
-      const questionText = renderRedditMarkdown(chain.question).slice(0, 800);
-      // Indent the question as a block-quote style citation
-      const quotedQuestion = questionText
-        .split('\n')
-        .map(line => `> ${line}`)
-        .join('\n');
-      blocks.push(`**${questioner}:** ${questionText}\n\n${bouvardText}`);
+      const questionText = renderRedditMarkdown(chain.question).slice(0, 1000);
+      // Flatten multi-paragraph questions to a single line for the question card
+      const questionFlat = questionText.replace(/\n{2,}/g, ' ').replace(/\n/g, ' ').trim();
+      // Use special markers that PostContent recognises and renders as conversation cards
+      blocks.push(`[Q:${questioner}] ${questionFlat}\n\n[ADAM]\n\n${bouvardText}`);
+    } else if (hasQuestions) {
+      // Solo Bouvard comment in a thread that also has Q&A — label it consistently
+      blocks.push(`[ADAM]\n\n${bouvardText}`);
     } else {
+      // Thread is all Bouvard's own commentary — no speaker labels needed
       blocks.push(bouvardText);
     }
   }
