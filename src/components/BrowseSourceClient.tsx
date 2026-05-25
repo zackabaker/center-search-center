@@ -34,10 +34,8 @@ function fmtWords(n: number): string {
 }
 
 function fmtYear(dateStr: string): number | null {
-  try {
-    const y = new Date(dateStr).getFullYear();
-    return isNaN(y) ? null : y;
-  } catch { return null; }
+  const m = dateStr.match(/\b(19|20)\d{2}\b/);
+  return m ? parseInt(m[0], 10) : null;
 }
 
 function highlightText(text: string, query: string): React.ReactNode {

@@ -200,7 +200,7 @@ export default async function BrowsePage() {
                         </span>
                         {post.date && (
                           <span className="text-[10px] text-gray-400 dark:text-gray-600 flex-shrink-0 ml-auto tabular-nums">
-                            {new Date(post.date).getFullYear()}
+                            {post.date.match(/\b(19|20)\d{2}\b/)?.[0] ?? ''}
                           </span>
                         )}
                       </Link>
