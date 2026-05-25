@@ -32,24 +32,19 @@ const SOURCE_META: Record<
     color: 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
   },
   pdf: {
-    label: 'PDFs',
-    description: 'Scanned papers, lectures, and documents',
+    label: 'Essays & Articles',
+    description: 'Academic papers, journal articles, introductory lectures, and longer works',
     color: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
   },
   reddit: {
     label: 'Reddit',
-    description: 'Posts and discussions from r/GenerativeAnthropology',
+    description: 'Dialogue threads and Q&A discussions from Reddit',
     color: 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
   },
   twitter: {
     label: 'X / Twitter',
     description: 'Threads and notes from X (formerly Twitter)',
     color: 'bg-slate-100 text-slate-800 dark:bg-slate-800/40 dark:text-slate-300',
-  },
-  lecture: {
-    label: 'Lecture Series',
-    description: 'Five introductory lectures for Center Study by Adam Katz',
-    color: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
   },
 };
 

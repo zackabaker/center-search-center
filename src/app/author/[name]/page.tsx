@@ -9,7 +9,7 @@ const AUTHORS = {
     name: 'Adam Katz',
     handle: 'katz',
     sources: ['gablog', 'pdf', 'book'] as ContentSource[],
-    bio: 'Adam Katz is the author of Center Study. Through the GABlog (~480 posts since 2007), academic PDFs, and Anthropomorphics, he develops originary grammar and applies it to language, power, juridical order, and the nature of the center. He also writes applied essays on AI, governance, and contemporary politics on Substack under the pen name Dennis Bouvard.',
+    bio: 'Adam Katz is the author of Center Study. Through the GABlog (~480 posts since 2007), academic essays and articles, and Anthropomorphics, he develops originary grammar and applies it to language, power, juridical order, and the nature of the center. He also writes applied essays on AI, governance, and contemporary politics on Substack under the pen name Dennis Bouvard.',
     color: 'blue',
     colorClasses: {
       badge: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
@@ -18,7 +18,7 @@ const AUTHORS = {
     },
     links: [
       { label: 'GABlog', href: '/browse/gablog' },
-      { label: 'PDFs', href: '/browse/pdf' },
+      { label: 'Essays & Articles', href: '/browse/pdf' },
     ],
   },
   bouvard: {
@@ -44,10 +44,9 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   substack: 'Substack',
   gablog: 'GABlog',
   book: 'Book',
-  pdf: 'PDF',
+  pdf: 'Essays & Articles',
   reddit: 'Reddit',
   twitter: 'X / Twitter',
-  lecture: 'Lecture Series',
 };
 
 const SOURCE_COLORS: Record<ContentSource, string> = {
@@ -57,7 +56,6 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
   pdf: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
   reddit: 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
   twitter: 'bg-slate-100 text-slate-800 dark:bg-slate-800/40 dark:text-slate-300',
-  lecture: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
 };
 
 export async function generateStaticParams() {

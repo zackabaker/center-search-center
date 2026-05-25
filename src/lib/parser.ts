@@ -355,7 +355,7 @@ function parseSubstackPosts(text: string): Post[] {
 }
 
 // Custom metadata for PDFs: map filename (without extension) to title and source override
-const PDF_METADATA: Record<string, { title: string; source?: ContentSource }> = {
+const PDF_METADATA: Record<string, { title: string; source?: ContentSource; url?: string; date?: string }> = {
   'the-origin-of-language': {
     title: 'The Origin of Language',
     source: 'book',
@@ -407,6 +407,32 @@ const PDF_METADATA: Record<string, { title: string; source?: ContentSource }> = 
   },
   'writing-pedagogy-katz2': {
     title: 'AI and Writing — Book Review (Adam Katz)',
+  },
+  // NER & JCRT articles (extracted from GABlog cross-posts)
+  'constitutionalism-political-thinking-center': {
+    title: 'Constitutionalism: A Political Thinking of the Center (Adam Katz)',
+    url: 'https://www.newenglishreview.org/articles/constitutionalism-a-political-thinking-of-the-center/',
+    date: 'Jan 2007',
+  },
+  'calculus-of-covenants-fifth-generation-warfare': {
+    title: 'A Calculus of Covenants; or, Fifth Generation Warfare (Adam Katz)',
+    url: 'https://www.newenglishreview.org/articles/a-calculus-of-covenants-or-fifth-generation-warfare/',
+    date: 'May 2007',
+  },
+  'habit-and-errors-and-composition': {
+    title: 'Habit and Errors and Composition (Adam Katz)',
+    url: 'https://jcrt.org/archives/10.4/katz.pdf',
+    date: 'Apr 2009',
+  },
+  'indicative-culture-katz': {
+    title: 'Indicative Culture (Adam Katz)',
+    url: 'http://jcrt.typepad.com/jcrt_live/2009/06/indicative-culture.html',
+    date: 'Jun 2009',
+  },
+  'idioms-of-inquiry-katz': {
+    title: 'Another Version of "Idioms of Inquiry" Despite the Changed Title (Adam Katz)',
+    url: 'http://jcrt.typepad.com/jcrt_live/2009/08/',
+    date: 'Aug 2009',
   },
 };
 
@@ -877,14 +903,18 @@ function parsePDFs(): Post[] {
     const source = meta?.source || ('pdf' as ContentSource);
     const prefix = source === 'book' ? 'book' : 'pdf';
 
+    // For articles that have no real PDF, use the external URL from metadata (or omit)
+    const pdfExists = fs.existsSync(path.join(pdfDir, baseName + '.pdf'));
+    const postUrl = meta?.url ?? (pdfExists ? `/pdfs/${baseName}.pdf` : undefined);
+
     posts.push({
       slug: `${prefix}-${slugify(baseName)}`,
       title,
       content,
       excerpt: excerpt(content),
-      date: null,
+      date: meta?.date ?? null,
       source,
-      url: `/pdfs/${baseName}.pdf`,
+      ...(postUrl ? { url: postUrl } : {}),
     });
   }
 
@@ -930,7 +960,7 @@ function parseLectures(): Post[] {
       content: body,
       excerpt: excerpt(body),
       date: null,
-      source: 'lecture' as ContentSource,
+      source: 'pdf' as ContentSource,
     });
   }
 

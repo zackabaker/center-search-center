@@ -26,8 +26,8 @@ const SOURCE_META: Record<ValidSource, { label: string; description: string; col
     color: 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
   },
   pdf: {
-    label: 'PDFs',
-    description: 'Academic papers, lectures, and longer works',
+    label: 'Essays & Articles',
+    description: 'Academic papers, journal articles, introductory lectures, and longer works',
     color: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
   },
   reddit: {

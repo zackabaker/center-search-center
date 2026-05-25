@@ -9,7 +9,7 @@ const SOURCE_LABELS: Record<string, string> = {
   substack: 'Substack',
   gablog:   'GABlog',
   book:     'Anthropomorphics',
-  pdf:      'PDF',
+  pdf:      'Essays & Articles',
   reddit:   'Reddit',
   twitter:  'X / Twitter',
 };
