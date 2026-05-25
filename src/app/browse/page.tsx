@@ -3,8 +3,8 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Browse Archive — Center Study Center',
-  description: 'Browse the complete Center Study archive: GABlog, Substack, PDFs, Anthropomorphics, Reddit, and Twitter.',
+  title: 'Archive — Center Study Center',
+  description: 'Browse the complete Center Study archive: GABlog, Substack, Essays & Articles, Anthropomorphics, and Threads & Q&A.',
 };
 
 export const revalidate = 3600;
@@ -46,22 +46,15 @@ const SOURCES = [
     badge: 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
     dot: 'bg-purple-400',
   },
-] as const;
-
-// Research archive: reply threads and tweet collections have limited UX
-// Kept for researchers via the download section; not surfaced in main browse
-const RESEARCH_SOURCES = [
   {
-    slug: 'reddit',
-    label: 'Reddit',
-    author: 'Adam Katz',
-    description: 'Discussions and Q&amp;A threads from Reddit — long-form responses reconstructed with full dialogue context.',
-  },
-  {
-    slug: 'twitter',
-    label: 'X / Twitter',
-    author: 'Adam Katz',
-    description: 'Threads, notes, and aphorisms. Compressed formulations developed at length elsewhere.',
+    slug: 'threads',
+    label: 'Threads & Q&A',
+    author: 'Dennis Bouvard (Adam Katz)',
+    description: 'Reddit dialogues and X threads — long-form responses, Q&A exchanges with full question context, and applied thinking across social media.',
+    color: 'border-violet-200 dark:border-violet-900/50 hover:border-violet-400 dark:hover:border-violet-600',
+    badge: 'bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300',
+    dot: 'bg-violet-400',
+    isVirtual: true, // combines reddit + twitter
   },
 ] as const;
 
@@ -73,13 +66,22 @@ export default async function BrowsePage() {
     return acc;
   }, {});
 
-  // Most recent 5 posts per source (posts already sorted newest-first from parser)
+  // Threads count = reddit + twitter
+  const threadsCount = (countsBySource['reddit'] ?? 0) + (countsBySource['twitter'] ?? 0);
+
+  // Most recent 3 posts per source
   const recentBySource: Record<string, typeof posts> = {};
-  for (const source of SOURCES.map(s => s.slug)) {
-    recentBySource[source] = posts.filter(p => p.source === source).slice(0, 3);
+  for (const s of SOURCES) {
+    if (s.slug === 'threads') {
+      recentBySource['threads'] = posts
+        .filter((p) => p.source === 'reddit' || p.source === 'twitter')
+        .slice(0, 3);
+    } else {
+      recentBySource[s.slug] = posts.filter((p) => p.source === s.slug).slice(0, 3);
+    }
   }
 
-  const totalNonTwitter = posts.filter(p => p.source !== 'twitter').length;
+  const totalAll = posts.length;
 
   return (
     <main className="max-w-5xl mx-auto px-4 py-8 sm:py-12">
@@ -87,61 +89,54 @@ export default async function BrowsePage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold mt-2 mb-1 text-gray-900 dark:text-white">Archive</h1>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 flex-wrap">
           <p className="text-gray-500 dark:text-gray-400 text-sm">
-            {totalNonTwitter.toLocaleString()} texts across 5 venues
-            <span className="text-gray-400 dark:text-gray-600 ml-1">(+{countsBySource['twitter'] ?? 0} tweets)</span>
+            {totalAll.toLocaleString()} texts across 5 venues
           </p>
-          <Link
-            href="/download"
-            className="inline-flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-            Download archive
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/search"
+              className="inline-flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              Full-text search
+            </Link>
+            <span className="text-gray-200 dark:text-gray-800">·</span>
+            <Link
+              href="/download"
+              className="inline-flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Download
+            </Link>
+          </div>
         </div>
-      </div>
-
-      {/* Quick links */}
-      <div className="flex flex-wrap gap-2 mb-10">
-        <Link href="/search" className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-all">
-          Full-text search
-        </Link>
-        <Link href="/concepts" className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-all">
-          Concepts
-        </Link>
-        <Link href="/guide/timeline" className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-all">
-          Timeline
-        </Link>
-        <Link href="/stats" className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-all">
-          Stats
-        </Link>
-        <Link href="/lectures" className="px-3 py-1.5 rounded-lg text-xs font-medium border border-green-200 dark:border-green-900/50 text-green-700 dark:text-green-400 hover:border-green-400 dark:hover:border-green-600 hover:text-green-900 dark:hover:text-green-200 transition-all">
-          Lectures
-        </Link>
       </div>
 
       {/* Source cards */}
       <div className="space-y-5">
         {SOURCES.map((source) => {
-          const count = countsBySource[source.slug] ?? 0;
+          const count = source.slug === 'threads' ? threadsCount : (countsBySource[source.slug] ?? 0);
           const recent = recentBySource[source.slug] ?? [];
+
           return (
             <div key={source.slug} className={`rounded-2xl border bg-white dark:bg-gray-900 transition-all ${source.color}`}>
               <div className="p-5 sm:p-6">
                 {/* Source header */}
                 <div className="flex items-start justify-between gap-4 mb-3">
-                  <div>
+                  <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2.5 mb-1">
                       <div className={`w-2 h-2 rounded-full flex-shrink-0 ${source.dot}`} />
                       <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{source.label}</h2>
-                      <span className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${source.badge}`}>
+                      <span className={`text-[11px] px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${source.badge}`}>
                         {count.toLocaleString()} posts
                       </span>
                     </div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">{source.author}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mb-1.5">{source.author}</p>
                     <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
                       {source.description}
                     </p>
@@ -150,7 +145,7 @@ export default async function BrowsePage() {
                     href={`/browse/${source.slug}`}
                     className="flex-shrink-0 inline-flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                   >
-                    Browse all
+                    Browse
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
@@ -159,24 +154,30 @@ export default async function BrowsePage() {
 
                 {/* Recent posts from this source */}
                 {recent.length > 0 && (
-                  <div className="mt-3 space-y-1.5 border-t border-gray-100 dark:border-gray-800 pt-3">
+                  <div className="mt-3 space-y-1 border-t border-gray-100 dark:border-gray-800 pt-3">
                     {recent.map((post) => (
                       <Link
                         key={post.slug}
-                        href={`/post/${post.slug}`}
-                        className="flex items-center gap-2 group"
+                        href={`/post/${post.slug}?back=/browse/${source.slug}`}
+                        className="flex items-center gap-2 group py-0.5"
                       >
                         <div className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600 flex-shrink-0" />
                         <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                           {post.title}
                         </span>
                         {post.date && (
-                          <span className="text-[10px] text-gray-400 dark:text-gray-600 flex-shrink-0 ml-auto">
+                          <span className="text-[10px] text-gray-400 dark:text-gray-600 flex-shrink-0 ml-auto tabular-nums">
                             {new Date(post.date).getFullYear()}
                           </span>
                         )}
                       </Link>
                     ))}
+                    <Link
+                      href={`/browse/${source.slug}`}
+                      className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors pt-1"
+                    >
+                      All {count} posts →
+                    </Link>
                   </div>
                 )}
               </div>
@@ -184,54 +185,6 @@ export default async function BrowsePage() {
           );
         })}
       </div>
-
-      {/* Research archive — collapsed by default */}
-      <details className="mt-10 group">
-        <summary className="flex items-center gap-2 cursor-pointer list-none text-sm text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 transition-colors select-none">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-3.5 w-3.5 transition-transform group-open:rotate-90"
-            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-          Research archive
-          <span className="text-xs text-gray-300 dark:text-gray-700">
-            — Reddit &amp; X threads (limited UX; full data in{' '}
-            <Link href="/download" className="underline hover:text-gray-500 dark:hover:text-gray-500">download</Link>)
-          </span>
-        </summary>
-
-        <div className="mt-4 space-y-3 pl-1">
-          <p className="text-xs text-gray-400 dark:text-gray-500 leading-relaxed max-w-2xl">
-            Reddit and Twitter/X posts are included in the archive but have UX limitations: replies lack context and thread structure is lost. The full data is available in the{' '}
-            <Link href="/download" className="text-blue-600 dark:text-blue-400 hover:underline">download section</Link>
-            {' '}for researchers who want the complete corpus.
-          </p>
-          <div className="grid sm:grid-cols-2 gap-3">
-            {RESEARCH_SOURCES.map((source) => {
-              const count = countsBySource[source.slug] ?? 0;
-              return (
-                <div key={source.slug} className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <div>
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{source.label}</span>
-                      <span className="ml-2 text-xs text-gray-400 dark:text-gray-600">{count.toLocaleString()} posts</span>
-                    </div>
-                    <Link
-                      href={`/browse/${source.slug}`}
-                      className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
-                    >
-                      Browse →
-                    </Link>
-                  </div>
-                  <p className="text-xs text-gray-400 dark:text-gray-500 leading-relaxed">{source.description}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </details>
 
     </main>
   );

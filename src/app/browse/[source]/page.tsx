@@ -3,46 +3,67 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { ContentSource } from '@/lib/types';
+import BrowseSourceClient from '@/components/BrowseSourceClient';
 
 export const revalidate = 3600;
 
-const VALID_SOURCES = ['substack', 'gablog', 'book', 'pdf', 'reddit', 'twitter'] as const;
+const REAL_SOURCES = ['substack', 'gablog', 'book', 'pdf', 'reddit', 'twitter'] as const;
+type RealSource = typeof REAL_SOURCES[number];
+
+const VALID_SOURCES = [...REAL_SOURCES, 'threads'] as const;
 type ValidSource = typeof VALID_SOURCES[number];
 
-const SOURCE_META: Record<ValidSource, { label: string; description: string; color: string }> = {
+interface SourceMeta {
+  label: string;
+  description: string;
+  color: string; // badge color
+  dot: string;   // accent color for breadcrumb
+}
+
+const SOURCE_META: Record<ValidSource, SourceMeta> = {
   substack: {
     label: 'Bouvard Substack',
-    description: 'Applied essays on AI, governance, money, language, and technology',
+    description: 'Applied essays on AI, governance, money, language, and technology — written under the pen name Dennis Bouvard',
     color: 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
+    dot: 'text-orange-600 dark:text-orange-400',
   },
   gablog: {
     label: 'GABlog',
-    description: "Adam Katz's theoretical blog — originary grammar in development",
+    description: "Adam Katz's theoretical blog — originary grammar in development across 25+ years",
     color: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
+    dot: 'text-blue-600 dark:text-blue-400',
   },
   book: {
     label: 'Anthropomorphics',
-    description: "Eric Gans's systematic originary grammar of the center",
+    description: "The systematic treatment — an originary grammar of the center, deriving language, personhood, and institutions from the originary scene",
     color: 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
+    dot: 'text-purple-600 dark:text-purple-400',
   },
   pdf: {
     label: 'Essays & Articles',
-    description: 'Academic papers, journal articles, introductory lectures, and longer works',
+    description: 'Academic papers, journal articles, introductory lectures, and longer works — including NER, JCRT publications and the five Center Study lectures',
     color: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
+    dot: 'text-green-600 dark:text-green-400',
   },
   reddit: {
-    label: 'Reddit',
-    description: 'Discussions from r/Absolutistneoreaction',
-    color: 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
+    label: 'Reddit Threads',
+    description: 'Long-form responses and Q&A dialogues from Reddit — reconstructed with full question context',
+    color: 'bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300',
+    dot: 'text-violet-600 dark:text-violet-400',
   },
   twitter: {
-    label: 'X / Twitter',
-    description: 'Threads and notes from X (formerly Twitter)',
+    label: 'X Threads',
+    description: 'Long-form tweet threads — self-started threads with 150+ words, filtered from 1,400+ posts',
     color: 'bg-slate-100 text-slate-800 dark:bg-slate-800/40 dark:text-slate-300',
+    dot: 'text-slate-600 dark:text-slate-400',
+  },
+  threads: {
+    label: 'Threads & Q&A',
+    description: 'Reddit dialogues and X threads — applied thinking, Q&A exchanges, and long-form responses across social media',
+    color: 'bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300',
+    dot: 'text-violet-600 dark:text-violet-400',
   },
 };
-
-const PAGE_SIZE = 40;
 
 export function generateStaticParams() {
   return VALID_SOURCES.map((source) => ({ source }));
@@ -64,22 +85,25 @@ export async function generateMetadata({
 
 export default async function BrowseSourcePage({
   params,
-  searchParams,
 }: {
   params: Promise<{ source: string }>;
-  searchParams: Promise<{ page?: string }>;
 }) {
-  const [{ source }, { page: pageParam }] = await Promise.all([params, searchParams]);
+  const { source } = await params;
 
   if (!VALID_SOURCES.includes(source as ValidSource)) notFound();
 
   const src = source as ValidSource;
   const meta = SOURCE_META[src];
 
-  const allPosts = getAllPosts().filter((p) => p.source === (src as ContentSource));
+  const allPosts = getAllPosts();
+
+  // 'threads' is a virtual source combining reddit + twitter
+  const sourcePosts = src === 'threads'
+    ? allPosts.filter((p) => p.source === 'reddit' || p.source === 'twitter')
+    : allPosts.filter((p) => p.source === (src as ContentSource));
 
   // Sort: dated posts newest-first, then undated alphabetically
-  const sorted = [...allPosts].sort((a, b) => {
+  const sorted = [...sourcePosts].sort((a, b) => {
     if (a.date && b.date) return new Date(b.date).getTime() - new Date(a.date).getTime();
     if (a.date && !b.date) return -1;
     if (!a.date && b.date) return 1;
@@ -87,97 +111,53 @@ export default async function BrowseSourcePage({
   });
 
   const totalCount = sorted.length;
-  const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
-  const currentPage = Math.max(1, Math.min(totalPages, parseInt(pageParam ?? '1', 10) || 1));
-  const pageStart = (currentPage - 1) * PAGE_SIZE;
-  const pagePosts = sorted.slice(pageStart, pageStart + PAGE_SIZE);
+
+  // For threads, show Reddit and Twitter sub-counts
+  const redditCount = src === 'threads' ? allPosts.filter(p => p.source === 'reddit').length : 0;
+  const twitterCount = src === 'threads' ? allPosts.filter(p => p.source === 'twitter').length : 0;
 
   return (
     <main className="max-w-4xl mx-auto px-4 pt-8 pb-24 sm:py-12">
-      {/* Back link */}
-      <div className="mb-6">
+
+      {/* Breadcrumb */}
+      <div className="flex items-center gap-2 mb-6 text-sm">
         <Link
-          href="/"
-          className="text-sm text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+          href="/browse"
+          className="text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
         >
-          &larr; Home
+          Archive
         </Link>
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-300 dark:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${meta.color}`}>
+          {meta.label}
+        </span>
       </div>
 
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-3">
-          <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${meta.color}`}>
+      <div className="mb-7">
+        <div className="flex items-baseline gap-3 mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
             {meta.label}
-          </span>
-          <span className="text-sm text-gray-400 dark:text-gray-500">
-            {totalCount} {totalCount === 1 ? 'post' : 'posts'}
+          </h1>
+          <span className="text-sm text-gray-400 dark:text-gray-500 tabular-nums">
+            {totalCount.toLocaleString()} {totalCount === 1 ? 'post' : 'posts'}
+            {src === 'threads' && (
+              <span className="ml-1 text-[11px] text-gray-300 dark:text-gray-700">
+                ({redditCount} Reddit · {twitterCount} X)
+              </span>
+            )}
           </span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white mb-2">
-          {meta.label}
-        </h1>
-        <p className="text-gray-500 dark:text-gray-400 text-sm">{meta.description}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl">
+          {meta.description}
+        </p>
       </div>
 
-      {/* Post list */}
-      <div className="space-y-px border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
-        {pagePosts.map((post) => (
-          <Link
-            key={post.slug}
-            href={`/post/${post.slug}`}
-            className="group flex flex-col gap-1.5 p-4 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800/60 transition-colors border-b border-gray-100 dark:border-gray-800 last:border-b-0"
-          >
-            <div className="flex items-start justify-between gap-4">
-              <h2 className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug flex-1">
-                {post.title}
-              </h2>
-              {post.date && (
-                <span className="text-xs text-gray-400 dark:text-gray-500 flex-shrink-0 mt-0.5">
-                  {post.date}
-                </span>
-              )}
-            </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">
-              {post.excerpt}
-            </p>
-          </Link>
-        ))}
-      </div>
+      {/* Searchable post list (client component) */}
+      <BrowseSourceClient posts={sorted} source={src} totalCount={totalCount} />
 
-      {/* Pagination — full-width rows on mobile, side-by-side on desktop */}
-      {totalPages > 1 && (
-        <div className="mt-6 space-y-2 sm:space-y-0 sm:flex sm:items-center sm:justify-between">
-          {/* Prev / Next stacked on mobile */}
-          <div className="flex gap-2">
-            {currentPage > 1 ? (
-              <Link
-                href={`/browse/${src}?page=${currentPage - 1}`}
-                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1 min-h-[44px] px-5 py-3 rounded-xl border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-500 transition-colors"
-              >
-                ← Newer
-              </Link>
-            ) : (
-              <span className="flex-1 sm:flex-none" />
-            )}
-
-            {currentPage < totalPages ? (
-              <Link
-                href={`/browse/${src}?page=${currentPage + 1}`}
-                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1 min-h-[44px] px-5 py-3 rounded-xl border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-500 transition-colors"
-              >
-                Older →
-              </Link>
-            ) : (
-              <span className="flex-1 sm:flex-none" />
-            )}
-          </div>
-
-          <span className="block text-center sm:text-right text-xs text-gray-400 dark:text-gray-500">
-            Page {currentPage} of {totalPages}
-          </span>
-        </div>
-      )}
     </main>
   );
 }
