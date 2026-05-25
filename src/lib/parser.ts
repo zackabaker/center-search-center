@@ -434,6 +434,79 @@ const PDF_METADATA: Record<string, { title: string; source?: ContentSource; url?
     url: 'http://jcrt.typepad.com/jcrt_live/2009/08/',
     date: 'Aug 2009',
   },
+  'jousse-review-double-helix': {
+    title: 'Book Review: Memory, Memorization and Memorizers — Marcel Jousse (Adam Katz)',
+    url: 'https://wacclearinghouse.org/docs/double-helix/v7/katz.pdf',
+    date: 'Jan 2019',
+  },
+  'double-helix-v1-farmer-review': {
+    title: 'Book Review: After the Public Turn — Frank Farmer (Adam Katz)',
+    url: 'https://wacclearinghouse.org/docs/double-helix/v1/katz.pdf',
+    date: 'Jan 2013',
+  },
+  'double-helix-v2-tomasello-review': {
+    title: 'Book Review: A Natural History of Human Thinking — Michael Tomasello (Adam Katz)',
+    url: 'https://wacclearinghouse.org/docs/double-helix/v2/katz.pdf',
+    date: 'Jan 2014',
+  },
+  'double-helix-v3-bury-review': {
+    title: 'Book Review: Exercises in Criticism — Louis Bury (Adam Katz)',
+    url: 'https://wacclearinghouse.org/docs/double-helix/v3/katz.pdf',
+    date: 'Jan 2015',
+  },
+  'double-helix-v4-becker-ho-review': {
+    title: 'Book Review: The Essence of Jargon — Alice Becker-Ho (Adam Katz)',
+    url: 'https://wacclearinghouse.org/docs/double-helix/v4/katz.pdf',
+    date: 'Jan 2016',
+  },
+  'double-helix-v6-praxis-of-entry': {
+    title: 'A Praxis of Entry: First-Year Writing as the Critical Thinking Course (Adam Katz)',
+    url: 'https://wacclearinghouse.org/docs/double-helix/v6/katz.pdf',
+    date: 'Jan 2018',
+  },
+  'double-helix-v8-natures-of-data-review': {
+    title: 'Book Review: Natures of Data — Fischer et al. (Adam Katz)',
+    url: 'https://wacclearinghouse.org/docs/double-helix/v8/katz.pdf',
+    date: 'Jan 2020',
+  },
+  'double-helix-v9-teaching-machines-review': {
+    title: 'Book Review: Teaching Machines — Audrey Watters (Adam Katz)',
+    url: 'https://wacclearinghouse.org/docs/double-helix/v9/katz.pdf',
+    date: 'Jan 2021',
+  },
+  'double-helix-v10-amerika-review': {
+    title: 'Book Review: My Life as an Artificial Creative Intelligence — Mark Amerika (Adam Katz)',
+    url: 'https://wacclearinghouse.org/docs/double-helix/v10/katz.pdf',
+    date: 'Jan 2022',
+  },
+  // Standalone pieces
+  'ga-vs-center-study-thread': {
+    title: 'GA vs. Center Study (Adam Katz)',
+  },
+  'prosecuting-the-nomos-qa': {
+    title: 'Prosecuting the Nomos: Q&A (Adam Katz)',
+  },
+  // Anthropoetics journal articles
+  'anthropoetics-redemption-of-hostages': {
+    title: 'The Redemption of Hostages (Adam Katz)',
+    url: 'https://anthropoetics.ucla.edu/ap1801/1801katz/',
+    date: 'Fall 2012',
+  },
+  'anthropoetics-originary-mistakenness': {
+    title: 'Originary Mistakenness, Defilement and Modernity (Adam Katz)',
+    url: 'https://anthropoetics.ucla.edu/ap1601/1601katz/',
+    date: 'Fall 2010',
+  },
+  'anthropoetics-marginalist-politics': {
+    title: 'Marginalist Politics, Political Grammar (Adam Katz)',
+    url: 'https://anthropoetics.ucla.edu/ap1401/1401katz/',
+    date: 'Summer 2008',
+  },
+  'anthropoetics-from-habit-to-maxim': {
+    title: 'From Habit to Maxim: Gertrude Stein and Originary Language (Adam Katz)',
+    url: 'https://anthropoetics.ucla.edu/ap1502/1502katz/',
+    date: 'Spring 2010',
+  },
 };
 
 // ── Twitter / X ───────────────────────────────────────────────────────────────
