@@ -54,6 +54,24 @@ export default async function LecturesPage() {
         </p>
       </div>
 
+      {/* Adam's introduction to the series */}
+      <div className="mb-12 rounded-2xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50 p-6 sm:p-8">
+        <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">
+          Introduction — Adam Katz
+        </p>
+        <div className="space-y-4 text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
+          <p>
+            I&rsquo;m planning to focus on concepts that are intrinsic to GA or originary thinking, as well as those given a more specific meaning within GA. While I&rsquo;ll be focusing on &ldquo;basic&rdquo; concepts, and you don&rsquo;t need any prior knowledge of GA to follow the discussions, I wouldn&rsquo;t call it a basic course. You can always define terms, and it&rsquo;s helpful to do so, but that&rsquo;s of limited use in <em>thinking with</em> them, and I want to make it possible for more people to think with these concepts.
+          </p>
+          <p>
+            Each concept we&rsquo;re going to work with solves a particular problem, or resolves some anomaly within some intellectual tradition, and creates a new problematic which sets &ldquo;rules&rdquo; (explicit and tacit) for other inquiries and discussions. Thinking with a concept involves retrieving this problematic-forming &ldquo;property,&rdquo; which is always easily forgotten and buried under conventional usage or in the growing complexity of a field of inquiry. Furthermore, concepts are reshaped through their &ldquo;migrations&rdquo; through other problematics, and thinking through these concepts therefore also means thinking against the grain of other ways of thinking, and thereby &ldquo;inflecting&rdquo; those ways of thinking.
+          </p>
+          <p>
+            It&rsquo;s easy to get into the habit of worrying about &ldquo;convincing&rdquo; people, but what is more important and economical is providing them with a language that helps them address their own questions. Adopting and appropriating another&rsquo;s concepts is a more lasting effect than just &ldquo;agreeing&rdquo; with someone. So, &ldquo;treating&rdquo; these concepts in this way is not something to do so one can then move on to more complex structures, but something that always needs to be part of the process of building those structures.
+          </p>
+        </div>
+      </div>
+
       {/* Lecture list */}
       <ol className="space-y-0">
         {lectures.map((lecture, i) => {
@@ -80,7 +98,7 @@ export default async function LecturesPage() {
                   href={`/post/${lecture.slug}`}
                   className="group block rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-green-300 dark:hover:border-green-700 hover:shadow-sm transition-all p-4 sm:p-5"
                 >
-                  <h2 className="text-base font-semibold text-gray-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors mb-1.5">
+                  <h2 className="text-base font-semibold text-gray-900 dark:text-white group-hover:text-green-700 dark:group-hover:text-green-400 transition-colors mb-1.5">
                     {bareTitle}
                   </h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
