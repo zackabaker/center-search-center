@@ -479,15 +479,18 @@ const PDF_METADATA: Record<string, { title: string; source?: ContentSource; url?
     url: 'https://wacclearinghouse.org/docs/double-helix/v10/katz.pdf',
     date: 'Jan 2022',
   },
-  // Standalone pieces
+  // Standalone threads / Q&A pieces (sourced as 'reddit' so they appear in Threads & Q&A)
   'ga-vs-center-study-thread': {
     title: 'GA vs. Center Study (Adam Katz)',
+    source: 'reddit' as ContentSource,
   },
   'prosecuting-the-nomos-qa': {
     title: 'Prosecuting the Nomos: Q&A (Adam Katz)',
+    source: 'reddit' as ContentSource,
   },
   'anglo-modernity-limits-thread': {
     title: 'Anglo Modernity Reaching Its Limits (Adam Katz)',
+    source: 'reddit' as ContentSource,
   },
   // Anthropoetics journal articles
   'anthropoetics-redemption-of-hostages': {
