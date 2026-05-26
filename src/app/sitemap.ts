@@ -32,11 +32,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
+  const SOURCE_PRIORITY: Record<string, number> = {
+    substack: 0.9,
+    book: 0.85,
+    gablog: 0.8,
+    pdf: 0.65,
+    reddit: 0.5,
+    twitter: 0.5,
+  };
+
   const postRoutes: MetadataRoute.Sitemap = posts.map((p) => ({
     url: `${BASE_URL}/post/${p.slug}`,
-    lastModified: p.date ? new Date(p.date) : new Date('2024-01-01'),
+    lastModified: p.date ? (() => { try { return new Date(p.date!); } catch { return new Date('2024-01-01'); } })() : new Date('2024-01-01'),
     changeFrequency: 'yearly' as const,
-    priority: p.source === 'substack' ? 0.7 : 0.5,
+    priority: SOURCE_PRIORITY[p.source] ?? 0.6,
   }));
 
   return [...staticRoutes, ...conceptRoutes, ...pathRoutes, ...postRoutes];

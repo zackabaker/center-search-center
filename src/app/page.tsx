@@ -117,7 +117,45 @@ export default function Home() {
     } catch { return false; }
   });
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebSite',
+        '@id': 'https://center.study/#website',
+        url: 'https://center.study',
+        name: 'Center Study Center',
+        description: 'Complete searchable archive of Adam Katz and Dennis Bouvard — Center Study writings.',
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: { '@type': 'EntryPoint', urlTemplate: 'https://center.study/search?q={search_term_string}' },
+          'query-input': 'required name=search_term_string',
+        },
+      },
+      {
+        '@type': 'Person',
+        '@id': 'https://center.study/author/katz',
+        name: 'Adam Katz',
+        url: 'https://center.study/author/katz',
+        description: 'Originary thinker and author of Anthropomorphics and the GABlog.',
+      },
+      {
+        '@type': 'Person',
+        '@id': 'https://center.study/author/bouvard',
+        name: 'Dennis Bouvard',
+        alternateName: 'Adam Katz',
+        url: 'https://center.study/author/bouvard',
+        description: 'Pen name for Adam Katz\'s applied Center Study writing on Substack.',
+      },
+    ],
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+      />
     <div className="min-h-screen bg-white dark:bg-gray-950">
 
       {/* Hero */}
@@ -306,5 +344,6 @@ export default function Home() {
       )}
 
     </div>
+    </>
   );
 }
