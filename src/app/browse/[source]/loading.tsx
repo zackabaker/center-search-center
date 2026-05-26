@@ -1,6 +1,6 @@
 export default function BrowseLoading() {
   return (
-    <main className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+    <main className="max-w-4xl w-full mx-auto px-4 py-8 sm:py-12">
       {/* Header skeleton */}
       <div className="mb-8">
         <div className="h-4 w-24 rounded bg-gray-100 dark:bg-gray-800 animate-pulse mb-4" />

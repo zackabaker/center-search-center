@@ -159,7 +159,7 @@ export default async function PostPage({
     <>
       <ReadingProgress />
       <TrackView slug={slug} title={post.title} source={post.source} date={post.date} />
-      <main className="max-w-3xl lg:max-w-6xl mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden lg:overflow-x-visible">
+      <main className="max-w-3xl lg:max-w-6xl w-full mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden lg:overflow-x-visible">
         {/* Top nav — full width */}
         <div className="flex items-center justify-between mb-6 sm:mb-8 print:hidden">
           <Suspense fallback={

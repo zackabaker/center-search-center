@@ -207,7 +207,7 @@ export default function TutoringPage() {
   const { title, disclaimer, months } = parseNotes(raw);
 
   return (
-    <main className="max-w-3xl mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden">
+    <main className="max-w-3xl w-full mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden">
 
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <div className="mb-2">

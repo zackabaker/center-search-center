@@ -55,7 +55,7 @@ export default function StatsPage() {
   const noDates = posts.filter((p) => !p.date).length;
 
   return (
-    <main className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+    <main className="max-w-4xl w-full mx-auto px-4 py-8 sm:py-12">
       <div className="mb-8">
         <Link href="/" className="text-sm text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">← Archive</Link>
         <h1 className="text-2xl sm:text-3xl font-bold mt-3 mb-1 text-gray-900 dark:text-white">Corpus Statistics</h1>

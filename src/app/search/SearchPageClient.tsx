@@ -272,7 +272,7 @@ export default function SearchPageClient({
   const iconSpeed = isSearching ? 7 : query ? 2 : 1;
 
   return (
-    <main className="max-w-4xl mx-auto px-4 pt-6 pb-24 sm:py-10 overflow-x-hidden">
+    <main className="max-w-4xl w-full mx-auto px-4 pt-6 pb-24 sm:py-10 overflow-x-hidden">
       {/* Search input */}
       <div className="mb-6">
         <div className="relative flex items-center border-2 border-gray-200 focus-within:border-gray-400 rounded-xl bg-white dark:bg-gray-900 dark:border-gray-700 dark:focus-within:border-gray-500 transition-colors">

@@ -76,7 +76,7 @@ export default function DownloadPage() {
   const totalWords = posts.reduce((s, p) => s + p.content.split(/\s+/).length, 0);
 
   return (
-    <main className="max-w-2xl mx-auto px-4 py-10 sm:py-16">
+    <main className="max-w-2xl w-full mx-auto px-4 py-10 sm:py-16">
       {/* Back nav */}
       <Link
         href="/"

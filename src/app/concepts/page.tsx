@@ -84,7 +84,7 @@ export default async function ConceptsPage({
   }
 
   return (
-    <main className="max-w-5xl mx-auto px-4 py-8 sm:py-12">
+    <main className="max-w-5xl w-full mx-auto px-4 py-8 sm:py-12">
 
       {/* Header */}
       <div className="mb-8">

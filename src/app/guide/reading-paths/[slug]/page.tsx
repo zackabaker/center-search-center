@@ -40,7 +40,7 @@ export default async function ReadingPathPage({ params }: { params: Promise<{ sl
     .filter(Boolean);
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-10">
+    <main className="max-w-3xl w-full mx-auto px-4 py-10">
       <div className="mb-8">
         <Link href="/guide/reading-paths" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
           ← Reading paths

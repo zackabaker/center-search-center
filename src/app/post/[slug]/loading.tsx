@@ -55,7 +55,7 @@ export default function PostLoading() {
   const quote = getQuote();
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-6 sm:py-12">
+    <main className="max-w-3xl w-full mx-auto px-4 py-6 sm:py-12">
       {/* Top nav skeleton */}
       <div className="flex items-center justify-between mb-6 sm:mb-8">
         <div className="h-9 w-28 rounded-lg bg-gray-100 dark:bg-gray-800 animate-pulse" />

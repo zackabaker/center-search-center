@@ -25,7 +25,7 @@ export default function SearchPage() {
 
   return (
     <Suspense fallback={
-      <main className="max-w-4xl mx-auto px-4 py-10 text-center text-gray-400">
+      <main className="max-w-4xl w-full mx-auto px-4 py-10 text-center text-gray-400">
         Loading search…
       </main>
     }>

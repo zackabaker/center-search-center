@@ -34,7 +34,7 @@ export default async function AdminPage({
   }
 
   return (
-    <main className="max-w-2xl mx-auto px-4 py-10 sm:py-16">
+    <main className="max-w-2xl w-full mx-auto px-4 py-10 sm:py-16">
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Book of Names — Admin</h1>
       <p className="text-sm text-gray-400 dark:text-gray-500 mb-10">
         {pending.length} pending · {approved.length} approved

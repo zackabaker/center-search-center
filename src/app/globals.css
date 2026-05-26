@@ -24,6 +24,21 @@
 }
 
 /* ── Base ──────────────────────────────────────────────────────── */
+html,
+body {
+  overflow-x: hidden;
+  /* Prevent body from expanding beyond the viewport on mobile */
+  max-width: 100%;
+}
+
+/* Ensure page-level containers never exceed the viewport width.
+   The body uses flex-col which can let mx-auto children size to
+   their max-content width (up to max-w-*) rather than the viewport. */
+main {
+  max-width: min(100%, 100vw);
+  box-sizing: border-box;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
