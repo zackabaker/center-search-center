@@ -2,6 +2,7 @@ import { getAllPosts } from '@/lib/parser';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import GoBack from '@/components/GoBack';
 import type { ContentSource } from '@/lib/types';
 
 const AUTHORS = {
@@ -107,15 +108,7 @@ export default async function AuthorPage({
   return (
     <main className="max-w-4xl w-full mx-auto px-4 pt-8 pb-24 sm:py-12">
       <div className="mb-6 flex items-center gap-3">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 font-medium transition-colors text-sm"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </Link>
+        <GoBack fallback="/browse" className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 font-medium transition-colors text-sm" />
         {/* Other author */}
         {name === 'katz' && (
           <Link href="/author/bouvard" className="text-sm text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
