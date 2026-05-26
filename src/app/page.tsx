@@ -164,9 +164,9 @@ export default function Home() {
           Center Study Center
         </h1>
 
-        <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-8 leading-relaxed max-w-xl mx-auto">
-          Center Study is a discourse descended from Eric Gans&rsquo;s Generative Anthropology — reading every social order as an effect of the engagement between periphery and center. 700+ texts by Adam Katz and Dennis Bouvard on language, authority, AI, and political order.
-        </p>
+        <blockquote className="italic text-sm text-gray-400 dark:text-gray-500 mb-8 px-4 max-w-xl mx-auto">
+          &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it&rdquo;
+        </blockquote>
 
         <HomeSearch />
       </header>
