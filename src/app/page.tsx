@@ -159,12 +159,36 @@ export default function Home() {
     <div className="min-h-screen bg-white dark:bg-gray-950">
 
       {/* Hero */}
-      <header className="max-w-3xl mx-auto px-4 pt-14 pb-12 text-center">
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white mb-5">
+      <header className="max-w-3xl mx-auto px-4 pt-14 pb-10 text-center">
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white mb-3">
           Center Study Center
         </h1>
+        <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-6 leading-relaxed max-w-xl mx-auto">
+          A searchable archive of originary thinking — 700+ texts by Adam Katz and Dennis Bouvard on language, authority, AI, and the enduring structure of human society.
+        </p>
         <HomeSearch />
       </header>
+
+      {/* New here? — mobile only (desktop has the Start nav card below) */}
+      <div className="sm:hidden max-w-xl mx-auto px-4 pb-6">
+        <Link
+          href="/intro"
+          className="flex items-start gap-3 p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 hover:border-gray-400 dark:hover:border-gray-500 transition-colors"
+        >
+          <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-amber-700 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-gray-900 dark:text-white mb-0.5">New here? Start with the introduction</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">The originary hypothesis, intellectual lineage, key concepts, and how to read Center Study.</p>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </Link>
+      </div>
 
       {/* Discover — random posts for quick listening */}
       <div className="max-w-xl mx-auto px-4 pb-8">
@@ -235,16 +259,16 @@ export default function Home() {
           <div className="flex items-baseline justify-between mb-8">
             <div>
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Start reading</h2>
-              <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">Curated entry points by topic</p>
+              <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">Curated entry points — new reader, theorist, or contemporary applications</p>
             </div>
-            <Link href="/browse" className="text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+            <Link href="/browse" className="text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors flex-shrink-0 ml-4">
               Browse archive →
             </Link>
           </div>
 
           <div className="space-y-8">
-            {FEATURED_GROUPS.map((group, idx) => (
-              <div key={group.label} className={idx > 0 ? 'hidden sm:block' : ''}>
+            {FEATURED_GROUPS.map((group) => (
+              <div key={group.label}>
                 <div className="flex items-baseline gap-3 mb-3">
                   <h3 className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest">
                     {group.label}

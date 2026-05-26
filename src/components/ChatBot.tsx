@@ -75,8 +75,9 @@ export default function ChatBot() {
       });
 
       if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Failed to get response');
+        let msg = 'Failed to get response';
+        try { msg = (await res.json()).error || msg; } catch { /* non-JSON error body */ }
+        throw new Error(msg);
       }
 
       const reader = res.body?.getReader();

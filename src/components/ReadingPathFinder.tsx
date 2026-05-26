@@ -197,7 +197,8 @@ export default function ReadingPathFinder() {
       });
 
       if (!res.ok) throw new Error('API error');
-      const reader = res.body!.getReader();
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error('No response stream');
       const decoder = new TextDecoder();
       let full = '';
 

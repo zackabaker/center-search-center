@@ -295,9 +295,14 @@ export default function AskClient() {
         }),
       });
 
-      if (!res.ok) throw new Error((await res.json()).error || 'Failed');
+      if (!res.ok) {
+        let msg = 'Failed';
+        try { msg = (await res.json()).error || msg; } catch { /* non-JSON error body */ }
+        throw new Error(msg);
+      }
 
-      const reader = res.body!.getReader();
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error('No response stream');
       const decoder = new TextDecoder();
       let content = '';
       let sources: Source[] | undefined;
