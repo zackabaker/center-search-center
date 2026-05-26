@@ -124,7 +124,7 @@ export default function IntroPage() {
           <div className="space-y-2">
 
             {/* Girard */}
-            <div className="flex gap-4 items-start">
+            <div id="girard" className="flex gap-4 items-start scroll-mt-20">
               <div className="flex-shrink-0 w-12 h-12 rounded-full bg-amber-50 dark:bg-amber-900/30 border-2 border-amber-200 dark:border-amber-700 flex items-center justify-center text-amber-700 dark:text-amber-400 font-bold text-lg z-10">
                 G
               </div>
@@ -167,7 +167,7 @@ export default function IntroPage() {
             </div>
 
             {/* Gans / GA */}
-            <div className="flex gap-4 items-start">
+            <div id="gans" className="flex gap-4 items-start scroll-mt-20">
               <div className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/30 border-2 border-blue-200 dark:border-blue-700 flex items-center justify-center text-blue-700 dark:text-blue-400 font-bold text-lg z-10">
                 GA
               </div>
