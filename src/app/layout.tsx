@@ -87,9 +87,9 @@ export default function RootLayout({
           <div className="max-w-5xl mx-auto px-4 h-10 flex items-center justify-between">
             <a
               href="https://center.study"
-              className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors font-mono tracking-tight"
+              className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors"
             >
-              center.study
+              Center Study
             </a>
             <div className="flex items-center gap-4">
               <Link href="/intro" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Start reading</Link>
