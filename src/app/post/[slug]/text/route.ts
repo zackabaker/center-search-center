@@ -238,7 +238,7 @@ export async function GET(
     }
     .listen-note strong { color: var(--fg); font-weight: 600; }
 
-    /* ── Back link (fixed, mirrors toolbar on the right) ── */
+    /* ── Back button (fixed, mirrors toolbar on the right) ── */
     .back-link {
       position: fixed;
       top: 12px;
@@ -258,6 +258,10 @@ export async function GET(
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       z-index: 100;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 44px;
+      min-width: 44px;
     }
     .back-link:hover  { background: var(--btn-hover); }
     .back-link:active { background: var(--btn-active); }
@@ -408,7 +412,7 @@ export async function GET(
     <button id="btn-theme" title="Toggle dark mode" aria-label="Toggle dark mode">☾</button>
   </div>
 
-  <a class="back-link" href="${canonicalUrl}">← center.study</a>
+  <button class="back-link" id="btn-back" type="button">← Back</button>
 
   <button id="btn-share-main" aria-label="Share this post">
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -452,6 +456,17 @@ export async function GET(
               btnShareMain.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg> Share';
             }, 2000);
           }).catch(function () {});
+        }
+      });
+
+      /* ── Back ── */
+      var btnBack = document.getElementById('btn-back');
+      var fallbackUrl = ${JSON.stringify(canonicalUrl)};
+      btnBack.addEventListener('click', function () {
+        if (document.referrer && document.referrer !== window.location.href) {
+          history.back();
+        } else {
+          window.location.href = fallbackUrl;
         }
       });
 
