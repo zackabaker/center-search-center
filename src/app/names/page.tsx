@@ -33,7 +33,7 @@ export default async function NamesPage() {
   }
 
   return (
-    <main className="max-w-2xl mx-auto px-4 py-10 sm:py-16">
+    <main className="max-w-2xl w-full mx-auto px-4 py-10 sm:py-16">
       <div className="flex items-center justify-between mb-12">
         <Link
           href="/"

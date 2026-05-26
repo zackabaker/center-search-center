@@ -32,7 +32,7 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
   const askHref = `/ask?q=${askQuery}&concept=${concept.slug}`;
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-10">
+    <main className="max-w-3xl w-full mx-auto px-4 py-10">
       {/* Header */}
       <div className="mb-8">
         <GoBack label="← Back" />

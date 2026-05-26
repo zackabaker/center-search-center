@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function MapPage() {
   return (
-    <main className="max-w-4xl mx-auto px-4 py-10">
+    <main className="max-w-4xl w-full mx-auto px-4 py-10">
       <div className="mb-8">
         <Link href="/guide" className="text-sm text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">← Guide</Link>
         <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-4 mb-2">Layer IV · Visual</p>

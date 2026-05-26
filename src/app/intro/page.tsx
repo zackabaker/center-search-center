@@ -81,7 +81,7 @@ const SCENE_CONSEQUENCES = [
 
 export default function IntroPage() {
   return (
-    <main className="max-w-3xl mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden">
+    <main className="max-w-3xl w-full mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden">
 
       <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 mt-4 text-gray-900 dark:text-white">
         Introduction to Center Study

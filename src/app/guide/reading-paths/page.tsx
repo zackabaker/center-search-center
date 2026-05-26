@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function ReadingPathsPage() {
   return (
-    <main className="max-w-4xl mx-auto px-4 py-10">
+    <main className="max-w-4xl w-full mx-auto px-4 py-10">
       <div className="mb-10">
         <h1 className="text-2xl sm:text-3xl font-bold mb-3 text-gray-900 dark:text-white">Find Your Reading Path</h1>
         <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">

@@ -135,7 +135,7 @@ export default async function BrowseSourcePage({
   const twitterCount = (src === 'threads' || src === 'all') ? allPosts.filter(p => p.source === 'twitter').length : 0;
 
   return (
-    <main className="max-w-4xl mx-auto px-4 pt-4 pb-24 sm:pt-8 sm:py-12">
+    <main className="max-w-4xl w-full mx-auto px-4 pt-4 pb-24 sm:pt-8 sm:py-12">
 
       {/* ── Source tab strip — scrollable on mobile ─────────────────────────── */}
       <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 mb-6">

@@ -496,22 +496,22 @@ const PDF_METADATA: Record<string, { title: string; source?: ContentSource; url?
   'anthropoetics-redemption-of-hostages': {
     title: 'The Redemption of Hostages (Adam Katz)',
     url: 'https://anthropoetics.ucla.edu/ap1801/1801katz/',
-    date: 'Fall 2012',
+    date: 'Sep 2012',
   },
   'anthropoetics-originary-mistakenness': {
     title: 'Originary Mistakenness, Defilement and Modernity (Adam Katz)',
     url: 'https://anthropoetics.ucla.edu/ap1601/1601katz/',
-    date: 'Fall 2010',
+    date: 'Sep 2010',
   },
   'anthropoetics-marginalist-politics': {
     title: 'Marginalist Politics, Political Grammar (Adam Katz)',
     url: 'https://anthropoetics.ucla.edu/ap1401/1401katz/',
-    date: 'Summer 2008',
+    date: 'Jun 2008',
   },
   'anthropoetics-from-habit-to-maxim': {
     title: 'From Habit to Maxim: Gertrude Stein and Originary Language (Adam Katz)',
     url: 'https://anthropoetics.ucla.edu/ap1502/1502katz/',
-    date: 'Spring 2010',
+    date: 'Mar 2010',
   },
 };
 

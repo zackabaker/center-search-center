@@ -540,9 +540,9 @@ export function searchEntries(
       else if (daysOld < 365) score *= 1.08;
     }
 
-    // Source weight: GABlog/Substack are primary; tweets and Reddit supplementary
+    // Source weight: book is canonical > substack > gablog; tweets and Reddit supplementary
     const SOURCE_WEIGHT: Record<string, number> = {
-      gablog: 1.0, substack: 1.0, pdf: 0.9, book: 0.9, reddit: 0.25, twitter: 0.35,
+      book: 1.1, substack: 1.0, gablog: 0.9, pdf: 0.85, reddit: 0.25, twitter: 0.35,
     };
     const weight = SOURCE_WEIGHT[entry.source] ?? 1.0;
 

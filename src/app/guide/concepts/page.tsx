@@ -32,7 +32,7 @@ const TIERS = [
 
 export default function ConceptsIndexPage() {
   return (
-    <main className="max-w-4xl mx-auto px-4 py-10">
+    <main className="max-w-4xl w-full mx-auto px-4 py-10">
       <div className="mb-10">
         <div className="flex items-center justify-between">
           <Link href="/guide" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">

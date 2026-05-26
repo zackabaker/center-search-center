@@ -34,7 +34,7 @@ export default async function LecturesPage() {
     });
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-8 sm:py-14">
+    <main className="max-w-3xl w-full mx-auto px-4 py-8 sm:py-14">
 
       {/* Header */}
       <div className="mt-4 mb-10">
