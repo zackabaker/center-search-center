@@ -155,8 +155,41 @@ export default async function PostPage({
 
   const SIDEBAR_LABEL = 'text-xs font-mono uppercase tracking-widest text-gray-400 mb-3';
 
+  const authorName = post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter'
+    ? 'Dennis Bouvard'
+    : 'Adam Katz';
+  const authorUrl = post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter'
+    ? 'https://center.study/author/bouvard'
+    : 'https://center.study/author/katz';
+
+  const isoDate = post.date ? (() => { try { return new Date(post.date).toISOString(); } catch { return undefined; } })() : undefined;
+
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.content.replace(/\n+/g, ' ').trim().slice(0, 160).replace(/\s+\S*$/, '') + '…',
+    url: `https://center.study/post/${slug}`,
+    ...(isoDate ? { datePublished: isoDate } : {}),
+    author: {
+      '@type': 'Person',
+      name: authorName,
+      url: authorUrl,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Center Study Center',
+      url: 'https://center.study',
+    },
+    isPartOf: { '@id': 'https://center.study/#website' },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd).replace(/</g, '\\u003c') }}
+      />
       <ReadingProgress />
       <TrackView slug={slug} title={post.title} source={post.source} date={post.date} />
       <main className="max-w-3xl lg:max-w-6xl w-full mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden lg:overflow-x-visible">
@@ -218,7 +251,7 @@ export default async function PostPage({
                     <a
                       href={post.url}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="noopener noreferrer nofollow"
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm border border-gray-200 bg-white text-gray-500 hover:border-gray-300 hover:text-gray-700 transition-colors"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

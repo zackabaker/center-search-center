@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import MobileNav from "@/components/MobileNav";
 import SiteNav from "@/components/SiteNav";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
     siteName: "Center Study Center",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Center Study Center",
     description:
       "Complete archive of Adam Katz / Dennis Bouvard's Center Study writings. 700+ texts, full-text search, AI Q&A.",
@@ -82,6 +83,7 @@ export default function RootLayout({
         <SiteNav />
         {children}
         <MobileNav />
+        <Analytics />
       </body>
     </html>
   );
