@@ -38,12 +38,12 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
 };
 
 const SOURCE_COLORS: Record<ContentSource, string> = {
-  substack: 'bg-orange-100 text-orange-800',
-  gablog: 'bg-blue-100 text-blue-800',
-  book: 'bg-purple-100 text-purple-800',
-  pdf: 'bg-green-100 text-green-800',
-  reddit: 'bg-red-100 text-red-800',
-  twitter: 'bg-slate-100 text-slate-700',
+  substack: 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
+  gablog:   'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
+  book:     'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
+  pdf:      'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
+  reddit:   'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
+  twitter:  'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
 };
 
 export async function generateMetadata({
@@ -224,7 +224,16 @@ export default async function PostPage({
                   <span className="text-xs sm:text-sm text-gray-400 hidden sm:inline">{wordCount.toLocaleString()} words</span>
                 </div>
 
-                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4">{post.title}</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">{post.title}</h1>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                  By{' '}
+                  <Link
+                    href={post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter' ? '/author/bouvard' : '/author/katz'}
+                    className="hover:text-gray-800 dark:hover:text-gray-200 underline underline-offset-2 transition-colors"
+                  >
+                    {authorName}
+                  </Link>
+                </p>
 
                 {/* Action buttons */}
                 <div className="flex flex-wrap items-center gap-2 print:hidden">

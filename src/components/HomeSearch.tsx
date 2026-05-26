@@ -125,7 +125,7 @@ export default function HomeSearch() {
                 ? 'Ask anything about these texts…'
                 : 'Search for a concept or phrase…'
             }
-            className="flex-1 px-5 py-4 text-lg outline-none bg-transparent text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+            className="flex-1 px-4 sm:px-5 py-3 sm:py-4 text-base sm:text-lg outline-none bg-transparent text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 min-w-0"
             autoComplete="off"
           />
 
@@ -145,7 +145,7 @@ export default function HomeSearch() {
           <button
             type="submit"
             disabled={isNavigating}
-            className="mr-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors flex-shrink-0 disabled:opacity-60"
+            className="mr-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-sm font-semibold bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors flex-shrink-0 disabled:opacity-60 whitespace-nowrap"
           >
             {mode === 'ask' ? 'Ask' : 'Search'}
           </button>
