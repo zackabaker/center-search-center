@@ -9,6 +9,12 @@ import { useReadingList } from '@/hooks/useReadingList';
 
 const PAGE_SIZE = 50;
 
+const TOPIC_CHIPS = [
+  'the center', 'resentment', 'deferral', 'sovereignty', 'succession',
+  'the sacred', 'scapegoating', 'language', 'AI', 'media',
+  'money', 'power', 'technology', 'governance', 'originary',
+];
+
 const SOURCE_LABELS: Record<string, string> = {
   gablog: 'GABlog', substack: 'Substack', book: 'Book',
   pdf: 'Essay', reddit: 'Reddit', twitter: 'X',
@@ -298,6 +304,29 @@ export default function BrowseSourceClient({ posts, source, totalCount }: Props)
         >
           Select
         </button>
+      </div>
+
+      {/* ── Topic chips ── */}
+      <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 mb-3">
+        <div className="flex gap-1.5 min-w-max pb-0.5">
+          {TOPIC_CHIPS.map((topic) => {
+            const isActive = query.toLowerCase() === topic.toLowerCase();
+            return (
+              <button
+                key={topic}
+                type="button"
+                onClick={() => handleQuery(isActive ? '' : topic)}
+                className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all border ${
+                  isActive
+                    ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 border-transparent'
+                    : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-gray-200 bg-white dark:bg-gray-900'
+                }`}
+              >
+                {topic}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* ── Date range filter ── */}

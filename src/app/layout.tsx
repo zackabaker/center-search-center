@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 import MobileNav from "@/components/MobileNav";
 import SiteNav from "@/components/SiteNav";
 import { Analytics } from "@vercel/analytics/next";
@@ -82,6 +83,21 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-white dark:bg-[#111111] text-gray-900 dark:text-[#e8e8e8] pb-16 sm:pb-0">
         <SiteNav />
         {children}
+        <footer className="hidden sm:block border-t border-gray-100 dark:border-gray-800 mt-auto print:hidden">
+          <div className="max-w-5xl mx-auto px-4 h-10 flex items-center justify-between">
+            <a
+              href="https://center.study"
+              className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors font-mono tracking-tight"
+            >
+              center.study
+            </a>
+            <div className="flex items-center gap-4">
+              <Link href="/intro" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Start reading</Link>
+              <Link href="/browse" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Archive</Link>
+              <Link href="/ask" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Ask AI</Link>
+            </div>
+          </div>
+        </footer>
         <MobileNav />
         <Analytics />
       </body>
