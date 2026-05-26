@@ -74,7 +74,7 @@ export default function RandomPostButton() {
               <p className="text-xs text-gray-400 dark:text-gray-500 mb-0.5">
                 {SOURCE_LABELS[post.source] ?? post.source}
                 {post.date ? (() => { const m = post.date.match(/\b(19|20)\d{2}\b/); return m ? ` · ${m[0]}` : ''; })() : ''}
-                {` · ${post.readingTime} min`}
+                {post.readingTime && !Number.isNaN(post.readingTime) ? ` · ${post.readingTime} min` : ''}
               </p>
               <p className="text-sm font-medium text-gray-900 dark:text-white leading-snug line-clamp-2">
                 {post.title}

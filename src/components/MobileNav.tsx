@@ -72,7 +72,7 @@ export default function MobileNav() {
               }`}
             >
               {icon}
-              <span className="text-[10px] leading-tight">{label}</span>
+              <span className="text-xs leading-tight">{label}</span>
             </Link>
           );
         })}
