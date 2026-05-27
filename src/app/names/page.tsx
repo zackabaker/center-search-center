@@ -6,7 +6,7 @@ import type { NameEntry } from '../api/names/submit/route';
 
 export const metadata: Metadata = {
   title: 'Book of Names',
-  description: 'A record of those who have encountered the originary hypothesis and found it worth carrying forward.',
+  description: 'An incomplete record of those who have encountered the originary hypothesis and found it worth carrying forward.',
 };
 
 export const revalidate = 60;
@@ -49,7 +49,7 @@ export default async function NamesPage() {
           Book of Names
         </h1>
         <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">
-          A record of those who have encountered the originary hypothesis and found it worth carrying forward.
+          An incomplete record of those who have encountered the originary hypothesis and found it worth carrying forward.
         </p>
       </header>
 
