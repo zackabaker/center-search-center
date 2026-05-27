@@ -139,8 +139,11 @@ export default function BrowseSourceClient({ posts, source, totalCount }: Props)
     const q = query.trim().toLowerCase();
 
     if (q) {
+      const lq = q.toLowerCase();
       result = result.filter((p) =>
-        p.title.toLowerCase().includes(q) || p.excerpt.toLowerCase().includes(q)
+        p.title.toLowerCase().includes(lq) ||
+        p.excerpt.toLowerCase().includes(lq) ||
+        p.content.toLowerCase().includes(lq)
       );
     }
     if (yearFrom !== '') {
