@@ -5,6 +5,8 @@ const anthropic = new Anthropic();
 
 // Build a compact index of the archive for the recommendation system.
 // This runs at request time (server) so it's always fresh.
+// Each entry includes a short excerpt so Claude can distinguish posts by content,
+// not just title — this prevents it from defaulting to the same recognisable slugs.
 function buildArchiveIndex(): string {
   const posts = getAllPosts();
 
@@ -14,10 +16,14 @@ function buildArchiveIndex(): string {
   const pdf      = posts.filter((p) => p.source === 'pdf');
   const book     = posts.filter((p) => p.source === 'book');
 
+  // Short excerpt: first 120 chars of content, stripped of markdown
+  const excerpt = (content: string) =>
+    content.replace(/#+\s/g, '').replace(/\n+/g, ' ').trim().slice(0, 120).replace(/\s+\S*$/, '…');
+
   const fmt = (arr: typeof posts, label: string) =>
     arr.length === 0 ? '' :
     `## ${label} (${arr.length} texts)\n` +
-    arr.map((p) => `- [${p.slug}] ${p.title}`).join('\n');
+    arr.map((p) => `- [${p.slug}] ${p.title} — ${excerpt(p.content)}`).join('\n');
 
   return [
     fmt(substack, 'Bouvard Substack — applied work on AI, governance, money, technology, language'),
@@ -56,11 +62,13 @@ When generating the reading path, use EXACTLY this format:
 
 RULES:
 - Only recommend texts from the ARCHIVE INDEX provided. Use their EXACT slugs.
+- Use the excerpt in the index to match posts to the reader's specific interest — do not default to the same well-known titles every time.
 - Mix sources (Substack, GABlog, PDF/Book) — do not recommend only GABlog.
 - For any interest touching AI, technology, governance, money, markets: include Substack posts prominently.
 - The path should build — each text should prepare the reader for the next.
 - Keep framing in Center Study terms. Do not translate Center Study vocabulary away.
 - Be concrete about what the reader will get from each text.
+- Every path must be genuinely tailored to the reader's stated interest. Two different interests must produce two meaningfully different paths.
 
 The reader's field or interest is the entry point. Center Study has no limits — it can enter any domain and translate it into originary grammar. Your job is to find that thread.`;
 
