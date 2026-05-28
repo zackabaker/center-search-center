@@ -157,8 +157,8 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
 
   return (
     <div
-      className="space-y-6 text-gray-800 dark:text-gray-200"
-      style={{ fontSize: 'var(--prose-font-size)', lineHeight: 'var(--prose-line-height)' }}
+      className="space-y-7 text-gray-800 dark:text-gray-200"
+      style={{ fontSize: 'var(--prose-font-size, 18px)', lineHeight: 'var(--prose-line-height, 1.85)' }}
     >
       {linkedParagraphs.map(({ isBlockquote, isHeading, isDivider, isBouvardLabel, questionCard, text, nodes }, i) => {
         const id = `p-${i + 1}`;
@@ -214,10 +214,10 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
           const level = text.match(/^(#{1,3})\s/)?.[1]?.length ?? 2;
           const headingClass =
             level === 1
-              ? 'text-xl font-bold leading-snug mt-2'
+              ? 'text-2xl font-bold leading-snug mt-10'
               : level === 2
-              ? 'text-lg font-semibold leading-snug mt-2'
-              : 'text-base font-semibold leading-snug mt-1';
+              ? 'text-xl font-semibold leading-snug mt-10'
+              : 'text-lg font-semibold leading-snug mt-8';
           const headingText = text.replace(/^#{1,3}\s/, '');
           return (
             <div key={id} id={id} className="group relative scroll-mt-20">
@@ -245,7 +245,7 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
             className="group relative scroll-mt-20"
           >
             {pilcrow}
-            <p className="text-base leading-[1.8]">{nodes}</p>
+            <p>{nodes}</p>
           </div>
         );
       })}

@@ -13,7 +13,7 @@ const MODE_LABELS: Record<ReadingMode, string> = {
 const MODE_SEQUENCE: ReadingMode[] = ['normal', 'sepia', 'night'];
 
 export default function ReadingControls() {
-  const [fontSize, setFontSize] = useState(16);
+  const [fontSize, setFontSize] = useState(18);
   const [readingMode, setReadingMode] = useState<ReadingMode>('normal');
 
   useEffect(() => {
