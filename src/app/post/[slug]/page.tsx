@@ -192,7 +192,7 @@ export default async function PostPage({
       />
       <ReadingProgress />
       <TrackView slug={slug} title={post.title} source={post.source} date={post.date} />
-      <main className="max-w-3xl lg:max-w-6xl w-full mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden lg:overflow-x-visible">
+      <main className="max-w-3xl lg:max-w-5xl w-full mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden lg:overflow-x-visible">
         {/* Top nav — full width */}
         <div className="flex items-center justify-between mb-6 sm:mb-8 print:hidden">
           <Suspense fallback={
@@ -214,7 +214,7 @@ export default async function PostPage({
           {/* ── Main content column ── */}
           <div className="min-w-0">
             <article>
-              <header className="mb-6 sm:mb-8">
+              <header className="mb-8 sm:mb-10">
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3">
                   <span className={`text-xs px-2 py-0.5 rounded-full ${SOURCE_COLORS[post.source]}`}>
                     {SOURCE_LABELS[post.source]}
@@ -224,7 +224,7 @@ export default async function PostPage({
                   <span className="text-xs sm:text-sm text-gray-400 hidden sm:inline">{wordCount.toLocaleString()} words</span>
                 </div>
 
-                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">{post.title}</h1>
+                <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight mb-3">{post.title}</h1>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                   By{' '}
                   <Link
@@ -236,39 +236,41 @@ export default async function PostPage({
                 </p>
 
                 {/* Action buttons */}
-                <div className="flex flex-wrap items-center gap-2 print:hidden">
+                <div className="flex items-center gap-2 print:hidden">
                   <a
                     href={`/post/${slug}/text`}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
-                    title="Open clean reading view — share this URL to ElevenReader, Voice Dream, or any TTS app. On iPhone: tap Share → ElevenReader. For Safari Reader, tap the ᴬA icon in the address bar, then the speaker."
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+                    title="Open clean reading view — share this URL to ElevenReader, Voice Dream, or any TTS app."
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072M12 6a7 7 0 010 12m-3.536-9.536a5 5 0 000 7.072" />
                     </svg>
                     Listen
                   </a>
                   <ShareButton title={post.title} url={`https://center.study/post/${slug}`} />
                   <BookmarkButton post={{ slug, title: post.title, source: post.source, date: post.date, savedAt: '' }} />
-                  <CitationButton
-                    title={post.title}
-                    date={post.date}
-                    source={post.source}
-                    url={externalUrl}
-                    slug={slug}
-                  />
-                  {post.url && (
-                    <a
-                      href={post.url}
-                      target="_blank"
-                      rel="noopener noreferrer nofollow"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm border border-gray-200 bg-white text-gray-500 hover:border-gray-300 hover:text-gray-700 transition-colors"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                      View original
-                    </a>
-                  )}
+                  <span className="hidden sm:contents">
+                    <CitationButton
+                      title={post.title}
+                      date={post.date}
+                      source={post.source}
+                      url={externalUrl}
+                      slug={slug}
+                    />
+                    {post.url && (
+                      <a
+                        href={post.url}
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs border border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-500 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors"
+                        title="View original source"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </a>
+                    )}
+                  </span>
                 </div>
               </header>
 
