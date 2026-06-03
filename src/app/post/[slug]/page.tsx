@@ -249,7 +249,7 @@ export default async function PostPage({
                   </a>
                   <ShareButton title={post.title} url={`https://center.study/post/${slug}`} />
                   <BookmarkButton post={{ slug, title: post.title, source: post.source, date: post.date, savedAt: '' }} />
-                  <span className="hidden sm:contents">
+                  <div className="hidden sm:flex sm:items-center sm:gap-2">
                     <CitationButton
                       title={post.title}
                       date={post.date}
@@ -270,7 +270,7 @@ export default async function PostPage({
                         </svg>
                       </a>
                     )}
-                  </span>
+                  </div>
                 </div>
               </header>
 

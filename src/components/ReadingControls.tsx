@@ -104,7 +104,18 @@ export default function ReadingControls() {
         >
           A-
         </button>
-        <span className="text-xs w-5 text-center tabular-nums">{fontSize}</span>
+        <button
+          onClick={() => setFontSize(18)}
+          className={`text-xs w-5 text-center tabular-nums transition-colors rounded ${
+            fontSize !== 18
+              ? 'text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 cursor-pointer'
+              : 'cursor-default'
+          }`}
+          title={fontSize !== 18 ? 'Reset to default (18)' : undefined}
+          disabled={fontSize === 18}
+        >
+          {fontSize}
+        </button>
         <button
           onClick={() => setFontSize((s) => Math.min(24, s + 1))}
           className="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300 text-sm font-bold transition-colors"
