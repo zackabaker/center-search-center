@@ -54,7 +54,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
           <button
             onClick={() => setPage((p) => Math.max(0, p - 1))}
             disabled={page === 0}
-            className="px-2 sm:px-3 py-1.5 text-xs sm:text-sm rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="px-2 sm:px-3 py-1.5 text-xs sm:text-sm rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             Prev
           </button>
@@ -73,8 +73,8 @@ export default function PostList({ posts }: { posts: Post[] }) {
                     onClick={() => setPage(i)}
                     className={`w-8 h-8 text-sm rounded-lg ${
                       i === page
-                        ? 'bg-gray-900 text-white'
-                        : 'hover:bg-gray-100 text-gray-600'
+                        ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
+                        : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400'
                     }`}
                   >
                     {i + 1}
@@ -94,7 +94,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
           <button
             onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
             disabled={page === totalPages - 1}
-            className="px-2 sm:px-3 py-1.5 text-xs sm:text-sm rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="px-2 sm:px-3 py-1.5 text-xs sm:text-sm rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             Next
           </button>

@@ -4,9 +4,14 @@ import { getAllPosts } from '@/lib/parser';
 const anthropic = new Anthropic();
 
 // Build a compact index of the archive for the recommendation system.
-// This runs at request time (server) so it's always fresh.
-// Each entry includes a short excerpt so Claude can distinguish posts by content,
-// not just title — this prevents it from defaulting to the same recognisable slugs.
+// Cached at module level — posts are static (loaded from JSON), so this is safe
+// and avoids re-parsing 700+ posts on every request.
+let _cachedArchiveIndex: string | null = null;
+function getArchiveIndex(): string {
+  if (!_cachedArchiveIndex) _cachedArchiveIndex = buildArchiveIndex();
+  return _cachedArchiveIndex;
+}
+
 function buildArchiveIndex(): string {
   const posts = getAllPosts();
 
@@ -84,8 +89,8 @@ export async function POST(request: Request) {
       return Response.json({ error: 'ANTHROPIC_API_KEY not configured' }, { status: 500 });
     }
 
-    // Build archive index once per request
-    const archiveIndex = buildArchiveIndex();
+    // Get cached archive index (built once per server process)
+    const archiveIndex = getArchiveIndex();
 
     // Inject archive index into the first user message as context
     const messagesWithContext = messages.map((msg: { role: string; content: string }, i: number) => {

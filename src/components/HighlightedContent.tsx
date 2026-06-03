@@ -317,11 +317,11 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
         </div>
       )}
       {query && matchCount === 0 && (
-        <div className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 mb-6 text-sm text-gray-500 print:hidden">
+        <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 mb-6 text-sm text-gray-500 dark:text-gray-400 print:hidden">
           No matches for &ldquo;{query}&rdquo; in this post
         </div>
       )}
-      <div ref={contentRef} className="prose text-gray-800">
+      <div ref={contentRef} className="prose text-gray-800 dark:text-gray-200">
         {linkedParagraphs.map(({ isBlockquote, text, nodes, isFirst }, i) => {
           const id = `p-${i + 1}`;
           const controls = (
