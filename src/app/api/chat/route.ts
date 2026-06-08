@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { getAllPosts } from '@/lib/parser';
+import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import { Post } from '@/lib/types';
 import { getConceptBySlug } from '@/data/guide/concepts';
 
@@ -190,7 +190,7 @@ const TERM_SYNONYMS: Record<string, string[]> = {
 // Module-level cache: parse once per process lifetime (survives across API requests in dev/prod)
 let _postsCache: ReturnType<typeof getAllPosts> | null = null;
 function getCachedPosts() {
-  if (!_postsCache) _postsCache = getAllPosts();
+  if (!_postsCache) _postsCache = getPublicPosts();
   return _postsCache;
 }
 

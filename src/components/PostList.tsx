@@ -29,6 +29,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
     // kept for TypeScript completeness; tabs not shown
     reddit: 0,
     twitter: 0,
+    chronicle: 0,
   };
 
   const handleFilterChange = (f: FilterOption) => {

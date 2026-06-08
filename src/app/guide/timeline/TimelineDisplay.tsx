@@ -23,6 +23,7 @@ const SOURCE_ABBREV: Record<ContentSource, string> = {
   pdf: 'Essay',
   reddit: 'Reddit',
   twitter: 'X',
+  chronicle: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
 };
 
 const SOURCE_COLOR: Record<ContentSource, string> = {
@@ -32,6 +33,7 @@ const SOURCE_COLOR: Record<ContentSource, string> = {
   pdf: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
   reddit: 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
   twitter: 'bg-slate-100 text-slate-800 dark:bg-slate-800/40 dark:text-slate-300',
+  chronicle: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
 };
 
 function formatShortDate(dateStr: string): string {

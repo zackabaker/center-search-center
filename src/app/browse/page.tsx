@@ -1,4 +1,4 @@
-import { getAllPosts } from '@/lib/parser';
+import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
@@ -68,7 +68,7 @@ const SOURCES = [
 ] as const;
 
 export default async function BrowsePage() {
-  const posts = getAllPosts();
+  const posts = getPublicPosts();
 
   const countsBySource = posts.reduce<Record<string, number>>((acc, p) => {
     acc[p.source] = (acc[p.source] ?? 0) + 1;

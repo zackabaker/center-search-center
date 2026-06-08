@@ -11,6 +11,7 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   pdf: 'Essays & Articles',
   reddit: 'Reddit',
   twitter: 'X / Twitter',
+  chronicle: 'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
 };
 
 export async function GET(req: NextRequest) {

@@ -1,4 +1,4 @@
-import { getAllPosts } from '@/lib/parser';
+import { getAllPosts, getPublicPosts } from '@/lib/parser';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600;
@@ -15,7 +15,7 @@ function xmlEscape(str: string): string {
 }
 
 export async function GET() {
-  const posts = getAllPosts()
+  const posts = getPublicPosts()
     .filter((p) => p.date)
     .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime())
     .slice(0, 60);

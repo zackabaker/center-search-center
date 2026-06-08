@@ -1,4 +1,4 @@
-import { getAllPosts } from '@/lib/parser';
+import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -112,7 +112,7 @@ export default async function BrowseSourcePage({
   const src = source as ValidSource;
   const meta = SOURCE_META[src];
 
-  const allPosts = getAllPosts();
+  const allPosts = getPublicPosts();
 
   // Virtual sources
   const sourcePosts =

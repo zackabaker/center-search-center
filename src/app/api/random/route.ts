@@ -1,4 +1,4 @@
-import { getAllPosts } from '@/lib/parser';
+import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
@@ -9,7 +9,7 @@ export async function GET(req: Request) {
   const url = new URL(req.url);
   const n = Math.min(10, Math.max(1, parseInt(url.searchParams.get('n') ?? '3', 10)));
 
-  const posts = getAllPosts().filter((p) => !EXCLUDED.has(p.source));
+  const posts = getPublicPosts().filter((p) => !EXCLUDED.has(p.source));
   const pool = [...posts];
   const picks = [];
 

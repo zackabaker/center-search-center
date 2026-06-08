@@ -1,4 +1,4 @@
-import { getAllPosts } from '@/lib/parser';
+import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import { buildSearchEntries, getSignificantTerms } from '@/lib/search-index';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 const SOURCE_LABELS: Record<ContentSource, string> = {
   substack: 'Substack', gablog: 'GABlog', book: 'Book', pdf: 'Essays & Articles', reddit: 'Reddit',
   twitter: 'X / Twitter',
+  chronicle: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
 };
 const SOURCE_COLORS: Record<ContentSource, string> = {
   substack: 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300',
@@ -20,10 +21,11 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
   pdf:      'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300',
   reddit:   'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300',
   twitter:  'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
+  chronicle: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
 };
 
 export default function StatsPage() {
-  const posts = getAllPosts();
+  const posts = getPublicPosts();
   const entries = buildSearchEntries(posts);
 
   const totalWords = posts.reduce((sum, p) => sum + p.content.split(/\s+/).length, 0);

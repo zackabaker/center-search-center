@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { getAllPosts } from '@/lib/parser';
+import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import { buildSearchEntries } from '@/lib/search-index';
 import SearchPageClient from './SearchPageClient';
 import type { Metadata } from 'next';
@@ -15,7 +15,7 @@ export default function SearchPage() {
   // Build the search index on the server (runs once per ISR cycle, not on every client load).
   // Passes pre-tokenised SearchEntry[] to the client — no useMemo blocking the browser thread,
   // and no full post content in the serialised payload.
-  const posts = getAllPosts().sort((a, b) => {
+  const posts = getPublicPosts().sort((a, b) => {
     if (a.date && b.date) return new Date(b.date).getTime() - new Date(a.date).getTime();
     if (a.date && !b.date) return -1;
     if (!a.date && b.date) return 1;

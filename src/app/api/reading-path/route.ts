@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { getAllPosts } from '@/lib/parser';
+import { getPublicPosts } from '@/lib/parser';
 
 const anthropic = new Anthropic();
 
@@ -13,7 +13,7 @@ function getArchiveIndex(): string {
 }
 
 function buildArchiveIndex(): string {
-  const posts = getAllPosts();
+  const posts = getPublicPosts();
 
   // Group by source for clarity
   const substack = posts.filter((p) => p.source === 'substack');

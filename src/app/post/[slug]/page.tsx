@@ -1,4 +1,4 @@
-import { getAllPosts, getPostBySlug } from '@/lib/parser';
+import { getPublicPosts, getPostBySlug } from '@/lib/parser';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Suspense } from 'react';
@@ -24,26 +24,28 @@ import PostSearchContext, { BackButton } from '@/components/PostSearchContext';
 // Module-level cache — computed once per server-process lifetime (survives warm serverless invocations)
 let _cachedAllEntries: ReturnType<typeof buildSearchEntries> | null = null;
 function getCachedAllEntries() {
-  if (!_cachedAllEntries) _cachedAllEntries = buildSearchEntries(getAllPosts());
+  if (!_cachedAllEntries) _cachedAllEntries = buildSearchEntries(getPublicPosts());
   return _cachedAllEntries;
 }
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
-  substack: 'Bouvard Substack',
-  gablog: 'GABlog',
-  book: 'Anthropomorphics',
-  pdf: 'Essays & Articles',
-  reddit: 'Reddit',
-  twitter: 'X / Twitter',
+  substack:  'Bouvard Substack',
+  gablog:    'GABlog',
+  book:      'Anthropomorphics',
+  pdf:       'Essays & Articles',
+  reddit:    'Reddit',
+  twitter:   'X / Twitter',
+  chronicle: 'Chronicles of Love and Resentment',
 };
 
 const SOURCE_COLORS: Record<ContentSource, string> = {
-  substack: 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
-  gablog:   'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
-  book:     'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
-  pdf:      'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
-  reddit:   'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
-  twitter:  'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
+  substack:  'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
+  gablog:    'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
+  book:      'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
+  pdf:       'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
+  reddit:    'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
+  twitter:   'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
+  chronicle: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
 };
 
 export async function generateMetadata({
@@ -68,8 +70,10 @@ export async function generateMetadata({
     try { return new Date(post.date).toISOString(); } catch { return undefined; }
   })() : undefined;
 
-  // Author: Dennis Bouvard for Substack, Adam Katz for everything else
-  const authorName = post.source === 'substack' ? 'Dennis Bouvard' : 'Adam Katz';
+  // Author: Eric Gans for Chronicles, Dennis Bouvard for Substack, Adam Katz for everything else
+  const authorName = post.source === 'chronicle' ? 'Eric Gans'
+    : post.source === 'substack' ? 'Dennis Bouvard'
+    : 'Adam Katz';
 
   return {
     title: `${post.title} | Center Study Center`,
@@ -109,7 +113,7 @@ export default async function PostPage({
   const post = getPostBySlug(slug);
   if (!post) notFound();
 
-  const allPosts = getAllPosts();
+  const allPosts = getPublicPosts();
   const wordCount = post.content.split(/\s+/).length;
   const readingTime = Math.max(1, Math.round(wordCount / 230));
 
@@ -155,10 +159,14 @@ export default async function PostPage({
 
   const SIDEBAR_LABEL = 'text-xs font-mono uppercase tracking-widest text-gray-400 mb-3';
 
-  const authorName = post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter'
+  const authorName = post.source === 'chronicle'
+    ? 'Eric Gans'
+    : post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter'
     ? 'Dennis Bouvard'
     : 'Adam Katz';
-  const authorUrl = post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter'
+  const authorUrl = post.source === 'chronicle'
+    ? 'https://anthropoetics.ucla.edu'
+    : post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter'
     ? 'https://center.study/author/bouvard'
     : 'https://center.study/author/katz';
 

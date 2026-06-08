@@ -1,4 +1,4 @@
-import { getAllPosts } from '@/lib/parser';
+import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import type { Metadata } from 'next';
 import TimelineDisplay from './TimelineDisplay';
 import GoBack from '@/components/GoBack';
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default function TimelinePage() {
-  const allPosts = getAllPosts();
+  const allPosts = getPublicPosts();
 
   const dated = allPosts
     .filter((p) => p.date)
