@@ -1,4 +1,4 @@
-import { getAllPosts } from '@/lib/parser';
+import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import { buildSearchEntries, getSignificantTerms, GA_DOMAIN_VOCAB } from '@/lib/search-index';
 import { CONCEPTS, TERM_TO_CONCEPT_SLUG } from '@/data/guide/concepts';
 import Link from 'next/link';
@@ -53,7 +53,7 @@ export default async function ConceptsPage({
   } | null = null;
 
   if (view === 'az') {
-    const posts = getAllPosts();
+    const posts = getPublicPosts();
     const entries = buildSearchEntries(posts);
     const terms = getSignificantTerms(entries, 2, 800);
 

@@ -1,4 +1,4 @@
-import { getAllPosts } from '@/lib/parser';
+import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -48,6 +48,7 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   pdf: 'Essays & Articles',
   reddit: 'Reddit',
   twitter: 'X / Twitter',
+  chronicle: 'Chronicles of Love and Resentment',
 };
 
 const SOURCE_COLORS: Record<ContentSource, string> = {
@@ -57,6 +58,7 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
   pdf: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
   reddit: 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
   twitter: 'bg-slate-100 text-slate-800 dark:bg-slate-800/40 dark:text-slate-300',
+  chronicle: 'Chronicles of Love and Resentment',
 };
 
 export async function generateStaticParams() {
@@ -88,7 +90,7 @@ export default async function AuthorPage({
   if (!(name in AUTHORS)) notFound();
 
   const author = AUTHORS[name as AuthorHandle];
-  const allPosts = getAllPosts();
+  const allPosts = getPublicPosts();
 
   const posts = allPosts
     .filter((p) => (author.sources as readonly string[]).includes(p.source))

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { Post, ContentSource } from './types';
+import { Post, ContentSource, HIDDEN_SOURCES } from './types';
 
 function decodeHtmlEntities(text: string): string {
   return text
@@ -1046,6 +1046,36 @@ function parseLectures(): Post[] {
   return posts;
 }
 
+// ── Eric Gans: Chronicles of Love and Resentment ─────────────────────────────
+// Stored in src/data/chronicles.json — populated by scripts/scrape-chronicles.mjs
+// These posts use source:'chronicle' and are excluded from all public search/browse
+// listings. They appear only on the /downloads page.
+function parseChronicles(): Post[] {
+  const chroniclePath = path.join(process.cwd(), 'src', 'data', 'chronicles.json');
+  if (!fs.existsSync(chroniclePath)) return [];
+  try {
+    const raw: Array<{
+      num: number;
+      title: string;
+      date: string | null;
+      content: string;
+      url: string;
+    }> = JSON.parse(fs.readFileSync(chroniclePath, 'utf-8'));
+
+    return raw.map((entry) => ({
+      slug: `chronicle-clr-${entry.num}`,
+      title: entry.title || `Chronicle of Love and Resentment #${entry.num}`,
+      content: entry.content,
+      excerpt: excerpt(entry.content),
+      date: entry.date,
+      source: 'chronicle' as ContentSource,
+      url: entry.url,
+    }));
+  } catch {
+    return [];
+  }
+}
+
 export function parseAllContent(): Post[] {
   const filePath = path.join(process.cwd(), 'src', 'data', 'ga_context.txt');
   const raw = fs.readFileSync(filePath, 'utf-8');
@@ -1062,6 +1092,7 @@ export function parseAllContent(): Post[] {
   allPosts.push(...parsePDFs());
   allPosts.push(...parseTweets());
   allPosts.push(...parseLectures());
+  allPosts.push(...parseChronicles());
 
   // Decode HTML entities in all text fields
   for (const post of allPosts) {
@@ -1111,4 +1142,13 @@ export function getAllPosts(): Post[] {
 export function getPostBySlug(slug: string): Post | undefined {
   const posts = getAllPosts();
   return posts.find((p) => p.slug === slug);
+}
+
+/**
+ * Returns all posts EXCEPT those from hidden sources (chronicle, etc.).
+ * Use this for search, browse, related posts, and any public-facing feature.
+ * Use getAllPosts() only when you intentionally need hidden content (e.g. /downloads).
+ */
+export function getPublicPosts(): Post[] {
+  return getAllPosts().filter((p) => !HIDDEN_SOURCES.includes(p.source));
 }

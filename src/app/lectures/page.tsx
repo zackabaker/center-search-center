@@ -1,4 +1,4 @@
-import { getAllPosts } from '@/lib/parser';
+import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
@@ -23,7 +23,7 @@ const LECTURE_DESCRIPTIONS: Record<string, string> = {
 };
 
 export default async function LecturesPage() {
-  const posts = getAllPosts();
+  const posts = getPublicPosts();
   const lectures = posts
     .filter((p) => p.slug.startsWith('lecture-'))
     .sort((a, b) => {

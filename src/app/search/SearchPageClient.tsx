@@ -21,6 +21,7 @@ type FilterOption = 'all' | ContentSource;
 const SOURCE_LABELS: Record<ContentSource, string> = {
   substack: 'Substack', gablog: 'GABlog', book: 'Book', pdf: 'Essays & Articles', reddit: 'Reddit',
   twitter: 'X / Twitter',
+  chronicle: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
 };
 const SOURCE_COLORS: Record<ContentSource, string> = {
   substack: 'bg-orange-100 text-orange-800',
@@ -29,6 +30,7 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
   pdf: 'bg-green-100 text-green-800',
   reddit: 'bg-red-100 text-red-800',
   twitter: 'bg-slate-100 text-slate-700',
+  chronicle: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
 };
 
 const RECENT_KEY = 'csc-recent-searches';
@@ -243,6 +245,7 @@ export default function SearchPageClient({
     // reddit/twitter excluded from search — kept for TypeScript completeness
     reddit: 0,
     twitter: 0,
+    chronicle: 0,
   }), [results]);
 
   const handleFilterChange = (f: FilterOption) => { setFilter(f); setPage(0); };

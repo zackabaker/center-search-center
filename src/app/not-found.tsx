@@ -1,4 +1,4 @@
-import { getAllPosts } from '@/lib/parser';
+import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import Link from 'next/link';
 
 const SOURCE_COLORS: Record<string, string> = {
@@ -15,7 +15,7 @@ const SOURCE_LABELS: Record<string, string> = {
 };
 
 export default function NotFound() {
-  const posts = getAllPosts();
+  const posts = getPublicPosts();
 
   // Pick 4 posts spread across the archive so we get variety
   const suggestions = posts.length >= 4

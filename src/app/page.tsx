@@ -1,7 +1,7 @@
 import HomeSearch from '@/components/HomeSearch';
 import RandomPostButton from '@/components/RandomPostButton';
 import Link from 'next/link';
-import { getAllPosts } from '@/lib/parser';
+import { getAllPosts, getPublicPosts } from '@/lib/parser';
 
 // Revalidate daily — "on this day" section needs to refresh
 export const revalidate = 86400;
@@ -107,7 +107,7 @@ const BROWSE_SOURCES = [
 export default function Home() {
   // "On this day" — posts published on today's month/day in any past year
   const today = new Date();
-  const allPosts = getAllPosts();
+  const allPosts = getPublicPosts();
 
   const onThisDay = allPosts.filter((p) => {
     if (!p.date) return false;
