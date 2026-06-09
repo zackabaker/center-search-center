@@ -126,10 +126,15 @@ export async function generateMetadata({
 
 export default async function BrowseSourcePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ source: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { source } = await params;
+  const sp = await searchParams;
+  const initialYearFrom = sp.from ? parseInt(String(sp.from), 10) : undefined;
+  const initialYearTo   = sp.to   ? parseInt(String(sp.to),   10) : undefined;
 
   if (!VALID_SOURCES.includes(source as ValidSource)) notFound();
 
@@ -236,7 +241,13 @@ export default async function BrowseSourcePage({
       </div>
 
       {/* Searchable post list (client component) */}
-      <BrowseSourceClient posts={sorted} source={src} totalCount={totalCount} />
+      <BrowseSourceClient
+        posts={sorted}
+        source={src}
+        totalCount={totalCount}
+        initialYearFrom={initialYearFrom}
+        initialYearTo={initialYearTo}
+      />
 
     </main>
   );
