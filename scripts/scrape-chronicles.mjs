@@ -8,18 +8,18 @@
  *   node scripts/scrape-chronicles.mjs
  *
  * Options (env vars):
- *   DELAY_MS=1500       Milliseconds between requests (default 1500)
- *   START_NUM=1         First Chronicle number to attempt (default 1)
- *   END_NUM=700         Last Chronicle number to attempt (default 700)
+ *   DELAY_MS=1200       Milliseconds between requests (default 1200)
  *   RESUME=1            Skip entries already in chronicles.json (default 1)
+ *   CATEGORY_TS=20251116071649  Timestamp of the category page snapshot
  *
- * The script tries the Wayback Machine CDX API first to discover which numbers
- * have archived snapshots, then fetches each one. On rate-limit (429) it waits
- * and retries. Results are written incrementally so you can Ctrl-C and resume.
- *
- * The Wayback Machine can be slow/unreliable from automated scripts. If you're
- * getting lots of 429s, increase DELAY_MS to 3000 or higher, or run from a
- * different network / time of day.
+ * Strategy:
+ *   1. Fetch the Wayback Machine snapshot of the category/views page — this
+ *      single page lists all ~855 chronicle slugs (vwNNN format).
+ *   2. For each slug, fetch https://web.archive.org/web/<TS>/https://anthropoetics.ucla.edu/views/<slug>/
+ *      following any 302 redirects to the actual snapshot timestamp.
+ *   3. Parse title (h1.entry-title), date and number (<h4>No. NNN: Date</h4>),
+ *      and content (<section class="entry-content">).
+ *   4. Save incrementally every 10 posts — Ctrl-C safe, resume with RESUME=1.
  */
 
 import fs from 'fs';
@@ -31,23 +31,14 @@ import http from 'http';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUT_PATH = path.join(__dirname, '..', 'src', 'data', 'chronicles.json');
 
-const DELAY_MS = parseInt(process.env.DELAY_MS || '1500', 10);
-const START_NUM = parseInt(process.env.START_NUM || '1', 10);
-const END_NUM = parseInt(process.env.END_NUM || '700', 10);
+const DELAY_MS = parseInt(process.env.DELAY_MS || '1200', 10);
 const RESUME = process.env.RESUME !== '0';
-
-// Known Wayback Machine snapshot timestamps for specific posts (from CDX)
-// Used as fallback if CDX discovery fails
-const KNOWN_SNAPSHOTS = {
-  642: '20191228190034',
-  649: '20200930160340',
-  667: '20200804141524',
-  677: '20201122185635',
-};
+const CATEGORY_TS = process.env.CATEGORY_TS || '20251116071649';
+const CATEGORY_URL = `https://web.archive.org/web/${CATEGORY_TS}/https://anthropoetics.ucla.edu/category/views/`;
 
 // ── HTTP helpers ──────────────────────────────────────────────────────────────
 
-function fetch(url, { timeout = 20000 } = {}) {
+function fetchRaw(url, { timeout = 25000 } = {}) {
   return new Promise((resolve, reject) => {
     const mod = url.startsWith('https') ? https : http;
     const req = mod.get(url, {
@@ -59,11 +50,26 @@ function fetch(url, { timeout = 20000 } = {}) {
     }, (res) => {
       const chunks = [];
       res.on('data', c => chunks.push(c));
-      res.on('end', () => resolve({ status: res.statusCode, body: Buffer.concat(chunks).toString('utf-8') }));
+      res.on('end', () => resolve({
+        status: res.statusCode,
+        headers: res.headers,
+        body: Buffer.concat(chunks).toString('utf-8'),
+      }));
     });
     req.on('error', reject);
     req.setTimeout(timeout, () => { req.destroy(); reject(new Error('timeout')); });
   });
+}
+
+async function fetch(url, opts = {}, depth = 0) {
+  if (depth > 6) throw new Error('Too many redirects');
+  const res = await fetchRaw(url, opts);
+  if (res.status >= 300 && res.status < 400 && res.headers.location) {
+    const loc = res.headers.location;
+    const next = loc.startsWith('http') ? loc : new URL(loc, url).href;
+    return fetch(next, opts, depth + 1);
+  }
+  return res;
 }
 
 function sleep(ms) {
@@ -72,107 +78,95 @@ function sleep(ms) {
 
 // ── HTML parsing ──────────────────────────────────────────────────────────────
 
-function stripTags(html) {
+function decodeEntities(html) {
   return html
-    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
-    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
-    .replace(/<[^>]+>/g, ' ')
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .replace(/&#039;/g, "'")
+    .replace(/&#8211;/g, '–')
+    .replace(/&#8212;/g, '—')
+    .replace(/&#8216;/g, '‘')
+    .replace(/&#8217;/g, '’')
+    .replace(/&#8220;/g, '“')
+    .replace(/&#8221;/g, '”')
+    .replace(/&#8230;/g, '…')
     .replace(/&rsquo;/g, '’')
     .replace(/&lsquo;/g, '‘')
     .replace(/&rdquo;/g, '“')
-    .replace(/&ldquo;/g, '“')
+    .replace(/&ldquo;/g, '”')
     .replace(/&mdash;/g, '—')
     .replace(/&ndash;/g, '–')
     .replace(/&nbsp;/g, ' ')
     .replace(/&hellip;/g, '…')
-    .replace(/\s{3,}/g, '\n\n')
-    .trim();
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(parseInt(n, 10)));
 }
 
-function parsePost(html, num, url) {
+function stripTags(html) {
+  return decodeEntities(
+    html
+      .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+      .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+      .replace(/<[^>]+>/g, ' ')
+  ).replace(/\s{3,}/g, '  ').trim();
+}
+
+function parseChronicle(html, vwSlug) {
   // Remove Wayback Machine toolbar
   html = html.replace(/<!-- BEGIN WAYBACK TOOLBAR[\s\S]*?END WAYBACK TOOLBAR -->/gi, '');
-  html = html.replace(/<div id="wm-ipp[\s\S]*?<\/div>/gi, '');
+  html = html.replace(/<div\s+id="wm-ipp[^>]*>[\s\S]*?<\/div>/gi, '');
+
+  // ── Number + Date from <h4>No. NNN: Day, Month Nth, Year</h4> ──
+  let num = null;
+  let date = null;
+  const h4Match = html.match(/<h4[^>]*>\s*No\.\s*(\d+):\s*([\s\S]*?)\s*<\/h4>/i);
+  if (h4Match) {
+    num = parseInt(h4Match[1], 10);
+    // Date text like "Saturday, November 8th, 2025"
+    date = decodeEntities(h4Match[2].replace(/<[^>]+>/g, '').trim());
+    // Normalise ordinal suffixes: "8th" -> keep as-is (fine for display)
+  }
+  if (!num) {
+    // Fallback: extract number from slug
+    const m = vwSlug.match(/vw(\d+)/);
+    if (m) num = parseInt(m[1], 10);
+  }
 
   // ── Title ──
   let title = null;
-
-  // Try WordPress entry-title class first
-  const entryTitleMatch = html.match(/<[^>]+class="[^"]*entry-title[^"]*"[^>]*>([\s\S]*?)<\/[a-z]+>/i);
-  if (entryTitleMatch) title = stripTags(entryTitleMatch[1]).trim();
-
-  // Try <h1> inside article/main
-  if (!title) {
-    const h1Match = html.match(/<article[^>]*>[\s\S]*?<h1[^>]*>([\s\S]*?)<\/h1>/i);
-    if (h1Match) title = stripTags(h1Match[1]).trim();
-  }
-
-  // Try any <h1>
+  const entryTitleMatch = html.match(/<h1[^>]+class="[^"]*entry-title[^"]*"[^>]*>([\s\S]*?)<\/h1>/i);
+  if (entryTitleMatch) title = decodeEntities(entryTitleMatch[1].replace(/<[^>]+>/g, '').trim());
   if (!title) {
     const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
-    if (h1) title = stripTags(h1[1]).trim();
+    if (h1) title = decodeEntities(h1[1].replace(/<[^>]+>/g, '').trim());
   }
-
-  // Try <title> tag (strip " | Anthropoetics" suffix)
   if (!title) {
     const titleTag = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
-    if (titleTag) title = stripTags(titleTag[1]).split('|')[0].trim();
+    if (titleTag) title = decodeEntities(titleTag[1].split('|')[0].split('–')[0].trim());
   }
+  if (!title) title = `Chronicle of Love and Resentment #${num ?? vwSlug}`;
 
-  if (!title) title = `Chronicle of Love and Resentment #${num}`;
-
-  // ── Date ──
-  let date = null;
-  // WordPress datetime: <time class="entry-date" datetime="2019-05-12">May 12, 2019</time>
-  const timeMatch = html.match(/<time[^>]+datetime="(\d{4}-\d{2}-\d{2})"[^>]*>([\s\S]*?)<\/time>/i);
-  if (timeMatch) {
-    date = timeMatch[2].trim().replace(/<[^>]+>/g, '').trim() || timeMatch[1];
-  }
-
-  // Fallback: look for date in meta
-  if (!date) {
-    const metaDate = html.match(/<meta[^>]+(?:article:published_time|dcterms\.date)[^>]+content="(\d{4}-\d{2}-\d{2})/i);
-    if (metaDate) {
-      const d = new Date(metaDate[1]);
-      date = d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    }
-  }
-
-  // ── Content ──
+  // ── Content from <section class="entry-content"> ──
   let content = '';
-
-  // Try .entry-content
-  const entryContentMatch = html.match(/<div[^>]+class="[^"]*entry-content[^"]*"[^>]*>([\s\S]*?)<\/div>\s*(?:<\/article|<div[^>]+class="[^"]*(?:entry-meta|post-footer))/i);
-  if (entryContentMatch) {
-    content = stripTags(entryContentMatch[1]);
+  const sectionMatch = html.match(/<section[^>]+class="[^"]*entry-content[^"]*"[^>]*>([\s\S]*?)<\/section>/i);
+  if (sectionMatch) {
+    content = stripTags(sectionMatch[1]);
   }
 
-  // Try article element content
+  // Fallback: div.entry-content
+  if (!content || content.length < 100) {
+    const divMatch = html.match(/<div[^>]+class="[^"]*entry-content[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
+    if (divMatch) content = stripTags(divMatch[1]);
+  }
+
+  // Fallback: article element
   if (!content || content.length < 100) {
     const articleMatch = html.match(/<article[^>]*>([\s\S]*?)<\/article>/i);
-    if (articleMatch) {
-      content = stripTags(articleMatch[1]);
-    }
+    if (articleMatch) content = stripTags(articleMatch[1]);
   }
 
-  // Try .post-content
-  if (!content || content.length < 100) {
-    const postContentMatch = html.match(/<div[^>]+class="[^"]*(?:post-content|page-content|the-content)[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
-    if (postContentMatch) content = stripTags(postContentMatch[1]);
-  }
-
-  // Fallback: strip everything between <body> and </body>
-  if (!content || content.length < 100) {
-    const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-    if (bodyMatch) content = stripTags(bodyMatch[1]);
-  }
-
-  // Clean up the content
+  // Clean up content
   content = content
     .replace(/\n{3,}/g, '\n\n')
     .split('\n')
@@ -185,59 +179,41 @@ function parsePost(html, num, url) {
   content = content
     .replace(/^(Home|About|Archive|Search|Menu|Navigation|Skip to content)\s*/gim, '')
     .replace(/\s*(Next|Previous|Newer|Older)\s*(Post|Chronicle|Entry)\s*$/gim, '')
+    .replace(/Subscribe to Chronicles RSS\s*/gi, '')
+    .replace(/Share\s*\|\s*/gi, '')
     .trim();
 
-  return { num, title, date, content, url };
+  const url = `https://anthropoetics.ucla.edu/views/${vwSlug}/`;
+  return { num, vwSlug, title, date, content, url };
 }
 
-// ── CDX Discovery ─────────────────────────────────────────────────────────────
+// ── Fetch all slugs from the category listing ─────────────────────────────────
 
-async function discoverUrlsFromCDX() {
-  console.log('Trying CDX API to discover snapshot URLs...');
-  const snapshots = {};
+async function getAllSlugs() {
+  console.log(`Fetching category page: ${CATEGORY_URL}`);
+  const { status, body } = await fetch(CATEGORY_URL);
+  if (status !== 200) throw new Error(`Category page returned HTTP ${status}`);
 
-  try {
-    // Fetch in smaller batches to avoid timeouts
-    for (let from = START_NUM; from <= END_NUM; from += 100) {
-      const to = Math.min(from + 99, END_NUM);
-      const cdxUrl = `https://web.archive.org/cdx/search/cdx?url=anthropoetics.ucla.edu/views/*&output=json&fl=original,timestamp&filter=statuscode:200&collapse=urlkey&matchType=prefix&limit=500&from=20000101&to=20260101`;
-
-      try {
-        const { status, body } = await fetch(cdxUrl, { timeout: 15000 });
-        if (status === 200 && body.length > 10) {
-          const data = JSON.parse(body);
-          for (const row of data.slice(1)) {
-            const [origUrl, ts] = row;
-            const m = origUrl.match(/\/views\/(\d+)\/?$/);
-            if (m) {
-              const num = parseInt(m[1], 10);
-              if (num >= START_NUM && num <= END_NUM) {
-                if (!snapshots[num] || ts > snapshots[num].ts) {
-                  snapshots[num] = { ts, url: origUrl };
-                }
-              }
-            }
-          }
-          console.log(`CDX batch ${from}-${to}: found ${Object.keys(snapshots).length} snapshots so far`);
-          break; // One query gets all of them if it works
-        }
-      } catch (e) {
-        console.log(`CDX batch ${from}-${to} failed: ${e.message}`);
-      }
-      await sleep(2000);
-    }
-  } catch (e) {
-    console.log(`CDX discovery failed: ${e.message}`);
+  const slugSet = new Set();
+  for (const m of body.matchAll(/\/views\/(vw\d+)\/?/gi)) {
+    slugSet.add(m[1]);
   }
 
-  return snapshots;
+  const slugs = [...slugSet].sort((a, b) => {
+    const na = parseInt(a.replace('vw', ''), 10);
+    const nb = parseInt(b.replace('vw', ''), 10);
+    return na - nb;
+  });
+
+  console.log(`Found ${slugs.length} chronicle slugs (${slugs[0]} – ${slugs[slugs.length - 1]})`);
+  return slugs;
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 async function main() {
   console.log('=== Chronicles of Love and Resentment Scraper ===');
-  console.log(`Range: ${START_NUM}–${END_NUM}, delay: ${DELAY_MS}ms, resume: ${RESUME}`);
+  console.log(`Delay: ${DELAY_MS}ms  |  Resume: ${RESUME}`);
 
   // Load existing data if resuming
   let existing = [];
@@ -247,25 +223,13 @@ async function main() {
       console.log(`Resuming — ${existing.length} entries already saved`);
     } catch { existing = []; }
   }
-  const done = new Set(existing.map(e => e.num));
+  const done = new Set(existing.map(e => e.vwSlug || `vw${e.num}`));
 
-  // Try CDX discovery
-  const cdxSnapshots = await discoverUrlsFromCDX();
-  const cdxCount = Object.keys(cdxSnapshots).length;
-  console.log(`CDX: found ${cdxCount} archived snapshots`);
+  // Get full slug list from category page
+  const allSlugs = await getAllSlugs();
+  const toScrape = allSlugs.filter(s => !done.has(s));
 
-  // Build list of numbers to scrape
-  const toScrape = [];
-  for (let num = START_NUM; num <= END_NUM; num++) {
-    if (done.has(num)) continue;
-    if (cdxCount > 0 && !cdxSnapshots[num]) {
-      // CDX found snapshots but not this number — skip it (it likely doesn't exist)
-      continue;
-    }
-    toScrape.push(num);
-  }
-
-  console.log(`\nTo scrape: ${toScrape.length} posts`);
+  console.log(`\nTo scrape: ${toScrape.length} posts (${done.size} already done)`);
   if (toScrape.length === 0) {
     console.log('Nothing to do — all done!');
     return;
@@ -275,17 +239,11 @@ async function main() {
   let ok = 0, skip = 0, fail = 0;
 
   for (let i = 0; i < toScrape.length; i++) {
-    const num = toScrape[i];
+    const vwSlug = toScrape[i];
     const pct = ((i + 1) / toScrape.length * 100).toFixed(1);
-    process.stdout.write(`[${i+1}/${toScrape.length} ${pct}%] CLR #${num} ... `);
+    process.stdout.write(`[${i+1}/${toScrape.length} ${pct}%] ${vwSlug} ... `);
 
-    // Build Wayback URL
-    const ts = cdxSnapshots[num]?.ts || KNOWN_SNAPSHOTS[num] || '20190101000000';
-    const origUrl = cdxSnapshots[num]?.url || `https://anthropoetics.ucla.edu/views/${num}/`;
-    // Normalise the original URL (remove :80)
-    const cleanOrigUrl = origUrl.replace(/:80\//, '/').replace(/^http:/, 'https:');
-    const waybackUrl = `https://web.archive.org/web/${ts}/${cleanOrigUrl}`;
-
+    const waybackUrl = `https://web.archive.org/web/${CATEGORY_TS}/https://anthropoetics.ucla.edu/views/${vwSlug}/`;
     let retries = 3;
     let success = false;
 
@@ -294,24 +252,24 @@ async function main() {
         const { status, body } = await fetch(waybackUrl);
 
         if (status === 200 && body.length > 1000) {
-          const entry = parsePost(body, num, cleanOrigUrl);
+          const entry = parseChronicle(body, vwSlug);
           if (entry.content.length > 50) {
             results.push(entry);
             ok++;
-            process.stdout.write(`✓ ${entry.title.slice(0, 50)}\n`);
+            process.stdout.write(`✓ #${entry.num} ${entry.title.slice(0, 55)}\n`);
             success = true;
           } else {
-            process.stdout.write(`⚠ too short (${entry.content.length} chars)\n`);
+            process.stdout.write(`⚠ content too short (${entry.content.length} chars)\n`);
             skip++;
             success = true;
           }
         } else if (status === 429) {
-          const wait = DELAY_MS * 5;
+          const wait = DELAY_MS * 6;
           process.stdout.write(`429 rate limited — waiting ${wait}ms... `);
           await sleep(wait);
           retries--;
         } else if (status === 404) {
-          process.stdout.write(`404 not found\n`);
+          process.stdout.write(`404\n`);
           skip++;
           success = true;
         } else {
@@ -333,29 +291,30 @@ async function main() {
 
     // Save incrementally every 10 posts
     if ((i + 1) % 10 === 0) {
-      results.sort((a, b) => a.num - b.num);
-      fs.writeFileSync(OUT_PATH, JSON.stringify(results, null, 2));
+      const sorted = [...results].sort((a, b) => (a.num ?? 0) - (b.num ?? 0));
+      fs.writeFileSync(OUT_PATH, JSON.stringify(sorted, null, 2));
+      process.stdout.write(`  [saved ${results.length} entries]\n`);
     }
 
     await sleep(DELAY_MS);
   }
 
   // Final save
-  results.sort((a, b) => a.num - b.num);
-  fs.writeFileSync(OUT_PATH, JSON.stringify(results, null, 2));
+  const sorted = [...results].sort((a, b) => (a.num ?? 0) - (b.num ?? 0));
+  fs.writeFileSync(OUT_PATH, JSON.stringify(sorted, null, 2));
 
   console.log(`\n=== Done ===`);
   console.log(`✓ ${ok} posts scraped`);
   console.log(`- ${skip} skipped (not found / too short)`);
-  console.log(`✗ ${fail} failed`);
+  console.log(`✗ ${fail} failed after retries`);
   console.log(`Total in file: ${results.length}`);
-  console.log(`\nFile written to: ${OUT_PATH}`);
+  console.log(`\nFile: ${OUT_PATH}`);
   console.log('\nNext steps:');
-  console.log('  1. Run: node scripts/generate-posts-cache.ts  (if it exists)');
-  console.log('  2. Redeploy to Vercel — chronicles will appear on /download');
+  console.log('  1. git add src/data/chronicles.json && git commit -m "feat: import chronicles"');
+  console.log('  2. git push — chronicles will appear on /download after redeploy');
 }
 
 main().catch(e => {
-  console.error('Fatal error:', e);
+  console.error('\nFatal error:', e);
   process.exit(1);
 });
