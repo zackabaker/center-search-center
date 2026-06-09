@@ -160,131 +160,103 @@ export default function Home() {
     <div className="min-h-screen bg-white dark:bg-gray-950">
 
       {/* Hero */}
-      <header className="max-w-3xl mx-auto px-4 pt-14 pb-10 text-center">
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white mb-3">
+      <header className="max-w-2xl mx-auto px-4 pt-16 pb-10 text-center">
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 dark:text-white mb-5 leading-tight">
           Center Study Center
         </h1>
 
-        <blockquote className="italic text-sm text-gray-400 dark:text-gray-500 mb-8 px-4 max-w-xl mx-auto">
-          &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it&rdquo;
+        <blockquote
+          className="mb-8 px-2 max-w-lg mx-auto"
+          style={{ fontFamily: 'var(--font-lora, Georgia, serif)' }}
+        >
+          <p className="text-base sm:text-lg italic text-gray-500 dark:text-gray-400 leading-relaxed">
+            &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it&rdquo;
+          </p>
         </blockquote>
 
         <HomeSearch />
-      </header>
 
-      {/* Corpus scope strip */}
-      <div className="max-w-xl mx-auto px-4 pb-3">
-        <div className="flex items-center justify-center gap-2 flex-wrap text-xs text-gray-400 dark:text-gray-500">
+        {/* Corpus stats */}
+        <div className="flex items-center justify-center gap-3 mt-5 text-sm text-gray-400 dark:text-gray-500">
           <span>1,900+ texts</span>
           <span className="text-gray-200 dark:text-gray-700">·</span>
           <span>5M+ words</span>
         </div>
-      </div>
+      </header>
 
       {/* Start here — only shown on first visit (client-side localStorage check) */}
       <FirstVisitCard />
 
-      {/* Discover — random posts for quick listening */}
-      <div className="max-w-xl mx-auto px-4 pb-8">
+      {/* Discover — random posts */}
+      <div className="max-w-xl mx-auto px-4 pb-10">
         <RandomPostButton />
       </div>
 
-      {/* Navigation cards — hidden on mobile (bottom nav handles it) */}
+      {/* Navigation cards — desktop only */}
       <div className="hidden sm:block max-w-3xl mx-auto px-4 pb-14">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <Link
-            href="/intro"
-            className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
-          >
-            {/* Book-open icon */}
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
-            <div className="text-center">
-              <p className="text-sm font-medium text-gray-900 dark:text-white">Start</p>
-              <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">Introduction to Center Study</p>
-            </div>
-          </Link>
-          <Link
-            href="/ask"
-            className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
-          >
-            {/* Chat-bubble icon */}
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-            <div className="text-center">
-              <p className="text-sm font-medium text-gray-900 dark:text-white">Ask AI</p>
-              <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">Get a narrative answer</p>
-            </div>
-          </Link>
-          <Link
-            href="/concepts"
-            className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
-          >
-            {/* Tag/label icon */}
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-            </svg>
-            <div className="text-center">
-              <p className="text-sm font-medium text-gray-900 dark:text-white">Concepts</p>
-              <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">Key vocabulary index</p>
-            </div>
-          </Link>
-          <Link
-            href="/browse"
-            className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
-          >
-            {/* Archive/grid icon */}
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-            </svg>
-            <div className="text-center">
-              <p className="text-sm font-medium text-gray-900 dark:text-white">Archive</p>
-              <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">Browse all 830 texts</p>
-            </div>
-          </Link>
+        <div className="grid grid-cols-4 gap-3">
+          {[
+            { href: '/intro', label: 'Introduction', sub: 'Start here', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /> },
+            { href: '/ask', label: 'Ask AI', sub: 'Narrative Q&A', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /> },
+            { href: '/guide/reading-paths', label: 'Reading Path', sub: 'AI-curated', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" /> },
+            { href: '/browse', label: 'Archive', sub: '1,900+ texts', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /> },
+          ].map(({ href, label, sub, icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className="group flex flex-col items-center gap-2.5 py-5 px-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400 dark:text-gray-500 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                {icon}
+              </svg>
+              <div className="text-center">
+                <p className="text-sm font-semibold text-gray-900 dark:text-white leading-tight">{label}</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{sub}</p>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
 
       {/* Featured posts — grouped by reader interest */}
       <div className="border-t border-gray-100 dark:border-gray-800">
-        <div className="max-w-5xl mx-auto px-4 py-10">
-          <div className="flex items-baseline justify-between mb-8">
+        <div className="max-w-5xl mx-auto px-4 py-12">
+          <div className="flex items-baseline justify-between mb-10">
             <div>
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Start reading</h2>
-              <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">Curated entry points — new reader, theorist, or contemporary applications</p>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Start reading</h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Curated entry points — wherever your interest already is</p>
             </div>
-            <Link href="/browse" className="text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors flex-shrink-0 ml-4">
-              Browse archive →
+            <Link href="/browse" className="text-sm text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors flex-shrink-0 ml-4">
+              Full archive →
             </Link>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-10">
             {FEATURED_GROUPS.map((group) => (
               <div key={group.label}>
-                <div className="flex items-baseline gap-3 mb-3">
-                  <h3 className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest">
+                <div className="flex items-center gap-3 mb-4">
+                  <h3 className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                     {group.label}
                   </h3>
-                  <span className="text-xs text-gray-300 dark:text-gray-700">{group.description}</span>
+                  <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
+                  <span className="text-xs text-gray-400 dark:text-gray-600">{group.description}</span>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {group.posts.map((post) => (
                     <Link
                       key={post.slug}
                       href={`/post/${post.slug}`}
-                      className="group flex flex-col gap-2 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
+                      className="group flex flex-col gap-3 p-5 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
                     >
                       <div className="flex items-center gap-2">
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${SOURCE_COLORS[post.source]}`}>
+                        <span className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${SOURCE_COLORS[post.source]}`}>
                           {SOURCE_LABELS[post.source]}
                         </span>
                       </div>
-                      <p className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
+                      <p className="text-base font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
                         {post.title}
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
                         {post.description}
                       </p>
                     </Link>
@@ -296,15 +268,12 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Browse by source — hidden on mobile (Browse tab handles it) */}
+      {/* Browse by source — desktop only */}
       <div className="hidden sm:block border-t border-gray-100 dark:border-gray-800">
-        <div className="max-w-5xl mx-auto px-4 py-10">
+        <div className="max-w-5xl mx-auto px-4 py-12">
           <div className="flex items-baseline justify-between mb-6">
-            <div>
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Browse by source</h2>
-              <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">Explore the full archive organized by where it came from</p>
-            </div>
-            <Link href="/author/katz" className="text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Browse by source</h2>
+            <Link href="/author/katz" className="text-sm text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
               Adam Katz →
             </Link>
           </div>
@@ -313,10 +282,10 @@ export default function Home() {
               <Link
                 key={source}
                 href={href}
-                className={`group block p-4 rounded-xl border border-gray-200 dark:border-gray-700 ${color} hover:shadow-sm transition-all bg-white dark:bg-gray-900`}
+                className={`group block p-5 rounded-xl border border-gray-200 dark:border-gray-700 ${color} hover:shadow-sm transition-all bg-white dark:bg-gray-900`}
               >
-                <p className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1">{label}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{description}</p>
+                <p className="text-base font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1.5">{label}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{description}</p>
               </Link>
             ))}
           </div>
@@ -326,10 +295,10 @@ export default function Home() {
       {/* On this day */}
       {onThisDay.length > 0 && (
         <div className="border-t border-gray-100 dark:border-gray-800">
-          <div className="max-w-5xl mx-auto px-4 py-10">
+          <div className="max-w-5xl mx-auto px-4 py-12">
             <div className="mb-6">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">On this day</h2>
-              <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">On this day</h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 Published on {today.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} in past years
               </p>
             </div>

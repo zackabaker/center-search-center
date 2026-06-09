@@ -7,8 +7,18 @@
 :root {
   --background: #ffffff;
   --foreground: #111111;
-  --prose-font-size: 16px;
-  --prose-line-height: 1.75;
+  /* Prose: Lora (loaded via Next.js font) with Georgia fallback */
+  --prose-font-family: var(--font-lora, Georgia, 'Times New Roman', serif);
+  --prose-font-size: 17px;
+  --prose-line-height: 1.85;
+}
+
+/* On desktop bump prose to 18px — more comfortable for long reads */
+@media (min-width: 768px) {
+  :root {
+    --prose-font-size: 18px;
+    --prose-line-height: 1.875;
+  }
 }
 
 .dark {
@@ -57,13 +67,15 @@ body {
 /* ── Prose (post content renderer) ────────────────────────────── */
 .prose {
   max-width: 65ch;
+  font-family: var(--prose-font-family);
   font-size: var(--prose-font-size);
   line-height: var(--prose-line-height);
   color: #1a1a1a;
+  font-feature-settings: "kern" 1, "liga" 1, "onum" 0;
 }
 
 .prose p {
-  margin-bottom: 1.25em;
+  margin-bottom: 1.4em;
 }
 
 .prose a {
@@ -73,19 +85,24 @@ body {
 
 .prose blockquote {
   border-left: 3px solid #d1d5db;
-  padding-left: 1em;
+  padding-left: 1.1em;
   color: #4b5563;
   font-style: italic;
-  margin: 1.25em 0;
+  margin: 1.5em 0;
 }
 
 .prose em  { font-style: italic; }
-.prose strong { font-weight: 600; }
+.prose strong { font-weight: 700; }
+
+/* Headings inside prose use the UI font (Geist) for contrast with body text */
+.prose h1, .prose h2, .prose h3 {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
 
 /* Dark prose */
-.dark .prose { color: #d4d4d4; }
+.dark .prose { color: #d1d1d1; }
 .dark .prose a { color: #60a5fa; }
-.dark .prose blockquote { border-color: #525252; color: #a3a3a3; }
+.dark .prose blockquote { border-color: #525252; color: #9e9e9e; }
 
 /* ── Utility overrides ─────────────────────────────────────────── */
 .line-clamp-2 {

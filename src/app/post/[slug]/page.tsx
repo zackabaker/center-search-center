@@ -228,18 +228,23 @@ export default async function PostPage({
           {/* ── Main content column ── */}
           <div className="min-w-0">
             <article>
-              <header className="mb-8 sm:mb-10">
-                <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3">
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${SOURCE_COLORS[post.source]}`}>
+              <header className="mb-8 sm:mb-12">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4">
+                  <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${SOURCE_COLORS[post.source]}`}>
                     {SOURCE_LABELS[post.source]}
                   </span>
-                  {post.date && <span className="text-xs sm:text-sm text-gray-400">{post.date}</span>}
-                  <span className="text-xs sm:text-sm text-gray-400">{readingTime} min</span>
-                  <span className="text-xs sm:text-sm text-gray-400 hidden sm:inline">{wordCount.toLocaleString()} words</span>
+                  {post.date && <span className="text-sm text-gray-400">{post.date}</span>}
+                  <span className="text-sm text-gray-400">{readingTime} min read</span>
+                  <span className="text-sm text-gray-400 hidden sm:inline">{wordCount.toLocaleString()} words</span>
                 </div>
 
-                <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight mb-3">{post.title}</h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                <h1
+                  className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight mb-4"
+                  style={{ letterSpacing: '-0.02em' }}
+                >
+                  {post.title}
+                </h1>
+                <p className="text-base text-gray-500 dark:text-gray-400 mb-5">
                   By{' '}
                   <Link
                     href={authorUrl}
