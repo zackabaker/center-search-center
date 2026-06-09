@@ -84,17 +84,34 @@ export default function RootLayout({
         <SiteNav />
         {children}
         <footer className="hidden sm:block border-t border-gray-100 dark:border-gray-800 mt-auto print:hidden">
-          <div className="max-w-5xl mx-auto px-4 h-10 flex items-center justify-between">
+          <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
             <a
               href="https://center.study"
-              className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors"
+              className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors font-medium flex-shrink-0"
             >
-              Center Study
+              Center Study Center
             </a>
-            <div className="flex items-center gap-4">
-              <Link href="/intro" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Start reading</Link>
-              <Link href="/browse" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Archive</Link>
-              <Link href="/ask" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Ask AI</Link>
+            <div className="flex items-center gap-4 flex-wrap">
+              <Link href="/intro"   className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Start</Link>
+              <Link href="/browse"  className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Archive</Link>
+              <Link href="/ask"     className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Ask AI</Link>
+              <Link href="/download" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Download</Link>
+              <span className="text-gray-200 dark:text-gray-800">·</span>
+              <a
+                href="https://dennisbouvard.substack.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-gray-400 dark:text-gray-600 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
+              >
+                Substack ↗
+              </a>
+              <a
+                href="/feed.xml"
+                className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors"
+                title="RSS feed"
+              >
+                RSS
+              </a>
             </div>
           </div>
         </footer>

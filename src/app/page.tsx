@@ -171,6 +171,29 @@ export default function Home() {
         <HomeSearch />
       </header>
 
+      {/* Substack subscribe strip */}
+      <div className="max-w-xl mx-auto px-4 pb-5">
+        <a
+          href="https://dennisbouvard.substack.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-orange-200 dark:border-orange-900/40 bg-orange-50 dark:bg-orange-900/10 hover:border-orange-300 dark:hover:border-orange-700 transition-colors"
+        >
+          <div className="flex items-center gap-3 min-w-0">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-orange-500 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
+            </svg>
+            <div className="min-w-0">
+              <span className="text-sm font-medium text-orange-900 dark:text-orange-200">Dennis Bouvard on Substack</span>
+              <span className="text-xs text-orange-700 dark:text-orange-400 ml-2 hidden sm:inline">New essays on AI, governance &amp; originary thinking</span>
+            </div>
+          </div>
+          <span className="text-xs font-medium text-orange-600 dark:text-orange-400 group-hover:text-orange-800 dark:group-hover:text-orange-200 transition-colors flex-shrink-0">
+            Subscribe ↗
+          </span>
+        </a>
+      </div>
+
       {/* New here? — mobile only (desktop has the Start nav card below) */}
       <div className="sm:hidden max-w-xl mx-auto px-4 pb-6">
         <Link

@@ -79,6 +79,8 @@ export async function generateMetadata({
     title: `${post.title} | Center Study Center`,
     description: excerpt,
     authors: [{ name: authorName }],
+    // Chronicles are scraped archival content — keep them out of search indexes
+    ...(post.source === 'chronicle' ? { robots: { index: false, follow: false } } : {}),
     openGraph: {
       title: post.title,
       description: excerpt,
