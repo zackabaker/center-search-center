@@ -34,19 +34,25 @@
 }
 
 /* ── Base ──────────────────────────────────────────────────────── */
-html,
-body {
-  overflow-x: hidden;
-  /* Prevent body from expanding beyond the viewport on mobile */
-  max-width: 100%;
-}
+/* IMPORTANT: these element-level rules must live in @layer base.
+   Unlayered CSS beats ALL of Tailwind v4's layered utilities, so an
+   unlayered `main { max-width }` silently overrides every max-w-*
+   class and stretches every page to full viewport width. */
+@layer base {
+  html,
+  body {
+    overflow-x: hidden;
+    /* Prevent body from expanding beyond the viewport on mobile */
+    max-width: 100%;
+  }
 
-/* Ensure page-level containers never exceed the viewport width.
-   The body uses flex-col which can let mx-auto children size to
-   their max-content width (up to max-w-*) rather than the viewport. */
-main {
-  max-width: min(100%, 100vw);
-  box-sizing: border-box;
+  /* Ensure page-level containers never exceed the viewport width.
+     The body uses flex-col which can let mx-auto children size to
+     their max-content width (up to max-w-*) rather than the viewport. */
+  main {
+    max-width: min(100%, 100vw);
+    box-sizing: border-box;
+  }
 }
 
 html {
