@@ -9,8 +9,8 @@ export const metadata: Metadata = {
   description: 'Download the Center Study Center archive as JSON or plain text. Select individual sources or grab everything.',
 };
 
-// Revalidate hourly — corpus rarely changes
-export const revalidate = 3600;
+// Force dynamic — content changes on corpus updates and must not be cached stale
+export const dynamic = 'force-dynamic';
 
 const SOURCE_META: Record<
   ContentSource,
