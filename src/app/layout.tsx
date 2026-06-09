@@ -106,7 +106,7 @@ export default function RootLayout({
                 Substack ↗
               </a>
               <a
-                href="https://x.com/bouvard38829538"
+                href="https://x.com/centerstudy_"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors"
