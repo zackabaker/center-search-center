@@ -165,9 +165,9 @@ export default function Home() {
           Center Study Center
         </h1>
 
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 px-4 max-w-xl mx-auto">
-          The complete archive of Center Study — originary thinking applied to language, power, AI, and the present
-        </p>
+        <blockquote className="italic text-sm text-gray-400 dark:text-gray-500 mb-8 px-4 max-w-xl mx-auto">
+          &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it&rdquo;
+        </blockquote>
 
         <HomeSearch />
       </header>
@@ -178,10 +178,6 @@ export default function Home() {
           <span>1,900+ texts</span>
           <span className="text-gray-200 dark:text-gray-700">·</span>
           <span>5M+ words</span>
-          <span className="text-gray-200 dark:text-gray-700">·</span>
-          <span>1995 – present</span>
-          <span className="text-gray-200 dark:text-gray-700">·</span>
-          <span>free &amp; fully searchable</span>
         </div>
       </div>
 
@@ -308,14 +304,9 @@ export default function Home() {
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Browse by source</h2>
               <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">Explore the full archive organized by where it came from</p>
             </div>
-            <div className="flex items-center gap-4">
-              <Link href="/author/katz" className="text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
-                Katz →
-              </Link>
-              <Link href="/author/bouvard" className="text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
-                Bouvard →
-              </Link>
-            </div>
+            <Link href="/author/katz" className="text-xs text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+              Adam Katz →
+            </Link>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {BROWSE_SOURCES.map(({ source, label, description, color, href }) => (
