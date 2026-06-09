@@ -143,10 +143,14 @@ export default async function BrowseSourcePage({
 
   const allPosts = getAllPosts();
 
+  // When browsing "all" via a decade shortcut (?from=&to=), exclude archival
+  // sources (chronicle, ap) so decade views reflect the primary corpus only.
+  const decadeMode = src === 'all' && (initialYearFrom !== undefined || initialYearTo !== undefined);
+
   // Virtual sources
   const sourcePosts =
     src === 'threads' ? allPosts.filter((p) => p.source === 'reddit' || p.source === 'twitter') :
-    src === 'all'     ? allPosts :
+    src === 'all'     ? allPosts.filter((p) => decadeMode ? !ARCHIVAL_SOURCES.includes(p.source as typeof ARCHIVAL_SOURCES[number]) : true) :
     allPosts.filter((p) => p.source === (src as ContentSource));
 
   // Sort: dated posts newest-first, then undated alphabetically
