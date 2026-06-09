@@ -90,7 +90,9 @@ const SOURCE_META: Record<ValidSource, SourceMeta> = {
 };
 
 export function generateStaticParams() {
-  return VALID_SOURCES.map((source) => ({ source }));
+  // Exclude 'all' and 'threads' — they aggregate all posts and the RSC
+  // fallback payload exceeds Vercel's 19 MB ISR limit. They render on demand.
+  return REAL_SOURCES.map((source) => ({ source }));
 }
 
 export async function generateMetadata({
