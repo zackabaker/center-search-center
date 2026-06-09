@@ -82,8 +82,7 @@ export async function generateMetadata({
     title: `${post.title} | Center Study Center`,
     description: excerpt,
     authors: [{ name: authorName }],
-    // Archival sources (chronicles, AP journal) — keep out of search indexes
-    ...(post.source === 'chronicle' || post.source === 'ap' ? { robots: { index: false, follow: false } } : {}),
+    // All sources (including chronicles and AP journal) are publicly crawlable
     openGraph: {
       title: post.title,
       description: excerpt,

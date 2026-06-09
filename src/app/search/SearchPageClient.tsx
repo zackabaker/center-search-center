@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { ContentSource } from '@/lib/types';
+import { ContentSource, ARCHIVAL_SOURCES } from '@/lib/types';
 import {
   SearchEntry,
   SearchResult,
@@ -104,9 +104,8 @@ function applySearchSyntax(syntax: string, currentQuery: string): string {
 }
 
 const PAGE_SIZE = 30;
-// Reddit and Twitter are archive-only — excluded from all search results.
-// They remain accessible via /download and /browse/reddit, /browse/twitter.
-const EXCLUDED_SOURCES: ContentSource[] = ['reddit', 'twitter'];
+// Reddit and Twitter are always excluded from search results (social archive only).
+const ALWAYS_EXCLUDED: ContentSource[] = ['reddit', 'twitter'];
 
 // ── "Did you mean" helpers ────────────────────────────────────────────────────
 function levenshtein(a: string, b: string): number {
@@ -164,6 +163,7 @@ export default function SearchPageClient({
   const [results, setResults] = useState<SearchResult[]>([]);
   const [corpusCount, setCorpusCount] = useState<number | null>(null);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const [showArchival, setShowArchival] = useState(false);
 
   // Build inverted index once from entries — transforms per-search O(n·k) scans
   // to near-O(1) candidate lookup. Built client-side so it doesn't inflate the
@@ -181,15 +181,18 @@ export default function SearchPageClient({
       setIsSearching(false);
       return;
     }
+    const excluded = showArchival
+      ? ALWAYS_EXCLUDED
+      : [...ALWAYS_EXCLUDED, ...ARCHIVAL_SOURCES];
     const found = searchEntries(entries, committed, wordIndex)
-      .filter((r) => !EXCLUDED_SOURCES.includes(r.entry.source));
+      .filter((r) => !excluded.includes(r.entry.source));
     const cleanQ = committed.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
     const firstTerm = cleanQ.split(/\s+/)[0];
     setResults(found);
     setPage(0);
     setCorpusCount(firstTerm ? countPostsWithTerm(entries, firstTerm) : null);
     setIsSearching(false);
-  }, [committed, entries, wordIndex]);
+  }, [committed, entries, wordIndex, showArchival]);
 
   // Sync URL
   useEffect(() => {
@@ -373,6 +376,20 @@ export default function SearchPageClient({
             {visibleResults.length > 0 && (
               <FilterTabs active={filter} onChange={handleFilterChange} counts={counts} />
             )}
+            {/* Archival toggle — show beneath filter tabs */}
+            <div className="mt-2">
+              <button
+                onClick={() => setShowArchival((v) => !v)}
+                className={`inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border transition-colors ${
+                  showArchival
+                    ? 'bg-amber-50 border-amber-300 text-amber-700 dark:bg-amber-900/20 dark:border-amber-700 dark:text-amber-400'
+                    : 'bg-gray-50 border-gray-200 text-gray-400 hover:border-gray-300 hover:text-gray-600 dark:bg-gray-800/50 dark:border-gray-700 dark:text-gray-500 dark:hover:text-gray-400'
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${showArchival ? 'bg-amber-400' : 'bg-gray-300 dark:bg-gray-600'}`} />
+                Include archives (CLR · AP Journal)
+              </button>
+            </div>
           </div>
 
           {/* Ask AI CTA — appears whenever there's a committed query */}

@@ -1,4 +1,4 @@
-import { getAllPosts, getPublicPosts } from '@/lib/parser';
+import { getAllPosts } from '@/lib/parser';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -10,8 +10,10 @@ export const revalidate = 3600;
 const REAL_SOURCES = ['substack', 'gablog', 'book', 'pdf', 'reddit', 'twitter'] as const;
 type RealSource = typeof REAL_SOURCES[number];
 
-const VALID_SOURCES = [...REAL_SOURCES, 'threads', 'all'] as const;
-// Note: 'ap' is a hidden source (like 'chronicle') — not browseable publicly
+// Archival sources rendered on demand (excluded from generateStaticParams to avoid ISR size limits)
+const ARCHIVAL_SOURCES = ['chronicle', 'ap'] as const;
+
+const VALID_SOURCES = [...REAL_SOURCES, 'threads', 'all', ...ARCHIVAL_SOURCES] as const;
 type ValidSource = typeof VALID_SOURCES[number];
 
 interface SourceMeta {
@@ -24,12 +26,14 @@ interface SourceMeta {
 // ── Source tab strip data ─────────────────────────────────────────────────────
 
 const SOURCE_TABS = [
-  { slug: 'gablog',   label: 'GABlog',           dot: 'bg-blue-400'   },
-  { slug: 'substack', label: 'Substack',          dot: 'bg-orange-400' },
-  { slug: 'threads',  label: 'Threads & Q&A',     dot: 'bg-violet-400' },
-  { slug: 'pdf',      label: 'Essays',            dot: 'bg-green-400'  },
-  { slug: 'book',     label: 'Anthropomorphics',  dot: 'bg-purple-400' },
-  { slug: 'all',      label: 'All',               dot: 'bg-gray-400'   },
+  { slug: 'gablog',    label: 'GABlog',             dot: 'bg-blue-400'   },
+  { slug: 'substack',  label: 'Substack',            dot: 'bg-orange-400' },
+  { slug: 'threads',   label: 'Threads & Q&A',       dot: 'bg-violet-400' },
+  { slug: 'pdf',       label: 'Essays',              dot: 'bg-green-400'  },
+  { slug: 'book',      label: 'Anthropomorphics',    dot: 'bg-purple-400' },
+  { slug: 'all',       label: 'All',                 dot: 'bg-gray-400'   },
+  { slug: 'chronicle', label: 'Chronicles',          dot: 'bg-amber-400'  },
+  { slug: 'ap',        label: 'AP Journal',          dot: 'bg-teal-400'   },
 ] as const;
 
 const SOURCE_META: Record<ValidSource, SourceMeta> = {
@@ -77,15 +81,27 @@ const SOURCE_META: Record<ValidSource, SourceMeta> = {
   },
   all: {
     label: 'All Sources',
-    description: 'Every text in the archive — GABlog, Substack, Essays & Articles, Anthropomorphics, Reddit, and X — sorted chronologically. Use the year filter and sort controls to navigate.',
+    description: 'Every text in the archive — GABlog, Substack, Essays & Articles, Anthropomorphics, Reddit, X, Chronicles, and AP Journal — sorted chronologically. Use the year filter and sort controls to navigate.',
     color: 'bg-gray-100 text-gray-800 dark:bg-gray-800/60 dark:text-gray-300',
     dot: 'text-gray-500 dark:text-gray-400',
+  },
+  chronicle: {
+    label: 'Chronicles of Love and Resentment',
+    description: "Eric Gans's weekly column on culture, desire, and the originary hypothesis — published every week from 1996 to 2019. An essential running commentary on contemporary thought through the lens of Generative Anthropology.",
+    color: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
+    dot: 'text-amber-600 dark:text-amber-400',
+  },
+  ap: {
+    label: 'Anthropoetics Journal',
+    description: "The peer-reviewed journal of Generative Anthropology, founded by Eric Gans at UCLA. Published 1995–2024 (Vols 1–30), featuring essays by Van Oort, Bartlett, Dennis, Ludwigs, McKenna, Goldman, Eshelman, Gans, Girard, and others.",
+    color: 'bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300',
+    dot: 'text-teal-600 dark:text-teal-400',
   },
 };
 
 export function generateStaticParams() {
-  // Exclude 'all' and 'threads' — they aggregate all posts and the RSC
-  // fallback payload exceeds Vercel's 19 MB ISR limit. They render on demand.
+  // Exclude 'all', 'threads', and archival sources — aggregated/large pages
+  // would exceed Vercel's 19 MB ISR fallback limit. They render on demand.
   return REAL_SOURCES.map((source) => ({ source }));
 }
 
@@ -115,7 +131,7 @@ export default async function BrowseSourcePage({
   const src = source as ValidSource;
   const meta = SOURCE_META[src];
 
-  const allPosts = getPublicPosts();
+  const allPosts = getAllPosts();
 
   // Virtual sources
   const sourcePosts =
