@@ -104,15 +104,17 @@ interface Props {
   posts: Post[];
   source: string;
   totalCount: number;
+  initialYearFrom?: number;
+  initialYearTo?: number;
 }
 
 // ── Main component ────────────────────────────────────────────────────────────
 
-export default function BrowseSourceClient({ posts, source, totalCount }: Props) {
+export default function BrowseSourceClient({ posts, source, totalCount, initialYearFrom, initialYearTo }: Props) {
   const [query, setQuery]         = useState('');
   const [sortBy, setSortBy]       = useState<'newest' | 'oldest' | 'longest'>('newest');
-  const [yearFrom, setYearFrom]   = useState<number | ''>('');
-  const [yearTo, setYearTo]       = useState<number | ''>('');
+  const [yearFrom, setYearFrom]   = useState<number | ''>(initialYearFrom ?? '');
+  const [yearTo, setYearTo]       = useState<number | ''>(initialYearTo ?? '');
   const [page, setPage]           = useState(0);
   const [selectMode, setSelectMode] = useState(false);
   const [selected, setSelected]   = useState<Set<string>>(new Set());
