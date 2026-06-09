@@ -25,16 +25,21 @@ interface SourceMeta {
 
 // ── Source tab strip data ─────────────────────────────────────────────────────
 
-const SOURCE_TABS = [
-  { slug: 'gablog',    label: 'GABlog',             dot: 'bg-blue-400'   },
-  { slug: 'substack',  label: 'Substack',            dot: 'bg-orange-400' },
-  { slug: 'threads',   label: 'Threads & Q&A',       dot: 'bg-violet-400' },
-  { slug: 'pdf',       label: 'Essays',              dot: 'bg-green-400'  },
-  { slug: 'book',      label: 'Anthropomorphics',    dot: 'bg-purple-400' },
-  { slug: 'all',       label: 'All',                 dot: 'bg-gray-400'   },
-  { slug: 'chronicle', label: 'Chronicles',          dot: 'bg-amber-400'  },
-  { slug: 'ap',        label: 'AP Journal',          dot: 'bg-teal-400'   },
+const CORE_TABS = [
+  { slug: 'gablog',   label: 'GABlog',          dot: 'bg-blue-400'   },
+  { slug: 'substack', label: 'Substack',         dot: 'bg-orange-400' },
+  { slug: 'threads',  label: 'Threads & Q&A',    dot: 'bg-violet-400' },
+  { slug: 'pdf',      label: 'Essays',           dot: 'bg-green-400'  },
+  { slug: 'book',     label: 'Anthropomorphics', dot: 'bg-purple-400' },
+  { slug: 'all',      label: 'All',              dot: 'bg-gray-400'   },
 ] as const;
+
+const ARCHIVE_TABS = [
+  { slug: 'chronicle', label: 'Chronicles', dot: 'bg-amber-400' },
+  { slug: 'ap',        label: 'AP Journal', dot: 'bg-teal-400'  },
+] as const;
+
+const SOURCE_TABS = [...CORE_TABS, ...ARCHIVE_TABS];
 
 const SOURCE_META: Record<ValidSource, SourceMeta> = {
   substack: {
@@ -158,8 +163,9 @@ export default async function BrowseSourcePage({
 
       {/* ── Source tab strip — scrollable on mobile ─────────────────────────── */}
       <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 mb-6">
-        <div className="flex gap-2 min-w-max">
-          {SOURCE_TABS.map((tab) => {
+        <div className="flex items-center gap-2 min-w-max">
+          {/* Core sources */}
+          {CORE_TABS.map((tab) => {
             const isActive = src === tab.slug;
             return (
               <Link
@@ -169,6 +175,31 @@ export default async function BrowseSourcePage({
                   isActive
                     ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
                     : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${tab.dot}`} />
+                {tab.label}
+              </Link>
+            );
+          })}
+
+          {/* Divider + Archives label */}
+          <div className="w-px h-5 bg-gray-200 dark:bg-gray-700 flex-shrink-0 mx-1" />
+          <span className="text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-600 font-medium flex-shrink-0 pr-0.5">
+            Archives
+          </span>
+
+          {/* Archive sources */}
+          {ARCHIVE_TABS.map((tab) => {
+            const isActive = src === tab.slug;
+            return (
+              <Link
+                key={tab.slug}
+                href={`/browse/${tab.slug}`}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
+                  isActive
+                    ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-600 dark:hover:text-gray-400'
                 }`}
               >
                 <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${tab.dot}`} />

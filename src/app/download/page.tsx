@@ -101,6 +101,11 @@ export default function DownloadPage() {
   const totalCount = standardSources.reduce((s, x) => s + x.count, 0);
   const totalWords = standardSources.reduce((s, x) => s + x.wordCount, 0);
 
+  // Full corpus stats (all sources including archival)
+  const corpusTotal  = allSources.reduce((s, x) => s + x.count, 0);
+  const corpusWords  = allSources.reduce((s, x) => s + x.wordCount, 0);
+  const readingHours = Math.round(corpusWords / 200 / 60); // at 200 wpm
+
   return (
     <main className="max-w-2xl w-full mx-auto px-4 py-10 sm:py-16">
       {/* Back nav */}
@@ -114,16 +119,60 @@ export default function DownloadPage() {
         Back
       </Link>
 
-      <header className="mb-10">
+      <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white mb-3">
-          Download Archive
+          Archive
         </h1>
         <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
-          Export the full corpus — {totalCount.toLocaleString()} posts,{' '}
-          {(totalWords / 1_000_000).toFixed(1)}M words — or pick the sources you need.
-          Archival sources are available but unchecked by default.
+          The complete corpus — export in bulk or browse by source.
         </p>
       </header>
+
+      {/* Corpus stats */}
+      <div className="grid grid-cols-3 gap-3 mb-8">
+        {[
+          { label: 'Total texts', value: corpusTotal.toLocaleString() },
+          { label: 'Total words', value: `${(corpusWords / 1_000_000).toFixed(1)}M` },
+          { label: 'Hours of reading', value: readingHours.toLocaleString() },
+        ].map(({ label, value }) => (
+          <div key={label} className="rounded-xl border border-gray-200 dark:border-gray-700 p-4 text-center bg-gray-50 dark:bg-gray-900">
+            <div className="text-xl font-bold text-gray-900 dark:text-white">{value}</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Per-source breakdown — compact */}
+      <div className="mb-8 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+        {allSources.map((s, i) => {
+          const pct = corpusWords > 0 ? (s.wordCount / corpusWords) * 100 : 0;
+          return (
+            <div
+              key={s.id}
+              className={`flex items-center gap-3 px-4 py-2.5 ${i < allSources.length - 1 ? 'border-b border-gray-100 dark:border-gray-800' : ''}`}
+            >
+              <span className={`text-[11px] px-2 py-0.5 rounded-full font-medium flex-shrink-0 w-28 text-center ${s.color}`}>
+                {s.label}
+              </span>
+              <div className="flex-1 bg-gray-100 dark:bg-gray-800 rounded-full h-1.5 overflow-hidden">
+                <div className="h-full bg-gray-400 dark:bg-gray-500 rounded-full" style={{ width: `${Math.max(pct, 1)}%` }} />
+              </div>
+              <span className="text-xs text-gray-500 dark:text-gray-400 tabular-nums flex-shrink-0 w-8 text-right">{s.count}</span>
+              <span className="text-xs text-gray-400 dark:text-gray-600 tabular-nums flex-shrink-0 w-16 text-right hidden sm:block">
+                {(s.wordCount / 1000).toFixed(0)}k w
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+        Export
+      </h2>
+      <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-6">
+        Download the corpus as JSON or plain text — pick sources or grab everything.
+        Archival sources (Chronicles, AP Journal) are unchecked by default.
+      </p>
 
       <DownloadClient
         sources={allSources}
