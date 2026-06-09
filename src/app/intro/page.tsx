@@ -89,14 +89,24 @@ export default function IntroPage() {
 
       {/* Epigraph */}
       <div className="mb-12 border-l-2 border-gray-200 dark:border-gray-700 pl-4">
-        <p className="text-sm text-gray-500 dark:text-gray-400 italic leading-relaxed">
+        <p
+          className="text-base text-gray-500 dark:text-gray-400 italic leading-relaxed"
+          style={{ fontFamily: 'var(--prose-font-family)' }}
+        >
           &ldquo;We are beings bound to the center: everything that we say, think or do is homage to the center.&rdquo;
         </p>
       </div>
 
       {/* ── Orientation ──────────────────────────────────────────────────── */}
       <section className="mb-16">
-        <div className="space-y-4 text-base leading-relaxed text-gray-700 dark:text-gray-300">
+        <div
+          className="space-y-5 text-gray-800 dark:text-gray-200"
+          style={{
+            fontFamily: 'var(--prose-font-family)',
+            fontSize: 'var(--prose-font-size, 17px)',
+            lineHeight: 'var(--prose-line-height, 1.85)',
+          }}
+        >
           <p>
             Center Study is a transdisciplinary discourse descended from Generative Anthropology — the study of human society and culture in the light of the originary hypothesis, formulated by Eric Gans in <em>The Origin of Language</em> (1980). The originary hypothesis is of the origin of language, which is also the origin of the human and the sacred.
           </p>
@@ -456,7 +466,10 @@ export default function IntroPage() {
             &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it.&rdquo; This is not a warning about difficulty in the usual sense — it is a structural feature of the discourse. You cannot understand Center Study from the outside; you can only begin from within a particular text, and extend from there.
           </p>
         </div>
-        <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+        <div
+          className="space-y-4 text-gray-700 dark:text-gray-300"
+          style={{ fontFamily: 'var(--prose-font-family)', fontSize: 'var(--prose-font-size, 17px)', lineHeight: 'var(--prose-line-height, 1.85)' }}
+        >
           <p>
             <strong className="text-gray-800 dark:text-gray-200">The vocabulary is technical and self-referential.</strong> Terms like <em>originary</em>, <em>scenic</em>, <em>deferral</em>, <em>attentionality</em> don&rsquo;t map cleanly onto existing frameworks. The Key Concepts section below defines them with real passages from the texts — that is probably the most direct entry.
           </p>
@@ -474,7 +487,10 @@ export default function IntroPage() {
         <h2 className="text-xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2 text-gray-900 dark:text-white">
           How to read Center Study
         </h2>
-        <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+        <div
+          className="space-y-4 text-gray-700 dark:text-gray-300"
+          style={{ fontFamily: 'var(--prose-font-family)', fontSize: 'var(--prose-font-size, 17px)', lineHeight: 'var(--prose-line-height, 1.85)' }}
+        >
           <p>
             Center Study is a living discourse, not a completed doctrine. It spans 25+ years of writing across three main venues: <strong className="text-gray-800 dark:text-gray-200">GABlog</strong> (theoretical development — originary grammar, succession, the center through history, the grammar of institutions); <strong className="text-gray-800 dark:text-gray-200">Substack</strong> as Dennis Bouvard (contemporary applications — AI, money, governance, politics, the algorithmic center); and the <strong className="text-gray-800 dark:text-gray-200"><em>Anthropomorphics</em> book</strong> (a systematic treatment of the metapersonal structure of culture).
           </p>
