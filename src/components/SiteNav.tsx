@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { href: '/search',              label: 'Search' },
   { href: '/guide/reading-paths', label: 'Reading Paths' },
   { href: '/browse',              label: 'Browse' },
+  { href: '/download',            label: 'Download' },
 ];
 
 export default function SiteNav() {
