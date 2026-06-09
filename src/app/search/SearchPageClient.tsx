@@ -19,18 +19,24 @@ import AnimatedSearchIcon from '@/components/AnimatedSearchIcon';
 type FilterOption = 'all' | ContentSource;
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
-  substack: 'Substack', gablog: 'GABlog', book: 'Book', pdf: 'Essays & Articles', reddit: 'Reddit',
-  twitter: 'X / Twitter',
-  chronicle: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
+  substack:  'Substack',
+  gablog:    'GABlog',
+  book:      'Book',
+  pdf:       'Essays & Articles',
+  reddit:    'Reddit',
+  twitter:   'X / Twitter',
+  chronicle: 'CLR',
+  ap:        'AP Journal',
 };
 const SOURCE_COLORS: Record<ContentSource, string> = {
-  substack: 'bg-orange-100 text-orange-800',
-  gablog: 'bg-blue-100 text-blue-800',
-  book: 'bg-purple-100 text-purple-800',
-  pdf: 'bg-green-100 text-green-800',
-  reddit: 'bg-red-100 text-red-800',
-  twitter: 'bg-slate-100 text-slate-700',
+  substack:  'bg-orange-100 text-orange-800',
+  gablog:    'bg-blue-100 text-blue-800',
+  book:      'bg-purple-100 text-purple-800',
+  pdf:       'bg-green-100 text-green-800',
+  reddit:    'bg-red-100 text-red-800',
+  twitter:   'bg-slate-100 text-slate-700',
   chronicle: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
+  ap:        'bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300',
 };
 
 const RECENT_KEY = 'csc-recent-searches';
@@ -242,7 +248,8 @@ export default function SearchPageClient({
     gablog: results.filter((r) => r.entry.source === 'gablog').length,
     book: results.filter((r) => r.entry.source === 'book').length,
     pdf: results.filter((r) => r.entry.source === 'pdf').length,
-    // reddit/twitter excluded from search — kept for TypeScript completeness
+    ap: results.filter((r) => r.entry.source === 'ap').length,
+    // reddit/twitter/chronicle excluded from search — kept for TypeScript completeness
     reddit: 0,
     twitter: 0,
     chronicle: 0,

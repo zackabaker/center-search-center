@@ -6,17 +6,18 @@ import { useReadingList, SavedPost } from '@/hooks/useReadingList';
 import { useReadingHistory } from '@/hooks/useReadingHistory';
 
 const SOURCE_COLORS: Record<string, string> = {
-  substack: 'bg-orange-100 text-orange-700',
-  gablog:   'bg-blue-100 text-blue-700',
-  book:     'bg-purple-100 text-purple-700',
-  pdf:      'bg-green-100 text-green-700',
-  reddit:   'bg-red-100 text-red-700',
-  twitter:  'bg-slate-100 text-slate-600',
+  substack:  'bg-orange-100 text-orange-700',
+  gablog:    'bg-blue-100 text-blue-700',
+  book:      'bg-purple-100 text-purple-700',
+  pdf:       'bg-green-100 text-green-700',
+  reddit:    'bg-red-100 text-red-700',
+  twitter:   'bg-slate-100 text-slate-600',
+  ap:        'bg-teal-100 text-teal-700',
 };
 
 const SOURCE_LABELS: Record<string, string> = {
   substack: 'Substack', gablog: 'GABlog', book: 'Book', pdf: 'Essay',
-  reddit: 'Reddit', twitter: 'X / Twitter',
+  reddit: 'Reddit', twitter: 'X / Twitter', ap: 'AP Journal',
 };
 
 function formatDate(iso: string) {

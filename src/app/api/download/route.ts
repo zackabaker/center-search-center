@@ -12,6 +12,7 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   reddit:    'Reddit',
   twitter:   'X / Twitter',
   chronicle: 'Chronicles of Love and Resentment',
+  ap:        'Anthropoetics Journal',
 };
 
 export async function GET(req: NextRequest) {

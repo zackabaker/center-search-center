@@ -16,16 +16,19 @@ const TOPIC_CHIPS = [
 ];
 
 const SOURCE_LABELS: Record<string, string> = {
-  gablog: 'GABlog', substack: 'Substack', book: 'Book',
-  pdf: 'Essay', reddit: 'Reddit', twitter: 'X',
+  gablog:    'GABlog', substack: 'Substack', book: 'Book',
+  pdf:       'Essay', reddit: 'Reddit', twitter: 'X',
+  ap:        'AP Journal', chronicle: 'CLR',
 };
 const SOURCE_COLORS: Record<string, string> = {
-  gablog:   'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300',
-  substack: 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300',
-  book:     'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300',
-  pdf:      'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300',
-  reddit:   'bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300',
-  twitter:  'bg-slate-100 text-slate-600 dark:bg-slate-800/40 dark:text-slate-300',
+  gablog:    'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300',
+  substack:  'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300',
+  book:      'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300',
+  pdf:       'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300',
+  reddit:    'bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300',
+  twitter:   'bg-slate-100 text-slate-600 dark:bg-slate-800/40 dark:text-slate-300',
+  ap:        'bg-teal-100 text-teal-700 dark:bg-teal-900/40 dark:text-teal-300',
+  chronicle: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300',
 };
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
