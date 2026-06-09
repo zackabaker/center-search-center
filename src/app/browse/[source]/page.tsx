@@ -7,7 +7,7 @@ import BrowseSourceClient from '@/components/BrowseSourceClient';
 
 export const revalidate = 3600;
 
-const REAL_SOURCES = ['substack', 'gablog', 'book', 'pdf', 'reddit', 'twitter'] as const;
+const REAL_SOURCES = ['substack', 'gablog', 'book', 'pdf', 'reddit', 'twitter', 'ap'] as const;
 type RealSource = typeof REAL_SOURCES[number];
 
 const VALID_SOURCES = [...REAL_SOURCES, 'threads', 'all'] as const;
@@ -28,6 +28,7 @@ const SOURCE_TABS = [
   { slug: 'threads',  label: 'Threads & Q&A',     dot: 'bg-violet-400' },
   { slug: 'pdf',      label: 'Essays',            dot: 'bg-green-400'  },
   { slug: 'book',     label: 'Anthropomorphics',  dot: 'bg-purple-400' },
+  { slug: 'ap',       label: 'AP Journal',        dot: 'bg-teal-400'   },
   { slug: 'all',      label: 'All',               dot: 'bg-gray-400'   },
 ] as const;
 
@@ -67,6 +68,12 @@ const SOURCE_META: Record<ValidSource, SourceMeta> = {
     description: 'Long-form tweet threads — self-started threads with 150+ words, filtered from 1,400+ posts',
     color: 'bg-slate-100 text-slate-800 dark:bg-slate-800/40 dark:text-slate-300',
     dot: 'text-slate-600 dark:text-slate-400',
+  },
+  ap: {
+    label: 'Anthropoetics Journal',
+    description: 'Peer-reviewed journal of Generative Anthropology — articles by Richard Van Oort, Andrew Bartlett, Ian Dennis, Marina Ludwigs, and others (1995–2016)',
+    color: 'bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300',
+    dot: 'text-teal-600 dark:text-teal-400',
   },
   threads: {
     label: 'Threads & Q&A',

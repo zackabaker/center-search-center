@@ -36,6 +36,7 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   reddit:    'Reddit',
   twitter:   'X / Twitter',
   chronicle: 'Chronicles of Love and Resentment',
+  ap:        'Anthropoetics Journal',
 };
 
 const SOURCE_COLORS: Record<ContentSource, string> = {
@@ -46,6 +47,7 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
   reddit:    'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
   twitter:   'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
   chronicle: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
+  ap:        'bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300',
 };
 
 export async function generateMetadata({
@@ -70,8 +72,9 @@ export async function generateMetadata({
     try { return new Date(post.date).toISOString(); } catch { return undefined; }
   })() : undefined;
 
-  // Author: Eric Gans for Chronicles, Dennis Bouvard for Substack, Adam Katz for everything else
-  const authorName = post.source === 'chronicle' ? 'Eric Gans'
+  // Author: per-article for AP Journal; Eric Gans for Chronicles; Dennis Bouvard for Substack; Adam Katz otherwise
+  const authorName = post.source === 'ap' ? (post.author ?? 'Various Authors')
+    : post.source === 'chronicle' ? 'Eric Gans'
     : post.source === 'substack' ? 'Dennis Bouvard'
     : 'Adam Katz';
 
@@ -161,12 +164,14 @@ export default async function PostPage({
 
   const SIDEBAR_LABEL = 'text-xs font-mono uppercase tracking-widest text-gray-400 mb-3';
 
-  const authorName = post.source === 'chronicle'
-    ? 'Eric Gans'
+  const authorName = post.source === 'ap' ? (post.author ?? 'Various Authors')
+    : post.source === 'chronicle' ? 'Eric Gans'
     : post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter'
     ? 'Dennis Bouvard'
     : 'Adam Katz';
-  const authorUrl = post.source === 'chronicle'
+  const authorUrl = post.source === 'ap'
+    ? 'https://anthropoetics.ucla.edu'
+    : post.source === 'chronicle'
     ? 'https://anthropoetics.ucla.edu'
     : post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter'
     ? 'https://center.study/author/bouvard'
@@ -238,7 +243,7 @@ export default async function PostPage({
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                   By{' '}
                   <Link
-                    href={post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter' ? '/author/bouvard' : '/author/katz'}
+                    href={authorUrl}
                     className="hover:text-gray-800 dark:hover:text-gray-200 underline underline-offset-2 transition-colors"
                   >
                     {authorName}

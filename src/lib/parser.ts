@@ -1046,6 +1046,41 @@ function parseLectures(): Post[] {
   return posts;
 }
 
+// ── Anthropoetics Journal ────────────────────────────────────────────────────
+// Stored in src/data/ap_articles.json — populated by scripts/scrape-ap-articles.mjs
+// Articles by Van Oort, Bartlett, Dennis, Ludwigs, and all other GA scholars.
+// source:'ap' is public and included in all browse/search features.
+function parseAPArticles(): Post[] {
+  const apPath = path.join(process.cwd(), 'src', 'data', 'ap_articles.json');
+  if (!fs.existsSync(apPath)) return [];
+  try {
+    const raw: Array<{
+      slug: string;
+      issueCode: string;
+      volume: number;
+      issue: number;
+      author: string;
+      title: string;
+      date: string | null;
+      content: string;
+      url: string;
+    }> = JSON.parse(fs.readFileSync(apPath, 'utf-8'));
+
+    return raw.map((entry) => ({
+      slug: entry.slug,
+      title: entry.title,
+      content: entry.content,
+      excerpt: excerpt(entry.content),
+      date: entry.date,
+      source: 'ap' as ContentSource,
+      author: entry.author,
+      url: entry.url,
+    }));
+  } catch {
+    return [];
+  }
+}
+
 // ── Eric Gans: Chronicles of Love and Resentment ─────────────────────────────
 // Stored in src/data/chronicles.json — populated by scripts/scrape-chronicles.mjs
 // These posts use source:'chronicle' and are excluded from all public search/browse
@@ -1094,6 +1129,7 @@ export function parseAllContent(): Post[] {
   allPosts.push(...parseTweets());
   allPosts.push(...parseLectures());
   allPosts.push(...parseChronicles());
+  allPosts.push(...parseAPArticles());
 
   // Decode HTML entities in all text fields
   for (const post of allPosts) {

@@ -30,6 +30,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
     reddit: 0,
     twitter: 0,
     chronicle: 0,
+    ap: 0,
   };
 
   const handleFilterChange = (f: FilterOption) => {

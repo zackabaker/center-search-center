@@ -51,6 +51,11 @@ const SOURCE_META: Record<
     description: 'Eric Gans\'s weekly column on culture, desire, and the originary hypothesis (1996–2019)',
     color: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
   },
+  ap: {
+    label: 'Anthropoetics Journal',
+    description: 'Peer-reviewed journal of Generative Anthropology — articles by Van Oort, Bartlett, Dennis, Ludwigs, and others (1995–2016)',
+    color: 'bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300',
+  },
 };
 
 export default function DownloadPage() {
@@ -67,7 +72,7 @@ export default function DownloadPage() {
   );
 
   // Standard sources — always shown and selected by default
-  const standardSources = (['substack', 'gablog', 'book', 'pdf', 'reddit', 'twitter'] as ContentSource[])
+  const standardSources = (['substack', 'gablog', 'book', 'pdf', 'reddit', 'twitter', 'ap'] as ContentSource[])
     .filter((id) => bySource[id]?.count > 0)
     .map((id) => ({
       id,

@@ -10,18 +10,24 @@ export const metadata: Metadata = {
 };
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
-  substack: 'Substack', gablog: 'GABlog', book: 'Book', pdf: 'Essays & Articles', reddit: 'Reddit',
-  twitter: 'X / Twitter',
-  chronicle: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
+  substack:  'Substack',
+  gablog:    'GABlog',
+  book:      'Book',
+  pdf:       'Essays & Articles',
+  reddit:    'Reddit',
+  twitter:   'X / Twitter',
+  chronicle: 'Chronicles (CLR)',
+  ap:        'Anthropoetics Journal',
 };
 const SOURCE_COLORS: Record<ContentSource, string> = {
-  substack: 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300',
-  gablog:   'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300',
-  book:     'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300',
-  pdf:      'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300',
-  reddit:   'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300',
-  twitter:  'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
+  substack:  'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300',
+  gablog:    'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300',
+  book:      'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300',
+  pdf:       'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300',
+  reddit:    'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300',
+  twitter:   'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
   chronicle: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
+  ap:        'bg-teal-100 text-teal-700 dark:bg-teal-900/40 dark:text-teal-300',
 };
 
 export default function StatsPage() {

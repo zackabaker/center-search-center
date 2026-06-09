@@ -2,23 +2,25 @@ import Link from 'next/link';
 import { Post, ContentSource } from '@/lib/types';
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
-  substack: 'Bouvard',
-  gablog: 'GABlog',
-  book: 'Book',
-  pdf: 'Essay',
-  reddit: 'Reddit',
-  twitter: 'X / Twitter',
-  chronicle: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
+  substack:  'Bouvard',
+  gablog:    'GABlog',
+  book:      'Book',
+  pdf:       'Essay',
+  reddit:    'Reddit',
+  twitter:   'X / Twitter',
+  chronicle: 'CLR',
+  ap:        'AP Journal',
 };
 
 const SOURCE_COLORS: Record<ContentSource, string> = {
-  substack: 'bg-orange-100 text-orange-800',
-  gablog: 'bg-blue-100 text-blue-800',
-  book: 'bg-purple-100 text-purple-800',
-  pdf: 'bg-green-100 text-green-800',
-  reddit: 'bg-red-100 text-red-800',
-  twitter: 'bg-slate-100 text-slate-700',
+  substack:  'bg-orange-100 text-orange-800',
+  gablog:    'bg-blue-100 text-blue-800',
+  book:      'bg-purple-100 text-purple-800',
+  pdf:       'bg-green-100 text-green-800',
+  reddit:    'bg-red-100 text-red-800',
+  twitter:   'bg-slate-100 text-slate-700',
   chronicle: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
+  ap:        'bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300',
 };
 
 export default function PostCard({ post }: { post: Post }) {
