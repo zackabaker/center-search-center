@@ -1056,6 +1056,7 @@ function parseChronicles(): Post[] {
   try {
     const raw: Array<{
       num: number;
+      vwSlug?: string;
       title: string;
       date: string | null;
       content: string;
