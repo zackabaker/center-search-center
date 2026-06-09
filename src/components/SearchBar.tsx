@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { Post, ContentSource } from '@/lib/types';
+import { Post, ContentSource, ARCHIVAL_SOURCES } from '@/lib/types';
 import { SearchResult, buildSearchEntries, searchEntries, countPostsWithTerm } from '@/lib/search-index';
 import Link from 'next/link';
 
@@ -53,6 +53,7 @@ export default function SearchBar({ posts }: SearchBarProps) {
   const [isSearching, setIsSearching] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const [corpusCount, setCorpusCount] = useState<number | null>(null);
+  const [showArchival, setShowArchival] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -82,7 +83,9 @@ export default function SearchBar({ posts }: SearchBarProps) {
     setIsSearching(true);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
-      const found = searchEntries(entries, query);
+      const found = searchEntries(entries, query).filter(
+        (r) => showArchival || !ARCHIVAL_SOURCES.includes(r.entry.source)
+      );
       setResults(found);
       setSelectedIndex(0);
       setIsSearching(false);
@@ -91,7 +94,7 @@ export default function SearchBar({ posts }: SearchBarProps) {
       if (cleanQ) setCorpusCount(countPostsWithTerm(entries, cleanQ.split(/\s+/)[0]));
     }, 80);
     return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
-  }, [query, entries]);
+  }, [query, entries, showArchival]);
 
   // Update URL when searching
   useEffect(() => {
@@ -184,12 +187,25 @@ export default function SearchBar({ posts }: SearchBarProps) {
             {/* Results */}
             {results.length > 0 && (
               <>
-                <div className="px-4 py-2 text-xs text-gray-400 border-b bg-gray-50 flex justify-between items-center">
+                <div className="px-4 py-2 text-xs text-gray-400 border-b bg-gray-50 flex justify-between items-center gap-2">
                   <span>
                     <span className="font-medium text-gray-600">{results.length}</span> result{results.length !== 1 ? 's' : ''}
-                    {corpusCount !== null && <span className="text-gray-400"> · term appears in <span className="font-medium text-gray-600">{corpusCount}</span> of {posts.length} posts</span>}
+                    {corpusCount !== null && <span className="text-gray-400"> · term in <span className="font-medium text-gray-600">{corpusCount}</span> of {posts.length} posts</span>}
                   </span>
-                  <span className="hidden sm:inline">↑↓ navigate · Enter open · ⌘Enter new tab</span>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <button
+                      onClick={() => setShowArchival((v) => !v)}
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] transition-colors ${
+                        showArchival
+                          ? 'bg-amber-50 border-amber-300 text-amber-700'
+                          : 'bg-white border-gray-200 text-gray-400 hover:border-gray-300 hover:text-gray-500'
+                      }`}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${showArchival ? 'bg-amber-400' : 'bg-gray-300'}`} />
+                      Archives
+                    </button>
+                    <span className="hidden sm:inline">↑↓ navigate · Enter open · ⌘Enter new tab</span>
+                  </div>
                 </div>
                 <ul ref={listRef} className="max-h-[60vh] overflow-y-auto py-1">
                   {results.map(({ entry, contextSnippet }, i) => (
