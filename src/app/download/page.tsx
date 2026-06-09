@@ -72,7 +72,7 @@ export default function DownloadPage() {
   );
 
   // Standard sources — always shown and selected by default
-  const standardSources = (['substack', 'gablog', 'book', 'pdf', 'reddit', 'twitter', 'ap'] as ContentSource[])
+  const standardSources = (['substack', 'gablog', 'book', 'pdf', 'reddit', 'twitter'] as ContentSource[])
     .filter((id) => bySource[id]?.count > 0)
     .map((id) => ({
       id,
@@ -84,7 +84,7 @@ export default function DownloadPage() {
     }));
 
   // Archival sources — shown but unchecked by default
-  const archivalSources = (['chronicle'] as ContentSource[])
+  const archivalSources = (['chronicle', 'ap'] as ContentSource[])
     .filter((id) => bySource[id]?.count > 0)
     .map((id) => ({
       id,

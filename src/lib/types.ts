@@ -1,7 +1,7 @@
 export type ContentSource = 'substack' | 'gablog' | 'book' | 'pdf' | 'reddit' | 'twitter' | 'chronicle' | 'ap';
 
 /** Sources excluded from search, browse, and all public listings — only visible on /downloads */
-export const HIDDEN_SOURCES: ContentSource[] = ['chronicle'];
+export const HIDDEN_SOURCES: ContentSource[] = ['chronicle', 'ap'];
 
 export interface Post {
   slug: string;
