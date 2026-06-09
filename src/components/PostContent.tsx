@@ -158,7 +158,11 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
   return (
     <div
       className="space-y-7 text-gray-800 dark:text-gray-200"
-      style={{ fontSize: 'var(--prose-font-size, 18px)', lineHeight: 'var(--prose-line-height, 1.85)' }}
+      style={{
+        fontFamily: 'var(--prose-font-family)',
+        fontSize: 'var(--prose-font-size, 18px)',
+        lineHeight: 'var(--prose-line-height, 1.85)',
+      }}
     >
       {linkedParagraphs.map(({ isBlockquote, isHeading, isDivider, isBouvardLabel, questionCard, text, nodes }, i) => {
         const id = `p-${i + 1}`;
@@ -222,7 +226,10 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
           return (
             <div key={id} id={id} className="group relative scroll-mt-20">
               {pilcrow}
-              <p className={headingClass}>{headingText}</p>
+              {/* Headings use the UI font (sans-serif) for contrast with serif body */}
+              <p className={headingClass} style={{ fontFamily: 'var(--font-geist-sans, system-ui, sans-serif)' }}>
+                {headingText}
+              </p>
             </div>
           );
         }
