@@ -15,8 +15,19 @@ interface RecommendedPost {
   note: string;
 }
 
+// Infer canonical source name from slug prefix as a fallback
+function slugToSource(slug: string): string {
+  if (slug.startsWith('gablog'))   return 'GABlog';
+  if (slug.startsWith('substack')) return 'Substack';
+  if (slug.startsWith('pdf'))      return 'PDF';
+  if (slug.startsWith('book'))     return 'Book';
+  return '';
+}
+
 function parseReadingPath(content: string): { title: string; intro: string; posts: RecommendedPost[]; coda: string } | null {
-  const match = content.match(/---READING PATH START---([\s\S]*?)---READING PATH END---/);
+  // End marker is OPTIONAL — allows parsing during streaming before the marker appears,
+  // and handles cases where token limits cut off the closing marker.
+  const match = content.match(/---READING PATH START---([\s\S]*?)(?:---READING PATH END---|$)/);
   if (!match) return null;
 
   const body = match[1].trim();
@@ -34,24 +45,27 @@ function parseReadingPath(content: string): { title: string; intro: string; post
     if (!line) continue;
 
     // Title line: **[TITLE]** — for ...
-    if (line.startsWith('**') && line.includes('**') && !inPosts) {
+    if (line.startsWith('**') && !inPosts && !afterPath) {
       title = line.replace(/\*\*/g, '');
       continue;
     }
 
     // Numbered post line: 1. slug | Source | Title
-    const postMatch = line.match(/^\d+\.\s+([^\s|]+)\s*\|\s*([^|]+)\s*\|\s*(.+)$/);
+    // Also handles brackets: 1. [slug] | Source | Title
+    const postMatch = line.match(/^\d+\.\s+\[?([^\]\s|]+)\]?\s*\|\s*([^|]+)\s*\|\s*(.+)$/);
     if (postMatch) {
       inPosts = true;
-      const slug = postMatch[1].trim();
-      const source = postMatch[2].trim();
-      const postTitle = postMatch[3].trim();
-      // Look ahead for italic note
+      const slug      = postMatch[1].trim();
+      const rawSource = postMatch[2].trim();
+      // Derive source from slug prefix if the AI used a non-standard label
+      const source    = rawSource || slugToSource(slug);
+      const postTitle = postMatch[3].trim().replace(/\*\*/g, ''); // strip stray bold markers
+      // Look ahead for italic note line
       let note = '';
       if (i + 1 < lines.length) {
         const nextLine = lines[i + 1].trim();
         if (nextLine.startsWith('*') && nextLine.endsWith('*')) {
-          note = nextLine.replace(/^\*|\*$/g, '').trim();
+          note = nextLine.replace(/^\*+|\*+$/g, '').trim();
           i++;
         }
       }
@@ -59,14 +73,14 @@ function parseReadingPath(content: string): { title: string; intro: string; post
       continue;
     }
 
-    // After path coda
-    if (line.startsWith('**After this path:**')) {
-      coda = line.replace('**After this path:**', '').trim();
+    // Coda line: **After this path:** ...
+    if (line.startsWith('**After this path:**') || line.startsWith('After this path:')) {
+      coda = line.replace(/\*\*/g, '').replace('After this path:', '').trim();
       afterPath = true;
       continue;
     }
 
-    // Intro paragraph (before numbered posts)
+    // Intro paragraph — everything between title and first numbered item
     if (!inPosts && !afterPath) {
       intro += (intro ? ' ' : '') + line;
     }
@@ -75,20 +89,56 @@ function parseReadingPath(content: string): { title: string; intro: string; post
   return { title, intro, posts, coda };
 }
 
+// Map all reasonable source labels the AI might produce to a Tailwind color set.
+// Keys cover the exact labels plus common variants.
 const SOURCE_COLORS: Record<string, string> = {
-  Substack: 'bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-300',
-  GABlog:   'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300',
-  PDF:      'bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300',
-  Book:     'bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300',
+  Substack:            'bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-300',
+  'Bouvard Substack':  'bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-300',
+  GABlog:              'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300',
+  GAblog:              'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300',
+  PDF:                 'bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300',
+  PDFs:                'bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300',
+  Essays:              'bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300',
+  'Essays & Articles': 'bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300',
+  Book:                'bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300',
+  Anthropomorphics:    'bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300',
 };
+
+function getSourceColor(source: string, slug: string): string {
+  return (
+    SOURCE_COLORS[source] ||
+    SOURCE_COLORS[slugToSource(slug)] ||
+    'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'
+  );
+}
 
 function ReadingPathDisplay({ content }: { content: string }) {
   const path = parseReadingPath(content);
+  const hasStartMarker = content.includes('---READING PATH START---');
 
   if (!path || path.posts.length === 0) {
-    // Fallback: render raw markdown-ish text
+    if (hasStartMarker) {
+      // Path is being built — title/intro may already be parsed even with no posts yet
+      return (
+        <div className="space-y-3">
+          {path?.title && (
+            <div className="mb-4">
+              <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-1">{path.title}</h2>
+              {path.intro && (
+                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{path.intro}</p>
+              )}
+            </div>
+          )}
+          <div className="flex items-center gap-2 text-sm text-gray-400 dark:text-gray-500">
+            <span className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-pulse" />
+            Building your reading path…
+          </div>
+        </div>
+      );
+    }
+    // No start marker — plain assistant message, render as text
     return (
-      <div className="text-gray-800 dark:text-gray-200 leading-relaxed whitespace-pre-wrap text-sm">
+      <div className="text-gray-800 dark:text-gray-200 leading-relaxed text-sm">
         {content}
       </div>
     );
@@ -108,9 +158,9 @@ function ReadingPathDisplay({ content }: { content: string }) {
     ].join('\n');
 
     const blob = new Blob([text], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
     a.download = 'center-study-reading-path.txt';
     a.click();
     URL.revokeObjectURL(url);
@@ -127,28 +177,31 @@ function ReadingPathDisplay({ content }: { content: string }) {
 
       <div className="space-y-2 mb-5">
         {path.posts.map((post, i) => (
-          <div key={post.slug} className="flex gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
+          <Link
+            key={post.slug}
+            href={`/post/${post.slug}`}
+            className="flex gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-white dark:hover:bg-gray-800 transition-all group block"
+          >
             <div className="w-6 h-6 rounded-full bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-900 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
               {i + 1}
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-0.5 flex-wrap">
-                <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${SOURCE_COLORS[post.source] || 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'}`}>
-                  {post.source}
+                <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${getSourceColor(post.source, post.slug)}`}>
+                  {post.source || slugToSource(post.slug)}
                 </span>
               </div>
-              <Link
-                href={`/post/${post.slug}`}
-                className="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline"
-                target="_blank"
-              >
+              <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 group-hover:underline leading-snug">
                 {post.title}
-              </Link>
+              </p>
               {post.note && (
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed italic">{post.note}</p>
               )}
             </div>
-          </div>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-300 dark:text-gray-600 group-hover:text-blue-400 flex-shrink-0 self-center transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
         ))}
       </div>
 
@@ -168,14 +221,13 @@ function ReadingPathDisplay({ content }: { content: string }) {
 
 export default function ReadingPathFinder() {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
-  const [streaming, setStreaming] = useState(false);
+  const [input, setInput]       = useState('');
+  const [streaming, setStreaming]     = useState(false);
   const [streamContent, setStreamContent] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const inputRef  = useRef<HTMLTextAreaElement>(null);
 
-  // Only scroll when a completed message is added — NOT during streaming.
-  // This lets users read from the top of the response as it arrives.
+  // Scroll to bottom when a completed message is added (not during streaming)
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -220,7 +272,7 @@ export default function ReadingPathFinder() {
 
       setMessages([...newMessages, { role: 'assistant', content: full }]);
       setStreamContent('');
-    } catch (err) {
+    } catch {
       setMessages([...newMessages, { role: 'assistant', content: 'Something went wrong. Please try again.' }]);
       setStreamContent('');
     } finally {
@@ -252,7 +304,7 @@ export default function ReadingPathFinder() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      {/* Intro block */}
+      {/* Intro block — only shown before any conversation */}
       {messages.length === 0 && (
         <div className="mb-8">
           <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 mb-6">
@@ -304,7 +356,7 @@ export default function ReadingPathFinder() {
           </div>
         ))}
 
-        {/* Streaming */}
+        {/* Streaming state */}
         {streaming && streamContent && (
           <div className="text-sm leading-relaxed">
             {streamContent.includes('---READING PATH START---') ? (
@@ -325,7 +377,7 @@ export default function ReadingPathFinder() {
         <div ref={bottomRef} />
       </div>
 
-      {/* Input */}
+      {/* Input — hidden once a full path is generated */}
       {!hasPath && (
         <div className="relative">
           <textarea
@@ -333,7 +385,7 @@ export default function ReadingPathFinder() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={messages.length === 0 ? "What are you interested in or stuck on?" : "Continue the conversation..."}
+            placeholder={messages.length === 0 ? "What are you interested in or stuck on?" : "Continue the conversation…"}
             rows={2}
             className="w-full resize-none rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-4 py-3 pr-12 text-sm placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-700 transition-all"
             disabled={streaming}
@@ -350,9 +402,9 @@ export default function ReadingPathFinder() {
         </div>
       )}
 
-      {/* After path is generated */}
+      {/* Post-path actions */}
       {hasPath && (
-        <div className="flex gap-3 pt-4 border-t border-gray-200 dark:border-gray-800">
+        <div className="flex gap-4 pt-4 border-t border-gray-200 dark:border-gray-800 items-center">
           <button
             onClick={() => {
               setMessages([]);

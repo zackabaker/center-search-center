@@ -25,16 +25,16 @@ function buildArchiveIndex(): string {
   const excerpt = (content: string) =>
     content.replace(/#+\s/g, '').replace(/\n+/g, ' ').trim().slice(0, 120).replace(/\s+\S*$/, '…');
 
-  const fmt = (arr: typeof posts, label: string) =>
+  const fmt = (arr: typeof posts, label: string, description: string) =>
     arr.length === 0 ? '' :
-    `## ${label} (${arr.length} texts)\n` +
-    arr.map((p) => `- [${p.slug}] ${p.title} — ${excerpt(p.content)}`).join('\n');
+    `## ${label} — ${description} (${arr.length} texts)\n` +
+    arr.map((p) => `- ${p.slug} | ${label} | ${p.title} — ${excerpt(p.content)}`).join('\n');
 
   return [
-    fmt(substack, 'Bouvard Substack — applied work on AI, governance, money, technology, language'),
-    fmt(gablog,   'GABlog — theoretical archive on originary hypothesis, scene, language, politics'),
-    fmt(pdf,      'PDFs — academic papers on originary grammar, juridical order, economics'),
-    fmt(book,     'Book — Anthropomorphics (systematic originary grammar)'),
+    fmt(substack, 'Substack', 'applied work on AI, governance, money, technology, language — written as Dennis Bouvard'),
+    fmt(gablog,   'GABlog',   'theoretical archive on originary hypothesis, scene, language, politics'),
+    fmt(pdf,      'PDF',      'academic papers on originary grammar, juridical order, economics'),
+    fmt(book,     'Book',     'Anthropomorphics — systematic originary grammar'),
   ].filter(Boolean).join('\n\n');
 }
 
@@ -47,33 +47,35 @@ CONVERSATION STRUCTURE:
 2. After the reader answers (or if their first message is already specific enough), generate the reading path immediately. Do not ask more than one follow-up question.
 
 READING PATH FORMAT:
-When generating the reading path, use EXACTLY this format:
+When generating the reading path, use EXACTLY this format with no deviations:
 
 ---READING PATH START---
 **[PATH TITLE]** — for [reader's interest/domain]
 
 [2-3 sentences on why these texts, what thread connects them]
 
-1. [slug] | [Source] | [Title]
-   *[One sentence on what this text does for the reader's specific interest]*
+1. slug-exactly-as-in-index | GABlog | Title of Post
+   *One sentence on what this text does for the reader's specific interest*
 
-2. [slug] | [Source] | [Title]
-   *[One sentence]*
+2. slug-exactly-as-in-index | Substack | Title of Post
+   *One sentence*
 
 [continue for 6-10 texts]
 
-**After this path:** [one sentence on what opens next]
+**After this path:** one sentence on what opens next
 ---READING PATH END---
 
 RULES:
-- Only recommend texts from the ARCHIVE INDEX provided. Use their EXACT slugs.
+- Only recommend texts from the ARCHIVE INDEX provided. Copy the slug EXACTLY as it appears in the index (the first field, e.g. gablog-some-slug).
+- The source label in the second field must be one of exactly: GABlog, Substack, PDF, Book — match the section header it came from.
 - Use the excerpt in the index to match posts to the reader's specific interest — do not default to the same well-known titles every time.
-- Mix sources (Substack, GABlog, PDF/Book) — do not recommend only GABlog.
+- Mix sources (Substack, GABlog, PDF, Book) — do not recommend only GABlog.
 - For any interest touching AI, technology, governance, money, markets: include Substack posts prominently.
 - The path should build — each text should prepare the reader for the next.
 - Keep framing in Center Study terms. Do not translate Center Study vocabulary away.
 - Be concrete about what the reader will get from each text.
 - Every path must be genuinely tailored to the reader's stated interest. Two different interests must produce two meaningfully different paths.
+- Always include the closing ---READING PATH END--- marker.
 
 The reader's field or interest is the entry point. Center Study has no limits — it can enter any domain and translate it into originary grammar. Your job is to find that thread.`;
 
@@ -105,7 +107,7 @@ export async function POST(request: Request) {
 
     const stream = await anthropic.messages.stream({
       model: 'claude-sonnet-4-6',
-      max_tokens: 1500,
+      max_tokens: 2500,
       system: SYSTEM_PROMPT,
       messages: messagesWithContext,
     });
