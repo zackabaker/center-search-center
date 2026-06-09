@@ -6,7 +6,6 @@ import { MetadataRoute } from 'next';
 const BASE_URL = 'https://center.study';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Use getPublicPosts — chronicles are scraped thin content and should not be indexed
   const posts = getPublicPosts();
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -23,7 +22,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/browse/gablog`,       changeFrequency: 'weekly',  priority: 0.7 },
     { url: `${BASE_URL}/browse/substack`,     changeFrequency: 'weekly',  priority: 0.7 },
     { url: `${BASE_URL}/browse/pdf`,          changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${BASE_URL}/browse/book`,         changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/browse/book`,          changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/browse/chronicle`,    changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/browse/ap`,           changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/author/katz`,         changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/author/bouvard`,      changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/lectures`,            changeFrequency: 'monthly', priority: 0.6 },
@@ -51,11 +52,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     twitter:  0.5,
   };
 
+  const fallbackDate = new Date('2024-01-01');
+  const safeDate = (dateStr: string | null): Date => {
+    if (!dateStr) return fallbackDate;
+    const d = new Date(dateStr);
+    return isNaN(d.getTime()) ? fallbackDate : d;
+  };
+
   const postRoutes: MetadataRoute.Sitemap = posts.map((p) => ({
     url: `${BASE_URL}/post/${p.slug}`,
-    lastModified: p.date
-      ? (() => { try { return new Date(p.date!); } catch { return new Date('2024-01-01'); } })()
-      : new Date('2024-01-01'),
+    lastModified: safeDate(p.date),
     changeFrequency: 'yearly' as const,
     priority: SOURCE_PRIORITY[p.source] ?? 0.6,
   }));
