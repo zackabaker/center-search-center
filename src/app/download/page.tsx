@@ -55,17 +55,8 @@ const SOURCE_META: Record<
 
 export default function DownloadPage() {
   const allPosts = getAllPosts();
-  const publicPosts = allPosts.filter((p) => p.source !== 'chronicle');
-  const chronicles = allPosts
-    .filter((p) => p.source === 'chronicle')
-    .sort((a, b) => {
-      // Sort by CLR number extracted from slug
-      const numA = parseInt(a.slug.replace('chronicle-clr-', ''), 10) || 0;
-      const numB = parseInt(b.slug.replace('chronicle-clr-', ''), 10) || 0;
-      return numA - numB;
-    });
 
-  const bySource = publicPosts.reduce<Record<string, { count: number; words: number }>>(
+  const bySource = allPosts.reduce<Record<string, { count: number; words: number }>>(
     (acc, p) => {
       if (!acc[p.source]) acc[p.source] = { count: 0, words: 0 };
       acc[p.source].count += 1;
@@ -75,7 +66,8 @@ export default function DownloadPage() {
     {}
   );
 
-  const publicSources = (['substack', 'gablog', 'book', 'pdf', 'reddit', 'twitter'] as ContentSource[])
+  // Standard sources — always shown and selected by default
+  const standardSources = (['substack', 'gablog', 'book', 'pdf', 'reddit', 'twitter'] as ContentSource[])
     .filter((id) => bySource[id]?.count > 0)
     .map((id) => ({
       id,
@@ -86,8 +78,23 @@ export default function DownloadPage() {
       wordCount: bySource[id]?.words ?? 0,
     }));
 
-  const totalCount = publicPosts.length;
-  const totalWords = publicPosts.reduce((s, p) => s + p.content.split(/\s+/).length, 0);
+  // Archival sources — shown but unchecked by default
+  const archivalSources = (['chronicle'] as ContentSource[])
+    .filter((id) => bySource[id]?.count > 0)
+    .map((id) => ({
+      id,
+      label: SOURCE_META[id].label,
+      description: SOURCE_META[id].description,
+      color: SOURCE_META[id].color,
+      count: bySource[id]?.count ?? 0,
+      wordCount: bySource[id]?.words ?? 0,
+      optional: true as const,
+    }));
+
+  const allSources = [...standardSources, ...archivalSources];
+
+  const totalCount = standardSources.reduce((s, x) => s + x.count, 0);
+  const totalWords = standardSources.reduce((s, x) => s + x.wordCount, 0);
 
   return (
     <main className="max-w-2xl w-full mx-auto px-4 py-10 sm:py-16">
@@ -109,82 +116,15 @@ export default function DownloadPage() {
         <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
           Export the full corpus — {totalCount.toLocaleString()} posts,{' '}
           {(totalWords / 1_000_000).toFixed(1)}M words — or pick the sources you need.
+          Archival sources are available but unchecked by default.
         </p>
       </header>
 
       <DownloadClient
-        sources={publicSources}
+        sources={allSources}
         totalCount={totalCount}
         totalWords={totalWords}
       />
-
-      {/* ── Chronicles of Love and Resentment ─────────────────────────────── */}
-      <section className="mt-16 pt-10 border-t border-gray-100 dark:border-gray-800">
-        <div className="mb-6">
-          <div className="flex items-start justify-between gap-4 mb-2">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-              Chronicles of Love and Resentment
-            </h2>
-            <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 whitespace-nowrap mt-1">
-              Eric Gans
-            </span>
-          </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-1">
-            Eric Gans's weekly column, published on Anthropoetics from 1996 until his death in 2019.
-            These posts are part of the historical archive and are not indexed in the main search.
-          </p>
-          {chronicles.length === 0 ? (
-            <div className="mt-4 rounded-xl border border-amber-200 dark:border-amber-900/40 bg-amber-50 dark:bg-amber-900/10 px-4 py-4 text-sm text-amber-800 dark:text-amber-300">
-              <p className="font-medium mb-1">Chronicles not yet imported</p>
-              <p className="text-amber-700 dark:text-amber-400">
-                Run <code className="font-mono bg-amber-100 dark:bg-amber-900/40 px-1 rounded">node scripts/scrape-chronicles.mjs</code> to
-                scrape and import all Chronicle posts from the Wayback Machine.
-              </p>
-            </div>
-          ) : (
-            <p className="text-sm text-gray-400 dark:text-gray-500">
-              {chronicles.length.toLocaleString()} posts imported
-            </p>
-          )}
-        </div>
-
-        {chronicles.length > 0 && (
-          <div className="space-y-1">
-            {chronicles.map((post) => {
-              const num = post.slug.replace('chronicle-clr-', '');
-              return (
-                <div key={post.slug} className="flex items-baseline gap-3 py-1.5 border-b border-gray-50 dark:border-gray-800/60 group">
-                  <span className="text-xs font-mono text-gray-300 dark:text-gray-600 w-8 flex-shrink-0 text-right">
-                    {num}
-                  </span>
-                  <Link
-                    href={`/post/${post.slug}`}
-                    className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors flex-1 leading-snug"
-                  >
-                    {post.title}
-                  </Link>
-                  {post.date && (
-                    <span className="text-xs text-gray-400 dark:text-gray-600 whitespace-nowrap flex-shrink-0">
-                      {post.date}
-                    </span>
-                  )}
-                  {post.url && (
-                    <a
-                      href={post.url}
-                      target="_blank"
-                      rel="noopener noreferrer nofollow"
-                      className="text-xs text-gray-300 dark:text-gray-700 hover:text-gray-500 dark:hover:text-gray-400 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                      title="View original on Anthropoetics"
-                    >
-                      ↗
-                    </a>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </section>
     </main>
   );
 }

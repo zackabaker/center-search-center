@@ -5,13 +5,13 @@ import { NextRequest } from 'next/server';
 export const dynamic = 'force-dynamic';
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
-  substack: 'Bouvard Substack',
-  gablog: 'GABlog',
-  book: 'Anthropomorphics',
-  pdf: 'Essays & Articles',
-  reddit: 'Reddit',
-  twitter: 'X / Twitter',
-  chronicle: 'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
+  substack:  'Bouvard Substack',
+  gablog:    'GABlog',
+  book:      'Anthropomorphics',
+  pdf:       'Essays & Articles',
+  reddit:    'Reddit',
+  twitter:   'X / Twitter',
+  chronicle: 'Chronicles of Love and Resentment',
 };
 
 export async function GET(req: NextRequest) {

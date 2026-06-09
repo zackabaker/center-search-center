@@ -10,6 +10,8 @@ interface SourceInfo {
   wordCount: number;
   color: string;
   description: string;
+  /** If true, unchecked by default and shown with an "archival" note */
+  optional?: boolean;
 }
 
 interface Props {
@@ -43,7 +45,8 @@ function fmtCount(n: number) {
 
 export default function DownloadClient({ sources, totalCount, totalWords }: Props) {
   const [selected, setSelected] = useState<Set<ContentSource>>(
-    new Set(sources.map((s) => s.id))
+    // Optional sources (e.g. chronicles) are unchecked by default
+    new Set(sources.filter((s) => !s.optional).map((s) => s.id))
   );
   const [format, setFormat] = useState<'json' | 'txt'>('json');
 
@@ -116,6 +119,11 @@ export default function DownloadClient({ sources, totalCount, totalWords }: Prop
                     <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${src.color}`}>
                       {src.label}
                     </span>
+                    {src.optional && (
+                      <span className="text-xs px-1.5 py-0.5 rounded border border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-500">
+                        archival
+                      </span>
+                    )}
                     <span className="text-sm text-gray-500 dark:text-gray-400">
                       {src.description}
                     </span>
