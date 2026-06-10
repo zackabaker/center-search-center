@@ -94,6 +94,9 @@ export default async function ConceptsPage({
         <h1 className="text-2xl sm:text-3xl font-bold mt-3 mb-1 text-gray-900 dark:text-white">Concepts</h1>
         <p className="text-gray-500 dark:text-gray-400 text-sm">
           Core vocabulary of Center Study — defined, placed in the archive, and indexed.
+          Looking for a quick definition? Try the{' '}
+          <Link href="/glossary" className="text-blue-600 dark:text-blue-400 hover:underline">glossary</Link>
+          {' '}of 200+ terms.
         </p>
       </div>
 
