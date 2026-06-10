@@ -1,5 +1,6 @@
 import HomeSearch from '@/components/HomeSearch';
 import RandomPostButton from '@/components/RandomPostButton';
+import WelcomeBack from '@/components/WelcomeBack';
 import Link from 'next/link';
 import { getAllPosts, getPublicPosts } from '@/lib/parser';
 
@@ -204,6 +205,9 @@ export default function Home() {
           <span>1995&ndash;present</span>
         </div>
       </header>
+
+      {/* Returning readers: continue path / saved texts (localStorage) */}
+      <WelcomeBack />
 
       {/* Discover — random posts */}
       <div className="max-w-xl mx-auto px-4 pb-10">

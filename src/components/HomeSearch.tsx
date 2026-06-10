@@ -31,8 +31,10 @@ export default function HomeSearch() {
   const [isNavigating, setIsNavigating] = useState(false);
   const router = useRouter();
 
-  // icon speeds up as the user engages: idle → typing → launched
-  const iconSpeed = isNavigating ? 10 : query.length > 0 ? 3 : 1;
+  // icon speeds up as the user engages: idle → typing → launched.
+  // Typing must be UNMISTAKABLY alive (8× ≈ 2.25s/rotation) — at 3× the
+  // reaction was too subtle to register as a response to input.
+  const iconSpeed = isNavigating ? 12 : query.length > 0 ? 8 : 1;
 
   // ⌘K / Ctrl+K → go to search mode
   useEffect(() => {

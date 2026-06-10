@@ -11,7 +11,9 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    href: '/intro',
+    // The guide is the orientation hub (it links the intro as its first card);
+    // a long essay is the wrong landing for a "Start" tap on mobile.
+    href: '/guide',
     label: 'Start',
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -56,8 +58,8 @@ export default function MobileNav() {
       <div className="flex items-stretch justify-around">
         {navItems.map(({ href, label, icon }) => {
           const isActive =
-            href === '/intro'
-              ? pathname === '/intro'
+            href === '/guide'
+              ? pathname === '/guide'
               : pathname === href ||
                 pathname.startsWith(href + '/') ||
                 pathname.startsWith(href + '?');
