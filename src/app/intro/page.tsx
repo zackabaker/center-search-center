@@ -100,7 +100,7 @@ export default function IntroPage() {
       {/* On this page — jump links */}
       <nav className="mb-12 flex flex-wrap gap-2 text-xs">
         {[
-          ['#five-minute', 'The five-minute version'],
+          ['#five-minute', 'Introduction'],
           ['#lineage', 'Lineage'],
           ['#originary-scene', 'The originary scene'],
           ['#how-to-read', 'How to read'],
@@ -119,7 +119,7 @@ export default function IntroPage() {
       {/* ── The five-minute version ─────────────────────────────────────── */}
       <section id="five-minute" className="mb-16 scroll-mt-20">
         <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-6">
-          The five-minute version
+          Introduction
         </h2>
         <div
           className="space-y-5 text-gray-800 dark:text-gray-200"

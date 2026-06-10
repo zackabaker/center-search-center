@@ -144,11 +144,7 @@ function ReadingPathDisplay({ content }: { content: string }) {
     );
   }
 
-  // Downloads the FULL TEXT of every post in the path as one markdown file,
-  // compiled server-side — not just a list of links.
-  const downloadHref = `/api/reading-path/download?slugs=${encodeURIComponent(
-    path.posts.map((p) => p.slug).join(',')
-  )}`;
+  const firstPost = path.posts[0];
 
   return (
     <div>
@@ -193,24 +189,56 @@ function ReadingPathDisplay({ content }: { content: string }) {
         <p className="text-xs text-gray-500 dark:text-gray-400 italic mb-4">{path.coda}</p>
       )}
 
-      <a
-        href={downloadHref}
-        download
-        className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-gray-500 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
-      >
-        ↓ Download all {path.posts.length} texts (.md)
-      </a>
+      {firstPost && (
+        <Link
+          href={`/post/${firstPost.slug}`}
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors"
+        >
+          Start reading
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+          </svg>
+        </Link>
+      )}
+      <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">
+        Your path is saved — each text will show the next step, and you can return
+        here anytime to see your progress.
+      </p>
     </div>
   );
 }
+
+interface SavedPath {
+  title: string;
+  intro: string;
+  coda: string;
+  posts: RecommendedPost[];
+  createdAt: string;
+}
+
+export const AI_PATH_KEY = 'csc-ai-path';
 
 export default function ReadingPathFinder() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput]       = useState('');
   const [streaming, setStreaming]     = useState(false);
   const [streamContent, setStreamContent] = useState('');
+  const [savedPath, setSavedPath] = useState<SavedPath | null>(null);
+  const [readSlugs, setReadSlugs] = useState<Set<string>>(new Set());
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef  = useRef<HTMLTextAreaElement>(null);
+
+  // Restore a previously generated path + read progress
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(AI_PATH_KEY);
+      if (raw) {
+        const p = JSON.parse(raw) as SavedPath;
+        if (p?.posts?.length) setSavedPath(p);
+      }
+      setReadSlugs(new Set(JSON.parse(localStorage.getItem('csc-read-posts') || '[]')));
+    } catch {}
+  }, []);
 
   // Scroll to bottom when a completed message is added (not during streaming)
   useEffect(() => {
@@ -257,6 +285,15 @@ export default function ReadingPathFinder() {
 
       setMessages([...newMessages, { role: 'assistant', content: full }]);
       setStreamContent('');
+
+      // Persist the generated path so post pages can guide the reader
+      // through it and this page can show progress on return visits.
+      const parsed = parseReadingPath(full);
+      if (parsed && parsed.posts.length > 0) {
+        const saved: SavedPath = { ...parsed, createdAt: new Date().toISOString() };
+        try { localStorage.setItem(AI_PATH_KEY, JSON.stringify(saved)); } catch {}
+        setSavedPath(saved);
+      }
     } catch {
       setMessages([...newMessages, { role: 'assistant', content: 'Something went wrong. Please try again.' }]);
       setStreamContent('');
@@ -287,10 +324,110 @@ export default function ReadingPathFinder() {
     "I'm troubled by what's happening to media and journalism",
   ];
 
+  const startOver = () => {
+    try { localStorage.removeItem(AI_PATH_KEY); } catch {}
+    setSavedPath(null);
+    setMessages([]);
+    setInput('');
+    setStreamContent('');
+  };
+
+  const readCount = savedPath
+    ? savedPath.posts.filter((p) => readSlugs.has(p.slug)).length
+    : 0;
+  const nextUnread = savedPath?.posts.find((p) => !readSlugs.has(p.slug));
+
   return (
     <div className="max-w-2xl mx-auto">
+      {/* Returning visitor with a saved path — show progress, not a cold start */}
+      {messages.length === 0 && savedPath && (
+        <div className="mb-8">
+          <div className="flex items-baseline justify-between gap-4 mb-1">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white">{savedPath.title}</h2>
+            <span className="text-xs text-gray-400 dark:text-gray-500 tabular-nums flex-shrink-0">
+              {readCount} of {savedPath.posts.length} read
+            </span>
+          </div>
+          {savedPath.intro && (
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">{savedPath.intro}</p>
+          )}
+
+          {/* Progress bar */}
+          <div className="h-1.5 rounded-full bg-gray-100 dark:bg-gray-800 mb-5 overflow-hidden">
+            <div
+              className="h-full rounded-full bg-gray-900 dark:bg-white transition-all"
+              style={{ width: `${savedPath.posts.length ? Math.round((readCount / savedPath.posts.length) * 100) : 0}%` }}
+            />
+          </div>
+
+          <div className="space-y-2 mb-5">
+            {savedPath.posts.map((post, i) => {
+              const isRead = readSlugs.has(post.slug);
+              return (
+                <Link
+                  key={post.slug}
+                  href={`/post/${post.slug}`}
+                  className={`flex gap-3 p-3 rounded-lg border transition-all group block ${
+                    isRead
+                      ? 'bg-gray-50/50 dark:bg-gray-900/50 border-gray-100 dark:border-gray-800'
+                      : 'bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700'
+                  }`}
+                >
+                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5 ${
+                    isRead
+                      ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400'
+                      : 'bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-900'
+                  }`}>
+                    {isRead ? '✓' : i + 1}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${SOURCE_COLORS[post.source] || 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'}`}>
+                      {post.source || slugToSource(post.slug)}
+                    </span>
+                    <p className={`text-sm font-semibold leading-snug mt-0.5 ${
+                      isRead
+                        ? 'text-gray-400 dark:text-gray-500'
+                        : 'text-blue-600 dark:text-blue-400 group-hover:underline'
+                    }`}>
+                      {post.title}
+                    </p>
+                    {post.note && !isRead && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed italic">{post.note}</p>
+                    )}
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          <div className="flex items-center gap-4 flex-wrap">
+            {nextUnread ? (
+              <Link
+                href={`/post/${nextUnread.slug}`}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors"
+              >
+                {readCount > 0 ? 'Continue reading' : 'Start reading'}
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            ) : (
+              <p className="text-sm font-semibold text-green-700 dark:text-green-400">
+                Path complete — well done.
+              </p>
+            )}
+            <button
+              onClick={startOver}
+              className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+            >
+              Build a new path
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Intro block — only shown before any conversation */}
-      {messages.length === 0 && (
+      {messages.length === 0 && !savedPath && (
         <div className="mb-8">
           <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 mb-6">
             <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
@@ -362,8 +499,8 @@ export default function ReadingPathFinder() {
         <div ref={bottomRef} />
       </div>
 
-      {/* Input — hidden once a full path is generated */}
-      {!hasPath && (
+      {/* Input — hidden once a path exists (generated now or saved earlier) */}
+      {!hasPath && !(messages.length === 0 && savedPath) && (
         <div className="relative">
           <textarea
             ref={inputRef}
@@ -391,11 +528,7 @@ export default function ReadingPathFinder() {
       {hasPath && (
         <div className="flex gap-4 pt-4 border-t border-gray-200 dark:border-gray-800 items-center">
           <button
-            onClick={() => {
-              setMessages([]);
-              setInput('');
-              setStreamContent('');
-            }}
+            onClick={startOver}
             className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
           >
             ← Start over
