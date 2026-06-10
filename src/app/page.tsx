@@ -168,7 +168,8 @@ export default function Home() {
           className="mb-6 px-2 max-w-lg mx-auto"
           style={{ fontFamily: 'var(--font-lora, Georgia, serif)' }}
         >
-          <p className="text-base sm:text-lg italic text-gray-500 dark:text-gray-400 leading-relaxed">
+          {/* Upright (non-italic) serif — italic Lora is too ornate to read comfortably */}
+          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
             &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it&rdquo;
           </p>
         </blockquote>
