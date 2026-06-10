@@ -19,6 +19,7 @@ import Concordance from '@/components/Concordance';
 import { getPostTermFrequency, buildSearchEntries, getRelatedEntries } from '@/lib/search-index';
 import { MarkPostRead } from '@/components/MarkPostRead';
 import NextInPath from '@/components/NextInPath';
+import AiPathNext from '@/components/AiPathNext';
 import PostSearchContext, { BackButton } from '@/components/PostSearchContext';
 
 // Module-level cache — computed once per server-process lifetime (survives warm serverless invocations)
@@ -322,7 +323,10 @@ export default async function PostPage({
                 on desktop the sidebar shows a compact top-3 list, and the full list stays here too */}
             <RelatedPosts currentSlug={slug} allPosts={allPosts} />
 
-            {/* Next in reading path */}
+            {/* Next in AI-generated reading path (client, localStorage) */}
+            <AiPathNext slug={slug} />
+
+            {/* Next in curated reading path */}
             <NextInPath slug={slug} />
 
             {/* Prev / Next in source — always below article */}
