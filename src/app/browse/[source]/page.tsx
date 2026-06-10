@@ -167,6 +167,22 @@ export default async function BrowseSourcePage({
   const redditCount  = (src === 'threads' || src === 'all') ? allPosts.filter(p => p.source === 'reddit').length : 0;
   const twitterCount = (src === 'threads' || src === 'all') ? allPosts.filter(p => p.source === 'twitter').length : 0;
 
+  // Year navigation for the large dated archives (Chronicles: ~850 weekly
+  // columns 1996-2019; AP Journal 1995-2024). A flat list is unusable at
+  // that size — year chips jump straight to one year via ?from=&to=.
+  let yearNav: number[] = [];
+  if (src === 'chronicle' || src === 'ap') {
+    const years = new Set<number>();
+    for (const p of sourcePosts) {
+      const m = p.date?.match(/\b(19|20)\d{2}\b/);
+      if (m) years.add(parseInt(m[0], 10));
+    }
+    yearNav = [...years].sort((a, b) => a - b);
+  }
+  const activeYear = yearNav.length && initialYearFrom !== undefined && initialYearFrom === initialYearTo
+    ? initialYearFrom
+    : undefined;
+
   return (
     <main className="max-w-4xl w-full mx-auto px-4 pt-4 pb-24 sm:pt-8 sm:py-12">
 
@@ -243,6 +259,37 @@ export default async function BrowseSourcePage({
           {meta.description}
         </p>
       </div>
+
+      {/* Year navigation for Chronicles / AP Journal */}
+      {yearNav.length > 1 && (
+        <div className="mb-6 -mx-4 px-4 overflow-x-auto scrollbar-hide">
+          <div className="flex items-center gap-1.5 min-w-max">
+            <Link
+              href={`/browse/${src}`}
+              className={`px-2.5 py-1 rounded-lg text-xs font-medium tabular-nums transition-colors ${
+                activeYear === undefined
+                  ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+              }`}
+            >
+              All
+            </Link>
+            {yearNav.map((y) => (
+              <Link
+                key={y}
+                href={`/browse/${src}?from=${y}&to=${y}`}
+                className={`px-2.5 py-1 rounded-lg text-xs font-medium tabular-nums transition-colors ${
+                  activeYear === y
+                    ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                }`}
+              >
+                {y}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Searchable post list (client component) */}
       <BrowseSourceClient

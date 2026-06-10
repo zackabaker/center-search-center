@@ -65,7 +65,7 @@ function highlight(text: string, query: string) {
   const parts = text.split(regex);
   return parts.map((part, i) =>
     i % 2 === 1
-      ? <mark key={i} className="bg-yellow-200 text-yellow-900 rounded-sm px-0.5">{part}</mark>
+      ? <mark key={i} className="bg-yellow-200 text-yellow-900 dark:bg-yellow-500/30 dark:text-yellow-200 rounded-sm px-0.5 font-semibold">{part}</mark>
       : part
   );
 }
@@ -427,7 +427,10 @@ export default function SearchPageClient({
                       >
                         {highlight(entry.title, committed)}
                       </Link>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed break-words">
+                      <p
+                        className="text-[15px] text-gray-600 dark:text-gray-400 leading-relaxed break-words"
+                        style={{ fontFamily: 'var(--prose-font-family)' }}
+                      >
                         {highlight(contextSnippet, committed)}
                       </p>
                     </div>

@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { CS_TERMS_SORTED, TERM_TO_CONCEPT_SLUG } from '@/lib/cs-terms';
+import { GLOSSARY_LINK_TERMS } from '@/data/guide/glossary-link-terms';
 
 interface PostContentProps {
   content: string;
@@ -16,6 +17,21 @@ const LINKABLE_TERMS = CS_TERMS_SORTED.filter(
   (t) => t.term.split(' ').length >= 2 || t.term.length >= 10
 );
 
+// Glossary anchors for terms not covered by the concept system
+const GLOSSARY_ANCHORS: Record<string, string> = {};
+for (const { term, anchor } of GLOSSARY_LINK_TERMS) {
+  GLOSSARY_ANCHORS[term.toLowerCase()] = anchor;
+}
+
+// Combined matching list, longest-first (concept terms take precedence on ties
+// because they come first at equal length)
+const ALL_LINKABLE: { term: string }[] = [
+  ...LINKABLE_TERMS,
+  ...GLOSSARY_LINK_TERMS.filter(
+    (g) => !LINKABLE_TERMS.some((t) => t.term.toLowerCase() === g.term.toLowerCase())
+  ),
+].sort((a, b) => b.term.length - a.term.length);
+
 /**
  * Replace the first occurrence of each CS term across paragraphs with a link.
  * Returns an array of React nodes (strings or <Link> / <a> elements).
@@ -25,7 +41,7 @@ function linkifyText(
   linkedAlready: Set<string>,
   paraIdx: number
 ): React.ReactNode[] {
-  if (!text || LINKABLE_TERMS.length === 0) return [text];
+  if (!text || ALL_LINKABLE.length === 0) return [text];
 
   interface Match {
     start: number;
@@ -37,7 +53,7 @@ function linkifyText(
   const matches: Match[] = [];
   const occupied = new Set<number>();
 
-  for (const { term } of LINKABLE_TERMS) {
+  for (const { term } of ALL_LINKABLE) {
     if (linkedAlready.has(term)) continue;
     const idx = text.toLowerCase().indexOf(term.toLowerCase());
     if (idx === -1) continue;
@@ -69,6 +85,7 @@ function linkifyText(
     if (start > last) nodes.push(text.slice(last, start));
 
     const conceptSlug = TERM_TO_CONCEPT_SLUG[term.toLowerCase()];
+    const glossaryAnchor = GLOSSARY_ANCHORS[term.toLowerCase()];
     const linkClass =
       'underline decoration-dotted decoration-gray-400 dark:decoration-gray-600 hover:decoration-gray-700 dark:hover:decoration-gray-400 transition-colors';
 
@@ -79,6 +96,17 @@ function linkifyText(
           href={`/guide/concepts/${conceptSlug}`}
           className={linkClass}
           title={`Concept: ${term}`}
+        >
+          {original}
+        </Link>
+      );
+    } else if (glossaryAnchor) {
+      nodes.push(
+        <Link
+          key={`${paraIdx}-${start}`}
+          href={`/concepts?view=glossary#${glossaryAnchor}`}
+          className={linkClass}
+          title={`Glossary: ${term}`}
         >
           {original}
         </Link>
@@ -119,6 +147,18 @@ function shouldStrip(p: string): boolean {
 export function PostContent({ content, postTitle = '', postUrl = '' }: PostContentProps) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
+  // Term links can be toggled off in ReadingControls (localStorage +
+  // window event). Default on; read the preference after mount.
+  const [linksEnabled, setLinksEnabled] = useState(true);
+  useEffect(() => {
+    const read = () => {
+      try { setLinksEnabled(localStorage.getItem('csc-term-links') !== 'off'); } catch {}
+    };
+    read();
+    window.addEventListener('csc-term-links-changed', read);
+    return () => window.removeEventListener('csc-term-links-changed', read);
+  }, []);
+
   const paragraphs = content
     .split(/\n\n+/)
     .filter((p) => p.trim())
@@ -140,7 +180,7 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
     const text = isBlockquote
       ? raw.replace(/^>\s*/, '').replace(/^_|_$/g, '')
       : raw;
-    const skipLinkify = isHeading || isDivider || isBouvardLabel || !!questionCard;
+    const skipLinkify = !linksEnabled || isHeading || isDivider || isBouvardLabel || !!questionCard;
     const nodes: React.ReactNode[] = skipLinkify
       ? [text]
       : linkifyText(text, linkedAlready, i);

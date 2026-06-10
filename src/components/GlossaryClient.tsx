@@ -28,7 +28,6 @@ export default function GlossaryClient({ entries }: Props) {
     );
   }, [entries, query]);
 
-  // Group by first letter (numbers grouped under '#')
   const groups = useMemo(() => {
     const map = new Map<string, GlossaryEntry[]>();
     for (const e of filtered) {
@@ -43,7 +42,21 @@ export default function GlossaryClient({ entries }: Props) {
   const letters = groups.map(([l]) => l);
 
   return (
-    <div>
+    <div className="max-w-3xl">
+      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mb-5">
+        {entries.length} terms, each used repeatedly across the corpus, with usage
+        drawn directly from the texts. Term list adapted from{' '}
+        <a
+          href="https://theglossary.home.blog/generative-anthropology/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-gray-800 dark:hover:text-gray-200"
+        >
+          The Glossary
+        </a>
+        , a community Generative Anthropology reference.
+      </p>
+
       {/* Filter */}
       <div className="mb-6">
         <input
@@ -89,18 +102,54 @@ export default function GlossaryClient({ entries }: Props) {
             <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-5 pb-2 border-b border-gray-100 dark:border-gray-800">
               {letter}
             </h2>
-            <div className="space-y-7">
+            <div className="space-y-9">
               {group.map((entry) => (
                 <div key={entry.slug} id={entry.slug} className="scroll-mt-28">
-                  <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-1">
-                    {entry.term}
-                  </h3>
+                  <div className="flex items-baseline gap-3 flex-wrap mb-1">
+                    <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+                      {entry.term}
+                    </h3>
+                    <span className="text-[11px] text-gray-300 dark:text-gray-600 tabular-nums">
+                      in {entry.posts} texts
+                    </span>
+                  </div>
                   <p
-                    className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 max-w-2xl"
+                    className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2.5 max-w-2xl"
                     style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px' }}
                   >
                     {entry.gloss}
                   </p>
+
+                  {/* Usage from the corpus */}
+                  {entry.passages.length > 0 && (
+                    <div className="space-y-2.5 mb-2.5">
+                      {entry.passages.map((p, i) => (
+                        <blockquote
+                          key={i}
+                          className={`border-l-2 border-gray-200 dark:border-gray-700 pl-3.5 ${i > 0 ? 'hidden sm:block' : ''}`}
+                        >
+                          <p
+                            className="text-sm text-gray-600 dark:text-gray-400 italic leading-relaxed max-w-2xl"
+                            style={{ fontFamily: 'var(--prose-font-family)' }}
+                          >
+                            &ldquo;{p.text}&rdquo;
+                          </p>
+                          <footer className="mt-1">
+                            <Link
+                              href={`/post/${p.slug}`}
+                              className="inline-flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors group"
+                            >
+                              <span className={`px-1.5 py-0.5 rounded font-medium ${SOURCE_COLORS[p.source] ?? 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'}`}>
+                                {p.source}
+                              </span>
+                              <span className="group-hover:underline max-w-[300px] truncate">{p.title}</span>
+                            </Link>
+                          </footer>
+                        </blockquote>
+                      ))}
+                    </div>
+                  )}
+
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs">
                     {entry.concept && (
                       <Link
@@ -120,7 +169,7 @@ export default function GlossaryClient({ entries }: Props) {
                         <span className={`px-1.5 py-0.5 rounded font-medium ${SOURCE_COLORS[s.source] ?? 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'}`}>
                           {s.source}
                         </span>
-                        <span className="group-hover:underline max-w-[260px] truncate">{s.title}</span>
+                        <span className="group-hover:underline max-w-[220px] truncate">{s.title}</span>
                       </Link>
                     ))}
                     <Link
