@@ -258,7 +258,11 @@ function parseBook(): Post[] {
     for (let i = 0; i < chapters.length; i++) {
       const { title, line } = chapters[i];
       const endLine = i + 1 < chapters.length ? chapters[i + 1].line : lines.length;
-      const chapterContent = lines.slice(line + 1, endLine).join('\n').trim();
+      // The book markdown carries page-break artifacts (3+ newlines splitting
+      // sentences mid-paragraph) — same fix as the PDF pipeline.
+      const chapterContent = mergeSpuriousParagraphBreaks(
+        lines.slice(line + 1, endLine).join('\n').trim()
+      );
       if (!chapterContent) continue;
 
       posts.push({
@@ -276,11 +280,12 @@ function parseBook(): Post[] {
 
   // Full book entry — kept for backward compat (concept page links, intro page, etc.)
   // Its search value is mostly as an overview; chapters handle specific queries.
+  const mergedBody = mergeSpuriousParagraphBreaks(contentBody);
   posts.push({
     slug: 'book-anthropomorphics',
     title: 'Anthropomorphics: An Originary Grammar of the Center',
-    content: contentBody,
-    excerpt: excerpt(contentBody),
+    content: mergedBody,
+    excerpt: excerpt(mergedBody),
     date: null,
     source: 'book' as ContentSource,
   });
@@ -905,11 +910,74 @@ function normForTitleMatch(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9]/g, '');
 }
 
+// Merge paragraph breaks that are page-break artifacts, not real breaks.
+// Page breaks in PDF extraction (and in the book markdown) leave blank lines
+// mid-sentence — often as 3+ newlines or blank lines containing spaces, so
+// blank-line normalisation MUST happen before the merge pattern runs.
+// Heuristic: a real paragraph never ends with a connective character
+// (dash, comma, semicolon, colon, open paren) and rarely starts lowercase;
+// both together = split sentence. Dashes/hyphens rejoin without a space
+// ("risk-" + "driven" → "risk-driven", "so—" + "the" → "so—the").
+// Academic block quotations are set off from a lowercase lead-in ("Sapir
+// noted that in certain tribes," + quote) and end with a page citation
+// ("(191)", "(p. 66)"). Mark them as blockquotes so the paragraph-merge
+// step doesn't inline them back into the lead-in. Idempotent.
+function markBlockQuotes(text: string): string {
+  return text
+    .split('\n\n')
+    .map((para) => {
+      const t = para.trim();
+      return /^[a-z]/.test(t) && /\((?:pp?\.?\s?)?\d{1,4}\)$/.test(t)
+        ? '> ' + para
+        : para;
+    })
+    .join('\n\n');
+}
+
+function mergeSpuriousParagraphBreaks(text: string): string {
+  // Collapse ANY run of 2+ newlines (with blank padding) to exactly \n\n in
+  // one pass — sequential replaces miss overlapping runs like "\n \n \n".
+  text = text.replace(/\n(?:[ \t]*\n)+/g, '\n\n');
+  // Protect real block quotations before merging
+  text = markBlockQuotes(text);
+  return text.replace(
+    /([a-zA-Z0-9"'’”—–,;:()/-])\n\n([a-z])/g,
+    (_, before, after) =>
+      before === '—' || before === '–' || before === '-'
+        ? before + after
+        : before + ' ' + after
+  );
+}
+
 function cleanPdfText(raw: string, expectedTitle?: string): string {
   // ── Step 1: strip browser-print headers and footers ───────────────────────
   const lines = raw.split('\n');
-  const filtered: string[] = [];
+
+  // Running headers/footers repeat identically on every page ("Double Helix,
+  // Vol 12 (2024)" between every pair of pages). Count identical trimmed
+  // lines; a line of 6-120 chars appearing 3+ times, sitting alone between
+  // blank lines, and not ending like a sentence is page furniture. The
+  // blank-flank requirement protects wrapped prose lines that happen to
+  // repeat; the punctuation guard protects deliberate one-line refrains.
+  const lineCounts = new Map<string, number>();
   for (const line of lines) {
+    const t = line.trim();
+    if (t.length >= 6 && t.length <= 120) {
+      lineCounts.set(t, (lineCounts.get(t) ?? 0) + 1);
+    }
+  }
+  const isPageFurniture = (t: string, i: number): boolean => {
+    if (t.length < 6 || t.length > 120) return false;
+    if ((lineCounts.get(t) ?? 0) < 3) return false;
+    if (/[.!?…]["'”’)\]]*$/.test(t)) return false;
+    const prevBlank = i === 0 || !lines[i - 1].trim();
+    const nextBlank = i === lines.length - 1 || !lines[i + 1].trim();
+    return prevBlank && nextBlank;
+  };
+
+  const filtered: string[] = [];
+  for (let li = 0; li < lines.length; li++) {
+    const line = lines[li];
     const t = line.trim();
     // "5/9/25, 2:43 PM  The Anthropoetics of Power..."  (date at start)
     if (/^\d{1,2}\/\d{1,2}\/\d{2,4},\s+\d+:\d+\s+[AP]M/.test(t)) continue;
@@ -923,7 +991,19 @@ function cleanPdfText(raw: string, expectedTitle?: string): string {
     if (/^https?:\/\/\S+$/.test(t)) continue;
     // Website nav artifacts: "Share | Subscribe to…"
     if (/^Share\s*\|/.test(t)) continue;
-    filtered.push(line);
+    // Bare page numbers on their own line
+    if (/^\d{1,3}$/.test(t)) continue;
+    // Anthropoetics end-matter: "ap@humnet.ucla.edu Last updated: ..."
+    if (/Last updated:/i.test(t) && t.length < 80) continue;
+    // Bare email lines
+    if (/^\S+@\S+\.\S+$/.test(t)) continue;
+    // Journal footers: "Double Helix, Vol 12 (2024)" — short docs repeat
+    // them too few times for the page-furniture counter to catch
+    if (/^.{0,60}Vol\.?\s?\d+\s?\(\d{4}\)$/.test(t)) continue;
+    // Running header/footer (repeated, blank-flanked, non-sentence line)
+    if (isPageFurniture(t, li)) continue;
+    // Trailing whitespace breaks end-of-line hyphen detection during rejoin
+    filtered.push(line.replace(/\s+$/, ''));
   }
 
   // ── Step 1.5: strip the leading title line(s) ─────────────────────────────
@@ -963,6 +1043,19 @@ function cleanPdfText(raw: string, expectedTitle?: string): string {
     ) {
       filtered.splice(start, 1);
     }
+
+    // Byline lines directly under the title ("by Adam Katz (May 2007)",
+    // "by Chris B May 2, 2017" / "by Bouvard" across wrapped lines) — the
+    // page header already shows the author, so drop them all.
+    for (;;) {
+      let bstart = 0;
+      while (bstart < filtered.length && !filtered[bstart].trim()) bstart++;
+      if (bstart < filtered.length && /^by [A-Z][^\n]{1,60}$/.test(filtered[bstart].trim())) {
+        filtered.splice(bstart, 1);
+      } else {
+        break;
+      }
+    }
   }
 
   // ── Step 2: detect format ────────────────────────────────────────────────
@@ -982,20 +1075,10 @@ function cleanPdfText(raw: string, expectedTitle?: string): string {
       before.endsWith('-') ? before.slice(0, -1) + after : before + ' ' + after
     );
 
-    // After rejoining, remaining blank lines (\n\n) should be paragraph breaks.
-    // Exception: a page break in the middle of a paragraph leaves a spurious
-    // blank line between text that doesn't end in terminal punctuation and
-    // continuation that starts with a lowercase letter -> merge.
-    // The preceding char may be a letter/digit/quote OR a connective mark
-    // (em/en dash, comma, semicolon, colon, open paren) — a paragraph never
-    // legitimately ends with those. Dashes join without an added space.
-    text = text.replace(
-      /([a-zA-Z0-9"'—–,;:(])\n\n([a-z])/g,
-      (_, before, after) =>
-        before === '—' || before === '–'
-          ? before + after
-          : before + ' ' + after
-    );
+    // After rejoining, remaining blank lines should be paragraph breaks —
+    // except page-break splits, handled by the shared merge helper (which
+    // also normalises 3+ newlines and blank-lines-with-spaces first).
+    text = mergeSpuriousParagraphBreaks(text);
   }
 
   // ── Step 4: fix letter-spaced decorative text ────────────────────────────
@@ -1016,6 +1099,10 @@ function cleanPdfText(raw: string, expectedTitle?: string): string {
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 
+  // Mark block quotations in BLOB documents too (the wrapped branch already
+  // did this inside mergeSpuriousParagraphBreaks; the call is idempotent).
+  text = markBlockQuotes(text);
+
   // ── Step 7: mark an opening epigraph as a blockquote ─────────────────────
   // Many essays open with a short quotation attributed via an em dash
   // ("…quote text — Author Name"). Render it as a blockquote (epigraph)
@@ -1030,6 +1117,36 @@ function cleanPdfText(raw: string, expectedTitle?: string): string {
     /[—–]\s*[A-Z][A-Za-z.'’À-ſ ]{1,60}$/.test(firstPara)
   ) {
     text = '> ' + firstPara + (paraBreak === -1 ? '' : text.slice(paraBreak));
+  }
+
+  // ── Step 8: late title repeats and orphaned subtitle fragments ──────────
+  if (expectedTitle) {
+    const normTitle = normForTitleMatch(expectedTitle);
+    if (normTitle.length >= 12) {
+      // A short early paragraph that begins with the title text and doesn't
+      // end like a sentence is a cover line / running header that escaped
+      // the line-level filters (e.g. it only occurs twice in the document).
+      const paras = text.split('\n\n');
+      const kept = paras.filter((para, i) => {
+        const t = para.trim();
+        return !(
+          i < 6 &&
+          t.length < 150 &&
+          !/[.!?…]["'”’)\]]*$/.test(t) &&
+          normForTitleMatch(t).startsWith(normTitle.slice(0, 25))
+        );
+      });
+      text = kept.join('\n\n');
+    }
+
+    // Title-stripping can orphan a subtitle tail (doc title "…: A Review of
+    // Daniel Ross's …" minus the metadata title leaves "of Daniel Ross's …").
+    // Render the leftover as italic front matter under the H1.
+    const pb2 = text.indexOf('\n\n');
+    const first2 = pb2 === -1 ? text : text.slice(0, pb2);
+    if (/^[a-z]/.test(first2) && first2.length < 250) {
+      text = '_…' + first2 + '_' + (pb2 === -1 ? '' : text.slice(pb2));
+    }
   }
 
   return text;
