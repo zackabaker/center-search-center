@@ -14,6 +14,19 @@ import {
   stemWord,
 } from '@/lib/search-index';
 import FilterTabs from '@/components/FilterTabs';
+import { GLOSSARY_LINK_TERMS } from '@/data/guide/glossary-link-terms';
+import { CS_TERMS } from '@/lib/cs-terms';
+
+// Suggestion pool: concept terms + glossary terms (deduped, lowercased keys)
+const SUGGESTION_POOL: string[] = (() => {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const t of [...CS_TERMS.map((x) => x.term), ...GLOSSARY_LINK_TERMS.map((x) => x.term)]) {
+    const k = t.toLowerCase();
+    if (!seen.has(k)) { seen.add(k); out.push(t); }
+  }
+  return out;
+})();
 import AnimatedSearchIcon from '@/components/AnimatedSearchIcon';
 
 type FilterOption = 'all' | ContentSource;
@@ -52,6 +65,48 @@ function saveRecent(q: string) {
 }
 
 // ── Highlight matching terms in a text node ──────────────────────────────────
+// Edit distance capped at 3 — enough to catch typos in GA vocabulary
+function editDistance(a: string, b: string, cap = 3): number {
+  if (Math.abs(a.length - b.length) > cap) return cap + 1;
+  const dp = Array.from({ length: a.length + 1 }, (_, i) => i);
+  for (let j = 1; j <= b.length; j++) {
+    let prev = dp[0];
+    dp[0] = j;
+    for (let i = 1; i <= a.length; i++) {
+      const tmp = dp[i];
+      dp[i] = Math.min(dp[i] + 1, dp[i - 1] + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prev = tmp;
+    }
+  }
+  return dp[a.length];
+}
+
+// Vocabulary terms close to a failed query — substring match or a query word
+// within edit distance 2 of a term word.
+function suggestTerms(q: string, limit = 5): string[] {
+  // Strip quotes and operators the search syntax may have added
+  const ql = q.toLowerCase().replace(/["'\u201c\u201d]/g, '').replace(/\b(and|or|not)\b/g, ' ').trim();
+  if (ql.length < 3) return [];
+  const qWords = ql.split(/\s+/).filter((w) => w.length >= 4);
+  const scored: { term: string; score: number }[] = [];
+  for (const term of SUGGESTION_POOL) {
+    const tl = term.toLowerCase();
+    let score = 0;
+    if (tl.includes(ql) || ql.includes(tl)) score = 3;
+    else {
+      for (const qw of qWords) {
+        for (const tw of tl.split(/\s+/)) {
+          const d = editDistance(qw, tw, 2);
+          if (d <= 1) score = Math.max(score, 2);
+          else if (d === 2 && qw.length >= 6) score = Math.max(score, 1);
+        }
+      }
+    }
+    if (score > 0) scored.push({ term, score });
+  }
+  return scored.sort((a, b) => b.score - a.score).slice(0, limit).map((x) => x.term);
+}
+
 function highlight(text: string, query: string) {
   const clean = query.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
   if (!clean) return text;
@@ -508,6 +563,37 @@ export default function SearchPageClient({
                   ? 'Searching as exact phrase. Try switching to "term AND term" for looser matching.'
                   : 'Try removing AND/NOT operators, or use fewer terms.'}
               </p>
+
+              {/* Nearby vocabulary terms */}
+              {suggestTerms(committed).length > 0 && (
+                <div className="mt-6">
+                  <p className="text-xs mb-2">Close vocabulary terms:</p>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {suggestTerms(committed).map((t) => (
+                      <button
+                        key={t}
+                        onClick={() => { setQuery(t); handleSubmit(t); }}
+                        className="px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-xs text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
+                      >
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Escape hatch: this vocabulary rewards questions over keywords */}
+              <div className="mt-6">
+                <Link
+                  href={`/ask?q=${encodeURIComponent(committed.replace(/["\u201c\u201d]/g, ''))}`}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-medium hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                  Ask AI about &ldquo;{(() => { const c = committed.replace(/["\u201c\u201d]/g, ''); return c.length > 40 ? c.slice(0, 40) + '…' : c; })()}&rdquo;
+                </Link>
+              </div>
               {recentSearches.length > 0 && (
                 <div className="mt-6">
                   <p className="text-xs mb-2">Recent searches:</p>
