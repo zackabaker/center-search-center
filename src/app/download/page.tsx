@@ -179,6 +179,38 @@ export default function DownloadPage() {
         totalCount={totalCount}
         totalWords={totalWords}
       />
+
+      {/* ── Machine access ─────────────────────────────────────────────── */}
+      <section className="mt-14 pt-10 border-t border-gray-200 dark:border-gray-800">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+          For AIs, scrapers &amp; archivists
+        </h2>
+        <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-5 max-w-xl">
+          The archive is built to be machine-readable. Crawling, indexing, and
+          AI use are welcome — every text is server-rendered HTML and available
+          as JSON, Markdown, and plain text. Start at{' '}
+          <a href="/llms.txt" className="text-blue-600 dark:text-blue-400 hover:underline font-mono text-xs">/llms.txt</a>.
+        </p>
+
+        <div className="space-y-3 text-sm">
+          {[
+            { code: 'GET /api/corpus', desc: 'JSON index of every text — slugs, metadata, per-format URLs. Filter with ?source=gablog,substack' },
+            { code: 'GET /api/corpus/{slug}', desc: 'One text as JSON. Add ?format=md for Markdown with front matter, ?format=txt for plain text' },
+            { code: 'GET /api/download?format=json', desc: 'The entire archive in one file (also format=txt, ?sources= to filter)' },
+            { code: 'GET /sitemap.xml · /feed.xml', desc: 'Sitemap of all pages; RSS of recent texts' },
+          ].map((r) => (
+            <div key={r.code} className="rounded-lg border border-gray-200 dark:border-gray-700 px-4 py-3">
+              <code className="text-xs font-mono text-gray-900 dark:text-white">{r.code}</code>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">{r.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <p className="text-xs text-gray-400 dark:text-gray-500 mt-5 leading-relaxed">
+          All data endpoints are CORS-open and cached at the edge. Example:{' '}
+          <code className="font-mono">curl center.study/api/corpus/gablog-the-discourse-of-the-center?format=md</code>
+        </p>
+      </section>
     </main>
   );
 }
