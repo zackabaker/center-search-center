@@ -40,14 +40,19 @@ export default function RandomPostButton() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest">
-          Discover
-        </h3>
+      <div className="flex items-end justify-between mb-3">
+        <div>
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
+            Discover
+          </h3>
+          <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+            Three texts from the archive — different every visit
+          </p>
+        </div>
         <button
           onClick={shuffle}
           disabled={loading}
-          className="inline-flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors disabled:opacity-40"
+          className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-800 dark:hover:text-gray-200 transition-colors disabled:opacity-40"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
