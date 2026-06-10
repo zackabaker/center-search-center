@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
+import { rateLimit, clientIp, isSameOrigin } from '@/lib/rate-limit';
 import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import { Post } from '@/lib/types';
 import { getConceptBySlug } from '@/data/guide/concepts';
@@ -426,6 +427,22 @@ ${chunk.text}`;
 }
 
 export async function POST(request: Request) {
+  // ── Abuse guards: browser-origin + per-IP rate limit ──────────────────
+  // This endpoint spends Anthropic credits per request. Headerless clients
+  // (curl/scripts) are rejected; each IP gets a small per-minute budget.
+  if (!isSameOrigin(request)) {
+    return Response.json({ error: 'Forbidden' }, { status: 403 });
+  }
+  {
+    const limited = rateLimit(`chat:${clientIp(request)}`, 10, 60_000);
+    if (!limited.ok) {
+      return Response.json(
+        { error: 'Too many requests — slow down a little.' },
+        { status: 429, headers: { 'Retry-After': String(limited.retryAfterSeconds) } }
+      );
+    }
+  }
+
   try {
     const { message, history, concept } = await request.json();
 
