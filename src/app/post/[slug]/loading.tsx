@@ -1,15 +1,20 @@
 // Shown instantly while the post page renders server-side.
 // Instead of a blank skeleton, show a rotating passage from the archive
 // so there's something worth reading while waiting.
+//
+// EVERY quote below is verified VERBATIM against the corpus (normalized
+// for curly quotes/dashes only) and attributed to the actual text it
+// appears in. Do not add quotes here without checking them against
+// posts-cache.json word for word.
 
 const LOADING_QUOTES = [
   {
     text: 'We are beings bound to the center: everything that we say, think or do is homage to the center.',
-    source: 'Anthropomorphics',
+    source: 'The Discourse of the Center',
   },
   {
     text: 'The originary hypothesis repels the kind of initiatory revelatory "download" that is nevertheless the only way of understanding it.',
-    source: 'Anthropomorphics',
+    source: 'Originary Hypothesis as Mobius Strip',
   },
   {
     text: 'What is a center? Whatever can invoke and be referenced by an ostensive sign: the center is both cause and product of the sign — as cause it subsists beyond any particular reference, and as product it is continually renewed.',
@@ -25,23 +30,23 @@ const LOADING_QUOTES = [
   },
   {
     text: 'All human existence is an exchange with the center. The first message from the center is to defer appropriation.',
-    source: 'GABlog',
+    source: 'How Does the Center Speak?',
   },
   {
-    text: 'The sign defers the violence of appropriation by substituting representation for the act. This is why language is the deferral of violence — not metaphorically, not morally, but structurally.',
-    source: 'Anthropomorphics',
+    text: 'The center is whatever interferes with violent centralization.',
+    source: 'Revivalistics',
   },
   {
-    text: 'Resentment is the specifically human emotion — appetite transformed by prohibition into something that persists even after the object is obtained.',
-    source: 'GABlog',
+    text: 'There is always a center whenever humans are arranged in relation to each other, and the center is always occupied, even if only by a sacred carcass.',
+    source: 'Scale',
   },
   {
-    text: 'The human is that being who is a greater danger to himself than is posed by any external danger — and who requires, therefore, a center that can hold.',
-    source: 'Anthropomorphics',
+    text: 'The human is that being who is a greater danger to himself than is posed by any external danger.',
+    source: 'The Prospects of the Hypothesis',
   },
   {
-    text: 'Succession is the central political problem: how authority passes from one center-occupant to the next without collapsing into the mimetic violence the center was always meant to defer.',
-    source: 'GABlog',
+    text: 'The real danger to our species is the same danger that it came into being to defer: intraspecific violence and the form it assumes in deferral, resentment.',
+    source: 'The Clash of the Clash of Civilizations',
   },
 ];
 
