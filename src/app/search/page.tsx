@@ -1,11 +1,6 @@
 import { Suspense } from 'react';
-import { getPublicPosts } from '@/lib/parser';
-import { ARCHIVAL_SOURCES } from '@/lib/types';
-import { buildSearchEntries } from '@/lib/search-index';
-import SearchPageClient from './SearchPageClient';
+import SearchIndexLoader from './SearchIndexLoader';
 import type { Metadata } from 'next';
-
-export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Search',
@@ -13,25 +8,16 @@ export const metadata: Metadata = {
 };
 
 export default function SearchPage() {
-  // Build the search index on the server (runs once per ISR cycle, not on every client load).
-  // Archival sources (chronicle, ap) are excluded from the static search index to keep the
-  // RSC payload small. They are browseable at /browse/chronicle and /browse/ap, and can be
-  // added to search via the toggle once lazy-loading is implemented.
-  const posts = getPublicPosts().filter((p) => !ARCHIVAL_SOURCES.includes(p.source)).sort((a, b) => {
-    if (a.date && b.date) return new Date(b.date).getTime() - new Date(a.date).getTime();
-    if (a.date && !b.date) return -1;
-    if (!a.date && b.date) return 1;
-    return a.title.localeCompare(b.title);
-  });
-  const entries = buildSearchEntries(posts);
-
+  // The search index is fetched client-side from /api/search-index (cached
+  // JSON) rather than serialized into this page's HTML — embedding it here
+  // produced a ~16 MB document that blocked first paint.
   return (
     <Suspense fallback={
       <main className="max-w-4xl w-full mx-auto px-4 py-10 text-center text-gray-400">
         Loading search…
       </main>
     }>
-      <SearchPageClient entries={entries} totalPosts={posts.length} />
+      <SearchIndexLoader />
     </Suspense>
   );
 }

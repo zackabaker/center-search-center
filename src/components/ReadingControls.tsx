@@ -95,6 +95,7 @@ export default function ReadingControls() {
       <button
         onClick={cycleMode}
         title={`Reading mode: ${MODE_LABELS[readingMode]} — click to cycle`}
+        aria-label={`Reading mode: ${MODE_LABELS[readingMode]}. Cycle reading mode`}
         className={`flex items-center gap-1 px-2 py-1 rounded text-xs transition-colors ${
           readingMode !== 'normal'
             ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300'
@@ -109,6 +110,8 @@ export default function ReadingControls() {
       <button
         onClick={toggleTermLinks}
         title={termLinks ? 'Term links on — click to hide concept/glossary links in the text' : 'Term links off — click to show them'}
+        aria-pressed={termLinks}
+        aria-label="Toggle concept and glossary links in the text"
         className={`flex items-center gap-1 px-2 py-1 rounded text-xs transition-colors ${
           termLinks
             ? 'hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300'
@@ -127,6 +130,7 @@ export default function ReadingControls() {
           onClick={() => setFontSize((s) => Math.max(13, s - 1))}
           className="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300 text-xs font-bold transition-colors"
           title="Decrease font size"
+          aria-label="Decrease font size"
         >
           A-
         </button>
@@ -146,6 +150,7 @@ export default function ReadingControls() {
           onClick={() => setFontSize((s) => Math.min(24, s + 1))}
           className="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300 text-sm font-bold transition-colors"
           title="Increase font size"
+          aria-label="Increase font size"
         >
           A+
         </button>

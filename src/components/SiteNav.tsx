@@ -1,7 +1,8 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import DarkModeToggle from '@/components/DarkModeToggle';
 
 const NAV_LINKS = [
@@ -15,6 +16,19 @@ const NAV_LINKS = [
 
 export default function SiteNav() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  // Global ⌘K / Ctrl+K → search, from any page
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        router.push('/search');
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [router]);
 
   return (
     <nav className="sticky top-0 z-30 bg-white/90 dark:bg-gray-950/90 backdrop-blur border-b border-gray-100 dark:border-gray-800 print:hidden">

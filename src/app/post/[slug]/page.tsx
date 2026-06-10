@@ -157,10 +157,18 @@ export default async function PostPage({
   // ── Headings (for conditional Contents sidebar) ────────────────────────────
   const hasHeadings = paragraphs.filter((p) => /^#{1,3}\s/.test(p)).length >= 3;
 
-  // ── Related posts (for sidebar compact list) ───────────────────────────────
+  // ── Related posts — computed server-side once; sidebar gets top 3, the
+  // below-article grid gets top 6 as a slim array (never pass full posts
+  // to client components — that serializes the corpus into the page).
   const allEntries = getCachedAllEntries();
   const currentEntry = allEntries.find((e) => e.slug === slug);
   const relatedEntries = currentEntry ? getRelatedEntries(currentEntry, allEntries, 3) : [];
+  const relatedForGrid = (currentEntry ? getRelatedEntries(currentEntry, allEntries, 6) : []).map((e) => ({
+    slug: e.slug,
+    title: e.title,
+    source: e.source,
+    date: e.date,
+  }));
 
   const SIDEBAR_LABEL = 'text-xs font-mono uppercase tracking-widest text-gray-400 mb-3';
 
@@ -320,9 +328,8 @@ export default async function PostPage({
               <Annotations slug={slug} />
             </div>
 
-            {/* RelatedPosts — full version below article on all screen sizes on mobile;
-                on desktop the sidebar shows a compact top-3 list, and the full list stays here too */}
-            <RelatedPosts currentSlug={slug} allPosts={allPosts} />
+            {/* RelatedPosts — slim server-computed list (top 6) */}
+            <RelatedPosts related={relatedForGrid} />
 
             {/* Next in AI-generated reading path (client, localStorage) */}
             <AiPathNext slug={slug} />

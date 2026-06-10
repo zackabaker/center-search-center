@@ -228,16 +228,29 @@ export default function ReadingPathFinder() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef  = useRef<HTMLTextAreaElement>(null);
 
-  // Restore a previously generated path + read progress
+  // Restore a previously generated path + read progress. If the page was
+  // opened with ?q= (e.g. handed off from Ask AI), start the conversation
+  // with that question immediately — unless a saved path already exists.
+  const autoStarted = useRef(false);
   useEffect(() => {
+    let hasSaved = false;
     try {
       const raw = localStorage.getItem(AI_PATH_KEY);
       if (raw) {
         const p = JSON.parse(raw) as SavedPath;
-        if (p?.posts?.length) setSavedPath(p);
+        if (p?.posts?.length) { setSavedPath(p); hasSaved = true; }
       }
       setReadSlugs(new Set(JSON.parse(localStorage.getItem('csc-read-posts') || '[]')));
     } catch {}
+
+    if (!autoStarted.current && !hasSaved) {
+      const q = new URLSearchParams(window.location.search).get('q');
+      if (q && q.trim()) {
+        autoStarted.current = true;
+        send(`I want a reading path about: ${q.trim()}`);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Scroll to bottom when a completed message is added (not during streaming)
