@@ -144,27 +144,11 @@ function ReadingPathDisplay({ content }: { content: string }) {
     );
   }
 
-  const handleDownload = () => {
-    const text = [
-      path.title,
-      '',
-      path.intro,
-      '',
-      ...path.posts.map((p, i) =>
-        `${i + 1}. ${p.title} [${p.source}]\n   ${p.note}\n   https://center.study/post/${p.slug}`
-      ),
-      '',
-      path.coda ? `Next: ${path.coda}` : '',
-    ].join('\n');
-
-    const blob = new Blob([text], { type: 'text/plain' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
-    a.download = 'center-study-reading-path.txt';
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+  // Downloads the FULL TEXT of every post in the path as one markdown file,
+  // compiled server-side — not just a list of links.
+  const downloadHref = `/api/reading-path/download?slugs=${encodeURIComponent(
+    path.posts.map((p) => p.slug).join(',')
+  )}`;
 
   return (
     <div>
@@ -209,12 +193,13 @@ function ReadingPathDisplay({ content }: { content: string }) {
         <p className="text-xs text-gray-500 dark:text-gray-400 italic mb-4">{path.coda}</p>
       )}
 
-      <button
-        onClick={handleDownload}
-        className="text-xs px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-gray-500 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+      <a
+        href={downloadHref}
+        download
+        className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-gray-500 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
       >
-        ↓ Download reading list
-      </button>
+        ↓ Download all {path.posts.length} texts (.md)
+      </a>
     </div>
   );
 }
