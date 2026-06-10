@@ -173,13 +173,6 @@ export default function Home() {
           </p>
         </blockquote>
 
-        {/* What this is — orientation for first-time visitors */}
-        <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed max-w-xl mx-auto mb-7">
-          The complete archive of <strong className="font-semibold">Center Study</strong>{' '}&mdash;
-          a discipline that reads language, law, money, AI, and every human institution
-          through humanity&rsquo;s first scene. Free and fully searchable.
-        </p>
-
         {/* Primary actions for newcomers */}
         <div className="flex items-center justify-center gap-3 flex-wrap mb-10">
           <Link
