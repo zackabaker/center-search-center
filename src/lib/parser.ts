@@ -900,7 +900,12 @@ function parseRedditComments(): Post[] {
  *   - Letter-spaced decorative titles ("T a l k   o f   t h e   C e n t e r")
  *   - Word concatenations at extraction boundaries
  */
-function cleanPdfText(raw: string): string {
+// Normalise text for title comparison: lowercase, alphanumerics only
+function normForTitleMatch(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+function cleanPdfText(raw: string, expectedTitle?: string): string {
   // ── Step 1: strip browser-print headers and footers ───────────────────────
   const lines = raw.split('\n');
   const filtered: string[] = [];
@@ -919,6 +924,45 @@ function cleanPdfText(raw: string): string {
     // Website nav artifacts: "Share | Subscribe to…"
     if (/^Share\s*\|/.test(t)) continue;
     filtered.push(line);
+  }
+
+  // ── Step 1.5: strip the leading title line(s) ─────────────────────────────
+  // Most PDF extractions start with the document title (sometimes soft-wrapped
+  // across 2-3 lines). The post page renders the title as an H1, so keeping it
+  // in the content duplicates it. Consume leading lines while their accumulated
+  // normalised text remains a prefix of the known title.
+  if (expectedTitle) {
+    const normTitle = normForTitleMatch(expectedTitle);
+    // Skip leading blank lines
+    let start = 0;
+    while (start < filtered.length && !filtered[start].trim()) start++;
+
+    let acc = '';
+    let consumed = 0;
+    for (let i = start; i < Math.min(start + 4, filtered.length); i++) {
+      const candidate = acc + normForTitleMatch(filtered[i]);
+      if (candidate.length > 0 && (normTitle.startsWith(candidate) || candidate.startsWith(normTitle))) {
+        acc = candidate;
+        consumed = i - start + 1;
+        if (candidate.startsWith(normTitle)) break; // full title consumed
+      } else {
+        break;
+      }
+    }
+    // Only strip if the match is substantial (avoids nuking short real prose)
+    if (consumed > 0 && acc.length >= 8) {
+      filtered.splice(start, consumed);
+    } else if (
+      // Book reviews: metadata title is often shortened ("Book Review: X —
+      // Reviewer") while the document line carries the full subtitle, so
+      // prefix matching fails. If both start with "Book Review", the first
+      // line is certainly the title — strip it. Prose never starts that way.
+      normTitle.startsWith('bookreview') &&
+      start < filtered.length &&
+      normForTitleMatch(filtered[start]).startsWith('bookreview')
+    ) {
+      filtered.splice(start, 1);
+    }
   }
 
   // ── Step 2: detect format ────────────────────────────────────────────────
@@ -942,7 +986,16 @@ function cleanPdfText(raw: string): string {
     // Exception: a page break in the middle of a paragraph leaves a spurious
     // blank line between text that doesn't end in terminal punctuation and
     // continuation that starts with a lowercase letter -> merge.
-    text = text.replace(/([a-zA-Z0-9"'])\n\n([a-z])/g, '$1 $2');
+    // The preceding char may be a letter/digit/quote OR a connective mark
+    // (em/en dash, comma, semicolon, colon, open paren) — a paragraph never
+    // legitimately ends with those. Dashes join without an added space.
+    text = text.replace(
+      /([a-zA-Z0-9"'—–,;:(])\n\n([a-z])/g,
+      (_, before, after) =>
+        before === '—' || before === '–'
+          ? before + after
+          : before + ' ' + after
+    );
   }
 
   // ── Step 4: fix letter-spaced decorative text ────────────────────────────
@@ -963,6 +1016,22 @@ function cleanPdfText(raw: string): string {
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 
+  // ── Step 7: mark an opening epigraph as a blockquote ─────────────────────
+  // Many essays open with a short quotation attributed via an em dash
+  // ("…quote text — Author Name"). Render it as a blockquote (epigraph)
+  // rather than a plain first paragraph. First paragraph only; must be
+  // short and end with the attribution pattern.
+  const paraBreak = text.indexOf('\n\n');
+  const firstPara = paraBreak === -1 ? text : text.slice(0, paraBreak);
+  if (
+    firstPara.length > 0 &&
+    firstPara.length < 500 &&
+    !firstPara.startsWith('>') &&
+    /[—–]\s*[A-Z][A-Za-z.'’À-ſ ]{1,60}$/.test(firstPara)
+  ) {
+    text = '> ' + firstPara + (paraBreak === -1 ? '' : text.slice(paraBreak));
+  }
+
   return text;
 }
 
@@ -975,10 +1044,10 @@ function parsePDFs(): Post[] {
 
   for (const txtFile of txtFiles) {
     const raw = fs.readFileSync(path.join(pdfDir, txtFile), 'utf-8');
-    const content = cleanPdfText(raw);
     const baseName = txtFile.replace('.txt', '');
     const meta = PDF_METADATA[baseName];
     const title = meta?.title || baseName.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+    const content = cleanPdfText(raw, title);
     const source = meta?.source || ('pdf' as ContentSource);
     const prefix = source === 'book' ? 'book' : 'pdf';
 
