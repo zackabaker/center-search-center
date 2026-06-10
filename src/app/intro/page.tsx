@@ -88,7 +88,7 @@ export default function IntroPage() {
       </h1>
 
       {/* Epigraph */}
-      <div className="mb-12 border-l-2 border-gray-200 dark:border-gray-700 pl-4">
+      <div className="mb-8 border-l-2 border-gray-200 dark:border-gray-700 pl-4">
         <p
           className="text-base text-gray-500 dark:text-gray-400 italic leading-relaxed"
           style={{ fontFamily: 'var(--prose-font-family)' }}
@@ -97,8 +97,30 @@ export default function IntroPage() {
         </p>
       </div>
 
-      {/* ── Orientation ──────────────────────────────────────────────────── */}
-      <section className="mb-16">
+      {/* On this page — jump links */}
+      <nav className="mb-12 flex flex-wrap gap-2 text-xs">
+        {[
+          ['#five-minute', 'The five-minute version'],
+          ['#lineage', 'Lineage'],
+          ['#originary-scene', 'The originary scene'],
+          ['#how-to-read', 'How to read'],
+          ['#start-reading', 'Start reading'],
+        ].map(([href, label]) => (
+          <a
+            key={href}
+            href={href}
+            className="px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
+          >
+            {label}
+          </a>
+        ))}
+      </nav>
+
+      {/* ── The five-minute version ─────────────────────────────────────── */}
+      <section id="five-minute" className="mb-16 scroll-mt-20">
+        <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-6">
+          The five-minute version
+        </h2>
         <div
           className="space-y-5 text-gray-800 dark:text-gray-200"
           style={{
@@ -120,10 +142,23 @@ export default function IntroPage() {
             This means thinking always in terms of scenes and an originary grammar — ostensive (pointing, naming), imperative (demand), interrogative (question), declarative (proposition) — tracing every concept back to a scene in which some exchange with the center is at stake. Politically, it produces a critique of any theory that starts from &ldquo;the bottom&rdquo; — from the free individual, the social contract, natural rights — insisting instead on starting from the center, from where authority was established and the terms of all future exchange were set.
           </p>
         </div>
+
+        {/* Go-deeper cue */}
+        <div className="mt-8 flex items-center gap-3">
+          <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
+          <p className="text-xs text-gray-400 dark:text-gray-500">
+            That&rsquo;s the core. Everything below goes deeper — or{' '}
+            <Link href="/guide/reading-paths" className="text-blue-600 dark:text-blue-400 hover:underline">
+              get a personal reading path
+            </Link>{' '}
+            and start reading now.
+          </p>
+          <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
+        </div>
       </section>
 
       {/* ── Intellectual Lineage ─────────────────────────────────────────── */}
-      <section className="mb-16">
+      <section id="lineage" className="mb-16 scroll-mt-20">
         <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-6">
           Intellectual lineage
         </h2>
@@ -258,7 +293,7 @@ export default function IntroPage() {
       </section>
 
       {/* ── The Originary Scene ─────────────────────────────────────────── */}
-      <section className="mb-14">
+      <section id="originary-scene" className="mb-14 scroll-mt-20">
         <h2 className="text-xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2 text-gray-900 dark:text-white">
           The Originary Scene
         </h2>
@@ -484,7 +519,7 @@ export default function IntroPage() {
 
       {/* ── How to use this site ──────────────────────────────────────── */}
       <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2 text-gray-900 dark:text-white">
+        <h2 id="how-to-read" className="text-xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2 text-gray-900 dark:text-white scroll-mt-20">
           How to read Center Study
         </h2>
         <div
@@ -505,7 +540,7 @@ export default function IntroPage() {
 
       {/* ── Start reading ───────────────────────────────────────────────── */}
       <section>
-        <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+        <h2 id="start-reading" className="text-xl font-semibold mb-4 text-gray-900 dark:text-white scroll-mt-20">
           Start reading
         </h2>
 

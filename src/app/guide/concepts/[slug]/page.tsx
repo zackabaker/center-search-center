@@ -12,10 +12,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const concept = getConceptBySlug(slug);
   if (!concept) return {};
-  const firstPassage = concept.passages[0]?.text;
   return {
     title: `${concept.title} — Center Study Concepts`,
-    description: firstPassage ? `"${firstPassage.slice(0, 160)}…"` : concept.subtitle,
+    description: concept.definition
+      ? concept.definition.slice(0, 160)
+      : concept.subtitle,
   };
 }
 
@@ -55,6 +56,22 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
           Ask AI about {concept.title}
         </Link>
       </div>
+
+      {/* Definition — the one-breath answer, before any quotes or synthesis */}
+      {concept.definition && (
+        <section className="mb-10">
+          <p
+            className="text-gray-900 dark:text-gray-100"
+            style={{
+              fontFamily: 'var(--prose-font-family)',
+              fontSize: 'calc(var(--prose-font-size, 17px) + 1px)',
+              lineHeight: 'var(--prose-line-height, 1.85)',
+            }}
+          >
+            {concept.definition}
+          </p>
+        </section>
+      )}
 
       {/* AI overview — clearly labelled */}
       {concept.body && (
