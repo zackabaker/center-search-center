@@ -194,6 +194,12 @@ export default function Home() {
           </Link>
         </div>
 
+        {/* Discover — mobile: right under the CTAs (the bottom nav already
+            has a Search tab, so the search box can sit lower on phones) */}
+        <div className="sm:hidden text-left mb-10">
+          <RandomPostButton />
+        </div>
+
         <HomeSearch />
 
         {/* Corpus stats */}
@@ -209,8 +215,8 @@ export default function Home() {
       {/* Returning readers: continue path / saved texts (localStorage) */}
       <WelcomeBack />
 
-      {/* Discover — random posts */}
-      <div className="max-w-xl mx-auto px-4 pb-10">
+      {/* Discover — desktop position */}
+      <div className="hidden sm:block max-w-xl mx-auto px-4 pb-10">
         <RandomPostButton />
       </div>
 

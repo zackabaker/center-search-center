@@ -1,9 +1,10 @@
-'use client';
-
-import { useMemo } from 'react';
 import Link from 'next/link';
-import { Post, ContentSource } from '@/lib/types';
-import { buildSearchEntries, getRelatedEntries } from '@/lib/search-index';
+import { ContentSource } from '@/lib/types';
+
+// Presentational only. Related entries are computed SERVER-SIDE on the post
+// page (which already builds the search-entry index for the sidebar) and
+// passed as a slim array. This component previously received ALL 1,969 full
+// posts as a client prop — ~31 MB serialized into every post page.
 
 const SOURCE_COLORS: Record<ContentSource, string> = {
   substack:  'bg-orange-100 text-orange-800',
@@ -27,20 +28,14 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   ap:        'AP Journal',
 };
 
-export default function RelatedPosts({
-  currentSlug,
-  allPosts,
-}: {
-  currentSlug: string;
-  allPosts: Post[];
-}) {
-  const related = useMemo(() => {
-    const entries = buildSearchEntries(allPosts);
-    const current = entries.find((e) => e.slug === currentSlug);
-    if (!current) return [];
-    return getRelatedEntries(current, entries);
-  }, [currentSlug, allPosts]);
+export interface RelatedPostItem {
+  slug: string;
+  title: string;
+  source: ContentSource;
+  date: string | null;
+}
 
+export default function RelatedPosts({ related }: { related: RelatedPostItem[] }) {
   if (related.length === 0) return null;
 
   return (

@@ -291,9 +291,19 @@ export default async function BrowseSourcePage({
         </div>
       )}
 
-      {/* Searchable post list (client component) */}
+      {/* Searchable post list (client component) — slim payload: full
+          content stays on the server; the client gets word counts plus a
+          capped lowercase prefix for keyword filtering. */}
       <BrowseSourceClient
-        posts={sorted}
+        posts={sorted.map((p) => ({
+          slug: p.slug,
+          title: p.title,
+          date: p.date,
+          source: p.source,
+          excerpt: p.excerpt,
+          wordCount: p.content.split(/\s+/).length,
+          searchText: (p.title + ' ' + p.content.slice(0, 2000)).toLowerCase(),
+        }))}
         source={src}
         totalCount={totalCount}
         initialYearFrom={initialYearFrom}

@@ -25,6 +25,9 @@ const lora = Lora({
 });
 
 export const metadata: Metadata = {
+  // Without this, OG/twitter image URLs resolve against localhost in
+  // some environments (next build warns about exactly this).
+  metadataBase: new URL("https://center.study"),
   title: {
     default: "Center Study Center",
     template: "%s | Center Study Center",
@@ -89,8 +92,16 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col bg-white dark:bg-[#111111] text-gray-900 dark:text-[#e8e8e8] pb-16 sm:pb-0">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-gray-900 focus:text-white dark:focus:bg-white dark:focus:text-gray-900 focus:text-sm focus:font-medium"
+        >
+          Skip to content
+        </a>
         <SiteNav />
-        {children}
+        <div id="main-content" className="contents">
+          {children}
+        </div>
         <footer className="hidden sm:block border-t border-gray-100 dark:border-gray-800 mt-auto print:hidden">
           <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
             <a

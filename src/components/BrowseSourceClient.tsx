@@ -2,7 +2,22 @@
 
 import { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
-import { Post } from '@/lib/types';
+import { ContentSource } from '@/lib/types';
+
+// Slim post shape — the server page maps full posts down to this so the
+// client payload stays small (full content previously made /browse/chronicle
+// an ~12 MB page). searchText is the lowercased opening of the text, enough
+// for keyword filtering; full-text search lives at /search, and exports
+// fetch complete texts on demand from /api/corpus.
+export interface BrowsePost {
+  slug: string;
+  title: string;
+  date: string | null;
+  source: ContentSource;
+  excerpt: string;
+  wordCount: number;
+  searchText: string;
+}
 import { useReadingList } from '@/hooks/useReadingList';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -59,8 +74,8 @@ function highlightText(text: string, query: string): React.ReactNode {
   );
 }
 
-function groupByYear(posts: Post[]): [string, Post[]][] {
-  const groups = new Map<string, Post[]>();
+function groupByYear(posts: BrowsePost[]): [string, BrowsePost[]][] {
+  const groups = new Map<string, BrowsePost[]>();
   for (const p of posts) {
     const year = p.date ? (fmtYear(p.date)?.toString() ?? 'Undated') : 'Undated';
     if (!groups.has(year)) groups.set(year, []);
@@ -73,7 +88,25 @@ function groupByYear(posts: Post[]): [string, Post[]][] {
   });
 }
 
-function compileToText(posts: Post[], wcMap: Map<string, number>): string {
+async function fetchFullContent(slug: string): Promise<string> {
+  try {
+    const r = await fetch(`/api/corpus/${slug}`);
+    if (!r.ok) return '[text unavailable]';
+    const d = await r.json();
+    return typeof d.content === 'string' ? d.content : '[text unavailable]';
+  } catch {
+    return '[text unavailable]';
+  }
+}
+
+async function compileToText(posts: BrowsePost[], wcMap: Map<string, number>): Promise<string> {
+  // Full texts are fetched on demand — they are not shipped with the page
+  const contents = await Promise.all(posts.map((p) => fetchFullContent(p.slug)));
+  const contentBySlug = new Map(posts.map((p, i) => [p.slug, contents[i]]));
+  return compileToTextSync(posts, wcMap, contentBySlug);
+}
+
+function compileToTextSync(posts: BrowsePost[], wcMap: Map<string, number>, contentBySlug: Map<string, string>): string {
   const header = [
     'CENTER STUDY CENTER — COMPILED READING',
     `Generated: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`,
@@ -89,7 +122,7 @@ function compileToText(posts: Post[], wcMap: Map<string, number>): string {
     `Words:  ${fmtWords(wcMap.get(p.slug) ?? 0)}`,
     `URL:    https://center.study/post/${p.slug}`,
     '',
-    p.content,
+    contentBySlug.get(p.slug) ?? '',
     '',
     '─'.repeat(56),
     '',
@@ -101,7 +134,7 @@ function compileToText(posts: Post[], wcMap: Map<string, number>): string {
 // ── Props ─────────────────────────────────────────────────────────────────────
 
 interface Props {
-  posts: Post[];
+  posts: BrowsePost[];
   source: string;
   totalCount: number;
   initialYearFrom?: number;
@@ -123,7 +156,7 @@ export default function BrowseSourceClient({ posts, source, totalCount, initialY
 
   // Pre-compute word counts once
   const wcMap = useMemo(
-    () => new Map(posts.map((p) => [p.slug, wordCount(p.content)])),
+    () => new Map(posts.map((p) => [p.slug, p.wordCount])),
     [posts]
   );
 
@@ -148,7 +181,7 @@ export default function BrowseSourceClient({ posts, source, totalCount, initialY
       result = result.filter((p) =>
         p.title.toLowerCase().includes(lq) ||
         p.excerpt.toLowerCase().includes(lq) ||
-        p.content.toLowerCase().includes(lq)
+        p.searchText.includes(lq)
       );
     }
     if (yearFrom !== '') {
@@ -212,10 +245,10 @@ export default function BrowseSourceClient({ posts, source, totalCount, initialY
 
   const exitSelectMode = () => { setSelectMode(false); clearSelected(); };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     const selectedPosts = posts.filter((p) => selected.has(p.slug));
     if (!selectedPosts.length) return;
-    const text = compileToText(selectedPosts, wcMap);
+    const text = await compileToText(selectedPosts, wcMap);
     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
@@ -225,12 +258,15 @@ export default function BrowseSourceClient({ posts, source, totalCount, initialY
     URL.revokeObjectURL(url);
   };
 
-  const handlePrint = () => {
+  const handlePrint = async () => {
     const selectedPosts = posts.filter((p) => selected.has(p.slug));
     if (!selectedPosts.length) return;
-    const text = compileToText(selectedPosts, wcMap);
-    const win  = window.open('', '_blank');
+    // Open the window synchronously (popup blockers require a user gesture),
+    // then fill it once the texts have been fetched.
+    const win = window.open('', '_blank');
     if (!win) return;
+    win.document.write('<p style="font-family:sans-serif;color:#666">Compiling texts…</p>');
+    const text = await compileToText(selectedPosts, wcMap);
     win.document.write(`
       <html><head><title>Center Study — ${selectedPosts.length} posts</title>
       <style>
@@ -532,7 +568,7 @@ export default function BrowseSourceClient({ posts, source, totalCount, initialY
 // ── PostRow ───────────────────────────────────────────────────────────────────
 
 interface PostRowProps {
-  post: Post;
+  post: BrowsePost;
   backParam: string;
   wc: number;
   query: string;
