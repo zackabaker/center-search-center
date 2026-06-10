@@ -15,6 +15,7 @@ const MODE_SEQUENCE: ReadingMode[] = ['normal', 'sepia', 'night'];
 export default function ReadingControls() {
   const [fontSize, setFontSize] = useState(18);
   const [readingMode, setReadingMode] = useState<ReadingMode>('normal');
+  const [termLinks, setTermLinks] = useState(true);
 
   useEffect(() => {
     const saved = localStorage.getItem('csc-font-size');
@@ -25,7 +26,16 @@ export default function ReadingControls() {
       setReadingMode(savedMode);
       applyMode(savedMode);
     }
+
+    try { setTermLinks(localStorage.getItem('csc-term-links') !== 'off'); } catch {}
   }, []);
+
+  function toggleTermLinks() {
+    const next = !termLinks;
+    setTermLinks(next);
+    try { localStorage.setItem('csc-term-links', next ? 'on' : 'off'); } catch {}
+    window.dispatchEvent(new Event('csc-term-links-changed'));
+  }
 
   useEffect(() => {
     document.documentElement.style.setProperty('--prose-font-size', `${fontSize}px`);
@@ -93,6 +103,22 @@ export default function ReadingControls() {
       >
         {modeIcon}
         <span className="text-[10px] font-medium">{MODE_LABELS[readingMode]}</span>
+      </button>
+
+      {/* Term links toggle — dotted-underline concept/glossary links in the text */}
+      <button
+        onClick={toggleTermLinks}
+        title={termLinks ? 'Term links on — click to hide concept/glossary links in the text' : 'Term links off — click to show them'}
+        className={`flex items-center gap-1 px-2 py-1 rounded text-xs transition-colors ${
+          termLinks
+            ? 'hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300'
+            : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400 line-through'
+        }`}
+      >
+        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+        </svg>
+        <span className="text-[10px] font-medium underline decoration-dotted">terms</span>
       </button>
 
       {/* Font size */}

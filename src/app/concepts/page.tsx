@@ -1,6 +1,9 @@
 import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import { buildSearchEntries, getSignificantTerms, GA_DOMAIN_VOCAB } from '@/lib/search-index';
 import { CONCEPTS, TERM_TO_CONCEPT_SLUG } from '@/data/guide/concepts';
+import { GLOSSARY } from '@/data/guide/glossary';
+import GlossaryClient from '@/components/GlossaryClient';
+import BackToReading from '@/components/BackToReading';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
@@ -33,7 +36,7 @@ const TIERS = [
   },
 ];
 
-type View = 'core' | 'az';
+type View = 'core' | 'glossary' | 'az';
 
 export default async function ConceptsPage({
   searchParams,
@@ -41,7 +44,7 @@ export default async function ConceptsPage({
   searchParams: Promise<{ view?: string }>;
 }) {
   const { view: rawView } = await searchParams;
-  const view: View = rawView === 'az' ? 'az' : 'core';
+  const view: View = rawView === 'az' ? 'az' : rawView === 'glossary' ? 'glossary' : 'core';
 
   // Only run the expensive A–Z computation when that tab is active
   let azData: {
@@ -93,12 +96,13 @@ export default async function ConceptsPage({
         </Link>
         <h1 className="text-2xl sm:text-3xl font-bold mt-3 mb-1 text-gray-900 dark:text-white">Concepts</h1>
         <p className="text-gray-500 dark:text-gray-400 text-sm">
-          Core vocabulary of Center Study — defined, placed in the archive, and indexed.
-          Looking for a quick definition? Try the{' '}
-          <Link href="/glossary" className="text-blue-600 dark:text-blue-400 hover:underline">glossary</Link>
-          {' '}of 200+ terms.
+          The vocabulary of Center Study — core concepts treated in depth, a glossary
+          of {GLOSSARY.length} working terms with usage from the corpus, and an A–Z index.
         </p>
       </div>
+
+      {/* Shown when the reader arrived from a post via a term link */}
+      <BackToReading />
 
       {/* Tab bar */}
       <div className="flex items-center gap-1 mb-8 border-b border-gray-200 dark:border-gray-800">
@@ -111,6 +115,16 @@ export default async function ConceptsPage({
           }`}
         >
           Core Concepts
+        </Link>
+        <Link
+          href="/concepts?view=glossary"
+          className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px ${
+            view === 'glossary'
+              ? 'border-gray-900 dark:border-white text-gray-900 dark:text-white'
+              : 'border-transparent text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
+          }`}
+        >
+          Glossary
         </Link>
         <Link
           href="/concepts?view=az"
@@ -132,6 +146,9 @@ export default async function ConceptsPage({
           </svg>
         </Link>
       </div>
+
+      {/* ── Glossary tab ──────────────────────────────────────────────────── */}
+      {view === 'glossary' && <GlossaryClient entries={GLOSSARY} />}
 
       {/* ── Core Concepts tab ─────────────────────────────────────────────── */}
       {view === 'core' && (
