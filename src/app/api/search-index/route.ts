@@ -9,9 +9,15 @@ import { buildSearchEntries } from '@/lib/search-index';
 
 export const revalidate = 3600;
 
-export async function GET() {
+export async function GET(request: Request) {
+  // Default scope is the core corpus (+ threads, which are filtered in/out
+  // client-side). scope=archives returns the Chronicles + AP Journal index,
+  // fetched lazily only when the reader toggles those sources into search.
+  const scope = new URL(request.url).searchParams.get('scope');
+  const wantArchives = scope === 'archives';
+
   const posts = getPublicPosts()
-    .filter((p) => !ARCHIVAL_SOURCES.includes(p.source))
+    .filter((p) => wantArchives ? ARCHIVAL_SOURCES.includes(p.source) : !ARCHIVAL_SOURCES.includes(p.source))
     .sort((a, b) => {
       if (a.date && b.date) return new Date(b.date).getTime() - new Date(a.date).getTime();
       if (a.date && !b.date) return -1;
@@ -20,6 +26,14 @@ export async function GET() {
     });
 
   const entries = buildSearchEntries(posts);
+
+  // The archive index is large (850+ Chronicles); trim per-entry snippet text
+  // to keep the lazy payload reasonable. Word-level matching is unaffected
+  // (contentWords is built from the full text); only phrase/snippet matching
+  // is limited to the opening of each archival text.
+  if (wantArchives) {
+    for (const e of entries) e.snippetContent = e.snippetContent.slice(0, 8000);
+  }
 
   return Response.json(
     { entries, totalPosts: posts.length },
