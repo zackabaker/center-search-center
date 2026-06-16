@@ -13,10 +13,20 @@ interface Source {
   snippet?: string;
 }
 
+interface Passage {
+  quote: string;
+  title: string;
+  slug: string;
+  source: string;
+  href: string;        // deep link to the post at the quoted passage
+  verified?: boolean;  // confirmed verbatim against the corpus
+}
+
 interface Answer {
   content: string;
   sources?: Source[];
   followUps?: string[];
+  passages?: Passage[];
 }
 
 const SOURCE_COLORS: Record<string, string> = {
@@ -217,6 +227,66 @@ function setCache(question: string, answer: Answer) {
   } catch { /* ignore storage errors */ }
 }
 
+function sourceFromSlug(slug: string): string {
+  const prefix = slug.split('-')[0];
+  return SOURCE_LABELS[prefix] ?? prefix;
+}
+
+// Split the synthesized prose from the trailing "## Excerpts" block.
+function splitAnswer(content: string): { prose: string; excerpts: string } {
+  const m = content.match(/\n+(?:---\s*\n+)?##\s+Excerpts\s*\n/i);
+  if (!m || m.index === undefined) return { prose: content, excerpts: '' };
+  return { prose: content.slice(0, m.index).trim(), excerpts: content.slice(m.index + m[0].length) };
+}
+
+// Parse the Excerpts block into structured passages:
+//   > "verbatim quote"
+//   **Title** · Source
+//   [Read →](/post/slug?q=first+four+words)
+function parsePassages(content: string): Passage[] {
+  const { excerpts } = splitAnswer(content);
+  if (!excerpts) return [];
+  const out: Passage[] = [];
+  let quote = '';
+  let title = '';
+  const flush = (href: string) => {
+    const q = quote.trim().replace(/^["“”']+|["“”']+$/g, '').trim();
+    if (q.length >= 20) {
+      const slug = href.match(/\/post\/([^?#)]+)/)?.[1] ?? '';
+      out.push({ quote: q, title: title.trim() || slug, slug, source: sourceFromSlug(slug), href });
+    }
+    quote = '';
+    title = '';
+  };
+  for (const raw of excerpts.split('\n')) {
+    const line = raw.trim();
+    if (!line) continue;
+    if (line.startsWith('>')) { quote += ' ' + line.replace(/^>\s?/, ''); continue; }
+    const titleM = line.match(/\*\*\[?([^*\]]+?)\]?\*\*/);
+    if (titleM && !line.includes('](')) { title = titleM[1].trim(); continue; }
+    const hrefM = line.match(/\]\((\/post\/[^)\s]+)\)/);
+    if (hrefM) flush(hrefM[1]);
+  }
+  return out.slice(0, 12);
+}
+
+async function verifyPassages(passages: Passage[], signal?: AbortSignal): Promise<boolean[] | undefined> {
+  if (passages.length === 0) return undefined;
+  try {
+    const res = await fetch('/api/verify-quotes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ quotes: passages.map((p) => p.quote) }),
+      signal,
+    });
+    if (!res.ok) return undefined;
+    const data = await res.json();
+    return Array.isArray(data.verified) ? data.verified : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export default function AskClient() {
   const [currentQuestion, setCurrentQuestion] = useState('');
   const [answer, setAnswer] = useState<Answer | null>(null);
@@ -235,6 +305,12 @@ export default function AskClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const didAutoSubmit = useRef(false);
+  // Streaming lifecycle: abort the in-flight request and silence late state
+  // updates when the user navigates away (clicks a source link, goes back)
+  // mid-stream — otherwise the aborted fetch surfaced as a red "Error".
+  const abortRef = useRef<AbortController | null>(null);
+  const mountedRef = useRef(true);
+  useEffect(() => () => { mountedRef.current = false; abortRef.current?.abort(); }, []);
 
   useEffect(() => {
     const q = searchParams.get('q');
@@ -278,6 +354,11 @@ export default function AskClient() {
     setIsLoading(true);
     setAnswer({ content: '' });
 
+    // Abort any previous stream; start a fresh controller for this one
+    abortRef.current?.abort();
+    const ac = new AbortController();
+    abortRef.current = ac;
+
     // Increment lifetime ask counter
     try {
       const next = askCount + 1;
@@ -294,6 +375,7 @@ export default function AskClient() {
           history: [],
           ...(concept ? { concept } : {}),
         }),
+        signal: ac.signal,
       });
 
       if (!res.ok) {
@@ -331,17 +413,35 @@ export default function AskClient() {
         }
       }
 
+      if (!mountedRef.current) return;
       const followUps = extractFollowUps(content, question);
-      const finalAnswer = { content, sources, followUps };
+      const passages = parsePassages(content);
+      const finalAnswer: Answer = { content, sources, followUps, passages };
       setAnswer(finalAnswer);
       // Cache the completed answer for instant replay
       setCache(question, finalAnswer);
+
+      // Verify each passage verbatim against the corpus (one cheap request,
+      // after streaming — never blocks the answer, aborts on navigation)
+      if (passages.length > 0) {
+        verifyPassages(passages, ac.signal).then((verified) => {
+          if (!verified || !mountedRef.current) return;
+          const withVerify: Answer = {
+            ...finalAnswer,
+            passages: passages.map((p, i) => ({ ...p, verified: verified[i] })),
+          };
+          setAnswer((prev) => (prev && prev.content === content ? withVerify : prev));
+          setCache(question, withVerify);
+        });
+      }
     } catch (err) {
-      setAnswer({
-        content: `Error: ${err instanceof Error ? err.message : 'Something went wrong'}`,
-      });
+      // User navigated away / started a new question — not a real error
+      if (ac.signal.aborted || (err instanceof Error && err.name === 'AbortError')) return;
+      if (mountedRef.current) {
+        setAnswer({ content: `Error: ${err instanceof Error ? err.message : 'Something went wrong'}` });
+      }
     } finally {
-      setIsLoading(false);
+      if (mountedRef.current) setIsLoading(false);
     }
   }
 
@@ -499,14 +599,60 @@ export default function AskClient() {
                 {currentQuestion}
               </h2>
 
+              {/* Passages from the archive — the verbatim quotes, up front */}
+              {answer?.passages && answer.passages.length > 0 && (
+                <div className="mb-8">
+                  <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
+                    Passages from the archive
+                  </p>
+                  <div className="space-y-3">
+                    {answer.passages.map((p, i) => (
+                      <div
+                        key={i}
+                        className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-4"
+                      >
+                        <blockquote
+                          className="text-gray-800 dark:text-gray-200 italic leading-relaxed mb-3"
+                          style={{ fontFamily: 'var(--font-lora, Georgia, serif)' }}
+                        >
+                          &ldquo;{p.quote}&rdquo;
+                        </blockquote>
+                        <div className="flex items-center justify-between gap-3 flex-wrap">
+                          <Link href={p.href} className="group inline-flex items-center gap-2 min-w-0">
+                            <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 ${SOURCE_COLORS[p.slug.split('-')[0]] || 'bg-gray-100 text-gray-600'}`}>
+                              {p.source}
+                            </span>
+                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
+                              {p.title}
+                            </span>
+                            <span className="text-xs text-gray-400 dark:text-gray-500 group-hover:text-blue-500 flex-shrink-0">Read in context →</span>
+                          </Link>
+                          {p.verified === true && (
+                            <span className="inline-flex items-center gap-1 text-[10px] font-medium text-emerald-700 dark:text-emerald-400 flex-shrink-0" title="Confirmed word-for-word against the archive">
+                              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M20 6L9 17l-5-5" /></svg>
+                              verbatim
+                            </span>
+                          )}
+                          {p.verified === false && (
+                            <span className="text-[10px] font-medium text-amber-700 dark:text-amber-500 flex-shrink-0" title="Could not confirm this exact wording in the archive — read the source to check">
+                              ⚠ check source
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* AI answer — synthesized from texts */}
               <div className="mb-8">
                 <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
-                  AI Answer
+                  Synthesis
                 </p>
                 {answer?.content ? (
                   <div>
-                    {renderMarkdown(answer.content, fontSize, handleTermClick)}
+                    {renderMarkdown(splitAnswer(answer.content).prose, fontSize, handleTermClick)}
                   </div>
                 ) : (
                   /* Animated circles while streaming */
