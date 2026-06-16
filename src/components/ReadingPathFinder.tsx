@@ -218,6 +218,52 @@ interface SavedPath {
 
 export const AI_PATH_KEY = 'csc-ai-path';
 
+// ── Share encoding ──────────────────────────────────────────────────────────
+// A path is encoded into the URL itself (no server storage): JSON → gzip
+// (CompressionStream) → base64url, prefixed 'g:'. Fallback to uncompressed
+// 'j:' where the Compression APIs are unavailable.
+
+function toB64Url(bytes: Uint8Array): string {
+  let s = '';
+  bytes.forEach((b) => { s += String.fromCharCode(b); });
+  return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function fromB64Url(s: string): Uint8Array {
+  const b = atob(s.replace(/-/g, '+').replace(/_/g, '/'));
+  return Uint8Array.from(b, (c) => c.charCodeAt(0));
+}
+
+async function encodeShare(path: SavedPath): Promise<string> {
+  const json = JSON.stringify({ title: path.title, intro: path.intro, coda: path.coda, posts: path.posts });
+  try {
+    const stream = new Blob([json]).stream().pipeThrough(new CompressionStream('gzip'));
+    const buf = new Uint8Array(await new Response(stream).arrayBuffer());
+    return 'g:' + toB64Url(buf);
+  } catch {
+    return 'j:' + toB64Url(new TextEncoder().encode(json));
+  }
+}
+
+async function decodeShare(encoded: string): Promise<SavedPath | null> {
+  try {
+    const [kind, data] = [encoded.slice(0, 2), encoded.slice(2)];
+    const bytes = fromB64Url(data);
+    let json: string;
+    if (kind === 'g:') {
+      const stream = new Blob([bytes as BlobPart]).stream().pipeThrough(new DecompressionStream('gzip'));
+      json = await new Response(stream).text();
+    } else {
+      json = new TextDecoder().decode(bytes);
+    }
+    const p = JSON.parse(json);
+    if (!p?.posts?.length || !p.title) return null;
+    return { ...p, createdAt: new Date().toISOString() } as SavedPath;
+  } catch {
+    return null;
+  }
+}
+
 export default function ReadingPathFinder() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput]       = useState('');
@@ -225,8 +271,25 @@ export default function ReadingPathFinder() {
   const [streamContent, setStreamContent] = useState('');
   const [savedPath, setSavedPath] = useState<SavedPath | null>(null);
   const [readSlugs, setReadSlugs] = useState<Set<string>>(new Set());
+  const [sharedPreview, setSharedPreview] = useState<SavedPath | null>(null);
+  const [shareCopied, setShareCopied] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef  = useRef<HTMLTextAreaElement>(null);
+
+  const sharePath = async (path: SavedPath) => {
+    const encoded = await encodeShare(path);
+    const url = `${window.location.origin}/guide/reading-paths?share=${encoded}`;
+    try { await navigator.clipboard.writeText(url); } catch {}
+    setShareCopied(true);
+    setTimeout(() => setShareCopied(false), 2000);
+  };
+
+  const adoptShared = (path: SavedPath) => {
+    try { localStorage.setItem(AI_PATH_KEY, JSON.stringify(path)); } catch {}
+    setSavedPath(path);
+    setSharedPreview(null);
+    window.history.replaceState(null, '', '/guide/reading-paths');
+  };
 
   // Restore a previously generated path + read progress. If the page was
   // opened with ?q= (e.g. handed off from Ask AI), start the conversation
@@ -242,6 +305,14 @@ export default function ReadingPathFinder() {
       }
       setReadSlugs(new Set(JSON.parse(localStorage.getItem('csc-read-posts') || '[]')));
     } catch {}
+
+    // A shared path in the URL takes precedence: show a preview with an
+    // adopt button (never silently overwrite an existing saved path).
+    const share = new URLSearchParams(window.location.search).get('share');
+    if (share) {
+      decodeShare(share).then((p) => { if (p) setSharedPreview(p); });
+      return;
+    }
 
     if (!autoStarted.current && !hasSaved) {
       const q = new URLSearchParams(window.location.search).get('q');
@@ -352,8 +423,50 @@ export default function ReadingPathFinder() {
 
   return (
     <div className="max-w-2xl mx-auto">
+      {/* A path shared via link — preview and adopt */}
+      {sharedPreview && (
+        <div className="mb-8 rounded-2xl border-2 border-gray-900 dark:border-white p-5">
+          <p className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
+            A reading path was shared with you
+          </p>
+          <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-1">{sharedPreview.title}</h2>
+          {sharedPreview.intro && (
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-3">{sharedPreview.intro}</p>
+          )}
+          <ol className="space-y-1.5 mb-4">
+            {sharedPreview.posts.map((p, i) => (
+              <li key={p.slug} className="flex gap-2.5 text-sm">
+                <span className="text-gray-400 dark:text-gray-500 tabular-nums flex-shrink-0 w-5 text-right">{i + 1}.</span>
+                <Link href={`/post/${p.slug}`} className="text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:underline leading-snug">
+                  {p.title}
+                </Link>
+              </li>
+            ))}
+          </ol>
+          <div className="flex items-center gap-4 flex-wrap">
+            <button
+              onClick={() => adoptShared(sharedPreview)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors"
+            >
+              {savedPath ? 'Replace my path with this one' : 'Start this path'}
+            </button>
+            <button
+              onClick={() => { setSharedPreview(null); window.history.replaceState(null, '', '/guide/reading-paths'); }}
+              className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+            >
+              {savedPath ? 'Keep my current path' : 'No thanks'}
+            </button>
+          </div>
+          {savedPath && (
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+              You already have a path in progress (&ldquo;{savedPath.title}&rdquo;) — adopting this one replaces it.
+            </p>
+          )}
+        </div>
+      )}
+
       {/* Returning visitor with a saved path — show progress, not a cold start */}
-      {messages.length === 0 && savedPath && (
+      {messages.length === 0 && savedPath && !sharedPreview && (
         <div className="mb-8">
           <div className="flex items-baseline justify-between gap-4 mb-1">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">{savedPath.title}</h2>
@@ -430,6 +543,19 @@ export default function ReadingPathFinder() {
               </p>
             )}
             <button
+              onClick={() => sharePath(savedPath)}
+              className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+            >
+              {shareCopied ? 'Link copied ✓' : 'Share this path'}
+            </button>
+            <a
+              href={`/api/booklet?format=epub&title=${encodeURIComponent(savedPath.title)}&slugs=${encodeURIComponent(savedPath.posts.map((p) => p.slug).join(','))}`}
+              title="Download this path as an EPUB booklet — for e-readers and listening apps"
+              className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+            >
+              Download booklet
+            </a>
+            <button
               onClick={startOver}
               className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
             >
@@ -440,7 +566,7 @@ export default function ReadingPathFinder() {
       )}
 
       {/* Intro block — only shown before any conversation */}
-      {messages.length === 0 && !savedPath && (
+      {messages.length === 0 && !savedPath && !sharedPreview && (
         <div className="mb-8">
           <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 mb-6">
             <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
@@ -513,7 +639,7 @@ export default function ReadingPathFinder() {
       </div>
 
       {/* Input — hidden once a path exists (generated now or saved earlier) */}
-      {!hasPath && !(messages.length === 0 && savedPath) && (
+      {!hasPath && !sharedPreview && !(messages.length === 0 && savedPath) && (
         <div className="relative">
           <textarea
             ref={inputRef}
