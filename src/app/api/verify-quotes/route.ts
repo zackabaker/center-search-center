@@ -48,9 +48,19 @@ export async function POST(request: Request) {
   const corpus = getNormCorpus();
   const verified = quotes.map((q) => {
     if (typeof q !== 'string' || q.length < 20 || q.length > 1000) return false;
-    const nq = normalize(q);
-    if (nq.length < 15) return false;
-    return corpus.includes(nq);
+    // Elision-aware: a quote may drop text with an ellipsis ("A … B"). Such a
+    // quote is legitimate but never appears contiguously, so verify each
+    // segment between ellipses independently. All substantial segments must
+    // appear verbatim in the corpus.
+    const segments = q
+      .split(/\s*(?:…|\.\s*\.\s*\.)\s*/)   // … or ...
+      .map(normalize)
+      .filter((s) => s.length >= 12);
+    if (segments.length === 0) {
+      const nq = normalize(q);
+      return nq.length >= 15 && corpus.includes(nq);
+    }
+    return segments.every((s) => corpus.includes(s));
   });
 
   return Response.json({ verified });
