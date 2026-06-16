@@ -125,14 +125,13 @@ function highlight(text: string, query: string) {
   );
 }
 
-// ── Default to exact-phrase search ───────────────────────────────────────────
-// If the user hasn't typed any boolean operators or quotes, wrap the query in
-// quotes so it's treated as an exact phrase rather than an AND of loose terms.
+// ── Query commit ─────────────────────────────────────────────────────────────
+// A plain query is an AND of its terms (broad, forgiving). Wrapping a query in
+// "quotes" makes it a strict exact-phrase search — the contiguous phrase must
+// appear in the text. (Previously every query was auto-wrapped as a phrase but
+// matched leniently, so "exact phrase" returned loose all-word matches.)
 function commitQuery(raw: string): string {
-  const trimmed = raw.trim();
-  if (!trimmed) return '';
-  const hasOperators = /"/.test(trimmed) || /\b(AND|OR|NOT)\b/i.test(trimmed);
-  return hasOperators ? trimmed : `"${trimmed}"`;
+  return raw.trim();
 }
 
 // ── Transform current query when a syntax hint is clicked ────────────────────
@@ -159,8 +158,6 @@ function applySearchSyntax(syntax: string, currentQuery: string): string {
 }
 
 const PAGE_SIZE = 30;
-// Reddit and Twitter are always excluded from search results (social archive only).
-const ALWAYS_EXCLUDED: ContentSource[] = ['reddit', 'twitter'];
 
 // ── "Did you mean" helpers ────────────────────────────────────────────────────
 function levenshtein(a: string, b: string): number {
@@ -219,15 +216,47 @@ export default function SearchPageClient({
   const [corpusCount, setCorpusCount] = useState<number | null>(null);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
-  // Build inverted index once from entries — transforms per-search O(n·k) scans
-  // to near-O(1) candidate lookup. Built client-side so it doesn't inflate the
-  // serialised ISR payload.
-  const wordIndex = useMemo<WordIndex>(() => buildWordIndex(entries), [entries]);
+  // Source toggles — Reddit/X and Chronicles/AP are off by default and opt-in.
+  // Reddit/X are already in the core index (filtered in/out); Chronicles/AP are
+  // fetched lazily the first time they're switched on.
+  const [includeThreads, setIncludeThreads] = useState(false);
+  const [includeArchives, setIncludeArchives] = useState(false);
+  const [archiveEntries, setArchiveEntries] = useState<SearchEntry[]>([]);
+  const [archiveLoading, setArchiveLoading] = useState(false);
+
+  useEffect(() => {
+    try {
+      setIncludeThreads(localStorage.getItem('csc-search-threads') === 'on');
+      setIncludeArchives(localStorage.getItem('csc-search-archives') === 'on');
+    } catch {}
+  }, []);
+
+  const toggleThreads = () => setIncludeThreads((v) => { const n = !v; try { localStorage.setItem('csc-search-threads', n ? 'on' : 'off'); } catch {} return n; });
+  const toggleArchives = () => setIncludeArchives((v) => { const n = !v; try { localStorage.setItem('csc-search-archives', n ? 'on' : 'off'); } catch {} return n; });
+
+  // Lazy-load the Chronicles + AP index the first time archives are enabled
+  useEffect(() => {
+    if (!includeArchives || archiveEntries.length > 0 || archiveLoading) return;
+    setArchiveLoading(true);
+    fetch('/api/search-index?scope=archives')
+      .then((r) => r.ok ? r.json() : Promise.reject())
+      .then((d) => { if (Array.isArray(d.entries)) setArchiveEntries(d.entries); })
+      .catch(() => {})
+      .finally(() => setArchiveLoading(false));
+  }, [includeArchives, archiveEntries.length, archiveLoading]);
+
+  // Separate inverted indexes for core and archives so the two corpora are
+  // searched independently. Built client-side; archive index built only once
+  // the archive entries have loaded.
+  const coreWordIndex = useMemo<WordIndex>(() => buildWordIndex(entries), [entries]);
+  const archiveWordIndex = useMemo<WordIndex>(() => buildWordIndex(archiveEntries), [archiveEntries]);
 
   useEffect(() => { setRecentSearches(getRecent()); }, []);
   useEffect(() => { inputRef.current?.focus(); }, []);
 
-  // Run search when committed query changes
+  // Run search when the query or the active source set changes. Archives are
+  // ADDITIVE — core results are computed independently and never displaced by
+  // archive matches; archive results (when enabled) are appended after.
   useEffect(() => {
     if (!committed.trim()) {
       setResults([]);
@@ -235,15 +264,21 @@ export default function SearchPageClient({
       setIsSearching(false);
       return;
     }
-    const found = searchEntries(entries, committed, wordIndex)
-      .filter((r) => !ALWAYS_EXCLUDED.includes(r.entry.source));
+    let found = searchEntries(entries, committed, coreWordIndex).filter((r) => {
+      const s = r.entry.source;
+      if ((s === 'reddit' || s === 'twitter') && !includeThreads) return false;
+      return true;
+    });
+    if (includeArchives && archiveEntries.length > 0) {
+      found = found.concat(searchEntries(archiveEntries, committed, archiveWordIndex));
+    }
     const cleanQ = committed.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
     const firstTerm = cleanQ.split(/\s+/)[0];
     setResults(found);
     setPage(0);
     setCorpusCount(firstTerm ? countPostsWithTerm(entries, firstTerm) : null);
     setIsSearching(false);
-  }, [committed, entries, wordIndex]);
+  }, [committed, entries, coreWordIndex, archiveEntries, archiveWordIndex, includeThreads, includeArchives]);
 
   // Sync URL
   useEffect(() => {
@@ -296,18 +331,20 @@ export default function SearchPageClient({
   const totalPages = Math.ceil(visibleResults.length / PAGE_SIZE);
   const pageItems = visibleResults.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
-  const counts: Record<FilterOption, number> = useMemo(() => ({
-    all: results.length,
-    substack: results.filter((r) => r.entry.source === 'substack').length,
-    gablog: results.filter((r) => r.entry.source === 'gablog').length,
-    book: results.filter((r) => r.entry.source === 'book').length,
-    pdf: results.filter((r) => r.entry.source === 'pdf').length,
-    ap: results.filter((r) => r.entry.source === 'ap').length,
-    // reddit/twitter/chronicle excluded from search — kept for TypeScript completeness
-    reddit: 0,
-    twitter: 0,
-    chronicle: 0,
-  }), [results]);
+  const counts: Record<FilterOption, number> = useMemo(() => {
+    const by = (s: ContentSource) => results.filter((r) => r.entry.source === s).length;
+    return {
+      all: results.length,
+      substack: by('substack'),
+      gablog: by('gablog'),
+      book: by('book'),
+      pdf: by('pdf'),
+      reddit: by('reddit'),
+      twitter: by('twitter'),
+      chronicle: by('chronicle'),
+      ap: by('ap'),
+    };
+  }, [results]);
 
   const handleFilterChange = (f: FilterOption) => { setFilter(f); setPage(0); };
 
@@ -317,9 +354,9 @@ export default function SearchPageClient({
   const hasQuery = committed.trim().length > 0;
   const hasResults = visibleResults.length > 0;
 
-  // Whether the current search is an auto-wrapped phrase (no explicit operators)
+  // Whether the current query is an explicit exact-phrase search (quoted)
   const isImplicitPhrase = hasQuery && committed.startsWith('"') && committed.endsWith('"') &&
-    !query.startsWith('"');
+    committed.length > 2;
 
   // "Did you mean" — only computed when results are empty
   const didYouMean = useMemo(() => {
@@ -327,8 +364,8 @@ export default function SearchPageClient({
     const clean = committed.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
     const firstTerm = clean.split(/\s+/)[0];
     if (!firstTerm || firstTerm.length < 4) return null;
-    return findClosestTerm(firstTerm, wordIndex.sortedVocab);
-  }, [committed, visibleResults.length, wordIndex.sortedVocab]);
+    return findClosestTerm(firstTerm, coreWordIndex.sortedVocab);
+  }, [committed, visibleResults.length, coreWordIndex.sortedVocab]);
 
   const SYNTAX_HINTS = ['"exact phrase"', 'term AND term', 'term NOT term', 'term OR term'] as const;
 
@@ -427,15 +464,34 @@ export default function SearchPageClient({
             {visibleResults.length > 0 && (
               <FilterTabs active={filter} onChange={handleFilterChange} counts={counts} />
             )}
-            {/* Archive link — direct users to /browse for archival sources */}
-            <div className="mt-2">
-              <Link
-                href="/browse/chronicle"
-                className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border border-gray-200 text-gray-400 hover:border-gray-300 hover:text-gray-600 dark:border-gray-700 dark:text-gray-500 dark:hover:text-gray-400 transition-colors"
+            {/* Source toggles — Reddit/X and Chronicles/AP are off by default */}
+            <div className="mt-3 flex items-center gap-2 flex-wrap text-xs">
+              <span className="text-gray-400 dark:text-gray-500">Also search:</span>
+              <button
+                onClick={toggleThreads}
+                aria-pressed={includeThreads}
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-colors ${
+                  includeThreads
+                    ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 border-gray-900 dark:border-white'
+                    : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500'
+                }`}
+              >
+                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-violet-400" />
+                Reddit &amp; X
+              </button>
+              <button
+                onClick={toggleArchives}
+                aria-pressed={includeArchives}
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-colors ${
+                  includeArchives
+                    ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 border-gray-900 dark:border-white'
+                    : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500'
+                }`}
               >
                 <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-amber-400" />
-                Browse Chronicles &amp; AP Journal →
-              </Link>
+                Chronicles &amp; AP
+                {includeArchives && archiveLoading && <span className="opacity-70">· loading…</span>}
+              </button>
             </div>
           </div>
 

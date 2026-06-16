@@ -21,7 +21,8 @@ const SOURCE_LABELS: Record<string, string> = {
 };
 
 function authorFor(source: string, author?: string): string {
-  if (source === 'ap') return author ?? 'Various authors';
+  if (author) return author; // explicit override (per-article AP, co-authored, etc.)
+  if (source === 'ap') return 'Various authors';
   if (source === 'chronicle') return 'Eric Gans';
   if (source === 'substack' || source === 'reddit' || source === 'twitter') return 'Dennis Bouvard (Adam Katz)';
   return 'Adam Katz';

@@ -73,8 +73,9 @@ export async function generateMetadata({
     try { return new Date(post.date).toISOString(); } catch { return undefined; }
   })() : undefined;
 
-  // Author: per-article for AP Journal; Eric Gans for Chronicles; Dennis Bouvard for Substack; Adam Katz otherwise
-  const authorName = post.source === 'ap' ? (post.author ?? 'Various Authors')
+  // Author: explicit override (e.g. co-authored) wins; else per-source default.
+  const authorName = post.author ? post.author
+    : post.source === 'ap' ? 'Various Authors'
     : post.source === 'chronicle' ? 'Eric Gans'
     : post.source === 'substack' ? 'Dennis Bouvard'
     : 'Adam Katz';
@@ -172,11 +173,16 @@ export default async function PostPage({
 
   const SIDEBAR_LABEL = 'text-xs font-mono uppercase tracking-widest text-gray-400 mb-3';
 
-  const authorName = post.source === 'ap' ? (post.author ?? 'Various Authors')
+  // An explicit author override (e.g. a co-authored essay) wins over the
+  // per-source default.
+  const authorName = post.author ? post.author
+    : post.source === 'ap' ? 'Various Authors'
     : post.source === 'chronicle' ? 'Eric Gans'
     : post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter'
     ? 'Dennis Bouvard'
     : 'Adam Katz';
+  // Co-authored / multi-author credits don't map to a single author page
+  const authorIsLinkable = !post.author || post.source === 'ap';
   const authorUrl = post.source === 'ap'
     ? 'https://anthropoetics.ucla.edu'
     : post.source === 'chronicle'
@@ -255,12 +261,16 @@ export default async function PostPage({
                 </h1>
                 <p className="text-base text-gray-500 dark:text-gray-400 mb-5">
                   By{' '}
-                  <Link
-                    href={authorUrl}
-                    className="hover:text-gray-800 dark:hover:text-gray-200 underline underline-offset-2 transition-colors"
-                  >
-                    {authorName}
-                  </Link>
+                  {authorIsLinkable ? (
+                    <Link
+                      href={authorUrl}
+                      className="hover:text-gray-800 dark:hover:text-gray-200 underline underline-offset-2 transition-colors"
+                    >
+                      {authorName}
+                    </Link>
+                  ) : (
+                    <span className="text-gray-600 dark:text-gray-300">{authorName}</span>
+                  )}
                 </p>
 
                 {/* Action buttons */}

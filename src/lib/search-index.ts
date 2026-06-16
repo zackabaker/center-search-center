@@ -484,14 +484,13 @@ export function searchEntries(
       }
     }
 
-    // Phrase terms
+    // Phrase terms — STRICT: the contiguous phrase must appear in the title or
+    // the content. No all-words fallback (that made exact-phrase search behave
+    // like a loose AND). Matching is limited to snippetContent (the opening of
+    // each text); a phrase appearing only deeper won't match.
     for (const phrase of phrases) {
       if (lowerTitle.includes(phrase)) score += 600;
       else if (lowerSnippet.includes(phrase)) score += 60;
-      // Fallback: all phrase words exist in document (words must be ≥ 3 chars to count)
-      else if (phrase.split(/\s+/).every((w) =>
-        w.length < 3 || entry.contentWords.some((cw) => cw.startsWith(w))
-      )) score += 30;
       else return { entry, score: -1 };
     }
 
@@ -540,9 +539,11 @@ export function searchEntries(
       else if (daysOld < 365) score *= 1.08;
     }
 
-    // Source weight: book is canonical > substack > gablog; tweets and Reddit supplementary
+    // Source weight: book is canonical > substack > gablog; archives (opt-in)
+    // and social are supplementary so they surface without burying the core.
     const SOURCE_WEIGHT: Record<string, number> = {
-      book: 1.1, substack: 1.0, gablog: 0.9, pdf: 0.85, reddit: 0.25, twitter: 0.35,
+      book: 1.1, substack: 1.0, gablog: 0.9, pdf: 0.85,
+      chronicle: 0.7, ap: 0.7, reddit: 0.25, twitter: 0.35,
     };
     const weight = SOURCE_WEIGHT[entry.source] ?? 1.0;
 
@@ -552,7 +553,7 @@ export function searchEntries(
   return scored
     .filter((s) => s.score > 0)
     .sort((a, b) => b.score - a.score)
-    .slice(0, 60)
+    .slice(0, 100)
     .map((s) => ({
       entry: s.entry,
       contextSnippet:

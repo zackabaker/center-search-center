@@ -360,7 +360,7 @@ function parseSubstackPosts(text: string): Post[] {
 }
 
 // Custom metadata for PDFs: map filename (without extension) to title and source override
-const PDF_METADATA: Record<string, { title: string; source?: ContentSource; url?: string; date?: string }> = {
+const PDF_METADATA: Record<string, { title: string; source?: ContentSource; url?: string; date?: string; author?: string }> = {
   'the-origin-of-language': {
     title: 'The Origin of Language',
     source: 'book',
@@ -382,6 +382,7 @@ const PDF_METADATA: Record<string, { title: string; source?: ContentSource; url?
   },
   'there-is-no-economy': {
     title: 'There Is No Economy but Only the Debt to the Center',
+    author: 'Adam Katz & Zack Baker',
   },
   'linguistic-turn-generative-literacy': {
     title: 'The Linguistic Turn and Generative Literacy (Adam Katz)',
@@ -1180,6 +1181,7 @@ function parsePDFs(): Post[] {
       date: meta?.date ?? null,
       source,
       ...(postUrl ? { url: postUrl } : {}),
+      ...(meta?.author ? { author: meta.author } : {}),
     });
   }
 
