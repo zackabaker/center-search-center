@@ -79,13 +79,16 @@ export default function HomeSearch() {
 
   return (
     <>
-      {/* Icon */}
+      {/* Icon — desktop only; on mobile it pushed the search bar below the
+          fold, so it's hidden there to keep search visible */}
       <div
-        className="mx-auto mb-6 flex justify-center"
+        className="mx-auto mb-6 hidden sm:flex justify-center"
         style={{ viewTransitionName: 'center-icon' } as React.CSSProperties}
       >
         <AnimatedSearchIcon size={80} speed={iconSpeed} />
       </div>
+      {/* Small top margin on mobile so the search sits comfortably below the CTA */}
+      <div className="h-2 sm:hidden" />
 
       <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto">
         {/* Mode toggle */}

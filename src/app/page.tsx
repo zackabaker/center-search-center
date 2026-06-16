@@ -175,31 +175,20 @@ export default function Home() {
           </p>
         </blockquote>
 
-        {/* Primary actions for newcomers */}
-        <div className="flex items-center justify-center gap-3 flex-wrap mb-10">
+        {/* Primary action for newcomers — the guide is the orientation hub */}
+        <div className="flex items-center justify-center mb-7">
           <Link
-            href="/intro"
+            href="/guide"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors"
           >
-            New here? Read the introduction
+            New here? Start with the guide
             <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
             </svg>
           </Link>
-          <Link
-            href="/guide/reading-paths"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 text-sm font-semibold hover:border-gray-500 dark:hover:border-gray-400 transition-colors"
-          >
-            Get a personal reading path
-          </Link>
         </div>
 
-        {/* Discover — mobile: right under the CTAs (the bottom nav already
-            has a Search tab, so the search box can sit lower on phones) */}
-        <div className="sm:hidden text-left mb-10">
-          <RandomPostButton />
-        </div>
-
+        {/* Search — directly under the CTA so it's visible on mobile too */}
         <HomeSearch />
 
         {/* Corpus stats */}
@@ -209,6 +198,11 @@ export default function Home() {
           <span>5M+ words</span>
           <span className="text-gray-200 dark:text-gray-700">·</span>
           <span>1995&ndash;present</span>
+        </div>
+
+        {/* Discover — mobile only, just below search (favorite mobile feature) */}
+        <div className="sm:hidden text-left mt-10">
+          <RandomPostButton />
         </div>
       </header>
 
