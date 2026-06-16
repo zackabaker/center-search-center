@@ -599,7 +599,27 @@ export default function AskClient() {
                 {currentQuestion}
               </h2>
 
-              {/* Passages from the archive — the verbatim quotes, up front */}
+              {/* AI answer — synthesized from texts */}
+              <div className="mb-8">
+                <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
+                  Synthesis
+                </p>
+                {answer?.content ? (
+                  <div>
+                    {renderMarkdown(splitAnswer(answer.content).prose, fontSize, handleTermClick)}
+                  </div>
+                ) : (
+                  /* Animated circles while streaming */
+                  <div className="flex flex-col items-center py-8 gap-3">
+                    <AnimatedSearchIcon size={64} speed={4} />
+                    <p className="text-xs text-gray-400 dark:text-gray-600 font-mono tracking-wide">
+                      reading the texts…
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Passages from the archive — the verbatim quotes, below the synthesis */}
               {answer?.passages && answer.passages.length > 0 && (
                 <div className="mb-8">
                   <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
@@ -633,37 +653,12 @@ export default function AskClient() {
                               verbatim
                             </span>
                           )}
-                          {p.verified === false && (
-                            <span className="text-[10px] font-medium text-amber-700 dark:text-amber-500 flex-shrink-0" title="Could not confirm this exact wording in the archive — read the source to check">
-                              ⚠ check source
-                            </span>
-                          )}
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
-
-              {/* AI answer — synthesized from texts */}
-              <div className="mb-8">
-                <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
-                  Synthesis
-                </p>
-                {answer?.content ? (
-                  <div>
-                    {renderMarkdown(splitAnswer(answer.content).prose, fontSize, handleTermClick)}
-                  </div>
-                ) : (
-                  /* Animated circles while streaming */
-                  <div className="flex flex-col items-center py-8 gap-3">
-                    <AnimatedSearchIcon size={64} speed={4} />
-                    <p className="text-xs text-gray-400 dark:text-gray-600 font-mono tracking-wide">
-                      reading the texts…
-                    </p>
-                  </div>
-                )}
-              </div>
 
               {/* Top posts — source cards below the quotes */}
               <div className="mb-8">

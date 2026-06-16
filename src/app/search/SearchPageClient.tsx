@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
+import Link, { useLinkStatus } from 'next/link';
 import { ContentSource } from '@/lib/types';
 import {
   SearchEntry,
@@ -193,6 +193,31 @@ function findClosestTerm(term: string, vocab: string[]): string | null {
     if (d === 1) break; // can't improve on edit-distance 1
   }
   return best;
+}
+
+// Open affordance shown inside each result Link. useLinkStatus reports the
+// pending state of the enclosing Link, so a tap gives immediate feedback even
+// when the destination (a dynamic post page) takes a moment to load — instead
+// of looking like a frozen page on mobile.
+function ResultOpen() {
+  const { pending } = useLinkStatus();
+  return (
+    <span className={`inline-flex items-center gap-1.5 text-xs font-medium flex-shrink-0 transition-colors ${
+      pending ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400'
+    }`}>
+      {pending ? (
+        <>
+          <svg className="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24" fill="none">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
+            <path className="opacity-90" fill="currentColor" d="M12 2a10 10 0 0110 10h-3a7 7 0 00-7-7V2z" />
+          </svg>
+          Opening…
+        </>
+      ) : (
+        <>Open<span aria-hidden> →</span></>
+      )}
+    </span>
+  );
 }
 
 export default function SearchPageClient({
@@ -513,53 +538,38 @@ export default function SearchPageClient({
             </Link>
           )}
 
-          {/* Result list */}
+          {/* Result list — the whole card is the tap target (mobile-friendly),
+              with a pending state so a tap never looks like a frozen page. */}
           {hasResults && (
             <div className="space-y-3">
               {pageItems.map(({ entry, contextSnippet, occurrences }: SearchResult) => (
-                <div key={entry.slug} className="group bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm transition-all">
-                  <div className="flex items-start gap-3">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                        <span className={`text-[11px] px-2 py-0.5 rounded-full whitespace-nowrap ${SOURCE_COLORS[entry.source]}`}>
-                          {SOURCE_LABELS[entry.source]}
-                        </span>
-                        {entry.date && <span className="text-xs text-gray-400">{entry.date}</span>}
-                        <span className="text-xs text-gray-400">{entry.readingTime} min read</span>
-                        {occurrences > 0 && (
-                          <span className="text-xs text-gray-400">
-                            {occurrences}×
-                          </span>
-                        )}
-                      </div>
-                      <Link
-                        href={postUrl(entry.slug)}
-                        className="block font-semibold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-1.5 break-words"
-                      >
-                        {highlight(entry.title, committed)}
-                      </Link>
-                      <p
-                        className="text-[15px] text-gray-600 dark:text-gray-400 leading-relaxed break-words"
-                        style={{ fontFamily: 'var(--prose-font-family)' }}
-                      >
-                        {highlight(contextSnippet, committed)}
-                      </p>
-                    </div>
-                    {/* Open button — hidden on mobile (tap the title instead) */}
-                    <a
-                      href={postUrl(entry.slug)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hidden sm:flex flex-shrink-0 items-center gap-1 px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-all sm:opacity-0 sm:group-hover:opacity-100 text-xs font-medium"
-                      title="Open in new tab"
-                    >
-                      Open in new tab
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    </a>
+                <Link
+                  key={entry.slug}
+                  href={postUrl(entry.slug)}
+                  prefetch={false}
+                  className="group block bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm active:bg-gray-50 dark:active:bg-gray-800/60 transition-all"
+                >
+                  <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                    <span className={`text-[11px] px-2 py-0.5 rounded-full whitespace-nowrap ${SOURCE_COLORS[entry.source]}`}>
+                      {SOURCE_LABELS[entry.source]}
+                    </span>
+                    {entry.date && <span className="text-xs text-gray-400">{entry.date}</span>}
+                    <span className="text-xs text-gray-400">{entry.readingTime} min read</span>
+                    {occurrences > 0 && <span className="text-xs text-gray-400">{occurrences}×</span>}
                   </div>
-                </div>
+                  <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1.5 break-words">
+                    {highlight(entry.title, committed)}
+                  </p>
+                  <p
+                    className="text-[15px] text-gray-600 dark:text-gray-400 leading-relaxed break-words mb-2.5"
+                    style={{ fontFamily: 'var(--prose-font-family)' }}
+                  >
+                    {highlight(contextSnippet, committed)}
+                  </p>
+                  <div className="flex justify-end">
+                    <ResultOpen />
+                  </div>
+                </Link>
               ))}
             </div>
           )}
