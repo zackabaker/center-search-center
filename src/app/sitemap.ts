@@ -29,7 +29,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/author/katz`,         changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/author/bouvard`,      changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/lectures`,            changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${BASE_URL}/stats`,               changeFrequency: 'weekly',  priority: 0.3 },
   ];
 
   const conceptRoutes: MetadataRoute.Sitemap = CONCEPTS.map((c) => ({

@@ -74,22 +74,13 @@ export default function ReadingListClient() {
         </div>
         <div className="flex items-center gap-2">
           {tab === 'saved' && list.length > 0 && (
-            <button
-              onClick={() => {
-                const data = JSON.stringify({ exported: new Date().toISOString(), posts: list }, null, 2);
-                const blob = new Blob([data], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'center-study-saved.json';
-                a.click();
-                URL.revokeObjectURL(url);
-              }}
-              title="Export saved posts as JSON"
-              className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-400 hover:text-gray-600 hover:border-gray-300 transition-colors"
+            <a
+              href={`/api/booklet?format=epub&title=${encodeURIComponent('Center Study Reading List')}&slugs=${encodeURIComponent(list.map((p) => p.slug).join(','))}`}
+              title="Download your saved texts as an EPUB booklet — for e-readers and listening apps (ElevenReader, Voice Dream, etc.)"
+              className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:border-gray-400 dark:hover:border-gray-500 transition-colors"
             >
-              Export
-            </button>
+              ↓ Booklet (EPUB)
+            </a>
           )}
           {!isEmpty && (
             <button
