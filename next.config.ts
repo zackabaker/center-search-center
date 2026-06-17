@@ -16,6 +16,15 @@ const nextConfig: NextConfig = {
     "/**": ["./src/data/**"],
   },
 
+  async rewrites() {
+    return [
+      // Clean standalone URL for the essay, served by its self-contained HTML.
+      // The long vanity domain (thereisnoeconomybutonlythedebttothecenter.com)
+      // can redirect here. Keeps the URL clean — no .html, no site chrome.
+      { source: '/there-is-no-economy', destination: '/original/there-is-no-economy.html' },
+    ];
+  },
+
   async headers() {
     return [
       {
