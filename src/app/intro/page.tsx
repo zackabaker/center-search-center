@@ -290,6 +290,17 @@ export default function IntroPage() {
 
           </div>
         </div>
+
+        <Link
+          href="/lineage"
+          className="mt-8 group flex items-center justify-between gap-4 p-4 rounded-xl border border-blue-100 dark:border-blue-900/40 hover:border-blue-400 dark:hover:border-blue-600 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
+        >
+          <div>
+            <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">The lineage, in their own words</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Girard → Gans → Katz, told through exact passages from the corpus — the missing account of language, and why it scales to money, institutions, and machines</p>
+          </div>
+          <span className="text-blue-400 group-hover:translate-x-0.5 transition-transform flex-shrink-0">→</span>
+        </Link>
       </section>
 
       {/* ── The Originary Scene ─────────────────────────────────────────── */}
