@@ -36,6 +36,14 @@ const HOSTED_ORIGINAL: Record<string, string> = {
   'pdf-there-is-no-economy': '/original/there-is-no-economy.html',
 };
 
+// Long-form scholarly articles that get the "academic" reading presentation
+// in-app: a centered serif title block (issue line, title, byline) over the
+// normal reader chrome. Add a slug here to opt another essay in. `issue` is the
+// small line above the title (journal / volume / date).
+const ACADEMIC_ARTICLES: Record<string, { issue?: string }> = {
+  'pdf-there-is-no-economy': { issue: 'Anthropoetics XXVIII, no. 2 — Spring 2023' },
+};
+
 // Module-level cache — computed once per server-process lifetime (survives warm serverless invocations)
 let _cachedAllEntries: ReturnType<typeof buildSearchEntries> | null = null;
 function getCachedAllEntries() {
@@ -153,6 +161,7 @@ export default async function PostPage({
 
   const externalUrl = post.url || `https://center.study/post/${slug}`;
   const originalHref = HOSTED_ORIGINAL[slug] ?? post.url;
+  const academic = ACADEMIC_ARTICLES[slug];
 
   // ── Prev / Next within source ──────────────────────────────────────────────
   const sourcePosts = allPosts
@@ -207,6 +216,21 @@ export default async function PostPage({
   const authorUrl = linkedHandle
     ? `https://center.study/author/${linkedHandle}`
     : 'https://center.study';
+  const bylineInner = authorParts.map((p, i) => (
+    <span key={p.name}>
+      {i > 0 && <span className="text-gray-400"> &amp; </span>}
+      {p.handle ? (
+        <Link
+          href={`/author/${p.handle}`}
+          className="hover:text-gray-800 dark:hover:text-gray-200 underline underline-offset-2 transition-colors"
+        >
+          {p.name}
+        </Link>
+      ) : (
+        <span className="text-gray-600 dark:text-gray-300">{p.name}</span>
+      )}
+    </span>
+  ));
 
   const isoDate = post.date ? (() => { try { return new Date(post.date).toISOString(); } catch { return undefined; } })() : undefined;
 
@@ -260,43 +284,56 @@ export default async function PostPage({
           {/* ── Main content column ── */}
           <div className="min-w-0">
             <article>
-              <header className="mb-8 sm:mb-12">
-                <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4">
-                  <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${SOURCE_COLORS[post.source]}`}>
-                    {SOURCE_LABELS[post.source]}
-                  </span>
-                  {post.date && <span className="text-sm text-gray-400">{post.date}</span>}
-                  <span className="text-sm text-gray-400">{readingTime} min read</span>
-                  <span className="text-sm text-gray-400 hidden sm:inline">{wordCount.toLocaleString()} words</span>
-                </div>
+              <header className={`mb-8 sm:mb-12${academic ? ' text-center' : ''}`}>
+                {academic ? (
+                  <>
+                    {academic.issue && (
+                      <p className="text-xs sm:text-sm font-medium uppercase tracking-[0.12em] text-gray-400 dark:text-gray-500 mb-5">
+                        {academic.issue}
+                      </p>
+                    )}
+                    <h1
+                      className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold leading-tight mb-5"
+                      style={{ fontFamily: 'var(--prose-font-family)' }}
+                    >
+                      {post.title}
+                    </h1>
+                    <p
+                      className="text-xl text-gray-600 dark:text-gray-300 italic mb-4"
+                      style={{ fontFamily: 'var(--prose-font-family)' }}
+                    >
+                      {bylineInner}
+                    </p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mb-6">
+                      {readingTime} min read · {wordCount.toLocaleString()} words
+                    </p>
+                    <div className="border-t border-gray-200 dark:border-gray-700 w-16 mx-auto mb-7" />
+                  </>
+                ) : (
+                  <>
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4">
+                      <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${SOURCE_COLORS[post.source]}`}>
+                        {SOURCE_LABELS[post.source]}
+                      </span>
+                      {post.date && <span className="text-sm text-gray-400">{post.date}</span>}
+                      <span className="text-sm text-gray-400">{readingTime} min read</span>
+                      <span className="text-sm text-gray-400 hidden sm:inline">{wordCount.toLocaleString()} words</span>
+                    </div>
 
-                <h1
-                  className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight mb-4"
-                  style={{ letterSpacing: '-0.02em' }}
-                >
-                  {post.title}
-                </h1>
-                <p className="text-base text-gray-500 dark:text-gray-400 mb-5">
-                  By{' '}
-                  {authorParts.map((p, i) => (
-                    <span key={p.name}>
-                      {i > 0 && <span className="text-gray-400"> &amp; </span>}
-                      {p.handle ? (
-                        <Link
-                          href={`/author/${p.handle}`}
-                          className="hover:text-gray-800 dark:hover:text-gray-200 underline underline-offset-2 transition-colors"
-                        >
-                          {p.name}
-                        </Link>
-                      ) : (
-                        <span className="text-gray-600 dark:text-gray-300">{p.name}</span>
-                      )}
-                    </span>
-                  ))}
-                </p>
+                    <h1
+                      className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight mb-4"
+                      style={{ letterSpacing: '-0.02em' }}
+                    >
+                      {post.title}
+                    </h1>
+                    <p className="text-base text-gray-500 dark:text-gray-400 mb-5">
+                      By {bylineInner}
+                    </p>
+                  </>
+                )}
 
                 {/* Action buttons */}
-                <div className="flex items-center gap-2 print:hidden">
+                <div className={`flex items-center gap-2 print:hidden${academic ? ' justify-center' : ''}`}>
                   <a
                     href={`/post/${slug}/text`}
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
