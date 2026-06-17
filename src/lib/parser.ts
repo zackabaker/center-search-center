@@ -50,6 +50,41 @@ function excerpt(content: string, maxLen = 200): string {
 //     corpus API, exports, and word counts — so strip them at the source.
 const SPAM_TERMS = /\b(buy soma|cheap soma|tenuate|tramadol|buy xanax|cheap xanax|ultram|cialis|phentermine|animal porn|adult clips|glory hole|blowjobs?|facial cumshots?|casino online|payday loans?|replica watch)\b/gi;
 
+// Some sources arrive as giant unbroken blocks — PDF "blob" extractions, and
+// the lectures (one paragraph each in source). The text is correct but reads as
+// a wall. Split any over-long plain-prose paragraph at sentence boundaries into
+// ~900-char paragraphs. Headings (#), blockquotes (>), dividers, speaker labels,
+// and already-reasonable paragraphs are left untouched, so well-formatted posts
+// are unaffected. Breaks land between sentences, so they read naturally even
+// though they may not match the author's original paragraphing.
+const PARAGRAPH_SPLIT_THRESHOLD = 1800;
+const PARAGRAPH_TARGET = 900;
+
+function paragraphizeLongBlocks(content: string): string {
+  return content
+    .split(/\n\n+/)
+    .flatMap((para) => {
+      const t = para.trim();
+      if (t.length <= PARAGRAPH_SPLIT_THRESHOLD) return [t];
+      if (/^(#{1,3}\s|>\s|>$|---$|\[Q:|\[ADAM\])/.test(t)) return [t]; // structural lines
+      // Split into sentences; regroup to ~PARAGRAPH_TARGET chars.
+      const sentences = t.split(/(?<=[.!?]["'”’)]?)\s+(?=[“"'(A-Z])/);
+      const out: string[] = [];
+      let buf = '';
+      for (const s of sentences) {
+        buf = buf ? `${buf} ${s}` : s;
+        if (buf.length >= PARAGRAPH_TARGET) { out.push(buf); buf = ''; }
+      }
+      if (buf) {
+        // Fold a short trailing remnant into the previous paragraph
+        if (out.length && buf.length < 250) out[out.length - 1] += ' ' + buf;
+        else out.push(buf);
+      }
+      return out.length ? out : [t];
+    })
+    .join('\n\n');
+}
+
 function cleanCorpusContent(content: string, source: ContentSource): string {
   const paras = content.split(/\n\n+/);
   const kept = paras.filter((para) => {
@@ -1369,7 +1404,7 @@ export function parseAllContent(): Post[] {
   // counts all see clean text).
   for (const post of allPosts) {
     post.title = decodeHtmlEntities(post.title);
-    post.content = cleanCorpusContent(decodeHtmlEntities(post.content), post.source);
+    post.content = paragraphizeLongBlocks(cleanCorpusContent(decodeHtmlEntities(post.content), post.source));
     post.excerpt = excerpt(post.content);
   }
 
