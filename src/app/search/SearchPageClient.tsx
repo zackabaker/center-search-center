@@ -14,6 +14,7 @@ import {
   stemWord,
 } from '@/lib/search-index';
 import FilterTabs from '@/components/FilterTabs';
+import TopLoadingBar from '@/components/TopLoadingBar';
 import { GLOSSARY_LINK_TERMS } from '@/data/guide/glossary-link-terms';
 import { CS_TERMS } from '@/lib/cs-terms';
 
@@ -399,6 +400,8 @@ export default function SearchPageClient({
 
   return (
     <main className="max-w-4xl w-full mx-auto px-4 pt-6 pb-24 sm:py-10 overflow-x-hidden">
+      {/* Loading bar while the Chronicles/AP index streams in */}
+      {archiveLoading && <TopLoadingBar label="Loading Chronicles & AP" />}
       {/* Search input */}
       <div className="mb-6">
         <div className="relative flex items-center border-2 border-gray-200 focus-within:border-gray-400 rounded-xl bg-white dark:bg-gray-900 dark:border-gray-700 dark:focus-within:border-gray-500 transition-colors">
