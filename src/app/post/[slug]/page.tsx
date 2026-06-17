@@ -22,6 +22,20 @@ import NextInPath from '@/components/NextInPath';
 import AiPathNext from '@/components/AiPathNext';
 import PostSearchContext, { BackButton } from '@/components/PostSearchContext';
 
+// Maps a byline name to its on-site author page. Names not listed render as
+// plain text — we never link a byline to an external (and often broken) source.
+const AUTHOR_HANDLES: Record<string, string> = {
+  'adam katz': 'katz',
+  'dennis bouvard': 'katz',
+  'zack baker': 'baker',
+};
+
+// Posts whose "Original" link should point to a faithful reading copy we host
+// ourselves, rather than to a flaky external publication.
+const HOSTED_ORIGINAL: Record<string, string> = {
+  'pdf-there-is-no-economy': '/original/there-is-no-economy.html',
+};
+
 // Module-level cache — computed once per server-process lifetime (survives warm serverless invocations)
 let _cachedAllEntries: ReturnType<typeof buildSearchEntries> | null = null;
 function getCachedAllEntries() {
@@ -138,6 +152,7 @@ export default async function PostPage({
     });
 
   const externalUrl = post.url || `https://center.study/post/${slug}`;
+  const originalHref = HOSTED_ORIGINAL[slug] ?? post.url;
 
   // ── Prev / Next within source ──────────────────────────────────────────────
   const sourcePosts = allPosts
@@ -181,15 +196,17 @@ export default async function PostPage({
     : post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter'
     ? 'Dennis Bouvard'
     : 'Adam Katz';
-  // Co-authored / multi-author credits don't map to a single author page
-  const authorIsLinkable = !post.author || post.source === 'ap';
-  const authorUrl = post.source === 'ap'
-    ? 'https://anthropoetics.ucla.edu'
-    : post.source === 'chronicle'
-    ? 'https://anthropoetics.ucla.edu'
-    : post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter'
-    ? 'https://center.study/author/bouvard'
-    : 'https://center.study/author/katz';
+  // Split a (possibly co-authored) credit into names, linking each to its
+  // author page when one exists — never to an external/broken source.
+  const authorParts = authorName
+    .split(/\s*&\s*|\s+and\s+/i)
+    .map((n) => n.trim())
+    .filter(Boolean)
+    .map((n) => ({ name: n, handle: AUTHOR_HANDLES[n.toLowerCase()] ?? null }));
+  const linkedHandle = authorParts.find((p) => p.handle)?.handle;
+  const authorUrl = linkedHandle
+    ? `https://center.study/author/${linkedHandle}`
+    : 'https://center.study';
 
   const isoDate = post.date ? (() => { try { return new Date(post.date).toISOString(); } catch { return undefined; } })() : undefined;
 
@@ -261,16 +278,21 @@ export default async function PostPage({
                 </h1>
                 <p className="text-base text-gray-500 dark:text-gray-400 mb-5">
                   By{' '}
-                  {authorIsLinkable ? (
-                    <Link
-                      href={authorUrl}
-                      className="hover:text-gray-800 dark:hover:text-gray-200 underline underline-offset-2 transition-colors"
-                    >
-                      {authorName}
-                    </Link>
-                  ) : (
-                    <span className="text-gray-600 dark:text-gray-300">{authorName}</span>
-                  )}
+                  {authorParts.map((p, i) => (
+                    <span key={p.name}>
+                      {i > 0 && <span className="text-gray-400"> &amp; </span>}
+                      {p.handle ? (
+                        <Link
+                          href={`/author/${p.handle}`}
+                          className="hover:text-gray-800 dark:hover:text-gray-200 underline underline-offset-2 transition-colors"
+                        >
+                          {p.name}
+                        </Link>
+                      ) : (
+                        <span className="text-gray-600 dark:text-gray-300">{p.name}</span>
+                      )}
+                    </span>
+                  ))}
                 </p>
 
                 {/* Action buttons */}
@@ -295,13 +317,13 @@ export default async function PostPage({
                       url={externalUrl}
                       slug={slug}
                     />
-                    {post.url && (
+                    {originalHref && (
                       <a
-                        href={post.url}
+                        href={originalHref}
                         target="_blank"
                         rel="noopener noreferrer nofollow"
                         className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
-                        title="View the original publication"
+                        title={HOSTED_ORIGINAL[slug] ? 'Read the original article (faithful reading copy)' : 'View the original publication'}
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />

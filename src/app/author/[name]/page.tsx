@@ -5,13 +5,28 @@ import type { Metadata } from 'next';
 import GoBack from '@/components/GoBack';
 import type { ContentSource } from '@/lib/types';
 
+import type { Post } from '@/lib/types';
+
+interface AuthorProfile {
+  name: string;
+  altName?: string;
+  bio: string;
+  // Which posts belong to this author. Either by source (the whole corpus is
+  // Katz's) or by an explicit byline match (co-authored work).
+  selectPosts: (all: Post[]) => Post[];
+  sources: ContentSource[];
+  links: { label: string; href: string }[];
+}
+
 // Unified author: Adam Katz writes as himself (GABlog, Essays, Book)
 // and as Dennis Bouvard (Substack, Threads). Both names → same page.
-const AUTHOR = {
+const KATZ: AuthorProfile = {
   name: 'Adam Katz',
   altName: 'Dennis Bouvard',
   bio: 'Adam Katz is the author of Center Study. He develops originary grammar across the GABlog (~480 posts since 2007), academic essays and articles, and the book Anthropomorphics. He also writes applied essays on AI, governance, and contemporary politics on Substack under the pen name Dennis Bouvard.',
   sources: ['gablog', 'pdf', 'book', 'substack', 'reddit', 'twitter'] as ContentSource[],
+  selectPosts: (all) =>
+    all.filter((p) => (['gablog', 'pdf', 'book', 'substack', 'reddit', 'twitter'] as string[]).includes(p.source)),
   links: [
     { label: 'GABlog', href: '/browse/gablog' },
     { label: 'Substack', href: '/browse/substack' },
@@ -19,6 +34,22 @@ const AUTHOR = {
     { label: 'Threads & Q&A', href: '/browse/threads' },
   ],
 };
+
+// Zack Baker — co-author with Adam Katz of "There Is No Economy…" and the
+// builder of the Center Study archive. His page collects the work he is
+// credited on (matched by byline).
+const BAKER: AuthorProfile = {
+  name: 'Zack Baker',
+  bio: 'Zack Baker is the co-author, with Adam Katz, of “There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary” (Anthropoetics XXVIII, no. 2, Spring 2023), and the builder of the Center Study archive.',
+  sources: ['pdf'] as ContentSource[],
+  // Matched by byline. The essay exists in two source-copies (our clean reading
+  // copy under `pdf` and the raw Anthropoetics-journal copy under `ap`); show
+  // only the canonical `pdf` one so the work isn't listed twice.
+  selectPosts: (all) => all.filter((p) => /\bzack baker\b/i.test(p.author ?? '') && p.source !== 'ap'),
+  links: [{ label: 'Essays & Articles', href: '/browse/pdf' }],
+};
+
+const PROFILES: Record<string, AuthorProfile> = { katz: KATZ, baker: BAKER };
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
   substack:  'Substack',
@@ -48,7 +79,8 @@ const SOURCE_PEN_NAME: Partial<Record<ContentSource, string>> = {
   twitter:  'as Dennis Bouvard',
 };
 
-const VALID_HANDLES = ['katz', 'bouvard', 'katz-bouvard'];
+const REDIRECT_HANDLES = ['bouvard', 'katz-bouvard'];
+const VALID_HANDLES = [...Object.keys(PROFILES), ...REDIRECT_HANDLES];
 
 export async function generateStaticParams() {
   return VALID_HANDLES.map((name) => ({ name }));
@@ -60,11 +92,19 @@ export async function generateMetadata({
   params: Promise<{ name: string }>;
 }): Promise<Metadata> {
   const { name } = await params;
-  if (!VALID_HANDLES.includes(name)) return { title: 'Author not found' };
+  if (REDIRECT_HANDLES.includes(name) || name === 'katz') {
+    return {
+      title: `Adam Katz (Dennis Bouvard) | Center Study Center`,
+      description: KATZ.bio,
+      alternates: { canonical: 'https://center.study/author/katz' },
+    };
+  }
+  const profile = PROFILES[name];
+  if (!profile) return { title: 'Author not found' };
   return {
-    title: `Adam Katz (Dennis Bouvard) | Center Study Center`,
-    description: AUTHOR.bio,
-    alternates: { canonical: 'https://center.study/author/katz' },
+    title: `${profile.name} | Center Study Center`,
+    description: profile.bio,
+    alternates: { canonical: `https://center.study/author/${name}` },
   };
 }
 
@@ -78,16 +118,17 @@ export default async function AuthorPage({
   const { name } = await params;
 
   // Canonicalize — bouvard and katz-bouvard redirect to katz
-  if (name === 'bouvard' || name === 'katz-bouvard') {
+  if (REDIRECT_HANDLES.includes(name)) {
     redirect('/author/katz');
   }
 
-  if (name !== 'katz') notFound();
+  const profile = PROFILES[name];
+  if (!profile) notFound();
 
   const allPosts = getAllPosts();
 
-  const posts = allPosts
-    .filter((p) => (AUTHOR.sources as readonly string[]).includes(p.source))
+  const posts = profile
+    .selectPosts(allPosts)
     .sort((a, b) => {
       if (a.date && b.date) return new Date(b.date).getTime() - new Date(a.date).getTime();
       if (a.date) return -1;
@@ -96,7 +137,7 @@ export default async function AuthorPage({
     });
 
   // Group by source in the order we care about
-  const bySource: [ContentSource, typeof posts][] = AUTHOR.sources
+  const bySource: [ContentSource, typeof posts][] = profile.sources
     .map((src) => [src, posts.filter((p) => p.source === src)] as [ContentSource, typeof posts])
     .filter(([, ps]) => ps.length > 0);
 
@@ -111,19 +152,21 @@ export default async function AuthorPage({
       {/* Author header */}
       <div className="mb-10">
         <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white mb-1">
-          {AUTHOR.name}
+          {profile.name}
         </h1>
-        <p className="text-sm text-gray-400 dark:text-gray-500 mb-3">
-          also writes as <span className="text-gray-600 dark:text-gray-300 font-medium">Dennis Bouvard</span>
-        </p>
+        {profile.altName && (
+          <p className="text-sm text-gray-400 dark:text-gray-500 mb-3">
+            also writes as <span className="text-gray-600 dark:text-gray-300 font-medium">{profile.altName}</span>
+          </p>
+        )}
         <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl mb-5">
-          {AUTHOR.bio}
+          {profile.bio}
         </p>
         <div className="flex flex-wrap gap-2 items-center">
           <span className="text-xs text-gray-400 dark:text-gray-500 px-2 py-1 rounded-lg bg-gray-100 dark:bg-gray-800">
-            {totalCount.toLocaleString()} texts
+            {totalCount.toLocaleString()} {totalCount === 1 ? 'text' : 'texts'}
           </span>
-          {AUTHOR.links.map((l) => (
+          {profile.links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
