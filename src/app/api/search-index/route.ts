@@ -27,12 +27,18 @@ export async function GET(request: Request) {
 
   const entries = buildSearchEntries(posts);
 
-  // The archive index is large (850+ Chronicles); trim per-entry snippet text
-  // to keep the lazy payload reasonable. Word-level matching is unaffected
-  // (contentWords is built from the full text); only phrase/snippet matching
-  // is limited to the opening of each archival text.
+  // The archive index covers 1,070 texts (855 Chronicles + 215 AP) and is
+  // opt-in/secondary, so it's trimmed hard to keep the lazy download small
+  // (was ~6.5 MB gzip). contentWords — the per-post unique-word list that
+  // drives matching — is the bulk, so it's capped to the first 300 words of
+  // each text; snippetContent (phrase match + snippet display) to 2,500 chars.
+  // Effect: archive search matches on each text's opening (~first 1,000 words),
+  // where the subject is established. The PRIMARY corpus is indexed in full.
   if (wantArchives) {
-    for (const e of entries) e.snippetContent = e.snippetContent.slice(0, 8000);
+    for (const e of entries) {
+      e.snippetContent = e.snippetContent.slice(0, 2500);
+      e.contentWords = e.contentWords.slice(0, 300);
+    }
   }
 
   return Response.json(
