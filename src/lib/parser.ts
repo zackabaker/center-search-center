@@ -1408,6 +1408,25 @@ export function parseAllContent(): Post[] {
     post.excerpt = excerpt(post.content);
   }
 
+  // Drop exact-duplicate posts: same source + URL + (near-)identical body.
+  // The source dumps occasionally contain a post twice (e.g. a Substack entry
+  // captured on two fetches, differing only in stray markdown). We key on
+  // alphanumeric-only content so trivial formatting diffs still collapse, while
+  // the book chapters — which legitimately share the single book URL but have
+  // wholly different bodies — are kept. Posts without a URL are never touched.
+  const seenContent = new Set<string>();
+  const deduped: Post[] = [];
+  for (const post of allPosts) {
+    if (post.url) {
+      const key = `${post.source}|${post.url}|${post.content.replace(/[^a-z0-9]+/gi, '').toLowerCase()}`;
+      if (seenContent.has(key)) continue;
+      seenContent.add(key);
+    }
+    deduped.push(post);
+  }
+  allPosts.length = 0;
+  allPosts.push(...deduped);
+
   // Deduplicate slugs
   const seenSlugs = new Map<string, number>();
   for (const post of allPosts) {
