@@ -38,6 +38,42 @@ function excerpt(content: string, maxLen = 200): string {
   return cleaned.slice(0, maxLen).replace(/\s+\S*$/, '') + '...';
 }
 
+// ── Corpus cleaning ───────────────────────────────────────────────────────────
+// Two artifact classes found in the source data:
+//  1. Comment spam scraped into a few old GABlog posts — walls of pharma/porn
+//     keywords. Detected by keyword DENSITY (3+ high-signal spam terms in one
+//     paragraph), which never occurs in real prose; a lone scholarly mention
+//     (e.g. "Viagra was distributed to fighters" in an AP essay) is safe.
+//  2. Substack subscription boilerplate ("Thanks for reading … Subscribe",
+//     bare "Subscribe", "Share") appended to ~half the Substack posts. The post
+//     page hid these at render, but they polluted search, AI excerpts, the
+//     corpus API, exports, and word counts — so strip them at the source.
+const SPAM_TERMS = /\b(buy soma|cheap soma|tenuate|tramadol|buy xanax|cheap xanax|ultram|cialis|phentermine|animal porn|adult clips|glory hole|blowjobs?|facial cumshots?|casino online|payday loans?|replica watch)\b/gi;
+
+function cleanCorpusContent(content: string, source: ContentSource): string {
+  const paras = content.split(/\n\n+/);
+  const kept = paras.filter((para) => {
+    const t = para.trim();
+    if (!t) return false;
+
+    // Spam paragraph: high density of spam signatures
+    const spamHits = (t.match(SPAM_TERMS) || []).length;
+    if (spamHits >= 3) return false;
+
+    // Substack subscription boilerplate
+    if (source === 'substack') {
+      const flat = t.replace(/\s+/g, ' ').trim();
+      // bare "Subscribe" / "Share" / "Subscribe now", possibly repeated
+      if (/^(subscribe( now)?|share)(\s+(subscribe|share))*$/i.test(flat)) return false;
+      if (/^thanks for reading\b.{0,80}\bsubscribe\b/i.test(flat)) return false;
+      if (/\breader-supported publication\b.{0,80}\bsubscriber\b/i.test(flat)) return false;
+      if (/^(share|leave a comment|give a gift( subscription)?)$/i.test(flat)) return false;
+    }
+    return true;
+  });
+  return kept.join('\n\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // SHARED TEXT NORMALISATION
 //
@@ -1319,11 +1355,13 @@ export function parseAllContent(): Post[] {
   allPosts.push(...parseChronicles());
   allPosts.push(...parseAPArticles());
 
-  // Decode HTML entities in all text fields
+  // Decode HTML entities, then strip spam + subscription boilerplate, then
+  // regenerate the excerpt from the cleaned content (so search/AI/exports/word
+  // counts all see clean text).
   for (const post of allPosts) {
     post.title = decodeHtmlEntities(post.title);
-    post.content = decodeHtmlEntities(post.content);
-    post.excerpt = decodeHtmlEntities(post.excerpt);
+    post.content = cleanCorpusContent(decodeHtmlEntities(post.content), post.source);
+    post.excerpt = excerpt(post.content);
   }
 
   // Deduplicate slugs
