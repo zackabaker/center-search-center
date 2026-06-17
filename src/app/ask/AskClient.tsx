@@ -463,6 +463,10 @@ export default function AskClient() {
 
   const showNamesHint = askCount >= NAMES_THRESHOLD || NAMES_REGEX.test(currentQuestion);
 
+  // "Top posts" excludes posts already shown as Passages above — no duplication.
+  const passageSlugs = new Set((answer?.passages ?? []).map((p) => p.slug));
+  const topPosts = (answer?.sources ?? []).filter((s) => !passageSlugs.has(s.slug)).slice(0, 6);
+
   return (
     <div className="h-screen bg-white dark:bg-gray-950 flex flex-col overflow-hidden">
       {/* Header */}
@@ -660,14 +664,15 @@ export default function AskClient() {
                 </div>
               )}
 
-              {/* Top posts — source cards below the quotes */}
+              {/* Top posts — source cards, excluding any already shown as passages */}
+              {(!answer?.sources || topPosts.length > 0) && (
               <div className="mb-8">
                 <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
-                  Top posts
+                  {answer?.passages && answer.passages.length > 0 ? 'More sources' : 'Top posts'}
                 </p>
                 {answer?.sources && answer.sources.length > 0 ? (
                   <div className="flex flex-col gap-2">
-                    {answer.sources.slice(0, 6).map((src, j) => (
+                    {topPosts.map((src, j) => (
                       <Link
                         key={j}
                         href={`/post/${src.slug}`}
@@ -709,6 +714,7 @@ export default function AskClient() {
                   </div>
                 )}
               </div>
+              )}
 
               {/* Follow-up questions */}
               {answer?.followUps && answer.followUps.length > 0 && !isLoading && (
