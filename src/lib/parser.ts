@@ -396,7 +396,7 @@ function parseSubstackPosts(text: string): Post[] {
 }
 
 // Custom metadata for PDFs: map filename (without extension) to title and source override
-const PDF_METADATA: Record<string, { title: string; source?: ContentSource; url?: string; date?: string; author?: string }> = {
+const PDF_METADATA: Record<string, { title: string; source?: ContentSource; url?: string; date?: string; author?: string; preCleaned?: boolean }> = {
   'the-origin-of-language': {
     title: 'The Origin of Language',
     source: 'book',
@@ -417,8 +417,13 @@ const PDF_METADATA: Record<string, { title: string; source?: ContentSource; url?
     title: 'Originary Technics (Adam Katz)',
   },
   'there-is-no-economy': {
-    title: 'There Is No Economy but Only the Debt to the Center',
+    title: 'There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary',
     author: 'Adam Katz & Zack Baker',
+    date: 'Spring 2023',
+    url: 'https://anthropoetics.ucla.edu/ap2802/ap2802katzbaker/',
+    // Source .txt is the clean canonical text from the Anthropoetics journal
+    // (the PDF extraction was multi-column garble); skip PDF cleanup.
+    preCleaned: true,
   },
   'linguistic-turn-generative-literacy': {
     title: 'The Linguistic Turn and Generative Literacy (Adam Katz)',
@@ -1201,7 +1206,11 @@ function parsePDFs(): Post[] {
     const baseName = txtFile.replace('.txt', '');
     const meta = PDF_METADATA[baseName];
     const title = meta?.title || baseName.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-    const content = cleanPdfText(raw, title);
+    // Pre-cleaned sources (clean canonical text, e.g. from the journal HTML)
+    // bypass the PDF-extraction repair pipeline, which would re-mangle them.
+    const content = meta?.preCleaned
+      ? raw.replace(/\r\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim()
+      : cleanPdfText(raw, title);
     const source = meta?.source || ('pdf' as ContentSource);
     const prefix = source === 'book' ? 'book' : 'pdf';
 
