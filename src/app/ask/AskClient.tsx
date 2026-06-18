@@ -314,6 +314,9 @@ export default function AskClient() {
   // mid-stream — otherwise the aborted fetch surfaced as a red "Error".
   const abortRef = useRef<AbortController | null>(null);
   const mountedRef = useRef(true);
+  // Questions we've already auto-retried once after a network drop, so a genuinely
+  // failing request can't loop.
+  const retriedRef = useRef<Set<string>>(new Set());
   useEffect(() => () => { mountedRef.current = false; abortRef.current?.abort(); }, []);
 
   useEffect(() => {
@@ -450,7 +453,17 @@ export default function AskClient() {
     } catch (err) {
       // User navigated away / started a new question — not a real error
       if (ac.signal.aborted || (err instanceof Error && err.name === 'AbortError')) return;
-      if (mountedRef.current) {
+      // A bare fetch TypeError means the connection dropped mid-stream — most
+      // commonly because a mobile tab was backgrounded and the OS killed the
+      // request. Transparently retry once when we're current, instead of
+      // stranding the user on a red error that forces a manual re-search.
+      const isNetworkDrop = err instanceof TypeError;
+      if (isNetworkDrop && abortRef.current === ac && !retriedRef.current.has(question)) {
+        retriedRef.current.add(question);
+        if (mountedRef.current) submit(question, concept);
+        return;
+      }
+      if (mountedRef.current && abortRef.current === ac) {
         setAnswer({ content: `Error: ${err instanceof Error ? err.message : 'Something went wrong'}` });
       }
     } finally {

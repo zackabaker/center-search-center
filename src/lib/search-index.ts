@@ -286,13 +286,20 @@ export function parseQuery(raw: string): ParsedQuery {
   remaining = remaining.replace(/\b(?:AND|OR)\b/gi, ' ');
 
   const allTerms = tokenize(remaining);
+  // Drop stopwords from the *required* terms. They're stripped from the index
+  // (contentWords), so requiring one — e.g. the "there"/"is"/"no" in "there is
+  // no economy" — would otherwise exclude every post and return nothing. Keep
+  // the originals only when the query is *entirely* stopwords (e.g. a title like
+  // "will have been the same"), which still resolves via the title index.
+  const meaningful = allTerms.filter((t) => !STOPWORDS.has(t));
+  const terms = (meaningful.length > 0 || phrases.length > 0) ? meaningful : allTerms;
   const mustTerms: string[] = [];
   const orTerms: string[] = [];
 
   if (orMode) {
-    orTerms.push(...allTerms);
+    orTerms.push(...terms);
   } else {
-    mustTerms.push(...allTerms);
+    mustTerms.push(...terms);
   }
 
   const highlightRaw = phrases.length > 0
@@ -423,6 +430,15 @@ export function searchEntries(
 
   const snippetQuery = phrases.length > 0 ? phrases[0] : raw;
 
+  // Punctuation-insensitive whole-query phrase. Lets someone paste a sentence —
+  // e.g. `there is no "economy"` or `ritual distribution from the center` — and
+  // land on the post that opens with it, even though punctuation (the quotes
+  // around "economy") would break a literal substring match. Strong score bonus
+  // when the normalized query appears contiguously in the title or opening.
+  const normalizeText = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  const wholeNorm = normalizeText(query);
+  const tryWhole = !orMode && wholeNorm.length > 0 && wholeNorm.split(' ').length >= 2;
+
   // ── Candidate pre-filtering via inverted index ──────────────────────────────
   // Narrows from all 819 entries to only those containing the required terms.
   // For a rare proper noun like "Hoppe" this goes from 819 iterations → 2.
@@ -521,6 +537,21 @@ export function searchEntries(
         } else if (phrases.length === 0) {
           return { entry, score: -1 };
         }
+      }
+    }
+
+    // Whole-query contiguous match (punctuation-insensitive). A pasted sentence
+    // that opens a post should rank it near the top even when stopwords/quotes
+    // would defeat the term and literal-phrase paths.
+    if (tryWhole) {
+      const nTitle = normalizeText(entry.title);
+      if (nTitle.includes(wholeNorm)) {
+        score += 600;
+      } else {
+        const ee = entry as SearchEntry & { _normSnippet?: string };
+        const ns = ee._normSnippet ?? (ee._normSnippet = normalizeText(entry.snippetContent));
+        if (ns.startsWith(wholeNorm)) score += 700;      // post opens with the phrase — first-sentence intent
+        else if (ns.includes(wholeNorm)) score += 280;   // appears somewhere in the opening
       }
     }
 
