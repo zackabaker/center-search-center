@@ -304,7 +304,11 @@ export default function AskClient() {
   const mainRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const router = useRouter();
-  const didAutoSubmit = useRef(false);
+  // Tracks the last question auto-submitted from the URL ?q= param. We compare
+  // against it (rather than a one-time boolean) so a *new* ?q= — e.g. a second
+  // search from the home box or a clicked term — actually re-runs instead of
+  // leaving the previous answer on screen.
+  const lastAutoQ = useRef<string | null>(null);
   // Streaming lifecycle: abort the in-flight request and silence late state
   // updates when the user navigates away (clicks a source link, goes back)
   // mid-stream — otherwise the aborted fetch surfaced as a red "Error".
@@ -316,8 +320,8 @@ export default function AskClient() {
     const q = searchParams.get('q');
     const concept = searchParams.get('concept');
     if (concept) setConceptSeed(concept);
-    if (q && !didAutoSubmit.current) {
-      didAutoSubmit.current = true;
+    if (q && q !== lastAutoQ.current) {
+      lastAutoQ.current = q;
       submit(q, concept ?? undefined);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -336,7 +340,7 @@ export default function AskClient() {
   }
 
   async function submit(q: string, concept?: string) {
-    if (!q.trim() || isLoading) return;
+    if (!q.trim()) return;
     const question = q.trim();
     setInput('');
     setCurrentQuestion(question);
@@ -344,18 +348,23 @@ export default function AskClient() {
     // Snap to top for fresh session view
     if (mainRef.current) mainRef.current.scrollTop = 0;
 
+    // A new question always supersedes whatever is in flight — abort it first
+    // so a still-streaming previous answer can't keep updating the screen.
+    abortRef.current?.abort();
+
     // Cache hit — serve instantly without hitting the API
     const cached = getCached(question);
     if (cached) {
+      abortRef.current = null;
       setAnswer(cached);
+      setIsLoading(false);
       return;
     }
 
     setIsLoading(true);
     setAnswer({ content: '' });
 
-    // Abort any previous stream; start a fresh controller for this one
-    abortRef.current?.abort();
+    // Fresh controller for this request
     const ac = new AbortController();
     abortRef.current = ac;
 
@@ -401,19 +410,23 @@ export default function AskClient() {
           if (!line.trim()) continue;
           try {
             const data = JSON.parse(line);
+            // Ignore chunks from a request that's been superseded by a newer one
+            if (abortRef.current !== ac) continue;
             if (data.text) {
               content += data.text;
-              setAnswer({ content, sources });
+              // Parse passages as the Excerpts block streams in so the quotes
+              // appear progressively, not only once the whole answer finishes.
+              setAnswer({ content, sources, passages: parsePassages(content) });
             }
             if (data.sources) {
               sources = data.sources;
-              setAnswer({ content, sources });
+              setAnswer({ content, sources, passages: parsePassages(content) });
             }
           } catch { /* skip malformed lines */ }
         }
       }
 
-      if (!mountedRef.current) return;
+      if (!mountedRef.current || abortRef.current !== ac) return;
       const followUps = extractFollowUps(content, question);
       const passages = parsePassages(content);
       const finalAnswer: Answer = { content, sources, followUps, passages };
@@ -441,7 +454,9 @@ export default function AskClient() {
         setAnswer({ content: `Error: ${err instanceof Error ? err.message : 'Something went wrong'}` });
       }
     } finally {
-      if (mountedRef.current) setIsLoading(false);
+      // Only the request that's still current may clear the loading state —
+      // a superseded request must not turn off the spinner for the new one.
+      if (mountedRef.current && abortRef.current === ac) setIsLoading(false);
     }
   }
 
@@ -773,15 +788,14 @@ export default function AskClient() {
             onKeyDown={handleKeyDown}
             placeholder="Ask anything… (Enter to send, Shift+Enter for newline)"
             rows={1}
-            disabled={isLoading}
             className="flex-1 resize-none rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-base text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 overflow-hidden"
           />
           <button
             onClick={() => submit(input)}
-            disabled={isLoading || !input.trim()}
+            disabled={!input.trim()}
             className="flex-shrink-0 px-4 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl text-sm font-medium disabled:opacity-40 hover:opacity-80 transition-opacity"
           >
-            {isLoading ? (
+            {isLoading && !input.trim() ? (
               <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>

@@ -513,8 +513,13 @@ export async function POST(request: Request) {
 
     // Start Claude stream (takes ~500ms for first token)
     const stream = await anthropic.messages.stream({
+      // The answer is a synthesis (3–5 paragraphs) FOLLOWED BY a "## Excerpts"
+      // block of 5–8 verbatim passages. At 3000 a verbose synthesis consumed the
+      // whole budget and the response was cut off before the excerpts ever
+      // streamed — so the UI showed a summary with no quotes. Sonnet 4.6 allows
+      // up to 64K output; give ample room for both halves.
       model: 'claude-sonnet-4-6',
-      max_tokens: 3000,
+      max_tokens: 8000,
       system: SYSTEM_PROMPT,
       messages,
     });
