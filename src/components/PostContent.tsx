@@ -131,6 +131,71 @@ function linkifyText(
   return nodes;
 }
 
+const INLINE_LINK_CLASS =
+  'text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2 break-words';
+
+// Render markdown emphasis (**bold**, *italic*, _italic_) and concept links on a
+// text segment that no longer contains any markdown links or URLs.
+function renderEmphasis(
+  text: string,
+  linkedAlready: Set<string>,
+  paraIdx: number,
+  allowTerms: boolean,
+  keyBase: string
+): React.ReactNode[] {
+  const terms = (s: string): React.ReactNode[] =>
+    allowTerms ? linkifyText(s, linkedAlready, paraIdx) : [s];
+  const parts = text.split(/(\*\*[^*]+?\*\*|\*[^*\n]+?\*|_[^_\n]+?_)/g);
+  const out: React.ReactNode[] = [];
+  parts.forEach((part, i) => {
+    if (!part) return;
+    const key = `${keyBase}-${i}`;
+    if (part.length > 4 && part.startsWith('**') && part.endsWith('**')) {
+      out.push(<strong key={key} className="font-semibold text-gray-900 dark:text-white">{terms(part.slice(2, -2))}</strong>);
+    } else if (part.length > 2 && part.startsWith('*') && part.endsWith('*')) {
+      out.push(<em key={key}>{terms(part.slice(1, -1))}</em>);
+    } else if (part.length > 2 && part.startsWith('_') && part.endsWith('_')) {
+      out.push(<em key={key}>{terms(part.slice(1, -1))}</em>);
+    } else {
+      out.push(<span key={key}>{terms(part)}</span>);
+    }
+  });
+  return out;
+}
+
+// Inline renderer for body text: turn markdown links [text](url) and bare URLs
+// into real anchors (extracted first, so URL punctuation is never mistaken for
+// emphasis), then apply emphasis + concept links to the remaining prose.
+function renderInline(
+  text: string,
+  linkedAlready: Set<string>,
+  paraIdx: number,
+  allowTerms: boolean
+): React.ReactNode[] {
+  const LINK_RE = /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)|(https?:\/\/[^\s)\]]+)/g;
+  const out: React.ReactNode[] = [];
+  let last = 0;
+  let k = 0;
+  let m: RegExpExecArray | null;
+  while ((m = LINK_RE.exec(text)) !== null) {
+    if (m.index > last) out.push(...renderEmphasis(text.slice(last, m.index), linkedAlready, paraIdx, allowTerms, `e${paraIdx}-${k}`));
+    if (m[2]) {
+      out.push(<a key={`ml${paraIdx}-${k++}`} href={m[2]} target="_blank" rel="noopener noreferrer" className={INLINE_LINK_CLASS}>{m[1]}</a>);
+    } else if (m[3]) {
+      // Trim trailing sentence punctuation so it isn't swallowed into the href.
+      let url = m[3];
+      let trail = '';
+      const tm = url.match(/[.,;:!?]+$/);
+      if (tm) { trail = tm[0]; url = url.slice(0, -trail.length); }
+      out.push(<a key={`bu${paraIdx}-${k++}`} href={url} target="_blank" rel="noopener noreferrer" className={`${INLINE_LINK_CLASS} break-all`}>{url}</a>);
+      if (trail) out.push(<span key={`tr${paraIdx}-${k++}`}>{trail}</span>);
+    }
+    last = LINK_RE.lastIndex;
+  }
+  if (last < text.length) out.push(...renderEmphasis(text.slice(last), linkedAlready, paraIdx, allowTerms, `e${paraIdx}-end`));
+  return out;
+}
+
 // Paragraphs to strip (Substack boilerplate etc.)
 const STRIP_PATTERNS = [
   /Thanks for reading Center Study Center/,
@@ -181,9 +246,9 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
       ? raw.replace(/^>\s*/, '').replace(/^_|_$/g, '')
       : raw;
     const skipLinkify = !linksEnabled || isHeading || isDivider || isBouvardLabel || !!questionCard;
-    const nodes: React.ReactNode[] = skipLinkify
-      ? [text]
-      : linkifyText(text, linkedAlready, i);
+    // Markdown links, bare URLs, and emphasis always render; concept-term links
+    // are gated by skipLinkify (structural lines + the term-links toggle).
+    const nodes: React.ReactNode[] = renderInline(text, linkedAlready, i, !skipLinkify);
     return { isBlockquote, isHeading, isDivider, isBouvardLabel, questionCard, text, nodes };
   });
 

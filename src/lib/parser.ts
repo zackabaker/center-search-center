@@ -57,8 +57,12 @@ const SPAM_TERMS = /\b(buy soma|cheap soma|tenuate|tramadol|buy xanax|cheap xana
 // and already-reasonable paragraphs are left untouched, so well-formatted posts
 // are unaffected. Breaks land between sentences, so they read naturally even
 // though they may not match the author's original paragraphing.
-const PARAGRAPH_SPLIT_THRESHOLD = 1800;
-const PARAGRAPH_TARGET = 900;
+// Katz/Bouvard routinely write 250–300-word paragraphs that read as a wall on
+// screen. Split anything over ~1100 chars (~180 words) into ~620-char (~100-word)
+// chunks at sentence boundaries — comfortable reading length without shredding
+// shorter, already-readable paragraphs.
+const PARAGRAPH_SPLIT_THRESHOLD = 1100;
+const PARAGRAPH_TARGET = 620;
 
 function paragraphizeLongBlocks(content: string): string {
   return content
