@@ -404,6 +404,24 @@ export default function SearchPageClient({
       {archiveLoading && <TopLoadingBar label="Loading Chronicles & AP" />}
       {/* Search input */}
       <div className="mb-6">
+        {/* Mode toggle — mirrors the home page so you can flip the current query
+            to AI without hunting for the home screen (esp. on mobile). */}
+        <div className="flex items-center justify-center mb-4">
+          <div className="flex items-center gap-0.5 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
+            <span className="px-4 py-2 text-sm font-medium rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm">
+              Keyword Search
+            </span>
+            <Link
+              href={(() => {
+                const carried = (query.trim() || committed).replace(/["“”]/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
+                return carried ? `/ask?q=${encodeURIComponent(carried)}` : '/ask';
+              })()}
+              className="px-4 py-2 text-sm font-medium rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-all"
+            >
+              ✦ Ask AI
+            </Link>
+          </div>
+        </div>
         <div className="relative flex items-center border-2 border-gray-200 focus-within:border-gray-400 rounded-xl bg-white dark:bg-gray-900 dark:border-gray-700 dark:focus-within:border-gray-500 transition-colors">
           {/* Center study icon — reacts to search state; shared view-transition with home icon */}
           <div
