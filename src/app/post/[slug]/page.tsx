@@ -21,6 +21,7 @@ import { MarkPostRead } from '@/components/MarkPostRead';
 import NextInPath from '@/components/NextInPath';
 import AiPathNext from '@/components/AiPathNext';
 import PostSearchContext, { BackButton } from '@/components/PostSearchContext';
+import QuoteShare from '@/components/QuoteShare';
 
 // Maps a byline name to its on-site author page. Names not listed render as
 // plain text — we never link a byline to an external (and often broken) source.
@@ -283,6 +284,7 @@ export default async function PostPage({
 
           {/* ── Main content column ── */}
           <div className="min-w-0">
+            <QuoteShare title={post.title} author={authorName} date={post.date} url={`https://center.study/post/${slug}`} />
             <article>
               <header className={`mb-8 sm:mb-12${academic ? ' text-center' : ''}`}>
                 {academic ? (
