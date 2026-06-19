@@ -42,3 +42,11 @@ next-env.d.ts
 
 # generated at build time by scripts/generate-posts-cache.ts
 src/data/posts-cache.json
+
+# semantic index — regenerated at build by scripts/generate-embeddings.ts
+src/data/related.json
+src/data/embeddings.f32.bin
+src/data/embeddings-meta.json
+
+# embedding model — downloaded at build from HF, not committed (too large for git)
+models/

@@ -17,6 +17,7 @@ import TableOfContents from '@/components/TableOfContents';
 import PostNavigation from '@/components/PostNavigation';
 import Concordance from '@/components/Concordance';
 import { getPostTermFrequency, buildSearchEntries, getRelatedEntries } from '@/lib/search-index';
+import { relatedSlugs } from '@/lib/related';
 import { MarkPostRead } from '@/components/MarkPostRead';
 import NextInPath from '@/components/NextInPath';
 import AiPathNext from '@/components/AiPathNext';
@@ -194,8 +195,20 @@ export default async function PostPage({
   // to client components — that serializes the corpus into the page).
   const allEntries = getCachedAllEntries();
   const currentEntry = allEntries.find((e) => e.slug === slug);
-  const relatedEntries = currentEntry ? getRelatedEntries(currentEntry, allEntries, 3) : [];
-  const relatedForGrid = (currentEntry ? getRelatedEntries(currentEntry, allEntries, 6) : []).map((e) => ({
+  // Prefer the precomputed semantic neighbours (by meaning); fall back to
+  // lexical overlap if the index is unavailable. Drop same-title cross-source
+  // copies (e.g. the pdf + ap versions of one article) so they don't show up
+  // as "related" to themselves.
+  const entryBySlug = new Map(allEntries.map((e) => [e.slug, e]));
+  const titleLower = post.title.trim().toLowerCase();
+  const semanticRelated = relatedSlugs(slug, 10)
+    .map((s) => entryBySlug.get(s))
+    .filter((e): e is NonNullable<typeof e> => !!e && e.title.trim().toLowerCase() !== titleLower);
+  const relatedResolved = semanticRelated.length >= 3
+    ? semanticRelated
+    : (currentEntry ? getRelatedEntries(currentEntry, allEntries, 6) : []);
+  const relatedEntries = relatedResolved.slice(0, 3);
+  const relatedForGrid = relatedResolved.slice(0, 6).map((e) => ({
     slug: e.slug,
     title: e.title,
     source: e.source,
@@ -404,7 +417,26 @@ export default async function PostPage({
             {/* Reader mode drops the Key Terms / Related panels entirely; Notes
                 stay (a personal feature), placed below the article. */}
             {reader ? (
-              <Annotations slug={slug} />
+              <>
+                <Annotations slug={slug} />
+                {/* End-of-read discovery — semantic neighbours, not a sidebar */}
+                {relatedForGrid.length > 0 && (
+                  <div className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-800">
+                    <p className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3 text-center">Related reading</p>
+                    <div className="grid sm:grid-cols-2 gap-2">
+                      {relatedForGrid.slice(0, 4).map((r) => (
+                        <Link
+                          key={r.slug}
+                          href={`/post/${r.slug}`}
+                          className="group block p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 transition-colors"
+                        >
+                          <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug line-clamp-2">{r.title}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </>
             ) : (
               <>
                 {/* Below-article sections — hidden on desktop (shown in sidebar instead) */}
