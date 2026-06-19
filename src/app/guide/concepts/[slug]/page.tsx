@@ -1,8 +1,15 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { CONCEPTS, getConceptBySlug } from '@/data/guide/concepts';
+import { atlasPassages } from '@/lib/concept-atlas';
 import GoBack from '@/components/GoBack';
 import type { Metadata } from 'next';
+
+function atlasYear(date: string | null): string {
+  if (!date) return '—';
+  const d = new Date(date);
+  return isNaN(d.getTime()) ? date : String(d.getFullYear());
+}
 
 export function generateStaticParams() {
   return CONCEPTS.map((c) => ({ slug: c.slug }));
@@ -24,6 +31,8 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
   const { slug } = await params;
   const concept = getConceptBySlug(slug);
   if (!concept) notFound();
+
+  const atlas = atlasPassages(slug);
 
   const relatedConcepts = concept.relations
     .map((s) => CONCEPTS.find((c) => c.slug === s))
@@ -121,6 +130,35 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
                   </svg>
                 </footer>
               </blockquote>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Across the corpus — semantically-matched passages, ordered by date,
+          showing how the concept develops over time. */}
+      {atlas.length > 1 && (
+        <section className="mb-10">
+          <h2 className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">
+            Across the Corpus
+          </h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">
+            How this idea is developed elsewhere in the archive, earliest to latest.
+          </p>
+          <div className="relative border-l border-gray-200 dark:border-gray-700 ml-2 space-y-6">
+            {atlas.map((p, i) => (
+              <div key={i} className="relative pl-6">
+                <span className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-gray-300 dark:bg-gray-600" />
+                <div className="flex items-baseline gap-2 mb-1">
+                  <span className="text-xs font-mono text-gray-400 dark:text-gray-500 tabular-nums">{atlasYear(p.date)}</span>
+                  <Link href={`/post/${p.slug}`} className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline truncate">
+                    {p.title}
+                  </Link>
+                </div>
+                <p className="text-[15px] text-gray-700 dark:text-gray-300 leading-relaxed">
+                  &ldquo;{p.text.length > 360 ? p.text.slice(0, 360).replace(/\s+\S*$/, '') + '…' : p.text}&rdquo;
+                </p>
+              </div>
             ))}
           </div>
         </section>
