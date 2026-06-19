@@ -290,10 +290,12 @@ async function verifyPassages(passages: Passage[], signal?: AbortSignal): Promis
 export default function AskClient() {
   const [currentQuestion, setCurrentQuestion] = useState('');
   const [answer, setAnswer] = useState<Answer | null>(null);
-  const [askCount, setAskCount] = useState<number>(() => {
-    if (typeof window === 'undefined') return 0;
-    try { return parseInt(localStorage.getItem(ASK_COUNT_KEY) || '0', 10); } catch { return 0; }
-  });
+  // Start at 0 on both server and client to avoid a hydration mismatch, then
+  // hydrate the real lifetime count from localStorage after mount.
+  const [askCount, setAskCount] = useState<number>(0);
+  useEffect(() => {
+    try { setAskCount(parseInt(localStorage.getItem(ASK_COUNT_KEY) || '0', 10)); } catch {}
+  }, []);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [fontSize, setFontSize] = useState<FontSize>('md');
@@ -317,7 +319,19 @@ export default function AskClient() {
   // Questions we've already auto-retried once after a network drop, so a genuinely
   // failing request can't loop.
   const retriedRef = useRef<Set<string>>(new Set());
-  useEffect(() => () => { mountedRef.current = false; abortRef.current?.abort(); }, []);
+  // ── Conversation memory ──────────────────────────────────────────────────
+  // The running thread for this session: history sent to the model (so follow-ups
+  // build on prior answers), each completed answer cached by question for instant
+  // revisiting, and the ordered list of questions shown as a thread strip.
+  const historyRef = useRef<{ role: 'user' | 'assistant'; content: string }[]>([]);
+  const sessionAnswersRef = useRef<Map<string, Answer>>(new Map());
+  const [sessionQs, setSessionQs] = useState<string[]>([]);
+  useEffect(() => {
+    // Set true on every (re)mount — not just initial — so a StrictMode or HMR
+    // remount doesn't leave it stuck false and silently drop answer completions.
+    mountedRef.current = true;
+    return () => { mountedRef.current = false; abortRef.current?.abort(); };
+  }, []);
 
   useEffect(() => {
     const q = searchParams.get('q');
@@ -355,13 +369,30 @@ export default function AskClient() {
     // so a still-streaming previous answer can't keep updating the screen.
     abortRef.current?.abort();
 
-    // Cache hit — serve instantly without hitting the API
-    const cached = getCached(question);
-    if (cached) {
+    // History sent to the model so a follow-up builds on the conversation.
+    const sentHistory = historyRef.current.slice(-6);
+
+    // Already answered this exact question in this session → show it instantly.
+    const sessionHit = sessionAnswersRef.current.get(question);
+    if (sessionHit) {
       abortRef.current = null;
-      setAnswer(cached);
+      setAnswer(sessionHit);
       setIsLoading(false);
       return;
+    }
+    // Cache hit — only for standalone questions. Follow-ups depend on the
+    // conversation, so they must not collide with the question-keyed cache.
+    if (sentHistory.length === 0) {
+      const cached = getCached(question);
+      if (cached) {
+        abortRef.current = null;
+        setAnswer(cached);
+        sessionAnswersRef.current.set(question, cached);
+        setSessionQs((p) => (p.includes(question) ? p : [...p, question]));
+        historyRef.current.push({ role: 'user', content: question }, { role: 'assistant', content: splitAnswer(cached.content).prose });
+        setIsLoading(false);
+        return;
+      }
     }
 
     setIsLoading(true);
@@ -384,7 +415,7 @@ export default function AskClient() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: question,
-          history: [],
+          history: sentHistory,
           ...(concept ? { concept } : {}),
         }),
         signal: ac.signal,
@@ -434,8 +465,13 @@ export default function AskClient() {
       const passages = parsePassages(content);
       const finalAnswer: Answer = { content, sources, followUps, passages };
       setAnswer(finalAnswer);
-      // Cache the completed answer for instant replay
-      setCache(question, finalAnswer);
+      // Record the turn: cache standalone answers, remember every answer for the
+      // session thread, and append to the model-visible history (prose only, to
+      // keep follow-up context lean).
+      if (sentHistory.length === 0) setCache(question, finalAnswer);
+      sessionAnswersRef.current.set(question, finalAnswer);
+      setSessionQs((p) => (p.includes(question) ? p : [...p, question]));
+      historyRef.current.push({ role: 'user', content: question }, { role: 'assistant', content: splitAnswer(content).prose });
 
       // Verify each passage verbatim against the corpus (one cheap request,
       // after streaming — never blocks the answer, aborts on navigation)
@@ -447,7 +483,8 @@ export default function AskClient() {
             passages: passages.map((p, i) => ({ ...p, verified: verified[i] })),
           };
           setAnswer((prev) => (prev && prev.content === content ? withVerify : prev));
-          setCache(question, withVerify);
+          if (sentHistory.length === 0) setCache(question, withVerify);
+          sessionAnswersRef.current.set(question, withVerify);
         });
       }
     } catch (err) {
@@ -561,10 +598,17 @@ export default function AskClient() {
               {linkCopied ? 'Copied!' : 'Share'}
             </button>
           )}
-          {/* New question */}
+          {/* New question — clears the conversation thread */}
           {currentQuestion && (
             <button
-              onClick={() => { setCurrentQuestion(''); setAnswer(null); }}
+              onClick={() => {
+                abortRef.current?.abort();
+                historyRef.current = [];
+                sessionAnswersRef.current.clear();
+                setSessionQs([]);
+                setCurrentQuestion('');
+                setAnswer(null);
+              }}
               className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-400 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             >
               New
@@ -613,6 +657,27 @@ export default function AskClient() {
           ) : (
             /* ── Question + Answer view ── */
             <div>
+              {/* Conversation thread — prior questions in this session. Click to
+                  revisit an answer instantly; new questions build on this context. */}
+              {sessionQs.length > 1 && (
+                <div className="mb-5 flex flex-wrap gap-1.5 items-center">
+                  <span className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mr-1">Thread</span>
+                  {sessionQs.map((q, qi) => (
+                    <button
+                      key={qi}
+                      onClick={() => { setCurrentQuestion(q); const a = sessionAnswersRef.current.get(q); if (a) { setAnswer(a); if (mainRef.current) mainRef.current.scrollTop = 0; } else { submit(q); } }}
+                      title={q}
+                      className={`max-w-[14rem] truncate text-[11px] px-2 py-1 rounded-full border transition-colors ${
+                        q === currentQuestion
+                          ? 'border-gray-400 dark:border-gray-500 text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-800'
+                          : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500'
+                      }`}
+                    >
+                      {qi + 1}. {q}
+                    </button>
+                  ))}
+                </div>
+              )}
               {/* Prominent question heading */}
               {conceptSeed && (
                 <div className="mb-3">
