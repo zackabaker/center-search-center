@@ -37,6 +37,11 @@ const HOSTED_ORIGINAL: Record<string, string> = {
   'pdf-there-is-no-economy': '/original/there-is-no-economy.html',
 };
 
+// Long-form sources get the focused "reader" layout by default: a single
+// centered column on a warm background, no sidebar — matching the standalone
+// reading copy. Short threads (Reddit/Twitter Q&A) keep the standard layout.
+const READER_SOURCES = new Set(['gablog', 'substack', 'book', 'pdf', 'ap', 'chronicle', 'lecture']);
+
 // Long-form scholarly articles that get the "academic" reading presentation
 // in-app: a centered serif title block (issue line, title, byline) over the
 // normal reader chrome. Add a slug here to opt another essay in. `issue` is the
@@ -163,6 +168,7 @@ export default async function PostPage({
   const externalUrl = post.url || `https://center.study/post/${slug}`;
   const originalHref = HOSTED_ORIGINAL[slug] ?? post.url;
   const academic = ACADEMIC_ARTICLES[slug];
+  const reader = READER_SOURCES.has(post.source);
 
   // ── Prev / Next within source ──────────────────────────────────────────────
   const sourcePosts = allPosts
@@ -263,7 +269,9 @@ export default async function PostPage({
       />
       <ReadingProgress />
       <TrackView slug={slug} title={post.title} source={post.source} date={post.date} />
-      <main className="max-w-3xl lg:max-w-5xl w-full mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden lg:overflow-x-visible">
+      {/* Reader mode: warm, full-viewport reading background behind everything */}
+      {reader && <div className="fixed inset-0 -z-10 bg-[#fbfaf7] dark:bg-[#111111] print:hidden" />}
+      <main className={`${reader ? 'max-w-3xl' : 'max-w-3xl lg:max-w-5xl'} w-full mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden lg:overflow-x-visible`}>
         {/* Top nav — full width */}
         <div className="flex items-center justify-between mb-6 sm:mb-8 print:hidden">
           <Suspense fallback={
@@ -279,21 +287,19 @@ export default async function PostPage({
           <ReadingControls />
         </div>
 
-        {/* Two-column grid on desktop */}
-        <div className="lg:grid lg:grid-cols-[1fr_260px] lg:gap-12 lg:items-start">
+        {/* Two-column grid on desktop — single centered column in reader mode */}
+        <div className={reader ? '' : 'lg:grid lg:grid-cols-[1fr_260px] lg:gap-12 lg:items-start'}>
 
           {/* ── Main content column ── */}
           <div className="min-w-0">
             <QuoteShare title={post.title} author={authorName} date={post.date} url={`https://center.study/post/${slug}`} />
             <article>
-              <header className={`mb-8 sm:mb-12${academic ? ' text-center' : ''}`}>
-                {academic ? (
+              <header className={`mb-8 sm:mb-12${reader ? ' text-center' : ''}`}>
+                {reader ? (
                   <>
-                    {academic.issue && (
-                      <p className="text-xs sm:text-sm font-medium uppercase tracking-[0.12em] text-gray-400 dark:text-gray-500 mb-5">
-                        {academic.issue}
-                      </p>
-                    )}
+                    <p className="text-xs sm:text-sm font-medium uppercase tracking-[0.12em] text-gray-400 dark:text-gray-500 mb-5">
+                      {academic?.issue ?? `${SOURCE_LABELS[post.source]}${post.date ? ` · ${post.date}` : ''}`}
+                    </p>
                     <h1
                       className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold leading-tight mb-5"
                       style={{ fontFamily: 'var(--prose-font-family)' }}
@@ -335,7 +341,7 @@ export default async function PostPage({
                 )}
 
                 {/* Action buttons */}
-                <div className={`flex items-center gap-2 print:hidden${academic ? ' justify-center' : ''}`}>
+                <div className={`flex items-center gap-2 print:hidden${reader ? ' justify-center' : ''}`}>
                   <a
                     href={`/post/${slug}/text`}
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
@@ -375,9 +381,11 @@ export default async function PostPage({
               </header>
 
               {/* Table of contents — hidden on desktop (shown in sidebar instead) */}
-              <div className="lg:hidden">
-                <TableOfContents paragraphs={paragraphs} />
-              </div>
+              {!reader && (
+                <div className="lg:hidden">
+                  <TableOfContents paragraphs={paragraphs} />
+                </div>
+              )}
 
               {/* PostSearchContext: client component that reads ?q from the URL.
                   - With q: renders HighlightedContent (search-result highlighting)
@@ -393,14 +401,22 @@ export default async function PostPage({
               </Suspense>
             </article>
 
-            {/* Below-article sections — hidden on desktop (shown in sidebar instead) */}
-            <div className="lg:hidden">
-              <Concordance terms={termFreq} />
+            {/* Reader mode drops the Key Terms / Related panels entirely; Notes
+                stay (a personal feature), placed below the article. */}
+            {reader ? (
               <Annotations slug={slug} />
-            </div>
+            ) : (
+              <>
+                {/* Below-article sections — hidden on desktop (shown in sidebar instead) */}
+                <div className="lg:hidden">
+                  <Concordance terms={termFreq} />
+                  <Annotations slug={slug} />
+                </div>
 
-            {/* RelatedPosts — slim server-computed list (top 6) */}
-            <RelatedPosts related={relatedForGrid} />
+                {/* RelatedPosts — slim server-computed list (top 6) */}
+                <RelatedPosts related={relatedForGrid} />
+              </>
+            )}
 
             {/* Next in AI-generated reading path (client, localStorage) */}
             <AiPathNext slug={slug} />
@@ -416,7 +432,8 @@ export default async function PostPage({
             />
           </div>
 
-          {/* ── Sticky sidebar — desktop only ── */}
+          {/* ── Sticky sidebar — desktop only; omitted entirely in reader mode ── */}
+          {!reader && (
           <aside className="hidden lg:block sticky top-6 self-start space-y-0 print:hidden">
 
             {/* Contents — only shown when post has ≥3 headings */}
@@ -466,6 +483,7 @@ export default async function PostPage({
             </div>
 
           </aside>
+          )}
 
         </div>
         <MarkPostRead slug={slug} />
