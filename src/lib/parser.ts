@@ -1440,7 +1440,59 @@ export function parseAllContent(): Post[] {
     seenSlugs.set(baseSlug, count + 1);
   }
 
+  standardizeSlugs(allPosts);
+
   return allPosts;
+}
+
+// Source prefixes stripped from public slugs. Longest-first isn't needed — none
+// is a prefix of another — but keep them explicit and in sync with parsing.
+const SOURCE_SLUG_PREFIXES = [
+  'chronicle-', 'substack-', 'gablog-', 'reddit-', 'twitter-', 'lecture-', 'book-', 'pdf-', 'ap-',
+];
+
+/**
+ * Standardize public URLs: strip the source prefix so slugs read cleanly
+ * (/post/there-is-no-economy, not /post/pdf-there-is-no-economy). The original
+ * prefixed slug is preserved on `legacySlug` so already-shared links 301-redirect
+ * to the canonical URL. Where stripping would collide two posts (e.g. a GABlog
+ * and a PDF both titled "Power and Paradox"), the source is re-appended to keep
+ * them distinct. Mutates posts in place.
+ *
+ * Exported so the build-time parse and any one-shot cache migration apply the
+ * exact same logic — the canonical slug must be deterministic from the input.
+ */
+export function standardizeSlugs(posts: Post[]): void {
+  const strip = (slug: string): string => {
+    for (const pre of SOURCE_SLUG_PREFIXES) {
+      if (slug.startsWith(pre)) {
+        const rest = slug.slice(pre.length);
+        return rest.length ? rest : slug; // never strip to an empty slug
+      }
+    }
+    return slug;
+  };
+
+  // Count clean slugs first so we can detect cross-source collisions.
+  const cleanCounts = new Map<string, number>();
+  for (const post of posts) {
+    const clean = strip(post.slug);
+    cleanCounts.set(clean, (cleanCounts.get(clean) || 0) + 1);
+  }
+
+  const used = new Set<string>();
+  for (const post of posts) {
+    const legacy = post.slug;
+    let clean = strip(legacy);
+    if ((cleanCounts.get(clean) || 0) > 1) clean = `${clean}-${post.source}`;
+    // Final guard against any residual duplicate (e.g. two same-source collisions).
+    let unique = clean;
+    let n = 2;
+    while (used.has(unique)) unique = `${clean}-${n++}`;
+    used.add(unique);
+    post.slug = unique;
+    if (unique !== legacy) post.legacySlug = legacy;
+  }
 }
 
 // Module-level cache — populated on first call and reused for the lifetime

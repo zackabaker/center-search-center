@@ -33,7 +33,7 @@ const BEATS: Beat[] = [
     quote:
       'There have been many attempts to set the humanities on a scientific basis: phenomenology, structuralism, sociobiology, various functionalist accounts. Yet, in my estimation, there has been only one successful attempt, and that is Generative Anthropology (GA), the first real science of the human.',
     cite: 'Peter Goldman, “Why Generative Anthropology” (Introduction to GA, 2013)',
-    slug: 'pdf-why-generative-anthropology',
+    slug: 'why-generative-anthropology',
   },
   {
     id: 'girard',
@@ -45,7 +45,7 @@ const BEATS: Beat[] = [
     quote:
       'The originary hypothesis, advanced by Eric Gans in his The Origin of Language in 1981, posits a singular event within which language, or the sign, originates. Gans’s starting point is Rene Girard’s understanding of the conflictual nature of mimesis: as humans are the most mimetic species, and mimesis generates rivalry because our model, the more we model ourselves on him, becomes our rival for the same object, mimesis leads to crisis, in which the continued existence of the community can be at stake.',
     cite: 'Adam Katz, Anthropomorphics — “Origin and Hypothesis”',
-    slug: 'book-anthropomorphics-origin-and-hypothesis',
+    slug: 'anthropomorphics-origin-and-hypothesis',
   },
   {
     id: 'language',
@@ -57,7 +57,7 @@ const BEATS: Beat[] = [
     quote:
       'The limit of Girard’s account is that there is no reason for the event in question to become meaningful and memorable… nothing in Girard’s scenario accounts for how the scene would create such an order. This is another way of saying that Girard doesn’t account for the emergence of language, which would itself be a prerequisite of a moral order and a community to share it.',
     cite: 'Adam Katz, Anthropomorphics — “Origin and Hypothesis”',
-    slug: 'book-anthropomorphics-origin-and-hypothesis',
+    slug: 'anthropomorphics-origin-and-hypothesis',
   },
   {
     id: 'scale',
@@ -69,7 +69,7 @@ const BEATS: Beat[] = [
     quote:
       'Girardian mimetic theory likes to feel it’s playing on the biggest scenes, with angels and devils and apocalyptic crises of nations, while Gansian mimetic theory is content to admit we’re just hooked to our screens… technology joins us in the practice of imitation and always had even well before the emergence of the linguistic imitation programmed into Large Language Models.',
     cite: 'Adam Katz, “Exhaustive Imitation”',
-    slug: 'substack-exhaustive-imitation',
+    slug: 'exhaustive-imitation',
   },
   {
     id: 'can-do',
@@ -81,7 +81,7 @@ const BEATS: Beat[] = [
     quote:
       '…a transdisciplinary approach not bound to the limited and arbitrary lenses of sociology, economics, psychology, and so on; the capacity to scale up and down as needed, that is, to analyze geo-political fractures as effectively as and consistently with individual desires.',
     cite: 'Adam Katz, “The Prospects of the Hypothesis”',
-    slug: 'substack-the-prospects-of-the-hypothesis',
+    slug: 'the-prospects-of-the-hypothesis',
   },
 ];
 
@@ -91,19 +91,19 @@ const APPLICATIONS: { label: string; gloss: string; slug: string; cite: string }
   {
     label: 'Currency & capital',
     gloss: 'Money read not as a neutral medium but as a credit drawn on the sacred — a continuation of the debt to the center, not an escape from it.',
-    slug: 'pdf-there-is-no-economy',
+    slug: 'there-is-no-economy-pdf',
     cite: 'There Is No Economy but Only the Debt to the Center',
   },
   {
     label: 'Technology & LLMs',
     gloss: 'The machine as the latest medium of imitation — language models as linguistic imitation made programmable, continuous with the originary scene rather than a break from it.',
-    slug: 'substack-exhaustive-imitation',
+    slug: 'exhaustive-imitation',
     cite: 'Exhaustive Imitation',
   },
   {
     label: 'Politics & institutions',
     gloss: 'Every social form read as a mode of deferral — the diagnostic question always: who actually holds the center here, and on what terms?',
-    slug: 'substack-the-prospects-of-the-hypothesis',
+    slug: 'the-prospects-of-the-hypothesis',
     cite: 'The Prospects of the Hypothesis',
   },
 ];

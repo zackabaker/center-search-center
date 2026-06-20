@@ -182,7 +182,7 @@ export default function IntroPage() {
                 <blockquote className="mt-3 mb-2 border-l-2 border-amber-200 dark:border-amber-800 pl-3 text-xs text-gray-500 dark:text-gray-400 italic leading-relaxed">
                   &ldquo;You can test the seriousness of any social theory by the seriousness with which it takes mimesis. Mimesis is obviously a very ancient concept, prominent in Plato and Aristotle, but as far as I know until René Girard it was never pursued all the way down — it&rsquo;s one thing to say humans are mimetic beings, but it&rsquo;s another to say that mimesis makes the human.&rdquo;
                   <cite className="not-italic block mt-1 text-gray-400 dark:text-gray-500">
-                    — Adam Katz, <Link href="/post/lecture-mimetic" className="text-blue-500 hover:underline">Lecture 2: Mimetic</Link>
+                    — Adam Katz, <Link href="/post/mimetic" className="text-blue-500 hover:underline">Lecture 2: Mimetic</Link>
                   </cite>
                 </blockquote>
                 <div className="mt-3 flex flex-wrap gap-2">
@@ -559,7 +559,7 @@ export default function IntroPage() {
         <div className="mb-5">
           <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Read this first</p>
           <Link
-            href="/post/gablog-the-discourse-of-the-center"
+            href="/post/the-discourse-of-the-center"
             className="group block p-4 rounded-xl border border-gray-900 dark:border-gray-200 bg-gray-900 dark:bg-gray-900 hover:opacity-90 transition-opacity"
           >
             <p className="text-[10px] text-gray-400 dark:text-gray-500 mb-1 font-mono uppercase tracking-widest">GABlog · Adam Katz</p>

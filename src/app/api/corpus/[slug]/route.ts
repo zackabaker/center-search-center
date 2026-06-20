@@ -37,7 +37,8 @@ export async function GET(
   const { slug } = await params;
   const post = getPostBySlug(slug);
 
-  // Only public posts are exposed
+  // Old source-prefixed slugs are 308-redirected to the canonical URL in proxy.ts
+  // before reaching here. Only public posts are exposed.
   if (!post || !getPublicPosts().some((p) => p.slug === slug)) {
     return Response.json({ error: 'Not found' }, { status: 404 });
   }

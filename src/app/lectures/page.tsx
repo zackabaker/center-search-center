@@ -10,15 +10,15 @@ export const metadata: Metadata = {
 export const revalidate = 3600;
 
 const LECTURE_DESCRIPTIONS: Record<string, string> = {
-  'lecture-origin':
+  'origin':
     'Why "origin" is unavoidable as a concept despite the modern prohibition on origins discourse. The French Academy ban, the social sciences, Derrida — and what it means to take originary thinking seriously.',
-  'lecture-mimetic':
+  'mimetic':
     'Girard\'s mimesis and its implications: rivalry, resentment, the will to deny imitation. Gans\'s decisive step beyond Girard — how the sign arrests rather than accelerates mimetic conflict.',
-  'lecture-deferral-of-violence':
+  'deferral-of-violence':
     'Why "deferral" is more minimal than postpone, delay, or adjourn. The concept keeps us inside the scene, within the act itself, in all its contingency. On the horizon of any gesture of deferral.',
-  'lecture-the-center':
+  'the-center':
     'Attention vs. intention. The occupied center and the signifying center. How centrality shapes every thought and action — and what it means to "hear" the command of the center today.',
-  'lecture-the-sign':
+  'the-sign-pdf':
     'Derrida\'s critique of the sign and Gans\'s resolution. Every word as the Name-of-God. Why "sample" may be a better framing than "sign" — and what this implies for disciplinary knowledge.',
 };
 

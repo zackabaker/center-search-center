@@ -42,6 +42,7 @@ next-env.d.ts
 
 # generated at build time by scripts/generate-posts-cache.ts
 src/data/posts-cache.json
+src/data/slug-redirects.json
 
 # semantic index — regenerated at build by scripts/generate-embeddings.ts
 src/data/related.json
