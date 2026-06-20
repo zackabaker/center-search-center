@@ -11,6 +11,9 @@ export const ARCHIVAL_SOURCES: ContentSource[] = ['chronicle', 'ap'];
 
 export interface Post {
   slug: string;
+  /** Original source-prefixed slug (e.g. "pdf-there-is-no-economy"), kept so old
+   *  shared URLs can 301-redirect to the current clean slug. Absent if unchanged. */
+  legacySlug?: string;
   title: string;
   content: string;
   excerpt: string;

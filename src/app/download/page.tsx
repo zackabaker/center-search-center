@@ -208,7 +208,7 @@ export default function DownloadPage() {
 
         <p className="text-xs text-gray-400 dark:text-gray-500 mt-5 leading-relaxed">
           All data endpoints are CORS-open and cached at the edge. Example:{' '}
-          <code className="font-mono">curl center.study/api/corpus/gablog-the-discourse-of-the-center?format=md</code>
+          <code className="font-mono">curl center.study/api/corpus/the-discourse-of-the-center?format=md</code>
         </p>
       </section>
     </main>

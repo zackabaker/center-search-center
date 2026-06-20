@@ -29,7 +29,7 @@ the canonical URL when quoting.
 - [Sitemap](https://center.study/sitemap.xml) · [RSS](https://center.study/feed.xml)
 
 Example: fetch one essay as Markdown
-  curl https://center.study/api/corpus/gablog-the-discourse-of-the-center?format=md
+  curl https://center.study/api/corpus/the-discourse-of-the-center?format=md
 
 ## Sources
 

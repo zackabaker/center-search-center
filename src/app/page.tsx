@@ -28,19 +28,19 @@ const FEATURED_GROUPS = [
     description: 'Start here',
     posts: [
       {
-        slug: 'gablog-the-discourse-of-the-center',
+        slug: 'the-discourse-of-the-center',
         title: 'The Discourse of the Center',
         source: 'gablog',
         description: 'The foundational statement: we are beings bound to the center. Everything else follows from here.',
       },
       {
-        slug: 'substack-the-prospects-of-the-hypothesis',
+        slug: 'the-prospects-of-the-hypothesis',
         title: 'The Prospects of the Hypothesis',
         source: 'substack',
         description: 'What it means to carry the originary hypothesis forward, and what kind of thinking it demands.',
       },
       {
-        slug: 'substack-the-transdisciplinarity-of-the-hypothesis',
+        slug: 'the-transdisciplinarity-of-the-hypothesis',
         title: 'The Transdisciplinarity of the Hypothesis',
         source: 'substack',
         description: 'Why the originary hypothesis cuts across every discipline — and why that is not a weakness.',
@@ -52,19 +52,19 @@ const FEATURED_GROUPS = [
     description: 'Center, sovereignty, succession',
     posts: [
       {
-        slug: 'pdf-power-and-paradox',
+        slug: 'power-and-paradox-pdf',
         title: 'Power and Paradox',
         source: 'pdf',
         description: 'The anthropology of power: how authority arises from the originary scene and cannot escape its founding paradox.',
       },
       {
-        slug: 'gablog-sovereign-commands-anarchistic-demands',
+        slug: 'sovereign-commands-anarchistic-demands-gablog',
         title: 'Sovereign Commands, Anarchistic Demands',
         source: 'gablog',
         description: 'The originary distinction between command and demand, and its consequences for political order.',
       },
       {
-        slug: 'substack-singularized-succession-in-perpetuity',
+        slug: 'singularized-succession-in-perpetuity',
         title: 'Singularized Succession in Perpetuity',
         source: 'substack',
         description: 'The central political problem: how power passes without violence. Center Study\'s most urgent proposal.',
@@ -76,19 +76,19 @@ const FEATURED_GROUPS = [
     description: 'Contemporary applications',
     posts: [
       {
-        slug: 'substack-data-exchange',
+        slug: 'data-exchange',
         title: 'Data Exchange',
         source: 'substack',
         description: 'Converting assets into data: the political economy of the center in the age of AI.',
       },
       {
-        slug: 'substack-a-new-model-of-power',
+        slug: 'a-new-model-of-power',
         title: 'A New Model of Power',
         source: 'substack',
         description: 'A concrete proposal for new institutions grounded in the originary hypothesis.',
       },
       {
-        slug: 'substack-learncoin',
+        slug: 'learncoin',
         title: 'Learncoin',
         source: 'substack',
         description: 'On AI, currency, and the anthropology of value — Center Study applied to the digital economy.',

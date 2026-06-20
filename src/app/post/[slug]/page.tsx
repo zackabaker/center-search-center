@@ -35,7 +35,7 @@ const AUTHOR_HANDLES: Record<string, string> = {
 // Posts whose "Original" link should point to a faithful reading copy we host
 // ourselves, rather than to a flaky external publication.
 const HOSTED_ORIGINAL: Record<string, string> = {
-  'pdf-there-is-no-economy': '/original/there-is-no-economy.html',
+  'there-is-no-economy-pdf': '/original/there-is-no-economy.html',
 };
 
 // Long-form sources get the focused "reader" layout by default: a single
@@ -48,7 +48,7 @@ const READER_SOURCES = new Set(['gablog', 'substack', 'book', 'pdf', 'ap', 'chro
 // normal reader chrome. Add a slug here to opt another essay in. `issue` is the
 // small line above the title (journal / volume / date).
 const ACADEMIC_ARTICLES: Record<string, { issue?: string }> = {
-  'pdf-there-is-no-economy': { issue: 'Anthropoetics XXVIII, no. 2 — Spring 2023' },
+  'there-is-no-economy-pdf': { issue: 'Anthropoetics XXVIII, no. 2 — Spring 2023' },
 };
 
 // Module-level cache — computed once per server-process lifetime (survives warm serverless invocations)
@@ -146,6 +146,8 @@ export default async function PostPage({
 }) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
+  // Old source-prefixed URLs are 308-redirected to the canonical slug in proxy.ts
+  // before they reach here, so an unmatched slug is genuinely not found.
   if (!post) notFound();
 
   const allPosts = getPublicPosts();
