@@ -29,6 +29,7 @@ const SUGGESTION_POOL: string[] = (() => {
   return out;
 })();
 import AnimatedSearchIcon from '@/components/AnimatedSearchIcon';
+import SemanticResults from './SemanticResults';
 
 type FilterOption = 'all' | ContentSource;
 
@@ -231,6 +232,9 @@ export default function SearchPageClient({
   const searchParams = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
   const liveDebounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  // 'keyword' = lexical (default, instant). 'meaning' = semantic: the query is
+  // embedded in the browser and matched against the corpus by meaning.
+  const [mode, setMode] = useState<'keyword' | 'meaning'>('keyword');
 
   const initialQ = searchParams.get('q') || '';
   const [query, setQuery] = useState(initialQ);
@@ -408,15 +412,25 @@ export default function SearchPageClient({
             to AI without hunting for the home screen (esp. on mobile). */}
         <div className="flex items-center justify-center mb-4">
           <div className="flex items-center gap-0.5 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
-            <span className="px-4 py-2 text-sm font-medium rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm">
-              Keyword Search
-            </span>
+            <button
+              onClick={() => setMode('keyword')}
+              className={`px-3.5 py-2 text-sm font-medium rounded-lg transition-all ${mode === 'keyword' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
+            >
+              Keyword
+            </button>
+            <button
+              onClick={() => setMode('meaning')}
+              title="Find passages by meaning, even when they use different words"
+              className={`px-3.5 py-2 text-sm font-medium rounded-lg transition-all ${mode === 'meaning' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
+            >
+              ◐ Meaning
+            </button>
             <Link
               href={(() => {
                 const carried = (query.trim() || committed).replace(/["“”]/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
                 return carried ? `/ask?q=${encodeURIComponent(carried)}` : '/ask';
               })()}
-              className="px-4 py-2 text-sm font-medium rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-all"
+              className="px-3.5 py-2 text-sm font-medium rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-all"
             >
               ✦ Ask AI
             </Link>
@@ -458,7 +472,8 @@ export default function SearchPageClient({
           </button>
         </div>
 
-        {/* Syntax hints — clicking transforms the current query */}
+        {/* Syntax hints — keyword mode only */}
+        {mode === 'keyword' && (
         <div className="flex flex-wrap gap-2 mt-2">
           {SYNTAX_HINTS.map((tip) => (
             <button
@@ -475,10 +490,23 @@ export default function SearchPageClient({
             </button>
           ))}
         </div>
+        )}
       </div>
 
-      {/* Results area */}
-      {hasQuery && (
+      {/* Results area — semantic (meaning) mode */}
+      {mode === 'meaning' && (
+        hasQuery ? (
+          <SemanticResults query={committed} />
+        ) : (
+          <div className="text-center py-12 text-gray-400 dark:text-gray-500">
+            <p className="text-sm">Describe an idea in your own words.</p>
+            <p className="text-xs mt-1">Meaning search finds passages even when they use different words than your query.</p>
+          </div>
+        )
+      )}
+
+      {/* Results area — keyword mode */}
+      {mode === 'keyword' && hasQuery && (
         <>
           <div className="mb-4">
             <div className="flex items-center justify-between mb-3">
@@ -699,8 +727,8 @@ export default function SearchPageClient({
         </>
       )}
 
-      {/* Empty state */}
-      {!hasQuery && (
+      {/* Empty state — keyword mode */}
+      {mode === 'keyword' && !hasQuery && (
         <div className="text-center py-8 text-gray-400">
           <div className="flex justify-center mb-6">
             <AnimatedSearchIcon size={88} speed={1} />

@@ -5,11 +5,10 @@
 // semantic layer is always optional and never breaks the lexical fallback.
 
 import path from 'path';
+export { EMBED_DIM, dot } from './vecmath';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let extractorPromise: Promise<any> | null = null;
-
-export const EMBED_DIM = 384;
 const MODEL_ID = 'Xenova/bge-small-en-v1.5';
 // bge models want this instruction prefix on the *query* side for retrieval.
 const QUERY_PREFIX = 'Represent this sentence for searching relevant passages: ';
@@ -57,11 +56,4 @@ export async function embedPassages(texts: string[]): Promise<Float32Array[] | n
 export async function embedQuery(text: string): Promise<Float32Array | null> {
   const vecs = await embedPassages([QUERY_PREFIX + text]);
   return vecs ? vecs[0] : null;
-}
-
-// Cosine similarity for unit-normalized vectors is just the dot product.
-export function dot(a: Float32Array, b: Float32Array): number {
-  let s = 0;
-  for (let i = 0; i < a.length; i++) s += a[i] * b[i];
-  return s;
 }
