@@ -31,8 +31,8 @@ export default function MapPage() {
 
       {/* Interactive map */}
       <div className="bg-gray-50 dark:bg-gray-900 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
-        <Suspense fallback={<div className="h-[500px] flex items-center justify-center text-gray-400 text-sm">Loading map…</div>}>
-          <ConceptMapClient width={720} height={520} />
+        <Suspense fallback={<div className="h-[620px] flex items-center justify-center text-gray-400 text-sm">Loading map…</div>}>
+          <ConceptMapClient width={820} height={680} />
         </Suspense>
       </div>
 
