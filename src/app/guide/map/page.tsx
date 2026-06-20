@@ -1,64 +1,110 @@
 import Link from 'next/link';
-import { Suspense } from 'react';
-import ConceptMapClient from './ConceptMapClient';
 import { CONCEPTS } from '@/data/guide/concepts';
-import { MAP_NODES, MAP_EDGES } from '@/data/guide/concept-map-data';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Concept Map',
-  description: 'Interactive concept map of Center Study — centered on the originary scene, radiating outward through dependency and elaboration.',
+  title: 'Concept Map | Center Study Center',
+  description:
+    'The vocabulary of Center Study, organized by theme — each concept with a plain definition, how it connects to the others, and a passage from the texts.',
 };
 
-export default function MapPage() {
+// Concepts grouped thematically, in a learning order (scene → language → order →
+// practice → critique). Mirrors the glossary tiers.
+const TIERS: { label: string; blurb: string; slugs: string[] }[] = [
+  {
+    label: 'The Scene and Its Elements',
+    blurb: 'The originary hypothesis and what the founding scene contains.',
+    slugs: ['originary-scene', 'the-center', 'deferral', 'the-sacred', 'mimesis', 'desire', 'ritual', 'sparagmos'],
+  },
+  {
+    label: 'Language and Grammar',
+    blurb: 'How the sign works and the grammar that grows from it.',
+    slugs: ['ostensive-imperative-declarative', 'originary-grammar', 'the-sign', 'idiom'],
+  },
+  {
+    label: 'Order and Distribution',
+    blurb: 'How the center is held, passed on, and paid — from the first big man to money.',
+    slugs: ['nomos', 'succession', 'the-juridical', 'debt-and-credit', 'big-man', 'omnicentrism'],
+  },
+  {
+    label: 'Practice and Institution',
+    blurb: 'Working the scene: design, personhood, attention.',
+    slugs: ['scenic-design', 'anthropomorphics', 'pointman-uninsurable', 'attentionality'],
+  },
+  {
+    label: 'Pathology and Critique',
+    blurb: 'What goes wrong when the center is denied.',
+    slugs: ['resentment-victimary'],
+  },
+];
+
+export default function ConceptMapPage() {
+  const bySlug = new Map(CONCEPTS.map((c) => [c.slug, c]));
+  const grouped = new Set(TIERS.flatMap((t) => t.slugs));
+  const leftovers = CONCEPTS.filter((c) => !grouped.has(c.slug)).map((c) => c.slug);
+  const tiers = leftovers.length
+    ? [...TIERS, { label: 'More', blurb: '', slugs: leftovers }]
+    : TIERS;
+
   return (
-    <main className="max-w-4xl w-full mx-auto px-4 py-10">
+    <main className="max-w-3xl w-full mx-auto px-4 py-10 pb-24">
       <div className="mb-8">
         <Link href="/guide" className="text-sm text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">← Guide</Link>
-        <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-4 mb-2">Layer IV · Visual</p>
-        <h1 className="text-2xl sm:text-3xl font-bold mb-3 text-gray-900 dark:text-white">Concept Map</h1>
-        <p className="text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl text-sm">
-          The originary scene is at the center. Every other concept radiates from it through dependency, elaboration, tension, or sequence. Click any node to see its connections and navigate to its concept page. The map is centered — it has a visible center. That is the point.
+        <h1 className="text-2xl sm:text-3xl font-bold mt-4 mb-3 text-gray-900 dark:text-white">Concept Map</h1>
+        <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
+          The whole vocabulary, grouped by theme and in a rough learning order. Each concept gets a plain
+          definition, the ideas it connects to, and a line from the texts. Read top to bottom for an
+          orientation, or jump around by following the connections.
         </p>
       </div>
 
-      {/* Stats */}
-      <div className="flex gap-4 mb-6 text-xs text-gray-400 dark:text-gray-500">
-        <span><strong className="text-gray-700 dark:text-gray-300">{MAP_NODES.length}</strong> concepts</span>
-        <span><strong className="text-gray-700 dark:text-gray-300">{MAP_EDGES.length}</strong> connections</span>
-        <span><strong className="text-gray-700 dark:text-gray-300">3</strong> tiers</span>
-      </div>
+      {/* Quick jump */}
+      <nav className="flex flex-wrap gap-2 mb-10">
+        {tiers.map((t) => (
+          <a key={t.label} href={`#${t.label.replace(/\s+/g, '-').toLowerCase()}`}
+            className="text-xs px-2.5 py-1 rounded-full border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
+            {t.label}
+          </a>
+        ))}
+      </nav>
 
-      {/* Interactive map */}
-      <div className="bg-gray-50 dark:bg-gray-900 rounded-2xl p-4 border border-gray-200 dark:border-gray-700">
-        <Suspense fallback={<div className="h-[620px] flex items-center justify-center text-gray-400 text-sm">Loading map…</div>}>
-          <ConceptMapClient width={820} height={680} />
-        </Suspense>
-      </div>
-
-      {/* All concepts list as fallback / supplement */}
-      <section className="mt-10">
-        <h2 className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">All Concepts</h2>
-        <div className="grid sm:grid-cols-2 gap-2">
-          {CONCEPTS.map((c) => {
-            const node = MAP_NODES.find((n) => n.id === c.slug);
-            return (
-              <Link
-                key={c.slug}
-                href={`/guide/concepts/${c.slug}`}
-                className="group flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-              >
-                <span className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                  node?.tier === 'core' ? 'bg-gray-900' :
-                  node?.tier === 'primary' ? 'bg-blue-500' : 'bg-gray-300'
-                }`} />
-                <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{c.title}</span>
-                <span className="text-xs text-gray-400 dark:text-gray-500 ml-auto hidden sm:block">{c.relations.length} relations</span>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
+      {tiers.map((tier) => (
+        <section key={tier.label} id={tier.label.replace(/\s+/g, '-').toLowerCase()} className="mb-12 scroll-mt-20">
+          <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-1">{tier.label}</h2>
+          {tier.blurb && <p className="text-sm text-gray-400 dark:text-gray-500 mb-5">{tier.blurb}</p>}
+          <div className="space-y-6">
+            {tier.slugs.map((slug) => {
+              const c = bySlug.get(slug);
+              if (!c) return null;
+              const passage = c.passages?.[0]?.text?.replace(/^["“”']+|["“”']+$/g, '').trim();
+              return (
+                <div key={slug} id={slug} className="scroll-mt-20 border-l-2 border-gray-100 dark:border-gray-800 pl-4">
+                  <Link href={`/guide/concepts/${slug}`} className="group inline-flex items-baseline gap-2">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{c.title}</h3>
+                    <span className="text-xs text-gray-300 dark:text-gray-600 group-hover:text-blue-400">read →</span>
+                  </Link>
+                  <p className="text-[15px] text-gray-700 dark:text-gray-300 leading-relaxed mt-1">{c.definition}</p>
+                  {passage && (
+                    <p className="text-sm text-gray-500 dark:text-gray-400 italic leading-relaxed mt-2 border-l border-gray-200 dark:border-gray-700 pl-3" style={{ fontFamily: 'var(--prose-font-family)' }}>
+                      &ldquo;{passage.length > 240 ? passage.slice(0, 240).replace(/\s+\S*$/, '') + '…' : passage}&rdquo;
+                    </p>
+                  )}
+                  {c.relations.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-1.5 mt-3">
+                      <span className="text-[11px] text-gray-400 dark:text-gray-500">Connects to</span>
+                      {c.relations.filter((r) => bySlug.has(r)).map((r) => (
+                        <a key={r} href={`#${r}`} className="text-[11px] px-2 py-0.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors">
+                          {bySlug.get(r)!.title}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      ))}
     </main>
   );
 }
