@@ -29,18 +29,24 @@ const nextConfig: NextConfig = {
   },
 
   async headers() {
+    const isProd = process.env.NODE_ENV === 'production';
     return [
       {
         source: '/(.*)',
         headers: securityHeaders,
       },
-      {
-        // Long-lived cache for Next.js static chunks (content-hashed filenames)
-        source: '/_next/static/(.*)',
-        headers: [
-          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
-        ],
-      },
+      // Long-lived cache for Next.js static chunks — ONLY in production, where
+      // filenames are content-hashed so immutable caching is safe. Applying it
+      // in dev makes the browser hold stale chunks for a year and breaks HMR /
+      // hard refreshes (Next warns about this), so skip it during development.
+      ...(isProd
+        ? [{
+            source: '/_next/static/(.*)',
+            headers: [
+              { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+            ],
+          }]
+        : []),
       {
         // Static files in /public (PDFs, images, etc.)
         source: '/(.*)\\.(pdf|png|jpg|jpeg|gif|svg|ico|woff|woff2)',

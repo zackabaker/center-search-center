@@ -291,12 +291,19 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
   const linkedParagraphs = useMemo(() => {
     const linkedAlready = new Set<string>();
     return paragraphs.map((p, i) => {
-      const isBlockquote = p.startsWith('>') || p.startsWith('_');
-      const text = isBlockquote ? p.replace(/^>\s*/, '').replace(/^_|_$/g, '') : p;
-      // Don't linkify headings — they're structural, not prose
+      const isDivider = p.trim() === '---';
       const isHeading = /^#{1,3}\s/.test(p);
-      const nodes = isHeading ? [text] : renderParagraphNodes(text, linkedAlready, i);
-      return { isBlockquote, text, nodes, isFirst: i === 0 };
+      const headingLevel = isHeading ? (p.match(/^(#{1,3})\s/)?.[1].length ?? 2) : 0;
+      const isBlockquote = !isHeading && !isDivider && (p.startsWith('>') || p.startsWith('_'));
+      // Strip the markdown markers so the marker text never renders literally.
+      const text = isHeading
+        ? p.replace(/^#{1,3}\s/, '')
+        : isBlockquote
+        ? p.replace(/^>\s*/, '').replace(/^_|_$/g, '')
+        : p;
+      // Don't linkify headings — they're structural, not prose
+      const nodes = isHeading || isDivider ? [text] : renderParagraphNodes(text, linkedAlready, i);
+      return { isBlockquote, isHeading, isDivider, headingLevel, text, nodes };
     });
   }, [paragraphs]);
 
@@ -322,8 +329,27 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
         </div>
       )}
       <div ref={contentRef} className="prose text-gray-800 dark:text-gray-200">
-        {linkedParagraphs.map(({ isBlockquote, text, nodes, isFirst }, i) => {
+        {linkedParagraphs.map(({ isBlockquote, isHeading, isDivider, headingLevel, text, nodes }, i) => {
           const id = `p-${i + 1}`;
+
+          if (isDivider) {
+            return <hr key={i} className="border-gray-100 dark:border-gray-800 my-2" />;
+          }
+
+          if (isHeading) {
+            const cls =
+              headingLevel === 1 ? 'text-2xl font-bold leading-snug mt-10'
+              : headingLevel === 2 ? 'text-xl font-semibold leading-snug mt-10'
+              : 'text-lg font-semibold leading-snug mt-8';
+            // Sans-serif heading, matching the non-search reader (PostContent).
+            return (
+              <p key={i} id={id} className={`group scroll-mt-20 ${cls}`}
+                style={{ fontFamily: 'var(--font-geist-sans, system-ui, sans-serif)' }}>
+                {text}
+              </p>
+            );
+          }
+
           const controls = (
             <span className="inline-flex items-center gap-1 ml-2 align-middle print:hidden">
               <PermalinkButton id={id} />
@@ -332,11 +358,7 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
           );
           if (isBlockquote) return <blockquote key={i} id={id} className="group scroll-mt-20"><p>{nodes}{controls}</p></blockquote>;
           return (
-            <p
-              key={i}
-              id={id}
-              className={`group scroll-mt-20${isFirst ? ' indent-6 sm:indent-8' : ''}`}
-            >
+            <p key={i} id={id} className="group scroll-mt-20 indent-6 sm:indent-8">
               {nodes}{controls}
             </p>
           );
