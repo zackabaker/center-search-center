@@ -5,7 +5,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { dot, EMBED_DIM } from './embed';
+import { dot, EMBED_DIM } from './vecmath';
 
 interface ChunkMeta { slug: string; title: string; source: string; text: string; }
 
@@ -20,7 +20,7 @@ let _index: SemanticIndex | null | undefined; // undefined = not tried; null = u
 function loadIndex(): SemanticIndex | null {
   if (_index !== undefined) return _index;
   try {
-    const dir = path.join(process.cwd(), 'src', 'data');
+    const dir = path.join(process.cwd(), 'vectors');
     const meta = JSON.parse(fs.readFileSync(path.join(dir, 'embeddings-meta.json'), 'utf-8')) as { dim: number; chunks: ChunkMeta[] };
     const buf = fs.readFileSync(path.join(dir, 'embeddings.f32.bin'));
     const vectors = new Float32Array(buf.buffer, buf.byteOffset, buf.byteLength / 4);
@@ -59,18 +59,4 @@ export function semanticChunks(queryVec: Float32Array, k = 12, onePerPost = true
 
 export function semanticAvailable(): boolean {
   return loadIndex() !== null;
-}
-
-// Precomputed nearest-neighbour slugs for a post (from related.json).
-let _related: Record<string, { slug: string; score: number }[]> | null | undefined;
-export function relatedSlugs(slug: string, limit = 6): string[] {
-  if (_related === undefined) {
-    try {
-      _related = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'src', 'data', 'related.json'), 'utf-8'));
-    } catch {
-      _related = null;
-    }
-  }
-  if (!_related) return [];
-  return (_related[slug] ?? []).slice(0, limit).map((r) => r.slug);
 }

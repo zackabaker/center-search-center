@@ -44,10 +44,10 @@ async function main() {
   const posts: Post[] = JSON.parse(fs.readFileSync(path.join(DATA, 'posts-cache.json'), 'utf-8'));
 
   // Build chunk list with provenance.
-  const meta: { slug: string; title: string; date: string | null; text: string }[] = [];
+  const meta: { slug: string; title: string; source: string; date: string | null; text: string }[] = [];
   for (const p of posts) {
     for (const text of chunkPost(p.content)) {
-      meta.push({ slug: p.slug, title: p.title, date: p.date, text });
+      meta.push({ slug: p.slug, title: p.title, source: p.source, date: p.date, text });
     }
   }
   console.log(`embedding ${meta.length} chunks for the concept atlas…`);
@@ -61,6 +61,15 @@ async function main() {
     process.stdout.write(`  ${Math.min(i + BATCH, meta.length)}/${meta.length}\r`);
   }
   console.log(`\nembedded in ${((Date.now() - t0) / 1000).toFixed(1)}s`);
+
+  // Persist the chunk vectors + metadata for runtime semantic search. These go
+  // in /vectors (NOT src/data) so they're traced only into the /api/semantic
+  // function — never bundled into every serverless function.
+  const VEC = path.join(process.cwd(), 'vectors');
+  fs.mkdirSync(VEC, { recursive: true });
+  fs.writeFileSync(path.join(VEC, 'embeddings.f32.bin'), Buffer.from(vectors.buffer));
+  fs.writeFileSync(path.join(VEC, 'embeddings-meta.json'), JSON.stringify({ dim: EMBED_DIM, chunks: meta }));
+  console.log(`✓ wrote vectors/embeddings.f32.bin (${(vectors.byteLength / 1e6).toFixed(1)} MB) + meta`);
 
   const out: Record<string, { slug: string; title: string; date: string | null; text: string; score: number }[]> = {};
   for (const concept of CONCEPTS) {

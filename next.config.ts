@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
   // available at runtime; ga_context.txt is the fallback source.
   outputFileTracingIncludes: {
     "/**": ["./src/data/**"],
+    // The corpus vectors (~50 MB) are bundled ONLY into the semantic-search
+    // function — never into every route — so they can't bloat or break others.
+    "/api/semantic": ["./vectors/**"],
   },
 
   async rewrites() {
