@@ -10,11 +10,12 @@ import { Redis } from '@upstash/redis';
 // POST { q, mode, mine?, n? } → { ok }
 
 function getKV(): Redis | null {
-  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) return null;
-  return new Redis({
-    url: process.env.UPSTASH_REDIS_REST_URL,
-    token: process.env.UPSTASH_REDIS_REST_TOKEN,
-  });
+  // Vercel's KV/Upstash integration exposes KV_REST_API_* ; fall back to the
+  // UPSTASH_* names in case the env is configured that way instead.
+  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return null;
+  return new Redis({ url, token });
 }
 
 const LOG_KEY = 'search:log';     // capped list of recent searches (JSON entries)
