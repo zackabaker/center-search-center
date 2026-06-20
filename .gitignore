@@ -51,4 +51,3 @@ src/data/embeddings-meta.json
 # embedding model — downloaded at build from HF, not committed (too large for git)
 models/
 src/data/concept-passages.json
-src/data/thinkers.json
