@@ -107,7 +107,7 @@ for (const p of posts) {
 // ── 7. No giant unparagraphed walls ───────────────────────────────────────
 // The paragraphizer splits blocks > ~1800 chars; a handful of AP items have no
 // sentence breaks to split on. Allow a small, named set; flag anything new.
-const GIANT_ALLOW = new Set(['ap-ap1202-muja07', 'ap-ap1102-muja', 'gablog-rendering-is-the-stay-of-frenzy-ou-ga-po']);
+const GIANT_ALLOW = new Set(['ap1202-muja07', 'ap1102-muja', 'rendering-is-the-stay-of-frenzy-ou-ga-po']);
 const GIANT = 3500;
 for (const p of posts) {
   const maxPara = Math.max(0, ...p.content.split(/\n\n+/).map((x) => x.length));
@@ -117,8 +117,8 @@ for (const p of posts) {
 }
 
 // ── 8. Spot-checks on known-fixed posts ───────────────────────────────────
-const tine = posts.find((p) => p.slug === 'pdf-there-is-no-economy');
-if (!tine) err('pdf-there-is-no-economy is missing');
+const tine = posts.find((p) => p.slug === 'there-is-no-economy-pdf');
+if (!tine) err('there-is-no-economy-pdf is missing');
 else {
   const bq = tine.content.split(/\n\n+/).filter((x) => x.startsWith('> ')).length;
   if (bq < 20) err(`"There Is No Economy" lost its blockquotes (${bq} < 20)`);
