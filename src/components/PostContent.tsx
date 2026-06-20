@@ -357,7 +357,7 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
             className="group relative scroll-mt-20"
           >
             {pilcrow}
-            <p>{nodes}</p>
+            <p className="indent-6 sm:indent-8">{nodes}</p>
           </div>
         );
       })}
