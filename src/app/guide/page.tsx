@@ -27,6 +27,12 @@ const RESOURCES = [
     cta: 'Browse the vocabulary',
   },
   {
+    href: '/guide/map',
+    title: 'Concept Map',
+    body: 'An interactive map of how the concepts connect — the originary scene at the center, every other idea radiating out through dependency and elaboration. Click any node to explore its relations.',
+    cta: 'Open the map',
+  },
+  {
     href: '/search',
     title: 'Search',
     body: 'Full-text search across 1,900+ texts. Every result links to the exact passage, and any term inside a text links back into the vocabulary.',
