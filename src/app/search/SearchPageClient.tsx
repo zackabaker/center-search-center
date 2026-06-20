@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link, { useLinkStatus } from 'next/link';
 import { ContentSource } from '@/lib/types';
+import { logSearch } from '@/lib/log-search';
 import {
   SearchEntry,
   SearchResult,
@@ -320,6 +321,22 @@ export default function SearchPageClient({
     }
     window.history.replaceState({}, '', url.toString());
   }, [committed]);
+
+  // Log the settled search query (1.5s after it stops changing) so we can later
+  // surface what readers look for. Debounced so live-typing logs the finished
+  // query, not every keystroke; once per distinct query+mode. Best-effort.
+  const lastLoggedRef = useRef('');
+  useEffect(() => {
+    const q = committed.trim().replace(/^["']+|["']+$/g, '').trim();
+    if (q.length < 2) return;
+    const key = `${mode}:${q}`;
+    if (key === lastLoggedRef.current) return;
+    const id = setTimeout(() => {
+      lastLoggedRef.current = key;
+      logSearch(q, mode);
+    }, 1500);
+    return () => clearTimeout(id);
+  }, [committed, mode]);
 
   // Immediate commit (Enter, Search button, hint clicks, recent searches)
   const handleSubmit = useCallback((q: string) => {

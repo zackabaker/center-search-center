@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { CS_TERMS_SORTED, extractFollowUps } from '@/lib/cs-terms';
+import { logSearch } from '@/lib/log-search';
 import AnimatedSearchIcon from '@/components/AnimatedSearchIcon';
 
 interface Source {
@@ -359,6 +360,7 @@ export default function AskClient() {
   async function submit(q: string, concept?: string) {
     if (!q.trim()) return;
     const question = q.trim();
+    logSearch(question, 'ask');
     setInput('');
     setCurrentQuestion(question);
 
