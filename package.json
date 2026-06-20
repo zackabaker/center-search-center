@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "npx tsx scripts/fetch-new-posts.ts || true && npx tsx scripts/generate-posts-cache.ts && npx tsx scripts/check-corpus.ts && npx tsx scripts/generate-embeddings.ts && npx tsx scripts/generate-concept-passages.ts",
+    "prebuild": "npx tsx scripts/fetch-new-posts.ts || true && npx tsx scripts/generate-posts-cache.ts && npx tsx scripts/check-corpus.ts && npx tsx scripts/generate-concept-passages.ts",
     "build": "next build",
     "extract-pdfs": "npx tsx scripts/extract-pdf.ts",
     "fetch-tweets": "npx tsx scripts/fetch-tweets.ts",

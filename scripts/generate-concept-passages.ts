@@ -71,6 +71,40 @@ async function main() {
   fs.writeFileSync(path.join(VEC, 'embeddings-meta.json'), JSON.stringify({ dim: EMBED_DIM, chunks: meta }));
   console.log(`✓ wrote vectors/embeddings.f32.bin (${(vectors.byteLength / 1e6).toFixed(1)} MB) + meta`);
 
+  // Derive semantic "related essays" from the SAME chunk vectors: each post's
+  // vector is the (re-normalized) mean of its chunk vectors. This replaces the
+  // old separate post-level embedding pass — one embedding pass now feeds the
+  // atlas, semantic search, AND related.json.
+  const postVecs = new Map<string, Float32Array>();
+  const counts = new Map<string, number>();
+  for (let i = 0; i < meta.length; i++) {
+    const slug = meta[i].slug;
+    let v = postVecs.get(slug);
+    if (!v) { v = new Float32Array(EMBED_DIM); postVecs.set(slug, v); counts.set(slug, 0); }
+    const off = i * EMBED_DIM;
+    for (let d = 0; d < EMBED_DIM; d++) v[d] += vectors[off + d];
+    counts.set(slug, counts.get(slug)! + 1);
+  }
+  for (const v of postVecs.values()) {
+    let norm = 0; for (let d = 0; d < EMBED_DIM; d++) norm += v[d] * v[d];
+    norm = Math.sqrt(norm) || 1;
+    for (let d = 0; d < EMBED_DIM; d++) v[d] /= norm;
+  }
+  const slugs = [...postVecs.keys()];
+  const related: Record<string, { slug: string; score: number }[]> = {};
+  for (let i = 0; i < slugs.length; i++) {
+    const vi = postVecs.get(slugs[i])!;
+    const scored: { slug: string; score: number }[] = [];
+    for (let k = 0; k < slugs.length; k++) {
+      if (k === i) continue;
+      scored.push({ slug: slugs[k], score: dot(vi, postVecs.get(slugs[k])!) });
+    }
+    scored.sort((a, b) => b.score - a.score);
+    related[slugs[i]] = scored.slice(0, 12).map((s) => ({ slug: s.slug, score: Math.round(s.score * 1000) / 1000 }));
+  }
+  fs.writeFileSync(path.join(DATA, 'related.json'), JSON.stringify(related));
+  console.log(`✓ wrote related.json (${slugs.length} posts)`);
+
   const out: Record<string, { slug: string; title: string; date: string | null; text: string; score: number }[]> = {};
   for (const concept of CONCEPTS) {
     const q = await embedQuery(`${concept.title}: ${concept.definition}`);
