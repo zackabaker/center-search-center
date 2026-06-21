@@ -526,6 +526,16 @@ export default function IntroPage() {
             <strong className="text-gray-800 dark:text-gray-200">The best entry point varies by reader.</strong> Some find the originary scene immediately clarifying. Others find the political applications — succession, sovereignty, the algorithmic center — more tractable first. Start where it grabs you and read back into the foundations as needed.
           </p>
         </div>
+        <Link
+          href="/faq"
+          className="mt-4 group flex items-center justify-between gap-4 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
+        >
+          <div>
+            <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Questions &amp; objections</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Is it falsifiable? Just a just-so story? How does it differ from Girard? — the standard objections, answered in the discourse&rsquo;s own words.</p>
+          </div>
+          <span className="text-gray-400 group-hover:translate-x-0.5 transition-transform flex-shrink-0">→</span>
+        </Link>
       </section>
 
       {/* ── How to use this site ──────────────────────────────────────── */}
