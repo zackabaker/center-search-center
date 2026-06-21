@@ -20,12 +20,13 @@ export default async function NamesPage() {
   let approved: NameEntry[] = [];
 
   try {
-    if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+    // Live Upstash store is connected with the 'centerstudy' prefix; the
+    // unprefixed KV_REST_API_* point at an old deleted DB, so prefer centerstudy_.
+    const url = process.env.centerstudy_KV_REST_API_URL || process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+    const token = process.env.centerstudy_KV_REST_API_TOKEN || process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+    if (url && token) {
       const { Redis } = await import('@upstash/redis');
-      const kv = new Redis({
-        url: process.env.UPSTASH_REDIS_REST_URL,
-        token: process.env.UPSTASH_REDIS_REST_TOKEN,
-      });
+      const kv = new Redis({ url, token });
       approved = (await kv.get<NameEntry[]>('names:approved')) || [];
     }
   } catch {
