@@ -10,13 +10,14 @@ export interface NameEntry {
 }
 
 function getKV() {
-  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
+  // Live Upstash store is connected with the 'centerstudy' prefix; the
+  // unprefixed KV_REST_API_* point at an old deleted DB, so prefer centerstudy_.
+  const url = process.env.centerstudy_KV_REST_API_URL || process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.centerstudy_KV_REST_API_TOKEN || process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) {
     throw new Error('KV not configured');
   }
-  return new Redis({
-    url: process.env.UPSTASH_REDIS_REST_URL,
-    token: process.env.UPSTASH_REDIS_REST_TOKEN,
-  });
+  return new Redis({ url, token });
 }
 
 export async function POST(req: NextRequest) {
