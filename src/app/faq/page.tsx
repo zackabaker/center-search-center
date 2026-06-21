@@ -4,29 +4,58 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'FAQ & Objections | Center Study Center',
   description:
-    'Common questions about Center Study and Generative Anthropology — how it differs from Girard, how human language differs from animal communication, and the standard objections (Is it falsifiable? Just a just-so story?) answered in the discourse’s own words, with verbatim citations.',
+    'Common questions about Center Study and Generative Anthropology — what the center is, how it differs from Girard and from GA, how human language differs from animal communication, and the standard objections — answered in the discourse’s own words, with verbatim citations.',
 };
 
-// Every quote below is verbatim from the corpus and links to its source post.
-// Answers lead with a one-line frame, then let the texts speak at length.
+// Every quote is verbatim from the corpus and links to its source post.
+// Answers lead with a brief frame, then let the texts speak at length.
 type Cite = { text: string; slug: string; title: string };
-type Obj = { q: string; lead: string; quotes: Cite[] };
+type Item = { q: string; lead: string; quotes?: Cite[]; cta?: { href: string; label: string } };
 
-const OBJECTIONS: Obj[] = [
+// ── 1. The basics ───────────────────────────────────────────────────────────
+const BASICS: Item[] = [
   {
-    q: 'How is this different from René Girard — and why does the difference matter?',
+    q: 'What is Center Study, in one sentence?',
     lead:
-      'It begins where Girard does — mimetic rivalry escalating toward a group-destroying crisis — but rejects his resolution. The founding act is a sign, not a killing; and that difference is the same as saying it, and not Girard, explains the birth of language.',
+      'A way of reading every social order — language, ritual, kingship, law, money, media, the algorithm — as an attempt to hold, occupy, or deny a center. It is the most developed branch of Eric Gans’s Generative Anthropology.',
+    cta: { href: '/intro', label: 'The full introduction' },
+  },
+  {
+    q: 'Who writes it? Who are Adam Katz and Dennis Bouvard?',
+    lead:
+      'Both names are one person. Adam Katz develops the theory on GABlog; “Dennis Bouvard” is the pen name under which he applies it to contemporary life — AI, money, governance, media — on Substack. The book Anthropomorphics is the systematic statement.',
+    cta: { href: '/lineage', label: 'Girard → Gans → Katz, in their own words' },
+  },
+  {
+    q: 'Where should I start?',
+    lead:
+      'You don’t need to read Eric Gans first. If you’re new, take the short guided path — it orients you, gives the lineage, and hands you the handful of essays to read first — or put a question to the whole corpus with Ask AI and follow the citations. For a single first text, “The Discourse of the Center” is the clearest entry into the core claim.',
+    cta: { href: '/start', label: 'Start here' },
+  },
+  {
+    q: 'Is it academic or peer-reviewed?',
+    lead:
+      'Generative Anthropology has a peer-reviewed journal (Anthropoetics) and annual conferences. Center Study itself — Katz’s and Bouvard’s writing — is independent intellectual work published as a blog, a Substack, and the Anthropomorphics book; it is in continuous dialogue with the GA literature rather than routed through peer review.',
+    cta: { href: '/browse', label: 'Browse the full archive' },
+  },
+];
+
+// ── 2. The ideas & the lineage ──────────────────────────────────────────────
+const IDEAS: Item[] = [
+  {
+    q: 'What is “the center” — and why is it called Center Study?',
+    lead:
+      'Everything turns on this. The center is the shared focus of attention every social scene is organized around — first the desired object on the originary scene, then the sacred, the king, the institution, the algorithm. It is both cause and product of the sign, and we are never without one.',
     quotes: [
       {
-        text: 'The limit of Girard’s account is that there is no reason for the event in question to become meaningful and memorable. Why should the killing of a conspecific, not a very unusual event among mammals, transform the group in any way? I used the word “murder” in my description of the scene, but “murder” presupposes a moral order, and nothing in Girard’s scenario accounts for how the scene would create such an order.',
-        slug: 'anthropomorphics-origin-and-hypothesis',
-        title: 'Origin and Hypothesis',
+        text: 'What is a center? Whatever can invoke and be referenced by an ostensive sign: the center is both cause and product of the sign—as cause it subsists beyond any particular reference, and as product it is continually renewed.',
+        slug: 'anthropomorphics-the-centrality-of-the-center',
+        title: 'The Centrality of the Center',
       },
       {
-        text: 'The rivalrous imitation that first propels the group toward center and potentially cataclysmic violence is converted into a pacifying imitation that de-escalates the crisis',
-        slug: 'anthropomorphics-origin-and-hypothesis',
-        title: 'Origin and Hypothesis',
+        text: 'We are beings bound to the center: everything that we say, think or do is homage to the center.',
+        slug: 'the-discourse-of-the-center',
+        title: 'The Discourse of the Center',
       },
     ],
   },
@@ -47,6 +76,44 @@ const OBJECTIONS: Obj[] = [
       },
     ],
   },
+  {
+    q: 'How is this different from René Girard — and why does the difference matter?',
+    lead:
+      'It begins where Girard does — mimetic rivalry escalating toward a group-destroying crisis — but breaks with him twice. First on the founding act: a sign, not a killing, which is the same as saying it, and not Girard, explains the birth of language. Second on scapegoating: for Girard it lies at the origin of the human; for Gans and Katz it arrives much later, an institution of already-centralized societies.',
+    quotes: [
+      {
+        text: 'The limit of Girard’s account is that there is no reason for the event in question to become meaningful and memorable. Why should the killing of a conspecific, not a very unusual event among mammals, transform the group in any way? I used the word “murder” in my description of the scene, but “murder” presupposes a moral order, and nothing in Girard’s scenario accounts for how the scene would create such an order.',
+        slug: 'anthropomorphics-origin-and-hypothesis',
+        title: 'Origin and Hypothesis',
+      },
+      {
+        text: 'For Gans, indeed, scapegoating and human sacrifice is introduced much later, in the wake of the organization of communities around the so-called “Big Man,” who centralizes the distribution of resources. Once the origin of goods is centralized, in other words, so can be the origin of contagion.',
+        slug: 'originary-grammar-and-post-sacrificial-semiotic-agency',
+        title: 'Originary Grammar and Post-Sacrificial Semiotic Agency',
+      },
+    ],
+  },
+  {
+    q: 'How is Center Study different from Generative Anthropology?',
+    lead:
+      'Center Study accepts Gans’s hypothesis whole, but keeps the center at the center. Standard GA can emphasize the originary scene and the equality of the participants ringed around the center; Center Study (Katz’s “centerism”) makes the center itself — its defense, its maintenance, its operation across all of history, from the daily reference to kingship to money to code — the primary thing. The center isn’t only where things began; it’s what holds every arrangement together.',
+    quotes: [
+      {
+        text: 'Liberal GA works with the circle model, and can therefore emphasize the equidistance from the center over the center itself—implicitly, at least the equidistance, which is to say the “equality” of all the members is what produces the center, and it is that equality that is therefore to be preserved above all. Absolutist GA, or centerism, sees the defense of the center by those who best see the threats to it as primary, since that defense is what holds together the positions arrayed around the center.',
+        slug: 'centerism-gablog',
+        title: 'Centerism',
+      },
+      {
+        text: 'If there is a logic to history it is a very uneven one: we are all working to bring all of the centers, from the mundane references we make daily, to the authorities we obey and commands we convey to others, to the divine beings we worship, to the originary event itself, into alignment.',
+        slug: 'the-discourse-of-the-center',
+        title: 'The Discourse of the Center',
+      },
+    ],
+  },
+];
+
+// ── 3. Objections & responses ───────────────────────────────────────────────
+const OBJECTIONS: Item[] = [
   {
     q: 'Isn’t the originary hypothesis unfalsifiable — so, not really science?',
     lead:
@@ -134,53 +201,6 @@ const OBJECTIONS: Obj[] = [
   },
 ];
 
-type Basic = { q: string; a: string[]; cta?: { href: string; label: string } };
-
-const BASICS: Basic[] = [
-  {
-    q: 'What is Center Study, in one sentence?',
-    a: [
-      'A way of reading every social order — language, ritual, kingship, law, money, media, the algorithm — as an attempt to hold, occupy, or deny a center. It is the most developed branch of Eric Gans’s Generative Anthropology.',
-    ],
-    cta: { href: '/intro', label: 'The full introduction' },
-  },
-  {
-    q: 'Who writes it? Who are Adam Katz and Dennis Bouvard?',
-    a: [
-      'Both names are one person. Adam Katz develops the theory on GABlog; “Dennis Bouvard” is the pen name under which he applies it to contemporary life — AI, money, governance, media — on Substack. The book Anthropomorphics is the systematic statement.',
-    ],
-    cta: { href: '/lineage', label: 'Girard → Gans → Katz, in their own words' },
-  },
-  {
-    q: 'How is Center Study different from Generative Anthropology?',
-    a: [
-      'Generative Anthropology, founded by Eric Gans, is the parent discourse: the originary hypothesis about the birth of language, the human, and the sacred. Center Study takes that hypothesis and keeps the enduring center in view across all of human organization — not just its origin but its ongoing operation in every later form.',
-    ],
-    cta: { href: '/intro#lineage', label: 'The lineage' },
-  },
-  {
-    q: 'Do I need to read Eric Gans first?',
-    a: [
-      'No. You can start anywhere it grabs you and read back into the foundations as needed. If you want a single first text, “The Discourse of the Center” is the clearest one-post entry into the core claim.',
-    ],
-    cta: { href: '/post/the-discourse-of-the-center', label: 'Read: The Discourse of the Center' },
-  },
-  {
-    q: 'Where should I actually start?',
-    a: [
-      'Take the short guided path if you’re new — it orients you, gives the lineage, and hands you the handful of essays to read first. Or put a question to the whole corpus with Ask AI and follow the citations.',
-    ],
-    cta: { href: '/start', label: 'Start here' },
-  },
-  {
-    q: 'Is this academic or peer-reviewed?',
-    a: [
-      'Generative Anthropology has a peer-reviewed journal (Anthropoetics) and annual conferences. Center Study itself — Katz’s and Bouvard’s writing — is independent intellectual work published as a blog, a Substack, and the Anthropomorphics book; it is in continuous dialogue with the GA literature rather than routed through peer review.',
-    ],
-    cta: { href: '/browse', label: 'Browse the full archive' },
-  },
-];
-
 function Citation({ c }: { c: Cite }) {
   return (
     <blockquote
@@ -198,11 +218,41 @@ function Citation({ c }: { c: Cite }) {
   );
 }
 
-const summaryToggle = (
-  <span className="text-gray-300 dark:text-gray-600 group-open:rotate-45 transition-transform text-xl leading-none flex-shrink-0 mt-0.5">
-    +
-  </span>
-);
+function Accordion({ item }: { item: Item }) {
+  return (
+    <details className="group rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3.5 [&_summary]:list-none">
+      <summary className="flex items-start justify-between gap-3 cursor-pointer font-semibold text-gray-900 dark:text-white leading-snug">
+        <span>{item.q}</span>
+        <span className="text-gray-300 dark:text-gray-600 group-open:rotate-45 transition-transform text-xl leading-none flex-shrink-0 mt-0.5">+</span>
+      </summary>
+      <div className="mt-3 space-y-4">
+        <p
+          className="text-gray-700 dark:text-gray-300"
+          style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.7 }}
+        >
+          {item.lead}
+        </p>
+        {item.quotes?.map((c) => <Citation key={c.text} c={c} />)}
+        {item.cta && (
+          <Link href={item.cta.href} className="inline-block text-sm text-blue-600 dark:text-blue-400 hover:underline">
+            {item.cta.label} &rarr;
+          </Link>
+        )}
+      </div>
+    </details>
+  );
+}
+
+function Section({ label, items }: { label: string; items: Item[] }) {
+  return (
+    <section className="mb-14">
+      <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-5">{label}</h2>
+      <div className="space-y-3">
+        {items.map((it) => <Accordion key={it.q} item={it} />)}
+      </div>
+    </section>
+  );
+}
 
 export default function FaqPage() {
   return (
@@ -215,71 +265,15 @@ export default function FaqPage() {
         Questions &amp; Objections
       </h1>
       <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed mb-12 max-w-2xl">
-        The questions a careful first-time reader tends to ask — including the standard objections to
-        the originary hypothesis. Each answer is anchored to the discourse&rsquo;s own words: the
-        framing is brief, and the texts do the rest. Every quotation is verbatim and links to the
-        passage in full.
+        What a careful first-time reader tends to ask — the orientation, the ideas and where they
+        come from, and the standard objections. Most answers are anchored to the discourse&rsquo;s own
+        words: the framing is brief, and the texts do the rest. Every quotation is verbatim and links
+        to the passage in full.
       </p>
 
-      {/* ── Objections ─────────────────────────────────────────────────── */}
-      <section className="mb-14">
-        <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-5">
-          Objections &amp; responses
-        </h2>
-        <div className="space-y-3">
-          {OBJECTIONS.map((o) => (
-            <details
-              key={o.q}
-              className="group rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3.5 [&_summary]:list-none"
-            >
-              <summary className="flex items-start justify-between gap-3 cursor-pointer font-semibold text-gray-900 dark:text-white leading-snug">
-                <span>{o.q}</span>
-                {summaryToggle}
-              </summary>
-              <div className="mt-3 space-y-4">
-                <p
-                  className="text-gray-700 dark:text-gray-300"
-                  style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.7 }}
-                >
-                  {o.lead}
-                </p>
-                {o.quotes.map((c) => <Citation key={c.text} c={c} />)}
-              </div>
-            </details>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Basics ─────────────────────────────────────────────────────── */}
-      <section className="mb-14">
-        <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-5">
-          Basics
-        </h2>
-        <div className="space-y-3">
-          {BASICS.map((b) => (
-            <details
-              key={b.q}
-              className="group rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3.5 [&_summary]:list-none"
-            >
-              <summary className="flex items-start justify-between gap-3 cursor-pointer font-semibold text-gray-900 dark:text-white leading-snug">
-                <span>{b.q}</span>
-                {summaryToggle}
-              </summary>
-              <div
-                className="mt-3 space-y-3 text-gray-700 dark:text-gray-300"
-                style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.7 }}
-              >
-                {b.a.map((p, i) => <p key={i}>{p}</p>)}
-                {b.cta && (
-                  <Link href={b.cta.href} className="inline-block text-sm text-blue-600 dark:text-blue-400 hover:underline">
-                    {b.cta.label} &rarr;
-                  </Link>
-                )}
-              </div>
-            </details>
-          ))}
-        </div>
-      </section>
+      <Section label="The basics" items={BASICS} />
+      <Section label="The ideas &amp; the lineage" items={IDEAS} />
+      <Section label="Objections &amp; responses" items={OBJECTIONS} />
 
       <div className="rounded-xl border border-gray-200 dark:border-gray-700 p-5 text-center">
         <p className="text-sm text-gray-600 dark:text-gray-400">
