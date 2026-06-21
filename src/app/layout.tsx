@@ -119,6 +119,7 @@ export default function RootLayout({
               <Link href="/faq"     className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">FAQ</Link>
               <Link href="/ask"     className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Ask AI</Link>
               <Link href="/download" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Download</Link>
+              <Link href="/follow" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Follow</Link>
               <span className="text-gray-200 dark:text-gray-800">·</span>
               <a
                 href="https://dennisbouvard.substack.com"
