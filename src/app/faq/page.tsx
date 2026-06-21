@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'FAQ & Objections | Center Study Center',
   description:
-    'Common questions about Center Study and Generative Anthropology — and the standard objections (Is it falsifiable? Just a just-so story? Eurocentric?) answered in the discourse’s own words, with verbatim citations.',
+    'Common questions about Center Study and Generative Anthropology — and the standard objections (Is it falsifiable? Just a just-so story? How does human language differ from animal communication?) answered in the discourse’s own words, with verbatim citations.',
 };
 
 // Every quote below is verbatim from the corpus and links to its source post.
@@ -60,14 +60,19 @@ const OBJECTIONS: Obj[] = [
     ],
   },
   {
-    q: 'Isn’t a single universal origin Eurocentric — a Western frame imposed on everyone?',
+    q: 'How is human language different from animal communication?',
     lead:
-      'GA confines “the originary” to what every culture shares, and treats culture-specific content as explicitly not originary — a guard against building a parochial foundation. (The corpus engages the universality question directly; it doesn’t take up a charge phrased as “Eurocentrism.”)',
+      'This is the load-bearing distinction. Animal signals are fixed responses to what is present; human language is made of arbitrary, conventional signs that refer — and can refer to what is absent. Because you would already need language to agree on such signs, the difference can’t have crept in gradually — which is the puzzle the originary hypothesis sets out to answer.',
     quotes: [
       {
-        text: 'What is not universal to all cultures everywhere cannot be originary.',
-        slug: 'what-is-originary',
-        title: 'What is originary?',
+        text: '…the fundamental difference between human language and animal communication. Only human language has signs (words, to keep it simple) that are purely “arbitrary,” or “conventional.”',
+        slug: 'couple-of-basic-questions-about-generative-anthropology',
+        title: 'Bouvard on Arbitrary Signs and Human Language',
+      },
+      {
+        text: '…its different mode of operation, through symbols as opposed to “indexical” signals.',
+        slug: 'addressing-an-objection-to-the-originary-hypthesis',
+        title: 'Addressing an Objection to the Originary Hypothesis',
       },
     ],
   },
