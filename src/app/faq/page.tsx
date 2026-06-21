@@ -4,29 +4,63 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'FAQ & Objections | Center Study Center',
   description:
-    'Common questions about Center Study and Generative Anthropology — and the standard objections (Is it falsifiable? Just a just-so story? How does human language differ from animal communication?) answered in the discourse’s own words, with verbatim citations.',
+    'Common questions about Center Study and Generative Anthropology — how it differs from Girard, how human language differs from animal communication, and the standard objections (Is it falsifiable? Just a just-so story?) answered in the discourse’s own words, with verbatim citations.',
 };
 
 // Every quote below is verbatim from the corpus and links to its source post.
-// Answers lead with a one-line frame, then let the texts speak.
+// Answers lead with a one-line frame, then let the texts speak at length.
 type Cite = { text: string; slug: string; title: string };
 type Obj = { q: string; lead: string; quotes: Cite[] };
 
 const OBJECTIONS: Obj[] = [
   {
+    q: 'How is this different from René Girard — and why does the difference matter?',
+    lead:
+      'It begins where Girard does — mimetic rivalry escalating toward a group-destroying crisis — but rejects his resolution. The founding act is a sign, not a killing; and that difference is the same as saying it, and not Girard, explains the birth of language.',
+    quotes: [
+      {
+        text: 'The limit of Girard’s account is that there is no reason for the event in question to become meaningful and memorable. Why should the killing of a conspecific, not a very unusual event among mammals, transform the group in any way? I used the word “murder” in my description of the scene, but “murder” presupposes a moral order, and nothing in Girard’s scenario accounts for how the scene would create such an order.',
+        slug: 'anthropomorphics-origin-and-hypothesis',
+        title: 'Origin and Hypothesis',
+      },
+      {
+        text: 'The rivalrous imitation that first propels the group toward center and potentially cataclysmic violence is converted into a pacifying imitation that de-escalates the crisis',
+        slug: 'anthropomorphics-origin-and-hypothesis',
+        title: 'Origin and Hypothesis',
+      },
+    ],
+  },
+  {
+    q: 'How is human language different from animal communication?',
+    lead:
+      'This is the load-bearing distinction. Animal signals are fixed responses to what is present; human language is made of arbitrary, conventional signs that refer — and can refer to what is absent. Because you would already need language to agree on such signs, the difference can’t have crept in gradually — which is the puzzle the originary hypothesis sets out to answer.',
+    quotes: [
+      {
+        text: '…the fundamental difference between human language and animal communication. Only human language has signs (words, to keep it simple) that are purely “arbitrary,” or “conventional.” There’s no reason for the word “dog” to refer to that particular four-legged furry mammal and, of course, in other languages it doesn’t. So, somehow, some human community must have “agreed” to use words in shared ways. But to form such an agreement, you would already need to have language. This is a dilemma, and there’s no “natural” way of explaining how it would happen.',
+        slug: 'couple-of-basic-questions-about-generative-anthropology',
+        title: 'Bouvard on Arbitrary Signs and Human Language',
+      },
+      {
+        text: '…its different mode of operation, through symbols as opposed to “indexical” signals.',
+        slug: 'addressing-an-objection-to-the-originary-hypthesis',
+        title: 'Addressing an Objection to the Originary Hypothesis',
+      },
+    ],
+  },
+  {
     q: 'Isn’t the originary hypothesis unfalsifiable — so, not really science?',
     lead:
-      'It doesn’t claim to be a falsifiable empirical science — there could be no fossil of a “first word” — and asks to be judged by a different standard: minimality. You don’t refute it with evidence; you displace it with a more minimal account.',
+      'It doesn’t claim to be a falsifiable empirical science — there could be no fossil of a “first word” — and asks to be judged by a different standard: minimality. You don’t refute it with evidence; you displace it with a more minimal account that explains the same things.',
     quotes: [
+      {
+        text: '…once we have agreed we need a hypothesis, the rules of the game are that to challenge the originary hypothesis you should have a better, which is to say, more minimal, one. What makes it a good hypothesis? One, it accounts for the fact that everyone on the scene would have to be looking at the same thing — the best explanation for this is that they all desire it.',
+        slug: 'couple-of-basic-questions-about-generative-anthropology',
+        title: 'Bouvard on Arbitrary Signs and Human Language',
+      },
       {
         text: 'The more it explains with a minimum of presuppositions, the more powerful a claim it makes on our intuition.',
         slug: 'clr-36',
         title: 'Is GA Falsifiable?',
-      },
-      {
-        text: '…once we have agreed we need a hypothesis, the rules of the game are that to challenge the originary hypothesis you should have a better, which is to say, more minimal, one.',
-        slug: 'couple-of-basic-questions-about-generative-anthropology',
-        title: 'Bouvard on Arbitrary Signs and Human Language',
       },
     ],
   },
@@ -36,7 +70,7 @@ const OBJECTIONS: Obj[] = [
       'The scene can’t be excavated — granted. But you cannot avoid having an origin story; GA only insists on making its own explicit, and on testing it against the whole record of what sign-users do.',
     quotes: [
       {
-        text: 'You will have anthropological and linguistic assumptions one way or another. You can come by them haphazardly or reflectively.',
+        text: 'You will have anthropological and linguistic assumptions one way or another. You can come by them haphazardly or reflectively. Haphazardly means just trying out whatever seems convincing to whomever you want to convince right now. Reflectively means you want to understand why you have the categories you have.',
         slug: 'honest-question-what-is-your-deal-with-ga-and-the-focus-on-linguistics',
         title: 'Bouvard on Linguistic Categories and Anthropological Foundations',
       },
@@ -50,46 +84,17 @@ const OBJECTIONS: Obj[] = [
   {
     q: 'Why assume language began once, in a single scene?',
     lead:
-      'A methodological assumption, not a dogma: a single tipping of non-meaning into meaning is so improbable as to be near-miraculous, but plural origins aren’t excluded — and the load-bearing claim survives either way.',
+      'A methodological assumption, not a dogma. A shared sign that everyone issues and understands at once can’t accrete gradually — it takes an event — but plural origins aren’t excluded, and the load-bearing claim survives either way.',
     quotes: [
       {
-        text: 'Even if human language began in ten places at once, even if its originary function was not the deferral of violence, the core of the hypothesis would remain: we could not have begun to use language unawares.',
-        slug: 'clr-36',
-        title: 'Is GA Falsifiable?',
-      },
-    ],
-  },
-  {
-    q: 'How is human language different from animal communication?',
-    lead:
-      'This is the load-bearing distinction. Animal signals are fixed responses to what is present; human language is made of arbitrary, conventional signs that refer — and can refer to what is absent. Because you would already need language to agree on such signs, the difference can’t have crept in gradually — which is the puzzle the originary hypothesis sets out to answer.',
-    quotes: [
-      {
-        text: '…the fundamental difference between human language and animal communication. Only human language has signs (words, to keep it simple) that are purely “arbitrary,” or “conventional.”',
+        text: 'We draw from this the conclusion that language must have emerged in a singular event, in which a sign was used and repeated (i.e., “understood”) by everyone in a memorable way. Clearly, we can’t know there was such a scene — we don’t expect to find some archeological or fossil evidence for it. So, we can only hypothesize.',
         slug: 'couple-of-basic-questions-about-generative-anthropology',
         title: 'Bouvard on Arbitrary Signs and Human Language',
       },
       {
-        text: '…its different mode of operation, through symbols as opposed to “indexical” signals.',
-        slug: 'addressing-an-objection-to-the-originary-hypthesis',
-        title: 'Addressing an Objection to the Originary Hypothesis',
-      },
-    ],
-  },
-  {
-    q: 'How is this different from René Girard — and why does the difference matter?',
-    lead:
-      'It begins where Girard does — mimetic rivalry escalating toward a group-destroying crisis — but rejects his resolution. The founding act is a sign, not a killing; that is the same as saying it, and not Girard, explains the birth of language.',
-    quotes: [
-      {
-        text: 'The limit of Girard’s account is that there is no reason for the event in question to become meaningful and memorable. Why should the killing of a conspecific, not a very unusual event among mammals, transform the group in any way?',
-        slug: 'anthropomorphics-origin-and-hypothesis',
-        title: 'Origin and Hypothesis',
-      },
-      {
-        text: 'The rivalrous imitation that first propels the group toward center and potentially cataclysmic violence is converted into a pacifying imitation that de-escalates the crisis.',
-        slug: 'anthropomorphics-origin-and-hypothesis',
-        title: 'Origin and Hypothesis',
+        text: 'Even if human language began in ten places at once, even if its originary function was not the deferral of violence, the core of the hypothesis would remain: we could not have begun to use language unawares',
+        slug: 'clr-36',
+        title: 'Is GA Falsifiable?',
       },
     ],
   },
@@ -116,14 +121,14 @@ const OBJECTIONS: Obj[] = [
       'The discourse guards against exactly this — a concept that explains everything explains nothing — and answers by demanding observable markers rather than reading the center in by fiat.',
     quotes: [
       {
+        text: '…the marker is not being able to make an operationalizable request to a responsible institution or authority. If you can’t do that, you’re just addicted to the complaint. If that’s the marker, then, we can point to that dysfunctional relation to the center without having to argue about whether the person is “really” resentful.',
+        slug: 'hypothesis-practice-vs-narrative-the-iterative-center-reddit',
+        title: 'Bouvard on Resentment’s Conceptual Instability in GA',
+      },
+      {
         text: '…that’s like the night in which all cows are black; the definition gives up what makes the word meaningful and useful.',
         slug: 'what-is-originary',
         title: 'What is originary?',
-      },
-      {
-        text: '…the marker is not being able to make an operationalizable request to a responsible institution or authority. If you can’t do that, you’re just addicted to the complaint.',
-        slug: 'hypothesis-practice-vs-narrative-the-iterative-center-reddit',
-        title: 'Bouvard on Resentment’s Conceptual Instability in GA',
       },
     ],
   },
