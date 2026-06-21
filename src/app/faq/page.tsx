@@ -32,12 +32,6 @@ const BASICS: Item[] = [
       'You don’t need to read Eric Gans first. If you’re new, take the short guided path — it orients you, gives the lineage, and hands you the handful of essays to read first — or put a question to the whole corpus with Ask AI and follow the citations. For a single first text, “The Discourse of the Center” is the clearest entry into the core claim.',
     cta: { href: '/start', label: 'Start here' },
   },
-  {
-    q: 'Is it academic or peer-reviewed?',
-    lead:
-      'Generative Anthropology has a peer-reviewed journal (Anthropoetics) and annual conferences. Center Study itself — Katz’s and Bouvard’s writing — is independent intellectual work published as a blog, a Substack, and the Anthropomorphics book; it is in continuous dialogue with the GA literature rather than routed through peer review.',
-    cta: { href: '/browse', label: 'Browse the full archive' },
-  },
 ];
 
 // ── 2. The ideas & the lineage ──────────────────────────────────────────────
