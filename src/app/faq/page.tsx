@@ -4,108 +4,123 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'FAQ & Objections | Center Study Center',
   description:
-    'Common questions about Center Study and Generative Anthropology — and the standard objections (Is it falsifiable? Just a just-so story? Eurocentric?) answered in the discourse’s own words, with citations.',
+    'Common questions about Center Study and Generative Anthropology — and the standard objections (Is it falsifiable? Just a just-so story? Eurocentric?) answered in the discourse’s own words, with verbatim citations.',
 };
 
-// Each objection's answer is grounded in the corpus; the quote is verbatim and
-// links to the source post. (See the slugs in `quote.slug`.)
+// Every quote below is verbatim from the corpus and links to its source post.
+// Answers lead with a one-line frame, then let the texts speak.
 type Cite = { text: string; slug: string; title: string };
-type QA = { q: string; a: string[]; quote?: Cite; also?: Cite };
+type Obj = { q: string; lead: string; quotes: Cite[] };
 
-const OBJECTIONS: QA[] = [
+const OBJECTIONS: Obj[] = [
   {
     q: 'Isn’t the originary hypothesis unfalsifiable — so, not really science?',
-    a: [
-      'Generative Anthropology doesn’t claim to be a Popper-falsifiable empirical science, and it argues that falsifiability is the wrong test for its domain. There can be no fossil or recording of a “first word,” and it never pretends otherwise.',
-      'Instead it asks to be judged by minimality: how much it explains from the fewest assumptions. You don’t refute it with a physical trace — you displace it with a more minimal hypothesis that accounts for the same thing. The sharper question it turns back on its critics is why the human sciences managed for so long to avoid formulating an origin hypothesis at all.',
+    lead:
+      'It doesn’t claim to be a falsifiable empirical science — there could be no fossil of a “first word” — and asks to be judged by a different standard: minimality. You don’t refute it with evidence; you displace it with a more minimal account.',
+    quotes: [
+      {
+        text: 'The more it explains with a minimum of presuppositions, the more powerful a claim it makes on our intuition.',
+        slug: 'clr-36',
+        title: 'Is GA Falsifiable?',
+      },
+      {
+        text: '…once we have agreed we need a hypothesis, the rules of the game are that to challenge the originary hypothesis you should have a better, which is to say, more minimal, one.',
+        slug: 'couple-of-basic-questions-about-generative-anthropology',
+        title: 'Bouvard on Arbitrary Signs and Human Language',
+      },
     ],
-    quote: {
-      text: 'The more it explains with a minimum of presuppositions, the more powerful a claim it makes on our intuition.',
-      slug: 'clr-36',
-      title: 'Is GA Falsifiable?',
-    },
-    also: {
-      text: 'to challenge the originary hypothesis you should have a better, which is to say, more minimal, one.',
-      slug: 'couple-of-basic-questions-about-generative-anthropology',
-      title: 'Bouvard on Arbitrary Signs and Human Language',
-    },
   },
   {
     q: 'Isn’t it just a “just-so story” about a past nobody can observe?',
-    a: [
-      'The charge is taken head-on, and the premise is granted: the scene can’t be excavated. But the move from no-language to language can’t be crossed gradually, nor narrated from inside language — so some hypothesis of origin is unavoidable.',
-      'Its evidence is not a relic but the whole of human culture: the test is whether the model accounts for what sign-using humans actually do, better than the alternatives. And every anthropology already smuggles in an implicit origin story; GA’s distinction is making its own explicit and minimal rather than pretending to have none.',
+    lead:
+      'The scene can’t be excavated — granted. But you cannot avoid having an origin story; GA only insists on making its own explicit, and on testing it against the whole record of what sign-users do.',
+    quotes: [
+      {
+        text: 'You will have anthropological and linguistic assumptions one way or another. You can come by them haphazardly or reflectively.',
+        slug: 'honest-question-what-is-your-deal-with-ga-and-the-focus-on-linguistics',
+        title: 'Bouvard on Linguistic Categories and Anthropological Foundations',
+      },
+      {
+        text: 'The “proof” of the hypothesis is whether this model then accounts better than other ways of thinking for what we do daily and what humans have done throughout history as sign-users.',
+        slug: 'couple-of-basic-questions-about-generative-anthropology',
+        title: 'Bouvard on Arbitrary Signs and Human Language',
+      },
     ],
-    quote: {
-      text: 'whether this model then accounts better than other ways of thinking for what we do daily and what humans have done',
-      slug: 'couple-of-basic-questions-about-generative-anthropology',
-      title: 'Bouvard on Arbitrary Signs and Human Language',
-    },
   },
   {
     q: 'Why assume language began once, in a single scene?',
-    a: [
-      'The single origin is a methodological assumption, not a dogma. A singular tipping of non-meaning into meaning would be so improbable as to be near-miraculous, which is the main reason for assuming one event — but the discourse explicitly allows that it could have happened in several places, and says the core of the hypothesis survives either way.',
-      'The load-bearing claim isn’t the date or the count; it’s the kind of thing a sign is. A shared sign that everyone issues and understands at once can’t accrete gradually, adaptation by adaptation — it requires an event in which each participant sees that the others see the same new thing.',
+    lead:
+      'A methodological assumption, not a dogma: a single tipping of non-meaning into meaning is so improbable as to be near-miraculous, but plural origins aren’t excluded — and the load-bearing claim survives either way.',
+    quotes: [
+      {
+        text: 'Even if human language began in ten places at once, even if its originary function was not the deferral of violence, the core of the hypothesis would remain: we could not have begun to use language unawares.',
+        slug: 'clr-36',
+        title: 'Is GA Falsifiable?',
+      },
     ],
-    quote: {
-      text: 'human language began in ten places at once … the core of the hypothesis would remain',
-      slug: 'clr-36',
-      title: 'Is GA Falsifiable?',
-    },
   },
   {
-    q: 'Isn’t a single universal origin Eurocentric — a Western framework imposed on everyone?',
-    a: [
-      'GA restricts “the originary” strictly to what is universal to every culture — the cultural universals — and treats anything culture-specific (tragedy, the novel, the modern state) as explicitly not originary. That criterion is a guard against smuggling parochial content into the foundation.',
-      'It also reads as a critique of the Western metaphysical tradition rather than its extension: it argues that meaning is performative and shared “between” people, against the picture of language as a window on the world inside an individual mind. (Note: the corpus engages the universality question directly; it doesn’t take up a charge phrased as “Eurocentrism” in those words.)',
+    q: 'Isn’t a single universal origin Eurocentric — a Western frame imposed on everyone?',
+    lead:
+      'GA confines “the originary” to what every culture shares, and treats culture-specific content as explicitly not originary — a guard against building a parochial foundation. (The corpus engages the universality question directly; it doesn’t take up a charge phrased as “Eurocentrism.”)',
+    quotes: [
+      {
+        text: 'What is not universal to all cultures everywhere cannot be originary.',
+        slug: 'what-is-originary',
+        title: 'What is originary?',
+      },
     ],
-    quote: {
-      text: 'What is not universal to all cultures everywhere cannot be originary.',
-      slug: 'what-is-originary',
-      title: 'What is originary?',
-    },
   },
   {
     q: 'How is this different from René Girard — and why does the difference matter?',
-    a: [
-      'It begins where Girard does: imitation breeds rivalry over a shared object, which escalates toward a crisis that threatens the group. But it rejects Girard’s resolution — the killing of a scapegoat. A killing is common among animals and gives no reason for the event to become meaningful or memorable; and calling it “murder” already assumes the moral order Girard is trying to explain.',
-      'GA replaces the murder with the gesture of aborted appropriation: the reach to seize the central object converts into a sign that renounces it, deferring violence through representation. That single revision makes the origin of language, the sacred, and community one event — rather than leaving language unexplained behind a corpse.',
+    lead:
+      'It begins where Girard does — mimetic rivalry escalating toward a group-destroying crisis — but rejects his resolution. The founding act is a sign, not a killing; that is the same as saying it, and not Girard, explains the birth of language.',
+    quotes: [
+      {
+        text: 'The limit of Girard’s account is that there is no reason for the event in question to become meaningful and memorable. Why should the killing of a conspecific, not a very unusual event among mammals, transform the group in any way?',
+        slug: 'anthropomorphics-origin-and-hypothesis',
+        title: 'Origin and Hypothesis',
+      },
+      {
+        text: 'The rivalrous imitation that first propels the group toward center and potentially cataclysmic violence is converted into a pacifying imitation that de-escalates the crisis.',
+        slug: 'anthropomorphics-origin-and-hypothesis',
+        title: 'Origin and Hypothesis',
+      },
     ],
-    quote: {
-      text: 'no reason for the event in question to become meaningful and memorable',
-      slug: 'anthropomorphics-origin-and-hypothesis',
-      title: 'Origin and Hypothesis (Anthropomorphics)',
-    },
   },
   {
     q: 'Do you have to be religious to accept this? Is it theology in disguise?',
-    a: [
-      'No. GA is built to be ontology-neutral — a deliberately minimal object of belief meant to be a shared meeting ground for believers and unbelievers alike. It brackets the question of whether God exists, the way an anthropologist of religion can take believers’ experience seriously without ruling on its truth.',
-      'It does hold that shared meaning is irreducibly transcendental — not explicable in purely materialist terms — and it reads the first sign as a name for the center. So it neither requires theism nor reduces to debunking it; Gans even suggests only someone seeking a non-religious account of the human would have had the motive to devise it.',
+    lead:
+      'No. It’s built to be ontology-neutral — a model of the human, not a creed — and is meant to be common ground for believers and unbelievers alike.',
+    quotes: [
+      {
+        text: 'Because its hypothesis is conceived as a minimal object of belief, GA is in principle an optimal meeting place for believers and unbelievers.',
+        slug: 'clr-358',
+        title: 'Believing in GA',
+      },
+      {
+        text: 'GA was a humanistic rather than a scientific theory, a “new way of thinking” that was meant to provide a model of the human rather than a set of hypotheses to be tested by paleontology.',
+        slug: 'clr-403',
+        title: 'Heuristic Necessity',
+      },
     ],
-    quote: {
-      text: 'in principle an optimal meeting place for believers and unbelievers',
-      slug: 'clr-358',
-      title: 'Believing in GA',
-    },
-    also: {
-      text: 'humanistic rather than a scientific theory',
-      slug: 'clr-403',
-      title: 'Heuristic Necessity',
-    },
   },
   {
     q: 'Isn’t reading “the center” into everything circular — unfalsifiable in practice?',
-    a: [
-      'The discourse is alert to this trap. It warns that if everything counts as originary the concept becomes “the night in which all cows are black,” losing exactly what made it useful — hence the strict criterion that only the cultural universals qualify.',
-      'More tellingly, it turns the same skepticism inward: Katz argues that even GA’s own core terms (resentment, love, desire) are conceptually unstable and should be replaced by identifiable signs and operationalizable markers, so a claim can be demonstrated in a particular case rather than asserted by fiat.',
+    lead:
+      'The discourse guards against exactly this — a concept that explains everything explains nothing — and answers by demanding observable markers rather than reading the center in by fiat.',
+    quotes: [
+      {
+        text: '…that’s like the night in which all cows are black; the definition gives up what makes the word meaningful and useful.',
+        slug: 'what-is-originary',
+        title: 'What is originary?',
+      },
+      {
+        text: '…the marker is not being able to make an operationalizable request to a responsible institution or authority. If you can’t do that, you’re just addicted to the complaint.',
+        slug: 'hypothesis-practice-vs-narrative-the-iterative-center-reddit',
+        title: 'Bouvard on Resentment’s Conceptual Instability in GA',
+      },
     ],
-    quote: {
-      text: 'the marker is not being able to make an operationalizable request to a responsible institution',
-      slug: 'hypothesis-practice-vs-narrative-the-iterative-center-reddit',
-      title: 'Bouvard on Resentment’s Conceptual Instability in GA',
-    },
   },
 ];
 
@@ -159,7 +174,7 @@ const BASICS: Basic[] = [
 function Citation({ c }: { c: Cite }) {
   return (
     <blockquote
-      className="mt-3 border-l-2 border-gray-200 dark:border-gray-700 pl-4 text-sm text-gray-500 dark:text-gray-400 italic leading-relaxed"
+      className="border-l-2 border-gray-200 dark:border-gray-700 pl-4 text-[15px] text-gray-600 dark:text-gray-300 italic leading-relaxed"
       style={{ fontFamily: 'var(--prose-font-family)' }}
     >
       &ldquo;{c.text}&rdquo;
@@ -173,6 +188,12 @@ function Citation({ c }: { c: Cite }) {
   );
 }
 
+const summaryToggle = (
+  <span className="text-gray-300 dark:text-gray-600 group-open:rotate-45 transition-transform text-xl leading-none flex-shrink-0 mt-0.5">
+    +
+  </span>
+);
+
 export default function FaqPage() {
   return (
     <main className="max-w-3xl w-full mx-auto px-4 pt-6 pb-24 sm:py-12">
@@ -185,8 +206,9 @@ export default function FaqPage() {
       </h1>
       <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed mb-12 max-w-2xl">
         The questions a careful first-time reader tends to ask — including the standard objections to
-        the originary hypothesis. The answers are how the discourse itself responds; each is anchored
-        to a passage in the corpus you can read in full.
+        the originary hypothesis. Each answer is anchored to the discourse&rsquo;s own words: the
+        framing is brief, and the texts do the rest. Every quotation is verbatim and links to the
+        passage in full.
       </p>
 
       {/* ── Objections ─────────────────────────────────────────────────── */}
@@ -202,15 +224,16 @@ export default function FaqPage() {
             >
               <summary className="flex items-start justify-between gap-3 cursor-pointer font-semibold text-gray-900 dark:text-white leading-snug">
                 <span>{o.q}</span>
-                <span className="text-gray-300 dark:text-gray-600 group-open:rotate-45 transition-transform text-xl leading-none flex-shrink-0 mt-0.5">+</span>
+                {summaryToggle}
               </summary>
-              <div
-                className="mt-3 space-y-3 text-gray-700 dark:text-gray-300"
-                style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.75 }}
-              >
-                {o.a.map((p, i) => <p key={i}>{p}</p>)}
-                {o.quote && <Citation c={o.quote} />}
-                {o.also && <Citation c={o.also} />}
+              <div className="mt-3 space-y-4">
+                <p
+                  className="text-gray-700 dark:text-gray-300"
+                  style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.7 }}
+                >
+                  {o.lead}
+                </p>
+                {o.quotes.map((c) => <Citation key={c.text} c={c} />)}
               </div>
             </details>
           ))}
@@ -230,11 +253,11 @@ export default function FaqPage() {
             >
               <summary className="flex items-start justify-between gap-3 cursor-pointer font-semibold text-gray-900 dark:text-white leading-snug">
                 <span>{b.q}</span>
-                <span className="text-gray-300 dark:text-gray-600 group-open:rotate-45 transition-transform text-xl leading-none flex-shrink-0 mt-0.5">+</span>
+                {summaryToggle}
               </summary>
               <div
                 className="mt-3 space-y-3 text-gray-700 dark:text-gray-300"
-                style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.75 }}
+                style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.7 }}
               >
                 {b.a.map((p, i) => <p key={i}>{p}</p>)}
                 {b.cta && (
