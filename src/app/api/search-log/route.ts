@@ -10,10 +10,18 @@ import { Redis } from '@upstash/redis';
 // POST { q, mode, mine?, n? } → { ok }
 
 function getKV(): Redis | null {
-  // Vercel's KV/Upstash integration exposes KV_REST_API_* ; fall back to the
-  // UPSTASH_* names in case the env is configured that way instead.
-  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+  // The live Upstash store is connected with the "centerstudy" prefix, so its
+  // vars are centerstudy_KV_REST_API_* . The unprefixed KV_REST_API_* still
+  // exist but point at an older, deleted DB — so prefer the prefixed ones, then
+  // fall back to the legacy / UPSTASH_* names.
+  const url =
+    process.env.centerstudy_KV_REST_API_URL ||
+    process.env.KV_REST_API_URL ||
+    process.env.UPSTASH_REDIS_REST_URL;
+  const token =
+    process.env.centerstudy_KV_REST_API_TOKEN ||
+    process.env.KV_REST_API_TOKEN ||
+    process.env.UPSTASH_REDIS_REST_TOKEN;
   if (!url || !token) return null;
   return new Redis({ url, token });
 }
