@@ -110,16 +110,26 @@ function suggestTerms(q: string, limit = 5): string[] {
   return scored.sort((a, b) => b.score - a.score).slice(0, limit).map((x) => x.term);
 }
 
+const HIGHLIGHT_STOPWORDS = new Set([
+  'the', 'of', 'a', 'an', 'and', 'or', 'but', 'to', 'in', 'on', 'at', 'is', 'it',
+  'as', 'by', 'for', 'with', 'that', 'this', 'be', 'are', 'was',
+]);
+
 function highlight(text: string, query: string) {
   const clean = query.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
   if (!clean) return text;
-  const escaped = clean
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-    .join('|');
-  if (!escaped) return text;
-  const regex = new RegExp(`\\b(${escaped})\\b`, 'gi');
+  const esc = (w: string) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const words = clean.split(/\s+/).filter(Boolean);
+  const alts: string[] = [];
+  // Whole phrase first (ordered alternation → matches "cloud of unknowing" as one
+  // unit before any single word does), allowing flexible whitespace between words.
+  if (words.length > 1) alts.push(words.map(esc).join('\\s+'));
+  // Then individual meaningful terms — skip lone stopwords so a bare "of" or "the"
+  // isn't highlighted on its own.
+  for (const w of words) if (!HIGHLIGHT_STOPWORDS.has(w.toLowerCase())) alts.push(esc(w));
+  // All-stopword query (e.g. a title) → fall back to highlighting every word.
+  if (alts.length === 0) alts.push(...words.map(esc));
+  const regex = new RegExp(`\\b(${alts.join('|')})\\b`, 'gi');
   const parts = text.split(regex);
   return parts.map((part, i) =>
     i % 2 === 1
