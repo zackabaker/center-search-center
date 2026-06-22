@@ -8,6 +8,7 @@ import DarkModeToggle from '@/components/DarkModeToggle';
 const NAV_LINKS = [
   { href: '/intro',               label: 'Start' },
   { href: '/guide',               label: 'Guide' },
+  { href: '/concepts',            label: 'Glossary' },
   { href: '/search',              label: 'Search' },
   { href: '/guide/reading-paths', label: 'Reading Paths' },
   { href: '/browse',              label: 'Browse' },

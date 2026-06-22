@@ -8,7 +8,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Concepts | Center Study Center',
+  title: 'Concepts & Glossary | Center Study Center',
   description: 'Core Center Study concepts with archive passages — plus an A–Z index of every significant term across the corpus.',
 };
 
@@ -94,7 +94,7 @@ export default async function ConceptsPage({
         <Link href="/" className="text-sm text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
           ← Home
         </Link>
-        <h1 className="text-2xl sm:text-3xl font-bold mt-3 mb-1 text-gray-900 dark:text-white">Concepts</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold mt-3 mb-1 text-gray-900 dark:text-white">Concepts &amp; Glossary</h1>
         <p className="text-gray-500 dark:text-gray-400 text-sm">
           The vocabulary of Center Study — core concepts treated in depth, a glossary
           of {GLOSSARY.length} working terms with usage from the corpus, and an A–Z index.
