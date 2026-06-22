@@ -428,7 +428,17 @@ export function searchEntries(
   const { phrases, mustTerms, notTerms, orTerms, orMode, raw } = parseQuery(query);
   if (phrases.length === 0 && mustTerms.length === 0 && orTerms.length === 0) return [];
 
-  const snippetQuery = phrases.length > 0 ? phrases[0] : raw;
+  // Snippet target: a quoted phrase if given; otherwise the WHOLE query (minus
+  // operators / excluded terms) so a verbatim phrase like "cloud of unknowing"
+  // is found and centered — not just the first term (which would land on the
+  // first loose occurrence of "cloud", e.g. "clouds", in an earlier sentence).
+  const cleanedQuery = query
+    .replace(/"/g, '')
+    .replace(/(?:^|\s)-\S+/g, ' ')
+    .replace(/\b(?:AND|OR|NOT)\b/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const snippetQuery = phrases.length > 0 ? phrases[0] : (cleanedQuery || raw);
 
   // Punctuation-insensitive whole-query phrase. Lets someone paste a sentence —
   // e.g. `there is no "economy"` or `ritual distribution from the center` — and
