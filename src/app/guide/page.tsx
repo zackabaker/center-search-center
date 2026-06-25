@@ -129,8 +129,9 @@ export default function GuidePage() {
           <li className="flex gap-3">
             <span className="text-gray-300 dark:text-gray-600 flex-shrink-0">→</span>
             <span>
-              Every text has a Listen button — a clean text view you can hand to any
-              text-to-speech app — plus citation, save, and share tools.
+              Every text has citation, save, and share tools — plus a clean plain-text
+              view (add <code className="text-xs">/text</code> to any post URL, or use the
+              corpus API) you can hand to a text-to-speech app or an AI.
             </span>
           </li>
           <li className="flex gap-3">
