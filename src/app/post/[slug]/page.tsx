@@ -357,16 +357,6 @@ export default async function PostPage({
 
                 {/* Action buttons */}
                 <div className={`flex items-center gap-2 print:hidden${reader ? ' justify-center' : ''}`}>
-                  <a
-                    href={`/post/${slug}/text`}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
-                    title="Open clean reading view — share this URL to ElevenReader, Voice Dream, or any TTS app."
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072M12 6a7 7 0 010 12m-3.536-9.536a5 5 0 000 7.072" />
-                    </svg>
-                    Listen
-                  </a>
                   <ShareButton title={post.title} url={`https://center.study/post/${slug}`} />
                   <BookmarkButton post={{ slug, title: post.title, source: post.source, date: post.date, savedAt: '' }} />
                   <div className="hidden sm:flex sm:items-center sm:gap-2">
