@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Start Here | Center Study Center',
   description:
-    'New to Center Study? The fastest ways in — the idea in 30 seconds, one essay to read, a question to ask, or a topic to follow — plus the full introduction when you want depth.',
+    'New to Center Study? Originary hypothesizing in brief, in Adam Katz’s own words — plus the fastest ways in: one essay to read, a question to ask, or a topic to follow.',
 };
 
 // The handful of essays that make the best on-ramp.
@@ -51,29 +51,44 @@ export default function StartPage() {
         Start here
       </h1>
       <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed mb-10 max-w-2xl">
-        Center Study reads every social order — language, money, law, the state, the algorithm — as a
-        way of holding, occupying, or denying a <em>center</em>. It&rsquo;s the most developed branch of
-        Eric Gans&rsquo;s Generative Anthropology. There&rsquo;s no required order — pick a way in below.
+        Center Study is <em>originary hypothesizing</em> — thinking the human from its origin, the
+        scene on which the sign, and with it the center, first appears. There&rsquo;s no required
+        order; pick a way in below.
       </p>
 
-      {/* The idea in 30 seconds */}
+      {/* In brief — in Katz’s own verbiage, not paraphrase */}
       <section className="mb-12 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-5 sm:p-6">
-        <p className={sectionLabel}>The idea in 30 seconds</p>
+        <p className={sectionLabel}>In brief — originary hypothesizing</p>
         <div
-          className="space-y-3 text-gray-700 dark:text-gray-300"
+          className="space-y-4 text-gray-700 dark:text-gray-300"
           style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.75 }}
         >
           <p>
-            A group of proto-humans converges on one intensely desired object. At the brink of
-            violence over it, a grasping hand falters into a <em>gesture</em> — a pointing. That
-            aborted grab is the first sign. In that instant language, the sacred, and community are
-            born together, all organized around a <em>center</em>.
+            Center Study takes the originary hypothesis not as a creed to accept but as a generative
+            method — <em>originary hypothesizing</em>, which stands in the place philosophy used to hold:
           </p>
+          <blockquote className="border-l-2 border-gray-300 dark:border-gray-600 pl-4 italic text-gray-600 dark:text-gray-300" style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;For originary hypothesizing, or center study, they simply replace philosophy,
+            providing the originary meaning of the words out of which all other meanings can be
+            produced.&rdquo;
+            <Link href="/post/imperatives-for-idiom-creation" className="not-italic block mt-1.5 text-xs text-blue-600 dark:text-blue-400 hover:underline">
+              — Imperatives for Idiom Creation →
+            </Link>
+          </blockquote>
           <p>
-            Everything human elaborates that first scene. Center Study carries it forward — through
-            kingship, law, money, media, and code — and reads any order by asking one question:{' '}
-            <strong className="text-gray-900 dark:text-white">what is the center here, who holds it, and on what terms?</strong>
+            Its discipline is <em>anthropomorphics</em> — &ldquo;
+            <Link href="/post/anthropomorphics-the-center-and-the-declarative" className="text-blue-600 dark:text-blue-400 hover:underline">an originary grammar of the center</Link>
+            &rdquo;: every utterance, in any medium, read as an imperative conveyed from, or to, a
+            center. And the wager is practical — what can the originary hypothesis <em>do</em>?
           </p>
+          <blockquote className="border-l-2 border-gray-300 dark:border-gray-600 pl-4 italic text-gray-600 dark:text-gray-300" style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;Originary hypothesizing is, then, a technology that we program to propose and
+            implement new modes of deferral, and to gather data (detect, record, and analyze) through
+            the techno-scenes we construct that feed back into that programming.&rdquo;
+            <Link href="/post/idiomatic-intelligence-and-the-black-box" className="not-italic block mt-1.5 text-xs text-blue-600 dark:text-blue-400 hover:underline">
+              — Idiomatic Intelligence and the Black Box →
+            </Link>
+          </blockquote>
         </div>
       </section>
 
