@@ -105,10 +105,10 @@ export default async function ConceptsPage({
       <BackToReading />
 
       {/* Tab bar */}
-      <div className="flex items-center gap-1 mb-8 border-b border-gray-200 dark:border-gray-800">
+      <div className="flex items-center gap-1 mb-8 border-b border-gray-200 dark:border-gray-800 overflow-x-auto no-scrollbar">
         <Link
           href="/concepts"
-          className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px ${
+          className={`px-4 py-2.5 text-sm font-medium border-b-2 whitespace-nowrap shrink-0 transition-colors -mb-px ${
             view === 'core'
               ? 'border-gray-900 dark:border-white text-gray-900 dark:text-white'
               : 'border-transparent text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
@@ -118,7 +118,7 @@ export default async function ConceptsPage({
         </Link>
         <Link
           href="/concepts?view=glossary"
-          className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px ${
+          className={`px-4 py-2.5 text-sm font-medium border-b-2 whitespace-nowrap shrink-0 transition-colors -mb-px ${
             view === 'glossary'
               ? 'border-gray-900 dark:border-white text-gray-900 dark:text-white'
               : 'border-transparent text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
@@ -128,7 +128,7 @@ export default async function ConceptsPage({
         </Link>
         <Link
           href="/concepts?view=az"
-          className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px ${
+          className={`px-4 py-2.5 text-sm font-medium border-b-2 whitespace-nowrap shrink-0 transition-colors -mb-px ${
             view === 'az'
               ? 'border-gray-900 dark:border-white text-gray-900 dark:text-white'
               : 'border-transparent text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
@@ -138,7 +138,7 @@ export default async function ConceptsPage({
         </Link>
         <Link
           href="/guide/map"
-          className="px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors -mb-px inline-flex items-center gap-1"
+          className="px-4 py-2.5 text-sm font-medium border-b-2 whitespace-nowrap shrink-0 border-transparent text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors -mb-px inline-flex items-center gap-1"
         >
           Concept Map
           <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
