@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Start Here | Center Study Center',
   description:
-    'New to Center Study? A brief explication of the originary hypothesis in Adam Katz’s own words — mimesis, the sign, the center, and what it can do — then the ways into the archive: the glossary, the FAQ, and the best posts to start with.',
+    'New to Center Study? A brief explication of the originary hypothesis in Adam Katz’s own words — mimesis, the sign, the center, and what it opens up across history, money, and succession — then the glossary, the FAQ, and the best posts to start with.',
 };
 
 // The handful of essays that make the best on-ramp.
@@ -53,9 +53,8 @@ export default function StartPage() {
         Start here
       </h1>
       <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed mb-10 max-w-2xl">
-        Center Study is Adam Katz&rsquo;s practical science of the human — worked out across this
-        archive, and built on a single hypothesis about where language, and everything language makes
-        possible, comes from.
+        Center study is a discipline grounded in the originary hypothesis — a way of tracing anything
+        human back to its origin, and through that origin, to the origin of language itself.
       </p>
 
       {/* The originary hypothesis, briefly — explication in Adam’s own words */}
@@ -66,9 +65,9 @@ export default function StartPage() {
           style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.75 }}
         >
           <p>
-            It starts with <em>mimesis</em>. We imitate one another, and imitation breeds rivalry — we
-            come to want a thing because someone we model ourselves on wants it. Pushed far enough,
-            that turns into crisis:
+            It begins with <em>mimesis</em>. We imitate one another, and imitation breeds rivalry — we
+            want a thing because someone we model ourselves on wants it. Pushed far enough, that
+            rivalry becomes a crisis the group might not survive:
           </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
             &ldquo;mimesis generates rivalry because our model, the more we model ourselves on him,
@@ -77,8 +76,8 @@ export default function StartPage() {
           </blockquote>
           <p>
             At the edge of that crisis the first <em>sign</em> appears — a grasp held back, a gesture
-            that points to the object instead of seizing it. The sign defers the violence by
-            representing what everyone wants, and in the same stroke it opens a shared <em>center</em>:
+            that points to the object instead of seizing it. By representing what everyone wants rather
+            than fighting over it, the sign defers the violence and opens a shared <em>center</em>:
           </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
             &ldquo;the sign creates the center through deferral, and it is a center that could always be
@@ -86,35 +85,30 @@ export default function StartPage() {
             <Link href="/post/generative-anthropology-one-big-discipline" className={citeClass}>— Generative Anthropology as the One Big Discipline →</Link>
           </blockquote>
           <p>
-            That is the originary hypothesis in a line — <em>the sign, which defers violence through
-            representation</em>. Every institution that follows, from ritual to money to law, is a way
-            of keeping that deferral going.
-          </p>
-          <p>Katz works the hypothesis in two directions at once, and they are two sides of one coin:</p>
-          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;Center study assumes that any tracing of any idiom to its possibility and emergence
-            will lead us back to the originary hypothesis, while anthropomorphics assumes that the
-            originary hypothesis can only find its proof of work and concept in the jarring of an
-            idiom.&rdquo;
-            <Link href="/post/idiom-and-the-differend" className={citeClass}>— Idiom and the Differend →</Link>
-          </blockquote>
-          <p>
-            Center study reasons from anything — a word, an institution, a crisis — back to the origin;
-            anthropomorphics,{' '}
-            <Link href="/post/deferral-and-appropriation-property-and-the-center" className="text-blue-600 dark:text-blue-400 hover:underline">&ldquo;the constitution of the human through signs,&rdquo;</Link>{' '}
-            carries the origin forward into new idioms.
-          </p>
-          <p>
-            And none of it is a creed to accept. It is a working instrument, kept deliberately at the
-            seam between describing the world and acting on it:
+            That is the originary scene, and the hypothesis in a line: <em>the sign, which defers
+            violence through representation</em>. Everything human is the working-out of that scene —
+            ritual, kingship, law, and the market are each another way of holding, sharing, or seizing
+            the center:
           </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;The goal of center study is to stay as close to boundary between diagnosis and
-            prescription as possible on the longest timeline imaginable: to always be able to say, this
-            is what everyone is already doing and here&rsquo;s how they might&hellip; do it more
-            explicitly.&rdquo;
-            <Link href="/post/hyperstitching-the-soliciting-of-the-center-and-the-prolonging-of-the-imperative" className={citeClass}>— Hyperstitching the Center →</Link>
+            &ldquo;All the continuities and discontinuities in human history follow from successive
+            attempts to occupy, hold, expand the reach of, or replace, the center or its present
+            occupant.&rdquo;
+            <Link href="/post/scale" className={citeClass}>— Scale →</Link>
           </blockquote>
+          <p>
+            Center study thinks within this history — and that is where it turns generative. Read from
+            the center, even money resolves back into the scene: to exchange with the center is to owe
+            it.
+          </p>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;It&rsquo;s paying our debt to the center so as to keep open a line of credit.&rdquo;
+            <Link href="/post/infra-humaning" className={citeClass}>— Infra-Humaning →</Link>
+          </blockquote>
+          <p>
+            Credit, money, succession — each comes into focus as a way of carrying that debt forward,
+            which is what makes the hypothesis less an origin story than a way of reading the present.
+          </p>
         </div>
       </section>
 
