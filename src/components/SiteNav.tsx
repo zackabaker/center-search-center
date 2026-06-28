@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import DarkModeToggle from '@/components/DarkModeToggle';
 
 const NAV_LINKS = [
-  { href: '/intro',               label: 'Start' },
+  { href: '/start',               label: 'Start' },
   { href: '/guide',               label: 'Guide' },
   { href: '/concepts',            label: 'Glossary' },
   { href: '/search',              label: 'Search' },
