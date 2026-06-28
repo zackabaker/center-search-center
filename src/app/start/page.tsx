@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Start Here | Center Study Center',
   description:
-    'New to Center Study? Originary hypothesizing in brief, in Adam Katz’s own words — plus the fastest ways in: one essay to read, a question to ask, or a topic to follow.',
+    'New to Center Study? The grounding diagnosis and the theoretical spine in eight claims — in Adam Katz’s own words — then the ways into the archive: an essay to read, a question to ask, a topic to follow.',
 };
 
 // The handful of essays that make the best on-ramp.
@@ -41,6 +41,56 @@ const MORE = [
   { href: '/browse', label: 'Browse the archive', desc: 'All 1,900+ texts — blog, essays, the book, threads.' },
 ];
 
+// The minimum theoretical spine — eight claims, grounded in Adam's verbiage
+// (quotes verified verbatim against the corpus), each linking into the archive.
+const SPINE = [
+  {
+    claim: 'Language is the deferral of violence through representation.',
+    gloss: 'The originary hypothesis: the sign begins as an aborted gesture of appropriation that defers conflict — and every institution is an extension of that originary deferral.',
+    href: '/post/the-discourse-of-the-center', source: 'The Discourse of the Center',
+  },
+  {
+    claim: 'The juridical is the irreducibly-human space.',
+    gloss: 'Poised between ritual (the originary form) and the disciplinary (the experimental form). Every event is implicitly juridical — composable as claimants before a tribunal.',
+    href: '/post/on-the-juridical-disciplinary-line', source: 'On the Juridical/Disciplinary Line',
+  },
+  {
+    claim: 'Singularized succession in perpetuity is the only legitimate measure of governance.',
+    gloss: 'Adam puts it flatly —',
+    quote: '“there is nothing more to governance than singularized succession in perpetuity”',
+    tail: '; consent, natural right, and the common good are subsumed under it or merely apotropaic.',
+    href: '/post/nomos-and-transfer-translation', source: 'Nomos and Transfer Translation',
+  },
+  {
+    claim: 'Power is centered ordinality, exercised through judgments.',
+    quote: '“You have power insofar as, and to the degree that, contending parties bring their grievances, counter-grievances and defenses to you rather than resort or revert to the vendetta.”',
+    href: '/post/a-new-model-of-power', source: 'A New Model of Power',
+  },
+  {
+    claim: 'Credit and succession are the master pair.',
+    gloss: 'The economic primitive is the debt to the center; the political primitive is succession — the same thing seen from different angles.',
+    href: '/post/credit-and-succession', source: 'Credit and Succession',
+  },
+  {
+    claim: 'Data is the new substrate of property, order, and wealth.',
+    gloss: 'Money is already data, and data exchange is replacing monetary exchange:',
+    quote: '“all that would need to be done here is make the provision of security real and commensurate to the data taken.”',
+    href: '/post/data-exchange', source: 'Data Exchange',
+  },
+  {
+    claim: 'Resentment is monetarily measurable through the juridical.',
+    gloss: 'A settlement is an exact measure of resentment —',
+    quote: '“$250,000 settles my resentment” gives us an exact measure',
+    tail: ' — turning the juridical into a site of knowledge production rather than vague ethics-and-morals talk.',
+    href: '/post/nomos-class-action', source: 'Nomos/Class Action',
+  },
+  {
+    claim: 'The Theseus Ship anti-revolution.',
+    gloss: 'Complete institutional transformation through linguistic drift — conducted explicitly, plank by plank, without revolution and without anyone particularly noticing.',
+    href: '/post/the-theseus-ship-anti-revolution', source: 'The Theseus Ship Anti-Revolution',
+  },
+] as const;
+
 const sectionLabel = 'text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3';
 
 export default function StartPage() {
@@ -50,47 +100,44 @@ export default function StartPage() {
       <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-gray-900 dark:text-white">
         Start here
       </h1>
+      <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed mb-3 max-w-2xl">
+        Center Study is <em>originary hypothesizing</em> — Adam Katz&rsquo;s extension of the originary
+        hypothesis into a complete, practical apparatus for reading any order, from language to money
+        to the state to the algorithm, as the holding of a <em>center</em>.
+      </p>
       <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed mb-10 max-w-2xl">
-        Center Study is <em>originary hypothesizing</em> — thinking the human from its origin, the
-        scene on which the sign, and with it the center, first appears. There&rsquo;s no required
-        order; pick a way in below.
+        It diagnoses the present as a crisis in the institutions that defer violence — and it is built
+        to do something about it. The whole apparatus is worked out across the archive; its minimum
+        spine is eight claims.
       </p>
 
-      {/* In brief — in Katz’s own verbiage, not paraphrase */}
-      <section className="mb-12 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-5 sm:p-6">
-        <p className={sectionLabel}>In brief — originary hypothesizing</p>
-        <div
-          className="space-y-4 text-gray-700 dark:text-gray-300"
-          style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.75 }}
-        >
-          <p>
-            Center Study takes the originary hypothesis not as a creed to accept but as a generative
-            method — <em>originary hypothesizing</em>, which stands in the place philosophy used to hold:
-          </p>
-          <blockquote className="border-l-2 border-gray-300 dark:border-gray-600 pl-4 italic text-gray-600 dark:text-gray-300" style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;For originary hypothesizing, or center study, they simply replace philosophy,
-            providing the originary meaning of the words out of which all other meanings can be
-            produced.&rdquo;
-            <Link href="/post/imperatives-for-idiom-creation" className="not-italic block mt-1.5 text-xs text-blue-600 dark:text-blue-400 hover:underline">
-              — Imperatives for Idiom Creation →
-            </Link>
-          </blockquote>
-          <p>
-            Its discipline is <em>anthropomorphics</em> — &ldquo;
-            <Link href="/post/anthropomorphics-the-center-and-the-declarative" className="text-blue-600 dark:text-blue-400 hover:underline">an originary grammar of the center</Link>
-            &rdquo;: every utterance, in any medium, read as an imperative conveyed from, or to, a
-            center. And the wager is practical — what can the originary hypothesis <em>do</em>?
-          </p>
-          <blockquote className="border-l-2 border-gray-300 dark:border-gray-600 pl-4 italic text-gray-600 dark:text-gray-300" style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;Originary hypothesizing is, then, a technology that we program to propose and
-            implement new modes of deferral, and to gather data (detect, record, and analyze) through
-            the techno-scenes we construct that feed back into that programming.&rdquo;
-            <Link href="/post/idiomatic-intelligence-and-the-black-box" className="not-italic block mt-1.5 text-xs text-blue-600 dark:text-blue-400 hover:underline">
-              — Idiomatic Intelligence and the Black Box →
-            </Link>
-          </blockquote>
-        </div>
+      {/* The theoretical ground — the minimum spine, grounded in Adam’s verbiage */}
+      <section className="mb-10 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-5 sm:p-6">
+        <p className={sectionLabel}>The theoretical ground — the minimum spine</p>
+        <ol className="space-y-4">
+          {SPINE.map((s, i) => (
+            <li key={s.href} className="flex gap-3 sm:gap-4">
+              <span className="font-mono text-sm text-gray-300 dark:text-gray-600 pt-1 flex-shrink-0 w-4 text-right tabular-nums">{i + 1}</span>
+              <p
+                className="text-gray-700 dark:text-gray-300 min-w-0"
+                style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.7 }}
+              >
+                <strong className="text-gray-900 dark:text-white">{s.claim}</strong>{' '}
+                {'gloss' in s && s.gloss ? <>{s.gloss} </> : null}
+                {'quote' in s && s.quote ? <em className="text-gray-600 dark:text-gray-400">{s.quote}</em> : null}
+                {'tail' in s && s.tail ? <>{s.tail}</> : null}{' '}
+                <Link href={s.href} className="text-blue-600 dark:text-blue-400 hover:underline" style={{ fontSize: '14px' }}>
+                  {s.source} →
+                </Link>
+              </p>
+            </li>
+          ))}
+        </ol>
       </section>
+
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-8 max-w-2xl leading-relaxed">
+        That&rsquo;s the ground. Here are the ways into the archive:
+      </p>
 
       {/* If you read one thing */}
       <section className="mb-10">
