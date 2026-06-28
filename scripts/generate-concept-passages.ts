@@ -9,6 +9,7 @@
  */
 import fs from 'fs';
 import path from 'path';
+import crypto from 'crypto';
 import { CONCEPTS } from '../src/data/guide/concepts';
 import { embedPassages, embedQuery, dot, EMBED_DIM } from '../src/lib/embed';
 
@@ -50,17 +51,53 @@ async function main() {
       meta.push({ slug: p.slug, title: p.title, source: p.source, date: p.date, text });
     }
   }
-  console.log(`embedding ${meta.length} chunks for the concept atlas…`);
+  // ── Embedding, with a persistent content-hash cache ─────────────────────────
+  // Re-embedding all ~17.7k chunks every deploy costs ~14 min. We cache each
+  // chunk's vector keyed by a hash of its text under .next/cache (which Vercel
+  // restores between builds), so only NEW or CHANGED chunks get embedded. A
+  // missing/stale cache just falls back to a full embed — never a regression.
+  const CACHE_DIR = path.join(process.cwd(), '.next', 'cache', 'cs-embeddings');
+  const CACHE_VERSION = `bge-small-en-v1.5/${EMBED_DIM}`; // bump to invalidate (e.g. model change)
+  const hashOf = (t: string) => crypto.createHash('sha1').update(t).digest('hex');
+
+  const cache = new Map<string, Float32Array>();
+  try {
+    if (fs.readFileSync(path.join(CACHE_DIR, 'version'), 'utf-8').trim() === CACHE_VERSION) {
+      const keys: string[] = JSON.parse(fs.readFileSync(path.join(CACHE_DIR, 'keys.json'), 'utf-8'));
+      const buf = fs.readFileSync(path.join(CACHE_DIR, 'vectors.f32.bin'));
+      const all = new Float32Array(buf.buffer, buf.byteOffset, Math.floor(buf.byteLength / 4));
+      for (let i = 0; i < keys.length; i++) cache.set(keys[i], all.subarray(i * EMBED_DIM, (i + 1) * EMBED_DIM));
+    }
+  } catch { /* no/stale cache — embed everything */ }
 
   const t0 = Date.now();
   const vectors = new Float32Array(meta.length * EMBED_DIM);
-  for (let i = 0; i < meta.length; i += BATCH) {
-    const vecs = await embedPassages(meta.slice(i, i + BATCH).map((m) => m.text));
+  const keys = meta.map((m) => hashOf(m.text));
+  const todo: number[] = [];
+  let hits = 0;
+  for (let i = 0; i < meta.length; i++) {
+    const cached = cache.get(keys[i]);
+    if (cached) { vectors.set(cached, i * EMBED_DIM); hits++; } else todo.push(i);
+  }
+  console.log(`embedding ${todo.length} new/changed chunks (${hits}/${meta.length} reused from cache)…`);
+  for (let b = 0; b < todo.length; b += BATCH) {
+    const idxs = todo.slice(b, b + BATCH);
+    const vecs = await embedPassages(idxs.map((i) => meta[i].text));
     if (!vecs) { console.warn('⚠ model unavailable — skipping concept atlas.'); return; }
-    for (let j = 0; j < vecs.length; j++) vectors.set(vecs[j], (i + j) * EMBED_DIM);
-    process.stdout.write(`  ${Math.min(i + BATCH, meta.length)}/${meta.length}\r`);
+    for (let j = 0; j < vecs.length; j++) vectors.set(vecs[j], idxs[j] * EMBED_DIM);
+    process.stdout.write(`  ${Math.min(b + BATCH, todo.length)}/${todo.length}\r`);
   }
   console.log(`\nembedded in ${((Date.now() - t0) / 1000).toFixed(1)}s`);
+
+  // Rewrite the cache to exactly the current chunk set (drops stale entries,
+  // keeps it bounded to the corpus size).
+  try {
+    fs.mkdirSync(CACHE_DIR, { recursive: true });
+    fs.writeFileSync(path.join(CACHE_DIR, 'version'), CACHE_VERSION);
+    fs.writeFileSync(path.join(CACHE_DIR, 'keys.json'), JSON.stringify(keys));
+    fs.writeFileSync(path.join(CACHE_DIR, 'vectors.f32.bin'), Buffer.from(vectors.buffer, vectors.byteOffset, vectors.byteLength));
+    console.log(`✓ embedding cache updated (${meta.length} chunks)`);
+  } catch (e) { console.warn('⚠ could not write embedding cache:', (e as Error)?.message); }
 
   // Persist the chunk vectors + metadata for runtime semantic search. These go
   // in /vectors (NOT src/data) so they're traced only into the /api/semantic
