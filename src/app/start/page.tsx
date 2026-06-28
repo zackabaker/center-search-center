@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Start Here | Center Study Center',
   description:
-    'New to Center Study? The grounding diagnosis and the theoretical spine in eight claims — in Adam Katz’s own words — then the ways into the archive: an essay to read, a question to ask, a topic to follow.',
+    'New to Center Study? A brief explication of the originary hypothesis in Adam Katz’s own words — mimesis, the sign, the center, and what it can do — then the ways into the archive: the glossary, the FAQ, and the best posts to start with.',
 };
 
 // The handful of essays that make the best on-ramp.
@@ -41,57 +41,9 @@ const MORE = [
   { href: '/browse', label: 'Browse the archive', desc: 'All 1,900+ texts — blog, essays, the book, threads.' },
 ];
 
-// The minimum theoretical spine — eight claims, grounded in Adam's verbiage
-// (quotes verified verbatim against the corpus), each linking into the archive.
-const SPINE = [
-  {
-    claim: 'Language is the deferral of violence through representation.',
-    gloss: 'The originary hypothesis: the sign begins as an aborted gesture of appropriation that defers conflict — and every institution is an extension of that originary deferral.',
-    href: '/post/the-discourse-of-the-center', source: 'The Discourse of the Center',
-  },
-  {
-    claim: 'The juridical is the irreducibly-human space.',
-    gloss: 'Poised between ritual (the originary form) and the disciplinary (the experimental form). Every event is implicitly juridical — composable as claimants before a tribunal.',
-    href: '/post/on-the-juridical-disciplinary-line', source: 'On the Juridical/Disciplinary Line',
-  },
-  {
-    claim: 'Singularized succession in perpetuity is the only legitimate measure of governance.',
-    gloss: 'Adam puts it flatly —',
-    quote: '“there is nothing more to governance than singularized succession in perpetuity”',
-    tail: '; consent, natural right, and the common good are subsumed under it or merely apotropaic.',
-    href: '/post/nomos-and-transfer-translation', source: 'Nomos and Transfer Translation',
-  },
-  {
-    claim: 'Power is centered ordinality, exercised through judgments.',
-    quote: '“You have power insofar as, and to the degree that, contending parties bring their grievances, counter-grievances and defenses to you rather than resort or revert to the vendetta.”',
-    href: '/post/a-new-model-of-power', source: 'A New Model of Power',
-  },
-  {
-    claim: 'Credit and succession are the master pair.',
-    gloss: 'The economic primitive is the debt to the center; the political primitive is succession — the same thing seen from different angles.',
-    href: '/post/credit-and-succession', source: 'Credit and Succession',
-  },
-  {
-    claim: 'Data is the new substrate of property, order, and wealth.',
-    gloss: 'Money is already data, and data exchange is replacing monetary exchange:',
-    quote: '“all that would need to be done here is make the provision of security real and commensurate to the data taken.”',
-    href: '/post/data-exchange', source: 'Data Exchange',
-  },
-  {
-    claim: 'Resentment is monetarily measurable through the juridical.',
-    gloss: 'A settlement is an exact measure of resentment —',
-    quote: '“$250,000 settles my resentment” gives us an exact measure',
-    tail: ' — turning the juridical into a site of knowledge production rather than vague ethics-and-morals talk.',
-    href: '/post/nomos-class-action', source: 'Nomos/Class Action',
-  },
-  {
-    claim: 'The Theseus Ship anti-revolution.',
-    gloss: 'Complete institutional transformation through linguistic drift — conducted explicitly, plank by plank, without revolution and without anyone particularly noticing.',
-    href: '/post/the-theseus-ship-anti-revolution', source: 'The Theseus Ship Anti-Revolution',
-  },
-] as const;
-
 const sectionLabel = 'text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3';
+const quoteClass = 'border-l-2 border-gray-300 dark:border-gray-600 pl-4 italic text-gray-600 dark:text-gray-300';
+const citeClass = 'not-italic block mt-1.5 text-xs text-blue-600 dark:text-blue-400 hover:underline';
 
 export default function StartPage() {
   return (
@@ -100,44 +52,84 @@ export default function StartPage() {
       <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-gray-900 dark:text-white">
         Start here
       </h1>
-      <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed mb-3 max-w-2xl">
-        Center Study is <em>originary hypothesizing</em> — Adam Katz&rsquo;s extension of the originary
-        hypothesis into a complete, practical apparatus for reading any order, from language to money
-        to the state to the algorithm, as the holding of a <em>center</em>.
-      </p>
       <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed mb-10 max-w-2xl">
-        It diagnoses the present as a crisis in the institutions that defer violence — and it is built
-        to do something about it. The whole apparatus is worked out across the archive; its minimum
-        spine is eight claims.
+        Center Study is Adam Katz&rsquo;s practical science of the human — worked out across this
+        archive, and built on a single hypothesis about where language, and everything language makes
+        possible, comes from.
       </p>
 
-      {/* The theoretical ground — the minimum spine, grounded in Adam’s verbiage */}
-      <section className="mb-10 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-5 sm:p-6">
-        <p className={sectionLabel}>The theoretical ground — the minimum spine</p>
-        <ol className="space-y-4">
-          {SPINE.map((s, i) => (
-            <li key={s.href} className="flex gap-3 sm:gap-4">
-              <span className="font-mono text-sm text-gray-300 dark:text-gray-600 pt-1 flex-shrink-0 w-4 text-right tabular-nums">{i + 1}</span>
-              <p
-                className="text-gray-700 dark:text-gray-300 min-w-0"
-                style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.7 }}
-              >
-                <strong className="text-gray-900 dark:text-white">{s.claim}</strong>{' '}
-                {'gloss' in s && s.gloss ? <>{s.gloss} </> : null}
-                {'quote' in s && s.quote ? <em className="text-gray-600 dark:text-gray-400">{s.quote}</em> : null}
-                {'tail' in s && s.tail ? <>{s.tail}</> : null}{' '}
-                <Link href={s.href} className="text-blue-600 dark:text-blue-400 hover:underline" style={{ fontSize: '14px' }}>
-                  {s.source} →
-                </Link>
-              </p>
-            </li>
-          ))}
-        </ol>
+      {/* The originary hypothesis, briefly — explication in Adam’s own words */}
+      <section className="mb-10">
+        <p className={sectionLabel}>The originary hypothesis, briefly</p>
+        <div
+          className="text-gray-700 dark:text-gray-300 space-y-4"
+          style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.75 }}
+        >
+          <p>
+            It starts with <em>mimesis</em>. We imitate one another, and imitation breeds rivalry — we
+            come to want a thing because someone we model ourselves on wants it. Pushed far enough,
+            that turns into crisis:
+          </p>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;mimesis generates rivalry because our model, the more we model ourselves on him,
+            becomes our rival for the same object, mimesis leads to crisis.&rdquo;
+            <Link href="/post/anthropomorphics-origin-and-hypothesis" className={citeClass}>— Origin and Hypothesis →</Link>
+          </blockquote>
+          <p>
+            At the edge of that crisis the first <em>sign</em> appears — a grasp held back, a gesture
+            that points to the object instead of seizing it. The sign defers the violence by
+            representing what everyone wants, and in the same stroke it opens a shared <em>center</em>:
+          </p>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;the sign creates the center through deferral, and it is a center that could always be
+            decentered — by another center.&rdquo;
+            <Link href="/post/generative-anthropology-one-big-discipline" className={citeClass}>— Generative Anthropology as the One Big Discipline →</Link>
+          </blockquote>
+          <p>
+            That is the originary hypothesis in a line — <em>the sign, which defers violence through
+            representation</em>. Every institution that follows, from ritual to money to law, is a way
+            of keeping that deferral going.
+          </p>
+          <p>Katz works the hypothesis in two directions at once, and they are two sides of one coin:</p>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;Center study assumes that any tracing of any idiom to its possibility and emergence
+            will lead us back to the originary hypothesis, while anthropomorphics assumes that the
+            originary hypothesis can only find its proof of work and concept in the jarring of an
+            idiom.&rdquo;
+            <Link href="/post/idiom-and-the-differend" className={citeClass}>— Idiom and the Differend →</Link>
+          </blockquote>
+          <p>
+            Center study reasons from anything — a word, an institution, a crisis — back to the origin;
+            anthropomorphics,{' '}
+            <Link href="/post/deferral-and-appropriation-property-and-the-center" className="text-blue-600 dark:text-blue-400 hover:underline">&ldquo;the constitution of the human through signs,&rdquo;</Link>{' '}
+            carries the origin forward into new idioms.
+          </p>
+          <p>
+            And none of it is a creed to accept. It is a working instrument, kept deliberately at the
+            seam between describing the world and acting on it:
+          </p>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;The goal of center study is to stay as close to boundary between diagnosis and
+            prescription as possible on the longest timeline imaginable: to always be able to say, this
+            is what everyone is already doing and here&rsquo;s how they might&hellip; do it more
+            explicitly.&rdquo;
+            <Link href="/post/hyperstitching-the-soliciting-of-the-center-and-the-prolonging-of-the-imperative" className={citeClass}>— Hyperstitching the Center →</Link>
+          </blockquote>
+        </div>
       </section>
 
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-8 max-w-2xl leading-relaxed">
-        That&rsquo;s the ground. Here are the ways into the archive:
-      </p>
+      {/* Read further — glossary + FAQ; best intro posts follow below */}
+      <section className="mb-12">
+        <p className={sectionLabel}>Read further</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 leading-relaxed">
+          The glossary defines the vocabulary straight from the texts; the FAQ takes the harder
+          questions head-on.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/concepts" className="text-sm px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors">Concepts &amp; Glossary</Link>
+          <Link href="/faq" className="text-sm px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors">FAQ</Link>
+        </div>
+      </section>
 
       {/* If you read one thing */}
       <section className="mb-10">
