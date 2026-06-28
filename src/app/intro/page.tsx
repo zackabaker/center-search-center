@@ -79,6 +79,14 @@ const SCENE_CONSEQUENCES = [
   },
 ];
 
+// The handful of essays to read first — the on-ramp into the corpus.
+const GATEWAY = [
+  { step: '01', slug: 'anthropomorphics-origin-and-hypothesis', title: 'Origin and Hypothesis', source: 'Anthropomorphics', why: 'The founding move, stated plainly: how the aborted gesture becomes the first sign — and where Girard’s account stops short.' },
+  { step: '02', slug: 'anthropomorphics-the-use-of-a-center', title: 'The Use of a Center', source: 'Anthropomorphics', why: 'The single concept everything else hangs on — what a center is, and why every social scene has one.' },
+  { step: '03', slug: 'the-prospects-of-the-hypothesis', title: 'The Prospects of the Hypothesis', source: 'Bouvard Substack', why: 'What the hypothesis can actually do — its capacity to scale from individual desire to geopolitics.' },
+  { step: '04', slug: 'there-is-no-economy-pdf', title: 'There Is No Economy but Only the Debt to the Center', source: 'Anthropoetics', why: 'The framework applied end to end: money and capital read as the debt to the center.' },
+];
+
 export default function IntroPage() {
   return (
     <main className="max-w-3xl w-full mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden">
@@ -101,10 +109,11 @@ export default function IntroPage() {
       <nav className="mb-12 flex flex-wrap gap-2 text-xs">
         {[
           ['#five-minute', 'Introduction'],
+          ['#read-first', 'Read first'],
           ['#lineage', 'Lineage'],
           ['#originary-scene', 'The originary scene'],
           ['#how-to-read', 'How to read'],
-          ['#start-reading', 'Start reading'],
+          ['#start-reading', 'Explore'],
         ].map(([href, label]) => (
           <a
             key={href}
@@ -143,15 +152,47 @@ export default function IntroPage() {
           </p>
         </div>
 
+        {/* ── Read these first (the on-ramp) ───────────────────────────────── */}
+        <div id="read-first" className="mt-10 scroll-mt-20">
+          <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">Read these first</p>
+          <Link
+            href="/post/the-discourse-of-the-center"
+            className="group block p-4 rounded-xl border border-gray-900 dark:border-gray-200 bg-gray-900 dark:bg-gray-900 hover:opacity-90 transition-opacity mb-3"
+          >
+            <p className="text-[10px] text-gray-400 dark:text-gray-500 mb-1 font-mono uppercase tracking-widest">GABlog · Adam Katz · the clearest single entry</p>
+            <p className="font-semibold text-white leading-snug group-hover:text-blue-300 dark:group-hover:text-blue-400 transition-colors">
+              The Discourse of the Center
+            </p>
+            <p className="text-sm text-gray-300 dark:text-gray-400 mt-1 leading-relaxed">
+              &ldquo;We are beings bound to the center.&rdquo; The clearest single-post statement of the core claim.
+            </p>
+          </Link>
+          <div className="space-y-2">
+            {GATEWAY.map((g) => (
+              <Link
+                key={g.slug}
+                href={`/post/${g.slug}`}
+                className="group flex gap-4 items-start p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
+              >
+                <span className="text-sm font-mono text-gray-300 dark:text-gray-600 pt-0.5 flex-shrink-0">{g.step}</span>
+                <span className="min-w-0">
+                  <span className="block font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">{g.title}</span>
+                  <span className="block text-[11px] font-medium text-gray-400 dark:text-gray-500 mt-0.5">{g.source}</span>
+                  <span className="block text-sm text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">{g.why}</span>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {/* Go-deeper cue */}
         <div className="mt-8 flex items-center gap-3">
           <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
           <p className="text-xs text-gray-400 dark:text-gray-500">
-            That&rsquo;s the core. Everything below goes deeper — or{' '}
+            Or read on for the full introduction — or{' '}
             <Link href="/guide/reading-paths" className="text-blue-600 dark:text-blue-400 hover:underline">
               get a personal reading path
-            </Link>{' '}
-            and start reading now.
+            </Link>.
           </p>
           <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
         </div>
@@ -562,25 +603,8 @@ export default function IntroPage() {
       {/* ── Start reading ───────────────────────────────────────────────── */}
       <section>
         <h2 id="start-reading" className="text-xl font-semibold mb-4 text-gray-900 dark:text-white scroll-mt-20">
-          Start reading
+          Explore the archive
         </h2>
-
-        {/* Read this first */}
-        <div className="mb-5">
-          <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Read this first</p>
-          <Link
-            href="/post/the-discourse-of-the-center"
-            className="group block p-4 rounded-xl border border-gray-900 dark:border-gray-200 bg-gray-900 dark:bg-gray-900 hover:opacity-90 transition-opacity"
-          >
-            <p className="text-[10px] text-gray-400 dark:text-gray-500 mb-1 font-mono uppercase tracking-widest">GABlog · Adam Katz</p>
-            <p className="font-semibold text-white leading-snug group-hover:text-blue-300 dark:group-hover:text-blue-400 transition-colors">
-              The Discourse of the Center
-            </p>
-            <p className="text-sm text-gray-300 dark:text-gray-400 mt-1 leading-relaxed">
-              The organizing structure of all discourse seen from the center. The clearest single-post entry into the core claim.
-            </p>
-          </Link>
-        </div>
 
         <div className="grid gap-3 sm:grid-cols-2">
           <Link href="/concepts" className="group block p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900">

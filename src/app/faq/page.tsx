@@ -30,7 +30,7 @@ const BASICS: Item[] = [
     q: 'Where should I start?',
     lead:
       'You don’t need to read Eric Gans first. If you’re new, take the short guided path — it orients you, gives the lineage, and hands you the handful of essays to read first — or put a question to the whole corpus with Ask AI and follow the citations. For a single first text, “The Discourse of the Center” is the clearest entry into the core claim.',
-    cta: { href: '/start', label: 'Start here' },
+    cta: { href: '/intro', label: 'Start here' },
   },
 ];
 
