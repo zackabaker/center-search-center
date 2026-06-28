@@ -2,9 +2,9 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Start Here | Center Study Center',
+  title: 'Introduction to Center Study | Center Study Center',
   description:
-    'New to Center Study? A brief explication of the originary hypothesis in Adam Katz’s own words — mimesis, the sign, the center, and what it opens up across history, money, and succession — then the glossary, the FAQ, and the best posts to start with.',
+    'Introduction to Center Study: a brief, quote-grounded walk through the originary hypothesis — why humans imitate, how deferral founds the human, why the idea is at once simple and powerful, and what it can do — then the glossary, the FAQ, and the best posts to start with.',
 };
 
 // The handful of essays that make the best on-ramp.
@@ -48,14 +48,23 @@ const citeClass = 'not-italic block mt-1.5 text-xs text-blue-600 dark:text-blue-
 export default function StartPage() {
   return (
     <main className="max-w-3xl w-full mx-auto px-4 pt-6 pb-24 sm:py-12">
-      <p className="text-xs font-mono uppercase tracking-widest text-gray-400 mb-3">New here</p>
       <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-gray-900 dark:text-white">
-        Start here
+        Introduction to Center Study
       </h1>
-      <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed mb-10 max-w-2xl">
-        Center study is a discipline grounded in the originary hypothesis — a way of tracing anything
-        human back to its origin, and through that origin, to the origin of language itself.
+      <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed mb-4 max-w-2xl">
+        Center study is a discipline grounded in the originary hypothesis: a way of tracing anything
+        human back to its origin, and through that origin, to the origin of language itself. It reads
+        the social order both to diagnose it and to prescribe — to name what we are already doing, so
+        that we might do it more deliberately.
       </p>
+      <blockquote
+        className={`${quoteClass} mb-10 max-w-2xl`}
+        style={{ fontFamily: 'var(--prose-font-family)', fontSize: '15px', lineHeight: 1.7 }}
+      >
+        &ldquo;To know something is to know its origin; even more, it is to participate in its
+        origin.&rdquo;
+        <Link href="/post/naming-origins-and-the-necessary-self-referentiality-of-social-order-gablog" className={citeClass}>— Naming, Origins and the Necessary Self-Referentiality of Social Order →</Link>
+      </blockquote>
 
       {/* The originary hypothesis, briefly — explication in Adam’s own words */}
       <section className="mb-10">
@@ -65,50 +74,65 @@ export default function StartPage() {
           style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.75 }}
         >
           <p>
-            It begins with <em>mimesis</em>. We imitate one another, and imitation breeds rivalry — we
-            want a thing because someone we model ourselves on wants it. Pushed far enough, that
-            rivalry becomes a crisis the group might not survive:
+            It begins with the one thing humans do first, and most — we imitate. As Aristotle
+            observed, it is what sets us apart:
           </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;mimesis generates rivalry because our model, the more we model ourselves on him,
-            becomes our rival for the same object, mimesis leads to crisis.&rdquo;
-            <Link href="/post/anthropomorphics-origin-and-hypothesis" className={citeClass}>— Origin and Hypothesis →</Link>
+            &ldquo;man differs from the other animals in that he is the most imitative and learns his
+            first lessons through imitation.&rdquo;
+            <Link href="/post/ap0101-schneid" className={citeClass}>— Aristotle, Poetics →</Link>
           </blockquote>
           <p>
-            At the edge of that crisis the first <em>sign</em> appears — a grasp held back, a gesture
-            that points to the object instead of seizing it. By representing what everyone wants rather
-            than fighting over it, the sign defers the violence and opens a shared <em>center</em>:
+            But the imitation that teaches us also divides us: modeling ourselves on another, we come
+            to want what he wants, and the shared object turns us into rivals — a rivalry that,
+            unchecked, ends in violence.
+          </p>
+          <p>
+            At the brink of that crisis the decisive human thing happens — and it is not an act but a
+            holding-back. A hand reaching for the object stops:
           </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;the sign creates the center through deferral, and it is a center that could always be
-            decentered — by another center.&rdquo;
-            <Link href="/post/generative-anthropology-one-big-discipline" className={citeClass}>— Generative Anthropology as the One Big Discipline →</Link>
+            &ldquo;The first signifier need not know what he is doing: he aborts his gesture of
+            appropriation, which is to say he stops or hesitates.&rdquo;
+            <Link href="/post/more-problems-in-the-concept-of-imitation" className={citeClass}>— More Problems in the Concept of Imitation →</Link>
           </blockquote>
           <p>
-            That is the originary scene, and the hypothesis in a line: <em>the sign, which defers
-            violence through representation</em>. Everything human is the working-out of that scene —
-            ritual, kingship, law, and the market are each another way of holding, sharing, or seizing
-            the center:
+            That hesitation is the first sign, and the first freedom — not free will so much as{' '}
+            <em>free won&rsquo;t</em>: a space of restraint, a non-instinctual attention, opened
+            between us and what we want. It is at once the smallest thing and the largest:
           </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;All the continuities and discontinuities in human history follow from successive
-            attempts to occupy, hold, expand the reach of, or replace, the center or its present
-            occupant.&rdquo;
-            <Link href="/post/scale" className={citeClass}>— Scale →</Link>
+            &ldquo;All that differentiates us fundamentally from the machines, and for the better, is
+            deferral — the deferral of appropriation, which is the source of all human creation.&rdquo;
+            <Link href="/post/brute-force-computation-and-the-debt-to-the-center" className={citeClass}>— Brute Force Computation and the Debt to the Center →</Link>
           </blockquote>
           <p>
-            Center study thinks within this history — and that is where it turns generative. Read from
-            the center, even money resolves back into the scene: to exchange with the center is to owe
-            it.
+            Everything in center study unfolds from that one scene, and it asks almost nothing of you
+            to begin:
           </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;It&rsquo;s paying our debt to the center so as to keep open a line of credit.&rdquo;
-            <Link href="/post/infra-humaning" className={citeClass}>— Infra-Humaning →</Link>
+            &ldquo;The originary hypothesis is easily summed up in a couple of paragraphs, at most, and
+            all it really assumes is that human beings are mimetic creatures.&rdquo;
+            <Link href="/post/the-originary-hypothesis-in-itself" className={citeClass}>— The Originary Hypothesis in Itself →</Link>
           </blockquote>
           <p>
-            Credit, money, succession — each comes into focus as a way of carrying that debt forward,
-            which is what makes the hypothesis less an origin story than a way of reading the present.
+            From that single premise, everything human follows — which is what makes it powerful. One
+            frame scales from a private desire to a geopolitical fracture, and it does not merely
+            describe the order but points past its impasses:
           </p>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;only the mode of thinking enabled by the originary hypothesis helps us to identify
+            these problems and provides us with the means of seeking solutions or transformations that
+            will &lsquo;deactivate&rsquo; what are now, in the absence of any shared ritual order,
+            unsolveable problems.&rdquo;
+            <Link href="/post/the-transdisciplinarity-of-the-hypothesis" className={citeClass}>— The Transdisciplinarity of the Hypothesis →</Link>
+          </blockquote>
+          <p>And it is meant to be taken up, not believed:</p>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;it just offers a better way of thinking things through, and thinking things through
+            is best done with others.&rdquo;
+            <Link href="/post/the-prospects-of-the-hypothesis" className={citeClass}>— The Prospects of the Hypothesis →</Link>
+          </blockquote>
         </div>
       </section>
 
