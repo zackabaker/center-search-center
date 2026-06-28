@@ -29,7 +29,17 @@ export default function HomeSearch() {
   const [query, setQuery] = useState('');
   const [mode, setMode] = useState<Mode>('search');
   const [isNavigating, setIsNavigating] = useState(false);
+  const [compact, setCompact] = useState(false);
   const router = useRouter();
+
+  // Shorter placeholder on phones so it doesn't truncate next to the button.
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 640px)');
+    const update = () => setCompact(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
 
   // icon speeds up as the user engages: idle → typing → launched.
   // Typing must be UNMISTAKABLY alive (8× ≈ 2.25s/rotation) — at 3× the
@@ -127,8 +137,8 @@ export default function HomeSearch() {
             onChange={(e) => setQuery(e.target.value)}
             placeholder={
               mode === 'ask'
-                ? 'Ask anything about these texts…'
-                : 'Search for a concept or phrase…'
+                ? (compact ? 'Ask anything…' : 'Ask anything about these texts…')
+                : (compact ? 'Search the corpus…' : 'Search for a concept or phrase…')
             }
             className="flex-1 px-4 sm:px-5 py-3 sm:py-4 text-base sm:text-lg outline-none bg-transparent text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 min-w-0"
             autoComplete="off"
