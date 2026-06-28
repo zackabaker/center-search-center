@@ -175,10 +175,10 @@ export default function Home() {
           </p>
         </blockquote>
 
-        {/* Primary action for newcomers — the single progressive Introduction */}
+        {/* Primary action for newcomers — the Start launchpad */}
         <div className="flex items-center justify-center mb-7">
           <Link
-            href="/intro"
+            href="/start"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors"
           >
             New here? Start here
