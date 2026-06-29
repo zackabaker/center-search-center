@@ -129,8 +129,8 @@ The scene: a group of hominids converge on a central object — food, a body, so
   {
     slug: 'deferral',
     title: 'Deferral',
-    subtitle: 'Language as the ongoing suspension of violence through representation',
-    definition: 'Deferral is the fundamental function of the sign — the substitution of representation for appropriation that converts mimetic crisis into shared attention. If language is the deferral of violence, then the only thing we are ever talking about is how we are going about deferring violence.',
+    subtitle: 'Violence deferred through representation — the ongoing move behind every sign and institution',
+    definition: 'Deferral is the conversion of appetite into attention — violence deferred through representation. Every sign, and so every institution, is a way of keeping that deferral going; when it fails, violence returns.',
     body: `The concept of deferral is as simple and as radical as any idea in Center Study. Language — every sentence, every word, every sign — is a deferral of violence. Not a *description* of deferral. Not a *commemoration* of deferral. Deferral itself, in the act.
 
 This is what Katz means when he writes: "If language is the deferral of violence, the only thing we are ever talking about is how we are going about deferring violence." This is not a metaphor or a philosophical allegory. It is a claim about the structural function of every act of communication. When you say anything at all, you are converting the possibility of mimetic conflict into shared attention at a center. You are doing what the originary sign did.
