@@ -52,7 +52,7 @@ export default function StartPage() {
       <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-gray-900 dark:text-white">
         Introduction to Center Study
       </h1>
-      {/* Introduction — short, quote-led, heavily linked (v6): light lineage → the center → contemporary-implications sweep (economy, derivatives, currencies, AI, meta-politics) */}
+      {/* Introduction (v7): lineage (Girard→Gans→CS) → what it is (diagnosis/prescription) → method → the center → user-selected implications montage */}
       <section className="mb-12">
         <div
           className="text-gray-700 dark:text-gray-300 space-y-5 max-w-2xl"
@@ -61,28 +61,45 @@ export default function StartPage() {
           <p>
             Center Study is a{' '}
             <Link href="/post/the-transdisciplinarity-of-the-hypothesis" className={linkCls}>transdisciplinary</Link>{' '}
-            discourse. It descends from René Girard&rsquo;s account of mimetic desire and the Generative
-            Anthropology of Eric Gans — the{' '}
+            discourse. It descends from René Girard&rsquo;s account of mimetic desire and Eric
+            Gans&rsquo;s discovery — or invention — of the{' '}
             <Link href="/guide/concepts/originary-scene" className={linkCls}>originary hypothesis</Link>,
-            that language and the human begin together in a single scene — and turns that inheritance
-            toward one thing above all:{' '}
+            that language and the human begin together in a singular event. Center Study radicalizes it,
+            pulling the whole articulation toward{' '}
             <Link href="/guide/concepts/the-center" className={linkCls}>the center</Link>.
           </p>
+          <p>
+            That, put plainly, is the work — a discipline poised at the seam between diagnosing an order
+            and prescribing for it, on the longest horizon there is:
+          </p>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;The goal of center study is to stay as close to boundary between diagnosis and
+            prescription as possible on the longest timeline imaginable: to always be able to say, this
+            is what everyone is already doing and here&rsquo;s how they might, given certain shifts in
+            visible trajectories, do it more explicitly and accountably.&rdquo;
+            <Link href="/post/hyperstitching-the-soliciting-of-the-center-and-the-prolonging-of-the-imperative" className={citeClass}>— Hyperstitching the Center →</Link>
+          </blockquote>
+          <p>Its method is to trace anything human back to where it begins —</p>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;originary thinking is a way of tracing all the frames it comes across back to their
+            origins, and through those origins, the origin of language and humanity.&rdquo;
+            <Link href="/post/within-language" className={citeClass}>— Within Language →</Link>
+          </blockquote>
+          <p>— and what it keeps finding there is the center:</p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
             &ldquo;We are beings bound to the center: everything that we say, think or do is homage to
             the center.&rdquo;
             <Link href="/post/the-discourse-of-the-center" className={citeClass}>— The Discourse of the Center →</Link>
           </blockquote>
           <p>
-            From there it reads any order — a desire, a market, a state — as the play between a
-            periphery and its center, and the reach is startling: across{' '}
+            From there the implications run far — across{' '}
             <Link href="/search?q=prediction%20markets" className={linkCls}>prediction markets</Link>,{' '}
             <Link href="/post/tokenization" className={linkCls}>currencies</Link>,{' '}
             <Link href="/post/there-is-no-economy-pdf" className={linkCls}>derivatives</Link>,{' '}
             <Link href="/search?q=capital%20markets" className={linkCls}>capital markets</Link>,{' '}
             <Link href="/post/idiomatic-intelligence-and-the-black-box" className={linkCls}>artificial intelligence</Link>,{' '}
             <Link href="/search?q=institutional%20design" className={linkCls}>institutional design</Link>, and{' '}
-            <Link href="/post/securing-sovereignty" className={linkCls}>meta-politics</Link>. Its
+            <Link href="/post/securing-sovereignty" className={linkCls}>meta-politics</Link> — and its
             diagnoses are not cautious:
           </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
@@ -95,24 +112,21 @@ export default function StartPage() {
             <Link href="/post/there-is-no-economy-pdf" className={citeClass}>— There Is No Economy but Only the Debt to the Center →</Link>
           </blockquote>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;… if bitcoin and/or related forms of blockchain technology and economy can eliminate
-            capitalist power by removing from state and banks alike debt issuing power, they are to be
-            unequivocally supported.&rdquo;
-            <Link href="/post/tokenization" className={citeClass}>— Tokenization →</Link>
-          </blockquote>
-          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;I think the language of computation will replace the languages of interiority … I
-            expect &lsquo;latent space&rsquo; to replace &lsquo;unconscious.&rsquo;&rdquo;
-            <Link href="/post/2039743085375054323" className={citeClass}>— @centerstudy_ on X →</Link>
+            &ldquo;Questions of money are ultimately questions of sovereignty&hellip;&rdquo;
+            <Link href="/post/options-on-succession" className={citeClass}>— Options on Succession →</Link>
           </blockquote>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
             &ldquo;Sovereignty is always passed off—to be sovereign is to decide upon one&rsquo;s
             successor.&rdquo;
             <Link href="/post/securing-sovereignty" className={citeClass}>— Securing Sovereignty →</Link>
           </blockquote>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;All that differentiates us fundamentally from the machines, and for the better, is
+            deferral—the deferral of appropriation, which is the source of all human creation.&rdquo;
+            <Link href="/post/brute-force-computation-and-the-debt-to-the-center" className={citeClass}>— Brute Force Computation and the Debt to the Center →</Link>
+          </blockquote>
           <p className="text-base text-gray-500 dark:text-gray-400">
-            Run anything human back to its center and you can both diagnose an order and prescribe for
-            it — it asks for no belief, only that you try it. Start anywhere: the{' '}
+            Start anywhere: the{' '}
             <Link href="/lectures" className={linkCls}>lectures</Link>, the{' '}
             <Link href="/concepts" className={linkCls}>glossary</Link>, the{' '}
             <Link href="/faq" className={linkCls}>FAQ</Link>.
