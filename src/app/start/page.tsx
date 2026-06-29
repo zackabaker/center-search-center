@@ -52,131 +52,81 @@ export default function StartPage() {
       <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-gray-900 dark:text-white">
         Introduction to Center Study
       </h1>
-      {/* Introduction — synthesized: approachable + rigorous + hyperlinked, the three quotes woven in */}
+      {/* Introduction — short, quote-led, heavily linked (v4): shared origin → scene → method → the center → invitation */}
       <section className="mb-12">
         <div
           className="text-gray-700 dark:text-gray-300 space-y-5 max-w-2xl"
           style={{ fontFamily: 'var(--prose-font-family)', fontSize: '17px', lineHeight: 1.8 }}
         >
           <p>
-            Center Study is a transdisciplinary discourse: it does not so much add a perspective to
-            anthropology, linguistics, politics, religion, and economics as ask all of them to begin
-            again from a single event. It branches off from Generative Anthropology — the study of
-            human society and culture in the light of the{' '}
+            Center Study is a{' '}
+            <Link href="/post/the-transdisciplinarity-of-the-hypothesis" className={linkCls}>transdisciplinary</Link>{' '}
+            discourse descended from Generative Anthropology — the study of human society and culture in
+            the light of the{' '}
             <Link href="/guide/concepts/originary-scene" className={linkCls}>originary hypothesis</Link>,
             formulated by Eric Gans in{' '}
             <em><Link href="/post/the-origin-of-language" className={linkCls}>The Origin of Language</Link></em>{' '}
-            (1980; new edition 2019). That hypothesis holds that the origin of language is, in the same
-            stroke, the origin of the human and of{' '}
-            <Link href="/guide/concepts/the-sacred" className={linkCls}>the sacred</Link>. To see why
-            one event could be all three at once is to see what is at stake in the whole project.
-          </p>
-          <p>
-            The stakes come into focus against a habit so deep we rarely notice it. As Adam
-            Katz&rsquo;s{' '}
-            <Link href="/post/the-origin-of-language" className={linkCls}>introduction to the book</Link>{' '}
-            puts it, &ldquo;metaphysics is the assumption that the declarative sentence is the primary
-            linguistic form.&rdquo; If you assume that language is, at bottom, the making of statements,
-            the question of where language came from becomes literally unaskable — you have already
-            smuggled in the finished thing you were meant to explain. Gans declines the assumption: he
-            treats the declarative as a late arrival and asks the prior question — how did a creature
-            that did not yet speak arrive at the very first sign?
-          </p>
-          <p>
-            His answer is a scene. Picture a band of early hominids closing in on a single desirable
-            object — a carcass, say, something every one of them wants. Ordinarily a pecking order keeps
-            the peace; here the object is too desirable, and the desire is contagious. Each one wants it{' '}
-            <em>because</em> the others want it — this is{' '}
-            <Link href="/guide/concepts/mimesis" className={linkCls}>mimesis</Link>, the imitative
-            desire René Girard described, in which we learn what to want by watching one another. The
-            hierarchy that limits violence in animal groups gives way, the whole group converges at
-            once, and rivalry threatens to consume everyone: a mimetic crisis. Then someone, at the
-            threshold of grabbing, hesitates — and the gesture of grasping turns into a gesture of
-            pointing: an aborted appropriation. The others, caught in the same bind, repeat it. For a
-            moment no one lunges. Everyone points.
-          </p>
-          <p>
-            That gesture is the{' '}
-            <Link href="/guide/concepts/the-sign" className={linkCls}>first sign</Link>. It is not a
-            grab and not a grunt; it stands <em>for</em> the object instead of seizing it, and anyone
-            can repeat it to mean the same thing. This is why the three origins coincide: the sign
-            defers the violence, so it is the origin of the human; the object, pointed to rather than
-            devoured, becomes untouchable — charged, set apart, sacred; and the gesture, because it can
-            be repeated and refers to something, is the origin of language. None of these is invented
-            after the others — they are one event, seen from different angles, in a single act of{' '}
-            <Link href="/guide/concepts/deferral" className={linkCls}>deferral</Link>: violence held off
-            by a sign. Where Girard&rsquo;s founding scene ends in a murder, Gans&rsquo;s ends in a sign
-            — you can{' '}
-            <Link href="/post/anthropomorphics-origin-and-hypothesis" className={linkCls}>follow that provenance in full</Link>.
-          </p>
-          <p>
-            This is where Center Study makes its own turn. Generative Anthropology gives us the scene;
-            Center Study stays with what the scene leaves behind —{' '}
-            <Link href="/guide/concepts/the-center" className={linkCls}>the center</Link>, and its
-            persistence in every form of human organization. The scene never really ends; it only
-            changes hands. At first the center is a ritual, sacrificial site — a place of exchange with
-            the animal consumed and made sacred by the group. Then it is seized by a person: the figure
-            anthropologists call the{' '}
-            <Link href="/guide/concepts/big-man" className={linkCls}>Big Man</Link>, then chiefs, sacred
-            kings, emperors, and finally what we call &ldquo;the state.&rdquo; Read this way, every
-            social order — every institution, market, or medium — is an effect of the engagement
-            between a periphery and a center. The standing question becomes simply: <em>what is the
-            actual center here, and who holds it?</em> — even, especially, where a market or an
-            algorithm insists there is no center at all.{' '}
-            <Link href="/post/the-discourse-of-the-center" className={linkCls}>The clearest single statement of the claim</Link>.
-          </p>
-          <p>
-            From this follows a second move: rebuilding the vocabularies of the human sciences in terms
-            of an{' '}
-            <Link href="/guide/concepts/ostensive-imperative-declarative" className={linkCls}>originary grammar</Link>{' '}
-            that traces language from that first sign — the ostensive (pointing, naming what is
-            present), the imperative (commanding what is absent), the interrogative (the question), and
-            finally the declarative (the statement that can speak of what is absent). The wager is that
-            we never really think in free-floating ideas — we think in <em>scenes</em>, in which some
-            exchange with a central figure is always at stake. Building its terms up from that bottom
-            accounts for the discourse&rsquo;s deliberately unfamiliar, self-aware style, and for its
-            politics: a steady critique of theories that begin &ldquo;from the bottom&rdquo; — the free
-            individual, the people, the social contract — and an insistence on beginning instead from
-            the center, where authority and a first distribution are already assumed to have set the
-            terms for everything that follows.
-          </p>
-          <p>
-            So what does the work actually <em>do</em> with all this? It holds itself at one precise
-            seam, on the longest horizon there is:
+            (1980). It does not add one more specialty; it rethinks the human sciences from a single
+            shared origin:
           </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;The goal of center study is to stay as close to boundary between diagnosis and
-            prescription as possible on the longest timeline imaginable: to always be able to say, this
-            is what everyone is already doing and here&rsquo;s how they might, given certain shifts in
-            visible trajectories, do it more explicitly and accountably.&rdquo;
-            <Link href="/post/hyperstitching-the-soliciting-of-the-center-and-the-prolonging-of-the-imperative" className={citeClass}>— Hyperstitching the Center →</Link>
+            &ldquo;If the originary hypothesis entails that all human possibilities must be implicit in,
+            and therefore traceable back to, the originary scene, then it follows that Generative
+            Anthropology must be the human science. And if Generative Anthropology is the human science,
+            it must be both incommensurable with and inclusive of all existing human sciences.&rdquo;
+            <Link href="/post/generative-anthropology-one-big-discipline" className={citeClass}>— Generative Anthropology as the One Big Discipline →</Link>
           </blockquote>
           <p>
-            And the same frame that reads a single private desire scales, without changing, all the way
-            up to the largest public scenes there are:
+            That origin is a{' '}
+            <Link href="/guide/concepts/originary-scene" className={linkCls}>scene</Link>. At the height
+            of a{' '}
+            <Link href="/guide/concepts/mimesis" className={linkCls}>mimetic</Link> crisis, a hand
+            reaching for the contested object falters into a gesture instead:
           </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;But scenes directly orchestrated by the center, in collaboration with its closest
-            subordinates (these being, today, the major media and tech companies), are of an entirely
-            different character: these are spectacles, mass mobilizations, shows of force, sentimental
-            morality plays, scapegoating rituals, and so on.&rdquo;
-            <Link href="/post/scale" className={citeClass}>— Scale →</Link>
+            &ldquo;This, what Gans calls &lsquo;the gesture of aborted appropriation,&rsquo; is the
+            first sign. … the order provided by the animal pecking order is replaced by an order
+            mediated by the sign, which defers violence through representation. A new species is born:
+            the human, the only species, as Gans puts it, that poses a greater danger to its own
+            survival than is posed to it by anything in its environment.&rdquo;
+            <Link href="/post/anthropomorphics-origin-and-hypothesis" className={citeClass}>— Origin and Hypothesis →</Link>
           </blockquote>
-          <p>None of it asks to be believed. It asks to be tried:</p>
+          <p>
+            Because everything human can be{' '}
+            <Link href="/post/scale" className={linkCls}>traced back to that scene</Link>, the
+            hypothesis becomes a method for reading all of human culture:
+          </p>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;Ultimately, originary thinking is a way of tracing all the frames it comes across
+            back to their origins, and through those origins, the origin of language and
+            humanity.&rdquo;
+            <Link href="/post/within-language" className={citeClass}>— Within Language →</Link>
+          </blockquote>
+          <p>
+            Where Generative Anthropology stays with the origin, Center Study keeps{' '}
+            <Link href="/guide/concepts/the-center" className={linkCls}>the center</Link> at the center —
+            the enduring thing every social order forms around, from the ritual altar to the sovereign
+            to the state:
+          </p>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;We are beings bound to the center: everything that we say, think or do is homage to
+            the center.&rdquo;
+            <Link href="/post/the-discourse-of-the-center" className={citeClass}>— The Discourse of the Center →</Link>
+          </blockquote>
+          <p>
+            Run anything human back to its origin and its center and you can both diagnose an order and
+            prescribe for it. It asks for no belief —
+          </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
             &ldquo;it just offers a better way of thinking things through, and thinking things through
             is best done with others.&rdquo;
             <Link href="/post/the-prospects-of-the-hypothesis" className={citeClass}>— The Prospects of the Hypothesis →</Link>
           </blockquote>
-          <p>
-            That&rsquo;s enough to begin. Center Study is a living discourse rather than a finished
-            doctrine, and its vocabulary is technical by design — it rewards patience, and reading back
-            into the foundations as you go. You don&rsquo;t have to read in order; start where it grabs
-            you. You can hear it laid out in sequence in the{' '}
-            <Link href="/lectures" className={linkCls}>lecture series</Link>, look up any term in the{' '}
-            <Link href="/concepts" className={linkCls}>concepts glossary</Link>, and when the next
-            question arrives — and it will — the{' '}
-            <Link href="/faq" className={linkCls}>FAQ</Link> takes up the ones that tend to follow first.
+          <p className="text-base text-gray-500 dark:text-gray-400">
+            Start anywhere: the{' '}
+            <Link href="/lectures" className={linkCls}>lectures</Link> lay it out in sequence, the{' '}
+            <Link href="/concepts" className={linkCls}>glossary</Link> defines the vocabulary, and the{' '}
+            <Link href="/faq" className={linkCls}>FAQ</Link> takes the hard questions.
           </p>
         </div>
       </section>
