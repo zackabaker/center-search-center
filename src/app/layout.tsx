@@ -63,6 +63,14 @@ export const metadata: Metadata = {
     description:
       "Complete archive of Adam Katz / Dennis Bouvard's Center Study writings. 700+ texts, full-text search, AI Q&A.",
   },
+  // Search Console + Bing Webmaster verification. Set the tokens as Vercel env
+  // vars (GOOGLE_SITE_VERIFICATION, BING_SITE_VERIFICATION) — no code change needed.
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+    other: process.env.BING_SITE_VERIFICATION
+      ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION }
+      : {},
+  },
 };
 
 export default function RootLayout({
