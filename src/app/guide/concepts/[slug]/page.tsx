@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { CONCEPTS, getConceptBySlug } from '@/data/guide/concepts';
 import { atlasPassages } from '@/lib/concept-atlas';
+import GLOSSARY from '@/data/guide/concept-glossary.json';
 import GoBack from '@/components/GoBack';
 import type { Metadata } from 'next';
 
@@ -21,9 +22,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!concept) return {};
   return {
     title: `${concept.title} — Center Study Concepts`,
-    description: concept.definition
-      ? concept.definition.slice(0, 160)
-      : concept.subtitle,
+    description: (
+      (GLOSSARY as Record<string, { definitionQuote?: string }>)[slug]?.definitionQuote
+      || concept.definition
+      || concept.subtitle
+    ).slice(0, 160),
   };
 }
 
@@ -31,6 +34,16 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
   const { slug } = await params;
   const concept = getConceptBySlug(slug);
   if (!concept) notFound();
+
+  // Verbatim glossary data — defining quote + passages + key texts, all from the archive.
+  type GlossaryEntry = {
+    definitionQuote: string; definitionSource: string; definitionSlug: string; definitionAuthor: string;
+    passages: { text: string; source: string; sourceSlug: string }[];
+    posts: { slug: string; title: string; note: string }[];
+  };
+  const g = (GLOSSARY as Record<string, GlossaryEntry>)[slug];
+  const passages = g?.passages?.length ? g.passages : concept.passages;
+  const keyTexts = g?.posts?.length ? g.posts : concept.posts;
 
   const atlas = atlasPassages(slug);
 
@@ -66,54 +79,40 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
         </Link>
       </div>
 
-      {/* Definition — the one-breath answer, before any quotes or synthesis */}
-      {concept.definition && (
+      {/* Definition — a verbatim defining quote from the archive (not an AI summary) */}
+      {(g?.definitionQuote || concept.definition) && (
         <section className="mb-10">
-          <p
-            className="text-gray-900 dark:text-gray-100"
-            style={{
-              fontFamily: 'var(--prose-font-family)',
-              fontSize: 'calc(var(--prose-font-size, 17px) + 1px)',
-              lineHeight: 'var(--prose-line-height, 1.85)',
-            }}
-          >
-            {concept.definition}
-          </p>
+          {g?.definitionQuote ? (
+            <blockquote className="border-l-2 border-gray-900 dark:border-gray-100 pl-5" style={{ fontFamily: 'var(--prose-font-family)' }}>
+              <p className="text-gray-900 dark:text-gray-100 text-lg sm:text-xl leading-relaxed">
+                &ldquo;{g.definitionQuote}&rdquo;
+              </p>
+              <footer className="mt-2.5 text-sm">
+                <Link href={`/post/${g.definitionSlug}`} className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
+                  {g.definitionSource}
+                </Link>
+                <span className="text-gray-400 dark:text-gray-500"> · {g.definitionAuthor}</span>
+              </footer>
+            </blockquote>
+          ) : (
+            <p
+              className="text-gray-900 dark:text-gray-100"
+              style={{ fontFamily: 'var(--prose-font-family)', fontSize: 'calc(var(--prose-font-size, 17px) + 1px)', lineHeight: 'var(--prose-line-height, 1.85)' }}
+            >
+              {concept.definition}
+            </p>
+          )}
         </section>
       )}
 
-      {/* AI overview — clearly labelled */}
-      {concept.body && (
-        <section className="mb-10 rounded-xl border border-amber-100 dark:border-amber-900/40 bg-amber-50 dark:bg-amber-950/20 px-5 py-4">
-          <div className="flex items-center gap-2 mb-3">
-            <h2 className="text-xs font-mono text-amber-700 dark:text-amber-500 uppercase tracking-widest">
-              AI Overview
-            </h2>
-            <span className="text-[10px] text-amber-600/70 dark:text-amber-600/50 italic">
-              — AI-generated synthesis. Verify claims against the archive passages and linked texts below.
-            </span>
-          </div>
-          <div className="prose prose-sm max-w-none text-gray-700 dark:text-gray-300 leading-relaxed space-y-3">
-            {concept.body.split('\n\n').map((para, i) => (
-              <p key={i} className="text-sm leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: para
-                  .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-                  .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-                }}
-              />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Passages — primary content, from the archive */}
-      {concept.passages.length > 0 && (
+      {/* Passages — primary content, verbatim from the archive (verified) */}
+      {passages.length > 0 && (
         <section className="mb-10">
           <h2 className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-5">
             From the Archive
           </h2>
           <div className="space-y-6">
-            {concept.passages.map((p, i) => (
+            {passages.map((p, i) => (
               <blockquote key={i} className="border-l-2 border-gray-300 dark:border-gray-600 pl-5 py-0.5">
                 <p className="text-gray-800 dark:text-gray-200 leading-relaxed mb-3 text-[15px]">
                   &ldquo;{p.text}&rdquo;
@@ -130,6 +129,30 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
                   </svg>
                 </footer>
               </blockquote>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* AI overview — clearly labelled, secondary to the archive quotes above */}
+      {concept.body && (
+        <section className="mb-10 rounded-xl border border-amber-100 dark:border-amber-900/40 bg-amber-50 dark:bg-amber-950/20 px-5 py-4">
+          <div className="flex items-center gap-2 mb-3">
+            <h2 className="text-xs font-mono text-amber-700 dark:text-amber-500 uppercase tracking-widest">
+              AI Overview
+            </h2>
+            <span className="text-[10px] text-amber-600/70 dark:text-amber-600/50 italic">
+              — AI-generated synthesis. The archive passages above are the primary source.
+            </span>
+          </div>
+          <div className="prose prose-sm max-w-none text-gray-700 dark:text-gray-300 leading-relaxed space-y-3">
+            {concept.body.split('\n\n').map((para, i) => (
+              <p key={i} className="text-sm leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: para
+                  .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                  .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+                }}
+              />
             ))}
           </div>
         </section>
@@ -165,11 +188,11 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
       )}
 
       {/* Archive posts */}
-      {concept.posts.length > 0 && (
+      {keyTexts.length > 0 && (
         <section className="mb-10">
           <h2 className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">Key Texts</h2>
           <div className="space-y-3">
-            {concept.posts.map((post) => (
+            {keyTexts.map((post) => (
               <div key={post.slug} className="flex gap-3">
                 <div className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-600 flex-shrink-0 mt-2" />
                 <div>
