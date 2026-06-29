@@ -67,12 +67,15 @@ export default function StartPage() {
             representation (language).
           </p>
           <p>
-            The Originary Hypothesis is a source of not just ideas, but companies that sit on the boundary
-            between the capitalist — even ultra-capitalist — and the no longer quite capitalist order:
-            betting, <Link href="/search?q=prediction%20markets" className={linkCls}>prediction markets</Link>,
-            employment agencies, <Link href="/post/tokenization" className={linkCls}>new currencies</Link>,
-            investment inquiries; but also a space where well-being, learning, and inquiry are ends in
-            themselves.
+            The{' '}
+            <Link href="/guide/concepts/originary-scene" className={linkCls}>Originary Hypothesis</Link> is a
+            source of not just ideas, but companies that sit on the boundary between the capitalist — even
+            ultra-capitalist — and the no longer quite capitalist order:{' '}
+            <Link href="/search?q=betting" className={linkCls}>betting</Link>,{' '}
+            <Link href="/search?q=prediction%20markets" className={linkCls}>prediction markets</Link>,{' '}
+            <Link href="/search?q=companies" className={linkCls}>employment agencies</Link>,{' '}
+            <Link href="/post/tokenization" className={linkCls}>new currencies</Link>, investment inquiries;
+            but also a space where well-being, learning, and inquiry are ends in themselves.
           </p>
           <p>
             Center Study, and those working on it and in it, are producing something like a linguistic{' '}
