@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Introduction to Center Study | Center Study Center',
   description:
-    'Introduction to Center Study: a brief, quote-grounded walk through the originary hypothesis — why humans imitate, how deferral founds the human, why the idea is at once simple and powerful, and what it can do — then the glossary, the FAQ, and the best posts to start with.',
+    'Introduction to Center Study: the originary hypothesis in brief — the origin of language, the human, and the sacred in a single scene (after Eric Gans and René Girard), what it diagnoses and prescribes, and how far it scales — then the glossary, the FAQ, and the best posts to start with.',
 };
 
 // The handful of essays that make the best on-ramp.
@@ -41,6 +41,15 @@ const MORE = [
   { href: '/browse', label: 'Browse the archive', desc: 'All 1,900+ texts — blog, essays, the book, threads.' },
 ];
 
+// Cultural artifacts that stage or name the originary scene — a light coda.
+const ECHOES = [
+  { title: 'Gospel of John 1:1', gloss: '“In the beginning was the Word” — origin, God, and the sign collapsed into a single line.', href: 'https://en.wikipedia.org/wiki/John_1:1', external: true },
+  { title: 'The Beatles, “Let It Be”', gloss: 'the unresentful letting-be of the object — in Katz’s phrase, a direct line back to the scene.', href: 'https://en.wikipedia.org/wiki/Let_It_Be_(Beatles_song)', external: true },
+  { title: '2001: A Space Odyssey', gloss: 'the Dawn of Man — hominids gather at a central object, desirable and dangerous, and take up the first tool.', href: 'https://en.wikipedia.org/wiki/2001:_A_Space_Odyssey_(film)', external: true },
+  { title: 'Genesis — “Let there be…”', gloss: 'the pure imperative: a not-yet-existing world commanded into being.', href: '/post/why-the-law-is-enough', external: false },
+  { title: 'The myth of Prometheus', gloss: 'the origin-gift of fire and tools — and the founding violence fobbed off onto the gods.', href: '/post/event-origin-center', external: false },
+];
+
 const sectionLabel = 'text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3';
 const quoteClass = 'border-l-2 border-gray-300 dark:border-gray-600 pl-4 italic text-gray-600 dark:text-gray-300';
 const citeClass = 'not-italic block mt-1.5 text-xs text-blue-600 dark:text-blue-400 hover:underline';
@@ -53,87 +62,134 @@ export default function StartPage() {
       </h1>
       <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed mb-4 max-w-2xl">
         Center study is a discipline grounded in the originary hypothesis: a way of tracing anything
-        human back to its origin, and through that origin, to the origin of language itself. It reads
-        the social order both to diagnose it and to prescribe — to name what we are already doing, so
-        that we might do it more deliberately.
+        human back to its origin — where the origin of language proves to be the origin of the human,
+        of the sacred, of everything.
+      </p>
+      <blockquote
+        className={`${quoteClass} mb-6 max-w-2xl`}
+        style={{ fontFamily: 'var(--prose-font-family)', fontSize: '15px', lineHeight: 1.7 }}
+      >
+        &ldquo;The originary hypothesis finds the origin of the human, of language, and of the sacred
+        in a single gesture.&rdquo;
+        <Link href="/post/secular-thinking" className={citeClass}>— Secular Thinking →</Link>
+      </blockquote>
+      <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed mb-4 max-w-2xl">
+        And it is built to be used — a way of reading the social order that both diagnoses and
+        prescribes, on the longest horizon imaginable:
       </p>
       <blockquote
         className={`${quoteClass} mb-10 max-w-2xl`}
         style={{ fontFamily: 'var(--prose-font-family)', fontSize: '15px', lineHeight: 1.7 }}
       >
-        &ldquo;To know something is to know its origin; even more, it is to participate in its
-        origin.&rdquo;
-        <Link href="/post/naming-origins-and-the-necessary-self-referentiality-of-social-order-gablog" className={citeClass}>— Naming, Origins and the Necessary Self-Referentiality of Social Order →</Link>
+        &ldquo;The goal of center study is to stay as close to boundary between diagnosis and
+        prescription as possible on the longest timeline imaginable: to always be able to say, this is
+        what everyone is already doing and here&rsquo;s how they might, given certain shifts in visible
+        trajectories, do it more explicitly and accountably.&rdquo;
+        <Link href="/post/hyperstitching-the-soliciting-of-the-center-and-the-prolonging-of-the-imperative" className={citeClass}>— Hyperstitching the Center →</Link>
       </blockquote>
 
-      {/* The originary hypothesis, briefly — explication in Adam’s own words */}
+      {/* The hypothesis in brief — provenance (Gans + Girard) + one Adam outline chunk, then a learn-more link */}
       <section className="mb-10">
-        <p className={sectionLabel}>The originary hypothesis, briefly</p>
+        <p className={sectionLabel}>The hypothesis, in brief</p>
         <div
           className="text-gray-700 dark:text-gray-300 space-y-4"
           style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.75 }}
         >
           <p>
-            It begins with the one thing humans do first, and most — we imitate. As Aristotle
-            observed, it is what sets us apart:
+            The hypothesis is not Katz&rsquo;s own. It was advanced by Eric Gans, building on Ren&eacute;
+            Girard&rsquo;s account of mimesis:
           </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;man differs from the other animals in that he is the most imitative and learns his
-            first lessons through imitation.&rdquo;
-            <Link href="/post/ap0101-schneid" className={citeClass}>— Aristotle, Poetics →</Link>
+            &ldquo;The originary hypothesis, advanced by Eric Gans in his <em>The Origin of Language</em>{' '}
+            in 1981, posits a singular event within which language, or the sign, originates.
+            Gans&rsquo;s starting point is Rene Girard&rsquo;s understanding of the conflictual nature
+            of mimesis: as humans are the most mimetic species, and mimesis generates rivalry because
+            our model, the more we model ourselves on him, becomes our rival for the same object,
+            mimesis leads to crisis, in which the continued existence of the community can be at
+            stake.&rdquo;
+            <Link href="/post/anthropomorphics-origin-and-hypothesis" className={citeClass}>— Origin and Hypothesis →</Link>
           </blockquote>
-          <p>
-            But the imitation that teaches us also divides us: modeling ourselves on another, we come
-            to want what he wants, and the shared object turns us into rivals — a rivalry that,
-            unchecked, ends in violence.
+          <p>What breaks the crisis is not an act but a hesitation:</p>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;However, within the group, some member hesitates, presumably out of something like
+            terror (&lsquo;anxiety&rsquo; would not be quite right here), is seen by others to hesitate,
+            and is imitated by others. The gesture indicates a renunciation, perhaps momentary (but
+            that is enough), of the desired object. This, what Gans calls &lsquo;the gesture of aborted
+            appropriation,&rsquo; is the first sign. The rivalrous imitation that first propels the
+            group toward center and potentially cataclysmic violence is converted into a pacifying
+            imitation that de-escalates the crisis; the order provided by the animal pecking order is
+            replaced by an order mediated by the sign, which defers violence through representation. A
+            new species is born: the human, the only species, as Gans puts it, that poses a greater
+            danger to its own survival than is posed to it by anything in its environment.&rdquo;
+            <Link href="/post/anthropomorphics-origin-and-hypothesis" className={citeClass}>— Origin and Hypothesis →</Link>
+          </blockquote>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            That single event — the originary scene — is the whole of it; everything else unfolds from
+            there. New to it? The{' '}
+            <Link href="/lectures" className="text-blue-600 dark:text-blue-400 hover:underline">lectures</Link>{' '}
+            and the{' '}
+            <Link href="/concepts" className="text-blue-600 dark:text-blue-400 hover:underline">glossary</Link>{' '}
+            walk through the scene step by step.
           </p>
+        </div>
+      </section>
+
+      {/* The reach — scale + contra-liberalism + invitational close */}
+      <section className="mb-10">
+        <p className={sectionLabel}>The reach</p>
+        <div
+          className="text-gray-700 dark:text-gray-300 space-y-4"
+          style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.75 }}
+        >
           <p>
-            At the brink of that crisis the decisive human thing happens — and it is not an act but a
-            holding-back. A hand reaching for the object stops:
+            Because it begins from the one thing every human shares, the same frame scales without
+            limit. Most thinking never leaves the small group; this reads a private desire and a
+            geopolitical fracture with one instrument — up to the largest scenes there are:
           </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;The first signifier need not know what he is doing: he aborts his gesture of
-            appropriation, which is to say he stops or hesitates.&rdquo;
-            <Link href="/post/more-problems-in-the-concept-of-imitation" className={citeClass}>— More Problems in the Concept of Imitation →</Link>
+            &ldquo;But scenes directly orchestrated by the center, in collaboration with its closest
+            subordinates (these being, today, the major media and tech companies), are of an entirely
+            different character: these are spectacles, mass mobilizations, shows of force, sentimental
+            morality plays, scapegoating rituals, and so on.&rdquo;
+            <Link href="/post/scale" className={citeClass}>— Scale →</Link>
           </blockquote>
-          <p>
-            That hesitation is the first sign, and the first freedom — not free will so much as{' '}
-            <em>free won&rsquo;t</em>: a space of restraint, a non-instinctual attention, opened
-            between us and what we want. It is at once the smallest thing and the largest:
-          </p>
+          <p>It is a way of seeing the center that liberalism, by design, cannot:</p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;All that differentiates us fundamentally from the machines, and for the better, is
-            deferral — the deferral of appropriation, which is the source of all human creation.&rdquo;
-            <Link href="/post/brute-force-computation-and-the-debt-to-the-center" className={citeClass}>— Brute Force Computation and the Debt to the Center →</Link>
+            &ldquo;Liberalism has infiltrated all institutions, but it can never completely conquer
+            them because liberalism is intrinsically parasitic: it needs a center to be
+            de-centered.&rdquo;
+            <Link href="/post/the-counter-inquisition-gablog" className={citeClass}>— The Counter-Inquisition →</Link>
           </blockquote>
-          <p>
-            Everything in center study unfolds from that one scene, and it asks almost nothing of you
-            to begin:
-          </p>
-          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;The originary hypothesis is easily summed up in a couple of paragraphs, at most, and
-            all it really assumes is that human beings are mimetic creatures.&rdquo;
-            <Link href="/post/the-originary-hypothesis-in-itself" className={citeClass}>— The Originary Hypothesis in Itself →</Link>
-          </blockquote>
-          <p>
-            From that single premise, everything human follows — which is what makes it powerful. One
-            frame scales from a private desire to a geopolitical fracture, and it does not merely
-            describe the order but points past its impasses:
-          </p>
-          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;only the mode of thinking enabled by the originary hypothesis helps us to identify
-            these problems and provides us with the means of seeking solutions or transformations that
-            will &lsquo;deactivate&rsquo; what are now, in the absence of any shared ritual order,
-            unsolveable problems.&rdquo;
-            <Link href="/post/the-transdisciplinarity-of-the-hypothesis" className={citeClass}>— The Transdisciplinarity of the Hypothesis →</Link>
-          </blockquote>
-          <p>And it is meant to be taken up, not believed:</p>
+          <p>None of it asks for belief. It is an invitation:</p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
             &ldquo;it just offers a better way of thinking things through, and thinking things through
             is best done with others.&rdquo;
             <Link href="/post/the-prospects-of-the-hypothesis" className={citeClass}>— The Prospects of the Hypothesis →</Link>
           </blockquote>
         </div>
+      </section>
+
+      {/* Echoes of the scene — cultural artifacts */}
+      <section className="mb-12">
+        <p className={sectionLabel}>Echoes of the scene</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 leading-relaxed max-w-2xl">
+          The scene is older than the theory; cultures have been staging it all along.
+        </p>
+        <ul className="space-y-3">
+          {ECHOES.map((e) => (
+            <li key={e.title} className="text-sm leading-relaxed">
+              <a
+                href={e.href}
+                target={e.external ? '_blank' : undefined}
+                rel={e.external ? 'noopener noreferrer' : undefined}
+                className="font-medium text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
+                {e.title} {e.external ? '↗' : '→'}
+              </a>
+              <span className="text-gray-500 dark:text-gray-400"> — {e.gloss}</span>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* Read further — glossary + FAQ; best intro posts follow below */}
