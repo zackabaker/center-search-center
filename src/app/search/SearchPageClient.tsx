@@ -275,6 +275,16 @@ export default function SearchPageClient({
   const toggleThreads = () => setIncludeThreads((v) => { const n = !v; try { localStorage.setItem('csc-search-threads', n ? 'on' : 'off'); } catch {} return n; });
   const toggleArchives = () => setIncludeArchives((v) => { const n = !v; try { localStorage.setItem('csc-search-archives', n ? 'on' : 'off'); } catch {} return n; });
 
+  // Sources searched by meaning (semantic) mode — core (Adam's writing) is always
+  // on; Reddit/X and Chronicles/AP are opt-in via the same toggles as keyword, so
+  // the Chronicles don't flood meaning results unless explicitly asked for.
+  const allowedSources = useMemo(() => {
+    const s = ['substack', 'gablog', 'book', 'pdf'];
+    if (includeThreads) s.push('reddit', 'twitter');
+    if (includeArchives) s.push('chronicle', 'ap');
+    return s;
+  }, [includeThreads, includeArchives]);
+
   // Lazy-load the Chronicles + AP index the first time archives are enabled
   useEffect(() => {
     if (!includeArchives || archiveEntries.length > 0 || archiveLoading) return;
@@ -429,6 +439,39 @@ export default function SearchPageClient({
   // Speed: idle=1 (slow, like home), typing=2 (medium), searching=7 (fast)
   const iconSpeed = isSearching ? 7 : query ? 2 : 1;
 
+  // Source toggles — shared by keyword and meaning. Reddit/X and Chronicles/AP
+  // are off by default and opt-in, so the Chronicles don't flood either search.
+  const sourceToggles = (
+    <div className="flex items-center gap-2 flex-wrap text-xs">
+      <span className="text-gray-400 dark:text-gray-500">Also search:</span>
+      <button
+        onClick={toggleThreads}
+        aria-pressed={includeThreads}
+        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-colors ${
+          includeThreads
+            ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 border-gray-900 dark:border-white'
+            : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500'
+        }`}
+      >
+        <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-violet-400" />
+        Reddit &amp; X
+      </button>
+      <button
+        onClick={toggleArchives}
+        aria-pressed={includeArchives}
+        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-colors ${
+          includeArchives
+            ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 border-gray-900 dark:border-white'
+            : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500'
+        }`}
+      >
+        <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-amber-400" />
+        Chronicles &amp; AP
+        {includeArchives && archiveLoading && <span className="opacity-70">· loading…</span>}
+      </button>
+    </div>
+  );
+
   return (
     <main className="max-w-4xl w-full mx-auto px-4 pt-6 pb-24 sm:py-10 overflow-x-hidden">
       {/* Loading bar while the Chronicles/AP index streams in */}
@@ -523,11 +566,18 @@ export default function SearchPageClient({
       {/* Results area — semantic (meaning) mode */}
       {mode === 'meaning' && (
         hasQuery ? (
-          <SemanticResults query={committed} />
+          <>
+            <div className="mb-4">{sourceToggles}</div>
+            <SemanticResults query={committed} sources={allowedSources} />
+          </>
         ) : (
           <div className="text-center py-12 text-gray-400 dark:text-gray-500">
             <p className="text-sm">Describe an idea in your own words.</p>
-            <p className="text-xs mt-1">Meaning search finds passages even when they use different words than your query.</p>
+            <p className="text-xs mt-1">
+              Meaning search finds passages even when they use different words than your query. By
+              default it covers Adam Katz&rsquo;s Substack, GABlog, books and essays — not the
+              Chronicles.
+            </p>
           </div>
         )
       )}
@@ -566,34 +616,7 @@ export default function SearchPageClient({
               <FilterTabs active={filter} onChange={handleFilterChange} counts={counts} />
             )}
             {/* Source toggles — Reddit/X and Chronicles/AP are off by default */}
-            <div className="mt-3 flex items-center gap-2 flex-wrap text-xs">
-              <span className="text-gray-400 dark:text-gray-500">Also search:</span>
-              <button
-                onClick={toggleThreads}
-                aria-pressed={includeThreads}
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-colors ${
-                  includeThreads
-                    ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 border-gray-900 dark:border-white'
-                    : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500'
-                }`}
-              >
-                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-violet-400" />
-                Reddit &amp; X
-              </button>
-              <button
-                onClick={toggleArchives}
-                aria-pressed={includeArchives}
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-colors ${
-                  includeArchives
-                    ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 border-gray-900 dark:border-white'
-                    : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500'
-                }`}
-              >
-                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-amber-400" />
-                Chronicles &amp; AP
-                {includeArchives && archiveLoading && <span className="opacity-70">· loading…</span>}
-              </button>
-            </div>
+            <div className="mt-3">{sourceToggles}</div>
           </div>
 
           {/* Ask AI CTA — appears whenever there's a committed query */}

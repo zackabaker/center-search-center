@@ -23,11 +23,16 @@ const SOURCE_LABELS: Record<string, string> = {
 
 type Status = 'idle' | 'loading-model' | 'searching' | 'done' | 'error';
 
-export default function SemanticResults({ query }: { query: string }) {
+export default function SemanticResults({ query, sources }: { query: string; sources: string[] }) {
   const [results, setResults] = useState<Res[] | null>(null);
   const [status, setStatus] = useState<Status>('idle');
   const [progress, setProgress] = useState(0);
   const reqId = useRef(0);
+  // Cache the last query's embedding so flipping a source toggle re-runs the
+  // (cheap) cosine search without re-embedding the query in the browser.
+  const vecCache = useRef<{ q: string; vec: number[] } | null>(null);
+
+  const sourcesKey = sources.join(',');
 
   useEffect(() => {
     const q = query.trim();
@@ -35,14 +40,21 @@ export default function SemanticResults({ query }: { query: string }) {
     const id = ++reqId.current;
     (async () => {
       try {
-        setStatus(modelLoaded() ? 'searching' : 'loading-model');
-        const vec = await embedQueryClient(q, (p) => { if (id === reqId.current) setProgress(p); });
-        if (id !== reqId.current) return;
-        setStatus('searching');
+        let vec: number[];
+        if (vecCache.current && vecCache.current.q === q) {
+          vec = vecCache.current.vec;
+          setStatus('searching');
+        } else {
+          setStatus(modelLoaded() ? 'searching' : 'loading-model');
+          vec = await embedQueryClient(q, (p) => { if (id === reqId.current) setProgress(p); });
+          if (id !== reqId.current) return;
+          vecCache.current = { q, vec };
+          setStatus('searching');
+        }
         const r = await fetch('/api/semantic', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ vector: vec }),
+          body: JSON.stringify({ vector: vec, sources }),
         });
         if (id !== reqId.current) return;
         if (!r.ok) throw new Error('unavailable');
@@ -54,7 +66,8 @@ export default function SemanticResults({ query }: { query: string }) {
         if (id === reqId.current) setStatus('error');
       }
     })();
-  }, [query]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, sourcesKey]);
 
   if (status === 'idle') return null;
 

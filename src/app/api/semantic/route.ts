@@ -18,8 +18,9 @@ export async function POST(request: Request) {
   }
 
   let vector: unknown;
+  let sources: unknown;
   try {
-    ({ vector } = await request.json());
+    ({ vector, sources } = await request.json());
   } catch {
     return Response.json({ error: 'Invalid JSON' }, { status: 400 });
   }
@@ -27,9 +28,15 @@ export async function POST(request: Request) {
     return Response.json({ error: `vector must be ${EMBED_DIM} numbers` }, { status: 400 });
   }
 
+  // Optional content-source allow-list (the browser excludes the Chronicles &c.
+  // by default). Absent/empty → search all sources.
+  const allow = Array.isArray(sources) && sources.length > 0
+    ? new Set((sources as unknown[]).filter((s): s is string => typeof s === 'string'))
+    : undefined;
+
   // Drop same-title duplicates (e.g. the pdf + ap copies of one article).
   const seenTitle = new Set<string>();
-  const results = semanticChunks(Float32Array.from(vector as number[]), 40)
+  const results = semanticChunks(Float32Array.from(vector as number[]), 40, true, allow)
     .filter((c) => {
       const key = c.title.trim().toLowerCase();
       if (seenTitle.has(key)) return false;
