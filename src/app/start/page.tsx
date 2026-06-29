@@ -52,7 +52,7 @@ export default function StartPage() {
       <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-gray-900 dark:text-white">
         Introduction to Center Study
       </h1>
-      {/* Introduction — short, quote-led, heavily linked (v5): light lineage → the center → implications (politics, technology) */}
+      {/* Introduction — short, quote-led, heavily linked (v6): light lineage → the center → contemporary-implications sweep (economy, derivatives, currencies, AI, meta-politics) */}
       <section className="mb-12">
         <div
           className="text-gray-700 dark:text-gray-300 space-y-5 max-w-2xl"
@@ -74,29 +74,41 @@ export default function StartPage() {
             <Link href="/post/the-discourse-of-the-center" className={citeClass}>— The Discourse of the Center →</Link>
           </blockquote>
           <p>
-            From there it reads any order — a desire, an institution, a market, a state — as the play
-            between a periphery and its center, and the implications run far. In{' '}
-            <strong className="font-semibold text-gray-800 dark:text-gray-200">politics</strong>, the
-            spectacles that organize public life come into focus as scenes staged from the center:
+            From there it reads any order — a desire, a market, a state — as the play between a
+            periphery and its center, and the reach is startling: across{' '}
+            <Link href="/search?q=prediction%20markets" className={linkCls}>prediction markets</Link>,{' '}
+            <Link href="/post/tokenization" className={linkCls}>currencies</Link>,{' '}
+            <Link href="/post/there-is-no-economy-pdf" className={linkCls}>derivatives</Link>,{' '}
+            <Link href="/search?q=capital%20markets" className={linkCls}>capital markets</Link>,{' '}
+            <Link href="/post/idiomatic-intelligence-and-the-black-box" className={linkCls}>artificial intelligence</Link>,{' '}
+            <Link href="/search?q=institutional%20design" className={linkCls}>institutional design</Link>, and{' '}
+            <Link href="/post/securing-sovereignty" className={linkCls}>meta-politics</Link>. Its
+            diagnoses are not cautious:
           </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;But scenes directly orchestrated by the center, in collaboration with its closest
-            subordinates (these being, today, the major media and tech companies), are of an entirely
-            different character: these are spectacles, mass mobilizations, shows of force, sentimental
-            morality plays, scapegoating rituals, and so on.&rdquo;
-            <Link href="/post/scale" className={citeClass}>— Scale →</Link>
+            &ldquo;There is no &lsquo;economy.&rsquo; There is only, as there always has been, ritual
+            distribution from the center.&rdquo;
+            <Link href="/post/will-have-been-the-same-future-perfectism-or-derivatives-of-the-tributary" className={citeClass}>— Derivatives of the Tributary →</Link>
           </blockquote>
-          <p>
-            And in{' '}
-            <strong className="font-semibold text-gray-800 dark:text-gray-200">technology</strong>, the
-            hypothesis is not only an account of where we came from but an instrument for what comes
-            next:
-          </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;Originary hypothesizing is, then, a technology that we program to propose and
-            implement new modes of deferral, and to gather data (detect, record, and analyze) through
-            the techno-scenes we construct that feed back into that programming.&rdquo;
-            <Link href="/post/idiomatic-intelligence-and-the-black-box" className={citeClass}>— Idiomatic Intelligence and the Black Box →</Link>
+            &ldquo;The space of the derivative is the true capitalist church.&rdquo;
+            <Link href="/post/there-is-no-economy-pdf" className={citeClass}>— There Is No Economy but Only the Debt to the Center →</Link>
+          </blockquote>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;… if bitcoin and/or related forms of blockchain technology and economy can eliminate
+            capitalist power by removing from state and banks alike debt issuing power, they are to be
+            unequivocally supported.&rdquo;
+            <Link href="/post/tokenization" className={citeClass}>— Tokenization →</Link>
+          </blockquote>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;I think the language of computation will replace the languages of interiority … I
+            expect &lsquo;latent space&rsquo; to replace &lsquo;unconscious.&rsquo;&rdquo;
+            <Link href="/post/2039743085375054323" className={citeClass}>— @centerstudy_ on X →</Link>
+          </blockquote>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;Sovereignty is always passed off—to be sovereign is to decide upon one&rsquo;s
+            successor.&rdquo;
+            <Link href="/post/securing-sovereignty" className={citeClass}>— Securing Sovereignty →</Link>
           </blockquote>
           <p className="text-base text-gray-500 dark:text-gray-400">
             Run anything human back to its center and you can both diagnose an order and prescribe for
