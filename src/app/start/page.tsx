@@ -42,6 +42,7 @@ const MORE = [
 ];
 
 const sectionLabel = 'text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3';
+const linkCls = 'text-blue-600 dark:text-blue-400 hover:underline';
 
 export default function StartPage() {
   return (
@@ -56,39 +57,71 @@ export default function StartPage() {
           style={{ fontFamily: 'var(--prose-font-family)', fontSize: '17px', lineHeight: 1.8 }}
         >
           <p>
-            Center Study is a transdisciplinary discourse descended from Generative Anthropology — the
-            study of human society and culture in the light of the originary hypothesis, formulated by
-            Eric Gans in <em>The Origin of Language</em> (1980). The originary hypothesis is of the
-            origin of language, which is also the origin of the human and the sacred.
+            Center Study is a{' '}
+            <Link href="/post/the-transdisciplinarity-of-the-hypothesis" className={linkCls}>transdisciplinary</Link>{' '}
+            discourse descended from{' '}
+            <Link href="/lineage" className={linkCls}>Generative Anthropology</Link> — the study of human
+            society and culture in the light of the{' '}
+            <Link href="/guide/concepts/originary-scene" className={linkCls}>originary hypothesis</Link>,
+            formulated by Eric Gans in{' '}
+            <em><Link href="/post/the-origin-of-language" className={linkCls}>The Origin of Language</Link></em>{' '}
+            (1980). The originary hypothesis is of the origin of language, which is also the origin of the
+            human and{' '}
+            <Link href="/guide/concepts/the-sacred" className={linkCls}>the sacred</Link>.
           </p>
           <p>
-            The hypothesis: a group of hominids is converging on a single central object. Mimetic desire
-            has broken down the pecking order that limits violence in animal groups — everyone wants the
-            same thing, and they are closing in on it together. At the moment of crisis, someone converts
-            the grasping gesture into a pointing gesture. Appropriation becomes sign. This is the first
-            word: iterable, addressed to all the others, referring to the shared object — symbolic rather
-            than merely indexical. From this single scene, language, community, and the sacred emerge
-            simultaneously. The object, deferred rather than consumed, becomes the first sacred thing.
-            The group, constituted by shared attention, becomes the first human community.
+            The hypothesis: a group of hominids is converging on a single central object.{' '}
+            <Link href="/guide/concepts/mimesis" className={linkCls}>Mimetic desire</Link> has broken down
+            the pecking order that limits violence in animal groups — everyone wants the same thing, and
+            they are closing in on it together. At the moment of crisis, someone converts the grasping
+            gesture into a pointing gesture. Appropriation becomes{' '}
+            <Link href="/guide/concepts/the-sign" className={linkCls}>sign</Link>. This is the first word:
+            iterable, addressed to all the others, referring to the shared object — symbolic rather than
+            merely indexical. From this single scene, language, community, and the sacred emerge
+            simultaneously. The object,{' '}
+            <Link href="/guide/concepts/deferral" className={linkCls}>deferred</Link> rather than consumed,
+            becomes the first sacred thing. The group, constituted by shared attention, becomes the first
+            human community.
           </p>
           <p>
             Center Study departs from Generative Anthropology by staying focused on the{' '}
-            <em>enduring</em> nature of the center — not just its origin but its ongoing operation in
-            every subsequent form of human social life. That first ritual, sacrificial center eventually
-            gets seized: first by the Big Man, then the chief, the sacred king, the emperor, the state.
-            Center Study follows this thread and reads any social order as an effect of the engagement
-            between periphery and center. Every institution, every political form, every medium of
-            exchange is an attempt to hold the center, occupy it, or deny that any center exists.
+            <em>enduring</em> nature of{' '}
+            <Link href="/guide/concepts/the-center" className={linkCls}>the center</Link> — not just its
+            origin but its ongoing operation in every subsequent form of human social life. That first{' '}
+            <Link href="/guide/concepts/ritual" className={linkCls}>ritual</Link>, sacrificial center
+            eventually gets seized: first by the{' '}
+            <Link href="/guide/concepts/big-man" className={linkCls}>Big Man</Link>, then the chief, the
+            sacred king, the emperor, the state. Center Study follows this thread and reads any social
+            order as an effect of the engagement between periphery and center. Every institution, every
+            political form, every medium of exchange is an attempt to hold the center, occupy it, or deny
+            that any center exists.
           </p>
           <p>
-            This means thinking always in terms of scenes and an originary grammar — ostensive (pointing,
-            naming), imperative (demand), interrogative (question), declarative (proposition) — tracing
-            every concept back to a scene in which some exchange with the center is at stake. Politically,
-            it produces a critique of any theory that starts from &ldquo;the bottom&rdquo; — from the free
-            individual, the social contract, natural rights — insisting instead on starting from the
-            center, from where authority was established and the terms of all future exchange were set.
+            This means thinking always in terms of scenes and an{' '}
+            <Link href="/guide/concepts/ostensive-imperative-declarative" className={linkCls}>originary grammar</Link>{' '}
+            — ostensive (pointing, naming), imperative (demand), interrogative (question), declarative
+            (proposition) — tracing every concept back to a scene in which some exchange with the center
+            is at stake. Politically, it produces a critique of any theory that starts from &ldquo;the
+            bottom&rdquo; — from the free individual, the social contract, natural rights — insisting
+            instead on starting from the center, from where authority was established and the terms of all
+            future exchange were set.
           </p>
         </div>
+
+        {/* FAQ highlighted right under the introduction */}
+        <Link
+          href="/faq"
+          className="group mt-8 flex items-center justify-between gap-3 px-4 py-3.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
+        >
+          <span className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+            <span className="font-semibold text-gray-900 dark:text-white">New, or skeptical?</span> The
+            FAQ takes the common questions and objections head-on — is it falsifiable, how does it differ
+            from Girard and GA, and more.
+          </span>
+          <span className="text-xs font-medium text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex-shrink-0">
+            FAQ →
+          </span>
+        </Link>
       </section>
 
       {/* If you read one thing */}
