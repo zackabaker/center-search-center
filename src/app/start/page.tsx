@@ -52,7 +52,7 @@ export default function StartPage() {
       <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-gray-900 dark:text-white">
         Introduction to Center Study
       </h1>
-      {/* Introduction — short, quote-led, heavily linked (v4): shared origin → scene → method → the center → invitation */}
+      {/* Introduction — short, quote-led, heavily linked (v5): light lineage → the center → implications (politics, technology) */}
       <section className="mb-12">
         <div
           className="text-gray-700 dark:text-gray-300 space-y-5 max-w-2xl"
@@ -61,52 +61,12 @@ export default function StartPage() {
           <p>
             Center Study is a{' '}
             <Link href="/post/the-transdisciplinarity-of-the-hypothesis" className={linkCls}>transdisciplinary</Link>{' '}
-            discourse descended from Generative Anthropology — the study of human society and culture in
-            the light of the{' '}
+            discourse. It descends from René Girard&rsquo;s account of mimetic desire and the Generative
+            Anthropology of Eric Gans — the{' '}
             <Link href="/guide/concepts/originary-scene" className={linkCls}>originary hypothesis</Link>,
-            formulated by Eric Gans in{' '}
-            <em><Link href="/post/the-origin-of-language" className={linkCls}>The Origin of Language</Link></em>{' '}
-            (1980). It does not add one more specialty; it rethinks the human sciences from a single
-            shared origin:
-          </p>
-          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;If the originary hypothesis entails that all human possibilities must be implicit in,
-            and therefore traceable back to, the originary scene, then it follows that Generative
-            Anthropology must be the human science. And if Generative Anthropology is the human science,
-            it must be both incommensurable with and inclusive of all existing human sciences.&rdquo;
-            <Link href="/post/generative-anthropology-one-big-discipline" className={citeClass}>— Generative Anthropology as the One Big Discipline →</Link>
-          </blockquote>
-          <p>
-            That origin is a{' '}
-            <Link href="/guide/concepts/originary-scene" className={linkCls}>scene</Link>. At the height
-            of a{' '}
-            <Link href="/guide/concepts/mimesis" className={linkCls}>mimetic</Link> crisis, a hand
-            reaching for the contested object falters into a gesture instead:
-          </p>
-          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;This, what Gans calls &lsquo;the gesture of aborted appropriation,&rsquo; is the
-            first sign. … the order provided by the animal pecking order is replaced by an order
-            mediated by the sign, which defers violence through representation. A new species is born:
-            the human, the only species, as Gans puts it, that poses a greater danger to its own
-            survival than is posed to it by anything in its environment.&rdquo;
-            <Link href="/post/anthropomorphics-origin-and-hypothesis" className={citeClass}>— Origin and Hypothesis →</Link>
-          </blockquote>
-          <p>
-            Because everything human can be{' '}
-            <Link href="/post/scale" className={linkCls}>traced back to that scene</Link>, the
-            hypothesis becomes a method for reading all of human culture:
-          </p>
-          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;Ultimately, originary thinking is a way of tracing all the frames it comes across
-            back to their origins, and through those origins, the origin of language and
-            humanity.&rdquo;
-            <Link href="/post/within-language" className={citeClass}>— Within Language →</Link>
-          </blockquote>
-          <p>
-            Where Generative Anthropology stays with the origin, Center Study keeps{' '}
-            <Link href="/guide/concepts/the-center" className={linkCls}>the center</Link> at the center —
-            the enduring thing every social order forms around, from the ritual altar to the sovereign
-            to the state:
+            that language and the human begin together in a single scene — and turns that inheritance
+            toward one thing above all:{' '}
+            <Link href="/guide/concepts/the-center" className={linkCls}>the center</Link>.
           </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
             &ldquo;We are beings bound to the center: everything that we say, think or do is homage to
@@ -114,19 +74,36 @@ export default function StartPage() {
             <Link href="/post/the-discourse-of-the-center" className={citeClass}>— The Discourse of the Center →</Link>
           </blockquote>
           <p>
-            Run anything human back to its origin and its center and you can both diagnose an order and
-            prescribe for it. It asks for no belief —
+            From there it reads any order — a desire, an institution, a market, a state — as the play
+            between a periphery and its center, and the implications run far. In{' '}
+            <strong className="font-semibold text-gray-800 dark:text-gray-200">politics</strong>, the
+            spectacles that organize public life come into focus as scenes staged from the center:
           </p>
           <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
-            &ldquo;it just offers a better way of thinking things through, and thinking things through
-            is best done with others.&rdquo;
-            <Link href="/post/the-prospects-of-the-hypothesis" className={citeClass}>— The Prospects of the Hypothesis →</Link>
+            &ldquo;But scenes directly orchestrated by the center, in collaboration with its closest
+            subordinates (these being, today, the major media and tech companies), are of an entirely
+            different character: these are spectacles, mass mobilizations, shows of force, sentimental
+            morality plays, scapegoating rituals, and so on.&rdquo;
+            <Link href="/post/scale" className={citeClass}>— Scale →</Link>
+          </blockquote>
+          <p>
+            And in{' '}
+            <strong className="font-semibold text-gray-800 dark:text-gray-200">technology</strong>, the
+            hypothesis is not only an account of where we came from but an instrument for what comes
+            next:
+          </p>
+          <blockquote className={quoteClass} style={{ fontSize: '15px', lineHeight: 1.7 }}>
+            &ldquo;Originary hypothesizing is, then, a technology that we program to propose and
+            implement new modes of deferral, and to gather data (detect, record, and analyze) through
+            the techno-scenes we construct that feed back into that programming.&rdquo;
+            <Link href="/post/idiomatic-intelligence-and-the-black-box" className={citeClass}>— Idiomatic Intelligence and the Black Box →</Link>
           </blockquote>
           <p className="text-base text-gray-500 dark:text-gray-400">
-            Start anywhere: the{' '}
-            <Link href="/lectures" className={linkCls}>lectures</Link> lay it out in sequence, the{' '}
-            <Link href="/concepts" className={linkCls}>glossary</Link> defines the vocabulary, and the{' '}
-            <Link href="/faq" className={linkCls}>FAQ</Link> takes the hard questions.
+            Run anything human back to its center and you can both diagnose an order and prescribe for
+            it — it asks for no belief, only that you try it. Start anywhere: the{' '}
+            <Link href="/lectures" className={linkCls}>lectures</Link>, the{' '}
+            <Link href="/concepts" className={linkCls}>glossary</Link>, the{' '}
+            <Link href="/faq" className={linkCls}>FAQ</Link>.
           </p>
         </div>
       </section>
