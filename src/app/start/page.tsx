@@ -58,7 +58,7 @@ export default function StartPage() {
         >
           <p>
             Center Study branches off from René Girard&rsquo;s{' '}
-            <Link href="/guide/concepts/mimesis" className={linkCls}>Mimetic Theory</Link>{' '}and Eric
+            <Link href="/lineage" className={linkCls}>Mimetic Theory</Link>{' '}and Eric
             Gans&rsquo;s <Link href="/lineage" className={linkCls}>Generative Anthropology</Link> to create a
             new discipline grounded in the{' '}
             <Link href="/guide/concepts/originary-scene" className={linkCls}>Originary Hypothesis</Link>: the
@@ -75,9 +75,10 @@ export default function StartPage() {
             themselves.
           </p>
           <p>
-            It works to produce a kind of linguistic &ldquo;reserve currency&rdquo; — one indispensable to
-            anyone interested in starting and joining companies that secure and strengthen civilization in
-            the twilight of Anglo modernity.
+            Center Study, and those working on it and in it, are producing something like a linguistic{' '}
+            &ldquo;reserve currency&rdquo; — creating new language, concepts, and terms that work as seed
+            phrases for anyone interested in starting and joining companies that secure and strengthen
+            civilization in the twilight of Anglo modernity.
           </p>
         </div>
 
