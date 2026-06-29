@@ -35,12 +35,15 @@ export interface SemanticChunk { slug: string; title: string; source: string; te
 
 // Top-k chunks by cosine similarity to the query vector. One chunk per post by
 // default (best-scoring), so a single long essay can't flood the results.
-export function semanticChunks(queryVec: Float32Array, k = 12, onePerPost = true): SemanticChunk[] {
+// `allow`, when given, restricts results to those content sources (e.g. so the
+// browser can exclude the Chronicles by default) — filtered before the top-k cut.
+export function semanticChunks(queryVec: Float32Array, k = 12, onePerPost = true, allow?: Set<string>): SemanticChunk[] {
   const idx = loadIndex();
   if (!idx) return [];
   const { vectors, chunks, dim } = idx;
   const scored: SemanticChunk[] = [];
   for (let i = 0; i < chunks.length; i++) {
+    if (allow && !allow.has(chunks[i].source)) continue;
     const v = vectors.subarray(i * dim, (i + 1) * dim);
     scored.push({ ...chunks[i], score: dot(queryVec, v) });
   }
