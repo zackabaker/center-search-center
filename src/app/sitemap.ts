@@ -10,7 +10,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: BASE_URL,                          lastModified: new Date(), changeFrequency: 'daily',   priority: 1.0 },
+    { url: `${BASE_URL}/generative-anthropology`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.95 },
+    { url: `${BASE_URL}/start`,               changeFrequency: 'monthly', priority: 0.9 },
     { url: `${BASE_URL}/intro`,               changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${BASE_URL}/faq`,                 changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE_URL}/lineage`,             changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE_URL}/download`,            changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/ask`,                 changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/search`,              changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/guide`,               changeFrequency: 'monthly', priority: 0.8 },

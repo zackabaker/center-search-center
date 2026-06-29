@@ -118,15 +118,33 @@ export default function Home() {
     } catch { return false; }
   });
 
+  // sameAs identity graph — consolidates Adam Katz / Dennis Bouvard across the web
+  // and lists generativeanthropology.com as an alternate of the same project.
+  const SAMEAS = [
+    'https://dennisbouvard.substack.com',
+    'https://www.amazon.com/Anthropomorphics-Originary-Grammar-Dennis-Bouvard/dp/0648690571',
+    'http://anthropoetics.ucla.edu/',
+    'https://www.reddit.com/user/bouvard1',
+    'https://x.com/centerstudy_',
+    'https://www.generativeanthropology.com',
+  ];
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'WebSite',
+        '@type': ['WebSite', 'DataCatalog'],
         '@id': 'https://center.study/#website',
         url: 'https://center.study',
         name: 'Center Study Center',
-        description: 'Complete searchable archive of Adam Katz and Dennis Bouvard — Center Study writings.',
+        alternateName: 'Center Study',
+        description: 'The complete searchable archive of Adam Katz and Dennis Bouvard — Center Study and Generative Anthropology: ~1,900 texts on the originary hypothesis, the center, deferral, and sovereignty.',
+        inLanguage: 'en',
+        about: {
+          '@type': 'DefinedTerm',
+          name: 'Generative Anthropology',
+          sameAs: ['https://en.wikipedia.org/wiki/Generative_anthropology', 'https://www.generativeanthropology.com'],
+        },
+        creator: [{ '@id': 'https://center.study/author/katz' }],
         potentialAction: {
           '@type': 'SearchAction',
           target: { '@type': 'EntryPoint', urlTemplate: 'https://center.study/search?q={search_term_string}' },
@@ -137,8 +155,12 @@ export default function Home() {
         '@type': 'Person',
         '@id': 'https://center.study/author/katz',
         name: 'Adam Katz',
+        alternateName: 'Dennis Bouvard',
         url: 'https://center.study/author/katz',
-        description: 'Originary thinker and author of Anthropomorphics and the GABlog.',
+        mainEntityOfPage: 'https://center.study/author/katz',
+        description: 'Originary thinker; founder of Center Study and author of Anthropomorphics and the GABlog. Writes applied work under the pen name Dennis Bouvard.',
+        knowsAbout: ['Generative Anthropology', 'the originary hypothesis', 'the center', 'deferral', 'sovereignty', 'political theology'],
+        sameAs: SAMEAS,
       },
       {
         '@type': 'Person',
@@ -146,7 +168,18 @@ export default function Home() {
         name: 'Dennis Bouvard',
         alternateName: 'Adam Katz',
         url: 'https://center.study/author/bouvard',
+        mainEntityOfPage: 'https://center.study/author/bouvard',
         description: 'Pen name for Adam Katz\'s applied Center Study writing on Substack.',
+        sameAs: SAMEAS,
+      },
+      {
+        '@type': 'Book',
+        '@id': 'https://center.study/post/anthropomorphics-book#book',
+        name: 'Anthropomorphics: An Originary Grammar of the Center',
+        author: { '@id': 'https://center.study/author/bouvard' },
+        url: 'https://center.study/post/anthropomorphics-book',
+        sameAs: 'https://www.amazon.com/Anthropomorphics-Originary-Grammar-Dennis-Bouvard/dp/0648690571',
+        inLanguage: 'en',
       },
     ],
   };
