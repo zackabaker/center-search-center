@@ -55,8 +55,35 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
   const askQuery = encodeURIComponent(`What is ${concept.title} in Center Study?`);
   const askHref = `/ask?q=${askQuery}&concept=${concept.slug}`;
 
+  // Machine-readable controlled vocabulary: each concept is a DefinedTerm keyed
+  // to its verbatim sourced definition, plus a breadcrumb trail.
+  const definitionText = g?.definitionQuote || concept.definition || concept.subtitle || '';
+  const definedTermJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTerm',
+    '@id': `https://center.study/guide/concepts/${slug}#term`,
+    name: concept.title,
+    ...(definitionText ? { description: definitionText } : {}),
+    url: `https://center.study/guide/concepts/${slug}`,
+    inDefinedTermSet: 'https://center.study/concepts#glossary',
+    ...(g?.definitionSlug
+      ? { subjectOf: { '@type': 'CreativeWork', name: g.definitionSource, url: `https://center.study/post/${g.definitionSlug}` } }
+      : {}),
+  };
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://center.study' },
+      { '@type': 'ListItem', position: 2, name: 'Concepts & Glossary', item: 'https://center.study/concepts' },
+      { '@type': 'ListItem', position: 3, name: concept.title, item: `https://center.study/guide/concepts/${slug}` },
+    ],
+  };
+
   return (
     <main className="max-w-3xl w-full mx-auto px-4 py-10">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermJsonLd).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, '\\u003c') }} />
       {/* Header */}
       <div className="mb-8">
         <GoBack label="← Back" />

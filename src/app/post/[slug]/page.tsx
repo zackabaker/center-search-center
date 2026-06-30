@@ -277,11 +277,37 @@ export default async function PostPage({
     isPartOf: { '@id': 'https://center.study/#website' },
   };
 
+  const SOURCE_CRUMB: Record<string, { label: string; href: string }> = {
+    gablog: { label: 'GABlog', href: '/browse/gablog' },
+    substack: { label: 'Substack', href: '/browse/substack' },
+    book: { label: 'Anthropomorphics', href: '/browse/book' },
+    pdf: { label: 'Essays & Articles', href: '/browse/pdf' },
+    chronicle: { label: 'Chronicles of Love and Resentment', href: '/browse/chronicle' },
+    ap: { label: 'Anthropoetics Journal', href: '/browse/ap' },
+    reddit: { label: 'Threads & Q&A', href: '/browse/threads' },
+    twitter: { label: 'Threads & Q&A', href: '/browse/threads' },
+    lecture: { label: 'Lecture Series', href: '/lectures' },
+  };
+  const crumb = SOURCE_CRUMB[post.source];
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://center.study' },
+      ...(crumb ? [{ '@type': 'ListItem', position: 2, name: crumb.label, item: `https://center.study${crumb.href}` }] : []),
+      { '@type': 'ListItem', position: crumb ? 3 : 2, name: post.title, item: `https://center.study/post/${slug}` },
+    ],
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd).replace(/</g, '\\u003c') }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, '\\u003c') }}
       />
       <ReadingProgress />
       <TrackView slug={slug} title={post.title} source={post.source} date={post.date} />
@@ -453,6 +479,32 @@ export default async function PostPage({
               next={nextPost ? { slug: nextPost.slug, title: nextPost.title, date: nextPost.date } : null}
               source={post.source}
             />
+
+            {/* End-of-read CTA — source-aware, at the point of highest intent */}
+            <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 print:hidden">
+              {post.source === 'book' ? (
+                <p className="text-[15px] text-gray-700 dark:text-gray-300 leading-relaxed">
+                  From <em>Anthropomorphics: An Originary Grammar of the Center</em> by Dennis Bouvard.{' '}
+                  <a href="https://www.amazon.com/Anthropomorphics-Originary-Grammar-Dennis-Bouvard/dp/0648690571" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Get the book&nbsp;↗</a>
+                </p>
+              ) : post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter' ? (
+                <p className="text-[15px] text-gray-700 dark:text-gray-300 leading-relaxed">
+                  Dennis Bouvard publishes new applied essays on Substack.{' '}
+                  <a href="https://dennisbouvard.substack.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Subscribe&nbsp;↗</a>
+                </p>
+              ) : (
+                <p className="text-[15px] text-gray-700 dark:text-gray-300 leading-relaxed">
+                  Keep reading across the archive —{' '}
+                  <Link href="/start" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">start here</Link>{' '}or{' '}
+                  <Link href="/search" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">search the corpus</Link>.
+                </p>
+              )}
+              <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">
+                <Link href="/follow" className="hover:text-gray-700 dark:hover:text-gray-300">Follow center.study</Link>
+                {' · '}
+                <Link href="/lectures" className="hover:text-gray-700 dark:hover:text-gray-300">Lecture series</Link>
+              </p>
+            </div>
           </div>
 
           {/* ── Sticky sidebar — desktop only; omitted entirely in reader mode ── */}
