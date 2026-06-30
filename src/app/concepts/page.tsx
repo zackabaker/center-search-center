@@ -21,11 +21,11 @@ const TIERS = [
   },
   {
     label: 'Language and Grammar',
-    slugs: ['ostensive-imperative-declarative', 'originary-grammar', 'the-sign', 'idiom'],
+    slugs: ['ostensive-imperative-declarative', 'originary-grammar', 'the-sign', 'idiom', 'idiomclining'],
   },
   {
     label: 'Order and Distribution',
-    slugs: ['nomos', 'succession', 'the-juridical', 'debt-and-credit', 'big-man', 'omnicentrism'],
+    slugs: ['nomos', 'succession', 'sovereignty', 'the-juridical', 'debt-and-credit', 'big-man', 'omnicentrism'],
   },
   {
     label: 'Practice and Institution',
@@ -33,7 +33,7 @@ const TIERS = [
   },
   {
     label: 'Pathology and Critique',
-    slugs: ['resentment-victimary'],
+    slugs: ['resentment-victimary', 'scapegoating', 'katechon'],
   },
 ];
 
