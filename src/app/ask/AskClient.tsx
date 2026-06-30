@@ -621,6 +621,10 @@ export default function AskClient() {
 
       {/* Main scroll area */}
       <main ref={mainRef} className="flex-1 overflow-y-auto" style={{ overflowAnchor: 'none' }}>
+        {/* Screen-reader status for the async answer (WCAG 4.1.3) */}
+        <div className="sr-only" aria-live="polite" role="status">
+          {isLoading ? 'Searching the archive…' : answer ? 'Answer ready.' : ''}
+        </div>
         <div className="max-w-3xl mx-auto px-4 py-8">
 
           {!currentQuestion ? (
@@ -750,6 +754,12 @@ export default function AskClient() {
                             <span className="inline-flex items-center gap-1 text-[10px] font-medium text-emerald-700 dark:text-emerald-400 flex-shrink-0" title="Confirmed word-for-word against the archive">
                               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M20 6L9 17l-5-5" /></svg>
                               verbatim
+                            </span>
+                          )}
+                          {p.verified === false && (
+                            <span className="inline-flex items-center gap-1 text-[10px] font-medium text-amber-600 dark:text-amber-500 flex-shrink-0" title="Couldn’t be matched word-for-word against the archive — open the source to verify">
+                              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /></svg>
+                              unconfirmed
                             </span>
                           )}
                         </div>
