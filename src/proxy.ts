@@ -24,11 +24,14 @@ export function proxy(request: NextRequest) {
   return NextResponse.next();
 }
 
-// /post/* legacy redirects are handled IN the post page (permanentRedirect) so
-// that /post/* is not tied to middleware and can stay statically/ISR cached.
-// The proxy now only covers the /api/corpus JSON endpoint (an API route, which
-// is dynamic regardless), redirecting its legacy source-prefixed slugs.
-// NOTE: matcher entries MUST be static string literals.
+// Match ONLY legacy source-prefixed slugs (the redirect-map keys). Canonical
+// /post/* slugs never start with a source word, so they don't match → skip
+// middleware → stay ISR-cached (the page sets generateStaticParams). Legacy
+// slugs 308-redirect to their canonical URL here.
+// NOTE: matcher entries MUST be static string literals (no const/template).
 export const config = {
-  matcher: ['/api/corpus/:slug(chronicle-.*|gablog-.*|ap-.*|substack-.*|reddit-.*|twitter-.*|pdf-.*|book-.*|lecture-.*)'],
+  matcher: [
+    '/post/:slug(chronicle-.*|gablog-.*|ap-.*|substack-.*|reddit-.*|twitter-.*|pdf-.*|book-.*|lecture-.*)',
+    '/api/corpus/:slug(chronicle-.*|gablog-.*|ap-.*|substack-.*|reddit-.*|twitter-.*|pdf-.*|book-.*|lecture-.*)',
+  ],
 };
