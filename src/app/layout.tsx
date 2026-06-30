@@ -85,10 +85,11 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* Initialise dark mode before first paint to avoid flash */}
+        {/* Initialise dark mode AND reading mode (sepia/night) before first paint
+            to avoid flash — mirrors ReadingControls.applyMode. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{if(localStorage.getItem('csc-dark-mode')==='true'){document.documentElement.classList.add('dark');}}catch(e){}})();`,
+            __html: `(function(){try{var de=document.documentElement;var rm=localStorage.getItem('csc-reading-mode');if(rm==='sepia'||rm==='night'){de.setAttribute('data-reading-mode',rm);if(rm==='night')de.classList.add('dark');}else if(localStorage.getItem('csc-dark-mode')==='true'){de.classList.add('dark');}}catch(e){}})();`,
           }}
         />
         {/* RSS feed autodiscovery */}
