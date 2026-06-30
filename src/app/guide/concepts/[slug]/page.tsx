@@ -27,6 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       || concept.definition
       || concept.subtitle
     ).slice(0, 160),
+    alternates: { canonical: `https://center.study/guide/concepts/${slug}` },
   };
 }
 

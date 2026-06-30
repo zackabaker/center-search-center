@@ -5,6 +5,9 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Search',
   description: 'Full-text search across the Center Study archive',
+  // Unbounded ?q= result pages are thin/duplicative — keep them out of the index
+  // but let crawlers follow through to the real posts.
+  robots: { index: false, follow: true },
 };
 
 export default function SearchPage() {

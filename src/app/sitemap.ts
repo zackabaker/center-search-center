@@ -33,6 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/browse/ap`,           changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/author/katz`,         changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/author/bouvard`,      changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE_URL}/author/gans`,         changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/lectures`,            changeFrequency: 'monthly', priority: 0.6 },
   ];
 

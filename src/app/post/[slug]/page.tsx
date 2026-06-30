@@ -30,6 +30,7 @@ const AUTHOR_HANDLES: Record<string, string> = {
   'adam katz': 'katz',
   'dennis bouvard': 'katz',
   'zack baker': 'baker',
+  'eric gans': 'gans',
 };
 
 // Posts whose "Original" link should point to a faithful reading copy we host
@@ -110,7 +111,7 @@ export async function generateMetadata({
     : 'Adam Katz';
 
   return {
-    title: `${post.title} | Center Study Center`,
+    title: post.title,
     description: excerpt,
     authors: [{ name: authorName }],
     // All sources (including chronicles and AP journal) are publicly crawlable
@@ -124,7 +125,7 @@ export async function generateMetadata({
       authors: [authorName],
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title: post.title,
       description: excerpt,
     },

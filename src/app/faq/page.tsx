@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'FAQ & Objections | Center Study Center',
+  title: 'FAQ & Objections',
   description:
     'Common questions about Center Study and Generative Anthropology — what the center is, how it differs from Girard and from GA, how human language differs from animal communication, and the standard objections — answered in the discourse’s own words, with verbatim citations.',
 };
@@ -249,8 +249,26 @@ function Section({ label, items }: { label: string; items: Item[] }) {
 }
 
 export default function FaqPage() {
+  // FAQPage schema from every Q&A (lead + verbatim quotes) — machine-extractable
+  // for Google rich results and AI answer engines.
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': 'https://center.study/faq#faq',
+    mainEntity: [...BASICS, ...IDEAS, ...OBJECTIONS].map((it) => ({
+      '@type': 'Question',
+      name: it.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: it.quotes?.length
+          ? `${it.lead} ${it.quotes.map((c) => `“${c.text}” — ${c.title}`).join(' ')}`
+          : it.lead,
+      },
+    })),
+  };
   return (
     <main className="max-w-3xl w-full mx-auto px-4 pt-6 pb-24 sm:py-12">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }} />
       <Link href="/intro" className="text-sm text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
         ← Introduction
       </Link>

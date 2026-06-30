@@ -119,8 +119,9 @@ export async function generateMetadata({
   if (!VALID_SOURCES.includes(source as ValidSource)) return {};
   const meta = SOURCE_META[source as ValidSource];
   return {
-    title: `${meta.label} — Center Study Center`,
+    title: meta.label,
     description: meta.description,
+    alternates: { canonical: `https://center.study/browse/${source}` },
   };
 }
 

@@ -3,8 +3,9 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Archive — Center Study Center',
+  title: 'Archive',
   description: 'Browse the complete Center Study archive: GABlog, Substack, Essays & Articles, Anthropomorphics, Threads & Q&A, Chronicles of Love and Resentment, and the Anthropoetics Journal.',
+  alternates: { canonical: 'https://center.study/browse' },
 };
 
 export const revalidate = 3600;
