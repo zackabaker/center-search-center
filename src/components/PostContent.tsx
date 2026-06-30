@@ -328,13 +328,16 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
               ? 'text-xl font-semibold leading-snug mt-10'
               : 'text-lg font-semibold leading-snug mt-8';
           const headingText = text.replace(/^#{1,3}\s/, '');
+          // Real heading elements (nested under the page's single h1) so the
+          // document has a proper outline for assistive tech + AI extraction.
+          const HeadingTag = (level === 1 ? 'h2' : level === 2 ? 'h3' : 'h4') as 'h2' | 'h3' | 'h4';
           return (
             <div key={id} id={id} className="group relative scroll-mt-20">
               {pilcrow}
               {/* Headings use the UI font (sans-serif) for contrast with serif body */}
-              <p className={headingClass} style={{ fontFamily: 'var(--font-geist-sans, system-ui, sans-serif)' }}>
+              <HeadingTag className={headingClass} style={{ fontFamily: 'var(--font-geist-sans, system-ui, sans-serif)' }}>
                 {headingText}
-              </p>
+              </HeadingTag>
             </div>
           );
         }

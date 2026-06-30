@@ -52,6 +52,7 @@ export default function SiteNav() {
               <Link
                 key={href}
                 href={href}
+                aria-current={isActive ? 'page' : undefined}
                 className={`text-xs whitespace-nowrap transition-colors hidden sm:block ${
                   isActive
                     ? 'text-gray-900 dark:text-white font-medium'

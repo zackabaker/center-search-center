@@ -232,3 +232,14 @@ html[data-reading-mode="night"] article h3 {
   header { margin-bottom: 1cm; }
   nav { display: none !important; }
 }
+
+/* Respect reduced-motion preference: neutralize spinners, smooth scroll, and
+   view transitions for users who opt out of animation (WCAG 2.3.3). */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
