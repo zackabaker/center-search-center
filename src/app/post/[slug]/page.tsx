@@ -1,5 +1,6 @@
 import { getPublicPosts, getPostBySlug } from '@/lib/parser';
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
+import slugRedirects from '@/data/slug-redirects.json';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { ContentSource } from '@/lib/types';
@@ -146,9 +147,13 @@ export default async function PostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  // Old source-prefixed URLs 308-redirect to the canonical slug. Check the map
+  // FIRST — getPostBySlug also resolves legacy slugs, so we can't detect them by
+  // a null post. Handled here (not in middleware) so canonical /post/* pages
+  // aren't tied to the proxy and stay statically/ISR cached.
+  const canonical = (slugRedirects as Record<string, string>)[slug];
+  if (canonical && canonical !== slug) permanentRedirect(`/post/${canonical}`);
   const post = getPostBySlug(slug);
-  // Old source-prefixed URLs are 308-redirected to the canonical slug in proxy.ts
-  // before they reach here, so an unmatched slug is genuinely not found.
   if (!post) notFound();
 
   const allPosts = getPublicPosts();
