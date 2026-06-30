@@ -4,6 +4,9 @@ import { getPostBySlug } from '@/lib/parser';
 export const alt = 'Center Study';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
+// Cache each generated card for a day — it loads the corpus to render, so don't
+// regenerate on every social unfurl.
+export const revalidate = 86400;
 
 const SOURCE_LABELS: Record<string, string> = {
   substack: 'Bouvard Substack',

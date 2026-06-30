@@ -8,8 +8,9 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Concepts & Glossary | Center Study Center',
+  title: 'Concepts & Glossary',
   description: 'Core Center Study concepts with archive passages — plus an A–Z index of every significant term across the corpus.',
+  alternates: { canonical: 'https://center.study/concepts' },
 };
 
 // ── Core Concepts tier structure (from /guide/concepts) ─────────────────────

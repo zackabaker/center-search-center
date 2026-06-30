@@ -49,7 +49,20 @@ const BAKER: AuthorProfile = {
   links: [{ label: 'Essays & Articles', href: '/browse/pdf' }],
 };
 
-const PROFILES: Record<string, AuthorProfile> = { katz: KATZ, baker: BAKER };
+// Eric Gans — founder of Generative Anthropology. His "Chronicles of Love and
+// Resentment" (the chronicle source) anchor the field center.study extends.
+const GANS: AuthorProfile = {
+  name: 'Eric Gans',
+  bio: 'Eric Gans is the founder of Generative Anthropology and the originary hypothesis, introduced in The Origin of Language (1981). A student of René Girard, he founded the journal Anthropoetics in 1995 and has written the "Chronicles of Love and Resentment" for over two decades. Center Study develops out of his work.',
+  sources: ['chronicle', 'ap'] as ContentSource[],
+  selectPosts: (all) => all.filter((p) => p.source === 'chronicle' || /\beric gans\b/i.test(p.author ?? '')),
+  links: [
+    { label: 'Chronicles of Love and Resentment', href: '/browse/chronicle' },
+    { label: 'Anthropoetics Journal', href: '/browse/ap' },
+  ],
+};
+
+const PROFILES: Record<string, AuthorProfile> = { katz: KATZ, baker: BAKER, gans: GANS };
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
   substack:  'Substack',
@@ -94,7 +107,7 @@ export async function generateMetadata({
   const { name } = await params;
   if (REDIRECT_HANDLES.includes(name) || name === 'katz') {
     return {
-      title: `Adam Katz (Dennis Bouvard) | Center Study Center`,
+      title: 'Adam Katz (Dennis Bouvard)',
       description: KATZ.bio,
       alternates: { canonical: 'https://center.study/author/katz' },
     };
@@ -102,7 +115,7 @@ export async function generateMetadata({
   const profile = PROFILES[name];
   if (!profile) return { title: 'Author not found' };
   return {
-    title: `${profile.name} | Center Study Center`,
+    title: profile.name,
     description: profile.bio,
     alternates: { canonical: `https://center.study/author/${name}` },
   };
@@ -143,8 +156,19 @@ export default async function AuthorPage({
 
   const totalCount = posts.length;
 
+  const personJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': `https://center.study/author/${name}`,
+    name: profile.name,
+    ...(profile.altName ? { alternateName: profile.altName } : {}),
+    description: profile.bio,
+    url: `https://center.study/author/${name}`,
+  };
+
   return (
     <main className="max-w-4xl w-full mx-auto px-4 pt-8 pb-24 sm:py-12">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, '\\u003c') }} />
       <div className="mb-6">
         <GoBack fallback="/browse" className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 font-medium transition-colors text-sm" />
       </div>

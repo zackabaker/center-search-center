@@ -1,5 +1,9 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { getPublicPosts } from '@/lib/parser';
+
+// Live corpus size, rounded down to a round number so phrasing stays honest as it grows.
+const CORPUS = Math.floor(getPublicPosts().length / 100) * 100;
 
 // Canonical "What is Generative Anthropology" surface — center.study owns the
 // head term directly. Answer-first (AI-extractable), then an FAQ with FAQPage
@@ -49,7 +53,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: 'Where can I read more?',
-    a: 'This site is the complete searchable archive — roughly 1,900 texts and over five million words by Adam Katz and Dennis Bouvard, plus the foundational works. Start with the introduction, the concept glossary, the lecture series, or search the corpus directly.',
+    a: `This site is the complete searchable archive — over ${CORPUS.toLocaleString()} texts and more than five million words by Adam Katz and Dennis Bouvard, plus the foundational works. Start with the introduction, the concept glossary, the lecture series, or search the corpus directly.`,
   },
 ];
 
@@ -197,7 +201,7 @@ export default function GenerativeAnthropologyPage() {
           {[
             { href: '/start', label: 'Introduction to Center Study', desc: 'The discipline, its lineage, and what it can do.' },
             { href: '/concepts', label: 'Concepts & Glossary', desc: 'Every key term, defined in the texts’ own words.' },
-            { href: '/search', label: 'Search the corpus', desc: 'Keyword and meaning search across ~1,900 texts.' },
+            { href: '/search', label: 'Search the corpus', desc: `Keyword and meaning search across ${CORPUS.toLocaleString()}+ texts.` },
             { href: '/download', label: 'Download the full corpus', desc: 'The complete archive as JSON and plain text.' },
           ].map((c) => (
             <Link key={c.href} href={c.href} className="group block p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900">

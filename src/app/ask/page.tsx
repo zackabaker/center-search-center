@@ -3,8 +3,9 @@ import { Suspense } from 'react';
 import AskClient from './AskClient';
 
 export const metadata: Metadata = {
-  title: 'Ask the Archive — Center Study Center',
+  title: 'Ask the Archive',
   description: 'Ask questions across the complete Center Study archive. Synthesized answers grounded in the texts.',
+  robots: { index: false, follow: true },
 };
 
 export default function AskPage() {

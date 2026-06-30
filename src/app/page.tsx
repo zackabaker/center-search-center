@@ -3,6 +3,12 @@ import RandomPostButton from '@/components/RandomPostButton';
 import WelcomeBack from '@/components/WelcomeBack';
 import Link from 'next/link';
 import { getAllPosts, getPublicPosts } from '@/lib/parser';
+import type { Metadata } from 'next';
+
+// Self-canonical so indexable ?ref=/?from= variants consolidate to the root.
+export const metadata: Metadata = {
+  alternates: { canonical: 'https://center.study' },
+};
 
 // Revalidate daily — "on this day" section needs to refresh
 export const revalidate = 86400;
