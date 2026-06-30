@@ -16,10 +16,18 @@ engines, with **generativeanthropology.com (GA)** funneling in and later redirec
 | B6 | Concept pages already lead with answer-first content: the glossary overhaul (prior work) gives each concept a verbatim defining quote + plain subtitle + linked passages — strong AI-extractable surfaces. New terms not yet in /concepts (katechon, idiomclining, singularized succession as its own page): flagged below | `08d7a42` |
 | B7 | Visible "Last updated" on /generative-anthropology; dateModified in its schema | `3975b35` |
 
-## Prepared (drafts in this folder — need your accounts/dashboards)
+## Prepared (in this folder)
+
+**Paste-ready, fact-checked artifacts** (copy these verbatim):
+- `wikidata-statements.md` — exact statement set + click-through to create "Center Study" and edit GA/Gans/Katz. Verified QIDs: **Generative anthropology = Q5532622**, **Eric Gans = Q5386556**; **no Adam Katz item exists** (with the list of unrelated Adam Katzes to avoid). Wikidata permits disclosed COI edits.
+- `wikipedia-talk-posts.md` — ready-to-paste, COI-disclosed Talk posts for *Talk:Generative anthropology* and *Talk:Eric Gans* (Talk pages only; expect possible WP:ELNO pushback on a self-owned single-author archive — don't re-add if declined).
+- `reddit-drafts.md` — one seed self-post **with an explicit ownership disclosure** (Reddit self-promo rules) + 5 in-context comment templates + per-sub etiquette.
+- `outreach-emails.md` — 10 personalized emails (COV&R/Imitatio, Anthropoetics/GASC, Substacks, podcasts, PhilPapers, Goodreads, YouTube…), each with a value-to-them ask.
+
+**Strategy overviews:**
 - `ga-funnel.md` — GA Phase-1 funnel blocks (paste-ready Notion), cross-domain canonical map (Super), Phase-2 301 redirect map (hold for your go-ahead).
-- `entity-establishment.md` — Wikidata items (new "Center Study"; edits to GA/Gans/Katz) + Wikipedia Talk-page proposals, with COI handling.
-- `offsite-distribution.md` — Reddit plan for u/bouvard1 + 10 external placements.
+- `entity-establishment.md` — entity strategy + COI handling (the paste-ready version is `wikidata-statements.md` / `wikipedia-talk-posts.md`).
+- `offsite-distribution.md` — off-site strategy (the paste-ready version is `reddit-drafts.md` / `outreach-emails.md`).
 - `measurement-baseline.csv` — 25 prompts × 5 engines tracking grid (seed today's baseline; expect Perplexity 2–4 wks, ChatGPT 6–12 wks lag).
 
 ## Ordered list — only you can do these
