@@ -23,14 +23,8 @@ const RESOURCES = [
   {
     href: '/concepts',
     title: 'Concepts & Glossary',
-    body: 'The vocabulary, three ways: core concepts treated in depth with archive passages, a glossary of 135 working terms with usage drawn from the texts, and an A–Z index of the corpus.',
+    body: 'The vocabulary, two ways: core concepts treated in depth with archive passages, and a glossary of working terms with usage drawn from the texts.',
     cta: 'Browse the vocabulary',
-  },
-  {
-    href: '/guide/map',
-    title: 'Concept Map',
-    body: 'An interactive map of how the concepts connect — the originary scene at the center, every other idea radiating out through dependency and elaboration. Click any node to explore its relations.',
-    cta: 'Open the map',
   },
   {
     href: '/search',
