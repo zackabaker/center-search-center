@@ -61,7 +61,7 @@ interface TweetsFile {
 }
 
 // ── API helpers ───────────────────────────────────────────────────────────────
-async function xGet<T>(url: string): Promise<T> {
+async function xGet<T>(url: string, attempt = 0): Promise<T> {
   const res = await fetch(url, {
     headers: { Authorization: `Bearer ${BEARER}` },
   });
@@ -70,7 +70,15 @@ async function xGet<T>(url: string): Promise<T> {
     const waitMs = Math.max(resetAt - Date.now(), 15_000);
     console.log(`Rate limited. Waiting ${Math.ceil(waitMs / 1000)}s…`);
     await new Promise((r) => setTimeout(r, waitMs));
-    return xGet<T>(url);
+    return xGet<T>(url, attempt);
+  }
+  // Transient server errors (500/502/503/504) — back off and retry so a blip
+  // mid-pagination doesn't abort the whole (unsaved) fetch.
+  if (res.status >= 500 && attempt < 5) {
+    const waitMs = Math.min(2_000 * 2 ** attempt, 30_000);
+    console.log(`X API ${res.status}. Retry ${attempt + 1}/5 in ${Math.ceil(waitMs / 1000)}s…`);
+    await new Promise((r) => setTimeout(r, waitMs));
+    return xGet<T>(url, attempt + 1);
   }
   if (!res.ok) {
     const body = await res.text();
