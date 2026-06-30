@@ -134,10 +134,15 @@ export async function generateMetadata({
   };
 }
 
-// Don't pre-render posts at build time — there are 700+ posts and pre-rendering
-// all of them exceeds Vercel's build disk limit (27 GB output). Instead, pages
-// are rendered on first request and cached at the CDN edge for 1 hour (ISR).
-// dynamicParams = true means unknown slugs are also rendered on demand.
+// Don't pre-render posts at build time — there are 1,900+ posts and pre-rendering
+// all of them exceeds Vercel's build disk limit (27 GB output). Returning an
+// EMPTY generateStaticParams (rather than omitting it) is what marks the route
+// ISR: pages render on first request and are then cached at the edge for 1 hour.
+// Without any generateStaticParams the route is treated as fully dynamic (no-store).
+// dynamicParams = true means every slug is rendered (and cached) on demand.
+export function generateStaticParams() {
+  return [];
+}
 export const dynamicParams = true;
 export const revalidate = 3600;
 
