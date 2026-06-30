@@ -3,6 +3,7 @@ import { rateLimit, clientIp, isSameOrigin } from '@/lib/rate-limit';
 import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import { Post } from '@/lib/types';
 import { getConceptBySlug } from '@/data/guide/concepts';
+import { relatedSlugs } from '@/lib/related';
 
 const anthropic = new Anthropic();
 
@@ -361,6 +362,22 @@ function retrieveChunks(query: string, maxChunks = 25): ChunkWithMeta[] {
     if (!seen.has(p.slug)) { seen.add(p.slug); topPosts.push(p); }
   }
 
+  // Semantic widening: pull in essays similar to the strongest lexical hits via
+  // precomputed post-to-post neighbours (related.json). No query embedding —
+  // pure lookup, graceful if the index is missing. Surfaces essays that are
+  // *about* the question in words the keyword search didn't match.
+  const relatedSet = new Set<string>();
+  const postBySlug = new Map(posts.map((p) => [p.slug, p]));
+  for (const seed of topPosts.slice(0, 5)) {
+    if (relatedSet.size >= 8) break;
+    for (const nslug of relatedSlugs(seed.slug, 3)) {
+      if (relatedSet.size >= 8) break;
+      if (seen.has(nslug) || relatedSet.has(nslug)) continue;
+      const np = postBySlug.get(nslug);
+      if (np) { relatedSet.add(nslug); topPosts.push(np); }
+    }
+  }
+
   // Chunk those posts and score each chunk
   const allChunks: ChunkWithMeta[] = [];
   for (const post of topPosts) {
@@ -373,12 +390,13 @@ function retrieveChunks(query: string, maxChunks = 25): ChunkWithMeta[] {
         postHasScoredChunk = true;
       }
     }
-    // Title-match chunk guarantee: post scored at post-level (e.g. title contains query term)
-    // but no body chunks scored — this happens when a term only appears in the title.
-    // Inject the first 2 body chunks with a small baseline so the post isn't silently dropped.
+    // No lexical chunk match. Semantic neighbours get a mid-range baseline so
+    // their best passages actually surface (without outranking real keyword
+    // hits); title-only lexical matches keep the tiny 0.1 floor.
     if (!postHasScoredChunk && chunks.length > 0) {
+      const baseline = relatedSet.has(post.slug) ? 0.5 : 0.1;
       for (const chunk of chunks.slice(0, 2)) {
-        allChunks.push({ ...chunk, score: 0.1 });
+        allChunks.push({ ...chunk, score: baseline });
       }
     }
   }
