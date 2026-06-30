@@ -956,7 +956,264 @@ The alternative — succession by committee, by popular vote, by competitive mar
     ],
     selfReference: 'Center Study has an idiom. This guide is written in it — or as close to it as a guide can get. The reader who has followed the guide to this point has begun to acquire the idiom, even if they cannot yet name what they have acquired.',
   },
-
+  {
+    "slug": "katechon",
+    "title": "Katechon",
+    "subtitle": "The restrainer, read as deferral",
+    "definition": "The Katechon is the Christian political-theological concept of \"the restrainer of the AntiChrist,\" which Bouvard takes up as \"a very near synonym to 'deferral'\" — a way of translating the theological framing of apocalypse (via Schmitt and Thiel) into the anthropological idiom of center study, where holding off the end is the work of deferral itself.",
+    "body": "Katechon is the Christian political-theological figure of \"the restrainer of the AntiChrist.\" Bouvard takes it up because it is, in his reading, \"a very near synonym to ‘deferral’\" — holding off the end is the work of deferral itself.\n\nImported through Carl Schmitt (by way of Raphael Gross) and used by Peter Thiel in his studies of apocalypse, it lets center study extend into the theology of politics: the restrainer can be paired with the paraclete, or advocate, as supplements to the same deferring logic. It is a borrowed concept rather than a native coinage, included here because center study gives it an anthropological footing.",
+    "relations": [
+      "deferral",
+      "the-sacred",
+      "nomos"
+    ],
+    "posts": [
+      {
+        "slug": "tokenizing-deferrality",
+        "title": "Tokenizing Deferrality",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "deferral-debt-and-the-idiom",
+        "title": "Deferral, Debt and the Idiom",
+        "note": "Extends the term into the deferral framework."
+      }
+    ],
+    "passages": [
+      {
+        "text": "I was prompted to do so, in part, by reading Raphael Gross’s Carl Schmitt and the Jews: The “Jewish Question,” the Holocaust and German Legal Theory (a very good book, by the way), where I noticed that the Christian concept of the “Katechon,” or the restrainer of the AntiChrist, was a very near synonym to “deferral.” This makes it possible to further extend center study into new fields of inquiry, in this case not only Schmitt, but Peter Thiel’s studies of apocalypse, which makes regular use of this theological framing of politics. (While I have been familiar with the Katechon for some time, I think what jarred me into taking it more seriously was a point in Gross’s discussion where he uses the word “deferral” in describing Schmitt’s understanding of the term, and something clicked.)",
+        "source": "Tokenizing Deferrality",
+        "sourceSlug": "tokenizing-deferrality"
+      },
+      {
+        "text": "the difference between pointing as singling out the victim for a lynching and pointing as an act of deferral, a substitute for the lynching (let’s say, the paraclete, or advocate, supplementing the katechon)",
+        "source": "Deferral, Debt and the Idiom",
+        "sourceSlug": "deferral-debt-and-the-idiom"
+      }
+    ],
+    "selfReference": "To name the restrainer is to perform, in miniature, the deferral it denotes."
+  },
+  {
+    "slug": "idiomclining",
+    "title": "Idiomclining",
+    "subtitle": "Setting immobilized language back into motion, within an idiom",
+    "definition": "Bouvard's coinage for a mode of \"semiotic research\" — the deliberate, mistaken re-setting-into-motion of fixed pieces of language within an idiom — offered in place of bureaucratized, Goodhart-vulnerable categories like \"critical thinking.\" To idiomcline is to make one's idiom at once more idiomatic and more transferable, treating stopping-and-thinking-before-doing as itself a kind of doing that opens an idiom to adjusted response and new exchange.",
+    "body": "Idiomclining is Bouvard’s name for a kind of semiotic research: \"setting relatively immobilized ‘pieces’ of language back into motion\" within an idiom. He builds the word from \"cline\" (as in incline and decline, and his earlier coinage \"upcline\") and from idiom, which he treats as the condition of all discourse.\n\nTo idiomcline is to be deliberately, productively mistaken — violating a convention or expectation so as to open an opportunity for an adjusted response — and thereby to make one’s idiom at once more idiomatic and more transferable. He offers it in place of bureaucratized, test-friendly categories like \"critical thinking.\"",
+    "relations": [
+      "idiom",
+      "the-sign",
+      "originary-grammar",
+      "attentionality"
+    ],
+    "posts": [
+      {
+        "slug": "idiomclining",
+        "title": "Idiomclining",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "media-technology-and-originary-grammar",
+        "title": "Media, Technology and Originary Grammar",
+        "note": "Uses the coinage in practice."
+      }
+    ],
+    "passages": [
+      {
+        "text": "I would like to call this kind of research “clining,” drawing upon an essay on something I called “upclining” I wrote quite a few years ago in an effort to engage with processes of “grammaticization” in language, i.e., the tendency of expressions to transition from semantic to grammatical functions.",
+        "source": "Idiomclining",
+        "sourceSlug": "idiomclining"
+      },
+      {
+        "text": "But the notion of “cline,” or gradual, imperceptible shifts from one state to another, which is preserved in “incline” and “decline” (but not “upcline,” which is therefore necessarily a neologism—or, for that matter, other ways things might “cline”) fits the thinking in terms of ever more discernable and discrete thresholds I’m trying to encourage here, and “upcline” seems a way of “resisting” the more passive “incline” and catastrophic “decline.”",
+        "source": "Idiomclining",
+        "sourceSlug": "idiomclining"
+      },
+      {
+        "text": "The most important measure I have taken in this regard is centering the concept of idiom as the condition of all discourse: the protection offered by “idiom” is that it ensures that we don’t forget that any measure is an idiom, a naming, a labeling, a designation that depends on those who can look at that thing and say “this is the same,” thereby iterating the fundamental gesture of language and that, by the same token (tokens are themselves idioms) so is every target.",
+        "source": "Idiomclining",
+        "sourceSlug": "idiomclining"
+      },
+      {
+        "text": "What you want to do, then, is make your idiom both more idiomatic and more transferable—you want to be able to speak with the person you are speaking with so that you are speaking only to them, on the very topic that drew you into that exchange, in such a way as to make that topic the center of a scene that places only the two of you on it, while at the same time in such a way that either you or your interlocutor might speak with anyone and everyone about that newly created “topic” so as to generate new idioms in each new exchange.",
+        "source": "Idiomclining",
+        "sourceSlug": "idiomclining"
+      },
+      {
+        "text": "Maybe one could make a pastiche of stereotypical replies, as another way of idiomclining.",
+        "source": "Media, Technology and Originary Grammar",
+        "sourceSlug": "media-technology-and-originary-grammar"
+      }
+    ],
+    "selfReference": "This entry is itself an attempt to set a fixed piece of language back into motion."
+  },
+  {
+    "slug": "scapegoating",
+    "title": "Scapegoating",
+    "subtitle": "violence concentrated on the center",
+    "definition": "Scapegoating is the convergence of communal violence and resentment upon a central figure marked as the cause of the community's ills—understood in Center Study not as the persecution of the marginal but as always directed against the center, carrying the implicit claim that the center has been secretly usurped. As the originary model of selection and of attention in general, it does violence to one who is no guiltier than the rest, and the resistance to it is the defense of the center through deferral and the open distribution of power.",
+    "body": "In Center Study, scapegoating is not first of all the persecution of the weak or marginal. It is communal violence and resentment converging on the center — and it carries an implicit claim that the center has been secretly usurped \"by someone behind the scenes.\" Even when the occupant of the center leads the scapegoating, it is aimed against the center as such.\n\nIt is the originary model of selection, and of attention in general: to scapegoat is to do violence to someone no guiltier than the rest, subtracting likeness from a victim by attributing to them some distinguishing \"mark.\" The standing alternative is the discipline of deferral — detecting the gathering of attention into a lynching and refusing it, distributing power rather than concentrating it on a single sacrificeable figure.",
+    "relations": [
+      "resentment-victimary",
+      "the-center",
+      "sparagmos",
+      "the-sacred",
+      "sovereignty"
+    ],
+    "posts": [
+      {
+        "slug": "the-egalitarian-vs-hierarchical-model-of-morality",
+        "title": "Bouvard on Scapegoating and Egalitarian Morality",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "clr-251",
+        "title": "Scapegoating after September 11",
+        "note": "Develops scapegoating as violence against the center."
+      },
+      {
+        "slug": "selving",
+        "title": "Selving",
+        "note": "Develops scapegoating as violence against the center."
+      },
+      {
+        "slug": "the-global-civil-war-of-position",
+        "title": "The Global Civil War of Position",
+        "note": "Develops scapegoating as violence against the center."
+      },
+      {
+        "slug": "transposing-the-scene",
+        "title": "Transposing the Scene",
+        "note": "Develops scapegoating as violence against the center."
+      },
+      {
+        "slug": "thirdness-and-the-same-sentence",
+        "title": "Thirdness and the Same Sentence",
+        "note": "Develops scapegoating as violence against the center."
+      },
+      {
+        "slug": "clr-332",
+        "title": "GA and Mimetic Theory II: The Scapegoat",
+        "note": "Develops scapegoating as violence against the center."
+      }
+    ],
+    "passages": [
+      {
+        "text": "To scapegoat is to do violence to someone who is, if not innocent, at any rate no guiltier than his fellows. More precisely, it is to treat someone whose guilt is at most quantitatively greater than the others' as though it were transcendentally greater, so that the violence that had been diffused over the entire community comes to be unanimously directed from the innocent collectivity to the one",
+        "source": "Scapegoating after September 11",
+        "sourceSlug": "clr-251"
+      },
+      {
+        "text": "But, on the other hand, as an epistemological operation, scapegoating is the originary model of selection in general.",
+        "source": "Scapegoating after September 11",
+        "sourceSlug": "clr-251"
+      },
+      {
+        "text": "Scapegoating is a practice of subtracting likeness from the othered, making likeness among those who do the othering less threatening; to acknowledge various ways of identifying the same amongst the like is to make it possible to lower and raise the threshold of differentiation as needed.",
+        "source": "Selving",
+        "sourceSlug": "selving"
+      },
+      {
+        "text": "Scapegoating requires some “mark” be attributed to the scapegoat–the more that mark singles out the scapegoat as an object of attention, and as dangerous or subversive in some way to the community, the more it would set in motion the stampede.",
+        "source": "The Global Civil War of Position",
+        "sourceSlug": "the-global-civil-war-of-position"
+      },
+      {
+        "text": "we instead refrain from scapegoating (we learn to detect signs of accelerating convergent attention) because scapegoating is always an attempt to disorder the center by prepping us to look for indications of a hidden usurper behind it.",
+        "source": "Transposing the Scene",
+        "sourceSlug": "transposing-the-scene"
+      },
+      {
+        "text": "The targeting of the occupant of the center is always extremely dangerous and is most likely the original scapegoating (the scapegoating of marginal figures and groups is very much a modern appropriation of the concept—those with real or perceived power are scapegoated [that “perceived” can do a lot of work, though])—it necessarily prefigures civil war precisely in the hope that it can be unanimous.",
+        "source": "Thirdness and the Same Sentence",
+        "sourceSlug": "thirdness-and-the-same-sentence"
+      },
+      {
+        "text": "The model of scapegoating is the model of attention in general.",
+        "source": "GA and Mimetic Theory II: The Scapegoat",
+        "sourceSlug": "clr-332"
+      }
+    ],
+    "selfReference": "To read this and start hunting for the guilty party \"behind the scenes\" is already to begin the operation it describes."
+  },
+  {
+    "slug": "sovereignty",
+    "title": "Sovereignty",
+    "subtitle": "The center made into the judge of last resort",
+    "definition": "In the originary/center framework, sovereignty is a mode of centrality: the assertion by an occupant of the center of the right to be the judge of last resort in all disputes among lower centers of power, extending to a human ruler the sacred difference of the center. It is never simply held but always exercised and passed on — drawing emulation and resentment toward itself, and always oriented toward securing its own succession.",
+    "body": "Sovereignty is a mode of centrality. It is the assertion, by an occupant of the center, of the right to be the judge of last resort in all disputes among lower centers of power — extending to a human ruler the sacred difference of the center, and so drawing both emulation and resentment toward itself.\n\nIt is never simply possessed. Sovereignty is always exercised rather than held, and always passed off: to be sovereign is to be turned toward one’s own succession. Its central problem is therefore temporal — securing the passage of the center across time without collapsing into rivalry.",
+    "relations": [
+      "nomos",
+      "succession",
+      "the-center",
+      "big-man",
+      "the-juridical"
+    ],
+    "posts": [
+      {
+        "slug": "centrality-power-sovereignty",
+        "title": "Centrality, Power, Sovereignty",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "clr-215",
+        "title": "Back to the Origin of Language",
+        "note": "Develops sovereignty as a mode of centrality."
+      },
+      {
+        "slug": "securing-sovereignty",
+        "title": "Securing Sovereignty",
+        "note": "Develops sovereignty as a mode of centrality."
+      },
+      {
+        "slug": "the-temporality-of-sovereignty",
+        "title": "The Temporality of Sovereignty",
+        "note": "Develops sovereignty as a mode of centrality."
+      },
+      {
+        "slug": "what-is-to-be-undone-1",
+        "title": "What is to be Undone?, 1",
+        "note": "Develops sovereignty as a mode of centrality."
+      },
+      {
+        "slug": "power-and-paradox-pdf",
+        "title": "Power and Paradox (Adam Katz)",
+        "note": "Develops sovereignty as a mode of centrality."
+      }
+    ],
+    "passages": [
+      {
+        "text": "The asymmetrical sovereignty of Leviathan only extends to a human monarch the sacred difference of the center.",
+        "source": "Back to the Origin of Language",
+        "sourceSlug": "clr-215"
+      },
+      {
+        "text": "Insofar as sovereignty is always exercised rather than held, it is always secure—and what would it mean to “hold” sovereignty other than to exercise it repeatedly and explicitly?",
+        "source": "Securing Sovereignty",
+        "sourceSlug": "securing-sovereignty"
+      },
+      {
+        "text": "Sovereignty is always passed off—to be sovereign is to decide upon one’s successor.",
+        "source": "Securing Sovereignty",
+        "sourceSlug": "securing-sovereignty"
+      },
+      {
+        "text": "The implication, then, is that sovereignty is always oriented toward futurity, always a bridge between past and future.",
+        "source": "The Temporality of Sovereignty",
+        "sourceSlug": "the-temporality-of-sovereignty"
+      },
+      {
+        "text": "Sovereignty draws both emulation and resentment toward itself, and in this way brings resentment to a central point where it can be overawed and reframed as unappeasable and hence transgressive if not “donated” to the sovereign.",
+        "source": "What is to be Undone?, 1",
+        "sourceSlug": "what-is-to-be-undone-1"
+      },
+      {
+        "text": "This division is what provides the opening to modern liberal and democratic politics, which simply replace “God’s will” with the “people,” or the “individual,” or the “nation,” or the “oppressed,” or the “workers,” or some other entity in positing a “real” sovereign to which the actual sovereign must defer.",
+        "source": "Power and Paradox (Adam Katz)",
+        "sourceSlug": "power-and-paradox-pdf"
+      }
+    ],
+    "selfReference": "This page claims no last word; it defers to the texts that judge the matter."
+  }
 ];
 
 export function getConceptBySlug(slug: string): Concept | undefined {
