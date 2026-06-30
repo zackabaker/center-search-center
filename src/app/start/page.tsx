@@ -57,9 +57,8 @@ export default function StartPage() {
           style={{ fontFamily: 'var(--prose-font-family)', fontSize: '17px', lineHeight: 1.8 }}
         >
           <p>
-            Center Study branches off from René Girard&rsquo;s{' '}
-            <Link href="/lineage" className={linkCls}>Mimetic Theory</Link>{' '}and Eric
-            Gans&rsquo;s <Link href="/lineage" className={linkCls}>Generative Anthropology</Link> to create a
+            Center Study branches off from René Girard&rsquo;s Mimetic Theory and Eric
+            Gans&rsquo;s <Link href="/generative-anthropology" className={linkCls}>Generative Anthropology</Link> to create a
             new discipline grounded in the{' '}
             <Link href="/guide/concepts/originary-scene" className={linkCls}>Originary Hypothesis</Link>: the
             hypothetical origin of humanity in the{' '}
