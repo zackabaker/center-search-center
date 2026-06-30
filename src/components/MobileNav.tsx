@@ -63,7 +63,10 @@ export default function MobileNav() {
   const pathname = usePathname();
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 sm:hidden bg-white/95 dark:bg-[#111111]/95 backdrop-blur border-t border-gray-100 dark:border-gray-800" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
+    {/* Opaque background (no backdrop-blur): position:fixed + backdrop-filter
+        composites on a separate layer that lags during mobile momentum scroll,
+        making the bar "float" up mid-page. Solid bg avoids that. */}
+    <div className="fixed bottom-0 left-0 right-0 z-40 sm:hidden bg-white dark:bg-[#111111] border-t border-gray-100 dark:border-gray-800" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
       <div className="flex items-stretch justify-around">
         {navItems.map(({ href, label, icon }) => {
           const isActive =
