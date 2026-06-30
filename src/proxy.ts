@@ -24,16 +24,11 @@ export function proxy(request: NextRequest) {
   return NextResponse.next();
 }
 
-// Only run the proxy on LEGACY source-prefixed slugs (the only ones in the
-// redirect map). Canonical post URLs never start with a source word, so they
-// skip middleware entirely and stay ISR/edge-cached — the proxy was forcing all
-// /post/* pages to render uncached. (The ~6 canonical chronicle-NNN slugs that
-// do start with "chronicle-" harmlessly fall through to next().)
-// NOTE: matcher entries MUST be static string literals — Next can't parse a
-// template literal or a referenced const here.
+// /post/* legacy redirects are handled IN the post page (permanentRedirect) so
+// that /post/* is not tied to middleware and can stay statically/ISR cached.
+// The proxy now only covers the /api/corpus JSON endpoint (an API route, which
+// is dynamic regardless), redirecting its legacy source-prefixed slugs.
+// NOTE: matcher entries MUST be static string literals.
 export const config = {
-  matcher: [
-    '/post/:slug(chronicle-.*|gablog-.*|ap-.*|substack-.*|reddit-.*|twitter-.*|pdf-.*|book-.*|lecture-.*)',
-    '/api/corpus/:slug(chronicle-.*|gablog-.*|ap-.*|substack-.*|reddit-.*|twitter-.*|pdf-.*|book-.*|lecture-.*)',
-  ],
+  matcher: ['/api/corpus/:slug(chronicle-.*|gablog-.*|ap-.*|substack-.*|reddit-.*|twitter-.*|pdf-.*|book-.*|lecture-.*)'],
 };
