@@ -118,10 +118,16 @@ export async function generateMetadata({
   const { source } = await params;
   if (!VALID_SOURCES.includes(source as ValidSource)) return {};
   const meta = SOURCE_META[source as ValidSource];
+  const FEED_SOURCES = new Set(['substack', 'gablog', 'book', 'pdf', 'chronicle', 'ap']);
   return {
     title: meta.label,
     description: meta.description,
-    alternates: { canonical: `https://center.study/browse/${source}` },
+    alternates: {
+      canonical: `https://center.study/browse/${source}`,
+      ...(FEED_SOURCES.has(source)
+        ? { types: { 'application/rss+xml': [{ url: `https://center.study/feed/${source}`, title: `${meta.label} — RSS` }] } }
+        : {}),
+    },
   };
 }
 
@@ -184,8 +190,19 @@ export default async function BrowseSourcePage({
     ? initialYearFrom
     : undefined;
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://center.study' },
+      { '@type': 'ListItem', position: 2, name: 'Archive', item: 'https://center.study/browse' },
+      { '@type': 'ListItem', position: 3, name: meta.label, item: `https://center.study/browse/${source}` },
+    ],
+  };
+
   return (
     <main className="max-w-4xl w-full mx-auto px-4 pt-4 pb-24 sm:pt-8 sm:py-12">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, '\\u003c') }} />
 
       {/* ── Source tab strip — scrollable on mobile ─────────────────────────── */}
       <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 mb-6">
