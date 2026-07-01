@@ -23,11 +23,11 @@ const TIERS = [
   },
   {
     label: 'Order and Distribution',
-    slugs: ['nomos', 'succession', 'sovereignty', 'the-juridical', 'debt-and-credit', 'big-man', 'omnicentrism'],
+    slugs: ['nomos', 'succession', 'sovereignty', 'power', 'the-juridical', 'debt-and-credit', 'money', 'big-man', 'omnicentrism'],
   },
   {
     label: 'Practice and Institution',
-    slugs: ['scenic-design', 'anthropomorphics', 'pointman-uninsurable', 'attentionality'],
+    slugs: ['scenic-design', 'technology', 'anthropomorphics', 'media', 'pointman-uninsurable', 'attentionality'],
   },
   {
     label: 'Pathology and Critique',

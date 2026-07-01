@@ -1603,5 +1603,300 @@
         "note": "Develops sovereignty as a mode of centrality."
       }
     ]
+  },
+  "power": {
+    "definitionQuote": "In order to make it the point, we can begin by pointing out that power comes from the center, and the center comes from deferral. Insofar as someone occupies the center of a scene, that person wields power.",
+    "definitionSource": "Anthropomorphics: An Originary Grammar of the Center",
+    "definitionSlug": "anthropomorphics-book",
+    "definitionAuthor": "Dennis Bouvard",
+    "passages": [
+      {
+        "text": "Power is always differential because some members of any group, in any situation, will exhibit greater powers of deferral: they will be able to stop and examine a situation while others are rushing in, and they will have the patience to wait and see when the unfolding reality provides an opening for action.",
+        "source": "Power and Paradox (Adam Katz)",
+        "sourceSlug": "power-and-paradox-pdf"
+      },
+      {
+        "text": "The paradox of power is that it is possessed insofar as others acknowledge that possession as preceding their acknowledgement. Power is both a priori and provisional, a location and its occupant.",
+        "source": "Power and Paradox",
+        "sourceSlug": "power-and-paradox-gablog"
+      },
+      {
+        "text": "I think that power is simply a display of discipline greater than those impressed by that display consider themselves capable of.",
+        "source": "Power",
+        "sourceSlug": "power"
+      },
+      {
+        "text": "This, I would now say, is because all power is exercised through judgments: you have power insofar as, and to the degree that, contending parties bring their grievances, counter-grievances and defenses to you rather than resort or revert to the vendetta.",
+        "source": "A New Model of Power",
+        "sourceSlug": "a-new-model-of-power"
+      },
+      {
+        "text": "The paradox of power is that the more central the authority, the more authority depends upon the widest distribution of the means to recognize authority; to put it in grammatical terms, the paradox of power is the paradox of the most unequivocal imperative leaving the largest scope of implementation of that imperative.",
+        "source": "Market Capillarism",
+        "sourceSlug": "market-capillarism-gablog"
+      },
+      {
+        "text": "For GA recognizes the inherent powerlessness of the central object, which derives its power from the common desires that impinge on it.",
+        "source": "Christian and Jew at the Origin",
+        "sourceSlug": "clr-434"
+      }
+    ],
+    "posts": [
+      {
+        "slug": "anthropomorphics-book",
+        "title": "Anthropomorphics: An Originary Grammar of the Center",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "power-and-paradox-pdf",
+        "title": "Power and Paradox (Adam Katz)",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "power-and-paradox-gablog",
+        "title": "Power and Paradox",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "power",
+        "title": "Power",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "a-new-model-of-power",
+        "title": "A New Model of Power",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "market-capillarism-gablog",
+        "title": "Market Capillarism",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-434",
+        "title": "Christian and Jew at the Origin",
+        "note": "Develops the concept."
+      }
+    ]
+  },
+  "money": {
+    "definitionQuote": "Money is the concrete realization of this sign of recognition; it bears a “meaning” but as opposed to the ordinary sign, it is a credit drawn on the sacred that cannot be freely reproduced.",
+    "definitionSource": "There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary",
+    "definitionSlug": "there-is-no-economy-pdf",
+    "definitionAuthor": "Adam Katz",
+    "passages": [
+      {
+        "text": "Money is a means of subordinating market activity to central authority—that is, money is a form taken by the delegation of power, and is therefore a form of power itself. Money is the power to command the labor of others.",
+        "source": "Anthropomorphics: An Originary Grammar of the Center",
+        "sourceSlug": "anthropomorphics-book"
+      },
+      {
+        "text": "Money is always distributed from (and first of all purchased from) the center, so as to pay tribute (taxes) to the center (the king)—money is always the vehicle of a tributarian economic order.",
+        "source": "War, Art, Bureaucracy and other Miscellanies",
+        "sourceSlug": "war-art-bureaucracy-and-other-miscellanies"
+      },
+      {
+        "text": "Insofar as money is the result of a form of deferral—a certain commodity, which originally has other uses, is set aside to serve as a means of exchange, and must therefore be removed from industrial use—and itself makes deferral possible",
+        "source": "Reflections on Political Economy from Firstness to Thirdness",
+        "sourceSlug": "reflections-on-political-economy-from-firstness-to-thirdness"
+      },
+      {
+        "text": "Money is a sacred means—saving it is honorable, wasting it is disgraceful, spending it wisely is an obligation and placing it in the middle of some scene casts light on everyone there",
+        "source": "The Rights of the Anyown 1: A Politics of Redemption",
+        "sourceSlug": "the-rights-of-the-anyown-1-a-politics-of-redemption"
+      },
+      {
+        "text": "But Seaford and Graeber also show that money generates new ways of seeing and thinking, which is to say, it is a medium, every bit as much as writing or electronic communication—as has often been noted, money is a sign system.",
+        "source": "Money and Capital as Media and Power",
+        "sourceSlug": "money-and-capital-as-media-and-power"
+      },
+      {
+        "text": "Money is a bet on the future; more precisely, it is a partitioning and parceling out of the imperative of the center, what in capitalism takes the form of discounting against expected future earnings.",
+        "source": "Learncoin",
+        "sourceSlug": "learncoin"
+      }
+    ],
+    "posts": [
+      {
+        "slug": "there-is-no-economy-pdf",
+        "title": "There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "anthropomorphics-book",
+        "title": "Anthropomorphics: An Originary Grammar of the Center",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "war-art-bureaucracy-and-other-miscellanies",
+        "title": "War, Art, Bureaucracy and other Miscellanies",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "reflections-on-political-economy-from-firstness-to-thirdness",
+        "title": "Reflections on Political Economy from Firstness to Thirdness",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "the-rights-of-the-anyown-1-a-politics-of-redemption",
+        "title": "The Rights of the Anyown 1: A Politics of Redemption",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "money-and-capital-as-media-and-power",
+        "title": "Money and Capital as Media and Power",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "learncoin",
+        "title": "Learncoin",
+        "note": "Develops the concept."
+      }
+    ]
+  },
+  "media": {
+    "definitionQuote": "So, originary media is a network, a set of invisible lines we could hypothetically draw connecting the sensorium of each of the scene’s participants to each other’s, but also to all the different “parts” (what counts as a “part” depends on the vision, embedded in a body in motion or stasis) of all the others’ bodies.",
+    "definitionSource": "Mediated Centrality",
+    "definitionSlug": "anthropomorphics-mediated-centrality",
+    "definitionAuthor": "Dennis Bouvard",
+    "passages": [
+      {
+        "text": "Jousse insists that even more technologically advanced and abstracted forms of media, like reading or films, are thoroughly mediated mimologically.",
+        "source": "Mediated Centrality",
+        "sourceSlug": "anthropomorphics-mediated-centrality"
+      },
+      {
+        "text": "the order provided by the animal pecking order is replaced by an order mediated by the sign, which defers violence through representation.",
+        "source": "Anthropomorphics: An Originary Grammar of the Center",
+        "sourceSlug": "anthropomorphics-book"
+      },
+      {
+        "text": "more mediated forms of representation (where the poles of communication are separated temporally and/or spatially) have two alternatives open to them: the supplementation of the represented speech act with whatever means the medium provides for simulating the presence of the represented scene (“classical prose” is the first virtual reality, remarkably immersive); or, the representation of the speech act as one variably probable utterance on the variably probable scenes that medium can represent.",
+        "source": "The Name of God, Technomedia, and the Model of the Work of Art",
+        "sourceSlug": "the-name-of-god-technomedia-and-the-model-of-the-work-of-art"
+      },
+      {
+        "text": "We are all highly mediated and technologized men and women. It’s staggering to think of all the ways we operate as signs across all the different media, and the way in which all of our habits, including of thought, depend upon all the devices we are plugged into. It is clear that the political vocabulary we are used to, comprised of “values,” “ideas,” “opinions,” “agreements and disagreements,” “principles,” and so on, are completely inadequate for conditions where the tweak of an algorithm will determine whether 0 or 10,000 people will be exposed to something I say.",
+        "source": "The Center, Speaking",
+        "sourceSlug": "anthropomorphics-the-center-speaking"
+      },
+      {
+        "text": "The mediation of the center is above all an operation of interdiction ; the sacred being that guarantees the exchange process is what is forbidden, unexchangeable at least for a time, and the energetic investment of mimetic desire transferred to the sacred center is not “discharged” but on the contrary consecrated to the object of communal devotion.",
+        "source": "The Market and Resentment (I)",
+        "sourceSlug": "clr-286"
+      },
+      {
+        "text": "The discipline, by contrast, plants itself explicitly in the literate scene, and knows it can only represent the speech scene in a mediated way.",
+        "source": "Prolegomena to the Study of the Origins of the Disciplines",
+        "sourceSlug": "prolegomena-to-the-study-of-the-origins-of-the-disciplines-gablog"
+      }
+    ],
+    "posts": [
+      {
+        "slug": "anthropomorphics-mediated-centrality",
+        "title": "Mediated Centrality",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "anthropomorphics-book",
+        "title": "Anthropomorphics: An Originary Grammar of the Center",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "the-name-of-god-technomedia-and-the-model-of-the-work-of-art",
+        "title": "The Name of God, Technomedia, and the Model of the Work of Art",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "anthropomorphics-the-center-speaking",
+        "title": "The Center, Speaking",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-286",
+        "title": "The Market and Resentment (I)",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "prolegomena-to-the-study-of-the-origins-of-the-disciplines-gablog",
+        "title": "Prolegomena to the Study of the Origins of the Disciplines",
+        "note": "Develops the concept."
+      }
+    ]
+  },
+  "technology": {
+    "definitionQuote": "Indeed, technology is the dominant form of power. If technology presents itself to us as an enormous system of interlocking imperatives which provides a very precise slot for us to insert our own imperatives, who or what is at the center? What ostensive sign generates the system of imperatives? Technology is completely bound up with the specific forms the centralization of power takes in the wake of the desacralization of power.",
+    "definitionSource": "Anthropomorphics: An Originary Grammar of the Center",
+    "definitionSlug": "anthropomorphics-book",
+    "definitionAuthor": "Dennis Bouvard",
+    "passages": [
+      {
+        "text": "From this initial technology, predicated upon total command, we can derive the axiom that all technology is governance. Within any technological order, the machines will be modeled on and complement the activities of human collectives, while human collectives will be modeled on actual or possible machinic articulations.",
+        "source": "Originary Technics (Adam Katz)",
+        "sourceSlug": "originary-technics"
+      },
+      {
+        "text": "Technology is a vast command structure that generates more and more implicit commands as it replaces what was once a ritual system of imperative exchanges: you don’t have to be told to drive a car—it’s just a condition of living under certain technological conditions, and since there are better and worse cars, and cars are indicative of status, you want to drive a car.",
+        "source": "Intelligence and Technics",
+        "sourceSlug": "intelligence-and-technics"
+      },
+      {
+        "text": "But technology precedes the relation between “man and nature”: the first technology is ritual, in which words—prayers, imprecations, blessings, etc.—make things happen on a scene, assuming the participants on that scene are aligned with the materials arranged (props, furniture, scenery) to create the conditions for the happening.",
+        "source": "The Grammar of Technology",
+        "sourceSlug": "the-grammar-of-technology-substack"
+      },
+      {
+        "text": "Technology is scenic design and the design of the scene is part of governance and hence part of the tributary order—technology situates everyone within some centered ordinality and creates the pedagogical platforms necessary for succession.",
+        "source": "The Transfer Idiom",
+        "sourceSlug": "the-transfer-idiom"
+      },
+      {
+        "text": "Governance always concerns countering some real or anticipated resentment by bringing the governed into closer accord with imperatives from the center—making the governed more visible, as James Scott contended, but also making the center more legible and intelligible.",
+        "source": "On the Existence of World Scenes",
+        "sourceSlug": "on-the-existence-of-world-scenes"
+      },
+      {
+        "text": "In that case, the problem of technology is the way the problems of centrality more generally are posed today. Money, media and technology are all real, of course (money is itself media and technology), but we can learn to “read” them as signs indicating (dis)order of the center.",
+        "source": "The Transdisciplinarity of the Hypothesis",
+        "sourceSlug": "the-transdisciplinarity-of-the-hypothesis"
+      }
+    ],
+    "posts": [
+      {
+        "slug": "anthropomorphics-book",
+        "title": "Anthropomorphics: An Originary Grammar of the Center",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "originary-technics",
+        "title": "Originary Technics (Adam Katz)",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "intelligence-and-technics",
+        "title": "Intelligence and Technics",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "the-grammar-of-technology-substack",
+        "title": "The Grammar of Technology",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "the-transfer-idiom",
+        "title": "The Transfer Idiom",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "on-the-existence-of-world-scenes",
+        "title": "On the Existence of World Scenes",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "the-transdisciplinarity-of-the-hypothesis",
+        "title": "The Transdisciplinarity of the Hypothesis",
+        "note": "Develops the concept."
+      }
+    ]
   }
 }
