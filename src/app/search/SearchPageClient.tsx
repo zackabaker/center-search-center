@@ -17,7 +17,7 @@ import {
 import FilterTabs from '@/components/FilterTabs';
 import TopLoadingBar from '@/components/TopLoadingBar';
 import { GLOSSARY_LINK_TERMS } from '@/data/guide/glossary-link-terms';
-import { CS_TERMS } from '@/lib/cs-terms';
+import { CS_TERMS, TERM_TO_CONCEPT_SLUG, CONCEPT_TITLES } from '@/lib/cs-terms';
 
 // Suggestion pool: concept terms + glossary terms (deduped, lowercased keys)
 const SUGGESTION_POOL: string[] = (() => {
@@ -245,7 +245,20 @@ export default function SearchPageClient({
   const liveDebounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   // 'keyword' = lexical (default, instant). 'meaning' = semantic: the query is
   // embedded in the browser and matched against the corpus by meaning.
-  const [mode, setMode] = useState<'keyword' | 'meaning'>('keyword');
+  // Deep-linkable: /search?mode=meaning&q=… restores Meaning mode, so the Ask
+  // page (and shared links) can hand a query straight to semantic search.
+  const [mode, setModeState] = useState<'keyword' | 'meaning'>(
+    searchParams.get('mode') === 'meaning' ? 'meaning' : 'keyword'
+  );
+  const setMode = (m: 'keyword' | 'meaning') => {
+    setModeState(m);
+    try {
+      const url = new URL(window.location.href);
+      if (m === 'meaning') url.searchParams.set('mode', 'meaning');
+      else url.searchParams.delete('mode');
+      window.history.replaceState(null, '', url.toString());
+    } catch {}
+  };
 
   const initialQ = searchParams.get('q') || '';
   const [query, setQuery] = useState(initialQ);
@@ -541,6 +554,28 @@ export default function SearchPageClient({
             Search
           </button>
         </div>
+
+        {/* Concept hub banner — when the query IS one of the 40 curated concepts,
+            offer the quote-first hub above the raw results. */}
+        {(() => {
+          const norm = (query.trim() || committed).toLowerCase().replace(/["“”]/g, '').trim();
+          const conceptSlug = TERM_TO_CONCEPT_SLUG[norm];
+          const title = conceptSlug ? CONCEPT_TITLES[conceptSlug] : undefined;
+          if (!conceptSlug || !title) return null;
+          return (
+            <Link
+              href={`/guide/concepts/${conceptSlug}`}
+              className="mt-3 flex items-center gap-3 px-4 py-3 rounded-xl border border-blue-200 dark:border-blue-900 bg-blue-50/60 dark:bg-blue-950/30 hover:border-blue-400 dark:hover:border-blue-600 transition-colors group"
+            >
+              <span className="text-[10px] font-mono uppercase tracking-widest text-blue-500 dark:text-blue-400 flex-shrink-0">Concept</span>
+              <span className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors">
+                {title}
+              </span>
+              <span className="text-xs text-gray-500 dark:text-gray-400 hidden sm:inline">— the curated hub: verbatim definition, key passages, key texts</span>
+              <span className="ml-auto text-blue-500 dark:text-blue-400 text-sm flex-shrink-0">→</span>
+            </Link>
+          );
+        })()}
 
         {/* Syntax hints — keyword mode only */}
         {mode === 'keyword' && (

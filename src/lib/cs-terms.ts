@@ -376,3 +376,48 @@ export function extractFollowUps(content: string, alreadyAsked: string = ''): st
   hits.sort((a, b) => b.count - a.count);
   return hits.slice(0, 3).map(h => h.term.query);
 }
+
+// Lightweight slug → display title map for the 40 concept hubs — lets client
+// surfaces (search) name a concept without bundling the full concepts.ts.
+export const CONCEPT_TITLES: Record<string, string> = {
+  'the-center': 'The Center',
+  'originary-scene': 'The Originary Scene',
+  'deferral': 'Deferral',
+  'ostensive-imperative-declarative': 'Ostensive / Imperative / Declarative',
+  'the-sacred': 'The Sacred',
+  'nomos': 'Nomos',
+  'succession': 'Succession',
+  'the-juridical': 'The Juridical',
+  'debt-and-credit': 'Debt and Credit',
+  'scenic-design': 'Scenic Design',
+  'anthropomorphics': 'Anthropomorphics / Metaperson',
+  'resentment-victimary': 'Resentment and Victimary Thinking',
+  'pointman-uninsurable': 'The Pointman / The Uninsurable',
+  'originary-grammar': 'Originary Grammar',
+  'big-man': 'The Big Man',
+  'mimesis': 'Mimesis',
+  'sparagmos': 'Sparagmos',
+  'desire': 'Desire',
+  'omnicentrism': 'Omnicentrism',
+  'the-sign': 'The Sign',
+  'attentionality': 'Attentionality',
+  'ritual': 'Ritual',
+  'idiom': 'Idiom',
+  'katechon': 'Katechon',
+  'idiomclining': 'Idiomclining',
+  'scapegoating': 'Scapegoating',
+  'sovereignty': 'Sovereignty',
+  'power': 'Power',
+  'money': 'Money',
+  'media': 'Media',
+  'technology': 'Technology',
+  'event': 'Event',
+  'charisma': 'Charisma',
+  'narrative': 'Narrative',
+  'capital': 'Capital',
+  'firstness': 'Firstness',
+  'market': 'Market',
+  'disciplinarity': 'Disciplinarity',
+  'justice': 'Justice',
+  'liberalism': 'Liberalism',
+};

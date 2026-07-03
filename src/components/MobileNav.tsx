@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 
 interface NavItem {
   href: string;
@@ -62,11 +63,37 @@ const navItems: NavItem[] = [
 export default function MobileNav() {
   const pathname = usePathname();
 
+  // Auto-hide while reading: slide away on scroll-down, return on scroll-up
+  // or near the top — the bar shouldn't permanently eat reading height.
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
+  useEffect(() => {
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const delta = y - lastY.current;
+        if (y < 80) setHidden(false);
+        else if (delta > 8) setHidden(true);
+        else if (delta < -8) setHidden(false);
+        lastY.current = y;
+        ticking = false;
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   // Opaque background (no backdrop-blur): position:fixed + backdrop-filter
   // composites on a separate layer that lags during mobile momentum scroll,
   // making the bar "float" up mid-page. Solid bg avoids that.
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 sm:hidden bg-white dark:bg-[#111111] border-t border-gray-100 dark:border-gray-800" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
+    <div
+      className={`fixed bottom-0 left-0 right-0 z-40 sm:hidden bg-white dark:bg-[#111111] border-t border-gray-100 dark:border-gray-800 transition-transform duration-200 ${hidden ? 'translate-y-full' : 'translate-y-0'}`}
+      style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+    >
       <div className="flex items-stretch justify-around">
         {navItems.map(({ href, label, icon }) => {
           const isActive =
