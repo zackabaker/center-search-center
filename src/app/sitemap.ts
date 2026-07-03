@@ -1,6 +1,7 @@
 import { getPublicPosts } from '@/lib/parser';
 import { CONCEPTS } from '@/data/guide/concepts';
 import { READING_PATHS } from '@/data/guide/reading-paths';
+import { parsePostDate } from '@/lib/dates';
 import { MetadataRoute } from 'next';
 
 const BASE_URL = 'https://center.study';
@@ -20,10 +21,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/search`,              changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/trending`,            changeFrequency: 'daily',   priority: 0.6 },
     { url: `${BASE_URL}/guide`,               changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${BASE_URL}/guide/concepts`,      changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/guide/reading-paths`, changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${BASE_URL}/concepts`,            changeFrequency: 'weekly',  priority: 0.6 },
-    { url: `${BASE_URL}/guide`,               changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE_URL}/concepts`,            changeFrequency: 'weekly',  priority: 0.8 },
+    { url: `${BASE_URL}/follow`,              changeFrequency: 'monthly', priority: 0.5 },
     { url: `${BASE_URL}/browse`,              changeFrequency: 'weekly',  priority: 0.7 },
     { url: `${BASE_URL}/browse/gablog`,       changeFrequency: 'weekly',  priority: 0.7 },
     { url: `${BASE_URL}/browse/substack`,     changeFrequency: 'weekly',  priority: 0.7 },
@@ -31,6 +31,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/browse/book`,          changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/browse/chronicle`,    changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/browse/ap`,           changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/browse/threads`,      changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${BASE_URL}/browse/all`,          changeFrequency: 'weekly',  priority: 0.6 },
     { url: `${BASE_URL}/author/katz`,         changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/author/bouvard`,      changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/author/gans`,         changeFrequency: 'monthly', priority: 0.7 },
@@ -58,12 +60,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     twitter:  0.5,
   };
 
+  // parsePostDate handles Chronicle-style "July 6th, 1995" ordinals that
+  // Date.parse rejects — without it 855 Chronicles fell back to a fake date.
   const fallbackDate = new Date('2024-01-01');
-  const safeDate = (dateStr: string | null): Date => {
-    if (!dateStr) return fallbackDate;
-    const d = new Date(dateStr);
-    return isNaN(d.getTime()) ? fallbackDate : d;
-  };
+  const safeDate = (dateStr: string | null): Date => parsePostDate(dateStr) ?? fallbackDate;
 
   const postRoutes: MetadataRoute.Sitemap = posts.map((p) => ({
     url: `${BASE_URL}/post/${p.slug}`,

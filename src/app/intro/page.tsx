@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Introduction to Center Study | Center Study Center',
+  title: 'Introduction to Center Study',
   description:
     'Center Study is a transdisciplinary discourse descended from Generative Anthropology. It reads every social order as an effect of the engagement between periphery and center.',
 };

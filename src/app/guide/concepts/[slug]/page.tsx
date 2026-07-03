@@ -4,12 +4,18 @@ import { CONCEPTS, getConceptBySlug } from '@/data/guide/concepts';
 import { atlasPassages } from '@/lib/concept-atlas';
 import GLOSSARY from '@/data/guide/concept-glossary.json';
 import GoBack from '@/components/GoBack';
+import { parsePostDate, postTime } from '@/lib/dates';
 import type { Metadata } from 'next';
 
 function atlasYear(date: string | null): string {
-  if (!date) return '—';
-  const d = new Date(date);
-  return isNaN(d.getTime()) ? date : String(d.getFullYear());
+  const d = parsePostDate(date);
+  return d ? String(d.getFullYear()) : '—';
+}
+
+// Meta descriptions must not clip mid-word.
+function clipDescription(text: string, max = 160): string {
+  if (text.length <= max) return text;
+  return text.slice(0, max).replace(/\s+\S*$/, '') + '…';
 }
 
 export function generateStaticParams() {
@@ -22,11 +28,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!concept) return {};
   return {
     title: `${concept.title} — Center Study Concepts`,
-    description: (
+    description: clipDescription(
       (GLOSSARY as Record<string, { definitionQuote?: string }>)[slug]?.definitionQuote
       || concept.definition
       || concept.subtitle
-    ).slice(0, 160),
+    ),
     alternates: { canonical: `https://center.study/guide/concepts/${slug}` },
   };
 }
@@ -46,7 +52,16 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
   const passages = g?.passages?.length ? g.passages : concept.passages;
   const keyTexts = g?.posts?.length ? g.posts : concept.posts;
 
-  const atlas = atlasPassages(slug);
+  // Chronicle dates ("July 6th, 1995") defeated the atlas build's sort — order
+  // chronologically here with the robust parser so the timeline reads correctly.
+  const atlas = [...atlasPassages(slug)].sort((a, b) => {
+    const ta = postTime(a.date);
+    const tb = postTime(b.date);
+    if (ta !== null && tb !== null) return ta - tb;
+    if (ta !== null) return -1;
+    if (tb !== null) return 1;
+    return 0;
+  });
 
   const relatedConcepts = concept.relations
     .map((s) => CONCEPTS.find((c) => c.slug === s))

@@ -18,6 +18,7 @@ import PostNavigation from '@/components/PostNavigation';
 import Concordance from '@/components/Concordance';
 import { getPostTermFrequency, buildSearchEntries, getRelatedEntries } from '@/lib/search-index';
 import { relatedSlugs } from '@/lib/related';
+import { parsePostDate, postTime } from '@/lib/dates';
 import { MarkPostRead } from '@/components/MarkPostRead';
 import NextInPath from '@/components/NextInPath';
 import AiPathNext from '@/components/AiPathNext';
@@ -99,9 +100,7 @@ export async function generateMetadata({
   const url = `https://center.study/post/${slug}`;
 
   // ISO 8601 for OG article:published_time (parseable by crawlers)
-  const isoDate = post.date ? (() => {
-    try { return new Date(post.date).toISOString(); } catch { return undefined; }
-  })() : undefined;
+  const isoDate = parsePostDate(post.date)?.toISOString();
 
   // Author: explicit override (e.g. co-authored) wins; else per-source default.
   const authorName = post.author ? post.author
@@ -181,14 +180,20 @@ export default async function PostPage({
   const reader = READER_SOURCES.has(post.source);
 
   // ── Prev / Next within source ──────────────────────────────────────────────
-  const sourcePosts = allPosts
-    .filter((p) => p.source === post.source)
-    .sort((a, b) => {
-      if (a.date && b.date) return new Date(a.date).getTime() - new Date(b.date).getTime();
-      if (a.date && !b.date) return -1;
-      if (!a.date && b.date) return 1;
-      return a.title.localeCompare(b.title);
-    });
+  // Book chapters have no dates but posts-cache order IS the book's chapter
+  // order — preserve it. Everything else sorts chronologically (parsePostDate
+  // handles Chronicle-style "July 6th, 1995" that Date.parse rejects).
+  const sourceFiltered = allPosts.filter((p) => p.source === post.source);
+  const sourcePosts = post.source === 'book'
+    ? sourceFiltered
+    : [...sourceFiltered].sort((a, b) => {
+        const ta = postTime(a.date);
+        const tb = postTime(b.date);
+        if (ta !== null && tb !== null) return ta - tb;
+        if (ta !== null) return -1;
+        if (tb !== null) return 1;
+        return a.title.localeCompare(b.title);
+      });
   const currentIdx = sourcePosts.findIndex((p) => p.slug === slug);
   const prevPost = currentIdx > 0 ? sourcePosts[currentIdx - 1] : null;
   const nextPost = currentIdx < sourcePosts.length - 1 ? sourcePosts[currentIdx + 1] : null;
@@ -261,7 +266,7 @@ export default async function PostPage({
     </span>
   ));
 
-  const isoDate = post.date ? (() => { try { return new Date(post.date).toISOString(); } catch { return undefined; } })() : undefined;
+  const isoDate = parsePostDate(post.date)?.toISOString();
 
   const articleJsonLd = {
     '@context': 'https://schema.org',
@@ -318,7 +323,7 @@ export default async function PostPage({
       <ReadingProgress />
       <TrackView slug={slug} title={post.title} source={post.source} date={post.date} />
       {/* Reader mode: warm, full-viewport reading background behind everything */}
-      {reader && <div className="fixed inset-0 -z-10 bg-[#fbfaf7] dark:bg-[#111111] print:hidden" />}
+      {reader && <div className="reader-bg fixed inset-0 -z-10 bg-[#fbfaf7] dark:bg-[#111111] print:hidden" />}
       <main className={`${reader ? 'max-w-3xl' : 'max-w-3xl lg:max-w-5xl'} w-full mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden lg:overflow-x-visible`}>
         {/* Top nav — full width */}
         <div className="flex items-center justify-between mb-6 sm:mb-8 print:hidden">

@@ -171,6 +171,15 @@ html[data-reading-mode="sepia"] {
   --foreground: #2c1a0e;
 }
 
+/* The reader layout's fixed full-viewport background is a Tailwind-colored
+   div; reading modes must recolor it or the palette only applies to text. */
+html[data-reading-mode="sepia"] .reader-bg {
+  background-color: #f7f3ea;
+}
+html[data-reading-mode="night"] .reader-bg {
+  background-color: #0d0d0d;
+}
+
 html[data-reading-mode="sepia"] .prose {
   color: #2c1a0e;
 }

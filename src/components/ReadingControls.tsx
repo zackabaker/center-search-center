@@ -47,7 +47,13 @@ export default function ReadingControls() {
     const root = document.documentElement;
     if (mode === 'normal') {
       root.removeAttribute('data-reading-mode');
-      // Restore dark class state without interfering
+      // Sepia strips the dark class and Night adds it — returning to Default
+      // must restore the user's own dark-mode preference, not whatever the
+      // last reading mode left behind.
+      try {
+        if (localStorage.getItem('csc-dark-mode') === 'true') root.classList.add('dark');
+        else root.classList.remove('dark');
+      } catch {}
     } else {
       root.setAttribute('data-reading-mode', mode);
       // Night mode also enables dark class for UI elements

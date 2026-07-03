@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'The Lineage: Girard → Gans → Katz | Center Study Center',
+  title: 'The Lineage: Girard → Gans → Katz',
   description:
     'How Center Study descends from Generative Anthropology — Girard as grandfather, Gans as founder, Katz as developer — told in passages drawn directly from the corpus.',
 };

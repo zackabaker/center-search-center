@@ -163,7 +163,7 @@ export const TERM_TO_CONCEPT_SLUG: Record<string, string> = {
 
   // nomos / sovereignty
   'nomos': 'nomos',
-  'sovereignty': 'nomos',
+  'sovereignty': 'sovereignty',
 
   // succession
   'succession': 'succession',
