@@ -1,5 +1,6 @@
 import { CONCEPTS } from '@/data/guide/concepts';
 import { GLOSSARY } from '@/data/guide/glossary';
+import CONCEPT_GLOSSARY from '@/data/guide/concept-glossary.json';
 import GlossaryClient from '@/components/GlossaryClient';
 import BackToReading from '@/components/BackToReading';
 import Link from 'next/link';
@@ -119,9 +120,14 @@ export default async function ConceptsPage({
                           <span className="text-xs text-gray-400 dark:text-gray-500 hidden sm:block">{concept!.subtitle}</span>
                         </div>
                         <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
-                          {concept!.passages[0]
-                            ? `"${concept!.passages[0].text.slice(0, 120)}${concept!.passages[0].text.length > 120 ? '…' : ''}"`
-                            : concept!.subtitle}
+                          {(() => {
+                            // Lead with the curated verbatim defining quote, not a random passage.
+                            const dq = (CONCEPT_GLOSSARY as Record<string, { definitionQuote?: string }>)[concept!.slug]?.definitionQuote;
+                            const text = dq || concept!.passages[0]?.text;
+                            return text
+                              ? `"${text.slice(0, 120)}${text.length > 120 ? '…' : ''}"`
+                              : concept!.subtitle;
+                          })()}
                         </p>
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0">
