@@ -15,23 +15,23 @@ export const metadata: Metadata = {
 const TIERS = [
   {
     label: 'The Scene and Its Elements',
-    slugs: ['originary-scene', 'the-center', 'deferral', 'the-sacred', 'mimesis', 'desire', 'ritual', 'sparagmos'],
+    slugs: ['originary-scene', 'the-event', 'the-center', 'deferral', 'the-sacred', 'mimesis', 'desire', 'charisma', 'ritual', 'sparagmos'],
   },
   {
     label: 'Language and Grammar',
-    slugs: ['ostensive-imperative-declarative', 'originary-grammar', 'the-sign', 'idiom', 'idiomclining'],
+    slugs: ['ostensive-imperative-declarative', 'originary-grammar', 'the-sign', 'narrative', 'idiom', 'idiomclining'],
   },
   {
     label: 'Order and Distribution',
-    slugs: ['nomos', 'succession', 'sovereignty', 'power', 'the-juridical', 'debt-and-credit', 'money', 'big-man', 'omnicentrism'],
+    slugs: ['nomos', 'succession', 'firstness', 'sovereignty', 'power', 'the-juridical', 'debt-and-credit', 'money', 'capital', 'big-man', 'omnicentrism'],
   },
   {
     label: 'Practice and Institution',
-    slugs: ['scenic-design', 'technology', 'anthropomorphics', 'media', 'pointman-uninsurable', 'attentionality'],
+    slugs: ['scenic-design', 'technology', 'anthropomorphics', 'media', 'the-market', 'disciplinarity', 'justice', 'pointman-uninsurable', 'attentionality'],
   },
   {
     label: 'Pathology and Critique',
-    slugs: ['resentment-victimary', 'scapegoating', 'katechon'],
+    slugs: ['resentment-victimary', 'scapegoating', 'liberalism', 'katechon'],
   },
 ];
 

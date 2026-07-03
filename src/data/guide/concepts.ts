@@ -1548,6 +1548,761 @@ The alternative — succession by committee, by popular vote, by competitive mar
       }
     ],
     "selfReference": "This page is itself a small technology of the center — an arrangement of inherited imperatives (\"quote exactly,\" \"ground every claim\") that situates the reader within a centered ordinality of quotation."
+  },
+  {
+    "slug": "the-event",
+    "title": "The Event",
+    "subtitle": "Why generative anthropology thinks the human in events rather than processes",
+    "definition": "In generative anthropology, \"the event\" is the category and methodological wager that the human originates not as a gradual process but as a singular, datable happening — a cut in time in which representation, and therefore meaning, emerges. To think the human as an event rather than a process is to hold that culture, esthetics, science, and history are all traces of eventful occurrences that can only be modeled scenically, from an origin, rather than derived from a continuous natural gradient.",
+    "body": "The wager of GA is that the human cannot be dissolved into biological process: \"the origin of the human, as defined by our use of language, must be understood not merely as a process but as an event.\" This is a methodological choice before it is a claim about paleontology. Defined biologically, no singular event can mark the passage from nonhuman to human; defined by shared representation, the very category of event becomes indispensable, and \"it is by choosing the intuitive evidence of eventfulness over empirical methodology that our new way of thinking parts company with the sciences.\" What makes the human distinctive is precisely eventfulness itself — the dimension \"in which an incident leaves its trace as a sign shared with the community rather than a mere epigenetic inflection: an event in the human sense is ipso facto a signified.\" Humans are, on this account, \"the only beings for whom events may be said to exist,\" because they remember and thematize occurrences of emergence rather than merely undergoing them.\n\nBecause meaning is achieved in events, GA reads the whole of culture as re-staging of an originary event: \"The originary event is an instance of successfully seeing what happens when we do this to that—meaning is achieved,\" and \"every artwork is a model of the originary event.\" The event is thus not confined to the first scene; it is the general form of any occurrence in which the deferral of appropriation converts appetite into significance. This is why the event-model extends across esthetics, science, and history without collapsing into a single hypothesized origin — even as some readers insist the hypothesis \"refers to an actual event, something that must have happened,\" while bringing \"that originary event within the ergodic world itself, as a virtuality that we collectively compose.\" The event names both the singular cut that founds representation and the recurring scenic structure by which every later meaning is generated. Its distinctness from the originary scene is exactly this generality: the scene is the specific first happening, the event is the stance that reads all meaning as eventful and deferring.",
+    "relations": [
+      "originary-scene",
+      "the-center",
+      "deferral",
+      "the-sign",
+      "mimesis",
+      "scenic-design"
+    ],
+    "posts": [
+      {
+        "slug": "clr-403",
+        "title": "Heuristic Necessity",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "clr-205",
+        "title": "Originary and Evolutionary Esthetics",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "the-origin-of-language",
+        "title": "The Origin of Language",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-402",
+        "title": "The Originary Hypothesis (Stanford version)",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "disciplinarity-and-the-center",
+        "title": "Disciplinarity and the Center",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-369",
+        "title": "The Esthetic Moment",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "ergodism",
+        "title": "Ergodism",
+        "note": "Develops the concept."
+      }
+    ],
+    "passages": [
+      {
+        "text": "the origin of the human, as defined by our use of language, must be understood not merely as a process but as an event",
+        "source": "Originary and Evolutionary Esthetics",
+        "sourceSlug": "clr-205"
+      },
+      {
+        "text": "This dimension can be understood as that of eventfulness itself, in which an incident leaves its trace as a sign shared with the community rather than a mere epigenetic inflection: an event in the human sense is ipso facto a signified.",
+        "source": "The Origin of Language",
+        "sourceSlug": "the-origin-of-language"
+      },
+      {
+        "text": "The originary hypothesis, in its minimal form, is simply this: the human has a punctual origin in an originary event or scene, whose absolute uniqueness—the most parsimonious supposition—is less important than the absolute distinction the event effects.",
+        "source": "The Originary Hypothesis (Stanford version)",
+        "sourceSlug": "clr-402"
+      },
+      {
+        "text": "The originary event is an instance of successfully seeing what happens when we do this to that—meaning is achieved.",
+        "source": "Disciplinarity and the Center",
+        "sourceSlug": "disciplinarity-and-the-center"
+      },
+      {
+        "text": "Every artwork is a model of the originary event.",
+        "source": "The Esthetic Moment",
+        "sourceSlug": "clr-369"
+      },
+      {
+        "text": "This does not detract from the indispensable assertion that the originary hypothesis refers to an actual event, something that must have happened, but it brings that originary event within the ergodic world itself, as a virtuality that we collectively compose, modularly, through its successive iterations.",
+        "source": "Ergodism",
+        "sourceSlug": "ergodism"
+      }
+    ],
+    "selfReference": "This page is itself an event of the kind it describes: a scene that gathers scattered signs of the corpus around a single center and defers, for a moment, the reader's appropriation of the concept into meaning."
+  },
+  {
+    "slug": "charisma",
+    "title": "Charisma",
+    "subtitle": "The magnetic centrality generated by a display of deferral beyond the onlooker's capacity",
+    "definition": "Charisma, in the Rieffian sense the GA writers adopt, is the centrality that accrues to a person whose display of deferral and self-discipline exceeds what the onlooker can manage — divine grace perceived in one who has transcended compulsive desire. It is generated through renunciation rather than seized, drawing the beholder to take the disciplined figure as a model for engaging his own inner scene; its modern reversal, \"transgressive charisma,\" relocates the same magnetism in the flouting of norms rather than obedience to a higher imperative.",
+    "body": "Charisma names a specific mechanism by which centrality is generated rather than occupied. Its bearer disciplines and restrains himself past the point the onlooker can reach; that surplus of deferral becomes visible as an example, and the onlooker, in whom it \"reveals\" an inner scene \"for the first time,\" oscillates between exploiting the leader's vulnerability and modeling himself upon it. In the original sense the GA writers take from Philip Rieff, this is \"divine grace perceived in a person who has transcended desires that are compulsive to others\" — charisma \"was originally a product of abstention and self-discipline,\" the power exercised by \"the one who could withstand temptation better than others, obey a higher imperative.\" This distinguishes charisma sharply from the occupation of the political center or the accumulative bigness of the big man: it is a \"paradox of the charisma emanating from such moral innovators,\" a centrality won through renunciation, whose \"power, wealth and prestige\" typically accrues not to the innovator but to those who inherit his kingdom of ends.\n\nThe concept is doubled. Modernity, at the Weberian turning point, reverses the polarity so that charisma comes to mean \"the transgression of the established, the secure, and the accepted\" — the same magnetic form of self-command, now attached to breaking norms rather than obeying an imperative. Because charisma converts renunciation into attention, it stands close to the sacred it borrows from: Gans warns that \"the sacred that charisma usurps is necessary to humanity, but it can easily be turned to less than noble ends,\" as when celebrity or the \"anti-sacred of resentment\" distills it. Its scenic logic is explicit in the shaman, who \"recreates the scene from the sacred center,\" making charisma the individualized re-generation of the center as against the periphery-serving officiant of ritual.",
+    "relations": [
+      "the-center",
+      "deferral",
+      "the-sacred",
+      "big-man",
+      "sovereignty",
+      "resentment-victimary"
+    ],
+    "posts": [
+      {
+        "slug": "a-kind-of-apocalyptic-politics",
+        "title": "A Kind of Apocalyptic Politics",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "power",
+        "title": "Power",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "the-two-charismas",
+        "title": "The Two Charismas",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "viral-authoritarianism",
+        "title": "Bouvard on Reformist Absolutism and Democratic Fragility",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "civilization-and-its-end-s",
+        "title": "Civilization and Its End(s)",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-819",
+        "title": "Celebrity and Resentment",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-161",
+        "title": "Thinking Religion",
+        "note": "Develops the concept."
+      }
+    ],
+    "passages": [
+      {
+        "text": "The individual you see resisting temptations you give way to and controlling impulses you are overpowered by has power over you—you will defer to him because you know that your own indiscipline (revealed to you by this example) blinds you to cause and effect, good and bad, and that the more disciplined individual will have more insight into these matters.",
+        "source": "Power",
+        "sourceSlug": "power"
+      },
+      {
+        "text": "This is charisma, in its original sense, according t Philip Rieff: divine grace perceived in a person who has transcended desires that are compulsive to others.",
+        "source": "The Two Charismas",
+        "sourceSlug": "the-two-charismas"
+      },
+      {
+        "text": "Rieff has a book entitled Charisma: The Gift of Grace and How it Has Been Taken From Us (very cheap on Amazon or AbeBooks), and he argues that charisma was originally a product of abstention and self-discipline--the one who could withstand temptation better than others, obey a higher imperative, exercised the power of charisma (which really means \"gift\") over his fellows.",
+        "source": "Bouvard on Reformist Absolutism and Democratic Fragility",
+        "sourceSlug": "viral-authoritarianism"
+      },
+      {
+        "text": "Hence the paradox of the charisma emanating from such moral innovators, and the power, wealth and prestige that accrues, if not to them, than to those who most credibly “inherit” their “kingdom of ends.”",
+        "source": "Civilization and Its End(s)",
+        "sourceSlug": "civilization-and-its-end-s"
+      },
+      {
+        "text": "The sacred that charisma usurps is necessary to humanity, but it can easily be turned to less than noble ends.",
+        "source": "Celebrity and Resentment",
+        "sourceSlug": "clr-819"
+      },
+      {
+        "text": "The charismatic shaman differs from the unindividualized officiant of Ritual in that the first recreates the scene from the sacred center whereas the second stands in the center as the emissary of the periphery.",
+        "source": "Thinking Religion",
+        "sourceSlug": "clr-161"
+      }
+    ],
+    "selfReference": "This page assembles verbatim quotes to trace charisma as a distinct concept, so that its own centrality derives from the deferral of paraphrase to the corpus rather than from any authority it claims."
+  },
+  {
+    "slug": "narrative",
+    "title": "Narrative",
+    "subtitle": "The retemporalization of the sign into a model of the time of action",
+    "definition": "In generative anthropology, narrative is not a construction of grammar but a retemporalization of the originary sign: the return of the sign's own deferred, self-contained temporality to the world as a model of the time of action. Structured into beginnings, middles, and ends around characters and conflict, narrative reproduces the scene of deferral, sustaining desire and resentment across the extended time that separates one sacred scene from the next.",
+    "body": "Narrative in GA is anchored not in the declarative sentence but in the originary sign. Katz's originary analysis explains why every attempt to define a \"grammar\" of narrative fails: there is no simple correspondence between the formal structures of language and the institutional structures of storytelling, because \"narrative begins not with articulated language but with the originary sign.\" Where originary grammar concerns the ostensive-imperative-declarative forms of the speech act, narrative is the higher-order return of the sign's inherent temporality to the world \"as a model of the time of action.\" Gans locates its persistence in the same function as the sign itself: \"The persuasiveness of a narrative as of the originary sign depends on the audience's intuition that it will defer conflict,\" an ethical motive inseparable from the esthetic capacity to hold attention within the oscillation of sign and referent.\n\nThe distinctive marks of narrative — beginnings, middles, and ends, characters ranked in a hierarchy of importance, events set in motion by conflict — organize this deferral into a sequence with moral and rhetorical force. Its engine is desire pulled two ways: \"we both desire and resist the ending.\" Its long forms model the extended, unexceptional time between sacred scenes, and in the Homeric epics \"what ties the beginning to the end is resentment.\" Narrative is thus \"characterized by a provisional espousal of individual desire despite its ultimate incompatibility with sacred order\" — a firstness indulged and then corrected, which is why story so readily turns sacrificial. Because reducing narrative n to sentence s cannot recover \"what makes n a narrative,\" GA treats storytelling not as decorated grammar but as scenic intelligence: \"what was once narrative becomes scenic intelligence\" once we make our scenicity overt rather than relying on narrative formulas.",
+    "relations": [
+      "originary-grammar",
+      "the-sign",
+      "deferral",
+      "desire",
+      "resentment-victimary",
+      "originary-scene"
+    ],
+    "posts": [
+      {
+        "slug": "ap0302-narrative",
+        "title": "Originary Narrative",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "clr-346",
+        "title": "New Thoughts on Originary Narrative",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "narrative",
+        "title": "Narrative",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-294",
+        "title": "What is a Biography?",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "ap1902-1902ludwigs",
+        "title": "What propels narratives forward? Narrative as Janus",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "hypothesis-practice-vs-narrative-the-iterative-center-gablog",
+        "title": "Hypothesis/Practice Vs. Narrative: The Iterative Center",
+        "note": "Develops the concept."
+      }
+    ],
+    "passages": [
+      {
+        "text": "But once we grant this, we must conceive the originary—and every subsequent—use of the sign as “narrative.” Narrativity requires nothing of the sign beyond its own inherent temporality. Narrative emerges when the time of the sign returns to the world as a model of the time of action.",
+        "source": "Originary Narrative",
+        "sourceSlug": "ap0302-narrative"
+      },
+      {
+        "text": "Narrative is characterized by a provisional espousal of individual desire despite its ultimate incompatibility with sacred order, an identification that has its origin in the experience of originary firstness.",
+        "source": "New Thoughts on Originary Narrative",
+        "sourceSlug": "clr-346"
+      },
+      {
+        "text": "Narratives, by definition, have beginnings, middles and ends. They have characters, or agents—usually in some hierarchy of importance (main character, supporting character, etc.).",
+        "source": "Narrative",
+        "sourceSlug": "narrative"
+      },
+      {
+        "text": "In the Homeric epics that are the ancestors of all Western fictional narratives, what ties the beginning to the end is resentment .",
+        "source": "What is a Biography?",
+        "sourceSlug": "clr-294"
+      },
+      {
+        "text": "The ambiguity of narrative desire amounts to a tugging in two directions, insofar as we both desire and resist the ending.",
+        "source": "What propels narratives forward? Narrative as Janus",
+        "sourceSlug": "ap1902-1902ludwigs"
+      },
+      {
+        "text": "So, what was once narrative becomes scenic intelligence.",
+        "source": "Hypothesis/Practice Vs. Narrative: The Iterative Center",
+        "sourceSlug": "hypothesis-practice-vs-narrative-the-iterative-center-gablog"
+      }
+    ],
+    "selfReference": "This page is itself a small narrative of narrative, arranging verbatim fragments into a beginning, middle, and end so that the concept's own deferral of conflict can be held in view."
+  },
+  {
+    "slug": "capital",
+    "title": "Capital",
+    "subtitle": "Power that abstracts subjects and disciplines through the valuation of expected future earnings",
+    "definition": "In Generative Anthropology, capital is not wealth or a factor of production but a specific mode of power: the power to abstract individuals, groups, and above all disciplines from the traditions that embed them and reinsert them into new hierarchies oriented toward the center. It operates through market valuation — everything is priced as an asset by discounting its expected future earnings — so that capital is power exercised as abstraction and valuation rather than as direct command.",
+    "body": "Following Nitzan and Bichler's Capital as Power, the GA texts refuse the standard split between economics and politics: \"capital is simply a mode of power,\" and its insistence \"that capital is power—not dependent on power, not an influence on power, not even just powerful, but a specific mode of power—means that the state cannot be conceptually separated from capital.\" What distinguishes this mode is its medium. Capital works by abstraction — \"the power to abstract not only individuals and groups but disciplines, which is to say knowledges, media and technologies, from the results of the abstractions those disciplines had helped to effect\" — and by valuation, pricing anything whatever as an asset discounted against expected future earnings. This keeps capital distinct from power in general (the originary concept) and from money (the sign of value over a piece of the center): capital is the power that homogenizes and mobilizes human activity, converting disciplines and subjects themselves into holdings.\n\nThat valuation reaches into the subject and the succession problem alike. \"The liberal subject is the capitalized subject, who has been discounted (and participates by discounting himself) against expected future earnings\" — the capitalist order turns even selves into assets estimated against an imagined future. At the level of the center, \"Capital is a distribution of power aimed at solving the succession problem by constraining the possibilities—no ruler can rule against capital,\" so that turnover at the center is disciplined by the imperative to preserve capitalization. And because assets require enforceable title, \"Capital is completely dependent upon the juridical form,\" binding capital to the state and the juridical even as it claims market autonomy. Capital thus names the abstracting, future-oriented form deferral takes once market valuation becomes the dominant relation to the center.",
+    "relations": [
+      "power",
+      "money",
+      "the-center",
+      "debt-and-credit",
+      "succession",
+      "the-juridical"
+    ],
+    "posts": [
+      {
+        "slug": "anthropomorphics-book",
+        "title": "Anthropomorphics: An Originary Grammar of the Center",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "money-and-capital-as-media-and-power",
+        "title": "Money and Capital as Media and Power",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "market-capillarism-gablog",
+        "title": "Market Capillarism",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "power-and-capital",
+        "title": "Power and Capital",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "successful-succession",
+        "title": "Successful Succession",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "converting-assets-to-data-tributarianism",
+        "title": "Converting Assets to Data: Tributarianism",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "scenic-design-practices-the-transfer-translation-of-events-into-scenes",
+        "title": "Scenic Design Practices: The Transfer Translation of Events into Scenes",
+        "note": "Develops the concept."
+      }
+    ],
+    "passages": [
+      {
+        "text": "I would say that if money represents power over a piece of the center, capital represents power over the disciplines.",
+        "source": "Money and Capital as Media and Power",
+        "sourceSlug": "money-and-capital-as-media-and-power"
+      },
+      {
+        "text": "The power of money becomes the power of capital, which is the power to abstract not only individuals and groups but disciplines, which is to say knowledges, media and technologies, from the results of the abstractions those disciplines had helped to effect.",
+        "source": "Market Capillarism",
+        "sourceSlug": "market-capillarism-gablog"
+      },
+      {
+        "text": "Their insistence that capital is power—not dependent on power, not an influence on power, not even just powerful, but a specific mode of power—means that the state cannot be conceptually separated from capital.",
+        "source": "Power and Capital",
+        "sourceSlug": "power-and-capital"
+      },
+      {
+        "text": "Capital is a distribution of power aimed at solving the succession problem by constraining the possibilities—no ruler can rule against capital.",
+        "source": "Successful Succession",
+        "sourceSlug": "successful-succession"
+      },
+      {
+        "text": "Capital is completely dependent upon the juridical form, because that is the only way in which its property can de determined and therefore expected future earnings can be calculated—the state continues to play this traditional role, as capitalists struggle over the formulation and enforcement of the juridical form.",
+        "source": "Converting Assets to Data: Tributarianism",
+        "sourceSlug": "converting-assets-to-data-tributarianism"
+      },
+      {
+        "text": "The liberal subject is the capitalized subject, who has been discounted (and participates by discounting himself) against expected future earnings.",
+        "source": "Scenic Design Practices: The Transfer Translation of Events into Scenes",
+        "sourceSlug": "scenic-design-practices-the-transfer-translation-of-events-into-scenes"
+      }
+    ],
+    "selfReference": "This page fixes capital as a distinct concept by quoting the corpus verbatim, discounting its own claims against the expected future earnings of a reader who will check the sources."
+  },
+  {
+    "slug": "firstness",
+    "title": "Firstness",
+    "subtitle": "The originary priority of the one who signs first — and the resentment that priority arouses",
+    "definition": "Firstness is the ineradicable priority of the individual who first emits the sign — the freedom by which one member's innovation can be seamlessly adopted by the whole community, and which no vision of human equality can abolish. Introduced into GA by Adam Katz, it names the asymmetry latent in the otherwise symmetrical originary scene: someone signs first, and though that priority normally dissolves into the reciprocal exchange of meaning, it remains a permanent source both of cultural creation and of the resentment that dogs anyone perceived as first.",
+    "body": "Firstness is Adam Katz's amendment to the originary scene, adopted by Gans as a neologism rather than a borrowing. The scene is fundamentally symmetrical — all participants converge on the central sacred object in identical relation to it — yet someone must have emitted the aborted gesture of appropriation first, before it could be imitated as a sign. This introduces \"an element of asymmetry\" at the outset, \"the problematic that the originary role of firstness introduces into the human community, defined from the outset by its symmetry in relation to a central sacred object of desire.\" In the event itself firstness has no salience: once the others imitate the first sign-user, no trace of priority survives. But precisely because signs are the one thing an individual can create and give away to everyone's gain, this \"possibility of firstness\" becomes \"the foundation of the human community\" and, in later social organization, \"a major force.\"\n\nFirstness is distinct from succession, which governs the orderly transmission of a center across time; firstness concerns the sheer priority of being first and the danger that priority incurs. Its destiny is self-cancelling — \"the destiny of the firstness of the originary sign is to dissolve itself in the collective reciprocity of its exchange,\" and \"a firstness that fails to lead to this universal exchange is not firstness at all, but an aberration\" that provokes emissary violence. Firstness thus stands in permanent tension with the moral model of reciprocity: not everyone can be first, but everyone must be moral. Because human firstness is figured as \"a reflection of divine firstness,\" it is bound up with the sacred and the deferral of appropriation, and because it is inseparable from the resentment it arouses, it always carries, per the seed, \"a willingness to risk scapegoating.\"",
+    "relations": [
+      "originary-scene",
+      "succession",
+      "the-sign",
+      "the-sacred",
+      "scapegoating",
+      "resentment-victimary"
+    ],
+    "posts": [
+      {
+        "slug": "clr-603",
+        "title": "Toward a Globalist-Victimary Unified Field Theory: Part V – A Morality of Firstness",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "clr-639",
+        "title": "Avatars of Firstness",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-484",
+        "title": "The Moral Model and the Scandal of the Secular Sign",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-451",
+        "title": "Reciprocity and Firstness",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-496",
+        "title": "Religion and Firstness",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-342",
+        "title": "The Crisis of Firstness (Guest Chronicler: Adam Katz)",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "the-single-source-of-moral-and-intellectual-innovation-gablog",
+        "title": "The Single Source of Moral and Intellectual Innovation",
+        "note": "Develops the concept."
+      }
+    ],
+    "passages": [
+      {
+        "text": "What I would like to develop here is the problematic that the originary role of firstness introduces into the human community, defined from the outset by its symmetry in relation to a central sacred object of desire, the relation to which provides the fundamental model of both transcendence and resentment.",
+        "source": "Avatars of Firstness",
+        "sourceSlug": "clr-639"
+      },
+      {
+        "text": "But the destiny of the firstness of the originary sign is to dissolve itself in the collective reciprocity of its exchange, the “moral model” that is the universal, as opposed to the particular, realization of originary humanity. Not everyone can be, or must be, first; but everyone has to participate in reciprocity, everyone must be “moral.” A firstness that fails to lead to this universal exchange is not firstness at all, but an aberration that risks provoking, in Girardian terms, “emissary” violence.",
+        "source": "The Moral Model and the Scandal of the Secular Sign",
+        "sourceSlug": "clr-484"
+      },
+      {
+        "text": "For in more advanced modes of social organization, firstness will become a major force, and this could not be the case were it not present in latent form from the beginning, in the egalitarian societies we presume existed at the origin of humanity in contrast with the pecking-order hierarchies of apes.",
+        "source": "Reciprocity and Firstness",
+        "sourceSlug": "clr-451"
+      },
+      {
+        "text": "The moral reciprocity of humans depends on the firstness of gods, and minimally, of the One God who still rules the West; human firstness is a reflection of divine firstness.",
+        "source": "Religion and Firstness",
+        "sourceSlug": "clr-496"
+      },
+      {
+        "text": "Firstness, then, in these later rememberings, would always involve a willingness to risk scapegoating and its success would be world-historical precisely because that possibility was transcended.",
+        "source": "The Crisis of Firstness (Guest Chronicler: Adam Katz)",
+        "sourceSlug": "clr-342"
+      },
+      {
+        "text": "A sign can only be meaningful insofar as it has previously generated meaning, but it can also only be meaningful if it represents a new beginning.",
+        "source": "The Single Source of Moral and Intellectual Innovation",
+        "sourceSlug": "the-single-source-of-moral-and-intellectual-innovation-gablog"
+      }
+    ],
+    "selfReference": "This page is itself an act of firstness in miniature: it takes signs already emitted by Katz and Gans and re-transmits them, adding nothing to the corpus except the priority of having gathered them here first."
+  },
+  {
+    "slug": "the-market",
+    "title": "The Market",
+    "subtitle": "The scene where no central authority mediates exchange except the sign — sustained by its own anxiety about its future",
+    "definition": "In Generative Anthropology the market is the scenic institution through which human beings exchange without a central authority to mediate them, relying only on the shared order of representation through signs. It is the never-completable successor to the ritual system of sacrificial distribution — decentralized in appearance, yet held open by a \"spread,\" a standing anxiety about whether circulation will continue, which is what makes anyone willing to sustain it in the first place.",
+    "body": "GA reads the market genetically, not as a natural state but as the far end of \"the never-completable transition from the ritual system of distribution inaugurated in the originary scene to the market system, where no central authority is necessary to mediate between human beings beyond the universal human order of representation through signs\" (Gans). Where ritual redistributes the sacrificial victim from a sacred center, the market disperses that function into decentralized exchange: \"just as democracy makes the originary reciprocal exchange of signs the basis for the negotiation of political decisions, so in the market, the 'equal' division of the sacrificial victim becomes the basis for the negotiation of economic values.\" The market is thus deferral in an economic register — one leaves \"the scene of the market for another scene\" to devise a product and brings it back for evaluation, so that every market runs on \"a slow-motion version of the oscillation between the sign and the imaginary referent\" found in the esthetic. Katz grounds the same institution in the reciprocity of the origin: \"The free market is real, grounded in the reciprocity constitutive of the originary scene.\"\n\nWhat keeps this scene distinct from money — its sign and medium — is that the market is the center that sustains circulation rather than the token that passes through it: \"there only exists a spread insofar as there is anxiety about whether or not the market will continue to exist,\" so that \"the market is constituted by its anxiety about its own future existence.\" That center is never as decentralized as its liberal self-image claims. The apparent dispersal is underwritten: each participant \"donates our intelligence to the central intelligence of the market,\" ultimately \"embodied by the central bank.\" Its rivals are read as parasites or ruins of it — bureaucratic command economics is \"either a parasitic excrescence... upon the market, or it is constructed in the ruins of the market\" — while the imperative to keep money and the center separate (\"money must be kept out of politics, but once the money is out, what is left of the politics?\") marks the market's dependence on, and derogation of, sovereign authority. Bouvard cautions against reifying the scene itself: \"Instead of starting with an abstraction like 'the market,' it's better to start with ongoing realities like supply chains and credit lines.\"",
+    "relations": [
+      "the-center",
+      "deferral",
+      "money",
+      "ritual",
+      "originary-scene",
+      "debt-and-credit"
+    ],
+    "posts": [
+      {
+        "slug": "there-is-no-economy-pdf",
+        "title": "There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "clr-34",
+        "title": "The Free Market",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-123",
+        "title": "On Political Economy",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-397",
+        "title": "GA: The Other Intellectual Scene",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "the-economic-imperative",
+        "title": "The Economic Imperative",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "monopoly",
+        "title": "Monopoly",
+        "note": "Develops the concept."
+      }
+    ],
+    "passages": [
+      {
+        "text": "I do not think it an exaggeration to say that the course of human history may be described as the never-completable transition from the ritual system of distribution inaugurated in the originary scene to the market system , where no central authority is necessary to mediate between human beings beyond the universal human order of representation through signs.",
+        "source": "The Free Market",
+        "sourceSlug": "clr-34"
+      },
+      {
+        "text": "Just as democracy makes the originary reciprocal exchange of signs the basis for the negotiation of political decisions, so in the market, the “equal” division of the sacrificial victim becomes the basis for the negotiation of economic values.",
+        "source": "On Political Economy",
+        "sourceSlug": "clr-123"
+      },
+      {
+        "text": "One leaves the scene of the market for another scene in order to devise a new product or idea that one then brings back to the marketplace for its evaluation. For the duration of this process of deferral, the local scene becomes its own market.",
+        "source": "GA: The Other Intellectual Scene",
+        "sourceSlug": "clr-397"
+      },
+      {
+        "text": "If the market is presented as a decentralized aggregate of individual activities in which knowledge that no individual could possess by himself is nevertheless held and acted on socially, this is only the case insofar as each of us donates our intelligence to the central intelligence of the market. And in the end this central intelligence is embodied by the central bank, which must step in and “correct” for “market failures.”",
+        "source": "There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary",
+        "sourceSlug": "there-is-no-economy-pdf"
+      },
+      {
+        "text": "Bureaucratic economics, the “command economy,” organizes distribution of labor and resources through a hierarchical series of imperatives; it is either a parasitic excrescence (even if serving otherwise indispensable purposes) upon the market, or it is constructed in the ruins of the market, and leaves nothing but ruin in its own wake.",
+        "source": "The Economic Imperative",
+        "sourceSlug": "the-economic-imperative"
+      },
+      {
+        "text": "Instead of starting with an abstraction like “the market,” it’s better to start with ongoing realities like supply chains and credit lines.",
+        "source": "Monopoly",
+        "sourceSlug": "monopoly"
+      }
+    ],
+    "selfReference": "This page treats the market as a concept to be defined from the corpus, staging its own small scene of exchange in which verbatim quotes circulate in place of paraphrase."
+  },
+  {
+    "slug": "disciplinarity",
+    "title": "Disciplinarity",
+    "subtitle": "The inquiry-form that suspends interested attention to make the not-yet-visible sharable",
+    "definition": "Disciplinarity is the social form of sustained inquiry: a disciplinary space suspends immediate, differing interests and organizes attention around a center so as to drill below ordinary thresholds of significance and make sharable what is not yet visible. In its widest sense it is coextensive with the human — the originary scene was already a discipline — because disciplined inquiry is simply a more deliberate form of the deferral that generates the sign.",
+    "body": "In the GA framework disciplinarity names the form inquiry takes when a group organizes its attention around a center in order to see what everyday, \"naive\" perception cannot. A disciplinary space is where participants argue over questions and construct a center, drilling below \"ever lower thresholds of significance\" across domains as unlike as quarks and conscience. What licenses this is deferral: discipline \"is simply a more deliberate form of deferral,\" so a discipline is, in effect, anything one could form a disciplinary space around, continuous with the originary hypothesis that treats meaning as an effect of deferral. This is why disciplinarity can be called coextensive with the human — \"the originary scene was a discipline\" — and why it links back to discipleship, the older mode of inquiry into the divine that supplies its name. Its founding move is paradoxical: \"the decision to see everything one way even though everything appears utterly different than that way,\" a wager that a few terms will make a specific cluster of phenomena work.\n\nDisciplinarity stays distinct from the scenic and the juridical by its object. Where scenic design constructs scenes and the juridical adjudicates guilt and desert, the discipline suspends interested attention: it \"set[s] aside immediate questions for the sake of what... 'will prove true in the long run,'\" answerable to no extrinsic authority because only those within it are competent to judge its workings. Yet it is never free of the center; \"all disciplinary activity... is at bottom aware that something needs to be brought back to the center,\" a condition of inquiry rather than a restriction on it. Katz distinguishes the generative \"disciplinary space\" from the institutionalized \"disciplines,\" which claim their objects as things in themselves; against these, transdisciplinary originary thinking works by \"infiltrating their separate vocabularies\" and assisting insurgents within them — reopening decaying fields to the scene of representation they have deferred.",
+    "relations": [
+      "the-center",
+      "deferral",
+      "originary-scene",
+      "scenic-design",
+      "the-juridical",
+      "anthropomorphics"
+    ],
+    "posts": [
+      {
+        "slug": "programming-power-and-declarative-culture",
+        "title": "Programming, Power and Declarative Culture",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "introduction-to-disciplinarity",
+        "title": "An Introduction to Disciplinarity (Adam Katz)",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "learning-discipline-and-the-thought-experiment",
+        "title": "Learning, Discipline and the Thought Experiment",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "disciplining-disciplines",
+        "title": "Disciplining Disciplines",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "competence",
+        "title": "Competence",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "the-single-source-of-moral-and-intellectual-innovation-gablog",
+        "title": "The Single Source of Moral and Intellectual Innovation",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "the-transdisciplinarity-of-the-hypothesis",
+        "title": "The Transdisciplinarity of the Hypothesis",
+        "note": "Develops the concept."
+      }
+    ],
+    "passages": [
+      {
+        "text": "In the most basic sense, there is nothing but disciplinarity: disciplinarity is coextensive with the human: the originary scene was a discipline, even if that cannot be recognized until a critical mass of overlapping disciplines has emerged.",
+        "source": "An Introduction to Disciplinarity (Adam Katz)",
+        "sourceSlug": "introduction-to-disciplinarity"
+      },
+      {
+        "text": "At the same time, though, disciplinarity is a form of discipleship, a mode of authority and inquiry into the divine that reaches back into antiquity and is central to the founding of Christianity; moreover, discipline is simply a more deliberate form of deferral, so Peirce’s definition of the sign as, essentially, anything one could form a disciplinary space around, is continuous and consistent with the originary hypothesis, which sees signification and meaning as an effect of deferral.",
+        "source": "Learning, Discipline and the Thought Experiment",
+        "sourceSlug": "learning-discipline-and-the-thought-experiment"
+      },
+      {
+        "text": "All disciplinary activity, then, no matter how seemingly impractical, unsupervised and free, is at bottom aware that something needs to be brought back to the center. We should see this constraint as a condition of disciplinary activity, not a restriction imposed on what would otherwise be a “purer” form of activity.",
+        "source": "Disciplining Disciplines",
+        "sourceSlug": "disciplining-disciplines"
+      },
+      {
+        "text": "The hijacking of disciplinary authority for short term advantage is scandalous because we rely heavily upon those who set aside immediate questions for the sake of what, in the words of Charles Sanders Peirce, “will prove true in the long run.”",
+        "source": "Competence",
+        "sourceSlug": "competence"
+      },
+      {
+        "text": "But it should always be possible to come back to the founding paradox of a discipline—the decision to see everything one way even though everything appears utterly different than that way (if a discipline just reproduced what we already saw and knew, it would be unnecessary).",
+        "source": "The Single Source of Moral and Intellectual Innovation",
+        "sourceSlug": "the-single-source-of-moral-and-intellectual-innovation-gablog"
+      },
+      {
+        "text": "any mode of thinking likely to make a difference is going to be transdisciplinary, which must mean not only extending across the subject matters of all the disciplines but capable of infiltrating their separate vocabularies and assisting “insurgents” within them to transform them while maintaining its own transdisciplinary base.",
+        "source": "The Transdisciplinarity of the Hypothesis",
+        "sourceSlug": "the-transdisciplinarity-of-the-hypothesis"
+      }
+    ],
+    "selfReference": "This page is itself a small disciplinary space, drilling below the everyday word \"discipline\" to make its GA sense sharable through verbatim quotation."
+  },
+  {
+    "slug": "justice",
+    "title": "Justice",
+    "subtitle": "The normative distinction that binds power to a center greater than itself",
+    "definition": "In the GA framework justice is not the machinery that adjudicates disputes but the normative distinction that machinery is meant to articulate: the difference between power exercised merely to hold order and power exercised in obedience to a center greater than the one who holds it. Rooted in the egalitarian reciprocity of the originary scene, justice supplements the originary deferral of appropriation by punishing violations of a norm that the whole community once enforced — which is also why it binds even the sovereign to a \"higher power\" and \"true law\" it did not author.",
+    "body": "Justice in Generative Anthropology descends from the originary scene, where the sign defers appropriation and holds the participants in an equal, reciprocal relation to the central object. Gans derives our \"sense of justice\" negatively, through the scandal of its breach: \"Injustice is the core representation or idea of resentment.\" Katz gives this a scenic and juridical edge — \"Justice is a supplement to the originary deferral of appropriation; it punishes the violation of a norm that was enforced in the originary scene by the sacred power\" — so that justice always points back to a center that enforces the norm no single agent invented. Because the originary model is one of perfect reciprocity that no actual order can instantiate, justice functions \"not as the template of a static utopia but only as the horizon of a movement toward greater reciprocity\"; it is a standing measure against which resentment lodges its complaint, never a closed procedure.\n\nThis is what distinguishes justice from the institutions that administer it and from sovereignty itself. Against the adjudicatory apparatus — the-juridical — justice is the normative difference that apparatus is supposed to make legible; \"we cannot 'rid' ourselves of the notion of 'justice'\" precisely because we cannot rid ourselves of resentment as \"some complaint made to the center that terms it has laid down have not been adhered to.\" Against sovereignty, justice is the subordinating term: \"'Justice' is the subsistent center, to which the occupant of the center is subordinated,\" and the sovereign secures his own centrality only \"by instituting justice in accord with this 'higher power' and 'true law.'\" Justice thus names the point where power is answerable — the discursive articulation binding whoever occupies the center to a center greater than themselves.",
+    "relations": [
+      "the-juridical",
+      "sovereignty",
+      "the-center",
+      "deferral",
+      "resentment-victimary",
+      "originary-scene"
+    ],
+    "posts": [
+      {
+        "slug": "centrality-power-sovereignty",
+        "title": "Centrality, Power, Sovereignty",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "ap0101-gans",
+        "title": "The Unique Source of Religion and Morality",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-221",
+        "title": "Resentment, or the Sense of Injustice",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-222",
+        "title": "Justice and Resentment",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "distribution-from-the-center",
+        "title": "Distribution from the Center",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "on-the-juridical-disciplinary-line",
+        "title": "On the Juridical/Disciplinary Line",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "the-three-resentments",
+        "title": "The Three Resentments",
+        "note": "Develops the concept."
+      }
+    ],
+    "passages": [
+      {
+        "text": "Justice is a supplement to the originary deferral of appropriation; it punishes the violation of a norm that was enforced in the originary scene by the sacred power that manifests itself in the presence of the community as a whole.",
+        "source": "The Unique Source of Religion and Morality",
+        "sourceSlug": "ap0101-gans"
+      },
+      {
+        "text": "Injustice is the core representation or idea of resentment, which gives rise to its feeling (anger, rage, depression…). We feel injustice if and only if we consider ourselves capable in principle–perhaps not in practical reality–of justifying this sentiment.",
+        "source": "Resentment, or the Sense of Injustice",
+        "sourceSlug": "clr-221"
+      },
+      {
+        "text": "Even though the overarching model of justice is the originary moral model, it cannot apply to concrete situations as the template of a static utopia but only as the horizon of a movement toward greater reciprocity.",
+        "source": "Justice and Resentment",
+        "sourceSlug": "clr-222"
+      },
+      {
+        "text": "“Justice” is the subsistent center, to which the occupant of the center is subordinated.",
+        "source": "Distribution from the Center",
+        "sourceSlug": "distribution-from-the-center"
+      },
+      {
+        "text": "We cannot “rid” ourselves of the notion of “justice” or some equivalent because we cannot rid ourselves of resentment, which in turn is some complaint made to the center that terms it has laid down have not been adhered to—as they never can be, hard as representatives of the center may try.",
+        "source": "On the Juridical/Disciplinary Line",
+        "sourceSlug": "on-the-juridical-disciplinary-line"
+      },
+      {
+        "text": "you can’t complain that justice is not being done without taking for granted that it could be done",
+        "source": "The Three Resentments",
+        "sourceSlug": "the-three-resentments"
+      }
+    ],
+    "selfReference": "This page treats justice as a defining distinction rather than a procedure, and so gathers its quotes to mark where power becomes answerable rather than to settle any case."
+  },
+  {
+    "slug": "liberalism",
+    "title": "Liberalism",
+    "subtitle": "The political theory that hides who decides",
+    "definition": "In the GA framework, liberalism is the governing ideology of modernity that treats the individual as pre-politically inviolable, reduces politics to the cataloguing and balancing of rights, and thereby works to obscure the imperatives issuing from central authority. Its distinctive effect is concealment: not the abolition of the decider but the arrangement whereby no one ever knows who decides anything, so that the center's supervision is redescribed as the servant of ostensibly free agents.",
+    "body": "Liberalism names, for GA, not a philosophy of freedom but a mode of concealment. It \"starts political reflection with the assumption that there is something pre-politically inviolable in the individual,\" makes \"the main business of politics\" the \"cataloguing\" and balancing of the rights that follow, and so reframes every decision as the protection or collision of prior entitlements (after-liberalism-2). Because the center never stops issuing imperatives, this reframing does not remove authority but hides it: liberalism \"has generated the illusion that what appears below the threshold of direct supervision is what, in fact, determines the form of supervision; even more, that the supervision is a servant of those actors which have merely been provided some leeway\" (anthropomorphics-center-and-distribution). Its guarantees are thus self-undermining — \"as soon as you guarantee a series of vague, abstract rights you will immediately proceed to generate exceptions\" — so that in practice \"you have whatever rights the government doesn't find it urgent to violate at the moment\" (liberal-democracy-is-the-concealment-of-power).\n\nThis places liberalism firmly in the register of critique rather than of scenic origin. It is distinct from sovereignty, which it does not deny but disperses and cloaks, and from the victimary affect that drives its late crises: liberalism is the specific ideological machinery that ensures \"no one ever knows who decides anything.\" Katz reads its internal contradiction as the \"severing of equality and freedom\" into incommensurable values a state must forever balance (the-mistake-of-liberal-democracy), while Gans notes that its founding intention corrodes over time, since \"liberalism cannot perpetuate itself beyond its founding generation without this original intention becoming a source of 'perverse incentives'\" (clr-136). Yet the concept it hypes — individuality — persists and must be reconstituted rather than discarded, \"because liberalism hypes it but actually corrodes it\" (online-version-of-erics-gans-a-new-way-of-thinking). The task GA poses is to bring the concealed decider back into view: to inquire openly into the meaning of imperatives issued by the center.",
+    "relations": [
+      "sovereignty",
+      "the-center",
+      "resentment-victimary",
+      "power",
+      "ostensive-imperative-declarative",
+      "nomos"
+    ],
+    "posts": [
+      {
+        "slug": "anthropomorphics-the-center-and-imperative-authority",
+        "title": "The Center and Imperative Authority",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "after-liberalism-2",
+        "title": "After Liberalism 2",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "anthropomorphics-center-and-distribution",
+        "title": "Center and Distribution",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "liberal-democracy-is-the-concealment-of-power",
+        "title": "“Liberal Democracy” is the Concealment of Power",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "the-mistake-of-liberal-democracy",
+        "title": "The Mistake of Liberal Democracy",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-136",
+        "title": "The Moral Contradiction of Liberalism",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "online-version-of-erics-gans-a-new-way-of-thinking",
+        "title": "Bouvard on Individualism Beyond Liberalism's Dialectic",
+        "note": "Develops the concept."
+      }
+    ],
+    "passages": [
+      {
+        "text": "By “liberalism,” of course, I mean the traditional variety, which starts political reflection with the assumption that there is something pre-politically inviolable in the individual, that this inviolability implies a series of rights that the individual bears with him or her in entering political society, and that the main business of politics is cataloguing those rights, setting up hierarchies amongst them, figuring out how best to protect them, to prevent their exercise from leading to one colliding into another, and so on.",
+        "source": "After Liberalism 2",
+        "sourceSlug": "after-liberalism-2"
+      },
+      {
+        "text": "Liberalism has generated the illusion that what appears below the threshold of direct supervision is what, in fact, determines the form of supervision; even more, that the supervision is a servant of those actors which have merely been provided some leeway.",
+        "source": "Center and Distribution",
+        "sourceSlug": "anthropomorphics-center-and-distribution"
+      },
+      {
+        "text": "We don’t even need examples: as soon as you guarantee a series of vague, abstract rights you will immediately proceed to generate exceptions. You have whatever rights the government doesn’t find it urgent to violate at the moment.",
+        "source": "“Liberal Democracy” is the Concealment of Power",
+        "sourceSlug": "liberal-democracy-is-the-concealment-of-power"
+      },
+      {
+        "text": "Liberal democracy is constituted by the severing of equality and freedom, which become incommensurable “values” which need to be balanced and one of which must be given priority at any instant.",
+        "source": "The Mistake of Liberal Democracy",
+        "sourceSlug": "the-mistake-of-liberal-democracy"
+      },
+      {
+        "text": "But what has not been sufficiently appreciated is that, like the Romantic utopianism derided by Marx , liberalism cannot perpetuate itself beyond its founding generation without this original intention becoming a source of “perverse incentives.”",
+        "source": "The Moral Contradiction of Liberalism",
+        "sourceSlug": "clr-136"
+      },
+      {
+        "text": "In fact, something like that will need to be enhanced under \"absolutism\" (or whatever it ends up being called), because liberalism hypes it but actually corrodes it. So, yes, there will be a dialectic with liberalism.",
+        "source": "Bouvard on Individualism Beyond Liberalism's Dialectic",
+        "sourceSlug": "online-version-of-erics-gans-a-new-way-of-thinking"
+      }
+    ],
+    "selfReference": "This page is itself an inquiry into who decides — assembling verbatim from Gans, Katz, and Bouvard the case that liberalism's defining work is to make that question unaskable."
   }
 ];
 
