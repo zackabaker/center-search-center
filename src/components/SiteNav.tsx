@@ -6,13 +6,13 @@ import { usePathname, useRouter } from 'next/navigation';
 import DarkModeToggle from '@/components/DarkModeToggle';
 
 const NAV_LINKS = [
-  { href: '/start',               label: 'Start' },
-  { href: '/guide',               label: 'Guide' },
-  { href: '/concepts',            label: 'Glossary' },
-  { href: '/search',              label: 'Search' },
-  { href: '/guide/reading-paths', label: 'Reading Paths' },
-  { href: '/browse',              label: 'Browse' },
-  { href: '/download',            label: 'Download' },
+  { href: '/start',    label: 'Start' },
+  { href: '/guide',    label: 'Guide' },
+  { href: '/concepts', label: 'Concepts' },
+  { href: '/search',   label: 'Search' },
+  { href: '/ask',      label: 'Ask AI' },
+  { href: '/browse',   label: 'Archive' },
+  { href: '/download', label: 'Download' },
 ];
 
 export default function SiteNav() {

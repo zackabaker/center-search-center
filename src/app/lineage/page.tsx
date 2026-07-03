@@ -83,6 +83,18 @@ const BEATS: Beat[] = [
     cite: 'Adam Katz, “The Prospects of the Hypothesis”',
     slug: 'the-prospects-of-the-hypothesis',
   },
+  {
+    id: 'katz',
+    kicker: 'The successor',
+    heading: 'Katz: from the hypothesis to Center Study',
+    narration: [
+      'The third name in the lineage is Adam Katz, a teacher of writing who spent two decades on GABlog pressing the hypothesis into the territory Gans had left comparatively open — political anthropology (what happens once a human being, and not just a sacred object, occupies the center) and pedagogy (how scenes and practices are handed on). That long inquiry issued in a branch with its own name: Anthropomorphics: An Originary Grammar of the Center (2020) is the systematic statement, accepting Gans’s hypothesis whole while making the center itself — its defense, maintenance, and succession across history — the primary object. The contemporary work continues under the pen name Dennis Bouvard, reading AI, money, governance, and media with the same instrument. Katz describes the relation to GA with no anxiety about the break:',
+    ],
+    quote:
+      'I’ve suggested before that center study (I won’t complain if anyone wants to continue calling what I’m doing “GA”) might best be seen as a kind of programming idiom to be made interoperable with other idioms.',
+    cite: 'Adam Katz, “Infra-Humaning”',
+    slug: 'infra-humaning',
+  },
 ];
 
 // The applications beat: one originary logic, read at every scale. Each card

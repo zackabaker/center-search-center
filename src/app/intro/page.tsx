@@ -591,7 +591,7 @@ export default function IntroPage() {
           </Link>
           <Link href="/search" className="group block p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900">
             <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Full-text search</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Search 700+ texts by keyword, phrase, or concept</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Search 1,900+ texts by keyword, phrase, or concept</p>
           </Link>
         </div>
       </section>

@@ -11,10 +11,10 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    // The guide is the orientation hub (it links the intro as its first card);
-    // a long essay is the wrong landing for a "Start" tap on mobile.
+    // Labeled what it is: "Start" on desktop goes to /start, so this tab says
+    // Guide to avoid one word pointing at two different pages.
     href: '/guide',
-    label: 'Start',
+    label: 'Guide',
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -32,7 +32,7 @@ const navItems: NavItem[] = [
   },
   {
     href: '/concepts',
-    label: 'Glossary',
+    label: 'Concepts',
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -50,7 +50,7 @@ const navItems: NavItem[] = [
   },
   {
     href: '/browse',
-    label: 'Browse',
+    label: 'Archive',
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
@@ -70,11 +70,9 @@ export default function MobileNav() {
       <div className="flex items-stretch justify-around">
         {navItems.map(({ href, label, icon }) => {
           const isActive =
-            href === '/guide'
-              ? pathname === '/guide'
-              : pathname === href ||
-                pathname.startsWith(href + '/') ||
-                pathname.startsWith(href + '?');
+            pathname === href ||
+            pathname.startsWith(href + '/') ||
+            pathname.startsWith(href + '?');
           return (
             <Link
               key={href}

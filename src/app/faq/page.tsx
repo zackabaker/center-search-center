@@ -109,6 +109,24 @@ const IDEAS: Item[] = [
 // ── 3. Objections & responses ───────────────────────────────────────────────
 const OBJECTIONS: Item[] = [
   {
+    q: 'Is this reactionary politics?',
+    lead:
+      'The proximity is real, and the texts never pretend otherwise: the corpus analyzes sovereignty, hierarchy, and post-liberal order at length, and Katz wrote through — and argued with — the blogosphere years in which “absolutism” was a live conversation. But Center Study is an anthropology, not a program. It asks how any order — tribal, royal, liberal, algorithmic — holds together around a center, and it treats hierarchy as a structural feature of every scene so organized, present in a classroom or a startup as much as in a kingdom. The diagnostic question is always who holds the center here, and on what terms — not who ought to. And the moves that define reactionary polemic are absent: no ethnos to defend, no golden age to mourn, no restoration on offer.',
+    quotes: [
+      {
+        text: 'A center establishes a hierarchy—at the very least between center and margin. But every other hierarchy is modeled on the hierarchy between center and margin—hierarchies are only possible if there is a center.',
+        slug: 'anthropomorphics-the-use-of-a-center',
+        title: 'The Use of a Center',
+      },
+      {
+        text: 'Imagining a restoration of the social order is always an attempt to forget the event of founding.',
+        slug: 'social-knowledge',
+        title: 'Social Knowledge',
+      },
+    ],
+    cta: { href: '/search?q=sovereignty', label: 'Search “sovereignty” and judge for yourself' },
+  },
+  {
     q: 'Isn’t the originary hypothesis unfalsifiable — so, not really science?',
     lead:
       'It doesn’t claim to be a falsifiable empirical science — there could be no fossil of a “first word” — and asks to be judged by a different standard: minimality. You don’t refute it with evidence; you displace it with a more minimal account that explains the same things.',

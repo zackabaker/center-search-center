@@ -95,7 +95,7 @@ export default function Image() {
             fontFamily: 'sans-serif',
           }}
         >
-          {['700+ texts', 'Full-text search', 'AI Q&A', '5 venues'].map((label) => (
+          {['1,900+ texts', 'Full-text search', 'AI Q&A', '5 venues'].map((label) => (
             <div key={label} style={{ color: '#64748b', fontSize: '18px' }}>
               {label}
             </div>
