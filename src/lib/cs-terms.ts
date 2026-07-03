@@ -126,6 +126,7 @@ export const CS_TERMS: CSTerm[] = [
   { term: 'charismatic', query: 'What is charisma in Center Study? How does discipline and deferral generate centrality?' },
   { term: 'charisma', query: 'What is charisma in Center Study? How does discipline and deferral generate centrality?' },
   { term: 'firstness', query: 'What is firstness in Center Study? What risk does being first carry?' },
+  { term: 'center study', query: 'What is Center Study? How does it relate to Generative Anthropology?' },
 ];
 
 // Build a fast lookup: term (lowercase) → CSTerm
@@ -224,8 +225,6 @@ export const TERM_TO_CONCEPT_SLUG: Record<string, string> = {
 
   // anthropomorphics
   'anthropomorphics': 'anthropomorphics',
-  'metaperson': 'anthropomorphics',
-  'metapersons': 'anthropomorphics',
 
   // resentment-victimary
   'resentment': 'resentment-victimary',
@@ -346,6 +345,9 @@ export const TERM_TO_CONCEPT_SLUG: Record<string, string> = {
 
   // liberalism
   'liberalism': 'liberalism',
+
+  // center-study (the discourse itself)
+  'center study': 'center-study',
 };
 
 // Sorted by length descending so multi-word phrases match before their components
@@ -390,7 +392,7 @@ export const CONCEPT_TITLES: Record<string, string> = {
   'the-juridical': 'The Juridical',
   'debt-and-credit': 'Debt and Credit',
   'scenic-design': 'Scenic Design',
-  'anthropomorphics': 'Anthropomorphics / Metaperson',
+  'anthropomorphics': 'Anthropomorphics',
   'resentment-victimary': 'Resentment and Victimary Thinking',
   'pointman-uninsurable': 'The Pointman / The Uninsurable',
   'originary-grammar': 'Originary Grammar',
@@ -420,4 +422,5 @@ export const CONCEPT_TITLES: Record<string, string> = {
   'disciplinarity': 'Disciplinarity',
   'justice': 'Justice',
   'liberalism': 'Liberalism',
+  'center-study': 'Center Study',
 };

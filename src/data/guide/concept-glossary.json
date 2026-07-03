@@ -851,6 +851,11 @@
         "sourceSlug": "ancestries-and-meta-sovereignty"
       },
       {
+        "text": "“anthropomorphics” was also meant to foreground the artificiality of the human, from the beginning—we were always already imitating the center that was itself nothing more than a vectorization of our converging desires turned back at us through a prohibition. This was a way of distancing myself from GA’s or any humanism and insisting on the historicity of the human.",
+        "source": "Anthropomorphics (Substack)",
+        "sourceSlug": "anthropomorphics-substack"
+      },
+      {
         "text": "“Anthropomorphics,” then, suggests an ongoing transformation of the human, a dialectical movement of distancing from and retrieval of the origin.",
         "source": "Anthropomorphics and Reaction",
         "sourceSlug": "anthropomorphics-and-reaction"
@@ -861,19 +866,9 @@
         "sourceSlug": "the-disciplines-the-imperative-of-the-center-the-generative-thought-experiment"
       },
       {
-        "text": "They hypostatized these existential forces as persons, hidden souls with whom their own hidden powers or souls might communicate, but who, as the instantiation of these forces, were metapersons .",
-        "source": "Immanentism, Transcendentalism, and the Originary Hypothesis",
-        "sourceSlug": "clr-758"
-      },
-      {
-        "text": "The solution turned out to be making all of us more like something else, something that is not a person, i.e., a metaperson. And it is of that metaperson that we can first of all say, “this is the same,” closing all the likes in upon identity, precisely so as to provide us with the slack to merely be like each other, rather than the same.",
-        "source": "Deferral, Debt and the Idiom",
-        "sourceSlug": "deferral-debt-and-the-idiom"
-      },
-      {
-        "text": "It encourages us to model ourselves explicitly on whatever metapersons our interactions with computation and the computed/computing universe generate—and, if Ionescu and Malafouris are right, those interactions will always be generating metapersons, whether we choose to name and engage with them or not.",
-        "source": "Anthropomorphics",
-        "sourceSlug": "anthropomorphics-substack"
+        "text": "Center study assumes that any tracing of any idiom to its possibility and emergence will lead us back to the originary hypothesis, while anthropomorphics assumes that the originary hypothesis can only find its proof of work and concept in the jarring of an idiom. Anthropomorphics, then, is not so interested in reducing or explaining, metalanguage like, any discourse to the abstract concepts developed in the center study factory as in infiltrating other discourses and having them approximate or become successor discourses to the originary sign. If we were all deliberately replicating the originary event in every utterance we’d all be speaking in constantly novel ways that would need to be apprehended in the stream of things, and this is what the concept of anthropomorphics is indicating.",
+        "source": "Idiom and the differend",
+        "sourceSlug": "idiom-and-the-differend"
       }
     ],
     "posts": [
@@ -885,17 +880,22 @@
       {
         "slug": "ancestries-and-meta-sovereignty",
         "title": "Ancestries and Meta-Sovereignty",
-        "note": "Why Katz prefers 'anthropomorphics' over 'anthropology'—the human as ongoing event rather than static nature—and how metapersons govern through ancestry."
+        "note": "Argues for \"anthropomorphics\" over \"anthropology\": the human emerges in events, not a static nature."
       },
       {
         "slug": "anthropomorphics-substack",
         "title": "Anthropomorphics",
-        "note": "The reflective reframing: anthropomorphics foregrounds the artificiality of the human and extends to the metapersons our computational interactions keep generating."
+        "note": "Revisits the name \"anthropomorphics,\" foregrounding the artificiality and historicity of the human."
       },
       {
-        "slug": "deferral-debt-and-the-idiom",
-        "title": "Deferral, Debt and the Idiom",
-        "note": "The clearest gloss on the metaperson: we are made like a non-person, the metaperson, so that identity is closed onto it and we get slack to merely be like each other."
+        "slug": "anthropomorphics-and-reaction",
+        "title": "Anthropomorphics and Reaction",
+        "note": "Reads anthropomorphics as ongoing transformation of the human, a reciprocal endowment of humanity."
+      },
+      {
+        "slug": "idiom-and-the-differend",
+        "title": "Idiom and the differend",
+        "note": "Distinguishes anthropomorphics from center study: the hypothesis proves itself in the jarring of idioms."
       }
     ]
   },
@@ -2576,6 +2576,71 @@
         "slug": "monopoly",
         "title": "Monopoly",
         "note": "Starts from ongoing realities like supply chains and credit lines rather than the market abstraction."
+      }
+    ]
+  },
+  "center-study": {
+    "definitionQuote": "I’ve suggested before that center study (I won’t complain if anyone wants to continue calling what I’m doing “GA”) might best be seen as a kind of programming idiom to be made interoperable with other idioms. Less “meta” than “infra”—other idioms don’t need to be translated into a fully operationalized theoretical discourse; rather, the asymptomatically self-cancelling idioms designed within center study generate aligned idioms out of others.",
+    "definitionSource": "Infra-Humaning",
+    "definitionSlug": "infra-humaning",
+    "definitionAuthor": "Dennis Bouvard",
+    "passages": [
+      {
+        "text": "Center study could be seen as a kind of metalanguage, converting all discourses into mimesis and deferral just psychoanalysis converts all discourse into desire and repression or historical materialism converts all discourse into base and superstructure.",
+        "source": "Idiom and the differend",
+        "sourceSlug": "idiom-and-the-differend"
+      },
+      {
+        "text": "Center study is held together by a sufficiently small number of concepts—along with the above, we have nomos and the juridical and surely a couple of others I’m forgetting now. Creating new idioms involves using one of the concepts as a platform for the others—this is itself technological and a kind of stacking.",
+        "source": "Promise, Fraud, the Options on the Imperative, Messiah",
+        "sourceSlug": "promise-fraud-the-options-on-the-imperative-messiah"
+      },
+      {
+        "text": "The previous paragraph serves as a reminder that the Natural Semantic Primes can never be far from our minds when designing idioms. For originary hypothesizing, or center study, they simply replace philosophy, providing the originary meaning of the words out of which all other meanings can be produced.",
+        "source": "Imperatives for Idiom Creation",
+        "sourceSlug": "imperatives-for-idiom-creation"
+      },
+      {
+        "text": "The goal of center study is to stay as close to boundary between diagnosis and prescription as possible on the longest timeline imaginable: to always be able to say, this is what everyone is already doing and here’s how they might, given certain shifts in visible trajectories, do it more explicitly and accountably.",
+        "source": "Hyperstitching the Soliciting of the Center and the Prolonging of the Imperative",
+        "sourceSlug": "hyperstitching-the-soliciting-of-the-center-and-the-prolonging-of-the-imperative"
+      },
+      {
+        "text": "It would vindicate center study as a fork-off of the originary hypothesis away from GA, with the distinctive argument I’ve been making for the juridical as a provisional space between the ritual and disciplinary.",
+        "source": "Nomos/Class Action",
+        "sourceSlug": "nomos-class-action"
+      }
+    ],
+    "posts": [
+      {
+        "slug": "infra-humaning",
+        "title": "Infra-Humaning",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "idiom-and-the-differend",
+        "title": "Idiom and the differend",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "promise-fraud-the-options-on-the-imperative-messiah",
+        "title": "Promise, Fraud, the Options on the Imperative, Messiah",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "imperatives-for-idiom-creation",
+        "title": "Imperatives for Idiom Creation",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "hyperstitching-the-soliciting-of-the-center-and-the-prolonging-of-the-imperative",
+        "title": "Hyperstitching the Soliciting of the Center and the Prolonging of the Imperative",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "nomos-class-action",
+        "title": "Nomos/Class Action",
+        "note": "Develops the concept."
       }
     ]
   }
