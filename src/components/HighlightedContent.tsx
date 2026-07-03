@@ -328,7 +328,7 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
           No matches for &ldquo;{query}&rdquo; in this post
         </div>
       )}
-      <div ref={contentRef} className="prose text-gray-800 dark:text-gray-200">
+      <div ref={contentRef} className="prose text-gray-800 dark:text-gray-200 mx-auto">
         {linkedParagraphs.map(({ isBlockquote, isHeading, isDivider, headingLevel, text, nodes }, i) => {
           const id = `p-${i + 1}`;
 
@@ -358,7 +358,7 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
           );
           if (isBlockquote) return <blockquote key={i} id={id} className="group scroll-mt-20"><p>{nodes}{controls}</p></blockquote>;
           return (
-            <p key={i} id={id} className="group scroll-mt-20 indent-6 sm:indent-8">
+            <p key={i} id={id} className="group scroll-mt-20">
               {nodes}{controls}
             </p>
           );

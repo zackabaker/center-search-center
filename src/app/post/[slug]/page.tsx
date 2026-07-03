@@ -428,6 +428,14 @@ export default async function PostPage({
                 </div>
               )}
 
+              {/* Reader mode previously had no in-page navigation at all — for
+                  long texts with real headings, offer the same collapsible ToC. */}
+              {reader && hasHeadings && (
+                <div className="max-w-[65ch] mx-auto text-left mb-8">
+                  <TableOfContents paragraphs={paragraphs} />
+                </div>
+              )}
+
               {/* PostSearchContext: client component that reads ?q from the URL.
                   - With q: renders HighlightedContent (search-result highlighting)
                   - Without q: renders PostContent (paragraph deep-linking + concept links)

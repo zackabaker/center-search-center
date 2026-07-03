@@ -262,7 +262,10 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
 
   return (
     <div
-      className="space-y-7 text-gray-800 dark:text-gray-200"
+      // max-w-[65ch]: the serious-reading measure. ch computes against this
+      // div's own font (Lora at the reader's prose size), so line length stays
+      // ~65 characters at every font-size setting instead of the old ~85.
+      className="space-y-7 text-gray-800 dark:text-gray-200 max-w-[65ch] mx-auto"
       style={{
         fontFamily: 'var(--prose-font-family)',
         fontSize: 'var(--prose-font-size, 18px)',
@@ -360,7 +363,9 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
             className="group relative scroll-mt-20"
           >
             {pilcrow}
-            <p className="indent-6 sm:indent-8">{nodes}</p>
+            {/* One paragraph convention: the container's vertical gaps mark
+                paragraphs; first-line indents on top of gaps doubled the signal. */}
+            <p>{nodes}</p>
           </div>
         );
       })}

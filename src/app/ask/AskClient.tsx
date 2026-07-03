@@ -537,18 +537,42 @@ export default function AskClient() {
   return (
     <div className="h-screen bg-white dark:bg-gray-950 flex flex-col overflow-hidden">
       {/* Header */}
-      <header className="border-b border-gray-100 dark:border-gray-800 px-4 py-3 flex items-center justify-between max-w-4xl mx-auto w-full flex-shrink-0">
-        <div className="flex items-center gap-3">
+      <header className="border-b border-gray-100 dark:border-gray-800 px-4 py-3 flex items-center justify-between max-w-4xl mx-auto w-full flex-shrink-0 gap-2">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <button
             onClick={() => router.back()}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 font-medium transition-colors text-sm"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 font-medium transition-colors text-sm"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
             </svg>
             Back
           </button>
-          <h1 className="text-sm font-semibold text-gray-900 dark:text-white">Ask AI</h1>
+          <h1 className="sr-only">Ask AI</h1>
+          {/* Mode switcher — the three search modes are reversible into one
+              another; the current question carries over to keyword/meaning. */}
+          {(() => {
+            const carried = (input.trim() || currentQuestion).trim();
+            const qs = carried ? `?q=${encodeURIComponent(carried)}` : '';
+            const seg = 'px-2.5 sm:px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg transition-all whitespace-nowrap';
+            return (
+              <div className="flex items-center gap-0.5 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
+                <Link href={`/search${qs}`} className={`${seg} text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300`}>
+                  Keyword
+                </Link>
+                <Link
+                  href={carried ? `/search?mode=meaning&q=${encodeURIComponent(carried)}` : '/search?mode=meaning'}
+                  title="Find passages by meaning, even when they use different words"
+                  className={`${seg} text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300`}
+                >
+                  ◐ Meaning
+                </Link>
+                <span className={`${seg} bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm`}>
+                  ✦ Ask AI
+                </span>
+              </div>
+            );
+          })()}
         </div>
         <div className="flex items-center gap-3">
           {/* Font size */}
