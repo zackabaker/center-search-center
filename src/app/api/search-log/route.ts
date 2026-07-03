@@ -34,6 +34,31 @@ const LOG_CAP = 5000;
 const MINE_CAP = 2000;
 const MODES = new Set(['keyword', 'meaning', 'ask']);
 
+// GET → { terms: [{ q, n }] } — the most-searched queries, for the /search
+// empty state ("What readers search"). Read-only, anonymous, edge-cached.
+export async function GET() {
+  const kv = getKV();
+  if (!kv) return Response.json({ terms: [] });
+  try {
+    const raw = (await kv.zrange(TERMS_KEY, 0, 39, { rev: true, withScores: true })) as (string | number)[];
+    const terms: { q: string; n: number }[] = [];
+    for (let i = 0; i < raw.length; i += 2) {
+      const q = String(raw[i]);
+      const n = Number(raw[i + 1]);
+      // Skip one-offs and junk so a single stray query never becomes a chip.
+      if (n < 2 || q.length < 3 || q.length > 60) continue;
+      terms.push({ q, n });
+      if (terms.length >= 12) break;
+    }
+    return Response.json(
+      { terms },
+      { headers: { 'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=3600' } },
+    );
+  } catch {
+    return Response.json({ terms: [] });
+  }
+}
+
 export async function POST(request: Request) {
   if (!isSameOrigin(request)) {
     return Response.json({ error: 'Forbidden' }, { status: 403 });

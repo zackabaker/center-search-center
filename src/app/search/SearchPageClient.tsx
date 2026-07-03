@@ -247,8 +247,18 @@ export default function SearchPageClient({
   // embedded in the browser and matched against the corpus by meaning.
   // Deep-linkable: /search?mode=meaning&q=… restores Meaning mode, so the Ask
   // page (and shared links) can hand a query straight to semantic search.
+  // Read the URL directly as a fallback: the loading shell writes ?q=/?mode=
+  // via history.replaceState, which Next's useSearchParams doesn't observe.
+  const urlParam = (k: string) => {
+    const fromRouter = searchParams.get(k);
+    if (fromRouter !== null) return fromRouter;
+    if (typeof window !== 'undefined') {
+      try { return new URLSearchParams(window.location.search).get(k); } catch {}
+    }
+    return null;
+  };
   const [mode, setModeState] = useState<'keyword' | 'meaning'>(
-    searchParams.get('mode') === 'meaning' ? 'meaning' : 'keyword'
+    urlParam('mode') === 'meaning' ? 'meaning' : 'keyword'
   );
   const setMode = (m: 'keyword' | 'meaning') => {
     setModeState(m);
@@ -260,7 +270,7 @@ export default function SearchPageClient({
     } catch {}
   };
 
-  const initialQ = searchParams.get('q') || '';
+  const initialQ = urlParam('q') || '';
   const [query, setQuery] = useState(initialQ);
   const [committed, setCommitted] = useState(initialQ ? commitQuery(initialQ) : '');
   const [filter, setFilter] = useState<FilterOption>('all');
@@ -269,6 +279,17 @@ export default function SearchPageClient({
   const [results, setResults] = useState<SearchResult[]>([]);
   const [corpusCount, setCorpusCount] = useState<number | null>(null);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  // What other readers search — from the anonymous search log (best-effort).
+  const [popularSearches, setPopularSearches] = useState<string[]>([]);
+  // Result ordering: relevance (default) or by publication date.
+  const [sort, setSort] = useState<'relevance' | 'newest' | 'oldest'>('relevance');
+
+  useEffect(() => {
+    fetch('/api/search-log')
+      .then((r) => (r.ok ? r.json() : { terms: [] }))
+      .then((d) => setPopularSearches((d.terms || []).map((t: { q: string }) => t.q).slice(0, 8)))
+      .catch(() => {});
+  }, []);
 
   // Source toggles — Reddit/X and Chronicles/AP are off by default and opt-in.
   // Reddit/X are already in the core index (filtered in/out); Chronicles/AP are
@@ -406,7 +427,25 @@ export default function SearchPageClient({
     [results, filter]
   );
 
-  const visibleResults = filtered;
+  // Optional date ordering on top of relevance — 30 years of writing deserves
+  // a chronological view. parse handles Chronicle-style ordinal dates.
+  const visibleResults = useMemo(() => {
+    if (sort === 'relevance') return filtered;
+    const t = (d: string | null) => {
+      if (!d) return null;
+      const cleaned = d.replace(/(\d{1,2})(st|nd|rd|th)\b/gi, '$1');
+      const parsed = new Date(cleaned).getTime();
+      return isNaN(parsed) ? null : parsed;
+    };
+    return [...filtered].sort((a, b) => {
+      const ta = t(a.entry.date);
+      const tb = t(b.entry.date);
+      if (ta === null && tb === null) return 0;
+      if (ta === null) return 1;
+      if (tb === null) return -1;
+      return sort === 'newest' ? tb - ta : ta - tb;
+    });
+  }, [filtered, sort]);
 
   const totalPages = Math.ceil(visibleResults.length / PAGE_SIZE);
   const pageItems = visibleResults.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
@@ -645,7 +684,18 @@ export default function SearchPageClient({
                   `No results for "${committed}"`
                 )}
               </div>
-              <span className="text-xs text-gray-400 hidden md:block flex-shrink-0" />
+              {hasResults && (
+                <select
+                  value={sort}
+                  onChange={(e) => { setSort(e.target.value as typeof sort); setPage(0); }}
+                  aria-label="Sort results"
+                  className="text-xs border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1.5 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 flex-shrink-0"
+                >
+                  <option value="relevance">Relevance</option>
+                  <option value="newest">Newest first</option>
+                  <option value="oldest">Oldest first</option>
+                </select>
+              )}
             </div>
             {visibleResults.length > 0 && (
               <FilterTabs active={filter} onChange={handleFilterChange} counts={counts} />
@@ -831,6 +881,19 @@ export default function SearchPageClient({
                 {recentSearches.map((s) => (
                   <button key={s} onClick={() => { setQuery(s); handleSubmit(s); }}
                     className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-xs text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700">
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          {popularSearches.length > 0 && (
+            <div className={recentSearches.length > 0 ? 'mt-5' : ''}>
+              <p className="text-xs mb-3 text-gray-400">What readers search</p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {popularSearches.map((s) => (
+                  <button key={s} onClick={() => { setQuery(s); handleSubmit(s); }}
+                    className="px-2 py-1 border border-gray-200 dark:border-gray-700 rounded text-xs text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
                     {s}
                   </button>
                 ))}

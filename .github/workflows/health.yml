@@ -1,0 +1,27 @@
+name: Production health check
+
+on:
+  schedule:
+    # Daily at 14:10 UTC (after any morning deploys settle)
+    - cron: '10 14 * * *'
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/health-check.mjs'
+      - '.github/workflows/health.yml'
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # Give a fresh deploy time to promote before checking (push-triggered runs)
+      - name: Wait for deploy propagation
+        if: github.event_name == 'push'
+        run: sleep 180
+      - name: Run health contract against production
+        run: node scripts/health-check.mjs https://center.study

@@ -132,14 +132,27 @@ export async function generateMetadata({
   };
 }
 
-// Don't pre-render posts at build time — there are 1,900+ posts and pre-rendering
-// all of them exceeds Vercel's build disk limit (27 GB output). Returning an
-// EMPTY generateStaticParams (rather than omitting it) is what marks the route
-// ISR: pages render on first request and are then cached at the edge for 1 hour.
-// Without any generateStaticParams the route is treated as fully dynamic (no-store).
-// dynamicParams = true means every slug is rendered (and cached) on demand.
+// Pre-render only the head of the corpus — pre-rendering all 1,900+ posts
+// exceeds Vercel's build disk limit (27 GB output), but the ~60 most-entered
+// texts (book chapters, lectures, curated entry points) should never serve a
+// cold first view. Having generateStaticParams (even partial) is also what
+// marks the route ISR; all other slugs render on demand and cache for 1 hour.
 export function generateStaticParams() {
-  return [];
+  const posts = getPublicPosts();
+  // Lectures aren't in the public-post source union; book chapters are the
+  // long-lived head of the corpus alongside the curated entry points below.
+  const head = posts.filter((p) => p.source === 'book');
+  const curated = [
+    // Homepage featured groups + /start gateway + /intro anchors
+    'the-discourse-of-the-center',
+    'the-prospects-of-the-hypothesis',
+    'the-transdisciplinarity-of-the-hypothesis',
+    'anthropomorphics-origin-and-hypothesis',
+    'anthropomorphics-the-use-of-a-center',
+    'there-is-no-economy-pdf',
+  ];
+  const slugs = new Set<string>([...head.map((p) => p.slug), ...curated.filter((s) => posts.some((p) => p.slug === s))]);
+  return [...slugs].map((slug) => ({ slug }));
 }
 export const dynamicParams = true;
 export const revalidate = 3600;

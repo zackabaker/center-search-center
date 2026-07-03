@@ -31,17 +31,49 @@ const SOURCE_LABEL: Record<string, string> = {
   reddit: 'Thread', twitter: 'Thread', chronicle: 'Chronicle', ap: 'Anthropoetics', lecture: 'Lecture',
 };
 
+function monthKey(offset = 0): string {
+  const d = new Date();
+  d.setUTCMonth(d.getUTCMonth() + offset);
+  return `views:counts:${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
+}
+
 export default async function TrendingPage() {
   const kv = getKV();
   const entries: { slug: string; count: number }[] = [];
+  // Prefer the rolling ~60-day window (current + previous month) so the list
+  // reflects what readers open NOW; fall back to all-time until the monthly
+  // keys have accumulated enough data.
+  let windowed = false;
   if (kv) {
     try {
-      const raw = (await kv.zrange('views:counts', 0, 59, { rev: true, withScores: true })) as (string | number)[];
-      for (let i = 0; i < raw.length; i += 2) {
-        entries.push({ slug: String(raw[i]), count: Number(raw[i + 1]) });
+      const [cur, prev] = await Promise.all([
+        kv.zrange(monthKey(0), 0, 99, { rev: true, withScores: true }) as Promise<(string | number)[]>,
+        kv.zrange(monthKey(-1), 0, 99, { rev: true, withScores: true }) as Promise<(string | number)[]>,
+      ]);
+      const merged = new Map<string, number>();
+      for (const raw of [cur, prev]) {
+        for (let i = 0; i < raw.length; i += 2) {
+          const slug = String(raw[i]);
+          merged.set(slug, (merged.get(slug) ?? 0) + Number(raw[i + 1]));
+        }
+      }
+      const recent = [...merged.entries()].sort((a, b) => b[1] - a[1]);
+      if (recent.length >= 10) {
+        windowed = true;
+        for (const [slug, count] of recent.slice(0, 60)) entries.push({ slug, count });
       }
     } catch {
-      // KV hiccup — fall through to the empty state.
+      // fall through to all-time
+    }
+    if (!windowed) {
+      try {
+        const raw = (await kv.zrange('views:counts', 0, 59, { rev: true, withScores: true })) as (string | number)[];
+        for (let i = 0; i < raw.length; i += 2) {
+          entries.push({ slug: String(raw[i]), count: Number(raw[i + 1]) });
+        }
+      } catch {
+        // KV hiccup — fall through to the empty state.
+      }
     }
   }
 
@@ -54,7 +86,9 @@ export default async function TrendingPage() {
     <main className="max-w-3xl w-full mx-auto px-4 pt-6 pb-24 sm:py-12">
       <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2 text-gray-900 dark:text-white">Trending</h1>
       <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed mb-10 max-w-2xl">
-        The most-read texts in the archive lately. A live snapshot of what readers are finding.
+        {windowed
+          ? 'The most-read texts over the past two months. A live snapshot of what readers are finding.'
+          : 'The most-read texts in the archive. A live snapshot of what readers are finding.'}
       </p>
 
       {items.length === 0 ? (
