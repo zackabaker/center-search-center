@@ -1,5 +1,6 @@
 import { getAllPosts } from '@/lib/parser';
 import Link from 'next/link';
+import { TERM_TO_CONCEPT_SLUG } from '@/lib/cs-terms';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -187,15 +188,23 @@ export default async function BrowsePage() {
         <p className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">Browse by topic</p>
         <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
           <div className="flex gap-2 min-w-max flex-wrap sm:flex-nowrap">
-            {TOPIC_SHORTCUTS.map((topic) => (
-              <Link
-                key={topic}
-                href={`/search?q=${encodeURIComponent(topic)}`}
-                className="px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-xs text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800 transition-all whitespace-nowrap bg-white dark:bg-gray-900"
-              >
-                {topic}
-              </Link>
-            ))}
+            {TOPIC_SHORTCUTS.map((topic) => {
+              // Topics that ARE curated concepts route to the quote-first hub;
+              // the rest fall back to keyword search.
+              const conceptSlug = TERM_TO_CONCEPT_SLUG[topic.toLowerCase()];
+              const href = conceptSlug
+                ? `/guide/concepts/${conceptSlug}`
+                : `/search?q=${encodeURIComponent(topic)}`;
+              return (
+                <Link
+                  key={topic}
+                  href={href}
+                  className="px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-xs text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800 transition-all whitespace-nowrap bg-white dark:bg-gray-900"
+                >
+                  {topic}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>

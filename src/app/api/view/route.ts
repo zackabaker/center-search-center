@@ -24,8 +24,14 @@ function getKV(): Redis | null {
   return new Redis({ url, token });
 }
 
-const COUNTS = 'views:counts'; // ZSET: slug → view count
+const COUNTS = 'views:counts'; // ZSET: slug → view count (all-time)
 const TOTAL = 'views:total';   // running total of views logged
+
+// Rolling window: a per-month ZSET (views:counts:YYYY-MM, ~70-day TTL) so
+// /trending can rank by recent reads instead of ossifying into an all-time list.
+function monthKey(d = new Date()): string {
+  return `views:counts:${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
+}
 
 export async function POST(request: Request) {
   if (!isSameOrigin(request)) {
@@ -50,7 +56,13 @@ export async function POST(request: Request) {
   if (!kv) return Response.json({ ok: true, stored: false }); // KV not configured — no-op
 
   try {
-    await Promise.all([kv.zincrby(COUNTS, 1, slug), kv.incr(TOTAL)]);
+    const mk = monthKey();
+    await Promise.all([
+      kv.zincrby(COUNTS, 1, slug),
+      kv.zincrby(mk, 1, slug),
+      kv.expire(mk, 60 * 60 * 24 * 70), // ~70 days: current + previous month stay queryable
+      kv.incr(TOTAL),
+    ]);
   } catch {
     return Response.json({ ok: true, stored: false }); // never surface a logging failure
   }

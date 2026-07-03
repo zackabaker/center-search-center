@@ -40,19 +40,47 @@ export default function SearchIndexLoader() {
   }
 
   if (!data) {
+    // Functional shell while the index streams in: the input is live (what you
+    // type is written to ?q= and searched the moment the index lands) and the
+    // suggested queries give a first-time visitor something to do besides
+    // stare at a spinner.
+    const setQ = (v: string) => {
+      try {
+        const url = new URL(window.location.href);
+        if (v) url.searchParams.set('q', v);
+        else url.searchParams.delete('q');
+        window.history.replaceState(null, '', url.toString());
+      } catch {}
+    };
     return (
       <>
         <TopLoadingBar label="Loading search" />
-        <main className="max-w-4xl w-full mx-auto px-4 py-10">
-          <div className="h-12 rounded-xl bg-gray-100 dark:bg-gray-800 animate-pulse mb-6" />
-          <div className="flex gap-2 mb-8">
-            {[80, 64, 72, 56].map((w, i) => (
-              <div key={i} className="h-7 rounded-full bg-gray-100 dark:bg-gray-800 animate-pulse" style={{ width: w }} />
+        <main className="max-w-4xl w-full mx-auto px-4 pt-6 pb-24 sm:py-10">
+          <div className="relative flex items-center border-2 border-gray-200 rounded-xl bg-white dark:bg-gray-900 dark:border-gray-700 mb-3">
+            <input
+              type="text"
+              autoFocus
+              placeholder="Search the archive…"
+              onChange={(e) => setQ(e.target.value)}
+              className="flex-1 px-4 py-3.5 text-base sm:text-lg outline-none bg-transparent dark:text-white dark:placeholder-gray-500"
+            />
+            <span className="mr-3 text-xs text-gray-400 dark:text-gray-500 flex-shrink-0">indexing…</span>
+          </div>
+          <p className="text-center text-xs text-gray-400 dark:text-gray-500 mb-8">
+            Loading the full-text index — quick on wifi, cached after the first visit.
+            Type now; your search runs the moment it&rsquo;s ready.
+          </p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {['deferral', 'the sacred', 'sovereignty', 'money', 'originary scene', 'resentment'].map((s) => (
+              <button
+                key={s}
+                onClick={() => setQ(s)}
+                className="px-2.5 py-1 border border-gray-200 dark:border-gray-700 rounded-full text-xs text-gray-600 dark:text-gray-400 hover:border-gray-400 transition-colors"
+              >
+                {s}
+              </button>
             ))}
           </div>
-          <p className="text-center text-sm text-gray-400 dark:text-gray-500">
-            Loading the search index…
-          </p>
         </main>
       </>
     );
