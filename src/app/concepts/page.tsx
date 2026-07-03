@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const TIERS = [
   {
     label: 'The Scene and Its Elements',
-    slugs: ['originary-scene', 'the-event', 'the-center', 'deferral', 'the-sacred', 'mimesis', 'desire', 'charisma', 'ritual', 'sparagmos'],
+    slugs: ['originary-scene', 'event', 'the-center', 'deferral', 'the-sacred', 'mimesis', 'desire', 'charisma', 'ritual', 'sparagmos'],
   },
   {
     label: 'Language and Grammar',
@@ -27,7 +27,7 @@ const TIERS = [
   },
   {
     label: 'Practice and Institution',
-    slugs: ['scenic-design', 'technology', 'anthropomorphics', 'media', 'the-market', 'disciplinarity', 'justice', 'pointman-uninsurable', 'attentionality'],
+    slugs: ['scenic-design', 'technology', 'anthropomorphics', 'media', 'market', 'disciplinarity', 'justice', 'pointman-uninsurable', 'attentionality'],
   },
   {
     label: 'Pathology and Critique',

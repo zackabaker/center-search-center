@@ -1899,81 +1899,6 @@
       }
     ]
   },
-  "the-event": {
-    "definitionQuote": "Conversely, if we define the human in cultural terms by the presence or absence of (shared) representation, then we cannot exclude from our definition the notion of the event and its singular status. It is by choosing the intuitive evidence of eventfulness over empirical methodology that our new way of thinking parts company with the sciences.",
-    "definitionSource": "Heuristic Necessity",
-    "definitionSlug": "clr-403",
-    "definitionAuthor": "Eric Gans",
-    "passages": [
-      {
-        "text": "the origin of the human, as defined by our use of language, must be understood not merely as a process but as an event",
-        "source": "Originary and Evolutionary Esthetics",
-        "sourceSlug": "clr-205"
-      },
-      {
-        "text": "This dimension can be understood as that of eventfulness itself, in which an incident leaves its trace as a sign shared with the community rather than a mere epigenetic inflection: an event in the human sense is ipso facto a signified.",
-        "source": "The Origin of Language",
-        "sourceSlug": "the-origin-of-language"
-      },
-      {
-        "text": "The originary hypothesis, in its minimal form, is simply this: the human has a punctual origin in an originary event or scene, whose absolute uniqueness—the most parsimonious supposition—is less important than the absolute distinction the event effects.",
-        "source": "The Originary Hypothesis (Stanford version)",
-        "sourceSlug": "clr-402"
-      },
-      {
-        "text": "The originary event is an instance of successfully seeing what happens when we do this to that—meaning is achieved.",
-        "source": "Disciplinarity and the Center",
-        "sourceSlug": "disciplinarity-and-the-center"
-      },
-      {
-        "text": "Every artwork is a model of the originary event.",
-        "source": "The Esthetic Moment",
-        "sourceSlug": "clr-369"
-      },
-      {
-        "text": "This does not detract from the indispensable assertion that the originary hypothesis refers to an actual event, something that must have happened, but it brings that originary event within the ergodic world itself, as a virtuality that we collectively compose, modularly, through its successive iterations.",
-        "source": "Ergodism",
-        "sourceSlug": "ergodism"
-      }
-    ],
-    "posts": [
-      {
-        "slug": "clr-403",
-        "title": "Heuristic Necessity",
-        "note": "Where the term is defined."
-      },
-      {
-        "slug": "clr-205",
-        "title": "Originary and Evolutionary Esthetics",
-        "note": "Develops the concept."
-      },
-      {
-        "slug": "the-origin-of-language",
-        "title": "The Origin of Language",
-        "note": "Develops the concept."
-      },
-      {
-        "slug": "clr-402",
-        "title": "The Originary Hypothesis (Stanford version)",
-        "note": "Develops the concept."
-      },
-      {
-        "slug": "disciplinarity-and-the-center",
-        "title": "Disciplinarity and the Center",
-        "note": "Develops the concept."
-      },
-      {
-        "slug": "clr-369",
-        "title": "The Esthetic Moment",
-        "note": "Develops the concept."
-      },
-      {
-        "slug": "ergodism",
-        "title": "Ergodism",
-        "note": "Develops the concept."
-      }
-    ]
-  },
   "charisma": {
     "definitionQuote": "This is the point of Philip Rieff’s notion of “charisma”: the magnetic effect of a display of deferral and discipline beyond the capacity of the onlooker, in which one oscillates between exploiting the “leader”’s vulnerability and taking him as a model for engaging one’s own inner scene (an inner scene revealed for the first time through the example of the charismatic).",
     "definitionSource": "A Kind of Apocalyptic Politics",
@@ -2269,76 +2194,6 @@
       }
     ]
   },
-  "the-market": {
-    "definitionQuote": "The market is constituted by its anxiety about its own future existence.",
-    "definitionSource": "There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary",
-    "definitionSlug": "there-is-no-economy-pdf",
-    "definitionAuthor": "Adam Katz",
-    "passages": [
-      {
-        "text": "I do not think it an exaggeration to say that the course of human history may be described as the never-completable transition from the ritual system of distribution inaugurated in the originary scene to the market system , where no central authority is necessary to mediate between human beings beyond the universal human order of representation through signs.",
-        "source": "The Free Market",
-        "sourceSlug": "clr-34"
-      },
-      {
-        "text": "Just as democracy makes the originary reciprocal exchange of signs the basis for the negotiation of political decisions, so in the market, the “equal” division of the sacrificial victim becomes the basis for the negotiation of economic values.",
-        "source": "On Political Economy",
-        "sourceSlug": "clr-123"
-      },
-      {
-        "text": "One leaves the scene of the market for another scene in order to devise a new product or idea that one then brings back to the marketplace for its evaluation. For the duration of this process of deferral, the local scene becomes its own market.",
-        "source": "GA: The Other Intellectual Scene",
-        "sourceSlug": "clr-397"
-      },
-      {
-        "text": "If the market is presented as a decentralized aggregate of individual activities in which knowledge that no individual could possess by himself is nevertheless held and acted on socially, this is only the case insofar as each of us donates our intelligence to the central intelligence of the market. And in the end this central intelligence is embodied by the central bank, which must step in and “correct” for “market failures.”",
-        "source": "There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary",
-        "sourceSlug": "there-is-no-economy-pdf"
-      },
-      {
-        "text": "Bureaucratic economics, the “command economy,” organizes distribution of labor and resources through a hierarchical series of imperatives; it is either a parasitic excrescence (even if serving otherwise indispensable purposes) upon the market, or it is constructed in the ruins of the market, and leaves nothing but ruin in its own wake.",
-        "source": "The Economic Imperative",
-        "sourceSlug": "the-economic-imperative"
-      },
-      {
-        "text": "Instead of starting with an abstraction like “the market,” it’s better to start with ongoing realities like supply chains and credit lines.",
-        "source": "Monopoly",
-        "sourceSlug": "monopoly"
-      }
-    ],
-    "posts": [
-      {
-        "slug": "there-is-no-economy-pdf",
-        "title": "There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary",
-        "note": "Where the term is defined."
-      },
-      {
-        "slug": "clr-34",
-        "title": "The Free Market",
-        "note": "Develops the concept."
-      },
-      {
-        "slug": "clr-123",
-        "title": "On Political Economy",
-        "note": "Develops the concept."
-      },
-      {
-        "slug": "clr-397",
-        "title": "GA: The Other Intellectual Scene",
-        "note": "Develops the concept."
-      },
-      {
-        "slug": "the-economic-imperative",
-        "title": "The Economic Imperative",
-        "note": "Develops the concept."
-      },
-      {
-        "slug": "monopoly",
-        "title": "Monopoly",
-        "note": "Develops the concept."
-      }
-    ]
-  },
   "disciplinarity": {
     "definitionQuote": "The discipline is a social form that keeps “drilling down” below ever lower thresholds of significance, and this activity applies equally to the study of quarks and of conscience.",
     "definitionSource": "Programming, Power and Declarative Culture",
@@ -2560,6 +2415,151 @@
       {
         "slug": "online-version-of-erics-gans-a-new-way-of-thinking",
         "title": "Bouvard on Individualism Beyond Liberalism's Dialectic",
+        "note": "Develops the concept."
+      }
+    ]
+  },
+  "event": {
+    "definitionQuote": "Conversely, if we define the human in cultural terms by the presence or absence of (shared) representation, then we cannot exclude from our definition the notion of the event and its singular status. It is by choosing the intuitive evidence of eventfulness over empirical methodology that our new way of thinking parts company with the sciences.",
+    "definitionSource": "Heuristic Necessity",
+    "definitionSlug": "clr-403",
+    "definitionAuthor": "Eric Gans",
+    "passages": [
+      {
+        "text": "the origin of the human, as defined by our use of language, must be understood not merely as a process but as an event",
+        "source": "Originary and Evolutionary Esthetics",
+        "sourceSlug": "clr-205"
+      },
+      {
+        "text": "This dimension can be understood as that of eventfulness itself, in which an incident leaves its trace as a sign shared with the community rather than a mere epigenetic inflection: an event in the human sense is ipso facto a signified.",
+        "source": "The Origin of Language",
+        "sourceSlug": "the-origin-of-language"
+      },
+      {
+        "text": "The originary hypothesis, in its minimal form, is simply this: the human has a punctual origin in an originary event or scene, whose absolute uniqueness—the most parsimonious supposition—is less important than the absolute distinction the event effects.",
+        "source": "The Originary Hypothesis (Stanford version)",
+        "sourceSlug": "clr-402"
+      },
+      {
+        "text": "The originary event is an instance of successfully seeing what happens when we do this to that—meaning is achieved.",
+        "source": "Disciplinarity and the Center",
+        "sourceSlug": "disciplinarity-and-the-center"
+      },
+      {
+        "text": "Every artwork is a model of the originary event.",
+        "source": "The Esthetic Moment",
+        "sourceSlug": "clr-369"
+      },
+      {
+        "text": "This does not detract from the indispensable assertion that the originary hypothesis refers to an actual event, something that must have happened, but it brings that originary event within the ergodic world itself, as a virtuality that we collectively compose, modularly, through its successive iterations.",
+        "source": "Ergodism",
+        "sourceSlug": "ergodism"
+      }
+    ],
+    "posts": [
+      {
+        "slug": "clr-403",
+        "title": "Heuristic Necessity",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "clr-205",
+        "title": "Originary and Evolutionary Esthetics",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "the-origin-of-language",
+        "title": "The Origin of Language",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-402",
+        "title": "The Originary Hypothesis (Stanford version)",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "disciplinarity-and-the-center",
+        "title": "Disciplinarity and the Center",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-369",
+        "title": "The Esthetic Moment",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "ergodism",
+        "title": "Ergodism",
+        "note": "Develops the concept."
+      }
+    ]
+  },
+  "market": {
+    "definitionQuote": "The market is constituted by its anxiety about its own future existence.",
+    "definitionSource": "There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary",
+    "definitionSlug": "there-is-no-economy-pdf",
+    "definitionAuthor": "Adam Katz",
+    "passages": [
+      {
+        "text": "I do not think it an exaggeration to say that the course of human history may be described as the never-completable transition from the ritual system of distribution inaugurated in the originary scene to the market system , where no central authority is necessary to mediate between human beings beyond the universal human order of representation through signs.",
+        "source": "The Free Market",
+        "sourceSlug": "clr-34"
+      },
+      {
+        "text": "Just as democracy makes the originary reciprocal exchange of signs the basis for the negotiation of political decisions, so in the market, the “equal” division of the sacrificial victim becomes the basis for the negotiation of economic values.",
+        "source": "On Political Economy",
+        "sourceSlug": "clr-123"
+      },
+      {
+        "text": "One leaves the scene of the market for another scene in order to devise a new product or idea that one then brings back to the marketplace for its evaluation. For the duration of this process of deferral, the local scene becomes its own market.",
+        "source": "GA: The Other Intellectual Scene",
+        "sourceSlug": "clr-397"
+      },
+      {
+        "text": "If the market is presented as a decentralized aggregate of individual activities in which knowledge that no individual could possess by himself is nevertheless held and acted on socially, this is only the case insofar as each of us donates our intelligence to the central intelligence of the market. And in the end this central intelligence is embodied by the central bank, which must step in and “correct” for “market failures.”",
+        "source": "There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary",
+        "sourceSlug": "there-is-no-economy-pdf"
+      },
+      {
+        "text": "Bureaucratic economics, the “command economy,” organizes distribution of labor and resources through a hierarchical series of imperatives; it is either a parasitic excrescence (even if serving otherwise indispensable purposes) upon the market, or it is constructed in the ruins of the market, and leaves nothing but ruin in its own wake.",
+        "source": "The Economic Imperative",
+        "sourceSlug": "the-economic-imperative"
+      },
+      {
+        "text": "Instead of starting with an abstraction like “the market,” it’s better to start with ongoing realities like supply chains and credit lines.",
+        "source": "Monopoly",
+        "sourceSlug": "monopoly"
+      }
+    ],
+    "posts": [
+      {
+        "slug": "there-is-no-economy-pdf",
+        "title": "There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "clr-34",
+        "title": "The Free Market",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-123",
+        "title": "On Political Economy",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "clr-397",
+        "title": "GA: The Other Intellectual Scene",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "the-economic-imperative",
+        "title": "The Economic Imperative",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "monopoly",
+        "title": "Monopoly",
         "note": "Develops the concept."
       }
     ]
