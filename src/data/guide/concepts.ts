@@ -39,7 +39,7 @@ Derrida identified the paradox correctly: "the center is at the center of the to
 The center is never absent from human activity. Where it appears absent, it has been displaced — into institutions that disavow their centrality, into procedures that pretend to be centerless, into "the market" or "the conversation" or "the process." These are not alternatives to the center but disguised occupants of it. The diagnostic question is always: *what is the actual center here, and who occupies it?*
 
 **Omnicentrism** — the post-sacrificial condition in which every individual is potentially a center — does not abolish the center but distributes its function across the social order. The imperative of omnicentrism is not that centers disappear but that violent centralization be continuously deferred. That deferral is the moral obligation constituted by the originary scene.`,
-    relations: ['originary-scene', 'deferral', 'the-sacred', 'resentment-victimary', 'succession', 'nomos'],
+    relations: ['originary-scene', 'deferral', 'the-sacred', 'resentment-victimary', 'succession', 'nomos', 'ostensive-imperative-declarative', 'the-juridical'],
     posts: [
       { slug: 'the-center', title: 'Lecture 4: The Center', note: 'Attention vs. intention; occupied vs. signifying center; how to hear the command of the center today. The clearest introductory lecture on the concept.' },
       { slug: 'the-discourse-of-the-center', title: 'The Discourse of the Center', note: 'The center as the organizing structure of all discourse. Begin here.' },
@@ -98,7 +98,7 @@ The scene: a group of hominids converge on a central object — food, a body, so
 **Hypothetical minimum.** The originary hypothesis does not claim to reconstruct an actual historical event. It claims to identify the minimum conditions for the emergence of language and the human. If you want to explain how language and the sacred could have come into existence — without presupposing language, the sacred, or any distinctively human capacity — this is the minimum you need. The hypothesis is validated not archaeologically but functionally: it explains what needs to be explained without circular appeal to what it is trying to explain.
 
 **What follows from the scene.** The center is constituted as sacred by the scene. The sign is the originary linguistic form, prior to the declarative sentence. Debt is the original economic relation — each participant owes the center their survival. Resentment is the original moral problem — each participant desired the object and did not get it. The juridical order is the original political problem — who administers the center's dispensation? Every major concept in Center Study is a development of some feature of this scene.`,
-    relations: ['the-center', 'deferral', 'the-sacred', 'nomos', 'debt-and-credit', 'ostensive-imperative-declarative', 'resentment-victimary'],
+    relations: ['the-center', 'deferral', 'the-sacred', 'nomos', 'debt-and-credit', 'ostensive-imperative-declarative', 'resentment-victimary', 'anthropomorphics'],
     posts: [
       { slug: 'origin', title: 'Lecture 1: Origin', note: 'Why "origin" is unavoidable as a concept — the prohibition, Derrida, and what it means to posit an origin that must be hypothetical.' },
       { slug: 'mimetic', title: 'Lecture 2: Mimetic', note: 'Girard\'s mimesis, Gans\'s decisive step beyond it — how the sign arrests mimetic rivalry rather than accelerating it.' },
@@ -142,7 +142,7 @@ This is what Katz means when he writes: "If language is the deferral of violence
 **The linguistic turn completed.** Katz's claim is that the linguistic turn in philosophy — the turn toward language as the medium of all thought — has not been completed. It has been arrested at the level of the declarative sentence, which presupposes language as already given. Completing the linguistic turn means moving to the infralinguistic level — the level where the sign is still the deferral of a gesture, where language is still the conversion of mimetic danger into shared attention. At that level, "language is going to be generative even if we act as if it is representational."
 
 **Deferral and institutions.** Every institution can be analyzed as a deferral mechanism. The question is not whether institutions defer violence — they all do — but *how* they defer it, *how well*, and at *what cost*. Institutions that pretend to be centerless, that deny their own deferral function, tend to defer less effectively. The pathology of modernity is not too much deferral but deferral that disavows itself.`,
-    relations: ['originary-scene', 'the-center', 'the-sacred', 'ostensive-imperative-declarative', 'scenic-design'],
+    relations: ['originary-scene', 'the-center', 'the-sacred', 'ostensive-imperative-declarative', 'scenic-design', 'originary-grammar', 'mimesis', 'desire'],
     posts: [
       { slug: 'deferral-of-violence', title: 'Lecture 3: Deferral of Violence', note: 'Why "deferral" is more minimal than postpone or delay — the concept that keeps us inside the scene rather than abstracting from it.' },
       { slug: 'linguistic-turn-generative-literacy', title: 'The Linguistic Turn and Generative Literacy', note: 'The fullest statement of deferral as language\'s function.' },
@@ -187,7 +187,7 @@ This is what Katz means when he writes: "If language is the deferral of violence
 **Completing the linguistic turn** requires recognizing that every declarative sentence is embedded in a scene — a scene constituted by ostensives and imperatives. The declarative *claims* to float free of that scene, to describe the world from nowhere. That claim is the illusion of metalanguage. Center Study works infralinguistically — not by abandoning the declarative, but by keeping visible the ostensive and imperative base from which every declarative emerges.
 
 **The rhetorical posture of each section of this guide** is itself a performance of this sequence: the entry point is ostensive (*this*), the concept pages are imperative (*attend to this*), the reading paths are declarative (*this is how to proceed*).`,
-    relations: ['originary-scene', 'deferral', 'originary-grammar', 'scenic-design', 'the-center'],
+    relations: ['originary-scene', 'deferral', 'originary-grammar', 'scenic-design', 'the-center', 'technology', 'liberalism'],
     posts: [
       { slug: 'the-sign-pdf', title: 'Lecture 5: The Sign', note: 'Derrida\'s critique of the sign, Gans\'s resolution — and why "sample" may be a better framing than "sign" for the digital age.' },
       { slug: 'the-origin-of-language', title: 'The Origin of Language', note: 'Gans\'s foundational account of the three forms.' },
@@ -231,7 +231,7 @@ On the originary scene, the first sign is sacred in the precise sense that it bi
 **Post-sacrificial sacrality.** The Christian revelation — in Center Study's reading — is the revelation that the victim is innocent, that the scapegoat mechanism is a mechanism and not a cosmic necessity. This revelation evacuates the sacrificial sacred without abolishing the sacred as such. What remains is the obligation to defer violent centralization — a moral imperative that Katz describes as the only possible repayment of the debt to the center that revealed our own potential centrality.
 
 **The sacred and the center.** The center is sacred — its binding force over the scene is the sacred's function. To occupy the center is to borrow the sacred's authority. This borrowing is always precarious: the occupied center can always be challenged by appeal to the signifying center — the sacred itself.`,
-    relations: ['the-center', 'originary-scene', 'nomos', 'resentment-victimary', 'debt-and-credit'],
+    relations: ['the-center', 'originary-scene', 'nomos', 'resentment-victimary', 'debt-and-credit', 'deferral', 'anthropomorphics', 'big-man'],
     posts: [
       { slug: 'esthetic-sacred-originary-modernity', title: 'The Esthetic, the Sacred, and Originary Modernity', note: 'The most sustained treatment of sacred/significant distinction and modernity\'s sacralities.' },
       { slug: 'anthropomorphics-book', title: 'Anthropomorphics', note: 'Post-sacrificial centrality and the debt to the center.' },
@@ -273,7 +273,7 @@ This is why liberal rights theory is incoherent from a Center Study perspective 
 **Nomos and legitimacy.** A judge or ruler who respects the nomos is legitimate; one who does not is not. The nomos is not positive law — it is the pre-legal distribution that positive law either honors or violates. When positive law violates the nomos, resentment follows — not as a psychological failing but as the structural consequence of the violation of the originary distribution.
 
 **Nomos and conquest.** Schmitt emphasized the conquest dimension: the nomos arises from the seizure and distribution of land among the conquerors, in proportion to their martial contributions. Center Study accepts this but insists that the martial distribution is itself a secondary instance of the originary distribution. The originary distribution is at the scene; conquest is its historical repetition.`,
-    relations: ['the-center', 'originary-scene', 'the-juridical', 'debt-and-credit', 'succession', 'resentment-victimary'],
+    relations: ['the-center', 'originary-scene', 'the-juridical', 'debt-and-credit', 'succession', 'resentment-victimary', 'the-sacred', 'katechon'],
     posts: [
       { slug: 'sovereignty-nomos-and-parrhesia', title: 'Sovereignty, Nomos and Parrhesia', note: 'Primary treatment of nomos in relation to sovereignty and legitimate judgment.' },
       { slug: 'anthropomorphics-book', title: 'Anthropomorphics', note: 'Nomos as originary distribution and the incoherence of rights without obligations.' },
@@ -309,7 +309,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **Mode of succession and social order.** Every society has a mode of succession, and that mode is not incidental to the society's character — it *is* the society's character. Hereditary monarchies, electoral democracies, revolutionary vanguard parties, meritocratic technocracies — each has a theory of who is qualified to occupy the center and how that qualification is determined and transmitted. None of these theories is neutral; each reflects a particular understanding of what the center is for.
 
 **Succession as the political question.** Contemporary political thought focuses almost entirely on the question of *who* should occupy the center — which candidate, which party, which policy. Center Study insists that the more fundamental question is: *how* should the center pass? The answer to that question determines the quality and character of every specific occupant.`,
-    relations: ['the-center', 'the-juridical', 'scenic-design', 'nomos', 'debt-and-credit'],
+    relations: ['the-center', 'the-juridical', 'scenic-design', 'nomos', 'debt-and-credit', 'anthropomorphics', 'resentment-victimary', 'pointman-uninsurable'],
     posts: [
       { slug: 'successful-succession', title: 'Successful Succession', note: 'The primary essay on succession as the most important political question.' },
       { slug: 'originary-technics', title: 'Originary Technics', note: 'Singularized succession in perpetuity as the foundation of practice.' },
@@ -349,7 +349,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **The juridical and the scene.** Katz's concept of scenic design is directly relevant to the juridical: the courtroom is a scene, and its design is not incidental to the judgments it produces. Who sits where, who speaks in what order, what evidence is admissible, what constitutes an authoritative source — these scenic choices determine what kinds of judgments are possible. A juridical order that disavows its scenic conditions produces distorted judgments.
 
 **Victimary juridicalism.** The contemporary tendency to expand the juridical order to cover more and more domains of social life — to treat every conflict as a legal violation, every injury as a rights-claim, every inequality as a justiciable grievance — is a symptom of the failure of other deferral mechanisms. When the juridical expands to fill the space left by failing institutions, it cannot perform its own function adequately. The juridical order requires a stable social scene; it cannot be the primary source of social order itself.`,
-    relations: ['nomos', 'the-center', 'succession', 'debt-and-credit', 'resentment-victimary'],
+    relations: ['nomos', 'the-center', 'succession', 'debt-and-credit', 'resentment-victimary', 'pointman-uninsurable', 'sovereignty', 'power'],
     posts: [
       { slug: 'sovereignty-nomos-and-parrhesia', title: 'Sovereignty, Nomos and Parrhesia', note: 'The connection between sovereignty, judgment, and legitimate speech.' },
       { slug: 'anthropomorphics-book', title: 'Anthropomorphics', note: 'The juridical as maintenance of the scene.' },
@@ -385,7 +385,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **Credit and deferred obligation.** If debt is the primary economic category, credit is its temporal extension: the forward projection of the debt relationship. To extend credit is to advance the center's dispensation before it has been earned. All economic activity — investment, production, innovation — is organized around this forward projection. The question is always: what is the center against which this credit is drawn, and is that center adequate to the credit issued in its name?
 
 **The only repayment.** Katz's formulation from *Anthropomorphics* should be understood as an economic statement, not only a moral one: "The only possible repayment of this debt is to defer violent centralization wherever one sees it." Deferral is payment. Every act of genuine deferral — every act that converts mimetic danger into shared attention at a center — repays something of what is owed. The debt is never fully discharged, which is why the deferral must be ongoing.`,
-    relations: ['the-center', 'originary-scene', 'nomos', 'the-juridical', 'succession', 'scenic-design'],
+    relations: ['the-center', 'originary-scene', 'nomos', 'the-juridical', 'succession', 'scenic-design', 'the-sacred', 'big-man'],
     posts: [
       { slug: 'there-is-no-economy-pdf', title: 'There Is No Economy', note: 'The primary essay — economy as ideological disguise for the debt structure.' },
       { slug: 'discipline-and-debt', title: 'Discipline and Debt', note: 'The Big Man and the origin of hierarchical debt.' },
@@ -428,7 +428,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **Post-ritual scenic design.** In ritual orders, the scene was constituted automatically — the ritual's form encoded the scene's requirements. No one needed to design the scene explicitly; the tradition carried the design. In post-ritual orders, the tradition has been dissolved without adequate replacement. Institutions must now explicitly design their scenes or inherit degraded scenes from historical accident. The pathology of contemporary institutions — their inability to maintain shared attention, their susceptibility to factional capture, their tendency to produce anti-institutional resentment — is partly a failure of scenic design.
 
 **Data as scenic medium.** Contemporary governance depends on data — the flow of reliable signs from the periphery to the center and back. Data is not merely information; it is the medium of the post-ritual scene. The design of data flows, data structures, and data institutions is scenic design in the most direct sense. Who controls the center's information receives the center's power.`,
-    relations: ['deferral', 'succession', 'ostensive-imperative-declarative', 'the-center', 'anthropomorphics'],
+    relations: ['deferral', 'succession', 'ostensive-imperative-declarative', 'the-center', 'anthropomorphics', 'debt-and-credit', 'pointman-uninsurable', 'originary-grammar'],
     posts: [
       { slug: 'scenic-design-practices', title: 'Scenic Design Practices', note: 'The primary essay on scenic design as the synthesis of practice and technology.' },
       { slug: 'mimesis-center-auto-immunology', title: 'Mimesis, the Center and Auto-Immunology', note: 'The extension of scenic thinking to institutional pathology.' },
@@ -470,7 +470,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **Originary grammar.** The grammar implicit in the originary scene is not the grammar of any particular language but the grammar of signification itself — the rules for how signs work, how scenes are constituted, how attention is directed and maintained. Katz's project in *Anthropomorphics* is to make this grammar explicit: to identify the minimal rules that govern all human meaning-production, from the originary sign to contemporary institutional discourse.
 
 **The individual as artifact.** Katz agrees with C.A. Bond's Jouvenelian analysis: the modern individual is not a natural social unit but an artifact created through specific power dynamics — particularly the dissolution of intermediate institutions by final power centers seeking to consolidate authority. The "individual" is a product of specific historical processes, not a metaphysical given. This does not mean individuals are not real; it means that their reality is scenic and relational, not autonomous and pre-given.`,
-    relations: ['originary-scene', 'the-center', 'the-sacred', 'scenic-design', 'succession', 'originary-grammar'],
+    relations: ['originary-scene', 'the-center', 'the-sacred', 'scenic-design', 'succession', 'originary-grammar', 'resentment-victimary', 'disciplinarity'],
     posts: [
       { slug: 'anthropomorphics-book', title: 'Anthropomorphics', note: 'The foundational text — read this first for the full grammatical treatment.' },
       { slug: 'generative-anthropology-one-big-discipline', title: 'Generative Anthropology as One Big Discipline', note: 'The institutional implications of anthropomorphics.' },
@@ -512,7 +512,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **Anti-centerism.** The deepest pathology generated by the victimary is anti-centerism — the principled opposition to centers as such, the claim that any occupied center is ipso facto illegitimate. Anti-centerism does not abolish centers; it produces center-occupants who are devoted to opposing the center they occupy. This is the characteristic pathology of contemporary liberal institutions: they cannot affirm their own authority, cannot defend their own centrality, and therefore cannot perform the deferral function that is the only justification for their existence.
 
 **The implied center in victimary discourse.** Every act of victimary resentment implies a center that it appeals to — a standard of justice, a vision of how things should be distributed, an authority that could redress the grievance. The victimary cannot abolish the center; it can only transfer allegiance from the occupied center to a projected ideal center. Center Study's task is to make that implied center visible and to ask whether it is adequate to the obligations it is being asked to discharge.`,
-    relations: ['the-center', 'originary-scene', 'the-sacred', 'nomos', 'succession', 'anthropomorphics'],
+    relations: ['the-center', 'originary-scene', 'the-sacred', 'nomos', 'succession', 'anthropomorphics', 'the-juridical', 'pointman-uninsurable'],
     posts: [
       { slug: 'the-origin-of-language', title: 'The Origin of Language (Introduction)', note: 'Victimary humanism as the primary obstacle to the originary hypothesis.' },
       { slug: 'the-anthropoetics-of-power', title: 'The Anthropoetics of Power', note: 'Resentment toward the Big Man and its productive and destructive channels.' },
@@ -593,7 +593,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **Completing the linguistic turn.** The linguistic turn in philosophy — Wittgenstein, Austin, the late Heidegger, Derrida — recognized that language is not a transparent medium for representing pre-linguistic thought. But it stopped short of the infralinguistic level. It remained at the level of language games, speech acts, traces, and différance — all of which are still implicitly metalinguistic, still implicitly standing outside language to describe it. Originary grammar completes the linguistic turn by recognizing the scene-dependence of language at the originary level.
 
 **Generative literacy.** The goal of generative literacy is to produce readers and writers who can operate infralinguistically — who can recognize the scene-dependence of every text, identify the center that organizes it, trace the ostensive-imperative-declarative structure of its argument, and engage it from within rather than from above. Generative literacy is the educational project that follows from originary grammar.`,
-    relations: ['ostensive-imperative-declarative', 'deferral', 'scenic-design', 'anthropomorphics', 'the-center'],
+    relations: ['ostensive-imperative-declarative', 'deferral', 'scenic-design', 'anthropomorphics', 'the-center', 'the-sign', 'attentionality', 'idiom'],
     posts: [
       { slug: 'linguistic-turn-generative-literacy', title: 'The Linguistic Turn and Generative Literacy', note: 'The fullest statement of originary grammar as the completion of the linguistic turn.' },
       { slug: 'anthropomorphics-book', title: 'Anthropomorphics', note: 'Originary grammar as the grammar of the center.' },
@@ -635,7 +635,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **The Big Man's paradox.** The Big Man must be both inside and outside the community. Inside because he distributes the sacrifice and feeds the community; outside because he occupies the center that the community faces. His authority requires this ambiguity. When the ambiguity collapses — when the Big Man is simply a powerful individual with no sacred dimension — hierarchy becomes pure domination rather than legitimate authority. The transition from Big Man to sacred king is the transition from contingent to institutionalized sacrality.
 
 **Katz's use.** Katz tracks the Big Man figure across the archive as the site where the originary vocabulary becomes political vocabulary. Every analysis of leadership, succession, and authority returns to the Big Man template: someone who occupies the center not as victim but as distributor, who creates obligation through generosity, and who must eventually be succeeded.`,
-    relations: ['the-center', 'originary-scene', 'succession', 'debt-and-credit', 'the-sacred', 'resentment-victimary'],
+    relations: ['the-center', 'originary-scene', 'succession', 'debt-and-credit', 'the-sacred', 'resentment-victimary', 'sparagmos', 'omnicentrism'],
     posts: [
       { slug: 'the-anthropoetics-of-power', title: 'The Anthropoetics of Power', note: 'The primary treatment of the Big Man and out-gifting as the origin of hierarchical power.' },
       { slug: 'discipline-and-debt', title: 'Discipline and Debt', note: 'The Big Man\'s out-gifting as the origin of asymmetric debt.' },
@@ -675,7 +675,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **Mimesis and the sign.** The sign defers mimesis — it substitutes representation for appropriation, shared attention for competing desire. But the sign does not eliminate mimesis; it channels it. After the originary scene, mimesis operates at the level of signs: we imitate each other's signing, we orient our attention as others orient theirs, we constitute objects as significant by collectively facing them. Mimesis is what makes signs work — the shared imitation of the originary gesture is what gives the sign its binding force.
 
 **Exhaustive imitation.** Bouvard develops the concept of exhaustive imitation — the attempt to imitate so completely that no remainder of the model's particularity escapes. Exhaustive imitation is the pathological extreme of mimesis: rather than deferring the model's desire, it attempts to entirely reproduce the model, eliminating the difference that makes imitation generative. AI systems face this problem structurally: trained to predict, they approach exhaustive imitation of the corpus, which eliminates the scenic position from which genuine sign-use is possible.`,
-    relations: ['originary-scene', 'deferral', 'the-sacred', 'resentment-victimary', 'sparagmos'],
+    relations: ['originary-scene', 'deferral', 'the-sacred', 'resentment-victimary', 'sparagmos', 'desire', 'the-sign', 'media'],
     posts: [
       { slug: 'mimetic', title: 'Lecture 2: Mimetic', note: 'The clearest introductory account — mimesis from Girard through Gans, why the sign defers rather than accelerates mimetic rivalry, and what it means to acknowledge our mimetic constitution.' },
       { slug: 'mimesis-center-auto-immunology', title: 'Mimesis, the Center and Auto-Immunology', note: 'Mimesis as the structural condition of institution-building and its pathologies.' },
@@ -711,7 +711,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **The sparagmos and the Big Man.** The Big Man disrupts the sparagmos structure. Instead of equal distribution from the sacrificed object, the Big Man distributes from his own surplus — out-gifting from personal accumulation rather than from the communal sacrifice. The shift from sparagmos to out-gifting is the Big Man Revolution at the level of distribution: from equality-before-the-sacred to asymmetric obligation before the living center-occupant.
 
 **Distribution and resentment.** Every distribution after the sparagmos is measured against the sparagmos template. Resentment is generated whenever the actual distribution fails the originary standard: when someone gets more, when the center retains what it should distribute, when the shares are unequal. The egalitarian demand — that distribution be equal — is the sparagmos template persisting as moral intuition through all subsequent social arrangements.`,
-    relations: ['originary-scene', 'the-sacred', 'big-man', 'debt-and-credit', 'resentment-victimary'],
+    relations: ['originary-scene', 'the-sacred', 'big-man', 'debt-and-credit', 'resentment-victimary', 'mimesis', 'ritual', 'scapegoating'],
     posts: [
       { slug: 'anthropomorphics-book', title: 'Anthropomorphics', note: 'The sparagmos as the first distribution and the origin of the sacred meal.' },
       { slug: 'the-anthropoetics-of-power', title: 'The Anthropoetics of Power', note: 'The sparagmos and the Big Man Revolution.' },
@@ -745,7 +745,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **Aesthetics and desire.** Katz follows Gans in defining the aesthetic as the oscillation between desire and deferral — the pleasure of approaching the desired object without the violence of appropriating it. Art is the cultural institution that converts desire into the sustained deferral of the aesthetic: you can have the object in imagination, can circle it indefinitely, can approach it asymptotically, without the crisis of actual appropriation. This is why art has a civilizing function: it channels desire into forms that do not threaten the center.
 
 **Desire and resentment.** Every desire that cannot be satisfied — every desire whose object is permanently in the possession of another, or permanently occupied by the center — generates resentment. Resentment is the structural consequence of desire under conditions of scarcity and hierarchy. The question is not how to eliminate resentment but how to convert it from destructive (aimed at demolishing the center) to productive (aimed at generating the disciplines that make center-approach possible).`,
-    relations: ['originary-scene', 'mimesis', 'resentment-victimary', 'the-sacred', 'deferral'],
+    relations: ['originary-scene', 'mimesis', 'resentment-victimary', 'the-sacred', 'deferral', 'narrative'],
     posts: [
       { slug: 'esthetic-sacred-originary-modernity', title: 'The Esthetic, the Sacred, and Originary Modernity', note: 'Desire and deferral as the aesthetic oscillation.' },
       { slug: 'the-anthropoetics-of-power', title: 'The Anthropoetics of Power', note: 'Desire and the mimetic structure of the Big Man\'s usurpation.' },
@@ -822,7 +822,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **Sign vs. index vs. symbol.** In Peircean terms, the originary sign is a symbol — it is iterable and has a referent that is not tied to its physical occurrence. But Center Study notes that Peirce's typology already presupposes the existence of sign systems; it cannot account for the first sign. The first sign is not a symbol because it is a member of a conventional system (there is no system yet) — it is a symbol because the gesture of appropriation, once converted into the gesture of reference, has a referent that survives its physical occasion and can be reproduced in new circumstances.
 
 **Bouvard and inscription.** Bouvard extends the concept of the sign into the analysis of inscription, tokenization, and data — the ways in which the scene's central reference is marked, stored, and circulated across time and infrastructure. Every mark is a sign; every inscription is a scene. The digital archive is a vast sign system whose originary structure is still the aborted gesture of appropriation — still the conversion of appetite into attention.`,
-    relations: ['originary-scene', 'deferral', 'the-sacred', 'mimesis', 'originary-grammar'],
+    relations: ['originary-scene', 'deferral', 'the-sacred', 'mimesis', 'originary-grammar', 'attentionality', 'idiom', 'idiomclining'],
     posts: [
       { slug: 'the-sign-pdf', title: 'Lecture 5: The Sign', note: 'Derrida\'s critique, Gans\'s resolution via the Name-of-God, and why "sample" may ultimately be a better word than "sign."' },
       { slug: 'the-origin-of-language', title: 'The Origin of Language', note: 'Gans\'s foundational account of the sign as aborted gesture.' },
@@ -859,7 +859,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **Attentionality as ethics.** Katz's key move in *Attentionality and Originary Ethics* is to argue that attentionality is not merely a cognitive capacity but an ethical one. To attend to another — to genuinely direct your attention toward them, to make them the center of your scene — is already a moral act. The failure to attend, the withdrawal of attention, the refusal of joint attention, is already a moral failure. Ethics begins not with obligations derived from principles but with the practice of attending to others as potential centers.
 
 **Upclining.** Katz develops the concept of "upclining" — the ethical practice of directing attention upward, toward those who have more to teach, rather than downward, toward those who can only receive instruction. Upclining is the educational posture that makes learning possible: it requires humility before the center (the teacher, the text, the archive) rather than the performance of already-achieved mastery.`,
-    relations: ['originary-scene', 'the-sign', 'originary-grammar', 'scenic-design', 'deferral'],
+    relations: ['originary-scene', 'the-sign', 'originary-grammar', 'scenic-design', 'deferral', 'idiom', 'idiomclining', 'media'],
     posts: [
       { slug: 'attentionality-originary-ethics', title: 'Attentionality and Originary Ethics', note: 'The primary treatment of attentionality as the ground of ethics.' },
       { slug: 'anthropomorphics-book', title: 'Anthropomorphics', note: 'Attentionality as the scene\'s constitutive relation.' },
@@ -894,7 +894,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **Post-sacrificial order.** The post-sacrificial order is the order in which ritual sacrifice is no longer possible — in which the recognition of each individual as a potential center (omnicentrism) makes it impossible to legitimate the killing of any community member as a sacred act. Post-sacrificial institutions — law, money, markets, art, philosophy — must accomplish the ritual's deferral function without the ritual's mechanism. They are all compensations for the absent ritual center.
 
 **Media as ritual.** Bouvard extends the analysis: every medium — from the printing press to the internet — takes over a portion of the ritual function. Media constitutes the community by staging shared attention on a central object (news, entertainment, information). The contemporary crisis of media is the crisis of a ritual substitute that has lost connection to the originary scene it substitutes for: it stages shared attention without the sacred binding that made the originary scene's sign work.`,
-    relations: ['originary-scene', 'the-sacred', 'big-man', 'sparagmos', 'scenic-design', 'debt-and-credit'],
+    relations: ['originary-scene', 'the-sacred', 'big-man', 'sparagmos', 'scenic-design', 'debt-and-credit', 'technology', 'market'],
     posts: [
       { slug: 'media-as-ritual', title: 'Media as Ritual', note: 'Bouvard on media as the post-sacrificial successor to the ritual function.' },
       { slug: 'anthropomorphics-book', title: 'Anthropomorphics', note: 'Ritual as the institutionalization of the originary scene.' },
@@ -935,7 +935,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
 **The transfer idiom.** Translation between idioms requires a transfer idiom — a metalinguistic frame that can carry meaning from one scenic context to another without destroying what is idiom-specific. Bouvard analyses the transfer idiom as itself a scenic production: the act of translation creates a new scene in which the translated meaning can find its orientation. The risk is that the transfer idiom becomes dominant, substituting for the idioms it was meant to connect.
 
 **Idiom and the center.** Every idiom is oriented toward a center. The center of an idiom is what the idiom's characteristic moves are aimed at — what they approach, circle, and defer. To understand an idiom is to understand what center it is organized around and what deferral it performs. The concept index you are reading is itself an idiom — a way of approaching the center of Center Study that has its own scenic signature.`,
-    relations: ['scenic-design', 'the-sign', 'originary-grammar', 'attentionality', 'debt-and-credit'],
+    relations: ['scenic-design', 'the-sign', 'originary-grammar', 'attentionality', 'debt-and-credit', 'idiomclining'],
     posts: [
       { slug: 'idiom-and-the-differend', title: 'Idiom and the Differend', note: 'Bouvard on idiom, translation, and the Lyotardian differend.' },
       { slug: 'idiomatic-intelligence-and-the-black-box', title: 'Idiomatic Intelligence and the Black Box', note: 'Idiomatic intelligence as the capacity to operate within a scene with scenic distinctiveness.' },
@@ -961,7 +961,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
     "title": "Katechon",
     "subtitle": "The restrainer, read as deferral",
     "definition": "The Katechon is the Christian political-theological concept of \"the restrainer of the AntiChrist,\" which Bouvard takes up as \"a very near synonym to 'deferral'\" — a way of translating the theological framing of apocalypse (via Schmitt and Thiel) into the anthropological idiom of center study, where holding off the end is the work of deferral itself.",
-    "body": "Katechon is the Christian political-theological figure of \"the restrainer of the AntiChrist.\" Bouvard takes it up because it is, in his reading, \"a very near synonym to ‘deferral’\" — holding off the end is the work of deferral itself.\n\nImported through Carl Schmitt (by way of Raphael Gross) and used by Peter Thiel in his studies of apocalypse, it lets center study extend into the theology of politics: the restrainer can be paired with the paraclete, or advocate, as supplements to the same deferring logic. It is a borrowed concept rather than a native coinage, included here because center study gives it an anthropological footing.",
+    "body": "The katechon enters center study as a discovered synonym. Reading Raphael Gross's Carl Schmitt and the Jews, Bouvard \"noticed that the Christian concept of the “Katechon,” or the restrainer of the AntiChrist, was a very near synonym to “deferral”\" — and what jarred him into taking the term seriously was \"a point in Gross's discussion where he uses the word “deferral” in describing Schmitt's understanding of the term, and something clicked.\" The equivalence is generative: \"This makes it possible to further extend center study into new fields of inquiry,\" not only into Schmitt but into \"Peter Thiel's studies of apocalypse, which makes regular use of this theological framing of politics.\"\n\nThe move is translation, not theology. \"I'm not going to think theologically,\" Bouvard writes, \"but now I have a way of translating into anthropological idioms this theological framing which, it seems, Thiel has found no better “secular” alternative to.\" What theology names as the restrainer holding back the AntiChrist, the originary hypothesis derives anthropologically as deferral — the constitutive operation of the center. In the same discussion, \"Deferral is scenic creation,\" and \"The debt we owe to the center is a product of deferral, and the lines of credit issued are therefore tokenized deferrals\": the katechon, translated, is this ongoing work of restraint that backs every scene.\n\nThe stakes of the term are the two ways of pointing: \"the difference between pointing as singling out the victim for a lynching and pointing as an act of deferral, a substitute for the lynching (let's say, the paraclete, or advocate, supplementing the katechon).\" The restrainer holds back the convergence on the victim; the advocate speaks on the victim's behalf. Every act that builds \"more deferral than you undermine\" is, in this idiom, katechontic — deferral of apocalypse carried out in language.",
     "relations": [
       "deferral",
       "the-sacred",
@@ -998,7 +998,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
     "title": "Idiomclining",
     "subtitle": "Setting immobilized language back into motion, within an idiom",
     "definition": "Bouvard's coinage for a mode of \"semiotic research\" — the deliberate, mistaken re-setting-into-motion of fixed pieces of language within an idiom — offered in place of bureaucratized, Goodhart-vulnerable categories like \"critical thinking.\" To idiomcline is to make one's idiom at once more idiomatic and more transferable, treating stopping-and-thinking-before-doing as itself a kind of doing that opens an idiom to adjusted response and new exchange.",
-    "body": "Idiomclining is Bouvard’s name for a kind of semiotic research: \"setting relatively immobilized ‘pieces’ of language back into motion\" within an idiom. He builds the word from \"cline\" (as in incline and decline, and his earlier coinage \"upcline\") and from idiom, which he treats as the condition of all discourse.\n\nTo idiomcline is to be deliberately, productively mistaken — violating a convention or expectation so as to open an opportunity for an adjusted response — and thereby to make one’s idiom at once more idiomatic and more transferable. He offers it in place of bureaucratized, test-friendly categories like \"critical thinking.\"",
+    "body": "Idiomclining is Bouvard's replacement for \"critical thinking\" and \"other bureaucratized categories designed for mass test taking.\" The practice it names is \"dedicating oneself to setting relatively immobilized “pieces” of language back into motion,\" which \"seems a good way of thinking about operating within an idiom.\" The coinage builds on \"clining,\" from an earlier essay on \"upclining\" that engaged \"processes of “grammaticization” in language, i.e., the tendency of expressions to transition from semantic to grammatical functions.\" A \"cline\" names \"gradual, imperceptible shifts from one state to another,\" preserved in \"incline\" and \"decline\"; \"upcline\" is \"necessarily a neologism\" — a way of \"resisting\" \"the more passive “incline” and catastrophic “decline”.\"\n\nThe practice rests on \"centering the concept of idiom as the condition of all discourse\": any measure \"is an idiom, a naming, a labeling, a designation that depends on those who can look at that thing and say “this is the same,” thereby iterating the fundamental gesture of language\" — and \"tokens are themselves idioms.\" Working within an idiom therefore carries a constitutive paradox: \"You will always be mistaken in doing so, precisely because you'll be violating some convention or expectation, but you also can't go wrong because you present a opportunity for an adjusted response on the part of others.\" It is \"a more semiotic way of speaking about stopping and thinking before doing as itself a kind of doing\" — deferral practiced at the level of the phrase.\n\nThe aim is double: \"make your idiom both more idiomatic and more transferable.\" You speak with your interlocutor \"so that you are speaking only to them,\" making the topic \"the center of a scene that places only the two of you on it,\" while ensuring that either of you \"might speak with anyone and everyone about that newly created “topic” so as to generate new idioms in each new exchange.\" Even \"a pastiche of stereotypical replies\" can serve as \"another way of idiomclining\" — any immobilized piece of language is material to be set back into motion.",
     "relations": [
       "idiom",
       "the-sign",
@@ -1051,14 +1051,13 @@ The alternative — succession by committee, by popular vote, by competitive mar
     "title": "Scapegoating",
     "subtitle": "violence concentrated on the center",
     "definition": "Scapegoating is the convergence of communal violence and resentment upon a central figure marked as the cause of the community's ills—understood in Center Study not as the persecution of the marginal but as always directed against the center, carrying the implicit claim that the center has been secretly usurped. As the originary model of selection and of attention in general, it does violence to one who is no guiltier than the rest, and the resistance to it is the defense of the center through deferral and the open distribution of power.",
-    "body": "In Center Study, scapegoating is not first of all the persecution of the weak or marginal. It is communal violence and resentment converging on the center — and it carries an implicit claim that the center has been secretly usurped \"by someone behind the scenes.\" Even when the occupant of the center leads the scapegoating, it is aimed against the center as such.\n\nIt is the originary model of selection, and of attention in general: to scapegoat is to do violence to someone no guiltier than the rest, subtracting likeness from a victim by attributing to them some distinguishing \"mark.\" The standing alternative is the discipline of deferral — detecting the gathering of attention into a lynching and refusing it, distributing power rather than concentrating it on a single sacrificeable figure.",
+    "body": "Gans defines the term with precision: \"To scapegoat is to do violence to someone who is, if not innocent, at any rate no guiltier than his fellows.\" More exactly, it is to treat a guilt \"at most quantitatively greater than the others'\" as though it were \"transcendentally greater, so that the violence that had been diffused over the entire community comes to be unanimously directed from the innocent collectivity to the one.\" Yet the concept is not merely a moral pathology: \"as an epistemological operation, scapegoating is the originary model of selection in general,\" and \"The model of scapegoating is the model of attention in general.\" Whatever we attend to, we have singled out; the question is what the singling out serves. Mechanically, scapegoating \"requires some “mark” be attributed to the scapegoat\" — the more the mark presents him \"as dangerous or subversive in some way to the community, the more it would set in motion the stampede\" — and it works as \"a practice of subtracting likeness from the othered, making likeness among those who do the othering less threatening.\"\n\nCenter study's distinctive claim reverses the modern picture: \"Scapegoating is also always against the center--even when the occupant of the center leads it,\" its implicit claim being \"that the center has been usurped by someone \"behind the scenes.\"\" Indeed, \"The targeting of the occupant of the center is always extremely dangerous and is most likely the original scapegoating\" — the scapegoating of marginal figures is \"very much a modern appropriation of the concept\" — and it \"necessarily prefigures civil war precisely in the hope that it can be unanimous.\" The alternative is a discipline of deferral: \"we instead refrain from scapegoating (we learn to detect signs of accelerating convergent attention) because scapegoating is always an attempt to disorder the center by prepping us to look for indications of a hidden usurper behind it.\" To resist scapegoating is not to look away but to notice the convergence itself before joining it.",
     "relations": [
       "resentment-victimary",
       "the-center",
       "sparagmos",
       "the-sacred",
-      "sovereignty"
-    ],
+      "sovereignty", "firstness"],
     "posts": [
       {
         "slug": "the-egalitarian-vs-hierarchical-model-of-morality",
@@ -1140,14 +1139,13 @@ The alternative — succession by committee, by popular vote, by competitive mar
     "title": "Sovereignty",
     "subtitle": "The center made into the judge of last resort",
     "definition": "In the originary/center framework, sovereignty is a mode of centrality: the assertion by an occupant of the center of the right to be the judge of last resort in all disputes among lower centers of power, extending to a human ruler the sacred difference of the center. It is never simply held but always exercised and passed on — drawing emulation and resentment toward itself, and always oriented toward securing its own succession.",
-    "body": "Sovereignty is a mode of centrality. It is the assertion, by an occupant of the center, of the right to be the judge of last resort in all disputes among lower centers of power — extending to a human ruler the sacred difference of the center, and so drawing both emulation and resentment toward itself.\n\nIt is never simply possessed. Sovereignty is always exercised rather than held, and always passed off: to be sovereign is to be turned toward one’s own succession. Its central problem is therefore temporal — securing the passage of the center across time without collapsing into rivalry.",
+    "body": "Katz introduces sovereignty as a historical assertion: a time comes when the ruler \"will have to assert sovereignty, a new mode of centrality that claims and enforces the right to be the judge of last resort in all disputes involving lower centers of power.\" This is not a break with the sacred but its extension — \"The asymmetrical sovereignty of Leviathan only extends to a human monarch the sacred difference of the center.\" The work sovereignty does is resentment management: it \"draws both emulation and resentment toward itself, and in this way brings resentment to a central point where it can be overawed and reframed as unappeasable and hence transgressive if not “donated” to the sovereign.\" The sovereign center gathers what would otherwise circulate as vendetta.\n\nSovereignty is a practice, not a possession. \"Insofar as sovereignty is always exercised rather than held, it is always secure—and what would it mean to “hold” sovereignty other than to exercise it repeatedly and explicitly?\" Its exercise is intrinsically temporal: \"sovereignty is always oriented toward futurity, always a bridge between past and future,\" and its horizon is succession — \"Sovereignty is always passed off—to be sovereign is to decide upon one's successor.\" To secure sovereignty is to keep exercising it across the bridge from predecessors to successors.\n\nThe concept also grounds center study's analysis of liberalism. The division between the actual ruler and a higher warrant \"is what provides the opening to modern liberal and democratic politics, which simply replace “God's will” with the “people,” or the “individual,” or the “nation,” or the “oppressed,” or the “workers,” or some other entity in positing a “real” sovereign to which the actual sovereign must defer.\" Modern politics does not abolish sovereignty; it multiplies fictional occupants of the center to which the visible one is made to answer.",
     "relations": [
       "nomos",
       "succession",
       "the-center",
       "big-man",
-      "the-juridical"
-    ],
+      "the-juridical", "scapegoating", "power", "money"],
     "posts": [
       {
         "slug": "centrality-power-sovereignty",
@@ -1226,8 +1224,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
       "sovereignty",
       "resentment-victimary",
       "the-juridical",
-      "the-sacred"
-    ],
+      "the-sacred", "capital", "liberalism"],
     "posts": [
       {
         "slug": "anthropomorphics-book",
@@ -1311,8 +1308,7 @@ The alternative — succession by committee, by popular vote, by competitive mar
       "deferral",
       "the-sacred",
       "sovereignty",
-      "the-sign"
-    ],
+      "the-sign", "capital", "market"],
     "posts": [
       {
         "slug": "there-is-no-economy-pdf",
@@ -2315,111 +2311,7 @@ export function getConceptBySlug(slug: string): Concept | undefined {
  * Used by the Concordance, A–Z index, and ClickableTerm to route clicks to
  * /guide/concepts/[slug] instead of search/ask whenever a concept page exists.
  */
-export const TERM_TO_CONCEPT_SLUG: Record<string, string> = {
-  // The Center
-  'center': 'the-center',
-  'centers': 'the-center',
-  'centered': 'the-center',
-
-  // Deferral
-  'deferral': 'deferral',
-  'defer': 'deferral',
-  'deferred': 'deferral',
-  'deferring': 'deferral',
-  'defers': 'deferral',
-
-  // Ostensive / Imperative / Declarative
-  'ostensive': 'ostensive-imperative-declarative',
-  'imperative': 'ostensive-imperative-declarative',
-  'declarative': 'ostensive-imperative-declarative',
-  'ostensives': 'ostensive-imperative-declarative',
-  'imperatives': 'ostensive-imperative-declarative',
-  'declaratives': 'ostensive-imperative-declarative',
-
-  // The Sacred
-  'sacred': 'the-sacred',
-  'sacrality': 'the-sacred',
-  'sacralities': 'the-sacred',
-
-  // Nomos
-  'nomos': 'nomos',
-  'nomic': 'nomos',
-
-  // Succession
-  'succession': 'succession',
-  'successor': 'succession',
-  'successors': 'succession',
-
-  // The Juridical
-  'juridical': 'the-juridical',
-
-  // Debt and Credit
-  'debt': 'debt-and-credit',
-  'debts': 'debt-and-credit',
-  'credit': 'debt-and-credit',
-  'credits': 'debt-and-credit',
-
-  // Scenic Design
-  'scenic': 'scenic-design',
-
-  // Anthropomorphics / Metaperson
-  'anthropomorphics': 'anthropomorphics',
-  'metaperson': 'anthropomorphics',
-  'metapersons': 'anthropomorphics',
-
-  // Resentment / Victimary
-  'resentment': 'resentment-victimary',
-  'resentments': 'resentment-victimary',
-  'victimary': 'resentment-victimary',
-  'anticenterism': 'resentment-victimary',
-  'anti-centerism': 'resentment-victimary',
-
-  // The Pointman / The Uninsurable
-  'pointman': 'pointman-uninsurable',
-  'pointmen': 'pointman-uninsurable',
-  'uninsurable': 'pointman-uninsurable',
-
-  // Originary Grammar
-  'grammar': 'originary-grammar',
-  'infralinguistic': 'originary-grammar',
-  'infralinguistics': 'originary-grammar',
-  'generative literacy': 'originary-grammar',
-
-  // Big Man
-  'big man': 'big-man',
-  'big-man': 'big-man',
-
-  // Mimesis
-  'mimesis': 'mimesis',
-  'mimetic': 'mimesis',
-  'mimeticism': 'mimesis',
-  'mimetically': 'mimesis',
-
-  // Sparagmos
-  'sparagmos': 'sparagmos',
-
-  // Desire
-  'desire': 'desire',
-  'desires': 'desire',
-
-  // Omnicentrism
-  'omnicentrism': 'omnicentrism',
-  'omnicentric': 'omnicentrism',
-  'omnicentrist': 'omnicentrism',
-
-  // The Sign
-  'sign': 'the-sign',
-  'signs': 'the-sign',
-
-  // Attentionality
-  'attentionality': 'attentionality',
-
-  // Ritual
-  'ritual': 'ritual',
-  'rituals': 'ritual',
-
-  // Idiom
-  'idiom': 'idiom',
-  'idioms': 'idiom',
-  'idiomatic': 'idiom',
-};
+// The canonical term→concept map lives in src/lib/cs-terms.ts (single source
+// of truth — this file used to hold a divergent copy). Re-exported so existing
+// imports from @/data/guide/concepts keep working.
+export { TERM_TO_CONCEPT_SLUG } from '@/lib/cs-terms';

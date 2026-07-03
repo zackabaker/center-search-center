@@ -119,6 +119,13 @@ export const CS_TERMS: CSTerm[] = [
   { term: 'idiomatic', query: 'What is idiom in Center Study? How does Bouvard develop it as a concept for analyzing intelligence, practice, and scenic distinctiveness?' },
   { term: 'thirdness', query: 'What is thirdness in Center Study? How does Bouvard develop it in relation to Peirce and the three-term structure of the scene?' },
   { term: 'sign', query: 'What is the sign in Center Study? How does the originary sign differ from Saussurean or Peircean accounts?' },
+  { term: 'katechon', query: 'What is the katechon in Center Study? How does it relate to deferral and to Schmitt?' },
+  { term: 'scapegoating', query: 'What is scapegoating in Center Study? How does violence against the center differ from Girard’s account of the victim?' },
+  { term: 'disciplinarity', query: 'What is a discipline in Center Study? How do disciplines relate to the center and to the juridical?' },
+  { term: 'liberalism', query: 'How does Center Study analyze liberalism and the concealment of the decider?' },
+  { term: 'charismatic', query: 'What is charisma in Center Study? How does discipline and deferral generate centrality?' },
+  { term: 'charisma', query: 'What is charisma in Center Study? How does discipline and deferral generate centrality?' },
+  { term: 'firstness', query: 'What is firstness in Center Study? What risk does being first carry?' },
 ];
 
 // Build a fast lookup: term (lowercase) → CSTerm
@@ -131,11 +138,14 @@ export const CS_TERM_MAP = new Map<string, CSTerm>(
  * dedicated concept page exists. Terms not listed here fall back to the
  * /search?q= link used in HighlightedContent.
  *
- * Slugs correspond to entries in src/data/guide/concepts.ts.
+ * This is the SINGLE canonical map — src/data/guide/concepts.ts re-exports it.
+ * (The two files used to hold divergent copies; keep all edits here.)
  */
 export const TERM_TO_CONCEPT_SLUG: Record<string, string> = {
   // the-center
   'center': 'the-center',
+  'centers': 'the-center',
+  'centered': 'the-center',
   'periphery': 'the-center',
   'center-periphery': 'the-center',
 
@@ -147,36 +157,59 @@ export const TERM_TO_CONCEPT_SLUG: Record<string, string> = {
 
   // deferral
   'deferral': 'deferral',
+  'defer': 'deferral',
   'deferred': 'deferral',
+  'deferring': 'deferral',
+  'defers': 'deferral',
 
   // ostensive-imperative-declarative
   'ostensive': 'ostensive-imperative-declarative',
   'imperative': 'ostensive-imperative-declarative',
   'declarative': 'ostensive-imperative-declarative',
   'interrogative': 'ostensive-imperative-declarative',
+  'ostensives': 'ostensive-imperative-declarative',
+  'imperatives': 'ostensive-imperative-declarative',
+  'declaratives': 'ostensive-imperative-declarative',
   'originary grammar': 'originary-grammar',
+  'grammar': 'originary-grammar',
+  'infralinguistic': 'originary-grammar',
+  'infralinguistics': 'originary-grammar',
+  'generative literacy': 'originary-grammar',
 
   // the-sacred
   'sacred': 'the-sacred',
   'sacrality': 'the-sacred',
+  'sacralities': 'the-sacred',
   'transcendence': 'the-sacred',
 
   // nomos / sovereignty
   'nomos': 'nomos',
+  'nomic': 'nomos',
   'sovereignty': 'sovereignty',
+  'sovereign': 'sovereignty',
 
   // succession
   'succession': 'succession',
+  'successor': 'succession',
+  'successors': 'succession',
   'singularized succession in perpetuity': 'succession',
 
   // the-juridical
   'juridical': 'the-juridical',
-  'disciplinary': 'the-juridical',
+
+  // disciplinarity
+  'disciplinary': 'disciplinarity',
+  'disciplinarity': 'disciplinarity',
+  'the discipline': 'disciplinarity',
+  'disciplines': 'disciplinarity',
 
   // debt-and-credit
   'debt to the center': 'debt-and-credit',
   'there is no economy but only the debt to the center': 'debt-and-credit',
+  'debt': 'debt-and-credit',
+  'debts': 'debt-and-credit',
   'credit': 'debt-and-credit',
+  'credits': 'debt-and-credit',
   'tributary': 'debt-and-credit',
   'tributarianism': 'debt-and-credit',
   'metonymy': 'debt-and-credit',
@@ -189,28 +222,50 @@ export const TERM_TO_CONCEPT_SLUG: Record<string, string> = {
   'expectant scene': 'scenic-design',
   'scene stacking': 'scenic-design',
 
+  // anthropomorphics
+  'anthropomorphics': 'anthropomorphics',
+  'metaperson': 'anthropomorphics',
+  'metapersons': 'anthropomorphics',
+
   // resentment-victimary
   'resentment': 'resentment-victimary',
+  'resentments': 'resentment-victimary',
   'victimary': 'resentment-victimary',
+  'anticenterism': 'resentment-victimary',
   'anti-centerism': 'resentment-victimary',
   'tokenization of resentment': 'resentment-victimary',
 
   // pointman-uninsurable
   'pointman': 'pointman-uninsurable',
+  'pointmen': 'pointman-uninsurable',
   'the pointman': 'pointman-uninsurable',
+  'uninsurable': 'pointman-uninsurable',
 
   // big-man
   'big man': 'big-man',
+  'big-man': 'big-man',
   'out-gifting': 'big-man',
   'rotating dictatorship': 'big-man',
 
   // mimesis
   'mimesis': 'mimesis',
   'mimetic': 'mimesis',
+  'mimeticism': 'mimesis',
+  'mimetically': 'mimesis',
   'mimetic crisis': 'mimesis',
+
+  // desire
+  'desire': 'desire',
+  'desires': 'desire',
+
+  // omnicentrism
+  'omnicentrism': 'omnicentrism',
+  'omnicentric': 'omnicentrism',
+  'omnicentrist': 'omnicentrism',
 
   // the-sign
   'sign': 'the-sign',
+  'signs': 'the-sign',
   'inscription': 'the-sign',
   'tokenization': 'the-sign',
   'sampling': 'the-sign',
@@ -219,12 +274,78 @@ export const TERM_TO_CONCEPT_SLUG: Record<string, string> = {
   'attentionality': 'attentionality',
   'attentional': 'attentionality',
 
+  // ritual
+  'ritual': 'ritual',
+  'rituals': 'ritual',
+
   // idiom
   'idiom': 'idiom',
+  'idioms': 'idiom',
   'idiomatic': 'idiom',
   'idiomatic intelligence': 'idiom',
-  'idiomclining': 'idiom',
   'transfer idiom': 'idiom',
+
+  // idiomclining
+  'idiomclining': 'idiomclining',
+  'idiomcline': 'idiomclining',
+
+  // katechon
+  'katechon': 'katechon',
+  'katechontic': 'katechon',
+
+  // scapegoating
+  'scapegoating': 'scapegoating',
+  'scapegoat': 'scapegoating',
+  'scapegoats': 'scapegoating',
+  'scapegoated': 'scapegoating',
+
+  // power
+  'power': 'power',
+  'powers': 'power',
+
+  // money
+  'money': 'money',
+
+  // media
+  'media': 'media',
+  'mediation': 'media',
+  'mediated': 'media',
+
+  // technology
+  'technology': 'technology',
+  'technologies': 'technology',
+  'technics': 'technology',
+
+  // event
+  'event': 'event',
+  'events': 'event',
+  'eventfulness': 'event',
+  'originary event': 'event',
+
+  // charisma
+  'charisma': 'charisma',
+  'charismatic': 'charisma',
+
+  // narrative
+  'narrative': 'narrative',
+  'narratives': 'narrative',
+
+  // capital
+  'capital': 'capital',
+
+  // firstness
+  'firstness': 'firstness',
+
+  // market
+  'market': 'market',
+  'markets': 'market',
+  'the market': 'market',
+
+  // justice
+  'justice': 'justice',
+
+  // liberalism
+  'liberalism': 'liberalism',
 };
 
 // Sorted by length descending so multi-word phrases match before their components
