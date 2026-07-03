@@ -2,9 +2,9 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Introduction to Center Study | Center Study Center',
+  title: 'Start Here — Center Study in 10 Minutes',
   description:
-    'Introduction to Center Study: a transdisciplinary discourse descended from Generative Anthropology and the originary hypothesis (Eric Gans) — the origin of language, the human, and the sacred; how it reads the social order from the center; what it diagnoses and prescribes — with links to the FAQ and the best posts to start with.',
+    'The quick on-ramp to Center Study: what it is in two paragraphs, four gateway texts, starter questions for the AI, and topic doors into a corpus of 1,900+ texts. For the full essay-length introduction, see /intro.',
 };
 
 // The handful of essays that make the best on-ramp.
@@ -48,7 +48,7 @@ export default function StartPage() {
   return (
     <main className="max-w-3xl w-full mx-auto px-4 pt-6 pb-24 sm:py-12">
       <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-gray-900 dark:text-white">
-        Introduction to Center Study
+        Start Here
       </h1>
       {/* Introduction — owner's practical/ambition framing (companies, prediction markets, currencies, civilization), hyperlinked */}
       <section className="mb-12">

@@ -44,6 +44,30 @@ const RESOURCES = [
     body: 'The full corpus as plain text or markdown — for offline reading, e-readers, or loading into an AI assistant.',
     cta: 'Download the corpus',
   },
+  {
+    href: '/generative-anthropology',
+    title: 'Generative Anthropology',
+    body: 'The parent discipline: Eric Gans, the originary hypothesis, and how Center Study extends it. The best single page to share with someone who knows Girard.',
+    cta: 'Read the overview',
+  },
+  {
+    href: '/lineage',
+    title: 'The Lineage',
+    body: 'Girard → Gans → Katz, told in their own words: how mimetic theory became generative anthropology became Center Study.',
+    cta: 'Trace the lineage',
+  },
+  {
+    href: '/lectures',
+    title: 'Lectures',
+    body: 'Five short introductory lectures, in order — the closest thing to a course. Each pairs a talk with the texts it draws on.',
+    cta: 'Start the lectures',
+  },
+  {
+    href: '/faq',
+    title: 'FAQ',
+    body: 'Direct answers to the questions newcomers actually ask — who writes this, how it relates to Girard, where to begin, and what the unusual terms mean.',
+    cta: 'Read the FAQ',
+  },
 ];
 
 export default function GuidePage() {
@@ -65,7 +89,7 @@ export default function GuidePage() {
         className="block rounded-2xl bg-gray-900 dark:bg-white p-6 mb-8 group transition-transform hover:-translate-y-0.5"
       >
         <p className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
-          Start here
+          Reading paths
         </p>
         <h2 className="text-xl font-bold text-white dark:text-gray-900 mb-2">
           Get a personal reading path

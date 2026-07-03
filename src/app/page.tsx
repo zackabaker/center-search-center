@@ -1,8 +1,10 @@
 import HomeSearch from '@/components/HomeSearch';
 import RandomPostButton from '@/components/RandomPostButton';
 import WelcomeBack from '@/components/WelcomeBack';
+import MostRead from '@/components/MostRead';
 import Link from 'next/link';
 import { getAllPosts, getPublicPosts } from '@/lib/parser';
+import { parsePostDate } from '@/lib/dates';
 import type { Metadata } from 'next';
 
 // Self-canonical so indexable ?ref=/?from= variants consolidate to the root.
@@ -109,6 +111,8 @@ const BROWSE_SOURCES = [
   { source: 'pdf',       label: 'Essays & Articles', description: 'Academic papers, journal articles, and lectures',          color: 'hover:border-green-400 dark:hover:border-green-600',   href: '/browse/pdf' },
   { source: 'book',      label: 'Book',              description: 'Anthropomorphics — systematic originary grammar',            color: 'hover:border-purple-400 dark:hover:border-purple-600', href: '/browse/book' },
   { source: 'threads',   label: 'Threads & Q&A',    description: 'Reddit dialogues and X threads — applied and conversational', color: 'hover:border-violet-400 dark:hover:border-violet-600', href: '/browse/threads' },
+  { source: 'chronicle', label: 'Chronicles of Love & Resentment', description: "Eric Gans's long-running column — GA worked out week by week since 1995", color: 'hover:border-amber-400 dark:hover:border-amber-600', href: '/browse/chronicle' },
+  { source: 'ap',        label: 'Anthropoetics',    description: 'The journal of Generative Anthropology — peer-reviewed essays since 1995', color: 'hover:border-teal-400 dark:hover:border-teal-600', href: '/browse/ap' },
 ];
 
 export default function Home() {
@@ -117,11 +121,8 @@ export default function Home() {
   const allPosts = getPublicPosts();
 
   const onThisDay = allPosts.filter((p) => {
-    if (!p.date) return false;
-    try {
-      const d = new Date(p.date);
-      return d.getMonth() === today.getMonth() && d.getDate() === today.getDate();
-    } catch { return false; }
+    const d = parsePostDate(p.date);
+    return !!d && d.getMonth() === today.getMonth() && d.getDate() === today.getDate();
   });
 
   // sameAs identity graph — consolidates Adam Katz / Dennis Bouvard across the web
@@ -196,13 +197,21 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <main className="min-h-screen bg-white dark:bg-gray-950">
 
       {/* Hero */}
       <header className="max-w-2xl mx-auto px-4 pt-16 pb-10 text-center">
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 dark:text-white mb-5 leading-tight">
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 dark:text-white mb-4 leading-tight">
           Center Study Center
         </h1>
+
+        {/* Plain-language orientation before the epigraph — a first-time
+            visitor should know what this is without decoding a paradox. */}
+        <p className="text-[15px] sm:text-base text-gray-500 dark:text-gray-400 leading-relaxed max-w-xl mx-auto mb-5">
+          The complete archive of <strong className="font-semibold text-gray-700 dark:text-gray-300">Center Study</strong> —
+          a way of reading every social order as an attempt to hold, occupy, or deny a center,
+          and the most developed branch of Eric Gans&rsquo;s Generative Anthropology.
+        </p>
 
         <blockquote
           className="mb-6 px-2 max-w-lg mx-auto"
@@ -332,12 +341,21 @@ export default function Home() {
       {/* Browse by source — desktop only */}
       <div className="hidden sm:block border-t border-gray-100 dark:border-gray-800">
         <div className="max-w-5xl mx-auto px-4 py-12">
-          <div className="flex items-baseline justify-between mb-6">
+          <div className="flex items-baseline justify-between mb-2">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white">Browse by source</h2>
-            <Link href="/author/katz" className="text-sm text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
-              Adam Katz →
-            </Link>
+            <div className="flex items-baseline gap-4">
+              <Link href="/author/katz" className="text-sm text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+                Adam Katz →
+              </Link>
+              <Link href="/author/gans" className="text-sm text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+                Eric Gans →
+              </Link>
+            </div>
           </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+            Written by Adam Katz — who publishes contemporary work under the pen name Dennis
+            Bouvard — alongside Eric Gans&rsquo;s Chronicles and the Anthropoetics journal.
+          </p>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {BROWSE_SOURCES.map(({ source, label, description, color, href }) => (
               <Link
@@ -352,6 +370,9 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* Most read — live view counts; renders nothing if KV is unavailable */}
+      <MostRead />
 
       {/* On this day */}
       {onThisDay.length > 0 && (
@@ -386,7 +407,7 @@ export default function Home() {
         </div>
       )}
 
-    </div>
+    </main>
     </>
   );
 }

@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     template: "%s | Center Study Center",
   },
   description:
-    "Complete searchable archive of Adam Katz and Dennis Bouvard's Center Study writings — 700+ texts on originary thinking, the center, deferral, sovereignty, and the human sciences.",
+    "Complete searchable archive of Adam Katz and Dennis Bouvard's Center Study writings — 1,900+ texts on originary thinking, the center, deferral, sovereignty, and the human sciences.",
   keywords: [
     "Adam Katz",
     "Dennis Bouvard",
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Center Study Center",
     description:
-      "Complete archive of Adam Katz / Dennis Bouvard's Center Study writings. 700+ texts, full-text search, AI Q&A.",
+      "Complete archive of Adam Katz / Dennis Bouvard's Center Study writings. 1,900+ texts, full-text search, AI Q&A.",
   },
   // Search Console + Bing Webmaster verification. Set the tokens as Vercel env
   // vars (GOOGLE_SITE_VERIFICATION, BING_SITE_VERIFICATION) — no code change needed.
@@ -111,8 +111,8 @@ export default function RootLayout({
         <div id="main-content" className="contents">
           {children}
         </div>
-        <footer className="hidden sm:block border-t border-gray-100 dark:border-gray-800 mt-auto print:hidden">
-          <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+        <footer className="block border-t border-gray-100 dark:border-gray-800 mt-auto print:hidden">
+          <div className="max-w-5xl mx-auto px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
             <a
               href="https://center.study"
               className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors font-medium flex-shrink-0"
@@ -120,12 +120,14 @@ export default function RootLayout({
               Center Study Center
             </a>
             <div className="flex items-center gap-4 flex-wrap">
-              <Link href="/intro"   className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Start</Link>
+              <Link href="/intro"   className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Introduction</Link>
               <Link href="/guide"   className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Guide</Link>
               <Link href="/browse"  className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Archive</Link>
               <Link href="/concepts?view=glossary" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Glossary</Link>
+              <Link href="/generative-anthropology" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Generative Anthropology</Link>
               <Link href="/faq"     className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">FAQ</Link>
               <Link href="/ask"     className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Ask AI</Link>
+              <Link href="/trending" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Trending</Link>
               <Link href="/download" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Download</Link>
               <Link href="/follow" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Follow</Link>
               <span className="text-gray-200 dark:text-gray-800">·</span>
