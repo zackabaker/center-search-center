@@ -28,7 +28,7 @@ const TIERS = [
   },
   {
     label: 'Practice and Institution',
-    slugs: ['scenic-design', 'technology', 'anthropomorphics', 'media', 'market', 'disciplinarity', 'justice', 'pointman-uninsurable', 'attentionality'],
+    slugs: ['center-study', 'anthropomorphics', 'scenic-design', 'technology', 'media', 'market', 'disciplinarity', 'justice', 'pointman-uninsurable', 'attentionality'],
   },
   {
     label: 'Pathology and Critique',

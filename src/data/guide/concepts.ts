@@ -456,14 +456,12 @@ The alternative — succession by committee, by popular vote, by competitive mar
 
   {
     slug: 'anthropomorphics',
-    title: 'Anthropomorphics / Metaperson',
+    title: 'Anthropomorphics',
     subtitle: 'The originary grammar of the center — the constituted subject as product of the scene',
-    definition: 'Anthropomorphics is the originary grammar of the center: the study of how persons are constituted through their participation in scenes centered on a sacred object. The metaperson is not an autonomous individual who then enters social relations but a subject constituted by those relations from the start — whose very selfhood is an effect of the scene.',
+    definition: 'Anthropomorphics is the originary grammar of the center: Katz\'s name for the human science that studies how persons are constituted through their participation in scenes centered on a sacred object. The name marks the artificiality of the human — we anthropomorphized ourselves, on the model of the center, before we could carry out that operation on anything else.',
     body: `The title *Anthropomorphics* does not mean the attribution of human characteristics to non-human things. It means the grammar of the human figure — the rules that determine how persons are generated, constituted, and sustained through their participation in scenes. This grammar is "originary" in the precise sense: it derives from the originary scene, which is the scene of human constitution itself.
 
 **The constituted subject.** The deepest challenge to modern anthropology is the challenge to the category of the individual. Liberal political theory — and most social theory — begins with the individual as a pre-given unit: persons with desires, interests, rights, and identities who then enter social relations. Center Study inverts this picture. The person is not prior to the scene but produced by it. The subject who says *this* on the originary scene is constituted by that very act of pointing — the mimetic pressure, the shared attention, the sacred binding. There is no subject before the scene; there is only the scene, and the subject is its product.
-
-**The metaperson.** The metaperson is the individual understood as a center in its own right — as someone who can be addressed by the center, who can embody the center's authority in a specific domain. The emergence of the metaperson is the emergence of individuality as a post-sacrificial possibility: the recognition that each person is potentially a center, potentially a locus of the sacred's authority, and therefore not to be sacrificed. This recognition is the specific moral contribution of the Christian revelation as Center Study reads it.
 
 **Pedagogy as fundamental.** Katz argues that pedagogy is "the most fundamental human relation." The constituted subject is always constituted through instruction — through the transmission of practices, concepts, and orientations from those who have them to those who do not. This means that the master-student relation is not incidental to human development but constitutive of it. Every scene of education is a scene of constitution: the student becomes capable of new orientations by orienting toward a teacher who models them.
 
@@ -2299,6 +2297,81 @@ The alternative — succession by committee, by popular vote, by competitive mar
       }
     ],
     "selfReference": "This page is itself an inquiry into who decides — assembling verbatim from Gans, Katz, and Bouvard the case that liberalism's defining work is to make that question unaskable."
+  },
+  {
+    "slug": "center-study",
+    "title": "Center Study",
+    "subtitle": "The juridical and transdisciplinary originary inquiry that gives this archive its name",
+    "definition": "Center study is the branch of Generative Anthropology developed by Adam Katz, writing as Dennis Bouvard, that makes the center itself — its occupancy, defense, maintenance, and succession — the primary object of inquiry. It works less as a doctrine than as a programming idiom: a small set of interlocking concepts designed to be made interoperable with any other discourse.",
+    "body": "Center study names a continuation of Generative Anthropology rather than a repudiation of it — Bouvard \"won't complain if anyone wants to continue calling what I'm doing 'GA'\" — while still marking a real divergence: \"a fork-off of the originary hypothesis away from GA, with the distinctive argument I've been making for the juridical as a provisional space between the ritual and disciplinary.\" The name relocates the emphasis from the origin of the human to the center that inquiry, and the archive compresses it into a single phrase: \"the juridical and transdisciplinary originary inquiry (center study).\"\n\nWhat binds the project is deliberately minimal: \"Center study is held together by a sufficiently small number of concepts,\" and \"creating new idioms involves using one of the concepts as a platform for the others — this is itself technological and a kind of stacking.\" At the base of the vocabulary sit the Natural Semantic Primes, which \"simply replace philosophy, providing the originary meaning of the words out of which all other meanings can be produced.\"\n\nIts mode of operation is idiomatic rather than doctrinal. It \"could be seen as a kind of metalanguage, converting all discourses into mimesis and deferral,\" but the preferred figure is \"less 'meta' than 'infra'\": a programming idiom whose self-cancelling constructions \"generate aligned idioms out of others\" instead of translating them into theory. And its inquiries hold a fixed discipline: \"to stay as close to boundary between diagnosis and prescription as possible on the longest timeline imaginable\" — always able to say what everyone is already doing, and how it might be done more explicitly and accountably.",
+    "relations": [
+      "the-center",
+      "idiom",
+      "deferral",
+      "the-juridical",
+      "anthropomorphics",
+      "originary-grammar"
+    ],
+    "posts": [
+      {
+        "slug": "infra-humaning",
+        "title": "Infra-Humaning",
+        "note": "Where the term is defined."
+      },
+      {
+        "slug": "idiom-and-the-differend",
+        "title": "Idiom and the differend",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "promise-fraud-the-options-on-the-imperative-messiah",
+        "title": "Promise, Fraud, the Options on the Imperative, Messiah",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "imperatives-for-idiom-creation",
+        "title": "Imperatives for Idiom Creation",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "hyperstitching-the-soliciting-of-the-center-and-the-prolonging-of-the-imperative",
+        "title": "Hyperstitching the Soliciting of the Center and the Prolonging of the Imperative",
+        "note": "Develops the concept."
+      },
+      {
+        "slug": "nomos-class-action",
+        "title": "Nomos/Class Action",
+        "note": "Develops the concept."
+      }
+    ],
+    "passages": [
+      {
+        "text": "Center study could be seen as a kind of metalanguage, converting all discourses into mimesis and deferral just psychoanalysis converts all discourse into desire and repression or historical materialism converts all discourse into base and superstructure.",
+        "source": "Idiom and the differend",
+        "sourceSlug": "idiom-and-the-differend"
+      },
+      {
+        "text": "Center study is held together by a sufficiently small number of concepts—along with the above, we have nomos and the juridical and surely a couple of others I’m forgetting now. Creating new idioms involves using one of the concepts as a platform for the others—this is itself technological and a kind of stacking.",
+        "source": "Promise, Fraud, the Options on the Imperative, Messiah",
+        "sourceSlug": "promise-fraud-the-options-on-the-imperative-messiah"
+      },
+      {
+        "text": "The previous paragraph serves as a reminder that the Natural Semantic Primes can never be far from our minds when designing idioms. For originary hypothesizing, or center study, they simply replace philosophy, providing the originary meaning of the words out of which all other meanings can be produced.",
+        "source": "Imperatives for Idiom Creation",
+        "sourceSlug": "imperatives-for-idiom-creation"
+      },
+      {
+        "text": "The goal of center study is to stay as close to boundary between diagnosis and prescription as possible on the longest timeline imaginable: to always be able to say, this is what everyone is already doing and here’s how they might, given certain shifts in visible trajectories, do it more explicitly and accountably.",
+        "source": "Hyperstitching the Soliciting of the Center and the Prolonging of the Imperative",
+        "sourceSlug": "hyperstitching-the-soliciting-of-the-center-and-the-prolonging-of-the-imperative"
+      },
+      {
+        "text": "It would vindicate center study as a fork-off of the originary hypothesis away from GA, with the distinctive argument I’ve been making for the juridical as a provisional space between the ritual and disciplinary.",
+        "source": "Nomos/Class Action",
+        "sourceSlug": "nomos-class-action"
+      }
+    ],
+    "selfReference": "This is the page where the archive says its own name: every other entry here is center study at work, and this one is center study turned back on the sign it converges on."
   }
 ];
 
