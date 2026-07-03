@@ -13,12 +13,15 @@ interface Props {
 }
 
 const SOURCE_LABELS: Record<string, string> = {
-  substack: 'Substack',
-  gablog: 'GABlog',
-  book: 'Book',
-  pdf: 'PDF',
-  reddit: 'Reddit',
-  twitter: 'X',
+  substack: 'the Substack',
+  gablog: 'the GABlog',
+  book: 'Anthropomorphics',
+  pdf: 'Essays & Articles',
+  reddit: 'the threads',
+  twitter: 'the threads',
+  chronicle: 'the Chronicles of Love & Resentment',
+  ap: 'the Anthropoetics Journal',
+  lecture: 'the Lecture Series',
 };
 
 export default function PostNavigation({ prev, next, source }: Props) {

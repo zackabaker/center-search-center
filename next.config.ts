@@ -3,9 +3,24 @@ import type { NextConfig } from "next";
 const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
-  { key: 'X-XSS-Protection', value: '1; mode=block' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+  { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+  // Report-only while we confirm nothing legitimate is blocked; the model CDN,
+  // Substack embed, and Vercel analytics are the known external dependencies.
+  {
+    key: 'Content-Security-Policy-Report-Only',
+    value: [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: https:",
+      "font-src 'self' data:",
+      "connect-src 'self' https: blob:",
+      "frame-src https://dennisbouvard.substack.com",
+      "worker-src 'self' blob:",
+    ].join('; '),
+  },
 ];
 
 const nextConfig: NextConfig = {
@@ -25,6 +40,22 @@ const nextConfig: NextConfig = {
       // The long vanity domain (thereisnoeconomybutonlythedebttothecenter.com)
       // can redirect here. Keeps the URL clean — no .html, no site chrome.
       { source: '/there-is-no-economy', destination: '/original/there-is-no-economy.html' },
+    ];
+  },
+
+  async redirects() {
+    return [
+      // www → apex as a permanent 308 (Vercel's domain-level redirect is a 307).
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.center.study' }],
+        destination: 'https://center.study/:path*',
+        permanent: true,
+      },
+      // Concept slugs renamed July 2026 (article dropped); both were briefly in
+      // the sitemap, so keep permanent redirects.
+      { source: '/guide/concepts/the-event', destination: '/guide/concepts/event', permanent: true },
+      { source: '/guide/concepts/the-market', destination: '/guide/concepts/market', permanent: true },
     ];
   },
 

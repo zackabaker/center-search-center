@@ -116,6 +116,14 @@ export default async function ReadingPathPage({ params }: { params: Promise<{ sl
         </div>
       </section>
 
+      {/* Conclusion — where the path leaves you, and where to go next */}
+      {path.conclusion && (
+        <div className="bg-gray-100 dark:bg-gray-800 border-l-4 border-gray-700 dark:border-gray-400 px-5 py-4 rounded-r-xl mb-10">
+          <p className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2">Where this leaves you</p>
+          <p className="text-gray-800 dark:text-gray-200 leading-relaxed">{path.conclusion}</p>
+        </div>
+      )}
+
       {/* Continue with */}
       {opensPaths.length > 0 && (
         <section className="mb-8">

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Guide — Center Study Center',
+  title: 'Guide',
   description:
     'How to use the Center Study Center: AI reading paths, the introduction, concepts and glossary, Ask AI, full-text search, and the complete archive.',
 };
