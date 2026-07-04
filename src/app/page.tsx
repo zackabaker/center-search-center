@@ -1,6 +1,5 @@
 import HomeSearch from '@/components/HomeSearch';
 import RandomPostButton from '@/components/RandomPostButton';
-import WelcomeBack from '@/components/WelcomeBack';
 import MostRead from '@/components/MostRead';
 import Link from 'next/link';
 import { getAllPosts, getPublicPosts } from '@/lib/parser';
@@ -201,17 +200,9 @@ export default function Home() {
 
       {/* Hero */}
       <header className="max-w-2xl mx-auto px-4 pt-16 pb-10 text-center">
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 dark:text-white mb-4 leading-tight">
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 dark:text-white mb-5 leading-tight">
           Center Study Center
         </h1>
-
-        {/* Plain-language orientation before the epigraph — a first-time
-            visitor should know what this is without decoding a paradox. */}
-        <p className="text-[15px] sm:text-base text-gray-500 dark:text-gray-400 leading-relaxed max-w-xl mx-auto mb-5">
-          The complete archive of <strong className="font-semibold text-gray-700 dark:text-gray-300">Center Study</strong> —
-          a way of reading every social order as an attempt to hold, occupy, or deny a center,
-          and the most developed branch of Eric Gans&rsquo;s Generative Anthropology.
-        </p>
 
         <blockquote
           className="mb-6 px-2 max-w-lg mx-auto"
@@ -253,9 +244,6 @@ export default function Home() {
           <RandomPostButton />
         </div>
       </header>
-
-      {/* Returning readers: continue path / saved texts (localStorage) */}
-      <WelcomeBack />
 
       {/* Discover — desktop position */}
       <div className="hidden sm:block max-w-xl mx-auto px-4 pb-10">
