@@ -45,16 +45,7 @@ export default function GlossaryClient({ entries }: Props) {
     <div className="max-w-3xl">
       <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mb-5">
         {entries.length} terms, each used repeatedly across the corpus, with usage
-        drawn directly from the texts. Term list adapted from{' '}
-        <a
-          href="https://theglossary.home.blog/generative-anthropology/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline hover:text-gray-800 dark:hover:text-gray-200"
-        >
-          The Glossary
-        </a>
-        , a community Generative Anthropology reference.
+        drawn directly from the texts.
       </p>
 
       {/* Filter */}

@@ -130,7 +130,7 @@ export default function IntroPage() {
           }}
         >
           <p>
-            Center Study is a transdisciplinary discourse descended from Generative Anthropology — the study of human society and culture in the light of the originary hypothesis, formulated by Eric Gans in <em>The Origin of Language</em> (1980). The originary hypothesis is of the origin of language, which is also the origin of the human and the sacred.
+            Center Study is a transdisciplinary discourse descended from Generative Anthropology — the study of human society and culture in the light of the originary hypothesis, formulated by Eric Gans in <em>The Origin of Language</em> (1981). The originary hypothesis is of the origin of language, which is also the origin of the human and the sacred.
           </p>
           <p>
             The hypothesis: a group of hominids is converging on a single central object. Mimetic desire has broken down the pecking order that limits violence in animal groups — everyone wants the same thing, and they are closing in on it together. At the moment of crisis, someone converts the grasping gesture into a pointing gesture. Appropriation becomes sign. This is the first word: iterable, addressed to all the others, referring to the shared object — symbolic rather than merely indexical. From this single scene, language, community, and the sacred emerge simultaneously. The object, deferred rather than consumed, becomes the first sacred thing. The group, constituted by shared attention, becomes the first human community.
@@ -217,7 +217,7 @@ export default function IntroPage() {
               </div>
               <div className="flex-1 pb-6 border-b border-gray-100 dark:border-gray-800">
                 <p className="font-semibold text-gray-900 dark:text-white">Generative Anthropology</p>
-                <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">Eric Gans · <em>The Origin of Language</em> (1980 / 2nd ed. 2019) · <em>Chronicles of Love and Resentment</em> (ongoing)</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">Eric Gans · <em>The Origin of Language</em> (1981 / 2nd ed. 2019) · <em>Chronicles of Love and Resentment</em> (ongoing)</p>
                 <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-3">
                   If humans are mimetic all the way down, can one set a limit to imitation? The originary hypothesis says yes: the gesture of grasping converts into a gesture of pointing. Aborted appropriation becomes the first sign. It is <em>symbolic</em> in Peirce&rsquo;s sense — iterable and referring — not merely <em>indexical</em>. In that single movement, language, the human, the sacred, and community are born together. Not sequentially. Together.
                 </p>
