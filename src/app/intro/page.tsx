@@ -101,10 +101,11 @@ export default function IntroPage() {
       <nav className="mb-12 flex flex-wrap gap-2 text-xs">
         {[
           ['#five-minute', 'Introduction'],
-          ['#lineage', 'Lineage'],
           ['#originary-scene', 'The originary scene'],
-          ['#how-to-read', 'How to read'],
-          ['#start-reading', 'Explore'],
+          ['#history', 'The center through history'],
+          ['#grammar', 'Originary grammar'],
+          ['#politics', 'Politics'],
+          ['#hard', 'What makes this hard'],
         ].map(([href, label]) => (
           <a
             key={href}
@@ -156,143 +157,11 @@ export default function IntroPage() {
         </div>
       </section>
 
-      {/* ── Intellectual Lineage ─────────────────────────────────────────── */}
+      {/* ── Lineage bridge — the full treatment lives at /lineage ────────── */}
       <section id="lineage" className="mb-16 scroll-mt-20">
-        <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-6">
-          Intellectual lineage
-        </h2>
-
-        <div className="relative">
-          <div className="absolute left-6 top-16 bottom-16 w-px bg-gray-200 dark:bg-gray-700 hidden sm:block" />
-
-          <div className="space-y-2">
-
-            {/* Girard */}
-            <div id="girard" className="flex gap-4 items-start scroll-mt-20">
-              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-amber-50 dark:bg-amber-900/30 border-2 border-amber-200 dark:border-amber-700 flex items-center justify-center text-amber-700 dark:text-amber-400 font-bold text-lg z-10">
-                G
-              </div>
-              <div className="flex-1 pb-6 border-b border-gray-100 dark:border-gray-800">
-                <p className="font-semibold text-gray-900 dark:text-white">René Girard</p>
-                <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">Mimetic Theory · <em>Violence and the Sacred</em> (1972)</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                  Humans are fundamentally imitative. Imitation generates rivalry; rivalry generates collective violence; violence is discharged onto a scapegoat whose expulsion restores peace. The scapegoat becomes sacred. Girard&rsquo;s founding violence generates religion, culture, and institutions — but it gives us a corpse where Center Study finds a sign.
-                </p>
-                <blockquote className="mt-3 mb-2 border-l-2 border-amber-200 dark:border-amber-800 pl-3 text-xs text-gray-500 dark:text-gray-400 italic leading-relaxed">
-                  &ldquo;You can test the seriousness of any social theory by the seriousness with which it takes mimesis. Mimesis is obviously a very ancient concept, prominent in Plato and Aristotle, but as far as I know until René Girard it was never pursued all the way down — it&rsquo;s one thing to say humans are mimetic beings, but it&rsquo;s another to say that mimesis makes the human.&rdquo;
-                  <cite className="not-italic block mt-1 text-gray-400 dark:text-gray-500">
-                    — Adam Katz, <Link href="/post/mimetic" className="text-blue-500 hover:underline">Lecture 2: Mimetic</Link>
-                  </cite>
-                </blockquote>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {['mimesis', 'scapegoat', 'sacrifice', 'violence'].map((t) => (
-                    <Link key={t} href={`/search?q=${encodeURIComponent(t)}`}
-                      className="px-2 py-0.5 text-[11px] rounded-full border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/30 transition-colors">
-                      {t}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Arrow */}
-            <div className="flex gap-4 items-center pl-2 sm:pl-0">
-              <div className="w-12 flex justify-center flex-shrink-0">
-                <div className="flex flex-col items-center gap-0.5">
-                  <div className="w-px h-3 bg-gray-300 dark:bg-gray-600" />
-                  <svg className="h-3 w-3 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 14l-5-5h10l-5 5z" />
-                  </svg>
-                </div>
-              </div>
-              <p className="text-xs text-gray-400 dark:text-gray-500 italic">
-                Gans accepts mimesis but relocates the founding moment — deferral, not murder; a sign, not a corpse
-              </p>
-            </div>
-
-            {/* Gans / GA */}
-            <div id="gans" className="flex gap-4 items-start scroll-mt-20">
-              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/30 border-2 border-blue-200 dark:border-blue-700 flex items-center justify-center text-blue-700 dark:text-blue-400 font-bold text-lg z-10">
-                GA
-              </div>
-              <div className="flex-1 pb-6 border-b border-gray-100 dark:border-gray-800">
-                <p className="font-semibold text-gray-900 dark:text-white">Generative Anthropology</p>
-                <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">Eric Gans · <em>The Origin of Language</em> (1981 / 2nd ed. 2019) · <em>Chronicles of Love and Resentment</em> (ongoing)</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-3">
-                  If humans are mimetic all the way down, can one set a limit to imitation? The originary hypothesis says yes: the gesture of grasping converts into a gesture of pointing. Aborted appropriation becomes the first sign. It is <em>symbolic</em> in Peirce&rsquo;s sense — iterable and referring — not merely <em>indexical</em>. In that single movement, language, the human, the sacred, and community are born together. Not sequentially. Together.
-                </p>
-                {/* Peirce inset */}
-                <div className="bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 rounded-lg px-4 py-3 mb-3 text-xs">
-                  <p className="font-semibold text-blue-800 dark:text-blue-300 mb-1">Peirce&rsquo;s distinction (why it matters)</p>
-                  <div className="flex gap-4">
-                    <div>
-                      <p className="font-medium text-blue-700 dark:text-blue-400">Indexical sign</p>
-                      <p className="text-blue-600/80 dark:text-blue-500">Points to something present (smoke → fire). Animal communication stays here.</p>
-                    </div>
-                    <div className="w-px bg-blue-200 dark:bg-blue-800" />
-                    <div>
-                      <p className="font-medium text-blue-700 dark:text-blue-400">Symbolic sign</p>
-                      <p className="text-blue-600/80 dark:text-blue-500">Iterable and referential. Can name the absent. Language begins here. Only humans have this.</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {['originary scene', 'deferral', 'the sacred', 'ostensive sign', 'aborted appropriation'].map((t) => (
-                    <Link key={t} href={`/search?q=${encodeURIComponent(t)}`}
-                      className="px-2 py-0.5 text-[11px] rounded-full border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors">
-                      {t}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Arrow */}
-            <div className="flex gap-4 items-center pl-2 sm:pl-0">
-              <div className="w-12 flex justify-center flex-shrink-0">
-                <div className="flex flex-col items-center gap-0.5">
-                  <div className="w-px h-3 bg-gray-300 dark:bg-gray-600" />
-                  <svg className="h-3 w-3 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 14l-5-5h10l-5 5z" />
-                  </svg>
-                </div>
-              </div>
-              <p className="text-xs text-gray-400 dark:text-gray-500 italic">
-                Center Study keeps the center always in view — rebuilding the human sciences around it
-              </p>
-            </div>
-
-            {/* Center Study */}
-            <div className="flex gap-4 items-start">
-              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gray-900 dark:bg-white border-2 border-gray-900 dark:border-white flex items-center justify-center text-white dark:text-gray-900 font-bold text-lg z-10">
-                CS
-              </div>
-              <div className="flex-1">
-                <p className="font-semibold text-gray-900 dark:text-white">Center Study</p>
-                <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">Adam Katz · GABlog (~480 posts) · as Dennis Bouvard on Substack (~130 essays) · <em>Anthropomorphics</em> (book)</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-2">
-                  Takes GA&rsquo;s originary hypothesis and keeps the center in view across all of human organization — from the first ritual scene through kingship, law, money, media, and code. Reads every social form as an effect of the engagement between periphery and center. Develops the vocabulary: <em>scenic design</em>, <em>anthropomorphics</em>, <em>attentionality</em>, <em>pointman</em>, <em>omnicentrism</em>, the full grammar of ostensive, imperative, and declarative forms.
-                </p>
-                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                  On GABlog, Katz develops the theory: originary grammar, succession, the metapersonal structure of institutions, the center through history. On Substack, as Dennis Bouvard, he applies Center Study to contemporary life — AI, money, governance, media, the algorithmic center. The diagnostic question is always the same: <em>who actually holds the center here, and on what terms?</em>
-                </p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {['the center', 'originary grammar', 'succession', 'scenic design', 'anthropomorphics'].map((t) => (
-                    <Link key={t} href={`/search?q=${encodeURIComponent(t)}`}
-                      className="px-2 py-0.5 text-[11px] rounded-full border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                      {t}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
         <Link
           href="/lineage"
-          className="mt-8 group flex items-center justify-between gap-4 p-4 rounded-xl border border-blue-100 dark:border-blue-900/40 hover:border-blue-400 dark:hover:border-blue-600 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
+          className="group flex items-center justify-between gap-4 p-4 rounded-xl border border-blue-100 dark:border-blue-900/40 hover:border-blue-400 dark:hover:border-blue-600 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
         >
           <div>
             <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">The lineage, in their own words</p>
@@ -376,7 +245,7 @@ export default function IntroPage() {
       </section>
 
       {/* ── The Center Through History ──────────────────────────────────── */}
-      <section className="mb-14">
+      <section id="history" className="mb-14 scroll-mt-20">
         <h2 className="text-xl font-semibold mb-2 border-b border-gray-200 dark:border-gray-700 pb-2 text-gray-900 dark:text-white">
           The Center Through History
         </h2>
@@ -423,7 +292,7 @@ export default function IntroPage() {
       </section>
 
       {/* ── Originary Grammar ───────────────────────────────────────────── */}
-      <section className="mb-14">
+      <section id="grammar" className="mb-14 scroll-mt-20">
         <h2 className="text-xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2 text-gray-900 dark:text-white">
           Originary Grammar
         </h2>
@@ -466,7 +335,7 @@ export default function IntroPage() {
       </section>
 
       {/* ── Politics from the Center ────────────────────────────────────── */}
-      <section className="mb-14">
+      <section id="politics" className="mb-14 scroll-mt-20">
         <h2 className="text-xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2 text-gray-900 dark:text-white">
           Politics from the Center
         </h2>
@@ -501,7 +370,7 @@ export default function IntroPage() {
       </section>
 
       {/* ── What makes this hard ────────────────────────────────────────── */}
-      <section className="mb-12">
+      <section id="hard" className="mb-12 scroll-mt-20">
         <h2 className="text-xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2 text-gray-900 dark:text-white">
           What makes this hard
         </h2>
@@ -537,61 +406,20 @@ export default function IntroPage() {
         </Link>
       </section>
 
-      {/* ── How to use this site ──────────────────────────────────────── */}
-      <section className="mb-12">
-        <h2 id="how-to-read" className="text-xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2 text-gray-900 dark:text-white scroll-mt-20">
-          How to read Center Study
-        </h2>
-        <div
-          className="space-y-4 text-gray-700 dark:text-gray-300"
-          style={{ fontFamily: 'var(--prose-font-family)', fontSize: 'var(--prose-font-size, 17px)', lineHeight: 'var(--prose-line-height, 1.85)' }}
-        >
-          <p>
-            Center Study is a living discourse, not a completed doctrine. It spans 25+ years of writing across three main venues: <strong className="text-gray-800 dark:text-gray-200">GABlog</strong> (theoretical development — originary grammar, succession, the center through history, the grammar of institutions); <strong className="text-gray-800 dark:text-gray-200">Substack</strong> as Dennis Bouvard (contemporary applications — AI, money, governance, politics, the algorithmic center); and the <strong className="text-gray-800 dark:text-gray-200"><em>Anthropomorphics</em> book</strong> (a systematic treatment of the metapersonal structure of culture).
-          </p>
-          <p>
-            Reading strategies differ. Some begin with concept definitions and follow the links; others start with a contemporary topic — AI, sovereignty, money — and read back into the theoretical foundations as needed. <em>Ask AI</em> synthesizes answers from across the full corpus and surfaces passages you would not find with keyword search. <em>Key Concepts</em> defines the vocabulary precisely. <em>Reading Paths</em> offer curated sequences for specific interests and fields.
-          </p>
-          <p>
-            The difficulty of Center Study is not obscurantism — it is that the hypothesis genuinely repels easy summary. The only way to understand it is to encounter it in the texts themselves.
-          </p>
-        </div>
-      </section>
-
-      {/* ── Start reading ───────────────────────────────────────────────── */}
-      <section>
-        <h2 id="start-reading" className="text-xl font-semibold mb-4 text-gray-900 dark:text-white scroll-mt-20">
-          Explore the archive
-        </h2>
-
-        <div className="grid gap-3 sm:grid-cols-2">
-          <Link href="/concepts" className="group block p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900">
-            <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Key Concepts</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Center, deferral, resentment, the sacred — defined with passages from the texts</p>
+      {/* ── Closing — where to go next (the on-ramp lives on /start) ─────── */}
+      <section className="border-t border-gray-200 dark:border-gray-800 pt-8">
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
+          That is the whole picture. The only way in from here is the texts themselves.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/post/the-discourse-of-the-center" className="px-4 py-2 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold hover:opacity-90 transition-opacity">
+            Read the first text →
           </Link>
-          <Link href="/ask" className="group block p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900">
-            <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Ask AI</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Ask any question — get synthesized answers grounded in the full corpus</p>
+          <Link href="/start" className="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
+            Start Here
           </Link>
-          <Link href="/browse/gablog" className="group block p-4 rounded-xl border border-blue-100 dark:border-blue-900/40 hover:border-blue-400 dark:hover:border-blue-600 hover:shadow-sm transition-all bg-white dark:bg-gray-900">
-            <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">GABlog — Katz</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">~480 posts developing originary grammar and Center Study theory</p>
-          </Link>
-          <Link href="/browse/substack" className="group block p-4 rounded-xl border border-orange-100 dark:border-orange-900/40 hover:border-orange-400 dark:hover:border-orange-600 hover:shadow-sm transition-all bg-white dark:bg-gray-900">
-            <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Substack — Bouvard</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">~130 essays on AI, governance, money, and contemporary politics</p>
-          </Link>
-          <Link href="/guide/reading-paths" className="group block p-4 rounded-xl border border-green-100 dark:border-green-900/40 hover:border-green-400 dark:hover:border-green-600 hover:shadow-sm transition-all bg-white dark:bg-gray-900">
-            <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Reading Paths</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Curated sequences for specific topics and interests</p>
-          </Link>
-          <Link href="/lectures" className="group block p-4 rounded-xl border border-amber-100 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-600 hover:shadow-sm transition-all bg-white dark:bg-gray-900">
-            <p className="font-semibold text-gray-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">Lecture Series</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Five introductory lectures: Origin → Mimetic → Deferral → Center → Sign</p>
-          </Link>
-          <Link href="/search" className="group block p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900">
-            <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Full-text search</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Search 1,900+ texts by keyword, phrase, or concept</p>
+          <Link href="/guide" className="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
+            How to use the site
           </Link>
         </div>
       </section>
