@@ -50,6 +50,7 @@ src/data/embeddings.f32.bin
 src/data/embeddings-meta.json
 
 # embedding model — downloaded at build from HF, not committed (too large for git)
-models/
+# models/ is committed: /api/embed needs the bge-small files at runtime
+# (matches how vectors/ ships for /api/semantic)
 src/data/concept-passages.json
 vectors/
