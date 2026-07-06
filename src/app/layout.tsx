@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Lora } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import MobileNav from "@/components/MobileNav";
+import CommandPalette from "@/components/CommandPalette";
 import SiteNav from "@/components/SiteNav";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -161,6 +162,7 @@ export default function RootLayout({
           </div>
         </footer>
         <MobileNav />
+        <CommandPalette />
         <Analytics />
       </body>
     </html>
