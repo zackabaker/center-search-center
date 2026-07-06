@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import OriginaryScene from '@/components/OriginaryScene';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -177,40 +178,8 @@ export default function IntroPage() {
           The Originary Scene
         </h2>
 
-        {/* Scene diagram */}
-        <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-5 mb-5">
-          <p className="text-xs font-mono uppercase tracking-widest text-gray-400 mb-4">The scene</p>
-          <div className="flex items-center justify-center gap-2 sm:gap-4 flex-wrap">
-            <div className="text-center">
-              <div className="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/40 border border-amber-300 dark:border-amber-700 flex items-center justify-center text-sm mb-1.5">👥</div>
-              <p className="text-[10px] text-gray-500">group converges</p>
-            </div>
-            <div className="flex flex-col items-center gap-0.5">
-              <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" /></svg>
-              <p className="text-[9px] text-gray-400 italic">mimetic crisis</p>
-            </div>
-            <div className="text-center">
-              <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/40 border-2 border-blue-400 dark:border-blue-600 flex items-center justify-center text-sm mb-1.5">✦</div>
-              <p className="text-[10px] text-gray-500">central object</p>
-            </div>
-            <div className="flex flex-col items-center gap-0.5">
-              <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" /></svg>
-              <p className="text-[9px] text-gray-400 italic">grasp → point</p>
-            </div>
-            <div className="text-center">
-              <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/40 border border-green-300 dark:border-green-700 flex items-center justify-center text-sm mb-1.5">☝️</div>
-              <p className="text-[10px] text-gray-500">first sign</p>
-            </div>
-            <div className="flex flex-col items-center gap-0.5">
-              <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" /></svg>
-              <p className="text-[9px] text-gray-400 italic">simultaneously</p>
-            </div>
-            <div className="text-center">
-              <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/40 border border-purple-300 dark:border-purple-700 flex items-center justify-center text-sm mb-1.5">🌐</div>
-              <p className="text-[10px] text-gray-500 text-center">language · sacred<br/>community · equality</p>
-            </div>
-          </div>
-        </div>
+        {/* Interactive scene — the hypothesis stepped through as one scene */}
+        <OriginaryScene />
 
         <div className="space-y-4 text-base leading-relaxed text-gray-800 dark:text-gray-200">
           <p>
