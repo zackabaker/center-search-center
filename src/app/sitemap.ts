@@ -1,6 +1,7 @@
 import { getPublicPosts } from '@/lib/parser';
 import { CONCEPTS } from '@/data/guide/concepts';
 import { READING_PATHS } from '@/data/guide/reading-paths';
+import ANSWERS from '@/data/answers.json';
 import { parsePostDate } from '@/lib/dates';
 import { MetadataRoute } from 'next';
 
@@ -18,6 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/lineage`,             changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/download`,            changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/ask`,                 changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE_URL}/answers`,             changeFrequency: 'weekly',  priority: 0.8 },
     { url: `${BASE_URL}/search`,              changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/trending`,            changeFrequency: 'daily',   priority: 0.6 },
     { url: `${BASE_URL}/guide`,               changeFrequency: 'monthly', priority: 0.8 },
@@ -43,6 +45,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${BASE_URL}/guide/concepts/${c.slug}`,
     changeFrequency: 'monthly',
     priority: 0.7,
+  }));
+
+  // Static, citable answer pages — the canonical questions (GEO surface).
+  const answerRoutes: MetadataRoute.Sitemap = Object.keys(ANSWERS).map((slug) => ({
+    url: `${BASE_URL}/ask/${slug}`,
+    changeFrequency: 'monthly',
+    priority: 0.8,
   }));
 
   const pathRoutes: MetadataRoute.Sitemap = READING_PATHS.map((p) => ({
@@ -72,5 +81,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: SOURCE_PRIORITY[p.source] ?? 0.6,
   }));
 
-  return [...staticRoutes, ...conceptRoutes, ...pathRoutes, ...postRoutes];
+  return [...staticRoutes, ...conceptRoutes, ...answerRoutes, ...pathRoutes, ...postRoutes];
 }
