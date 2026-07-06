@@ -1,5 +1,5 @@
 // CORS policy for the public API. The archive is built to be consumed by
-// other sites and AI agents:
+// AI agents and other sites:
 //   - READ endpoints (corpus, semantic search, embeddings) are open to any
 //     origin — they serve public text and are rate-limited per IP.
 //   - COST endpoints (/api/chat — each call bills an Anthropic request) are
@@ -10,8 +10,6 @@
 export const PARTNER_ORIGINS = new Set([
   'https://center.study',
   'https://www.center.study',
-  'https://katechon.design',
-  'https://www.katechon.design',
 ]);
 
 export function openCors(extra: Record<string, string> = {}): Record<string, string> {

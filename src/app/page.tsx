@@ -1,7 +1,6 @@
 import HomeSearch from '@/components/HomeSearch';
 import RandomPostButton from '@/components/RandomPostButton';
 import MostRead from '@/components/MostRead';
-import ContinueReading from '@/components/ContinueReading';
 import Link from 'next/link';
 import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import { parsePostDate } from '@/lib/dates';
@@ -246,8 +245,6 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Continue reading — renders nothing when there is nothing unfinished */}
-      <ContinueReading />
 
       {/* Discover — desktop position */}
       <div className="hidden sm:block max-w-xl mx-auto px-4 pb-10">
