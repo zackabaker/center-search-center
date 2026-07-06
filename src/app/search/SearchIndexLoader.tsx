@@ -11,16 +11,23 @@ import TopLoadingBar from '@/components/TopLoadingBar';
 
 export default function SearchIndexLoader() {
   const [data, setData] = useState<{ entries: SearchEntry[]; totalPosts: number } | null>(null);
+  const [full, setFull] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
+    // Two-stage: the lite index (titles only, a fraction of the payload) makes
+    // search interactive fast; the full-text index streams in and swaps in.
+    fetch('/api/search-index?scope=lite')
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((d) => { if (!cancelled) setData((cur) => cur ?? d); })
+      .catch(() => {});
     fetch('/api/search-index')
       .then((r) => {
         if (!r.ok) throw new Error('index fetch failed');
         return r.json();
       })
-      .then((d) => { if (!cancelled) setData(d); })
+      .then((d) => { if (!cancelled) { setData(d); setFull(true); } })
       .catch(() => { if (!cancelled) setError(true); });
     return () => { cancelled = true; };
   }, []);
@@ -86,5 +93,12 @@ export default function SearchIndexLoader() {
     );
   }
 
-  return <SearchPageClient entries={data.entries} totalPosts={data.totalPosts} />;
+  return (
+    <>
+      {!full && <TopLoadingBar label="Loading full-text index" />}
+      {/* No key: when the full index swaps in, the search effect (deps on
+          entries) re-runs the committed query in place — typed state survives. */}
+      <SearchPageClient entries={data.entries} totalPosts={data.totalPosts} liteOnly={!full} />
+    </>
+  );
 }

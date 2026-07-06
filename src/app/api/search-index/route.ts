@@ -25,7 +25,12 @@ export async function GET(request: Request) {
       return a.title.localeCompare(b.title);
     });
 
-  const entries = buildSearchEntries(posts);
+  let entries = buildSearchEntries(posts);
+  // scope=lite: title-searchable skeleton (~2% of the full payload) so the
+  // first search is instant; the client streams the full index behind it.
+  if (scope === 'lite') {
+    entries = entries.map((e) => ({ ...e, contentWords: [], snippetContent: '', excerpt: '' }));
+  }
 
   // The archive index covers 1,070 texts (855 Chronicles + 215 AP) and is
   // opt-in/secondary, so it's trimmed hard to keep the lazy download small
