@@ -1,6 +1,7 @@
 import HomeSearch from '@/components/HomeSearch';
 import RandomPostButton from '@/components/RandomPostButton';
 import MostRead from '@/components/MostRead';
+import ContinueReading from '@/components/ContinueReading';
 import Link from 'next/link';
 import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import { parsePostDate } from '@/lib/dates';
@@ -245,6 +246,9 @@ export default function Home() {
         </div>
       </header>
 
+      {/* Continue reading — renders nothing when there is nothing unfinished */}
+      <ContinueReading />
+
       {/* Discover — desktop position */}
       <div className="hidden sm:block max-w-xl mx-auto px-4 pb-10">
         <RandomPostButton />
@@ -358,6 +362,39 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* Recently added — the corpus is alive; newest three texts */}
+      {(() => {
+        const recent = allPosts
+          .map((p) => ({ p, d: parsePostDate(p.date) }))
+          .filter((x): x is { p: (typeof allPosts)[0]; d: Date } => x.d !== null)
+          .sort((a, b) => b.d.getTime() - a.d.getTime())
+          .slice(0, 3);
+        if (recent.length === 0) return null;
+        return (
+          <div className="border-t border-gray-100 dark:border-gray-800">
+            <div className="max-w-5xl mx-auto px-4 py-12">
+              <div className="flex items-baseline justify-between mb-6">
+                <div>
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white">Recently added</h2>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">New texts land here automatically as they are published</p>
+                </div>
+                <Link href="/new" className="text-sm text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors flex-shrink-0 ml-4">
+                  All new texts →
+                </Link>
+              </div>
+              <div className="space-y-2">
+                {recent.map(({ p, d }) => (
+                  <Link key={p.slug} href={`/post/${p.slug}`} className="group flex items-baseline gap-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-900/50 -mx-2 px-2 rounded-lg transition-colors">
+                    <span className="text-xs text-gray-400 w-20 shrink-0 font-mono">{d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                    <span className="text-sm text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">{p.title}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Most read — live view counts; renders nothing if KV is unavailable */}
       <MostRead />
