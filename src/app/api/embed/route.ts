@@ -1,4 +1,5 @@
-import { isSameOrigin, rateLimit, clientIp } from '@/lib/rate-limit';
+import { openCors, preflight } from '@/lib/cors';
+import {rateLimit, clientIp } from '@/lib/rate-limit';
 import { embedQuery } from '@/lib/embed';
 import { EMBED_DIM } from '@/lib/vecmath';
 
@@ -11,10 +12,11 @@ import { EMBED_DIM } from '@/lib/vecmath';
 
 export const maxDuration = 30; // first call in a cold lambda loads the model
 
+export function OPTIONS() {
+  return preflight(openCors());
+}
+
 export async function POST(request: Request) {
-  if (!isSameOrigin(request)) {
-    return Response.json({ error: 'Forbidden' }, { status: 403 });
-  }
   if (!rateLimit(`embed:${clientIp(request)}`, 30, 60_000).ok) {
     return Response.json({ error: 'Too many requests' }, { status: 429 });
   }
@@ -33,5 +35,5 @@ export async function POST(request: Request) {
   if (!vec || vec.length !== EMBED_DIM) {
     return Response.json({ error: 'Embedding unavailable' }, { status: 503 });
   }
-  return Response.json({ vector: Array.from(vec) });
+  return Response.json({ vector: Array.from(vec) }, { headers: openCors() });
 }

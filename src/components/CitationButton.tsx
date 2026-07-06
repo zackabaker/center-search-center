@@ -44,10 +44,10 @@ export default function CitationButton({ title, date, source, url, slug }: Citat
   const authorShort = source === 'substack' ? 'Bouvard, D.' : 'Katz, A.';
 
   const citations = {
-    Chicago: `${authorFull}. "${title}." ${publisher}, ${fullDate}. ${externalUrl}.`,
+    Chicago: `${authorFull}. "${title}." ${publisher}, ${fullDate}. In Center Study Corpus v1.0 (2026). ${siteUrl}.`,
     MLA: `${authorFull}. "${title}." ${publisher}, ${fullDate}, ${externalUrl}.`,
     APA: `${authorShort} (${year}). ${title}. ${publisher}. ${externalUrl}`,
-    BibTeX: `@misc{${authorFull.split(',')[0].toLowerCase()}${year}_${slug.replace(/^(gablog|substack|pdf|book|reddit|twitter)-/, '').slice(0, 20).replace(/-/g, '_')},\n  author       = {${authorFull}},\n  title        = {{${title}}},\n  year         = {${year}},\n  howpublished = {\\url{${externalUrl}}},\n  note         = {${publisher}}\n}`,
+    BibTeX: `@misc{${authorFull.split(',')[0].toLowerCase()}${year}_${slug.replace(/^(gablog|substack|pdf|book|reddit|twitter)-/, '').slice(0, 20).replace(/-/g, '_')},\n  author       = {${authorFull}},\n  title        = {{${title}}},\n  year         = {${year}},\n  howpublished = {\\url{${externalUrl}}},\n  note         = {${publisher}; Center Study Corpus v1.0, https://center.study}\n}`,
     Permalink: siteUrl,
   };
 
