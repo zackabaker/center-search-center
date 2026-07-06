@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import TermLink from '@/components/TermLink';
 import { CS_TERMS_SORTED, TERM_TO_CONCEPT_SLUG } from '@/lib/cs-terms';
 import { GLOSSARY_LINK_TERMS } from '@/data/guide/glossary-link-terms';
 
@@ -91,25 +92,27 @@ function linkifyText(
 
     if (conceptSlug) {
       nodes.push(
-        <Link
+        <TermLink
           key={`${paraIdx}-${start}`}
           href={`/guide/concepts/${conceptSlug}`}
+          defKey={`c:${conceptSlug}`}
           className={linkClass}
           title={`Concept: ${term}`}
         >
           {original}
-        </Link>
+        </TermLink>
       );
     } else if (glossaryAnchor) {
       nodes.push(
-        <Link
+        <TermLink
           key={`${paraIdx}-${start}`}
           href={`/concepts?view=glossary#${glossaryAnchor}`}
+          defKey={`g:${glossaryAnchor}`}
           className={linkClass}
           title={`Glossary: ${term}`}
         >
           {original}
-        </Link>
+        </TermLink>
       );
     } else {
       nodes.push(
