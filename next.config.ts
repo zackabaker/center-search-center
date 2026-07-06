@@ -32,9 +32,14 @@ const nextConfig: NextConfig = {
     // The corpus vectors (~50 MB) are bundled ONLY into the semantic-search
     // function — never into every route — so they can't bloat or break others.
     "/api/semantic": ["./vectors/**"],
-    // The embedding model (~33 MB; onnxruntime is traced via import) lives
-    // ONLY in /api/embed — /api/semantic calls it over HTTP for raw-text mode.
-    "/api/embed": ["./models/**"],
+    // The embedding model (~33 MB) lives ONLY in /api/embed — /api/semantic
+    // calls it over HTTP for raw-text mode. onnxruntime-node's native binding
+    // is resolved at runtime (tracing misses it), so include the linux builds
+    // explicitly.
+    "/api/embed": [
+      "./models/**",
+      "./node_modules/onnxruntime-node/bin/napi-v3/linux/**",
+    ],
   },
 
   async rewrites() {
