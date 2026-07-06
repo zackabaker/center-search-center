@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { getPublicPosts } from '@/lib/parser';
 import { parsePostDate } from '@/lib/dates';
-import SubscribeForm from '@/components/SubscribeForm';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -57,12 +56,6 @@ export default function NewPage() {
         The latest thirty texts, newest first.
       </p>
 
-      <div className="mb-12 p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
-        <p className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
-          Get new texts by email
-        </p>
-        <SubscribeForm />
-      </div>
 
       <div className="space-y-10">
         {groups.map(({ label, items }) => (

@@ -20,8 +20,6 @@ import { getPostTermFrequency, buildSearchEntries, getRelatedEntries } from '@/l
 import { relatedSlugs } from '@/lib/related';
 import { parsePostDate, postTime } from '@/lib/dates';
 import { MarkPostRead } from '@/components/MarkPostRead';
-import ReadingPosition from '@/components/ReadingPosition';
-import SubscribeForm from '@/components/SubscribeForm';
 import NextInPath from '@/components/NextInPath';
 import AiPathNext from '@/components/AiPathNext';
 import PostSearchContext, { BackButton } from '@/components/PostSearchContext';
@@ -538,9 +536,6 @@ export default async function PostPage({
                 {' · '}
                 <Link href="/lectures" className="hover:text-gray-700 dark:hover:text-gray-300">Lecture series</Link>
               </p>
-              <div className="mt-5">
-                <SubscribeForm compact />
-              </div>
             </div>
           </div>
 
@@ -599,7 +594,6 @@ export default async function PostPage({
 
         </div>
         <MarkPostRead slug={slug} />
-        <ReadingPosition slug={slug} title={post.title} />
       </main>
     </>
   );
