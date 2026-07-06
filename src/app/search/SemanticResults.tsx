@@ -40,23 +40,38 @@ export default function SemanticResults({ query, sources }: { query: string; sou
     const id = ++reqId.current;
     (async () => {
       try {
-        let vec: number[];
-        if (vecCache.current && vecCache.current.q === q) {
-          vec = vecCache.current.vec;
-          setStatus('searching');
-        } else {
+        // Server-first: /api/semantic embeds raw text server-side — no 30 MB
+        // model download. The client-side model is kept only as a fallback
+        // (e.g. embed function cold-failure), or reused if already loaded.
+        setStatus('searching');
+        let r = await fetch('/api/semantic', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(
+            vecCache.current && vecCache.current.q === q
+              ? { vector: vecCache.current.vec, sources }
+              : modelLoaded()
+              ? { vector: (vecCache.current = { q, vec: await embedQueryClient(q, () => {}) }).vec, sources }
+              : { q, sources }
+          ),
+        });
+        if (id !== reqId.current) return;
+
+        if (r.status === 503) {
+          // Server embedding unavailable — fall back to embedding in-browser.
           setStatus(modelLoaded() ? 'searching' : 'loading-model');
-          vec = await embedQueryClient(q, (p) => { if (id === reqId.current) setProgress(p); });
+          const vec = await embedQueryClient(q, (p) => { if (id === reqId.current) setProgress(p); });
           if (id !== reqId.current) return;
           vecCache.current = { q, vec };
           setStatus('searching');
+          r = await fetch('/api/semantic', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ vector: vec, sources }),
+          });
+          if (id !== reqId.current) return;
         }
-        const r = await fetch('/api/semantic', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ vector: vec, sources }),
-        });
-        if (id !== reqId.current) return;
+
         if (!r.ok) throw new Error('unavailable');
         const data = await r.json();
         if (id !== reqId.current) return;

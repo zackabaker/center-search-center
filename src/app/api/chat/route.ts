@@ -293,13 +293,42 @@ function scoreChunk(chunkText: string, queryTerms: string[], bigrams: string[]):
   return normalized;
 }
 
-function retrieveChunks(query: string, maxChunks = 25): ChunkWithMeta[] {
+// Semantic retrieval half of hybrid Ask: embed the question server-side (via
+// /api/semantic → /api/embed) and return the closest passages. Hard 4s budget —
+// a cold embed lambda must never hold the answer hostage; on any failure the
+// lexical path proceeds alone, exactly as before.
+async function semanticRetrieve(
+  query: string,
+  origin: string
+): Promise<{ slug: string; title: string; source: string; text: string; score: number }[]> {
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 4000);
+    const r = await fetch(`${origin}/api/semantic`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', origin },
+      body: JSON.stringify({ q: query, full: true, sources: ['substack', 'gablog', 'book', 'pdf', 'twitter'] }),
+      signal: ctrl.signal,
+    });
+    clearTimeout(timer);
+    if (!r.ok) return [];
+    const data = await r.json();
+    return Array.isArray(data.results) ? data.results : [];
+  } catch {
+    return [];
+  }
+}
+
+async function retrieveChunks(query: string, maxChunks = 25, origin?: string): Promise<ChunkWithMeta[]> {
   const posts = getCachedPosts();
 
   const queryTerms = extractQueryTerms(query);
   const bigrams = extractBigrams(query);
 
   if (queryTerms.length === 0) return [];
+
+  // Kick off semantic retrieval in parallel with the lexical scoring below.
+  const semanticPromise = origin ? semanticRetrieve(query, origin) : Promise.resolve([]);
 
   // Post-level scoring: title matches weighted higher, content matches count occurrences.
   // Substack gets a 1.5x multiplier to compensate for indirect, essayistic titles
@@ -401,6 +430,31 @@ function retrieveChunks(query: string, maxChunks = 25): ChunkWithMeta[] {
     }
   }
 
+  // Hybrid merge: fold in the semantic passages. Cosine (≈0.55–0.9) maps to
+  // 0.4 + cos·0.8 ≈ 0.85–1.1 — above the no-lexical-match baselines, below
+  // strong keyword hits, so meaning-matches surface without drowning exact
+  // matches. Questions phrased with zero keyword overlap now retrieve real
+  // passages instead of weak title-match fallbacks.
+  const semantic = await semanticPromise;
+  const seenSemantic = new Set<string>();
+  let added = 0;
+  for (const s of semantic) {
+    if (added >= 8) break;
+    const key = `${s.slug}:${s.text.slice(0, 60)}`;
+    if (seenSemantic.has(key)) continue;
+    seenSemantic.add(key);
+    // Skip if a lexical chunk already covers this exact passage
+    if (allChunks.some((c) => c.slug === s.slug && c.text.slice(0, 60) === s.text.slice(0, 60))) continue;
+    allChunks.push({
+      slug: s.slug,
+      title: s.title,
+      source: s.source as ChunkWithMeta['source'],
+      text: s.text,
+      score: 0.4 + s.score * 0.8,
+    } as ChunkWithMeta);
+    added++;
+  }
+
   // Source-diverse chunk selection: guarantee Substack representation
   const sortedChunks = allChunks.sort((a, b) => b.score - a.score);
   const chunksBySource: Record<string, ChunkWithMeta[]> = {};
@@ -488,7 +542,7 @@ export async function POST(request: Request) {
     }
 
     // Retrieve relevant chunks (synchronous, in-memory)
-    const chunks = retrieveChunks(message, 30);
+    const chunks = await retrieveChunks(message, 30, new URL(request.url).origin);
 
     // Build source metadata NOW (before starting the Claude API call)
     // so we can send it to the client immediately as the first stream event.
