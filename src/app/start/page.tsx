@@ -32,13 +32,12 @@ const INTERESTS = [
   { label: 'Resentment', q: 'resentment victimary' },
 ];
 
+// Deliberately three: the funnel's next steps. Concepts, Browse, and Reading
+// Paths live in the nav and on /guide — this grid is not a second site map.
 const MORE = [
   { href: '/intro', label: 'The full Introduction', desc: 'The long-form, in-depth read — the whole picture in one essay.' },
   { href: '/lineage', label: 'The lineage', desc: 'Girard → Gans → Katz, told in their own words.' },
   { href: '/lectures', label: 'Lecture series', desc: 'Five short introductory lectures, in order.' },
-  { href: '/guide/reading-paths', label: 'Reading paths', desc: 'Curated sequences for specific topics and fields.' },
-  { href: '/concepts', label: 'Concepts & Glossary', desc: 'The vocabulary, defined with passages from the texts.' },
-  { href: '/browse', label: 'Browse the archive', desc: 'All 1,900+ texts — blog, essays, the book, threads.' },
 ];
 
 const sectionLabel = 'text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3';
@@ -66,21 +65,6 @@ export default function StartPage() {
             representation (language).
           </p>
         </div>
-
-        {/* FAQ highlighted right under the introduction */}
-        <Link
-          href="/faq"
-          className="group mt-8 flex items-center justify-between gap-3 px-4 py-3.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
-        >
-          <span className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-            <span className="font-semibold text-gray-900 dark:text-white">New, or skeptical?</span> The
-            FAQ takes the common questions and objections head-on — is it falsifiable, how does it differ
-            from Girard and GA, and more.
-          </span>
-          <span className="text-xs font-medium text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex-shrink-0">
-            FAQ →
-          </span>
-        </Link>
       </section>
 
       {/* If you read one thing */}
@@ -162,9 +146,26 @@ export default function StartPage() {
         </div>
       </section>
 
+      {/* For the skeptical — after the reader has seen what to read and ask */}
+      <section className="mb-10">
+        <Link
+          href="/faq"
+          className="group flex items-center justify-between gap-3 px-4 py-3.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
+        >
+          <span className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+            <span className="font-semibold text-gray-900 dark:text-white">New, or skeptical?</span> The
+            FAQ takes the common questions and objections head-on — is it falsifiable, how does it differ
+            from Girard and GA, and more.
+          </span>
+          <span className="text-xs font-medium text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex-shrink-0">
+            FAQ →
+          </span>
+        </Link>
+      </section>
+
       {/* Everything else */}
       <section className="mb-12">
-        <p className={sectionLabel}>Everything else</p>
+        <p className={sectionLabel}>Go deeper</p>
         <div className="grid sm:grid-cols-2 gap-3">
           {MORE.map((m) => (
             <Link
