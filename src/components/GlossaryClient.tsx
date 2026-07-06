@@ -24,7 +24,7 @@ export default function GlossaryClient({ entries }: Props) {
     const q = query.trim().toLowerCase();
     if (!q) return entries;
     return entries.filter(
-      (e) => e.term.toLowerCase().includes(q) || e.gloss.toLowerCase().includes(q)
+      (e) => e.term.toLowerCase().includes(q) || e.definitionQuote.toLowerCase().includes(q)
     );
   }, [entries, query]);
 
@@ -104,12 +104,23 @@ export default function GlossaryClient({ entries }: Props) {
                       in {entry.posts} texts
                     </span>
                   </div>
-                  <p
-                    className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2.5 max-w-2xl"
-                    style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px' }}
-                  >
-                    {entry.gloss}
-                  </p>
+                  {/* Verbatim defining quote — the author's own words lead */}
+                  <blockquote className="border-l-2 border-gray-900 dark:border-gray-100 pl-3.5 mb-3 max-w-2xl">
+                    <p
+                      className="text-gray-800 dark:text-gray-200 leading-relaxed"
+                      style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px' }}
+                    >
+                      &ldquo;{entry.definitionQuote}&rdquo;
+                    </p>
+                    <footer className="mt-1">
+                      <Link
+                        href={`/post/${entry.definitionSlug}`}
+                        className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:underline transition-colors"
+                      >
+                        — {entry.definitionSource}
+                      </Link>
+                    </footer>
+                  </blockquote>
 
                   {/* Usage from the corpus */}
                   {entry.passages.length > 0 && (
