@@ -1,0 +1,42 @@
+name: Weekly corpus refresh
+
+# The Vercel build already ingests new Substack posts (prebuild runs
+# scripts/fetch-new-posts.ts against the RSS feed). This job just notices when
+# the feed has something the live site doesn't and pushes an EMPTY commit to
+# trigger a deploy — no files touched, so it can never conflict with local
+# ga_context.txt edits.
+
+on:
+  schedule:
+    - cron: '0 13 * * 1,4'   # Mon + Thu 13:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare Substack feed vs live site
+        id: check
+        run: |
+          feed_latest=$(curl -s https://dennisbouvard.substack.com/feed | grep -oE '<pubDate>[^<]+</pubDate>' | head -2 | tail -1 | sed 's/<[^>]*>//g')
+          site_latest=$(curl -s https://center.study/feed/substack | grep -oE '<pubDate>[^<]+</pubDate>' | head -2 | tail -1 | sed 's/<[^>]*>//g')
+          echo "feed:  $feed_latest"
+          echo "site:  $site_latest"
+          feed_ts=$(date -d "$feed_latest" +%s 2>/dev/null || echo 0)
+          site_ts=$(date -d "$site_latest" +%s 2>/dev/null || echo 0)
+          if [ "$feed_ts" -gt "$site_ts" ]; then
+            echo "new=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "new=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Trigger deploy via empty commit
+        if: steps.check.outputs.new == 'true'
+        run: |
+          git config user.name "corpus-refresh-bot"
+          git config user.email "actions@github.com"
+          git commit --allow-empty -m "chore: corpus refresh — new Substack post detected on the feed"
+          git push
