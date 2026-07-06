@@ -19,11 +19,34 @@ export async function POST(request: Request) {
 
   let vector: unknown;
   let sources: unknown;
+  let q: unknown;
+  let full: unknown;
   try {
-    ({ vector, sources } = await request.json());
+    ({ vector, sources, q, full } = await request.json());
   } catch {
     return Response.json({ error: 'Invalid JSON' }, { status: 400 });
   }
+
+  // Raw-text mode: embed server-side via the dedicated /api/embed function
+  // (model + onnxruntime live there, not here). Lets Meaning search work with
+  // zero client download and lets Ask retrieval go hybrid.
+  if (!vector && typeof q === 'string' && q.trim().length >= 2) {
+    try {
+      const origin = new URL(request.url).origin;
+      const r = await fetch(`${origin}/api/embed`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', origin },
+        body: JSON.stringify({ q: q.trim().slice(0, 500) }),
+      });
+      if (r.ok) ({ vector } = await r.json());
+    } catch {
+      // fall through to the 503 below
+    }
+    if (!vector) {
+      return Response.json({ error: 'Server-side embedding unavailable' }, { status: 503 });
+    }
+  }
+
   if (!Array.isArray(vector) || vector.length !== EMBED_DIM || !vector.every((x) => typeof x === 'number')) {
     return Response.json({ error: `vector must be ${EMBED_DIM} numbers` }, { status: 400 });
   }
@@ -48,8 +71,11 @@ export async function POST(request: Request) {
       slug: c.slug,
       title: c.title,
       source: c.source,
-      // Trim the matched passage to a readable snippet for the result card.
-      text: c.text.length > 360 ? c.text.slice(0, 360).replace(/\s+\S*$/, '') + '…' : c.text,
+      // Trim to a readable snippet for result cards; internal callers (Ask
+      // retrieval) pass full: true to get the whole passage for the prompt.
+      text: full === true || c.text.length <= 360
+        ? c.text
+        : c.text.slice(0, 360).replace(/\s+\S*$/, '') + '…',
       score: Math.round(c.score * 1000) / 1000,
     }));
 
