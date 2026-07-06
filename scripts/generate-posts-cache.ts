@@ -25,6 +25,62 @@ console.timeEnd('parse');
 // per-chapter dates, which broke chronology/JSON-LD for all 24 chapters.
 for (const p of posts) if (p.source === 'book' && !p.date) p.date = '2020';
 
+// ── Origin of Language chapter headings: structure the single-blob book ────────────────
+// The scraped text has a front-matter TOC blob and body chapters that start
+// mid-paragraph as "Chapter N. Title First sentence…". Promote chapter starts
+// to real markdown headings (PostContent renders them as h3s and the reading
+// ToC appears) and drop the redundant TOC blob.
+{
+  const ool = posts.find((p) => p.slug === 'the-origin-of-language');
+  if (ool && !ool.content.includes('\n## Chapter')) {
+    // Chapter titles from the TOC blob: "Chapter N: Title" pairs
+    const tocMatch = ool.content.match(/Foreword(?: Chapter \d+: [^]*?)+(?=\n\n|$)/);
+    const titles: Record<string, string> = {};
+    for (const m of ool.content.matchAll(/Chapter (\d+): ([A-Z][^]*?)(?= Chapter \d+:|\n|$)/g)) {
+      titles[m[1]] = m[2].trim();
+    }
+    let c = ool.content;
+    for (const [num, title] of Object.entries(titles)) {
+      const needle = `\n\nChapter ${num}. ${title} `;
+      const at = c.indexOf(needle);
+      if (at >= 0) {
+        c = c.slice(0, at) + `\n\n## Chapter ${num}. ${title}\n\n` + c.slice(at + needle.length);
+      }
+    }
+    // Drop the TOC blob paragraph (real ToC now generates from the headings)
+    if (tocMatch) c = c.replace(tocMatch[0], '').replace(/\n{3,}/g, '\n\n');
+    ool.content = c;
+  }
+}
+
+// ── Anthropoetics endnotes: unblob the "N. text (back)" note runs ─────────
+// 85 AP articles carry endnotes scraped as run-together paragraphs ending in
+// "(back)" artifacts. Split them into one note per paragraph (bold number),
+// strip the artifacts, and set a "## Notes" heading before the first note.
+for (const p of posts) {
+  if (p.source !== 'ap' || !p.content.includes('(back)')) continue;
+  const paras = p.content.split(/\n\n+/);
+  const out: string[] = [];
+  let headed = false;
+  for (const para of paras) {
+    if (!/\(back\)/.test(para)) { out.push(para); continue; }
+    // one or more notes run together, each ending with "(back)"
+    const segs = para.split(/\(back\)\s*/).map((s) => s.trim()).filter(Boolean);
+    // leading non-note text (rare) stays a normal paragraph
+    for (const seg of segs) {
+      const m = seg.match(/^(\d{1,2})\.\s+([^]*)$/);
+      if (m) {
+        if (!headed) { out.push('## Notes'); headed = true; }
+        out.push(`**${m[1]}.** ${m[2].trim()}`);
+      } else {
+        out.push(seg);
+      }
+    }
+  }
+  p.content = out.join('\n\n');
+}
+
+
 console.time('write');
 fs.writeFileSync(OUT, JSON.stringify(posts), 'utf-8');
 
