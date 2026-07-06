@@ -1,3 +1,4 @@
+import { openCors, preflight } from '@/lib/cors';
 import { getPostBySlug, getPublicPosts } from '@/lib/parser';
 
 // Single text in machine formats.
@@ -30,6 +31,10 @@ function authorFor(source: string, author?: string): string {
   return 'Adam Katz';
 }
 
+export function OPTIONS() {
+  return preflight(openCors());
+}
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ slug: string }> }
@@ -40,7 +45,7 @@ export async function GET(
   // Old source-prefixed slugs are 308-redirected to the canonical URL in proxy.ts
   // before reaching here. Only public posts are exposed.
   if (!post || !getPublicPosts().some((p) => p.slug === slug)) {
-    return Response.json({ error: 'Not found' }, { status: 404 });
+    return Response.json({ error: 'Not found' }, { status: 404, headers: openCors() });
   }
 
   const { searchParams } = new URL(request.url);

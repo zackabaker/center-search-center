@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { rateLimit, clientIp, isSameOrigin } from '@/lib/rate-limit';
+import { partnerCors, preflight } from '@/lib/cors';
 import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import { Post } from '@/lib/types';
 import { getConceptBySlug } from '@/data/guide/concepts';
@@ -498,12 +499,18 @@ ${chunk.text}`;
     .join('\n\n');
 }
 
+export function OPTIONS(request: Request) {
+  const cors = partnerCors(request);
+  return preflight(cors ?? {});
+}
+
 export async function POST(request: Request) {
   // ── Abuse guards: browser-origin + per-IP rate limit ──────────────────
   // This endpoint spends Anthropic credits per request. Headerless clients
   // (curl/scripts) are rejected; each IP gets a small per-minute budget.
-  if (!isSameOrigin(request)) {
-    return Response.json({ error: 'Forbidden' }, { status: 403 });
+  const cors = partnerCors(request);
+  if (cors === null && !isSameOrigin(request)) {
+    return Response.json({ error: 'Forbidden — this endpoint is limited to partner origins; see /developers' }, { status: 403 });
   }
   {
     const limited = rateLimit(`chat:${clientIp(request)}`, 10, 60_000);
@@ -628,6 +635,7 @@ export async function POST(request: Request) {
       headers: {
         'Content-Type': 'text/plain; charset=utf-8',
         'Transfer-Encoding': 'chunked',
+        ...(cors ?? {}),
       },
     });
   } catch (error) {

@@ -1,3 +1,4 @@
+import { openCors, preflight } from '@/lib/cors';
 import { getPublicPosts } from '@/lib/parser';
 
 // Machine-readable index of the full archive.
@@ -11,6 +12,10 @@ import { getPublicPosts } from '@/lib/parser';
 export const revalidate = 3600;
 
 const BASE = 'https://center.study';
+
+export function OPTIONS() {
+  return preflight(openCors());
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

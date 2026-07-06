@@ -1,4 +1,5 @@
-import { isSameOrigin } from '@/lib/rate-limit';
+import { openCors, preflight } from '@/lib/cors';
+import { rateLimit, clientIp } from '@/lib/rate-limit';
 import { semanticChunks, semanticAvailable } from '@/lib/semantic';
 import { EMBED_DIM } from '@/lib/vecmath';
 
@@ -9,10 +10,11 @@ import { EMBED_DIM } from '@/lib/vecmath';
 //
 // POST { vector: number[384] } → { results: [{slug,title,source,text,score}] }
 
+export function OPTIONS() {
+  return preflight(openCors());
+}
+
 export async function POST(request: Request) {
-  if (!isSameOrigin(request)) {
-    return Response.json({ error: 'Forbidden' }, { status: 403 });
-  }
   if (!semanticAvailable()) {
     return Response.json({ error: 'Semantic index unavailable' }, { status: 503 });
   }
@@ -79,5 +81,5 @@ export async function POST(request: Request) {
       score: Math.round(c.score * 1000) / 1000,
     }));
 
-  return Response.json({ results });
+  return Response.json({ results }, { headers: openCors() });
 }

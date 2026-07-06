@@ -21,6 +21,10 @@ console.time('parse');
 const posts = parseAllContent();
 console.timeEnd('parse');
 
+// Anthropomorphics carries its publication year: the source files have no
+// per-chapter dates, which broke chronology/JSON-LD for all 24 chapters.
+for (const p of posts) if (p.source === 'book' && !p.date) p.date = '2020';
+
 console.time('write');
 fs.writeFileSync(OUT, JSON.stringify(posts), 'utf-8');
 
