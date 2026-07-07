@@ -34,6 +34,45 @@ import SemanticResults from './SemanticResults';
 
 type FilterOption = 'all' | ContentSource;
 
+// Share the current results: the URL already carries ?q= (and ?mode=meaning),
+// so sharing is just surfacing the address — share sheet on mobile, copy-link
+// elsewhere.
+function ShareResults({ query }: { query: string }) {
+  const [copied, setCopied] = useState(false);
+  const share = async () => {
+    const url = window.location.href;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: `Center Study search: ${query}`, url });
+        return;
+      }
+    } catch { return; } // user dismissed the sheet
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {}
+  };
+  return (
+    <button
+      onClick={share}
+      title="Share a link to these results"
+      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-800 dark:hover:text-gray-200 transition-colors flex-shrink-0"
+    >
+      {copied ? (
+        <span className="text-green-600 dark:text-green-400">Link copied</span>
+      ) : (
+        <>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            <path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+          </svg>
+          Share results
+        </>
+      )}
+    </button>
+  );
+}
+
 const SOURCE_LABELS: Record<ContentSource, string> = {
   substack:  'Substack',
   gablog:    'GABlog',
@@ -641,7 +680,10 @@ export default function SearchPageClient({
       {mode === 'meaning' && (
         hasQuery ? (
           <>
-            <div className="mb-4">{sourceToggles}</div>
+            <div className="mb-4 flex items-center justify-between gap-3 flex-wrap">
+              {sourceToggles}
+              <ShareResults query={committed} />
+            </div>
             <SemanticResults query={committed} sources={allowedSources} />
           </>
         ) : (
@@ -685,16 +727,19 @@ export default function SearchPageClient({
                 )}
               </div>
               {hasResults && (
-                <select
-                  value={sort}
-                  onChange={(e) => { setSort(e.target.value as typeof sort); setPage(0); }}
-                  aria-label="Sort results"
-                  className="text-xs border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1.5 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 flex-shrink-0"
-                >
-                  <option value="relevance">Relevance</option>
-                  <option value="newest">Newest first</option>
-                  <option value="oldest">Oldest first</option>
-                </select>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <ShareResults query={committed} />
+                  <select
+                    value={sort}
+                    onChange={(e) => { setSort(e.target.value as typeof sort); setPage(0); }}
+                    aria-label="Sort results"
+                    className="text-xs border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1.5 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 flex-shrink-0"
+                  >
+                    <option value="relevance">Relevance</option>
+                    <option value="newest">Newest first</option>
+                    <option value="oldest">Oldest first</option>
+                  </select>
+                </div>
               )}
             </div>
             {visibleResults.length > 0 && (
