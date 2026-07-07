@@ -17,6 +17,41 @@ interface Props {
   entries: GlossaryEntry[];
 }
 
+// Share a specific term: native share sheet on mobile, copy-link elsewhere.
+function ShareTerm({ slug, term }: { slug: string; term: string }) {
+  const [copied, setCopied] = useState(false);
+  const url = `https://center.study/concepts?view=glossary#${slug}`;
+  const share = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: `${term} — Center Study`, url });
+        return;
+      }
+    } catch { return; } // user dismissed the sheet
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {}
+  };
+  return (
+    <button
+      onClick={share}
+      title={`Share “${term}”`}
+      aria-label={`Share the term ${term}`}
+      className="text-gray-300 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+    >
+      {copied ? (
+        <span className="text-[11px] text-green-600 dark:text-green-400">copied</span>
+      ) : (
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+          <path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+        </svg>
+      )}
+    </button>
+  );
+}
+
 export default function GlossaryClient({ entries }: Props) {
   const [query, setQuery] = useState('');
 
@@ -103,6 +138,7 @@ export default function GlossaryClient({ entries }: Props) {
                     <span className="text-[11px] text-gray-300 dark:text-gray-600 tabular-nums">
                       in {entry.posts} texts
                     </span>
+                    <ShareTerm slug={entry.slug} term={entry.term} />
                   </div>
                   {/* Verbatim defining quote — the author's own words lead */}
                   <blockquote className="border-l-2 border-gray-900 dark:border-gray-100 pl-3.5 mb-3 max-w-2xl">
