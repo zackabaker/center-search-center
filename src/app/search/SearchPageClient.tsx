@@ -236,11 +236,9 @@ function ResultOpen() {
 export default function SearchPageClient({
   entries,
   totalPosts,
-  liteOnly = false,
 }: {
   entries: SearchEntry[];
   totalPosts: number;
-  liteOnly?: boolean;
 }) {
   const searchParams = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -699,11 +697,6 @@ export default function SearchPageClient({
                 </select>
               )}
             </div>
-            {liteOnly && hasQuery && (
-              <p className="text-[11px] text-amber-600 dark:text-amber-400 mb-2">
-                Searching titles while the full-text index loads — results deepen in a moment.
-              </p>
-            )}
             {visibleResults.length > 0 && (
               <FilterTabs active={filter} onChange={handleFilterChange} counts={counts} />
             )}
