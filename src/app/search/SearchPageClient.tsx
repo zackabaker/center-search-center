@@ -569,9 +569,10 @@ export default function SearchPageClient({
       {archiveLoading && <TopLoadingBar label="Loading Chronicles & AP" />}
       {/* Search input */}
       <div className="mb-6">
-        {/* Mode toggle — mirrors the home page so you can flip the current query
-            to AI without hunting for the home screen (esp. on mobile). */}
-        <div className="flex items-center justify-center mb-4">
+        {/* Mode toggle — sticky below the nav so Keyword/Meaning/Ask stay one
+            tap away even deep in results. Solid background: fixed/sticky +
+            backdrop-filter lags on mobile momentum scroll. */}
+        <div className="sticky top-12 z-20 flex items-center justify-center mb-4 py-2 -mx-4 px-4 bg-white dark:bg-gray-950">
           <div className="flex items-center gap-0.5 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
             <button
               onClick={() => setMode('keyword')}
