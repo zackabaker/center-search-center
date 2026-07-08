@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'Complete searchable archive of Adam Katz & Dennis Bouvard — originary thinking, the center, deferral, sovereignty.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#ffffff',
-    theme_color: '#0f172a',
+    background_color: '#fbfaf7',
+    theme_color: '#fbfaf7',
     icons: [
       {
         src: '/favicon.ico',

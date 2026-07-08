@@ -242,8 +242,8 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
         } else {
           const mark = document.createElement('mark');
           mark.textContent = part.match;
-          // Subtle inline highlight — no paragraph-level background
-          mark.style.cssText = 'background:rgba(251,191,36,0.35);color:inherit;border-radius:2px;padding:0 2px;';
+          // Subtle inline highlight — neutral (amber is reserved for the verbatim center)
+          mark.style.cssText = 'background:rgba(120,113,108,0.30);color:inherit;border-radius:2px;padding:0 2px;';
           allMarks.push(mark);
           fragment.appendChild(mark);
         }
