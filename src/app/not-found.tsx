@@ -1,5 +1,6 @@
-import { getAllPosts, getPublicPosts } from '@/lib/parser';
+import { getPublicPosts } from '@/lib/parser';
 import Link from 'next/link';
+import SceneMark from '@/components/SceneMark';
 
 const SOURCE_COLORS: Record<string, string> = {
   substack:  'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300',
@@ -26,14 +27,9 @@ export default function NotFound() {
   return (
     <main className="min-h-[80vh] flex flex-col items-center justify-center px-4 py-16">
 
-      {/* Concentric-circles logo */}
-      <div className="mb-8 opacity-30">
-        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="32" cy="32" r="30" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 4" className="text-gray-900 dark:text-white" />
-          <circle cx="32" cy="32" r="20" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 4" className="text-gray-900 dark:text-white" />
-          <circle cx="32" cy="32" r="10" stroke="currentColor" strokeWidth="1.5" className="text-gray-900 dark:text-white" />
-          <circle cx="32" cy="32" r="2.5" fill="currentColor" className="text-gray-900 dark:text-white" />
-        </svg>
+      {/* Scene glyph — the site mark, gently circulating */}
+      <div className="mb-8">
+        <SceneMark size={64} spin speed={1} className="text-gray-300 dark:text-gray-600" />
       </div>
 
       {/* Copy */}
