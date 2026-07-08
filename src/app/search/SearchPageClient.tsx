@@ -29,7 +29,7 @@ const SUGGESTION_POOL: string[] = (() => {
   }
   return out;
 })();
-import AnimatedSearchIcon from '@/components/AnimatedSearchIcon';
+import SceneMark from '@/components/SceneMark';
 import SemanticResults from './SemanticResults';
 
 type FilterOption = 'all' | ContentSource;
@@ -604,7 +604,7 @@ export default function SearchPageClient({
             className="ml-3 flex-shrink-0"
             style={{ viewTransitionName: 'center-icon' } as React.CSSProperties}
           >
-            <AnimatedSearchIcon size={24} speed={iconSpeed} />
+            <SceneMark size={24} spin speed={iconSpeed} className="text-gray-400 dark:text-gray-500" />
           </div>
           <input
             ref={inputRef}
@@ -912,7 +912,7 @@ export default function SearchPageClient({
       {mode === 'keyword' && !hasQuery && (
         <div className="text-center py-8 text-gray-400">
           <div className="flex justify-center mb-6">
-            <AnimatedSearchIcon size={88} speed={1} />
+            <SceneMark size={88} spin speed={1} className="text-gray-300 dark:text-gray-600" />
           </div>
           <p className="text-sm mb-1 text-gray-500 dark:text-gray-400">
             Search across {totalPosts} posts

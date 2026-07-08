@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { CS_TERMS_SORTED, extractFollowUps } from '@/lib/cs-terms';
 import { logSearch } from '@/lib/log-search';
-import AnimatedSearchIcon from '@/components/AnimatedSearchIcon';
+import SceneMark from '@/components/SceneMark';
 
 interface Source {
   slug: string;
@@ -738,7 +738,7 @@ export default function AskClient() {
                 ) : (
                   /* Animated circles while streaming */
                   <div className="flex flex-col items-center py-8 gap-3">
-                    <AnimatedSearchIcon size={64} speed={4} />
+                    <SceneMark size={64} spin speed={4} className="text-gray-400 dark:text-gray-500" />
                     <p className="text-xs text-gray-400 dark:text-gray-600 font-mono tracking-wide">
                       reading the texts…
                     </p>

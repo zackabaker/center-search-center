@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import AnimatedSearchIcon from '@/components/AnimatedSearchIcon';
+import SceneMark from '@/components/SceneMark';
 
 type Mode = 'search' | 'ask';
 
@@ -95,7 +95,7 @@ export default function HomeSearch() {
         className="mx-auto mb-6 hidden sm:flex justify-center"
         style={{ viewTransitionName: 'center-icon' } as React.CSSProperties}
       >
-        <AnimatedSearchIcon size={80} speed={iconSpeed} />
+        <SceneMark size={80} spin speed={iconSpeed} className="text-gray-400 dark:text-gray-500" />
       </div>
       {/* Small top margin on mobile so the search sits comfortably below the CTA */}
       <div className="h-2 sm:hidden" />
