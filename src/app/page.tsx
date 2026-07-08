@@ -200,10 +200,11 @@ export default function Home() {
 
       {/* Hero */}
       <header className="max-w-2xl mx-auto px-4 pt-16 pb-10 text-center">
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 dark:text-white mb-5 leading-tight">
+        <h1 className="font-serif text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-5 leading-tight">
           Center Study Center
         </h1>
 
+        <div className="w-10 border-t-2 border-amber-600 dark:border-amber-500 mx-auto mb-5" aria-hidden />
         <blockquote
           className="mb-6 px-2 max-w-lg mx-auto"
           style={{ fontFamily: 'var(--font-lora, Georgia, serif)' }}

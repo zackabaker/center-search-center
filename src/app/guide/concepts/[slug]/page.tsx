@@ -105,7 +105,7 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
         <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-4 mb-1">
           Concept
         </p>
-        <h1 className="text-2xl sm:text-3xl font-bold leading-tight mb-2 text-gray-900 dark:text-white">
+        <h1 className="font-serif text-3xl sm:text-4xl font-bold leading-tight mb-2 text-gray-900 dark:text-white">
           {concept.title}
         </h1>
         <p className="text-gray-500 dark:text-gray-400 text-sm italic mb-4">{concept.subtitle}</p>
@@ -137,7 +137,7 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
       {(g?.definitionQuote || concept.definition) && (
         <section className="mb-10">
           {g?.definitionQuote ? (
-            <blockquote className="border-l-2 border-gray-900 dark:border-gray-100 pl-5" style={{ fontFamily: 'var(--prose-font-family)' }}>
+            <blockquote className="border-l-2 border-amber-600 dark:border-amber-500 pl-5" style={{ fontFamily: 'var(--prose-font-family)' }}>
               <p className="text-gray-900 dark:text-gray-100 text-lg sm:text-xl leading-relaxed">
                 &ldquo;{g.definitionQuote}&rdquo;
               </p>
@@ -190,12 +190,12 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
 
       {/* AI overview — clearly labelled, secondary to the archive quotes above */}
       {concept.body && (
-        <section className="mb-10 rounded-xl border border-amber-100 dark:border-amber-900/40 bg-amber-50 dark:bg-amber-950/20 px-5 py-4">
+        <section className="mb-10 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/40 px-5 py-4">
           <div className="flex items-center gap-2 mb-3">
-            <h2 className="text-xs font-mono text-amber-700 dark:text-amber-500 uppercase tracking-widest">
+            <h2 className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase tracking-widest">
               AI Overview
             </h2>
-            <span className="text-[10px] text-amber-600/70 dark:text-amber-600/50 italic">
+            <span className="text-[10px] text-gray-400 dark:text-gray-500 italic">
               — AI-generated synthesis. The archive passages above are the primary source.
             </span>
           </div>

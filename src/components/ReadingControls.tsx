@@ -104,7 +104,7 @@ export default function ReadingControls() {
         aria-label={`Reading mode: ${MODE_LABELS[readingMode]}. Cycle reading mode`}
         className={`flex items-center gap-1 px-2 py-1 rounded text-xs transition-colors ${
           readingMode !== 'normal'
-            ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300'
+            ? 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
             : 'hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300'
         }`}
       >

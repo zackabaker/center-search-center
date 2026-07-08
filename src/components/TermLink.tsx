@@ -133,7 +133,7 @@ export default function TermLink({
               {def.t}
             </p>
             <p
-              className="text-sm text-gray-800 dark:text-gray-200 leading-relaxed mb-2"
+              className="text-sm text-gray-800 dark:text-gray-200 leading-relaxed mb-2 border-l-2 border-amber-600 dark:border-amber-500 pl-3"
               style={{
                 fontFamily: 'var(--prose-font-family)',
                 display: '-webkit-box',

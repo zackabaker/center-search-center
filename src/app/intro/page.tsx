@@ -343,9 +343,9 @@ export default function IntroPage() {
         <h2 className="text-xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2 text-gray-900 dark:text-white">
           What makes this hard
         </h2>
-        <div className="rounded-xl border border-amber-200 dark:border-amber-900/40 bg-amber-50 dark:bg-amber-950/20 p-5 mb-4">
-          <p className="text-sm text-amber-900 dark:text-amber-200 font-medium mb-1.5">The hypothesis repels the download it demands</p>
-          <p className="text-sm text-amber-800 dark:text-amber-300 leading-relaxed">
+        <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/40 p-5 mb-4">
+          <p className="text-sm text-gray-900 dark:text-gray-100 font-medium mb-1.5">The hypothesis repels the download it demands</p>
+          <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
             &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it.&rdquo; This is not a warning about difficulty in the usual sense — it is a structural feature of the discourse. You cannot understand Center Study from the outside; you can only begin from within a particular text, and extend from there.
           </p>
         </div>

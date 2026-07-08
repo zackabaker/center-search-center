@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import DarkModeToggle from '@/components/DarkModeToggle';
+import SceneMark from '@/components/SceneMark';
 
 const NAV_LINKS = [
   { href: '/start',    label: 'Start' },
@@ -24,8 +25,9 @@ export default function SiteNav() {
       <div className="max-w-5xl mx-auto px-4 h-12 flex items-center justify-between">
         <Link
           href="/"
-          className="text-sm font-semibold text-gray-900 dark:text-white tracking-tight hover:opacity-70 transition-opacity flex-shrink-0"
+          className="text-sm font-semibold text-gray-900 dark:text-white tracking-tight hover:opacity-70 transition-opacity flex-shrink-0 flex items-center gap-2"
         >
+          <SceneMark size={15} className="text-gray-400 dark:text-gray-500 flex-shrink-0" />
           Center Study Center
         </Link>
 

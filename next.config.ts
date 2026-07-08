@@ -28,7 +28,10 @@ const nextConfig: NextConfig = {
   // posts-cache.json is created by the prebuild script and must be
   // available at runtime; ga_context.txt is the fallback source.
   outputFileTracingIncludes: {
-    "/**": ["./src/data/**"],
+    // OG-card routes readFile() the Lora/Geist-Mono TTFs at runtime; that path
+    // is dynamic so tracing misses it — include the font dir on every route
+    // that renders an opengraph-image (root, post, concept).
+    "/**": ["./src/data/**", "./src/assets/fonts/**"],
     // The corpus vectors (~50 MB) are bundled ONLY into the semantic-search
     // function — never into every route — so they can't bloat or break others.
     "/api/semantic": ["./vectors/**"],
@@ -64,6 +67,8 @@ const nextConfig: NextConfig = {
       // the sitemap, so keep permanent redirects.
       { source: '/guide/concepts/the-event', destination: '/guide/concepts/event', permanent: true },
       { source: '/guide/concepts/the-market', destination: '/guide/concepts/market', permanent: true },
+      // /follow page removed July 2026 — its two links live in the site footer.
+      { source: '/follow', destination: '/about', permanent: true },
     ];
   },
 

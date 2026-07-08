@@ -51,7 +51,10 @@ export default function AboutPage() {
         ingest from the author&rsquo;s feed; the Chronicles and <em>Anthropoetics</em> articles come
         from their published editions; book chapters from <em>Anthropomorphics</em> (Imperium Press,
         2020). Each text page links its original venue where one still exists. Corrections are
-        welcome — use the <Link href="/follow" className="text-blue-600 dark:text-blue-400 hover:underline">contact channels</Link>.
+        welcome — write via{' '}
+        <a href="https://x.com/centerstudy_" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">X</a>{' '}
+        or{' '}
+        <a href="https://dennisbouvard.substack.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">Substack</a>.
       </p>
 
       <h2 className={H}>Versioning &amp; citation</h2>

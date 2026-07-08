@@ -121,7 +121,7 @@ function renderAnswer(md: string): React.ReactNode[] {
     if (b.startsWith('> ')) {
       const quote = b.split('\n').map((l) => l.replace(/^>\s?/, '')).join(' ');
       return (
-        <blockquote key={i} className="border-l-2 border-gray-300 dark:border-gray-600 pl-4 my-5">
+        <blockquote key={i} className="border-l-2 border-amber-600 dark:border-amber-500 pl-4 my-5">
           <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{inline(quote, `q${i}`)}</p>
         </blockquote>
       );

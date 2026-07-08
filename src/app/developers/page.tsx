@@ -54,7 +54,8 @@ curl -X POST https://center.study/api/embed \\
         POST <code className="text-sm">{`{ message }`}</code> to <code className="text-sm">/api/chat</code> for a streamed,
         verbatim-cited answer (ndjson: first line <code className="text-sm">{`{sources}`}</code>, then{' '}
         <code className="text-sm">{`{text}`}</code> deltas). Each call bills a model request, so browser use is limited
-        to first-party origins; server-to-server calls are rate-limited. Want your origin allowlisted? Ask via <Link href="/follow" className="text-blue-600 dark:text-blue-400 hover:underline">the contact channels</Link>.
+        to first-party origins; server-to-server calls are rate-limited. Want your origin allowlisted? Ask via{' '}
+        <a href="https://x.com/centerstudy_" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">@centerstudy_ on X</a>.
         Twenty canonical questions are pre-answered as static pages under{' '}
         <Link href="/answers" className="text-blue-600 dark:text-blue-400 hover:underline">/answers</Link>.
       </p>
