@@ -152,7 +152,7 @@ export async function renderOgCard(opts: OgCardOptions) {
               fontFamily: 'Geist Mono',
               fontSize: '19px',
               fontWeight: 500,
-              color: meta ? INK_SOFT : INK_FAINT,
+              color: INK_SOFT,
               letterSpacing: '0.02em',
             }}
           >
