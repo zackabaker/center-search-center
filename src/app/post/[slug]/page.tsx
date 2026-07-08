@@ -23,6 +23,7 @@ import { MarkPostRead } from '@/components/MarkPostRead';
 import NextInPath from '@/components/NextInPath';
 import AiPathNext from '@/components/AiPathNext';
 import PostSearchContext, { BackButton } from '@/components/PostSearchContext';
+import SceneMark from '@/components/SceneMark';
 import QuoteShare from '@/components/QuoteShare';
 
 // Maps a byline name to its on-site author page. Names not listed render as
@@ -381,7 +382,9 @@ export default async function PostPage({
                     <p className="text-xs text-gray-400 dark:text-gray-500 mb-6">
                       {readingTime} min read · {wordCount.toLocaleString()} words
                     </p>
-                    <div className="border-t border-gray-200 dark:border-gray-700 w-16 mx-auto mb-7" />
+                    <div className="flex justify-center mb-7">
+                      <SceneMark size={14} className="text-gray-300 dark:text-gray-600" />
+                    </div>
                   </>
                 ) : (
                   <>
@@ -395,8 +398,7 @@ export default async function PostPage({
                     </div>
 
                     <h1
-                      className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight mb-4"
-                      style={{ letterSpacing: '-0.02em' }}
+                      className="font-serif text-3xl sm:text-4xl lg:text-[2.75rem] font-bold leading-tight mb-4"
                     >
                       {post.title}
                     </h1>
@@ -432,6 +434,14 @@ export default async function PostPage({
                     </a>
                   )}
                 </div>
+
+                {/* Site mark closes the title block in the standard layout */}
+                {!reader && (
+                  <div className="flex items-center gap-3 mt-7">
+                    <SceneMark size={13} className="text-gray-300 dark:text-gray-600 flex-shrink-0" />
+                    <div className="flex-1 border-t border-gray-100 dark:border-gray-800" />
+                  </div>
+                )}
               </header>
 
               {/* Table of contents — hidden on desktop (shown in sidebar instead) */}
@@ -532,7 +542,7 @@ export default async function PostPage({
                 </p>
               )}
               <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">
-                <Link href="/follow" className="hover:text-gray-700 dark:hover:text-gray-300">Follow center.study</Link>
+                <a href="https://x.com/centerstudy_" target="_blank" rel="noopener noreferrer" className="hover:text-gray-700 dark:hover:text-gray-300">Follow on X&nbsp;↗</a>
                 {' · '}
                 <Link href="/lectures" className="hover:text-gray-700 dark:hover:text-gray-300">Lecture series</Link>
               </p>

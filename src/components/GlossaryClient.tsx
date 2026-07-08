@@ -132,7 +132,7 @@ export default function GlossaryClient({ entries }: Props) {
               {group.map((entry) => (
                 <div key={entry.slug} id={entry.slug} className="scroll-mt-28">
                   <div className="flex items-baseline gap-3 flex-wrap mb-1">
-                    <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+                    <h3 className="font-serif text-lg font-semibold text-gray-900 dark:text-white">
                       {entry.term}
                     </h3>
                     <span className="text-[11px] text-gray-300 dark:text-gray-600 tabular-nums">
@@ -141,7 +141,7 @@ export default function GlossaryClient({ entries }: Props) {
                     <ShareTerm slug={entry.slug} term={entry.term} />
                   </div>
                   {/* Verbatim defining quote — the author's own words lead */}
-                  <blockquote className="border-l-2 border-gray-900 dark:border-gray-100 pl-3.5 mb-3 max-w-2xl">
+                  <blockquote className="border-l-2 border-amber-600 dark:border-amber-500 pl-3.5 mb-3 max-w-2xl">
                     <p
                       className="text-gray-800 dark:text-gray-200 leading-relaxed"
                       style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px' }}

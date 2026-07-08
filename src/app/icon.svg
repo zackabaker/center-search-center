@@ -1,40 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- The originary scene as a mark: eight figures ringing the amber center. -->
   <defs>
     <style>
-      .r1 { stroke: #9ca3af; }
-      .r2 { stroke: #6b7280; }
-      .r3 { stroke: #9ca3af; }
-      .dot { fill: #1f2937; }
+      .fig { fill: #374151; }
       @media (prefers-color-scheme: dark) {
-        .r1 { stroke: #9ca3af; }
-        .r2 { stroke: #d1d5db; }
-        .r3 { stroke: #9ca3af; }
-        .dot { fill: #f3f4f6; }
+        .fig { fill: #d1d5db; }
       }
     </style>
   </defs>
-
-  <!-- Outer ring — rotated 20° to look mid-spin -->
-  <circle cx="50" cy="50" r="40"
-    fill="none" stroke-width="3"
-    stroke-dasharray="18 8" stroke-linecap="round"
-    class="r1"
-    transform="rotate(20 50 50)" />
-
-  <!-- Middle ring — rotated -30° (counter-clockwise feel) -->
-  <circle cx="50" cy="50" r="26"
-    fill="none" stroke-width="4"
-    stroke-dasharray="10 12" stroke-linecap="round"
-    class="r2"
-    transform="rotate(-30 50 50)" />
-
-  <!-- Inner ring — rotated 45° -->
-  <circle cx="50" cy="50" r="14"
-    fill="none" stroke-width="3"
-    stroke-dasharray="5 7" stroke-linecap="round"
-    class="r3"
-    transform="rotate(45 50 50)" />
-
-  <!-- Center dot -->
-  <circle cx="50" cy="50" r="4" class="dot" />
+  <circle class="fig" cx="50" cy="12" r="7" />
+  <circle class="fig" cx="76.87" cy="23.13" r="7" />
+  <circle class="fig" cx="88" cy="50" r="7" />
+  <circle class="fig" cx="76.87" cy="76.87" r="7" />
+  <circle class="fig" cx="50" cy="88" r="7" />
+  <circle class="fig" cx="23.13" cy="76.87" r="7" />
+  <circle class="fig" cx="12" cy="50" r="7" />
+  <circle class="fig" cx="23.13" cy="23.13" r="7" />
+  <circle cx="50" cy="50" r="11" fill="#d97706" />
 </svg>

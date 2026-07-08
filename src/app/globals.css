@@ -31,6 +31,9 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  /* Archive voice — what the corpus says (titles, terms, quotes) sets in Lora;
+     interface text stays Geist, catalog labels stay Geist Mono. */
+  --font-serif: var(--font-lora), Georgia, 'Times New Roman', serif;
 }
 
 /* ── Base ──────────────────────────────────────────────────────── */

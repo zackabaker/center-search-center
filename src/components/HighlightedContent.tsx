@@ -319,14 +319,14 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
   return (
     <>
       {query && matchCount > 0 && (
-        <div className="sticky top-1 z-10 bg-amber-50 border border-amber-200 rounded-lg px-4 py-2 mb-6 flex items-center gap-3 text-sm shadow-sm print:hidden">
-          <span className="text-amber-800"><strong>{matchCount}</strong> match{matchCount !== 1 ? 'es' : ''} for &ldquo;<span className="font-medium">{query}</span>&rdquo;</span>
+        <div className="sticky top-1 z-10 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 mb-6 flex items-center gap-3 text-sm shadow-sm print:hidden">
+          <span className="text-gray-700 dark:text-gray-300"><strong>{matchCount}</strong> match{matchCount !== 1 ? 'es' : ''} for &ldquo;<span className="font-medium">{query}</span>&rdquo;</span>
           <div className="flex items-center gap-1 ml-auto">
-            <span className="text-xs text-amber-600 mr-1 hidden sm:inline">n / N to navigate</span>
-            <button onClick={() => scrollToMatch('prev')} className="p-1 rounded hover:bg-amber-200 text-amber-700">
+            <span className="text-xs text-gray-400 dark:text-gray-500 mr-1 hidden sm:inline">n / N to navigate</span>
+            <button onClick={() => scrollToMatch('prev')} className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7"/></svg>
             </button>
-            <button onClick={() => scrollToMatch('next')} className="p-1 rounded hover:bg-amber-200 text-amber-700">
+            <button onClick={() => scrollToMatch('next')} className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
             </button>
           </div>

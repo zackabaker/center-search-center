@@ -1,4 +1,4 @@
-import { getAllPosts, getPublicPosts } from '@/lib/parser';
+import { getPublicPosts } from '@/lib/parser';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
@@ -22,16 +22,17 @@ const LECTURE_DESCRIPTIONS: Record<string, string> = {
     'Derrida\'s critique of the sign and Gans\'s resolution. Every word as the Name-of-God. Why "sample" may be a better framing than "sign" — and what this implies for disciplinary knowledge.',
 };
 
+// Canonical slugs in series order — slugs no longer carry a "lecture-" prefix,
+// so the sequence is pinned here rather than inferred.
+const LECTURE_SLUGS = ['origin', 'mimetic', 'deferral-of-violence', 'the-center', 'the-sign-pdf'];
+
 export default async function LecturesPage() {
   const posts = getPublicPosts();
-  const lectures = posts
-    .filter((p) => p.slug.startsWith('lecture-'))
-    .sort((a, b) => {
-      // Sort by lecture number embedded in title ("Lecture N: ...")
-      const numA = parseInt(a.title.match(/^Lecture (\d+)/)?.[1] ?? '0', 10);
-      const numB = parseInt(b.title.match(/^Lecture (\d+)/)?.[1] ?? '0', 10);
-      return numA - numB;
-    });
+  const bySlug = new Map(posts.map((p) => [p.slug, p]));
+  const lectures = LECTURE_SLUGS.flatMap((s) => {
+    const p = bySlug.get(s);
+    return p ? [p] : [];
+  });
 
   return (
     <main className="max-w-3xl w-full mx-auto px-4 py-8 sm:py-14">
@@ -44,7 +45,7 @@ export default async function LecturesPage() {
           </span>
           <span className="text-xs text-gray-400 dark:text-gray-500">Adam Katz</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white leading-snug mb-3">
+        <h1 className="font-serif text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white leading-snug mb-3">
           Introductory Lectures in Center Study
         </h1>
         <p className="text-gray-500 dark:text-gray-400 text-base leading-relaxed max-w-2xl">

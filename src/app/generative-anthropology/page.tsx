@@ -96,7 +96,7 @@ export default function GenerativeAnthropologyPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd).replace(/</g, '\\u003c') }} />
 
-      <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-5 text-gray-900 dark:text-white">
+      <h1 className="font-serif text-3xl sm:text-4xl font-bold mb-5 text-gray-900 dark:text-white">
         What is Generative Anthropology?
       </h1>
 
