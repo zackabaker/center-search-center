@@ -574,9 +574,9 @@ export default function AskClient() {
             );
           })()}
         </div>
-        <div className="flex items-center gap-3">
-          {/* Font size */}
-          <div className="flex items-center gap-0.5 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+        <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
+          {/* Font size — desktop only; it crowded the mobile header into overlap */}
+          <div className="hidden sm:flex items-center gap-0.5 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
             {(['sm', 'md', 'lg'] as FontSize[]).map(s => (
               <button
                 key={s}
@@ -595,7 +595,7 @@ export default function AskClient() {
           {answer?.content && !isLoading && (
             <button
               onClick={downloadAnswer}
-              className="text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hidden sm:flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               title="Download as .md"
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -621,7 +621,7 @@ export default function AskClient() {
               ) : (
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
               )}
-              {linkCopied ? 'Copied!' : 'Share'}
+              <span className={linkCopied ? '' : 'hidden sm:inline'}>{linkCopied ? 'Copied!' : 'Share'}</span>
             </button>
           )}
           {/* New question — clears the conversation thread */}

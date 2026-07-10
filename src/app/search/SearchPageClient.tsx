@@ -66,7 +66,8 @@ function ShareResults({ query }: { query: string }) {
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
             <path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
           </svg>
-          Share results
+          <span className="hidden sm:inline">Share results</span>
+          <span className="sm:hidden">Share</span>
         </>
       )}
     </button>
@@ -564,26 +565,29 @@ export default function SearchPageClient({
   );
 
   return (
-    <main className="max-w-4xl w-full mx-auto px-4 pt-6 pb-24 sm:py-10 overflow-x-hidden">
+    <main className="max-w-4xl w-full mx-auto px-4 pt-6 pb-24 sm:py-10">
       {/* Loading bar while the Chronicles/AP index streams in */}
       {archiveLoading && <TopLoadingBar label="Loading Chronicles & AP" />}
-      {/* Search input */}
-      <div className="mb-6">
-        {/* Mode toggle — sticky below the nav so Keyword/Meaning/Ask stay one
-            tap away even deep in results. Solid background: fixed/sticky +
-            backdrop-filter lags on mobile momentum scroll. */}
-        <div className="sticky top-12 z-20 flex items-center justify-center mb-4 py-2 -mx-4 px-4 bg-white dark:bg-gray-950">
+      {/* Search header — mode toggle + input pinned as ONE sticky unit, so
+          results scroll under a single clean edge. (A separate sticky strip
+          let the input slide up behind it and obscured it on mobile.)
+          MUST be a direct child of main: sticky only travels within its
+          parent, and main must NOT have overflow-x-hidden (any overflow
+          on an ancestor disables position:sticky entirely).
+          Solid background: backdrop-filter lags on mobile momentum scroll. */}
+      <div className="sticky top-12 z-20 -mx-4 px-4 pt-2 pb-3 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800">
+        <div className="flex items-center justify-center mb-2">
           <div className="flex items-center gap-0.5 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
             <button
               onClick={() => setMode('keyword')}
-              className={`px-3.5 py-2 text-sm font-medium rounded-lg transition-all ${mode === 'keyword' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
+              className={`px-3 py-1.5 text-[13px] sm:px-3.5 sm:py-2 sm:text-sm font-medium rounded-lg transition-all ${mode === 'keyword' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
             >
               Keyword
             </button>
             <button
               onClick={() => setMode('meaning')}
               title="Find passages by meaning, even when they use different words"
-              className={`px-3.5 py-2 text-sm font-medium rounded-lg transition-all ${mode === 'meaning' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
+              className={`px-3 py-1.5 text-[13px] sm:px-3.5 sm:py-2 sm:text-sm font-medium rounded-lg transition-all ${mode === 'meaning' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
             >
               ◐ Meaning
             </button>
@@ -592,7 +596,7 @@ export default function SearchPageClient({
                 const carried = (query.trim() || committed).replace(/["“”]/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
                 return carried ? `/ask?q=${encodeURIComponent(carried)}` : '/ask';
               })()}
-              className="px-3.5 py-2 text-sm font-medium rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-all"
+              className="px-3 py-1.5 text-[13px] sm:px-3.5 sm:py-2 sm:text-sm font-medium rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-all"
             >
               ✦ Ask AI
             </Link>
@@ -613,7 +617,7 @@ export default function SearchPageClient({
             onChange={(e) => handleInputChange(e.target.value)}
             onKeyDown={handleInputKeyDown}
             placeholder="Search the archive…"
-            className="flex-1 px-3 py-3.5 text-base sm:text-lg outline-none bg-transparent dark:text-white dark:placeholder-gray-500"
+            className="flex-1 min-w-0 px-3 py-3.5 text-base sm:text-lg outline-none bg-transparent dark:text-white dark:placeholder-gray-500"
           />
           {query && (
             <button
@@ -633,7 +637,10 @@ export default function SearchPageClient({
             Search
           </button>
         </div>
+      </div>{/* end sticky search header */}
 
+      {/* Below-header extras (scroll away under the sticky unit) */}
+      <div className="mb-6">
         {/* Concept hub banner — when the query IS one of the 40 curated concepts,
             offer the quote-first hub above the raw results. */}
         {(() => {
@@ -656,9 +663,9 @@ export default function SearchPageClient({
           );
         })()}
 
-        {/* Syntax hints — keyword mode only */}
+        {/* Syntax hints — keyword mode, desktop only (clutter on mobile) */}
         {mode === 'keyword' && (
-        <div className="flex flex-wrap gap-2 mt-2">
+        <div className="hidden sm:flex flex-wrap gap-2 mt-3">
           {SYNTAX_HINTS.map((tip) => (
             <button
               key={tip}
@@ -749,24 +756,6 @@ export default function SearchPageClient({
             {/* Source toggles — Reddit/X and Chronicles/AP are off by default */}
             <div className="mt-3">{sourceToggles}</div>
           </div>
-
-          {/* Ask AI CTA — appears whenever there's a committed query */}
-          {committed && (
-            <Link
-              href={`/ask?q=${encodeURIComponent(query || committed.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim())}`}
-              className="group flex items-center justify-between gap-3 mb-5 px-4 py-3.5 rounded-xl border border-blue-200 dark:border-blue-900/50 bg-blue-50 dark:bg-blue-950/30 hover:border-blue-400 dark:hover:border-blue-700 hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-all"
-            >
-              <div className="flex items-center gap-2.5 min-w-0">
-                <span className="text-base flex-shrink-0 text-blue-500">✦</span>
-                <span className="text-sm text-blue-900 dark:text-blue-200 truncate font-medium">
-                  Ask AI: <span className="font-normal opacity-80">{query || committed.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim()}</span>
-                </span>
-              </div>
-              <span className="text-xs text-blue-500 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 flex-shrink-0 transition-colors font-medium">
-                Get a narrative answer →
-              </span>
-            </Link>
-          )}
 
           {/* Result list — the whole card is the tap target (mobile-friendly),
               with a pending state so a tap never looks like a frozen page. */}
