@@ -42,9 +42,17 @@
    unlayered `main { max-width }` silently overrides every max-w-*
    class and stretches every page to full viewport width. */
 @layer base {
+  /* Clip horizontal overflow at the ROOT only. The root's overflow
+     propagates to the viewport, so this still prevents sideways scroll on
+     mobile — but overflow-x:hidden on BODY turns body into a scroll
+     container that never scrolls, which silently disables position:sticky
+     for every descendant (site nav, search header, A–Z bar, post sidebar).
+     Never put overflow-x on body. */
+  html {
+    overflow-x: hidden;
+  }
   html,
   body {
-    overflow-x: hidden;
     /* Prevent body from expanding beyond the viewport on mobile */
     max-width: 100%;
   }
