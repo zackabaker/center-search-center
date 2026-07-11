@@ -549,23 +549,16 @@ export default function AskClient() {
             Back
           </button>
           <h1 className="sr-only">Ask AI</h1>
-          {/* Mode switcher — the three search modes are reversible into one
-              another; the current question carries over to keyword/meaning. */}
+          {/* Two verbs, reversible: Search (one unified results page — keyword
+              + passages by meaning) and Ask. The current question carries over. */}
           {(() => {
             const carried = (input.trim() || currentQuestion).trim();
             const qs = carried ? `?q=${encodeURIComponent(carried)}` : '';
-            const seg = 'px-2.5 sm:px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg transition-all whitespace-nowrap';
+            const seg = 'px-3 sm:px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg transition-all whitespace-nowrap';
             return (
               <div className="flex items-center gap-0.5 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
                 <Link href={`/search${qs}`} className={`${seg} text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300`}>
-                  Keyword
-                </Link>
-                <Link
-                  href={carried ? `/search?mode=meaning&q=${encodeURIComponent(carried)}` : '/search?mode=meaning'}
-                  title="Find passages by meaning, even when they use different words"
-                  className={`${seg} text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300`}
-                >
-                  ◐ Meaning
+                  Search
                 </Link>
                 <span className={`${seg} bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm`}>
                   ✦ Ask AI

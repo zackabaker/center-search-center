@@ -284,11 +284,11 @@ export default function SearchPageClient({
   const searchParams = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
   const liveDebounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
-  // 'keyword' = lexical (default, instant). 'meaning' = semantic: the query is
-  // embedded in the browser and matched against the corpus by meaning.
-  // Deep-linkable: /search?mode=meaning&q=… restores Meaning mode, so the Ask
-  // page (and shared links) can hand a query straight to semantic search.
-  // Read the URL directly as a fallback: the loading shell writes ?q=/?mode=
+  // ONE search, no modes: keyword results render instantly from the client
+  // index and a "Passages by meaning" section streams in below once the query
+  // settles (operators suppress it). The old Keyword/Meaning fork is gone;
+  // /search?mode=meaning deep links land here and get both.
+  // Read the URL directly as a fallback: the loading shell writes ?q=
   // via history.replaceState, which Next's useSearchParams doesn't observe.
   const urlParam = (k: string) => {
     const fromRouter = searchParams.get(k);
@@ -297,18 +297,6 @@ export default function SearchPageClient({
       try { return new URLSearchParams(window.location.search).get(k); } catch {}
     }
     return null;
-  };
-  const [mode, setModeState] = useState<'keyword' | 'meaning'>(
-    urlParam('mode') === 'meaning' ? 'meaning' : 'keyword'
-  );
-  const setMode = (m: 'keyword' | 'meaning') => {
-    setModeState(m);
-    try {
-      const url = new URL(window.location.href);
-      if (m === 'meaning') url.searchParams.set('mode', 'meaning');
-      else url.searchParams.delete('mode');
-      window.history.replaceState(null, '', url.toString());
-    } catch {}
   };
 
   const initialQ = urlParam('q') || '';
@@ -337,6 +325,11 @@ export default function SearchPageClient({
   };
   const [grep, setGrep] = useState<GrepData | null>(null);
   const [grepStatus, setGrepStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
+
+  // The meaning section runs on SETTLED queries only (~1s after the last
+  // commit), so live typing never hits the embedding endpoint; explicit
+  // operators suppress it — power users asked for exactness, not neighbors.
+  const [semanticQ, setSemanticQ] = useState('');
 
   useEffect(() => {
     fetch('/api/search-log')
@@ -437,14 +430,14 @@ export default function SearchPageClient({
   useEffect(() => {
     const q = committed.trim().replace(/^["']+|["']+$/g, '').trim();
     if (q.length < 2) return;
-    const key = `${mode}:${q}`;
+    const key = `keyword:${q}`;
     if (key === lastLoggedRef.current) return;
     const id = setTimeout(() => {
       lastLoggedRef.current = key;
-      logSearch(q, mode);
+      logSearch(q, 'keyword');
     }, 1500);
     return () => clearTimeout(id);
-  }, [committed, mode]);
+  }, [committed]);
 
   // Immediate commit (Enter, Search button, hint clicks, recent searches)
   const handleSubmit = useCallback((q: string) => {
@@ -556,7 +549,7 @@ export default function SearchPageClient({
   useEffect(() => {
     setGrep(null);
     setGrepStatus('idle');
-    if (mode !== 'keyword' || !committed) return;
+    if (!committed) return;
     if (!(isImplicitPhrase || committed.includes('"'))) return;
     if (!thinResults) return;
     if (grepPhrase.replace(/[^a-z0-9]/gi, '').length < 4) return;
@@ -568,7 +561,19 @@ export default function SearchPageClient({
       .catch(() => { if (!ctl.signal.aborted) setGrepStatus('error'); });
     return () => ctl.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [committed, mode, isImplicitPhrase, grepPhrase, thinResults]);
+  }, [committed, isImplicitPhrase, grepPhrase, thinResults]);
+
+  // Settle the meaning-section query. User-typed operators (quotes that are
+  // not the implicit whole-query wrap, or AND/OR/NOT) suppress it entirely.
+  useEffect(() => {
+    setSemanticQ('');
+    if (!committed) return;
+    const userOperators =
+      (!isImplicitPhrase && /["“”]/.test(committed)) || /\b(AND|OR|NOT)\b/.test(committed);
+    if (userOperators) return;
+    const t = setTimeout(() => setSemanticQ(grepPhrase || committed), 1000);
+    return () => clearTimeout(t);
+  }, [committed, isImplicitPhrase, grepPhrase]);
 
   // Corpus-true occurrence counts by slug (overrides the opening-only N×)
   const grepCounts = useMemo(
@@ -636,33 +641,7 @@ export default function SearchPageClient({
           parent, and main must NOT have overflow-x-hidden (any overflow
           on an ancestor disables position:sticky entirely).
           Solid background: backdrop-filter lags on mobile momentum scroll. */}
-      <div className="sticky top-12 z-20 -mx-4 px-4 pt-2 pb-3 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800">
-        <div className="flex items-center justify-center mb-2">
-          <div className="flex items-center gap-0.5 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
-            <button
-              onClick={() => setMode('keyword')}
-              className={`px-3 py-1.5 text-[13px] sm:px-3.5 sm:py-2 sm:text-sm font-medium rounded-lg transition-all ${mode === 'keyword' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
-            >
-              Keyword
-            </button>
-            <button
-              onClick={() => setMode('meaning')}
-              title="Find passages by meaning, even when they use different words"
-              className={`px-3 py-1.5 text-[13px] sm:px-3.5 sm:py-2 sm:text-sm font-medium rounded-lg transition-all ${mode === 'meaning' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
-            >
-              ◐ Meaning
-            </button>
-            <Link
-              href={(() => {
-                const carried = (query.trim() || committed).replace(/["“”]/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
-                return carried ? `/ask?q=${encodeURIComponent(carried)}` : '/ask';
-              })()}
-              className="px-3 py-1.5 text-[13px] sm:px-3.5 sm:py-2 sm:text-sm font-medium rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-all"
-            >
-              ✦ Ask AI
-            </Link>
-          </div>
-        </div>
+      <div className="sticky top-12 z-20 -mx-4 px-4 pt-3 pb-3 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800">
         <div className="relative flex items-center border-2 border-gray-200 focus-within:border-gray-400 rounded-xl bg-white dark:bg-gray-900 dark:border-gray-700 dark:focus-within:border-gray-500 transition-colors">
           {/* Center study icon — reacts to search state; shared view-transition with home icon */}
           <div
@@ -698,6 +677,17 @@ export default function SearchPageClient({
             Search
           </button>
         </div>
+        {/* Ask stays one tap away — the third verb, quiet under the box */}
+        {(query.trim() || committed) && (
+          <div className="flex justify-end mt-1.5">
+            <Link
+              href={`/ask?q=${encodeURIComponent((query.trim() || committed).replace(/["“”]/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').replace(/\s+/g, ' ').trim())}`}
+              className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors px-1 py-0.5"
+            >
+              ✦ Ask AI this question →
+            </Link>
+          </div>
+        )}
       </div>{/* end sticky search header */}
 
       {/* Below-header extras (scroll away under the sticky unit) */}
@@ -724,8 +714,8 @@ export default function SearchPageClient({
           );
         })()}
 
-        {/* Syntax hints — keyword mode, desktop only (clutter on mobile) */}
-        {mode === 'keyword' && (
+        {/* Syntax hints — desktop only (clutter on mobile) */}
+        {(
         <div className="hidden sm:flex flex-wrap gap-2 mt-3">
           {SYNTAX_HINTS.map((tip) => (
             <button
@@ -745,30 +735,8 @@ export default function SearchPageClient({
         )}
       </div>
 
-      {/* Results area — semantic (meaning) mode */}
-      {mode === 'meaning' && (
-        hasQuery ? (
-          <>
-            <div className="mb-4 flex items-center justify-between gap-3 flex-wrap">
-              {sourceToggles}
-              <ShareResults query={committed} />
-            </div>
-            <SemanticResults query={committed} sources={allowedSources} />
-          </>
-        ) : (
-          <div className="text-center py-12 text-gray-400 dark:text-gray-500">
-            <p className="text-sm">Describe an idea in your own words.</p>
-            <p className="text-xs mt-1">
-              Meaning search finds passages even when they use different words than your query. By
-              default it covers Adam Katz&rsquo;s Substack, GABlog, books and essays — not the
-              Chronicles.
-            </p>
-          </div>
-        )
-      )}
-
-      {/* Results area — keyword mode */}
-      {mode === 'keyword' && hasQuery && (
+      {/* Results area */}
+      {hasQuery && (
         <>
           <div className="mb-4">
             <div className="flex items-center justify-between mb-3">
@@ -947,6 +915,17 @@ export default function SearchPageClient({
             </div>
           )}
 
+          {/* Passages by meaning — the second half of the one search: streams
+              in ~1s after the query settles; operators suppress it. */}
+          {semanticQ && (
+            <div className={hasResults || deepMatches.length > 0 ? 'mt-10' : 'mt-2'}>
+              <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+                Passages by meaning
+              </p>
+              <SemanticResults query={semanticQ} sources={allowedSources} noClientFallback />
+            </div>
+          )}
+
           {/* No results — waits for the full-text scan so we never claim
               "no results" while deeper matches are about to appear */}
           {!hasResults && !isSearching && visibleResults.length === 0 &&
@@ -1002,15 +981,17 @@ export default function SearchPageClient({
                 </Link>
               </div>
 
-              {/* Meaning rescue — exact words failed, so the closest passages
-                  by meaning run automatically (server-side embedding only;
-                  never triggers the in-browser model download). */}
-              <div className="mt-10 text-left">
-                <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3 text-center">
-                  Closest passages by meaning
-                </p>
-                <SemanticResults query={grepPhrase || committed} sources={allowedSources} noClientFallback />
-              </div>
+              {/* Meaning rescue — only when the universal meaning section was
+                  suppressed by operators: an exact search that found nothing
+                  still deserves the closest real passages. */}
+              {!semanticQ && (
+                <div className="mt-10 text-left">
+                  <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3 text-center">
+                    Closest passages by meaning
+                  </p>
+                  <SemanticResults query={grepPhrase || committed} sources={allowedSources} noClientFallback />
+                </div>
+              )}
               {recentSearches.length > 0 && (
                 <div className="mt-6">
                   <p className="text-xs mb-2">Recent searches:</p>
@@ -1030,7 +1011,7 @@ export default function SearchPageClient({
       )}
 
       {/* Empty state — keyword mode */}
-      {mode === 'keyword' && !hasQuery && (
+      {!hasQuery && (
         <div className="text-center py-8 text-gray-400">
           <div className="flex justify-center mb-6">
             <SceneMark size={88} spin speed={1} className="text-gray-300 dark:text-gray-600" />
