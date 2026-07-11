@@ -49,6 +49,22 @@ curl https://center.study/corpus-manifest.json`}</pre>
 curl -X POST https://center.study/api/embed \\
   -H "content-type: application/json" -d '{"q": "deferral"}'`}</pre>
 
+      <h2 className={H}>Verbatim search &amp; quote verification</h2>
+      <p className={P}>
+        Full-corpus phrase search with attribution, and the authority function: submit a quote,
+        learn whether the author actually wrote it — and where. Both open to any origin.
+      </p>
+      <pre className={CODE}>{`# find an exact phrase anywhere in the corpus (typography-tolerant)
+curl "https://center.study/api/grep?q=the%20deferral%20of%20violence"
+# → { phrase, totalPosts, totalOccurrences, posts: [{ slug, title, source, date, count, snippet }] }
+
+# verify a quote verbatim, with sources ("A … B" verifies per segment)
+curl -X POST https://center.study/api/verify \\
+  -H "content-type: application/json" \\
+  -d '{"quote": "the deferral of violence through representation"}'
+# → { verified, sources: [{ slug, title, url, snippet, date }], canonical }
+# canonical points at the /q/<id> quote page when the quote is a curated one`}</pre>
+
       <h2 className={H}>Ask (synthesized answers)</h2>
       <p className={P}>
         POST <code className="text-sm">{`{ message }`}</code> to <code className="text-sm">/api/chat</code> for a streamed,

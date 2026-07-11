@@ -48,7 +48,7 @@ for (const line of g.split('\n')) {
     t: term,
     q: JSON.parse(`"${dq[1]}"`),
     s: ds ? JSON.parse(`"${ds[1]}"`) : '',
-    href: conceptM ? `/guide/concepts/${conceptM[1]}` : `/concepts?view=glossary#${slug}`,
+    href: conceptM ? `/guide/concepts/${conceptM[1]}` : `/guide/glossary/${slug}`,
   };
 }
 
