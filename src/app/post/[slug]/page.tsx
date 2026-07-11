@@ -192,6 +192,8 @@ export default async function PostPage({
   const originalHref = HOSTED_ORIGINAL[slug] ?? post.url;
   const academic = ACADEMIC_ARTICLES[slug];
   const reader = READER_SOURCES.has(post.source);
+  // Scholars cite the Chronicles by number — surface it ("Chronicle No. 500").
+  const chronicleNo = post.source === 'chronicle' ? slug.match(/^clr-(\d+)$/)?.[1] ?? null : null;
 
   // ── Prev / Next within source ──────────────────────────────────────────────
   // Book chapters have no dates but posts-cache order IS the book's chapter
@@ -365,7 +367,7 @@ export default async function PostPage({
                 {reader ? (
                   <>
                     <p className="text-xs sm:text-sm font-medium uppercase tracking-[0.12em] text-gray-400 dark:text-gray-500 mb-5">
-                      {academic?.issue ?? `${SOURCE_LABELS[post.source]}${post.date ? ` · ${post.date}` : ''}`}
+                      {academic?.issue ?? `${SOURCE_LABELS[post.source]}${chronicleNo ? ` · No. ${chronicleNo}` : ''}${post.date ? ` · ${post.date}` : ''}`}
                     </p>
                     <h1
                       className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold leading-tight mb-5"
@@ -392,6 +394,7 @@ export default async function PostPage({
                       <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${SOURCE_COLORS[post.source]}`}>
                         {SOURCE_LABELS[post.source]}
                       </span>
+                      {chronicleNo && <span className="text-sm text-gray-400">No. {chronicleNo}</span>}
                       {post.date && <span className="text-sm text-gray-400">{post.date}</span>}
                       <span className="text-sm text-gray-400">{readingTime} min read</span>
                       <span className="text-sm text-gray-400 hidden sm:inline">{wordCount.toLocaleString()} words</span>

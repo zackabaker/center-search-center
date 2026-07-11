@@ -1,6 +1,5 @@
 import HomeSearch from '@/components/HomeSearch';
 import RandomPostButton from '@/components/RandomPostButton';
-import MostRead from '@/components/MostRead';
 import Link from 'next/link';
 import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import { parsePostDate } from '@/lib/dates';
@@ -102,16 +101,6 @@ const FEATURED_GROUPS = [
       },
     ],
   },
-];
-
-const BROWSE_SOURCES = [
-  { source: 'gablog',    label: 'GABlog',          description: "Katz's theoretical blog — originary grammar in development", color: 'hover:border-blue-400 dark:hover:border-blue-600',   href: '/browse/gablog' },
-  { source: 'substack',  label: 'Substack',        description: "Bouvard's applied essays on AI, governance, and technology",  color: 'hover:border-orange-400 dark:hover:border-orange-600', href: '/browse/substack' },
-  { source: 'pdf',       label: 'Essays & Articles', description: 'Academic papers, journal articles, and lectures',          color: 'hover:border-green-400 dark:hover:border-green-600',   href: '/browse/pdf' },
-  { source: 'book',      label: 'Book',              description: 'Anthropomorphics — systematic originary grammar',            color: 'hover:border-purple-400 dark:hover:border-purple-600', href: '/browse/book' },
-  { source: 'threads',   label: 'Threads & Q&A',    description: 'Reddit dialogues and X threads — applied and conversational', color: 'hover:border-violet-400 dark:hover:border-violet-600', href: '/browse/threads' },
-  { source: 'chronicle', label: 'Chronicles of Love & Resentment', description: "Eric Gans's long-running column — GA worked out week by week since 1995", color: 'hover:border-amber-400 dark:hover:border-amber-600', href: '/browse/chronicle' },
-  { source: 'ap',        label: 'Anthropoetics',    description: 'The journal of Generative Anthropology — peer-reviewed essays since 1995', color: 'hover:border-teal-400 dark:hover:border-teal-600', href: '/browse/ap' },
 ];
 
 export default function Home() {
@@ -252,32 +241,6 @@ export default function Home() {
         <RandomPostButton />
       </div>
 
-      {/* Navigation cards — desktop only. Intro & Reading Path live in the hero CTAs. */}
-      <div className="hidden sm:block max-w-3xl mx-auto px-4 pb-14">
-        <div className="grid grid-cols-4 gap-3">
-          {[
-            { href: '/ask', label: 'Ask AI', sub: 'Narrative Q&A', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /> },
-            { href: '/concepts', label: 'Concepts', sub: 'Key vocabulary', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /> },
-            { href: '/browse', label: 'Archive', sub: '1,900+ texts', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /> },
-            { href: '/download', label: 'Download', sub: 'Full corpus', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /> },
-          ].map(({ href, label, sub, icon }) => (
-            <Link
-              key={href}
-              href={href}
-              className="group flex flex-col items-center gap-2.5 py-5 px-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400 dark:text-gray-500 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                {icon}
-              </svg>
-              <div className="text-center">
-                <p className="text-sm font-semibold text-gray-900 dark:text-white leading-tight">{label}</p>
-                <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{sub}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
-
       {/* Featured posts — grouped by reader interest */}
       <div className="border-t border-gray-100 dark:border-gray-800">
         <div className="max-w-5xl mx-auto px-4 py-12">
@@ -328,76 +291,9 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Browse by source — desktop only */}
-      <div className="hidden sm:block border-t border-gray-100 dark:border-gray-800">
-        <div className="max-w-5xl mx-auto px-4 py-12">
-          <div className="flex items-baseline justify-between mb-2">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Browse by source</h2>
-            <div className="flex items-baseline gap-4">
-              <Link href="/author/katz" className="text-sm text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
-                Adam Katz →
-              </Link>
-              <Link href="/author/gans" className="text-sm text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
-                Eric Gans →
-              </Link>
-            </div>
-          </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
-            Written by Adam Katz — who publishes contemporary work under the pen name Dennis
-            Bouvard — alongside Eric Gans&rsquo;s Chronicles and the Anthropoetics journal.
-          </p>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {BROWSE_SOURCES.map(({ source, label, description, color, href }) => (
-              <Link
-                key={source}
-                href={href}
-                className={`group block p-5 rounded-xl border border-gray-200 dark:border-gray-700 ${color} hover:shadow-sm transition-all bg-white dark:bg-gray-900`}
-              >
-                <p className="text-base font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1.5">{label}</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{description}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Recently added — the corpus is alive; newest three texts */}
-      {(() => {
-        const recent = allPosts
-          .map((p) => ({ p, d: parsePostDate(p.date) }))
-          .filter((x): x is { p: (typeof allPosts)[0]; d: Date } => x.d !== null)
-          .sort((a, b) => b.d.getTime() - a.d.getTime())
-          .slice(0, 3);
-        if (recent.length === 0) return null;
-        return (
-          <div className="border-t border-gray-100 dark:border-gray-800">
-            <div className="max-w-5xl mx-auto px-4 py-12">
-              <div className="flex items-baseline justify-between mb-6">
-                <div>
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-white">Recently added</h2>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">New texts land here automatically as they are published</p>
-                </div>
-                <Link href="/new" className="text-sm text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors flex-shrink-0 ml-4">
-                  All new texts →
-                </Link>
-              </div>
-              <div className="space-y-2">
-                {recent.map(({ p, d }) => (
-                  <Link key={p.slug} href={`/post/${p.slug}`} className="group flex items-baseline gap-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-900/50 -mx-2 px-2 rounded-lg transition-colors">
-                    <span className="text-xs text-gray-400 w-20 shrink-0 font-mono">{d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
-                    <span className="text-sm text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">{p.title}</span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-      })()}
-
-      {/* Most read — live view counts; renders nothing if KV is unavailable */}
-      <MostRead />
-
-      {/* On this day */}
+      {/* On this day — the one dynamic module without a canonical page of its
+          own (/new and /trending carry recently-added and most-read). The
+          per-source hubs and author pages live in the site footer. */}
       {onThisDay.length > 0 && (
         <div className="border-t border-gray-100 dark:border-gray-800">
           <div className="max-w-5xl mx-auto px-4 py-12">

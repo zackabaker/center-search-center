@@ -160,6 +160,27 @@ export default function RootLayout({
               </a>
             </div>
           </div>
+          {/* Collections row — the per-source hubs and authors, site-wide (the
+              homepage is a front door, not a portal; link equity lives here). */}
+          <div className="max-w-5xl mx-auto px-4 pb-3 -mt-1 flex items-center gap-x-4 gap-y-1 flex-wrap">
+            <span className="text-[11px] font-mono uppercase tracking-widest text-gray-300 dark:text-gray-700">Collections</span>
+            {[
+              { href: '/browse/substack',  label: 'Substack' },
+              { href: '/browse/gablog',    label: 'GABlog' },
+              { href: '/browse/book',      label: 'Anthropomorphics' },
+              { href: '/browse/pdf',       label: 'Essays & Articles' },
+              { href: '/browse/chronicle', label: 'Chronicles' },
+              { href: '/browse/ap',        label: 'Anthropoetics' },
+              { href: '/browse/threads',   label: 'Threads & Q&A' },
+              { href: '/lectures',         label: 'Lectures' },
+              { href: '/author/katz',      label: 'Adam Katz' },
+              { href: '/author/gans',      label: 'Eric Gans' },
+            ].map(({ href, label }) => (
+              <Link key={href} href={href} className="text-[11px] text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">
+                {label}
+              </Link>
+            ))}
+          </div>
         </footer>
         <MobileNav />
         <CommandPalette />
