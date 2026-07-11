@@ -71,6 +71,8 @@ const nextConfig: NextConfig = {
       { source: '/follow', destination: '/about', permanent: true },
       // Bare /q has no index page — quotes are reached from terms/concepts/verify.
       { source: '/q', destination: '/concepts', permanent: false },
+      // The numbered series' home is the Chronicles browse hub.
+      { source: '/chronicles', destination: '/browse/chronicle', permanent: false },
     ];
   },
 
