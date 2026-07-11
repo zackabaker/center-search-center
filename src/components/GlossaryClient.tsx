@@ -18,9 +18,12 @@ interface Props {
 }
 
 // Share a specific term: native share sheet on mobile, copy-link elsewhere.
-function ShareTerm({ slug, term }: { slug: string; term: string }) {
+// Links to the term's canonical page (its concept hub when one exists).
+function ShareTerm({ slug, term, concept }: { slug: string; term: string; concept?: string }) {
   const [copied, setCopied] = useState(false);
-  const url = `https://center.study/concepts?view=glossary#${slug}`;
+  const url = concept
+    ? `https://center.study/guide/concepts/${concept}`
+    : `https://center.study/guide/glossary/${slug}`;
   const share = async () => {
     try {
       if (navigator.share) {
@@ -133,12 +136,17 @@ export default function GlossaryClient({ entries }: Props) {
                 <div key={entry.slug} id={entry.slug} className="scroll-mt-28">
                   <div className="flex items-baseline gap-3 flex-wrap mb-1">
                     <h3 className="font-serif text-lg font-semibold text-gray-900 dark:text-white">
-                      {entry.term}
+                      <Link
+                        href={entry.concept ? `/guide/concepts/${entry.concept}` : `/guide/glossary/${entry.slug}`}
+                        className="hover:underline decoration-gray-300 dark:decoration-gray-600 underline-offset-4"
+                      >
+                        {entry.term}
+                      </Link>
                     </h3>
                     <span className="text-[11px] text-gray-300 dark:text-gray-600 tabular-nums">
                       in {entry.posts} texts
                     </span>
-                    <ShareTerm slug={entry.slug} term={entry.term} />
+                    <ShareTerm slug={entry.slug} term={entry.term} concept={entry.concept} />
                   </div>
                   {/* Verbatim defining quote — the author's own words lead */}
                   <blockquote className="border-l-2 border-amber-600 dark:border-amber-500 pl-3.5 mb-3 max-w-2xl">

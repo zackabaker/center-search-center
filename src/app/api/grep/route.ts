@@ -1,5 +1,6 @@
 import { getPublicPosts } from '@/lib/parser';
 import { openCors, preflight } from '@/lib/cors';
+import { buildPhraseRegex, makeSnippet } from '@/lib/phrase-match';
 
 // Full-corpus phrase search with attribution.
 //
@@ -21,33 +22,6 @@ export const revalidate = 86400;
 const MAX_POSTS = 50;
 
 type Hit = { slug: string; title: string; source: string; date: string; count: number; snippet: string };
-
-function escapeRe(s: string): string {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
-function buildPhraseRegex(q: string): RegExp | null {
-  // Apostrophes split into separators too: "don't" → don + t, rejoined by the
-  // non-alphanumeric run, which matches straight AND curly apostrophes.
-  const words = q.toLowerCase().normalize('NFKC').split(/[^a-z0-9]+/).filter(Boolean);
-  if (words.length === 0 || words.length > 30) return null;
-  if (words.join('').length < 4) return null;
-  // Words in order, separated by runs of non-alphanumerics (covers curly
-  // punctuation, em-dashes, newlines). Word boundaries on both ends.
-  return new RegExp(
-    `(?<![a-zA-Z0-9])${words.map(escapeRe).join('[^a-zA-Z0-9]+')}(?![a-zA-Z0-9])`,
-    'gi'
-  );
-}
-
-function makeSnippet(content: string, index: number, matchLen: number): string {
-  const start = Math.max(0, index - 90);
-  const end = Math.min(content.length, index + matchLen + 130);
-  let s = content.slice(start, end).replace(/\s+/g, ' ').trim();
-  if (start > 0) s = '…' + s;
-  if (end < content.length) s = s + '…';
-  return s;
-}
 
 export async function GET(request: Request) {
   const url = new URL(request.url);

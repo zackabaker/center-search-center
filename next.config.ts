@@ -69,6 +69,8 @@ const nextConfig: NextConfig = {
       { source: '/guide/concepts/the-market', destination: '/guide/concepts/market', permanent: true },
       // /follow page removed July 2026 — its two links live in the site footer.
       { source: '/follow', destination: '/about', permanent: true },
+      // Bare /q has no index page — quotes are reached from terms/concepts/verify.
+      { source: '/q', destination: '/concepts', permanent: false },
     ];
   },
 

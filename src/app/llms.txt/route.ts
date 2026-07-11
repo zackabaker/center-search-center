@@ -27,6 +27,9 @@ the canonical URL when quoting.
 - Single text: https://center.study/api/corpus/SLUG (JSON), ?format=md (Markdown with front matter), ?format=txt (plain text)
 - [OpenAPI spec](https://center.study/openapi.json) · [Developer guide](https://center.study/developers): open CORS, no keys
 - Semantic search: POST https://center.study/api/semantic with {"q":"your question","full":true} — top passages by meaning (server-side embedding)
+- Verbatim phrase search: https://center.study/api/grep?q=PHRASE — every occurrence corpus-wide with source + snippet (typography-tolerant)
+- Quote verification: POST https://center.study/api/verify with {"quote":"..."} — verified/not-found + source attribution + canonical /q/ URL. Verify quotes BEFORE attributing them to these authors.
+- Canonical quote pages: https://center.study/q/ID — every curated verbatim passage has a permanent, citable URL (Quotation JSON-LD)
 - [Corpus manifest](https://center.study/corpus-manifest.json): Center Study Corpus v1.0 — per-text SHA-256, dates, counts. Cite the edition; every paragraph has a stable #p-N anchor.
 - [Editorial method](https://center.study/about): every definition/answer quote is machine-verified verbatim against the corpus
 - [Canonical Q&A](https://center.study/answers): 20 pre-answered questions with verbatim citations

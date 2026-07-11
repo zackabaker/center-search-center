@@ -1,198 +1,344 @@
 {
- "openapi": "3.1.0",
- "info": {
-  "title": "Center Study Corpus API",
-  "version": "1.0",
-  "description": "Open API over the Center Study / Generative Anthropology corpus (1,969 texts, 5M+ words). No authentication; open CORS on read endpoints; per-IP rate limits. Please quote verbatim and cite Center Study Corpus v1.0 with per-text URLs.",
-  "contact": {
-   "url": "https://center.study/developers"
-  }
- },
- "servers": [
-  {
-   "url": "https://center.study"
-  }
- ],
- "paths": {
-  "/api/corpus": {
-   "get": {
-    "summary": "List all texts",
-    "responses": {
-     "200": {
-      "description": "Array of {slug,title,source,date,words,url}"
-     }
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Center Study Corpus API",
+    "version": "1.0",
+    "description": "Open API over the Center Study / Generative Anthropology corpus (1,969 texts, 5M+ words). No authentication; open CORS on read endpoints; per-IP rate limits. Please quote verbatim and cite Center Study Corpus v1.0 with per-text URLs.",
+    "contact": {
+      "url": "https://center.study/developers"
     }
-   }
   },
-  "/api/corpus/{slug}": {
-   "get": {
-    "summary": "One text with full content",
-    "parameters": [
-     {
-      "name": "slug",
-      "in": "path",
-      "required": true,
-      "schema": {
-       "type": "string"
-      }
-     },
-     {
-      "name": "format",
-      "in": "query",
-      "schema": {
-       "type": "string",
-       "enum": [
-        "json",
-        "txt",
-        "md"
-       ]
-      }
-     }
-    ],
-    "responses": {
-     "200": {
-      "description": "Text with content + format links"
-     },
-     "404": {
-      "description": "Unknown slug"
-     }
+  "servers": [
+    {
+      "url": "https://center.study"
     }
-   }
-  },
-  "/corpus-manifest.json": {
-   "get": {
-    "summary": "Versioned corpus manifest (per-text SHA-256, dates, counts)",
-    "responses": {
-     "200": {
-      "description": "Corpus v1.0 manifest"
-     }
-    }
-   }
-  },
-  "/api/semantic": {
-   "post": {
-    "summary": "Semantic search by meaning (server-side embedding)",
-    "requestBody": {
-     "required": true,
-     "content": {
-      "application/json": {
-       "schema": {
-        "type": "object",
-        "properties": {
-         "q": {
-          "type": "string",
-          "description": "plain-text query (server embeds it)"
-         },
-         "vector": {
-          "type": "array",
-          "items": {
-           "type": "number"
-          },
-          "description": "alternative: your own 384-dim bge-small unit vector"
-         },
-         "sources": {
-          "type": "array",
-          "items": {
-           "type": "string"
+  ],
+  "paths": {
+    "/api/corpus": {
+      "get": {
+        "summary": "List all texts",
+        "responses": {
+          "200": {
+            "description": "Array of {slug,title,source,date,words,url}"
           }
-         },
-         "full": {
-          "type": "boolean",
-          "description": "true = untrimmed passages"
-         }
         }
-       }
       }
-     }
     },
-    "responses": {
-     "200": {
-      "description": "{results:[{slug,title,source,text,score}]}"
-     },
-     "503": {
-      "description": "embedding temporarily unavailable"
-     }
-    }
-   }
-  },
-  "/api/embed": {
-   "post": {
-    "summary": "Embed a query (bge-small-en-v1.5, 384-dim)",
-    "requestBody": {
-     "required": true,
-     "content": {
-      "application/json": {
-       "schema": {
-        "type": "object",
-        "required": [
-         "q"
+    "/api/corpus/{slug}": {
+      "get": {
+        "summary": "One text with full content",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "json",
+                "txt",
+                "md"
+              ]
+            }
+          }
         ],
-        "properties": {
-         "q": {
-          "type": "string"
-         }
+        "responses": {
+          "200": {
+            "description": "Text with content + format links"
+          },
+          "404": {
+            "description": "Unknown slug"
+          }
         }
-       }
       }
-     }
     },
-    "responses": {
-     "200": {
-      "description": "{vector:number[384]}"
-     }
-    }
-   }
-  },
-  "/api/chat": {
-   "post": {
-    "summary": "Ask the archive (streamed, verbatim-cited synthesis). Browser calls limited to partner origins; each call bills a model request.",
-    "requestBody": {
-     "required": true,
-     "content": {
-      "application/json": {
-       "schema": {
-        "type": "object",
-        "required": [
-         "message"
+    "/corpus-manifest.json": {
+      "get": {
+        "summary": "Versioned corpus manifest (per-text SHA-256, dates, counts)",
+        "responses": {
+          "200": {
+            "description": "Corpus v1.0 manifest"
+          }
+        }
+      }
+    },
+    "/api/semantic": {
+      "post": {
+        "summary": "Semantic search by meaning (server-side embedding)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "q": {
+                    "type": "string",
+                    "description": "plain-text query (server embeds it)"
+                  },
+                  "vector": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "description": "alternative: your own 384-dim bge-small unit vector"
+                  },
+                  "sources": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "full": {
+                    "type": "boolean",
+                    "description": "true = untrimmed passages"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "{results:[{slug,title,source,text,score}]}"
+          },
+          "503": {
+            "description": "embedding temporarily unavailable"
+          }
+        }
+      }
+    },
+    "/api/embed": {
+      "post": {
+        "summary": "Embed a query (bge-small-en-v1.5, 384-dim)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "q"
+                ],
+                "properties": {
+                  "q": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "{vector:number[384]}"
+          }
+        }
+      }
+    },
+    "/api/chat": {
+      "post": {
+        "summary": "Ask the archive (streamed, verbatim-cited synthesis). Browser calls limited to partner origins; each call bills a model request.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "message"
+                ],
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ndjson stream: {sources} line, then {text} deltas"
+          },
+          "403": {
+            "description": "origin not allowlisted — see /developers"
+          }
+        }
+      }
+    },
+    "/feed/{source}": {
+      "get": {
+        "summary": "Per-source RSS (substack, gablog, chronicle, ap, book, pdf)",
+        "parameters": [
+          {
+            "name": "source",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
-        "properties": {
-         "message": {
-          "type": "string"
-         }
+        "responses": {
+          "200": {
+            "description": "RSS 2.0"
+          }
         }
-       }
       }
-     }
     },
-    "responses": {
-     "200": {
-      "description": "ndjson stream: {sources} line, then {text} deltas"
-     },
-     "403": {
-      "description": "origin not allowlisted — see /developers"
-     }
-    }
-   }
-  },
-  "/feed/{source}": {
-   "get": {
-    "summary": "Per-source RSS (substack, gablog, chronicle, ap, book, pdf)",
-    "parameters": [
-     {
-      "name": "source",
-      "in": "path",
-      "required": true,
-      "schema": {
-       "type": "string"
+    "/api/grep": {
+      "get": {
+        "summary": "Full-corpus verbatim phrase search with attribution",
+        "description": "Finds an exact phrase anywhere in the corpus (typography-tolerant: words in order across any punctuation/quote variants). Open CORS.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 4,
+              "maxLength": 300
+            },
+            "description": "The phrase to find"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matches",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "phrase": {
+                      "type": "string"
+                    },
+                    "totalPosts": {
+                      "type": "integer"
+                    },
+                    "totalOccurrences": {
+                      "type": "integer"
+                    },
+                    "posts": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "slug": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "type": "string"
+                          },
+                          "date": {
+                            "type": "string"
+                          },
+                          "count": {
+                            "type": "integer"
+                          },
+                          "snippet": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
-     }
-    ],
-    "responses": {
-     "200": {
-      "description": "RSS 2.0"
-     }
+    },
+    "/api/verify": {
+      "post": {
+        "summary": "Verify a quote verbatim against the corpus, with sources",
+        "description": "The authority function: submit a quote attributed to Adam Katz / Dennis Bouvard / Eric Gans and receive verified/not-found plus source attribution. Elided quotes (\"A … B\") verify per segment. Open CORS.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "quote"
+                ],
+                "properties": {
+                  "quote": {
+                    "type": "string",
+                    "minLength": 15,
+                    "maxLength": 2000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Verification result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "verified": {
+                      "type": "boolean"
+                    },
+                    "sources": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "slug": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "type": "string"
+                          },
+                          "date": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "url": {
+                            "type": "string"
+                          },
+                          "snippet": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "canonical": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Path of the canonical /q/<id> quote page when the quote is curated"
+                    },
+                    "corpusVersion": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
-   }
   }
- }
 }

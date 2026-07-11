@@ -1,5 +1,7 @@
 import { getPublicPosts } from '@/lib/parser';
 import { CONCEPTS } from '@/data/guide/concepts';
+import { GLOSSARY } from '@/data/guide/glossary';
+import QUOTES from '@/data/quotes.json';
 import { READING_PATHS } from '@/data/guide/reading-paths';
 import ANSWERS from '@/data/answers.json';
 import { parsePostDate } from '@/lib/dates';
@@ -20,6 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/faq`,                 changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/lineage`,             changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/download`,            changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE_URL}/verify`,              changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/ask`,                 changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/answers`,             changeFrequency: 'weekly',  priority: 0.8 },
     { url: `${BASE_URL}/search`,              changeFrequency: 'monthly', priority: 0.8 },
@@ -47,6 +50,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${BASE_URL}/guide/concepts/${c.slug}`,
     changeFrequency: 'monthly',
     priority: 0.7,
+  }));
+
+  // Canonical glossary-term pages (concept-linked terms 308 to their hub, so
+  // only standalone terms are listed).
+  const termRoutes: MetadataRoute.Sitemap = GLOSSARY.filter((e) => !e.concept).map((e) => ({
+    url: `${BASE_URL}/guide/glossary/${e.slug}`,
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }));
+
+  // Canonical quote pages — the citable atoms (permanent URLs).
+  const quoteRoutes: MetadataRoute.Sitemap = (QUOTES as { id: string }[]).map((q) => ({
+    url: `${BASE_URL}/q/${q.id}`,
+    changeFrequency: 'yearly',
+    priority: 0.5,
   }));
 
   // Static, citable answer pages — the canonical questions (GEO surface).
@@ -83,5 +101,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: SOURCE_PRIORITY[p.source] ?? 0.6,
   }));
 
-  return [...staticRoutes, ...conceptRoutes, ...answerRoutes, ...pathRoutes, ...postRoutes];
+  return [...staticRoutes, ...conceptRoutes, ...termRoutes, ...quoteRoutes, ...answerRoutes, ...pathRoutes, ...postRoutes];
 }
