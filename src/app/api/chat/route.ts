@@ -5,6 +5,7 @@ import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import { Post } from '@/lib/types';
 import { getConceptBySlug } from '@/data/guide/concepts';
 import { relatedSlugs } from '@/lib/related';
+import { aliasesFor } from '@/lib/vocab';
 
 const anthropic = new Anthropic();
 
@@ -215,11 +216,14 @@ function extractQueryTerms(query: string): string[] {
     .split(/\s+/)
     .filter((w) => w.length > 1 && !STOP_WORDS.has(w)); // length > 1 (not 2) to catch "ai"
 
-  // Expand single-word terms through synonym map
+  // Expand single-word terms through the synonym map, plus the shared
+  // conservative alias layer (src/lib/vocab.ts) used by keyword search —
+  // one vocabulary, two consumers.
   for (const term of baseTerms) {
     if (TERM_SYNONYMS[term]) {
       for (const s of TERM_SYNONYMS[term]) injected.add(s);
     }
+    for (const s of aliasesFor(term)) injected.add(s);
   }
 
   // De-pluralize: for each base term that ends in a common plural suffix,

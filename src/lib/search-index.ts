@@ -1,4 +1,5 @@
 import { Post } from './types';
+import { aliasesFor } from './vocab';
 
 export interface SearchEntry {
   slug: string;
@@ -520,6 +521,18 @@ export function searchEntries(
       else return { entry, score: -1 };
     }
 
+    // Alias fallback (shared vocabulary layer): a term its aliases satisfy
+    // scores lower than a direct hit, so "imitation" surfaces mimesis texts
+    // without them outranking texts that literally say "imitation".
+    const aliasHit = (term: string): number => {
+      for (const alias of aliasesFor(term)) {
+        if (entry.titleWords.some((w) => w === alias || (alias.length >= 4 && w.startsWith(alias)))) return 80;
+        if (wordSet.has(alias)) return 8;
+        if (alias.length >= 4 && entry.contentWords.some((w) => w.startsWith(alias))) return 4;
+      }
+      return 0;
+    };
+
     if (orMode) {
       let anyMatch = false;
       for (const term of orTerms) {
@@ -530,6 +543,9 @@ export function searchEntries(
         // Prefix expansion only for terms ≥ 4 chars to avoid false positives
         else if (term.length >= 4 && entry.contentWords.some((w) => w.startsWith(term))) {
           score += 5; anyMatch = true;
+        } else {
+          const a = aliasHit(term);
+          if (a > 0) { score += a; anyMatch = true; }
         }
       }
       if (!anyMatch && phrases.length === 0) return { entry, score: -1 };
@@ -544,8 +560,13 @@ export function searchEntries(
         } else if (term.length >= 4 && entry.contentWords.some((w) => w.startsWith(term))) {
           // Prefix match only for longer terms — avoids "or"→"originary" false positives
           score += 5;
-        } else if (phrases.length === 0) {
-          return { entry, score: -1 };
+        } else {
+          const a = aliasHit(term);
+          if (a > 0) {
+            score += a;
+          } else if (phrases.length === 0) {
+            return { entry, score: -1 };
+          }
         }
       }
     }

@@ -31,6 +31,7 @@ const SUGGESTION_POOL: string[] = (() => {
 })();
 import SceneMark from '@/components/SceneMark';
 import SemanticResults from './SemanticResults';
+import { activeExpansions } from '@/lib/vocab';
 
 type FilterOption = 'all' | ContentSource;
 
@@ -324,6 +325,19 @@ export default function SearchPageClient({
   // Result ordering: relevance (default) or by publication date.
   const [sort, setSort] = useState<'relevance' | 'newest' | 'oldest'>('relevance');
 
+  // Full-corpus phrase scan (/api/grep). The local index only phrase-matches
+  // each text's opening, so phrase queries with thin local results get one
+  // server pass over FULL content — keyed to the committed query, never fired
+  // per keystroke.
+  type GrepData = {
+    phrase: string;
+    totalPosts: number;
+    totalOccurrences: number;
+    posts: { slug: string; title: string; source: string; date: string; count: number; snippet: string }[];
+  };
+  const [grep, setGrep] = useState<GrepData | null>(null);
+  const [grepStatus, setGrepStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
+
   useEffect(() => {
     fetch('/api/search-log')
       .then((r) => (r.ok ? r.json() : { terms: [] }))
@@ -526,6 +540,53 @@ export default function SearchPageClient({
     return findClosestTerm(firstTerm, coreWordIndex.sortedVocab);
   }, [committed, visibleResults.length, coreWordIndex.sortedVocab]);
 
+  // The bare phrase for the full-text scan and the meaning rescue: the quoted
+  // segment if there is one, otherwise the query stripped of operators.
+  const grepPhrase = useMemo(() => {
+    const m = committed.match(/"([^"]{4,})"/);
+    return (m ? m[1] : committed.replace(/\b(AND|OR|NOT)\b/gi, ' ').replace(/["“”]/g, ' '))
+      .replace(/\s+/g, ' ')
+      .trim();
+  }, [committed]);
+
+  // Fire the full-corpus scan only for phrase-bearing queries whose local
+  // results are thin — single terms already match full content via the word
+  // index; only contiguous phrases are capped to each text's opening.
+  const thinResults = results.length < 8;
+  useEffect(() => {
+    setGrep(null);
+    setGrepStatus('idle');
+    if (mode !== 'keyword' || !committed) return;
+    if (!(isImplicitPhrase || committed.includes('"'))) return;
+    if (!thinResults) return;
+    if (grepPhrase.replace(/[^a-z0-9]/gi, '').length < 4) return;
+    const ctl = new AbortController();
+    setGrepStatus('loading');
+    fetch(`/api/grep?q=${encodeURIComponent(grepPhrase)}`, { signal: ctl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((d) => { setGrep(d); setGrepStatus('done'); })
+      .catch(() => { if (!ctl.signal.aborted) setGrepStatus('error'); });
+    return () => ctl.abort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [committed, mode, isImplicitPhrase, grepPhrase, thinResults]);
+
+  // Corpus-true occurrence counts by slug (overrides the opening-only N×)
+  const grepCounts = useMemo(
+    () => new Map((grep?.posts ?? []).map((p) => [p.slug, p.count])),
+    [grep]
+  );
+
+  // Deep matches not already in the visible list — texts where the phrase
+  // appears only past the opening the local index covers.
+  const deepMatches = useMemo(() => {
+    if (!grep) return [];
+    const seen = new Set(visibleResults.map((r) => r.entry.slug));
+    return grep.posts.filter((p) => !seen.has(p.slug));
+  }, [grep, visibleResults]);
+
+  // Vocabulary expansions in play (shared alias layer) — surfaced for trust.
+  const expansions = useMemo(() => activeExpansions(committed), [committed]);
+
   const SYNTAX_HINTS = ['"exact phrase"', 'term AND term', 'term NOT term', 'term OR term'] as const;
 
   // Speed: idle=1 (slow, like home), typing=2 (medium), searching=7 (fast)
@@ -721,6 +782,16 @@ export default function SearchPageClient({
                         · term in <span className="text-gray-600">{corpusCount}</span> of {totalPosts} posts
                       </span>
                     )}
+                    {grepStatus === 'done' && grep && grep.totalPosts > 0 && (
+                      <span className="text-gray-400">
+                        · {grep.totalOccurrences}× in {grep.totalPosts} text{grep.totalPosts !== 1 ? 's' : ''} corpus-wide
+                      </span>
+                    )}
+                    {expansions.length > 0 && (
+                      <span className="text-xs text-gray-400 dark:text-gray-500">
+                        also matching {expansions.flatMap((e) => e.aliases).join(', ')}
+                      </span>
+                    )}
                     {/* Mode indicator: shows when query was auto-wrapped as phrase */}
                     {isImplicitPhrase && (
                       <span className="text-[11px] px-1.5 py-0.5 rounded bg-amber-50 text-amber-600 border border-amber-200 font-mono">
@@ -728,10 +799,18 @@ export default function SearchPageClient({
                       </span>
                     )}
                   </>
-                ) : isSearching ? (
+                ) : isSearching || grepStatus === 'loading' ? (
                   'Searching…'
+                ) : deepMatches.length > 0 ? (
+                  <>
+                    <span className="font-medium text-gray-900 dark:text-gray-100">{grep?.totalPosts ?? deepMatches.length}</span>
+                    <span>
+                      text{(grep?.totalPosts ?? 0) !== 1 ? 's' : ''} by full-text scan · {grep?.totalOccurrences}× corpus-wide
+                    </span>
+                  </>
                 ) : (
-                  `No results for "${committed}"`
+                  // The dedicated no-results block below carries the message
+                  ''
                 )}
               </div>
               {hasResults && (
@@ -774,7 +853,9 @@ export default function SearchPageClient({
                     </span>
                     {entry.date && <span className="text-xs text-gray-400">{entry.date}</span>}
                     <span className="text-xs text-gray-400">{entry.readingTime} min read</span>
-                    {occurrences > 0 && <span className="text-xs text-gray-400">{occurrences}×</span>}
+                    {(grepCounts.get(entry.slug) ?? occurrences) > 0 && (
+                      <span className="text-xs text-gray-400">{grepCounts.get(entry.slug) ?? occurrences}×</span>
+                    )}
                   </div>
                   <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1.5 break-words">
                     {highlight(entry.title, committed)}
@@ -827,8 +908,49 @@ export default function SearchPageClient({
             </div>
           )}
 
-          {/* No results */}
-          {!hasResults && !isSearching && visibleResults.length === 0 && (
+          {/* Deeper matches — the full-text scan found the phrase in texts the
+              opening-only local index missed (long Chronicles, AP articles). */}
+          {grepStatus === 'loading' && hasResults && (
+            <p className="mt-6 text-center text-xs text-gray-400 dark:text-gray-500">
+              Scanning full texts…
+            </p>
+          )}
+          {deepMatches.length > 0 && (
+            <div className={hasResults ? 'mt-8' : 'mt-2'}>
+              <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+                {hasResults ? 'Deeper matches — full-text scan' : 'Found by full-text scan'}
+              </p>
+              <div className="space-y-3">
+                {deepMatches.map((p) => (
+                  <Link
+                    key={p.slug}
+                    href={`/post/${p.slug}?q=${encodeURIComponent(grepPhrase)}`}
+                    prefetch={false}
+                    className="group block bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm active:bg-gray-50 dark:active:bg-gray-800/60 transition-all"
+                  >
+                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                      <span className={`text-[11px] px-2 py-0.5 rounded-full whitespace-nowrap ${SOURCE_COLORS[p.source as ContentSource] ?? 'bg-gray-100 text-gray-600'}`}>
+                        {SOURCE_LABELS[p.source as ContentSource] ?? p.source}
+                      </span>
+                      {p.date && <span className="text-xs text-gray-400">{p.date}</span>}
+                      <span className="text-xs text-gray-400">{p.count}×</span>
+                    </div>
+                    <h3 className="text-sm sm:text-base font-medium text-gray-900 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors mb-1">
+                      {p.title}
+                    </h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">
+                      {p.snippet}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* No results — waits for the full-text scan so we never claim
+              "no results" while deeper matches are about to appear */}
+          {!hasResults && !isSearching && visibleResults.length === 0 &&
+           grepStatus !== 'loading' && deepMatches.length === 0 && (
             <div className="text-center py-12 text-gray-400">
               <p className="text-base mb-2">No results for &ldquo;{committed}&rdquo;</p>
               {didYouMean && (
@@ -878,6 +1000,16 @@ export default function SearchPageClient({
                   </svg>
                   Ask AI about &ldquo;{(() => { const c = committed.replace(/["\u201c\u201d]/g, ''); return c.length > 40 ? c.slice(0, 40) + '…' : c; })()}&rdquo;
                 </Link>
+              </div>
+
+              {/* Meaning rescue — exact words failed, so the closest passages
+                  by meaning run automatically (server-side embedding only;
+                  never triggers the in-browser model download). */}
+              <div className="mt-10 text-left">
+                <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3 text-center">
+                  Closest passages by meaning
+                </p>
+                <SemanticResults query={grepPhrase || committed} sources={allowedSources} noClientFallback />
               </div>
               {recentSearches.length > 0 && (
                 <div className="mt-6">

@@ -23,7 +23,18 @@ const SOURCE_LABELS: Record<string, string> = {
 
 type Status = 'idle' | 'loading-model' | 'searching' | 'done' | 'error';
 
-export default function SemanticResults({ query, sources }: { query: string; sources: string[] }) {
+export default function SemanticResults({
+  query,
+  sources,
+  noClientFallback = false,
+}: {
+  query: string;
+  sources: string[];
+  /** When set, a server-embedding outage fails quietly instead of triggering
+      the ~30 MB in-browser model download — used by auto-run contexts (the
+      zero-result rescue) where the reader never asked for semantic search. */
+  noClientFallback?: boolean;
+}) {
   const [results, setResults] = useState<Res[] | null>(null);
   const [status, setStatus] = useState<Status>('idle');
   const [progress, setProgress] = useState(0);
@@ -57,6 +68,10 @@ export default function SemanticResults({ query, sources }: { query: string; sou
         });
         if (id !== reqId.current) return;
 
+        if (r.status === 503 && noClientFallback) {
+          setStatus('error');
+          return;
+        }
         if (r.status === 503) {
           // Server embedding unavailable — fall back to embedding in-browser.
           setStatus(modelLoaded() ? 'searching' : 'loading-model');
