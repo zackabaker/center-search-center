@@ -8,7 +8,7 @@ export const contentType = 'image/png';
 // prebuilding all of them.
 export const revalidate = 86400;
 
-type Quote = { id: string; text: string; sourceTitle: string; source: string; date: string | null };
+type Quote = { id: string; text: string; sourceTitle: string; source: string; date: string | null; author?: string };
 
 export default async function Image({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -16,7 +16,7 @@ export default async function Image({ params }: { params: Promise<{ id: string }
 
   const raw = q?.text ?? '';
   const quote = raw.length > 260 ? raw.slice(0, 260).replace(/\s+\S*$/, '') + '…' : raw;
-  const author = q && (q.source === 'chronicle' || q.source === 'ap') ? 'Eric Gans' : 'Adam Katz';
+  const author = q?.author ?? (q && (q.source === 'chronicle' || q.source === 'ap') ? 'Eric Gans' : 'Adam Katz');
 
   return renderOgCard({
     eyebrow: 'Center.Study · Quote',

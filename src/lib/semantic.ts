@@ -45,7 +45,11 @@ export function semanticChunks(queryVec: Float32Array, k = 12, onePerPost = true
   for (let i = 0; i < chunks.length; i++) {
     if (allow && !allow.has(chunks[i].source)) continue;
     const v = vectors.subarray(i * dim, (i + 1) * dim);
-    scored.push({ ...chunks[i], score: dot(queryVec, v) });
+    // Mild reference-tier downweight (Gans's Chronicles/Anthropoetics): cosine
+    // scores cluster tightly, so 0.9 subordinates without erasing — parity
+    // would let the reference tier outrank Katz on core-vocabulary queries.
+    const ref = chunks[i].source === 'chronicle' || chunks[i].source === 'ap';
+    scored.push({ ...chunks[i], score: dot(queryVec, v) * (ref ? 0.9 : 1.0) });
   }
   scored.sort((a, b) => b.score - a.score);
   if (!onePerPost) return scored.slice(0, k);

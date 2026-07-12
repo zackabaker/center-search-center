@@ -29,10 +29,25 @@ type QuoteRec = {
   sourceTitle: string;
   source: string;        // venue key (substack/gablog/…) when known, else label
   date: string | null;
+  author: string;        // real author — venue alone misattributes (Katz's AP articles, guest Chroniclers)
   concepts: string[];    // concept hub slugs this quote evidences
   terms: string[];       // glossary term slugs this quote evidences
   defining: boolean;     // is it a defining quote (vs usage passage)
 };
+
+// Venue ≠ author: Anthropoetics is a multi-author journal (Bartlett, Ludwigs,
+// Goldman, Katz himself…) and the Chronicles include guest columns. Priority:
+// the post's own author field, then a "Guest Chronicler: NAME" title marker,
+// then a katz-slug hint, then the venue default.
+function quoteAuthor(slug: string, title: string, source: string, postAuthor?: string | null): string {
+  const explicit = (postAuthor ?? '').trim();
+  if (explicit) return explicit;
+  const guest = title.match(/Guest Chronicler:?\s*([^)]+)\)?/i);
+  if (guest) return guest[1].trim().replace(/\)$/, '');
+  if (/katz/i.test(slug)) return 'Adam Katz';
+  if (source === 'chronicle' || source === 'ap') return 'Eric Gans';
+  return 'Adam Katz';
+}
 
 const norm = (s: string) => s.normalize('NFKC').replace(/\s+/g, ' ').trim();
 const idFor = (text: string) =>
@@ -72,13 +87,16 @@ function admit(
       return;
     }
     const post = postBySlug.get(sourceSlug);
+    const title = post?.title ?? sourceTitle;
+    const src = post?.source ?? sourceLabel;
     rec = {
       id,
       text: t,
       sourceSlug,
-      sourceTitle: post?.title ?? sourceTitle,
-      source: post?.source ?? sourceLabel,
+      sourceTitle: title,
+      source: src,
       date: post?.date ?? null,
+      author: quoteAuthor(sourceSlug, title, src, post?.author),
       concepts: [],
       terms: [],
       defining: false,

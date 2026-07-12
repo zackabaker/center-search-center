@@ -4,6 +4,9 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import type { GlossaryEntry } from '@/data/guide/glossary';
 
+// Entries arrive enriched server-side with the defining quote's real author.
+type Entry = GlossaryEntry & { definitionAuthor?: string };
+
 const SOURCE_COLORS: Record<string, string> = {
   GABlog:     'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300',
   Substack:   'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300',
@@ -14,7 +17,7 @@ const SOURCE_COLORS: Record<string, string> = {
 };
 
 interface Props {
-  entries: GlossaryEntry[];
+  entries: Entry[];
 }
 
 // Share a specific term: native share sheet on mobile, copy-link elsewhere.
@@ -67,7 +70,7 @@ export default function GlossaryClient({ entries }: Props) {
   }, [entries, query]);
 
   const groups = useMemo(() => {
-    const map = new Map<string, GlossaryEntry[]>();
+    const map = new Map<string, Entry[]>();
     for (const e of filtered) {
       const c = e.term[0].toUpperCase();
       const letter = /[A-Z]/.test(c) ? c : '#';
@@ -148,8 +151,9 @@ export default function GlossaryClient({ entries }: Props) {
                     </span>
                     <ShareTerm slug={entry.slug} term={entry.term} concept={entry.concept} />
                   </div>
-                  {/* Verbatim defining quote — the author's own words lead */}
-                  <blockquote className="border-l-2 border-amber-600 dark:border-amber-500 pl-3.5 mb-3 max-w-2xl">
+                  {/* Verbatim defining quote — Katz's words lead (amber); the
+                      rare non-Katz definition takes gray + an author label */}
+                  <blockquote className={`border-l-2 pl-3.5 mb-3 max-w-2xl ${!entry.definitionAuthor || entry.definitionAuthor.startsWith('Adam Katz') ? 'border-amber-600 dark:border-amber-500' : 'border-gray-300 dark:border-gray-600'}`}>
                     <p
                       className="text-gray-800 dark:text-gray-200 leading-relaxed"
                       style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px' }}
@@ -161,7 +165,7 @@ export default function GlossaryClient({ entries }: Props) {
                         href={`/post/${entry.definitionSlug}`}
                         className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:underline transition-colors"
                       >
-                        — {entry.definitionSource}
+                        — {entry.definitionAuthor && !entry.definitionAuthor.startsWith('Adam Katz') ? `${entry.definitionAuthor}, ` : ''}{entry.definitionSource}
                       </Link>
                     </footer>
                   </blockquote>

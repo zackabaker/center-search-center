@@ -82,8 +82,8 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   pdf:       'Essays & Articles',
   reddit:    'Reddit',
   twitter:   'X / Twitter',
-  chronicle: 'CLR',
-  ap:        'AP Journal',
+  chronicle: 'Chronicle · Gans',
+  ap:        'Anthropoetics · ref',
 };
 const SOURCE_COLORS: Record<ContentSource, string> = {
   substack:  'bg-orange-100 text-orange-800',
@@ -92,8 +92,9 @@ const SOURCE_COLORS: Record<ContentSource, string> = {
   pdf:       'bg-green-100 text-green-800',
   reddit:    'bg-red-100 text-red-800',
   twitter:   'bg-slate-100 text-slate-700',
-  chronicle: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
-  ap:        'bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300',
+  // Reference tier — muted; color (and amber especially) is for Katz sources
+  chronicle: 'bg-gray-100 text-gray-500 dark:bg-gray-800/60 dark:text-gray-400',
+  ap:        'bg-gray-100 text-gray-500 dark:bg-gray-800/60 dark:text-gray-400',
 };
 
 const RECENT_KEY = 'csc-recent-searches';
@@ -321,6 +322,8 @@ export default function SearchPageClient({
     phrase: string;
     totalPosts: number;
     totalOccurrences: number;
+    refPosts?: number;
+    refOccurrences?: number;
     posts: { slug: string; title: string; source: string; date: string; count: number; snippet: string }[];
   };
   const [grep, setGrep] = useState<GrepData | null>(null);
@@ -555,13 +558,13 @@ export default function SearchPageClient({
     if (grepPhrase.replace(/[^a-z0-9]/gi, '').length < 4) return;
     const ctl = new AbortController();
     setGrepStatus('loading');
-    fetch(`/api/grep?q=${encodeURIComponent(grepPhrase)}`, { signal: ctl.signal })
+    fetch(`/api/grep?q=${encodeURIComponent(grepPhrase)}&archives=${includeArchives ? '1' : '0'}`, { signal: ctl.signal })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((d) => { setGrep(d); setGrepStatus('done'); })
       .catch(() => { if (!ctl.signal.aborted) setGrepStatus('error'); });
     return () => ctl.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [committed, isImplicitPhrase, grepPhrase, thinResults]);
+  }, [committed, isImplicitPhrase, grepPhrase, thinResults, includeArchives]);
 
   // Settle the meaning-section query. User-typed operators (quotes that are
   // not the implicit whole-query wrap, or AND/OR/NOT) suppress it entirely.
@@ -582,12 +585,15 @@ export default function SearchPageClient({
   );
 
   // Deep matches not already in the visible list — texts where the phrase
-  // appears only past the opening the local index covers.
+  // appears only past the opening the local index covers. Katz tier renders
+  // under the main heading; Gans reference material under its own label.
   const deepMatches = useMemo(() => {
     if (!grep) return [];
     const seen = new Set(visibleResults.map((r) => r.entry.slug));
     return grep.posts.filter((p) => !seen.has(p.slug));
   }, [grep, visibleResults]);
+  const deepKatz = useMemo(() => deepMatches.filter((p) => p.source !== 'chronicle' && p.source !== 'ap'), [deepMatches]);
+  const deepRef = useMemo(() => deepMatches.filter((p) => p.source === 'chronicle' || p.source === 'ap'), [deepMatches]);
 
   // Vocabulary expansions in play (shared alias layer) — surfaced for trust.
   const expansions = useMemo(() => activeExpansions(committed), [committed]);
@@ -617,14 +623,15 @@ export default function SearchPageClient({
       <button
         onClick={toggleArchives}
         aria-pressed={includeArchives}
+        title="Reference material by Eric Gans — the Chronicles of Love & Resentment and the Anthropoetics journal"
         className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-colors ${
           includeArchives
             ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 border-gray-900 dark:border-white'
             : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500'
         }`}
       >
-        <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-amber-400" />
-        Chronicles &amp; AP
+        <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-gray-400" />
+        Gans reference (Chronicles &amp; AP)
         {includeArchives && archiveLoading && <span className="opacity-70">· loading…</span>}
       </button>
     </div>
@@ -752,7 +759,8 @@ export default function SearchPageClient({
                     )}
                     {grepStatus === 'done' && grep && grep.totalPosts > 0 && (
                       <span className="text-gray-400">
-                        · {grep.totalOccurrences}× in {grep.totalPosts} text{grep.totalPosts !== 1 ? 's' : ''} corpus-wide
+                        · {grep.totalOccurrences - (grep.refOccurrences ?? 0)}× in {grep.totalPosts - (grep.refPosts ?? 0)} Katz text{grep.totalPosts - (grep.refPosts ?? 0) !== 1 ? 's' : ''}
+                        {(grep.refOccurrences ?? 0) > 0 && ` (+${grep.refOccurrences}× in Gans reference)`}
                       </span>
                     )}
                     {expansions.length > 0 && (
@@ -885,33 +893,70 @@ export default function SearchPageClient({
           )}
           {deepMatches.length > 0 && (
             <div className={hasResults ? 'mt-8' : 'mt-2'}>
-              <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
-                {hasResults ? 'Deeper matches — full-text scan' : 'Found by full-text scan'}
-              </p>
-              <div className="space-y-3">
-                {deepMatches.map((p) => (
-                  <Link
-                    key={p.slug}
-                    href={`/post/${p.slug}?q=${encodeURIComponent(grepPhrase)}`}
-                    prefetch={false}
-                    className="group block bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm active:bg-gray-50 dark:active:bg-gray-800/60 transition-all"
-                  >
-                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                      <span className={`text-[11px] px-2 py-0.5 rounded-full whitespace-nowrap ${SOURCE_COLORS[p.source as ContentSource] ?? 'bg-gray-100 text-gray-600'}`}>
-                        {SOURCE_LABELS[p.source as ContentSource] ?? p.source}
-                      </span>
-                      {p.date && <span className="text-xs text-gray-400">{p.date}</span>}
-                      <span className="text-xs text-gray-400">{p.count}×</span>
-                    </div>
-                    <h3 className="text-sm sm:text-base font-medium text-gray-900 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors mb-1">
-                      {p.title}
-                    </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">
-                      {p.snippet}
-                    </p>
-                  </Link>
-                ))}
-              </div>
+              {deepKatz.length > 0 && (
+                <>
+                  <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+                    {hasResults ? 'Deeper matches — full-text scan' : 'Found by full-text scan'}
+                  </p>
+                  <div className="space-y-3">
+                    {deepKatz.map((p) => (
+                      <Link
+                        key={p.slug}
+                        href={`/post/${p.slug}?q=${encodeURIComponent(grepPhrase)}`}
+                        prefetch={false}
+                        className="group block bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm active:bg-gray-50 dark:active:bg-gray-800/60 transition-all"
+                      >
+                        <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                          <span className={`text-[11px] px-2 py-0.5 rounded-full whitespace-nowrap ${SOURCE_COLORS[p.source as ContentSource] ?? 'bg-gray-100 text-gray-600'}`}>
+                            {SOURCE_LABELS[p.source as ContentSource] ?? p.source}
+                          </span>
+                          {p.date && <span className="text-xs text-gray-400">{p.date}</span>}
+                          <span className="text-xs text-gray-400">{p.count}×</span>
+                        </div>
+                        <h3 className="text-sm sm:text-base font-medium text-gray-900 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors mb-1">
+                          {p.title}
+                        </h3>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">
+                          {p.snippet}
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
+                </>
+              )}
+              {/* Gans reference tier — present when the archives toggle is on,
+                  always below and labeled, never blended */}
+              {deepRef.length > 0 && (
+                <div className={deepKatz.length > 0 ? 'mt-6' : ''}>
+                  <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+                    Reference — Eric Gans (Chronicles · Anthropoetics)
+                  </p>
+                  <div className="space-y-3">
+                    {deepRef.map((p) => (
+                      <Link
+                        key={p.slug}
+                        href={`/post/${p.slug}?q=${encodeURIComponent(grepPhrase)}`}
+                        prefetch={false}
+                        className="group block bg-gray-50/60 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800 rounded-xl p-4 hover:border-gray-300 dark:hover:border-gray-600 transition-all"
+                      >
+                        <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                          <span className="text-[11px] px-2 py-0.5 rounded-full whitespace-nowrap bg-gray-100 text-gray-500 dark:bg-gray-800/60 dark:text-gray-400">
+                            {p.source === 'chronicle' ? 'Chronicle · Gans' : 'Anthropoetics · ref'}
+                          </span>
+                          {p.date && <span className="text-xs text-gray-400">{p.date}</span>}
+                          <span className="text-xs text-gray-400">{p.count}×</span>
+                        </div>
+                        <h3 className="text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors mb-1">
+                          {p.title}
+                        </h3>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">
+                          {p.snippet}
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

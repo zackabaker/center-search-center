@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     template: "%s | Center Study Center",
   },
   description:
-    "Complete searchable archive of Adam Katz and Dennis Bouvard's Center Study writings — 1,900+ texts on originary thinking, the center, deferral, sovereignty, and the human sciences.",
+    "The Adam Katz (Dennis Bouvard) archive — Center Study writings on originary thinking, the center, deferral, and sovereignty, with Eric Gans's Chronicles and Anthropoetics as reference. 1,900+ texts, full-text search.",
   keywords: [
     "Adam Katz",
     "Dennis Bouvard",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Center Study Center",
     description:
-      "Complete searchable archive of Adam Katz and Dennis Bouvard's Center Study writings — originary thinking, the center, deferral, sovereignty.",
+      "The Adam Katz (Dennis Bouvard) archive — originary thinking, the center, deferral, sovereignty; with Eric Gans's Chronicles as reference.",
     type: "website",
     url: "https://center.study",
     siteName: "Center Study Center",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Center Study Center",
     description:
-      "Complete archive of Adam Katz / Dennis Bouvard's Center Study writings. 1,900+ texts, full-text search, AI Q&A.",
+      "The Adam Katz / Dennis Bouvard archive. 1,900+ texts (with Gans reference material), full-text search, AI Q&A.",
   },
   // Search Console + Bing Webmaster verification. Set the tokens as Vercel env
   // vars (GOOGLE_SITE_VERIFICATION, BING_SITE_VERIFICATION) — no code change needed.
@@ -161,7 +161,8 @@ export default function RootLayout({
             </div>
           </div>
           {/* Collections row — the per-source hubs and authors, site-wide (the
-              homepage is a front door, not a portal; link equity lives here). */}
+              homepage is a front door, not a portal; link equity lives here).
+              Katz collections first; the Gans reference tier labeled after. */}
           <div className="max-w-5xl mx-auto px-4 pb-3 -mt-1 flex items-center gap-x-4 gap-y-1 flex-wrap">
             <span className="text-[11px] font-mono uppercase tracking-widest text-gray-300 dark:text-gray-700">Collections</span>
             {[
@@ -169,11 +170,18 @@ export default function RootLayout({
               { href: '/browse/gablog',    label: 'GABlog' },
               { href: '/browse/book',      label: 'Anthropomorphics' },
               { href: '/browse/pdf',       label: 'Essays & Articles' },
-              { href: '/browse/chronicle', label: 'Chronicles' },
-              { href: '/browse/ap',        label: 'Anthropoetics' },
               { href: '/browse/threads',   label: 'Threads & Q&A' },
               { href: '/lectures',         label: 'Lectures' },
               { href: '/author/katz',      label: 'Adam Katz' },
+            ].map(({ href, label }) => (
+              <Link key={href} href={href} className="text-[11px] text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">
+                {label}
+              </Link>
+            ))}
+            <span className="text-[11px] font-mono uppercase tracking-widest text-gray-300 dark:text-gray-700 ml-2">Reference</span>
+            {[
+              { href: '/browse/chronicle', label: 'Chronicles' },
+              { href: '/browse/ap',        label: 'Anthropoetics' },
               { href: '/author/gans',      label: 'Eric Gans' },
             ].map(({ href, label }) => (
               <Link key={href} href={href} className="text-[11px] text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">

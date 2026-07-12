@@ -36,13 +36,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/browse/substack`,     changeFrequency: 'weekly',  priority: 0.7 },
     { url: `${BASE_URL}/browse/pdf`,          changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/browse/book`,          changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${BASE_URL}/browse/chronicle`,    changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${BASE_URL}/browse/ap`,           changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/browse/chronicle`,    changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${BASE_URL}/browse/ap`,           changeFrequency: 'monthly', priority: 0.5 },
     { url: `${BASE_URL}/browse/threads`,      changeFrequency: 'monthly', priority: 0.5 },
     { url: `${BASE_URL}/browse/all`,          changeFrequency: 'weekly',  priority: 0.6 },
-    { url: `${BASE_URL}/author/katz`,         changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE_URL}/author/katz`,         changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/author/bouvard`,      changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${BASE_URL}/author/gans`,         changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE_URL}/author/gans`,         changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/lectures`,            changeFrequency: 'monthly', priority: 0.6 },
   ];
 
@@ -87,6 +87,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     pdf:      0.65,
     reddit:   0.5,
     twitter:  0.5,
+    // Reference tier (Eric Gans) — crawlable, but strictly below every Katz
+    // source; the 0.6 fallback previously put 940 Chronicles above reddit/X.
+    chronicle: 0.45,
+    ap:        0.45,
   };
 
   // parsePostDate handles Chronicle-style "July 6th, 1995" ordinals that

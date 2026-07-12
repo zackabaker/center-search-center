@@ -4,10 +4,16 @@ export type ContentSource = 'substack' | 'gablog' | 'book' | 'pdf' | 'reddit' | 
 export const HIDDEN_SOURCES: ContentSource[] = [];
 
 /**
- * Archival sources — included in browse, stats, sitemap, and Google crawl,
- * but filtered from search results by default. Users can opt in via a toggle.
+ * Archival sources — Eric Gans's Chronicles and Anthropoetics, hosted as
+ * REFERENCE MATERIAL on what is primarily the Adam Katz archive. Included in
+ * browse, stats, sitemap, feeds, and the open APIs (the archive hides
+ * nothing), but search defaults to Katz sources (opt-in toggle) and discovery
+ * surfaces subordinate and label the reference tier.
  */
 export const ARCHIVAL_SOURCES: ContentSource[] = ['chronicle', 'ap'];
+
+/** The Katz editorial corpus — what discovery modules draw from by default. */
+export const KATZ_SOURCES: ContentSource[] = ['substack', 'gablog', 'book', 'pdf', 'reddit', 'twitter'];
 
 export interface Post {
   slug: string;

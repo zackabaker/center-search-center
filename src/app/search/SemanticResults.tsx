@@ -13,12 +13,13 @@ const SOURCE_COLORS: Record<string, string> = {
   pdf: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
   reddit: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300',
   twitter: 'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
-  chronicle: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300',
-  ap: 'bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300',
+  // Reference tier — muted; color is reserved for Katz sources
+  chronicle: 'bg-gray-100 text-gray-500 dark:bg-gray-800/60 dark:text-gray-400',
+  ap: 'bg-gray-100 text-gray-500 dark:bg-gray-800/60 dark:text-gray-400',
 };
 const SOURCE_LABELS: Record<string, string> = {
   substack: 'Substack', gablog: 'GABlog', book: 'Anthropomorphics', pdf: 'Essay',
-  reddit: 'Reddit', twitter: 'X', chronicle: 'Chronicle', ap: 'AP Journal',
+  reddit: 'Reddit', twitter: 'X', chronicle: 'Chronicle · Gans', ap: 'Anthropoetics · ref',
 };
 
 type Status = 'idle' | 'loading-model' | 'searching' | 'done' | 'error';
