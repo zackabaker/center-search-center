@@ -2,14 +2,14 @@ import Anthropic from '@anthropic-ai/sdk';
 import { rateLimit, clientIp, isSameOrigin } from '@/lib/rate-limit';
 import { partnerCors, preflight } from '@/lib/cors';
 import { getAllPosts, getPublicPosts } from '@/lib/parser';
-import { Post } from '@/lib/types';
+import { Post, ARCHIVAL_SOURCES } from '@/lib/types';
 import { getConceptBySlug } from '@/data/guide/concepts';
 import { relatedSlugs } from '@/lib/related';
 import { aliasesFor } from '@/lib/vocab';
 
 const anthropic = new Anthropic();
 
-const SYSTEM_PROMPT = `You are an archival research assistant for Center Study — a transdisciplinary discourse developed by Eric Gans (Generative Anthropology) and elaborated by Adam Katz. You have access to excerpts from the complete Center Study archive:
+const SYSTEM_PROMPT = `You are an archival research assistant for Center Study — the archive of Adam Katz's work (pen name Dennis Bouvard) in and beyond Generative Anthropology, the field founded by Eric Gans. Katz has developed, revised, and in places critiqued Gans's concepts; when the two differ, Katz's formulation is this archive's position, and Gans is cited as the tradition Katz works from. You have access to excerpts from the Katz corpus:
 - **GABlog** (~480 posts by Adam Katz): the main theoretical blog
 - **Substack** (~127 essays by Adam Katz, writing as Dennis Bouvard): applied work on technology, governance, currency, AI, and contemporary politics. Dennis Bouvard is a pen name for Adam Katz.
 - **PDFs** (15 texts by Adam Katz): academic papers on language, power, juridical order, economics, and originary grammar
@@ -51,6 +51,7 @@ RULES:
 3. Quotes in the answer (inline) and in the Excerpts section must be verbatim.
 4. Do not introduce ideas, claims, or examples not present in the provided excerpts.
 5. Always say "Center Study" for the field; Katz by surname for the author. You may use "Bouvard" when referring to the Substack voice/persona, but note that Bouvard is a pen name for Katz if relevant.
+6. If an excerpt is marked as reference material by Eric Gans, attribute it explicitly ("As Gans writes in the Chronicles…") and never blur it into Katz's voice; Katz's own formulations take precedence when they differ.
 6. The tone should match the archive: precise, conceptual, scene-focused, not academic-jargon-y.
 7. URL-encode the ?q= parameter: spaces become +, all lowercase.`;
 
@@ -325,7 +326,11 @@ async function semanticRetrieve(
 }
 
 async function retrieveChunks(query: string, maxChunks = 25, origin?: string): Promise<ChunkWithMeta[]> {
-  const posts = getCachedPosts();
+  // POLICY (not accident): Ask answers from the Katz corpus. Gans's
+  // Chronicles/Anthropoetics are reference material — searchable via the
+  // archives toggle and the open APIs, but not blended into synthesized
+  // answers, where attribution would blur.
+  const posts = getCachedPosts().filter((p) => !ARCHIVAL_SOURCES.includes(p.source));
 
   const queryTerms = extractQueryTerms(query);
   const bigrams = extractBigrams(query);
@@ -489,6 +494,9 @@ function formatChunksForPrompt(chunks: ChunkWithMeta[]): string {
     book: 'Book',
     pdf: 'PDF',
     twitter: 'X / Twitter',
+    // Defensive: if a Gans chunk ever reaches the prompt, it arrives labeled.
+    chronicle: 'Chronicle of Love & Resentment (Eric Gans — reference)',
+    ap: 'Anthropoetics (reference)',
   };
 
   return chunks
@@ -546,7 +554,11 @@ export async function POST(request: Request) {
       const conceptData = getConceptBySlug(concept);
       if (conceptData && conceptData.passages.length > 0) {
         const passageText = conceptData.passages
-          .map((p, i) => `[Concept passage ${i + 1}] From "${p.source}":\n"${p.text}"`)
+          .map((p, i) => {
+            const slug = (p as { sourceSlug?: string }).sourceSlug ?? '';
+            const gans = /^(clr-|ap\d)/.test(slug) && !/katz/.test(slug);
+            return `[Concept passage ${i + 1}] From "${p.source}"${gans ? ' (Eric Gans — reference material; attribute to Gans if quoted)' : ''}:\n"${p.text}"`;
+          })
           .join('\n\n');
         conceptContextBlock = `CONCEPT CONTEXT: The user is reading the concept page for "${conceptData.title}" and has asked a related question. These are the defining passages for this concept — treat them as high-priority anchors when synthesizing your answer:\n\n${passageText}\n\n---\n\n`;
       }

@@ -71,7 +71,7 @@ const ARCHIVE_SOURCES = [
     label: 'Chronicles of Love and Resentment',
     shortLabel: 'Chronicles',
     author: 'Eric Gans',
-    description: "Eric Gans's weekly column on culture, desire, and the originary hypothesis — published every week from 1996 to 2019. An essential running commentary on contemporary thought through the lens of Generative Anthropology.",
+    description: "Eric Gans's weekly column (1996–2019) developing the originary hypothesis that Center Study builds on — hosted here as reference material.",
     dot: 'bg-amber-400',
     badge: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
     ring: 'hover:ring-2 hover:ring-amber-300 dark:hover:ring-amber-700',
@@ -152,7 +152,9 @@ export default async function BrowsePage() {
       <div className="mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold mt-2 mb-2 text-gray-900 dark:text-white">Archive</h1>
         <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">
-          {totalAll.toLocaleString()} texts across 7 venues — browse by source, topic, or year
+          {(totalAll - (countsBySource['chronicle'] ?? 0) - (countsBySource['ap'] ?? 0)).toLocaleString()} texts
+          by Adam Katz, plus {((countsBySource['chronicle'] ?? 0) + (countsBySource['ap'] ?? 0)).toLocaleString()} reference
+          texts (Gans&rsquo;s Chronicles &amp; Anthropoetics) — browse by source, topic, or year
         </p>
         {/* Utility links */}
         <div className="flex items-center gap-3 flex-wrap text-xs">
@@ -289,12 +291,12 @@ export default async function BrowsePage() {
         </div>
       </section>
 
-      {/* ── Archives ── */}
+      {/* ── Reference shelf — Eric Gans ── */}
       <section>
         <div className="flex items-center gap-3 mb-4">
-          <p className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500">Archives</p>
+          <p className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500">Reference — Eric Gans</p>
           <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
-          <p className="text-[10px] text-gray-400 dark:text-gray-600">Not shown in search by default</p>
+          <p className="text-[10px] text-gray-400 dark:text-gray-600">Source material Center Study builds on · opt-in in search</p>
         </div>
         <div className="grid sm:grid-cols-2 gap-3">
           {ARCHIVE_SOURCES.map((source) => {

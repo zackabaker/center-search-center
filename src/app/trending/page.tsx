@@ -80,6 +80,13 @@ export default async function TrendingPage() {
   const items = entries
     .map((e) => ({ ...e, post: getPostBySlug(e.slug) }))
     .filter((x): x is typeof x & { post: NonNullable<typeof x.post> } => Boolean(x.post))
+    // Reference-tier downweight (mirrors search's convention): Gans material
+    // can trend, but raw view counts shouldn't let it lead the Katz archive's
+    // most-read page by default.
+    .sort((a, b) =>
+      b.count * (b.post.source === 'chronicle' || b.post.source === 'ap' ? 0.7 : 1) -
+      a.count * (a.post.source === 'chronicle' || a.post.source === 'ap' ? 0.7 : 1)
+    )
     .slice(0, 30);
 
   return (

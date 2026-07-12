@@ -19,6 +19,7 @@ type Quote = {
   sourceTitle: string;
   source: string;
   date: string | null;
+  author?: string;
   concepts: string[];
   terms: string[];
   defining: boolean;
@@ -35,10 +36,11 @@ const SOURCE_LABELS: Record<string, string> = {
   twitter: 'X / Twitter',
 };
 
-// Gans wrote the Chronicles and Anthropoetics-era pieces; everything else in
-// the curated layer is Katz/Bouvard.
-function quoteAuthor(source: string): string {
-  return source === 'chronicle' || source === 'ap' ? 'Eric Gans' : 'Adam Katz';
+// quotes.json carries a real per-quote author (venue alone misattributes:
+// Katz's own Anthropoetics articles, guest Chroniclers). Source-based
+// inference is only the fallback for older data.
+function quoteAuthor(q: Quote): string {
+  return q.author ?? (q.source === 'chronicle' || q.source === 'ap' ? 'Eric Gans' : 'Adam Katz');
 }
 
 const quotes = QUOTES as Quote[];
@@ -56,7 +58,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const head = q.text.length > 150 ? q.text.slice(0, 150).replace(/\s+\S*$/, '') + '…' : q.text;
   return {
     title: `“${head.slice(0, 60)}${head.length > 60 ? '…' : ''}” — Center Study`,
-    description: `${head} — ${quoteAuthor(q.source)}, ${q.sourceTitle}`,
+    description: `${head} — ${quoteAuthor(q)}, ${q.sourceTitle}`,
     alternates: { canonical: `https://center.study/q/${id}` },
   };
 }
@@ -66,7 +68,7 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
   const q = byId.get(id);
   if (!q) notFound();
 
-  const author = quoteAuthor(q.source);
+  const author = quoteAuthor(q);
   const termsBySlug = new Map(GLOSSARY.map((e) => [e.slug, e]));
 
   const quotationJsonLd = {
@@ -110,10 +112,13 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(quotationJsonLd) }} />
 
       <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-8">
-        Verbatim quote · {q.defining ? 'defining passage' : 'from the corpus'}
+        Verbatim quote · {author === 'Eric Gans'
+          ? 'reference material — Eric Gans'
+          : q.defining ? 'defining passage' : 'from the corpus'}
       </p>
 
-      <blockquote className="border-l-2 border-amber-600 dark:border-amber-500 pl-5 sm:pl-6 mb-8">
+      {/* Amber marks Katz's verbatim center; reference-tier quotes take gray */}
+      <blockquote className={`border-l-2 pl-5 sm:pl-6 mb-8 ${author === 'Eric Gans' ? 'border-gray-300 dark:border-gray-600' : 'border-amber-600 dark:border-amber-500'}`}>
         <p
           className="text-gray-900 dark:text-gray-100 leading-relaxed text-xl sm:text-2xl"
           style={{ fontFamily: 'var(--prose-font-family)' }}

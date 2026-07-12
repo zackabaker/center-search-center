@@ -53,7 +53,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: 'Where can I read more?',
-    a: `This site is the complete searchable archive — over ${CORPUS.toLocaleString()} texts and more than five million words by Adam Katz and Dennis Bouvard, plus the foundational works. Start with the introduction, the concept glossary, the lecture series, or search the corpus directly.`,
+    a: `This site is the searchable archive of Adam Katz and Dennis Bouvard's Center Study writings, with Eric Gans's Chronicles and the Anthropoetics journal included as reference — over ${CORPUS.toLocaleString()} texts and more than five million words in all. Start with the introduction, the concept glossary, the lecture series, or search the corpus directly.`,
   },
 ];
 

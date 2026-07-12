@@ -10,6 +10,6 @@ export default function Image() {
     eyebrow: 'Center.Study',
     quote:
       'The originary hypothesis repels the kind of initiatory revelatory ‘download’ that is nevertheless the only way of understanding it',
-    meta: 'Adam Katz · Dennis Bouvard · Eric Gans',
+    meta: 'The Adam Katz · Dennis Bouvard archive',
   });
 }

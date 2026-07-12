@@ -22,13 +22,15 @@ export default function AboutPage() {
 
       <h2 className={H}>What this is</h2>
       <p className={P}>
-        The Center Study Center is the complete digital archive of Center Study — the branch of
-        Eric Gans&rsquo;s Generative Anthropology developed by Adam Katz, who publishes contemporary
-        work under the pen name Dennis Bouvard. The corpus holds ~1,969 texts and over five million
-        words spanning 1995 to the present: Katz&rsquo;s GABlog and Substack essays, the book{' '}
-        <em>Anthropomorphics</em> (2020), academic papers, Gans&rsquo;s <em>Chronicles of Love and
-        Resentment</em>, and the <em>Anthropoetics</em> journal. New Substack essays are ingested
-        automatically as they are published — see <Link href="/new" className="text-blue-600 dark:text-blue-400 hover:underline">what&rsquo;s new</Link>.
+        The Center Study Center is the archive of Adam Katz&rsquo;s Center Study — his development
+        of, and beyond, the Generative Anthropology founded by Eric Gans. Katz publishes
+        contemporary work under the pen name Dennis Bouvard. The primary corpus is Katz&rsquo;s
+        GABlog and Substack essays, the book <em>Anthropomorphics</em> (2020), and academic papers;
+        Gans&rsquo;s <em>Chronicles of Love and Resentment</em> and the <em>Anthropoetics</em>{' '}
+        journal are included as reference material — citable and fully searchable on request, but
+        the archive&rsquo;s positions are Katz&rsquo;s. Together: ~1,969 texts and over five million
+        words spanning 1995 to the present. New Substack essays are ingested automatically as they
+        are published — see <Link href="/new" className="text-blue-600 dark:text-blue-400 hover:underline">what&rsquo;s new</Link>.
       </p>
 
       <h2 className={H}>The verbatim discipline</h2>

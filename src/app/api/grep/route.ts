@@ -1,4 +1,5 @@
 import { getPublicPosts } from '@/lib/parser';
+import { ARCHIVAL_SOURCES, ContentSource } from '@/lib/types';
 import { openCors, preflight } from '@/lib/cors';
 import { buildPhraseRegex, makeSnippet } from '@/lib/phrase-match';
 
@@ -11,7 +12,15 @@ import { buildPhraseRegex, makeSnippet } from '@/lib/phrase-match';
 // snippet, so an exact quote from deep in a Chronicle is findable — the core
 // promise of a verbatim-first site.
 //
-// GET /api/grep?q=phrase → { phrase, posts: [{slug,title,source,date,count,snippet}], totalPosts, totalOccurrences }
+// GET /api/grep?q=phrase[&archives=0] → { phrase, posts: [...], totalPosts,
+//   totalOccurrences, refPosts, refOccurrences }
+//
+// The API default scans the FULL corpus (an open archive hides nothing);
+// archives=0 excludes the Gans reference tier (chronicle/ap) — the site's own
+// search passes it unless the reader flips the Chronicles & AP toggle.
+// Ordering is two-tiered: Katz sources first, then reference material, each
+// by occurrence count — so the reference tier can never crowd Katz texts out
+// of the capped payload.
 //
 // Matching is punctuation/typography-tolerant: the phrase's words must appear
 // in order, separated only by non-alphanumerics (covers curly quotes, dashes,
@@ -41,9 +50,14 @@ export async function GET(request: Request) {
     return Response.json({ error: 'invalid phrase' }, { status: 400, headers: openCors() });
   }
 
+  const includeArchives = url.searchParams.get('archives') !== '0';
+  const isRef = (s: string) => ARCHIVAL_SOURCES.includes(s as ContentSource);
+
   const hits: Hit[] = [];
   let totalOccurrences = 0;
+  let refOccurrences = 0;
   for (const p of getPublicPosts()) {
+    if (!includeArchives && isRef(p.source)) continue;
     re.lastIndex = 0;
     const first = re.exec(p.content);
     if (!first) continue;
@@ -51,6 +65,7 @@ export async function GET(request: Request) {
     let count = 1;
     while (re.exec(p.content) !== null) count++;
     totalOccurrences += count;
+    if (isRef(p.source)) refOccurrences += count;
     hits.push({
       slug: p.slug,
       title: p.title,
@@ -61,13 +76,17 @@ export async function GET(request: Request) {
     });
   }
 
-  hits.sort((a, b) => b.count - a.count);
+  // Katz tier first, then reference — each by count.
+  hits.sort((a, b) => (isRef(a.source) ? 1 : 0) - (isRef(b.source) ? 1 : 0) || b.count - a.count);
+  const refPosts = hits.filter((h) => isRef(h.source)).length;
 
   return Response.json(
     {
       phrase: q,
       totalPosts: hits.length,
       totalOccurrences,
+      refPosts,
+      refOccurrences,
       posts: hits.slice(0, MAX_POSTS),
     },
     {

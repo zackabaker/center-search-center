@@ -6,7 +6,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'New in the archive',
   description:
-    'The latest texts added to the Center Study archive — new Substack essays, Chronicles, and additions across the corpus, updated automatically.',
+    'The latest texts added to the Center Study archive — new Substack essays and additions across Adam Katz’s corpus, updated automatically.',
   alternates: { canonical: 'https://center.study/new' },
 };
 

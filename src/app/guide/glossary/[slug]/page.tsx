@@ -1,8 +1,19 @@
 import { notFound, permanentRedirect } from 'next/navigation';
 import Link from 'next/link';
 import { GLOSSARY } from '@/data/guide/glossary';
+import { getPublicPosts } from '@/lib/parser';
 import GoBack from '@/components/GoBack';
 import type { Metadata } from 'next';
+
+// Real author of the defining quote's source — venue alone misattributes
+// (Anthropoetics is multi-author). Katz definitions lead by policy; the rare
+// non-Katz definition renders labeled, with a gray rule (amber is Katz's).
+function definitionAuthor(defSlug: string): string {
+  const post = getPublicPosts().find((p) => p.slug === defSlug);
+  const a = (post?.author ?? '').trim();
+  if (a) return a;
+  return post?.source === 'chronicle' || post?.source === 'ap' ? 'Eric Gans' : 'Adam Katz';
+}
 
 // Canonical page per glossary term — the site's atom (the verbatim defining
 // quote) with a stable, crawlable URL. Terms that have a full concept hub
@@ -47,6 +58,9 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ s
   // Terms with a full concept treatment live there — one canonical page per term.
   if (entry.concept) permanentRedirect(`/guide/concepts/${entry.concept}`);
 
+  const defAuthor = definitionAuthor(entry.definitionSlug);
+  const katzDefined = defAuthor.startsWith('Adam Katz');
+
   const definedTermJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'DefinedTerm',
@@ -78,7 +92,7 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ s
       <GoBack fallback="/concepts?view=glossary" label="← Glossary" />
 
       <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mt-6 mb-2">
-        Term
+        Term{!katzDefined && ' · reference definition'}
       </p>
       <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-gray-900 dark:text-white mb-1.5">
         {entry.term}
@@ -87,8 +101,9 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ s
         used in {entry.posts} texts across the archive
       </p>
 
-      {/* The verbatim defining quote — the author's words lead */}
-      <blockquote className="border-l-2 border-amber-600 dark:border-amber-500 pl-4 sm:pl-5 mb-10">
+      {/* The verbatim defining quote — Katz's words lead (amber); the rare
+          non-Katz definition takes a gray rule and an explicit author. */}
+      <blockquote className={`border-l-2 pl-4 sm:pl-5 mb-10 ${katzDefined ? 'border-amber-600 dark:border-amber-500' : 'border-gray-300 dark:border-gray-600'}`}>
         <p
           className="text-gray-900 dark:text-gray-100 leading-relaxed text-lg sm:text-xl"
           style={{ fontFamily: 'var(--prose-font-family)' }}
@@ -100,7 +115,7 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ s
             href={`/post/${entry.definitionSlug}`}
             className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:underline transition-colors"
           >
-            — {entry.definitionSource}
+            — {katzDefined ? '' : `${defAuthor}, `}{entry.definitionSource}
           </Link>
         </footer>
       </blockquote>

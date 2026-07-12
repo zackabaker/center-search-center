@@ -16,6 +16,8 @@ interface AuthorProfile {
   selectPosts: (all: Post[]) => Post[];
   sources: ContentSource[];
   links: { label: string; href: string }[];
+  /** Reference-tier author — work hosted as source material, not the archive's own voice. */
+  tier?: 'reference';
 }
 
 // Unified author: Adam Katz writes as himself (GABlog, Essays, Book)
@@ -60,6 +62,7 @@ const GANS: AuthorProfile = {
     { label: 'Chronicles of Love and Resentment', href: '/browse/chronicle' },
     { label: 'Anthropoetics Journal', href: '/browse/ap' },
   ],
+  tier: 'reference',
 };
 
 const PROFILES: Record<string, AuthorProfile> = { katz: KATZ, baker: BAKER, gans: GANS };
@@ -178,6 +181,11 @@ export default async function AuthorPage({
         <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white mb-1">
           {profile.name}
         </h1>
+        {profile.tier === 'reference' && (
+          <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
+            Reference author — center.study is the Adam Katz archive; this work is hosted as source material
+          </p>
+        )}
         {profile.altName && (
           <p className="text-sm text-gray-400 dark:text-gray-500 mb-3">
             also writes as <span className="text-gray-600 dark:text-gray-300 font-medium">{profile.altName}</span>

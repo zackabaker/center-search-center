@@ -2,6 +2,7 @@ import HomeSearch from '@/components/HomeSearch';
 import RandomPostButton from '@/components/RandomPostButton';
 import Link from 'next/link';
 import { getAllPosts, getPublicPosts } from '@/lib/parser';
+import { ARCHIVAL_SOURCES } from '@/lib/types';
 import { parsePostDate } from '@/lib/dates';
 import type { Metadata } from 'next';
 
@@ -18,6 +19,8 @@ const SOURCE_LABELS: Record<string, string> = {
   gablog: 'GABlog',
   pdf: 'Essay',
   book: 'Book',
+  chronicle: 'Chronicle · Gans',
+  ap: 'Anthropoetics · ref',
 };
 
 const SOURCE_COLORS: Record<string, string> = {
@@ -25,6 +28,9 @@ const SOURCE_COLORS: Record<string, string> = {
   gablog:   'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
   pdf:      'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
   book:     'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
+  // Reference tier — deliberately muted; color is reserved for Katz sources
+  chronicle: 'bg-gray-100 text-gray-500 dark:bg-gray-800/60 dark:text-gray-400',
+  ap:        'bg-gray-100 text-gray-500 dark:bg-gray-800/60 dark:text-gray-400',
 };
 
 // Curated entry points grouped by reader interest
@@ -108,17 +114,23 @@ export default function Home() {
   const today = new Date();
   const allPosts = getPublicPosts();
 
-  const onThisDay = allPosts.filter((p) => {
+  // Katz entries lead; Gans material renders below under a labeled reference
+  // subsection (the dated pool is 55% Chronicles — unpartitioned, the module
+  // would wear a majority-Gans face on the Katz archive's front door).
+  const onThisDayAll = allPosts.filter((p) => {
     const d = parsePostDate(p.date);
     return !!d && d.getMonth() === today.getMonth() && d.getDate() === today.getDate();
   });
+  const onThisDay = onThisDayAll.filter((p) => !ARCHIVAL_SOURCES.includes(p.source));
+  const onThisDayRef = onThisDayAll.filter((p) => ARCHIVAL_SOURCES.includes(p.source)).slice(0, 4);
 
   // sameAs identity graph — consolidates Adam Katz / Dennis Bouvard across the web
   // and lists generativeanthropology.com as an alternate of the same project.
+  // NOTE: never put anthropoetics.ucla.edu here — sameAs asserts IDENTITY, and
+  // that is Gans's journal, not Katz. It is referenced from the catalog node.
   const SAMEAS = [
     'https://dennisbouvard.substack.com',
     'https://www.amazon.com/Anthropomorphics-Originary-Grammar-Dennis-Bouvard/dp/0648690571',
-    'http://anthropoetics.ucla.edu/',
     'https://www.reddit.com/user/bouvard1',
     'https://x.com/centerstudy_',
     'https://www.generativeanthropology.com',
@@ -132,7 +144,12 @@ export default function Home() {
         url: 'https://center.study',
         name: 'Center Study Center',
         alternateName: 'Center Study',
-        description: 'The complete searchable archive of Adam Katz and Dennis Bouvard — Center Study and Generative Anthropology: ~1,900 texts on the originary hypothesis, the center, deferral, and sovereignty.',
+        description: 'The Adam Katz (Dennis Bouvard) archive — Center Study and Generative Anthropology: ~900 texts by Katz on the originary hypothesis, the center, deferral, and sovereignty, with Eric Gans\'s Chronicles of Love & Resentment and Anthropoetics included as reference material.',
+        hasPart: {
+          '@type': 'Collection',
+          name: 'Reference: Chronicles of Love & Resentment and Anthropoetics',
+          creator: { '@type': 'Person', name: 'Eric Gans', url: 'https://center.study/author/gans', sameAs: 'http://anthropoetics.ucla.edu/' },
+        },
         inLanguage: 'en',
         about: {
           '@type': 'DefinedTerm',
@@ -222,11 +239,11 @@ export default function Home() {
 
         {/* Corpus stats */}
         <div className="flex items-center justify-center gap-3 mt-5 text-sm text-gray-400 dark:text-gray-500">
-          <span>1,900+ texts</span>
+          <span>900+ texts by Katz</span>
+          <span className="text-gray-200 dark:text-gray-700">·</span>
+          <span>1,000+ reference texts</span>
           <span className="text-gray-200 dark:text-gray-700">·</span>
           <span>5M+ words</span>
-          <span className="text-gray-200 dark:text-gray-700">·</span>
-          <span>1995&ndash;present</span>
         </div>
 
         {/* Discover — mobile only, just below search (favorite mobile feature) */}
@@ -294,7 +311,7 @@ export default function Home() {
       {/* On this day — the one dynamic module without a canonical page of its
           own (/new and /trending carry recently-added and most-read). The
           per-source hubs and author pages live in the site footer. */}
-      {onThisDay.length > 0 && (
+      {(onThisDay.length > 0 || onThisDayRef.length > 0) && (
         <div className="border-t border-gray-100 dark:border-gray-800">
           <div className="max-w-5xl mx-auto px-4 py-12">
             <div className="mb-6">
@@ -322,6 +339,30 @@ export default function Home() {
                 </Link>
               ))}
             </div>
+            {/* Reference shelf — Gans material, present but subordinate */}
+            {onThisDayRef.length > 0 && (
+              <div className={onThisDay.length > 0 ? 'mt-6 pt-4 border-t border-gray-100 dark:border-gray-800' : ''}>
+                <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
+                  From the reference shelf — Eric Gans
+                </p>
+                <div className="space-y-1">
+                  {onThisDayRef.map((post) => (
+                    <Link
+                      key={post.slug}
+                      href={`/post/${post.slug}`}
+                      className="group flex items-center gap-3 py-1.5 hover:bg-gray-50 dark:hover:bg-gray-900/50 -mx-2 px-2 rounded-lg transition-colors"
+                    >
+                      <span className="text-xs text-gray-400 w-10 shrink-0 font-mono">
+                        {post.date!.match(/\b(19|20)\d{2}\b/)?.[0] ?? ''}
+                      </span>
+                      <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200 transition-colors leading-snug">
+                        {post.title}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -1,5 +1,6 @@
 import { CONCEPTS } from '@/data/guide/concepts';
 import { GLOSSARY } from '@/data/guide/glossary';
+import { getPublicPosts } from '@/lib/parser';
 import CONCEPT_GLOSSARY from '@/data/guide/concept-glossary.json';
 import GlossaryClient from '@/components/GlossaryClient';
 import BackToReading from '@/components/BackToReading';
@@ -37,6 +38,20 @@ const TIERS = [
 ];
 
 type View = 'core' | 'glossary';
+
+// Attach the real author of each defining quote's source (server-side —
+// Anthropoetics is multi-author, so venue alone misattributes). The client
+// labels the rare non-Katz definition and gives it a gray rule.
+function enrichedGlossary() {
+  const bySlug = new Map(getPublicPosts().map((p) => [p.slug, p]));
+  return GLOSSARY.map((e) => {
+    const post = bySlug.get(e.definitionSlug);
+    const a = (post?.author ?? '').trim();
+    const definitionAuthor =
+      a || (post?.source === 'chronicle' || post?.source === 'ap' ? 'Eric Gans' : 'Adam Katz');
+    return { ...e, definitionAuthor };
+  });
+}
 
 export default async function ConceptsPage({
   searchParams,
@@ -89,7 +104,7 @@ export default async function ConceptsPage({
       </div>
 
       {/* ── Glossary tab ──────────────────────────────────────────────────── */}
-      {view === 'glossary' && <GlossaryClient entries={GLOSSARY} />}
+      {view === 'glossary' && <GlossaryClient entries={enrichedGlossary()} />}
 
       {/* ── Core Concepts tab ─────────────────────────────────────────────── */}
       {view === 'core' && (
