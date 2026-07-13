@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { applyTheme, currentTheme, type ThemeMode } from '@/lib/theme';
 
-type ReadingMode = 'normal' | 'sepia' | 'night';
+type ReadingMode = ThemeMode;
 
 const MODE_LABELS: Record<ReadingMode, string> = {
   normal: 'Default',
@@ -21,13 +22,14 @@ export default function ReadingControls() {
     const saved = localStorage.getItem('csc-font-size');
     if (saved) setFontSize(parseInt(saved, 10));
 
-    const savedMode = localStorage.getItem('csc-reading-mode') as ReadingMode | null;
-    if (savedMode && MODE_SEQUENCE.includes(savedMode)) {
-      setReadingMode(savedMode);
-      applyMode(savedMode);
-    }
+    // The first-paint script already applied the theme — just reflect it,
+    // and stay in sync when the nav moon changes it.
+    setReadingMode(currentTheme());
+    const onTheme = () => setReadingMode(currentTheme());
+    window.addEventListener('csc-theme-changed', onTheme);
 
     try { setTermLinks(localStorage.getItem('csc-term-links') !== 'off'); } catch {}
+    return () => window.removeEventListener('csc-theme-changed', onTheme);
   }, []);
 
   function toggleTermLinks() {
@@ -43,35 +45,14 @@ export default function ReadingControls() {
     localStorage.setItem('csc-font-size', String(fontSize));
   }, [fontSize]);
 
-  function applyMode(mode: ReadingMode) {
-    const root = document.documentElement;
-    if (mode === 'normal') {
-      root.removeAttribute('data-reading-mode');
-      // Sepia strips the dark class and Night adds it — returning to Default
-      // must restore the user's own dark-mode preference, not whatever the
-      // last reading mode left behind.
-      try {
-        if (localStorage.getItem('csc-dark-mode') === 'true') root.classList.add('dark');
-        else root.classList.remove('dark');
-      } catch {}
-    } else {
-      root.setAttribute('data-reading-mode', mode);
-      // Night mode also enables dark class for UI elements
-      if (mode === 'night') {
-        root.classList.add('dark');
-      } else {
-        // Sepia removes dark (use light theme background)
-        root.classList.remove('dark');
-      }
-    }
-  }
-
+  // Default / Sepia / Night write the ONE site theme model (src/lib/theme.ts).
+  // .dark is derived there (night ⇔ dark), so these buttons and the nav moon
+  // can never strand a half-dark state.
   function cycleMode() {
     const currentIdx = MODE_SEQUENCE.indexOf(readingMode);
     const next = MODE_SEQUENCE[(currentIdx + 1) % MODE_SEQUENCE.length];
     setReadingMode(next);
-    applyMode(next);
-    localStorage.setItem('csc-reading-mode', next);
+    applyTheme(next);
   }
 
   const modeIcon = readingMode === 'normal'

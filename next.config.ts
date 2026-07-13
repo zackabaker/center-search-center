@@ -73,6 +73,9 @@ const nextConfig: NextConfig = {
       { source: '/q', destination: '/concepts', permanent: false },
       // The numbered series' home is the Chronicles browse hub.
       { source: '/chronicles', destination: '/browse/chronicle', permanent: false },
+      // "awe" removed from the glossary July 2026 (no Katz definition exists;
+      // policy: no reference-defined terms). Briefly indexed, so redirect.
+      { source: '/guide/glossary/awe', destination: '/concepts', permanent: true },
     ];
   },
 

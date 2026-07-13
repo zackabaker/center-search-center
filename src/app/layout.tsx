@@ -86,11 +86,13 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* Initialise dark mode AND reading mode (sepia/night) before first paint
-            to avoid flash — mirrors ReadingControls.applyMode. */}
+        {/* Initialise the ONE theme model (normal|sepia|night) before first
+            paint — mirrors src/lib/theme.ts applyTheme: .dark is DERIVED
+            (night ⇔ dark), never independent, so a half-dark state cannot
+            survive a reload. Legacy csc-dark-mode=true migrates to night. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var de=document.documentElement;var rm=localStorage.getItem('csc-reading-mode');if(rm==='sepia'||rm==='night'){de.setAttribute('data-reading-mode',rm);if(rm==='night')de.classList.add('dark');}else if(localStorage.getItem('csc-dark-mode')==='true'){de.classList.add('dark');}}catch(e){}})();`,
+            __html: `(function(){try{var de=document.documentElement;var rm=localStorage.getItem('csc-reading-mode');if(rm!=='sepia'&&rm!=='night'){rm=localStorage.getItem('csc-dark-mode')==='true'?'night':'normal';}if(rm==='sepia'||rm==='night'){de.setAttribute('data-reading-mode',rm);}de.classList.toggle('dark',rm==='night');localStorage.setItem('csc-reading-mode',rm);localStorage.setItem('csc-dark-mode',String(rm==='night'));}catch(e){}})();`,
           }}
         />
         {/* RSS feed autodiscovery */}
