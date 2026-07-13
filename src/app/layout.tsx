@@ -103,7 +103,9 @@ export default function RootLayout({
           href="https://center.study/feed.xml"
         />
       </head>
-      <body className="min-h-full flex flex-col bg-white dark:bg-[#111111] text-gray-900 dark:text-[#e8e8e8] pb-16 sm:pb-0">
+      {/* Ground colors come from the theme vars so all THREE modes (normal /
+          sepia / night) color the whole page, not just post prose. */}
+      <body className="min-h-full flex flex-col bg-[var(--background)] text-[var(--foreground)] pb-16 sm:pb-0">
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-gray-900 focus:text-white dark:focus:bg-white dark:focus:text-gray-900 focus:text-sm focus:font-medium"
@@ -111,7 +113,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <SiteNav />
-        <div id="main-content" className="contents">
+        <div id="main-content" tabIndex={-1} className="contents">
           {children}
         </div>
         <footer className="block border-t border-gray-100 dark:border-gray-800 mt-auto print:hidden">

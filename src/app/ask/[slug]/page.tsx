@@ -207,11 +207,13 @@ export default async function AnswerPage({ params }: { params: Promise<{ slug: s
 
       <section className="mt-10 pt-6 border-t border-gray-100 dark:border-gray-800">
         <div className="flex flex-wrap items-center gap-3">
+          {/* Plain /ask — passing ?q= auto-submitted and spent 10-20s
+              regenerating an unreviewed copy of the answer just read. */}
           <Link
-            href={`/ask?q=${encodeURIComponent(a.question)}`}
+            href="/ask"
             className="px-4 py-2 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold hover:opacity-90 transition-opacity"
           >
-            Ask a follow-up →
+            Ask your own question →
           </Link>
           <Link href="/start" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
             New to Center Study? Start here

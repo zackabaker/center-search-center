@@ -102,7 +102,7 @@ export default function GlossaryClient({ entries }: Props) {
 
       {/* A–Z bar */}
       {!query && (
-        <nav className="sticky top-12 z-20 bg-white/95 dark:bg-gray-950/95 backdrop-blur py-2 -mx-4 px-4 mb-8 border-b border-gray-100 dark:border-gray-800 overflow-x-auto scrollbar-hide">
+        <nav className="sticky top-12 z-20 backdrop-blur py-2 -mx-4 px-4 mb-8 border-b border-gray-100 dark:border-gray-800 overflow-x-auto scrollbar-hide" style={{ backgroundColor: 'color-mix(in srgb, var(--background) 95%, transparent)' }}>
           <div className="flex gap-1 min-w-max">
             {letters.map((l) => (
               <a

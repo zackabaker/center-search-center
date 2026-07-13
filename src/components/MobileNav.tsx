@@ -91,7 +91,7 @@ export default function MobileNav() {
   // making the bar "float" up mid-page. Solid bg avoids that.
   return (
     <div
-      className={`fixed bottom-0 left-0 right-0 z-40 sm:hidden bg-white dark:bg-[#111111] border-t border-gray-100 dark:border-gray-800 transition-transform duration-200 ${hidden ? 'translate-y-full' : 'translate-y-0'}`}
+      className={`fixed bottom-0 left-0 right-0 z-40 sm:hidden bg-[var(--background)] border-t border-gray-100 dark:border-gray-800 transition-transform duration-200 ${hidden ? 'translate-y-full' : 'translate-y-0'}`}
       style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
     >
       <div className="flex items-stretch justify-around">

@@ -21,7 +21,11 @@ export default function SiteNav() {
   // ⌘K opens the global command palette (mounted in the layout).
 
   return (
-    <nav className="sticky top-0 z-30 bg-white/90 dark:bg-gray-950/90 backdrop-blur border-b border-gray-100 dark:border-gray-800 print:hidden">
+    <nav
+      className="sticky top-0 z-30 backdrop-blur border-b border-gray-100 dark:border-gray-800 print:hidden"
+      // Theme-var ground (90% opaque) so the bar matches normal/sepia/night
+      style={{ backgroundColor: 'color-mix(in srgb, var(--background) 90%, transparent)' }}
+    >
       <div className="max-w-5xl mx-auto px-4 h-12 flex items-center justify-between">
         <Link
           href="/"

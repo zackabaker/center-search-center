@@ -115,7 +115,10 @@ export default function TermLink({
         createPortal(
           <div
             data-term-card
-            role="dialog"
+            // Honest semantics: this is a hover preview, not a dialog — focus
+            // never moves into it (role="dialog" promised keyboard entry that
+            // doesn't exist). The term itself navigates on click/Enter.
+            role="tooltip"
             aria-label={`Definition: ${def.t}`}
             onMouseEnter={() => { overCard.current = true; clearTimeout(timers.current.close); }}
             onMouseLeave={() => { overCard.current = false; scheduleClose(); }}

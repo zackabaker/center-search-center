@@ -45,6 +45,8 @@ export default function CommandPalette() {
   const [texts, setTexts] = useState<Item[] | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const fetching = useRef(false);
+  // Focus management: remember who opened the palette, restore on close.
+  const openerRef = useRef<HTMLElement | null>(null);
 
   // Global shortcut
   useEffect(() => {
@@ -79,6 +81,12 @@ export default function CommandPalette() {
   }, [open, texts]);
 
   useEffect(() => {
+    if (open) {
+      openerRef.current = document.activeElement as HTMLElement | null;
+    } else if (openerRef.current) {
+      openerRef.current.focus?.();
+      openerRef.current = null;
+    }
     if (open) {
       setQ('');
       setSel(0);
@@ -127,7 +135,15 @@ export default function CommandPalette() {
       className="fixed inset-0 z-[70] bg-black/30 dark:bg-black/50 flex items-start justify-center pt-[12vh] px-4 print:hidden"
       onPointerDown={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
     >
-      <div className="w-full max-w-xl rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-2xl overflow-hidden" role="dialog" aria-label="Command palette">
+      <div
+        className="w-full max-w-xl rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-2xl overflow-hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Command palette"
+        // Focus trap: the palette is arrow-key driven; Tab must not walk out
+        // into the page hidden behind the scrim.
+        onKeyDown={(e) => { if (e.key === 'Tab') { e.preventDefault(); inputRef.current?.focus(); } }}
+      >
         <input
           ref={inputRef}
           value={q}
