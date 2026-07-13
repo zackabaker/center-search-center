@@ -86,12 +86,12 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   ap:        'Anthropoetics · ref',
 };
 const SOURCE_COLORS: Record<ContentSource, string> = {
-  substack:  'bg-orange-100 text-orange-800',
-  gablog:    'bg-blue-100 text-blue-800',
-  book:      'bg-purple-100 text-purple-800',
-  pdf:       'bg-green-100 text-green-800',
-  reddit:    'bg-red-100 text-red-800',
-  twitter:   'bg-slate-100 text-slate-700',
+  substack:  'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300',
+  gablog:    'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
+  book:      'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
+  pdf:       'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
+  reddit:    'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
+  twitter:   'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
   // Reference tier — muted; color (and amber especially) is for Katz sources
   chronicle: 'bg-gray-100 text-gray-500 dark:bg-gray-800/60 dark:text-gray-400',
   ap:        'bg-gray-100 text-gray-500 dark:bg-gray-800/60 dark:text-gray-400',

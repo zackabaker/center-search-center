@@ -24,6 +24,25 @@ const LINKABLE_TERMS = CS_TERMS
  * Each segment is either a plain string or a rendered <a> element.
  * Text segments are passed through linkifyParagraph for concept linking.
  */
+// Inline **bold** / *italic* — without this, readers arriving from search
+// (the ?q= fork) saw literal asterisks in 102 posts, including every
+// Anthropoetics Notes section.
+function emphasize(text: string, keyBase: string): React.ReactNode[] {
+  const out: React.ReactNode[] = [];
+  const re = /\*\*([^*]+)\*\*|\*([^*\s][^*]*)\*/g;
+  let last = 0;
+  let m: RegExpExecArray | null;
+  let k = 0;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) out.push(text.slice(last, m.index));
+    if (m[1] !== undefined) out.push(<strong key={`${keyBase}-b${k++}`}>{m[1]}</strong>);
+    else out.push(<em key={`${keyBase}-i${k++}`}>{m[2]}</em>);
+    last = re.lastIndex;
+  }
+  if (last < text.length) out.push(text.slice(last));
+  return out;
+}
+
 function renderParagraphNodes(
   rawText: string,
   linkedAlready: Set<string>,
@@ -62,7 +81,11 @@ function renderParagraphNodes(
     ));
   }
 
-  return segments.length > 0 ? segments : linkifyParagraph(rawText, linkedAlready);
+  const base = segments.length > 0 ? segments : linkifyParagraph(rawText, linkedAlready);
+  // Final pass: render markdown emphasis inside plain-text segments.
+  return base.flatMap((n, j) =>
+    typeof n === 'string' ? emphasize(n, `${paraIndex}-em-${j}`) : [n]
+  );
 }
 
 /**

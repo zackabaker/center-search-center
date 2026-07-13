@@ -291,6 +291,8 @@ async function verifyPassages(passages: Passage[], signal?: AbortSignal): Promis
 export default function AskClient() {
   const [currentQuestion, setCurrentQuestion] = useState('');
   const [answer, setAnswer] = useState<Answer | null>(null);
+  // Real error state — an error must never impersonate a synthesis.
+  const [error, setError] = useState<string | null>(null);
   // Start at 0 on both server and client to avoid a hydration mismatch, then
   // hydrate the real lifetime count from localStorage after mount.
   const [askCount, setAskCount] = useState<number>(0);
@@ -398,6 +400,7 @@ export default function AskClient() {
     }
 
     setIsLoading(true);
+    setError(null);
     setAnswer({ content: '' });
 
     // Fresh controller for this request
@@ -503,7 +506,8 @@ export default function AskClient() {
         return;
       }
       if (mountedRef.current && abortRef.current === ac) {
-        setAnswer({ content: `Error: ${err instanceof Error ? err.message : 'Something went wrong'}` });
+        setError(err instanceof Error ? err.message : 'Something went wrong');
+        setAnswer(null);
       }
     } finally {
       // Only the request that's still current may clear the loading state —
@@ -724,7 +728,29 @@ export default function AskClient() {
                 <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
                   Synthesis
                 </p>
-                {answer?.content ? (
+                {error ? (
+                  /* Real error card — never impersonates a synthesis */
+                  <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-5">
+                    <p className="text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                      The answer couldn&rsquo;t be generated
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{error}</p>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <button
+                        onClick={() => submit(currentQuestion, conceptSeed ?? undefined)}
+                        className="px-4 py-2 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-medium hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors"
+                      >
+                        Try again
+                      </button>
+                      <Link
+                        href={`/search?q=${encodeURIComponent(currentQuestion)}`}
+                        className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+                      >
+                        Search the archive instead →
+                      </Link>
+                    </div>
+                  </div>
+                ) : answer?.content ? (
                   <div>
                     {renderMarkdown(splitAnswer(answer.content).prose, fontSize, handleTermClick)}
                   </div>
@@ -786,8 +812,9 @@ export default function AskClient() {
                 </div>
               )}
 
-              {/* Top posts — source cards, excluding any already shown as passages */}
-              {(!answer?.sources || topPosts.length > 0) && (
+              {/* Top posts — source cards, excluding any already shown as passages.
+                  Hidden entirely on error (the skeleton must not pulse forever). */}
+              {!error && (!answer?.sources || topPosts.length > 0) && (
               <div className="mb-8">
                 <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
                   {answer?.passages && answer.passages.length > 0 ? 'More sources' : 'Top posts'}
@@ -885,8 +912,9 @@ export default function AskClient() {
         </div>
       </main>
 
-      {/* Input footer */}
-      <footer className="border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-4 flex-shrink-0">
+      {/* Input footer — pb-20 on mobile clears the fixed bottom tab bar
+          (measured: with h-screen + MobileNav the textarea was fully covered) */}
+      <footer className="border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 pt-4 pb-20 sm:pb-4 flex-shrink-0">
         <div className="max-w-3xl mx-auto flex gap-3 items-end">
           <textarea
             ref={textareaRef}

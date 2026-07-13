@@ -421,6 +421,8 @@ export default async function PostPage({
                     source={post.source}
                     url={externalUrl}
                     slug={slug}
+                    authorName={authorName}
+                    chronicleNo={chronicleNo}
                   />
                   {originalHref && (
                     <a

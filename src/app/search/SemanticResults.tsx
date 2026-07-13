@@ -137,7 +137,9 @@ export default function SemanticResults({
         {results.map((r, i) => (
           <Link
             key={`${r.slug}-${i}`}
-            href={`/post/${r.slug}`}
+            // Carry the passage's opening words so the in-post highlighter
+            // lands the reader ON the found passage, not at the top.
+            href={`/post/${r.slug}?q=${encodeURIComponent(r.text.split(/\s+/).slice(0, 6).join(' '))}`}
             className="group block rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800/60 transition-all px-4 py-3"
           >
             <div className="flex items-center gap-2 mb-1.5">
