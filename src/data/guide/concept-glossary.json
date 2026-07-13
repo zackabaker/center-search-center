@@ -1383,7 +1383,7 @@
     "definitionQuote": "I noticed that the Christian concept of the “Katechon,” or the restrainer of the AntiChrist, was a very near synonym to “deferral.”",
     "definitionSource": "Tokenizing Deferrality",
     "definitionSlug": "tokenizing-deferrality",
-    "definitionAuthor": "Dennis Bouvard",
+    "definitionAuthor": "Adam Katz",
     "passages": [
       {
         "text": "I was prompted to do so, in part, by reading Raphael Gross’s Carl Schmitt and the Jews: The “Jewish Question,” the Holocaust and German Legal Theory (a very good book, by the way), where I noticed that the Christian concept of the “Katechon,” or the restrainer of the AntiChrist, was a very near synonym to “deferral.” This makes it possible to further extend center study into new fields of inquiry, in this case not only Schmitt, but Peter Thiel’s studies of apocalypse, which makes regular use of this theological framing of politics. (While I have been familiar with the Katechon for some time, I think what jarred me into taking it more seriously was a point in Gross’s discussion where he uses the word “deferral” in describing Schmitt’s understanding of the term, and something clicked.)",
@@ -1428,7 +1428,7 @@
     "definitionQuote": "And dedicating oneself to setting relatively immobilized “pieces” of language back into motion seems a good way of thinking about operating within an idiom. You will always be mistaken in doing so, precisely because you’ll be violating some convention or expectation, but you also can’t go wrong because you present a opportunity for an adjusted response on the part of others—it’s a more semiotic way of speaking about stopping and thinking before doing as itself a kind of doing. So, “idiomclining” instead of “critical thinking” or other bureaucratized categories designed for mass test taking.",
     "definitionSource": "Idiomclining",
     "definitionSlug": "idiomclining",
-    "definitionAuthor": "Dennis Bouvard",
+    "definitionAuthor": "Adam Katz",
     "passages": [
       {
         "text": "I would like to call this kind of research “clining,” drawing upon an essay on something I called “upclining” I wrote quite a few years ago in an effort to engage with processes of “grammaticization” in language, i.e., the tendency of expressions to transition from semantic to grammatical functions.",
@@ -1473,7 +1473,7 @@
     "definitionQuote": "Scapegoating is also always against the center--even when the occupant of the center leads it. The claim implicit in scapegoating is that the center has been usurped by someone \"behind the scenes.\"",
     "definitionSource": "Bouvard on Scapegoating and Egalitarian Morality",
     "definitionSlug": "the-egalitarian-vs-hierarchical-model-of-morality",
-    "definitionAuthor": "Dennis Bouvard",
+    "definitionAuthor": "Adam Katz",
     "passages": [
       {
         "text": "To scapegoat is to do violence to someone who is, if not innocent, at any rate no guiltier than his fellows. More precisely, it is to treat someone whose guilt is at most quantitatively greater than the others' as though it were transcendentally greater, so that the violence that had been diffused over the entire community comes to be unanimously directed from the innocent collectivity to the one",
@@ -1623,7 +1623,7 @@
     "definitionQuote": "In order to make it the point, we can begin by pointing out that power comes from the center, and the center comes from deferral. Insofar as someone occupies the center of a scene, that person wields power.",
     "definitionSource": "Anthropomorphics: An Originary Grammar of the Center",
     "definitionSlug": "anthropomorphics-book",
-    "definitionAuthor": "Dennis Bouvard",
+    "definitionAuthor": "Adam Katz",
     "passages": [
       {
         "text": "Power is always differential because some members of any group, in any situation, will exhibit greater powers of deferral: they will be able to stop and examine a situation while others are rushing in, and they will have the patience to wait and see when the unfolding reality provides an opening for action.",
@@ -1698,7 +1698,7 @@
     "definitionQuote": "Money is the concrete realization of this sign of recognition; it bears a “meaning” but as opposed to the ordinary sign, it is a credit drawn on the sacred that cannot be freely reproduced.",
     "definitionSource": "There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary",
     "definitionSlug": "there-is-no-economy-pdf",
-    "definitionAuthor": "Adam Katz",
+    "definitionAuthor": "Adam Katz & Zack Baker",
     "passages": [
       {
         "text": "Money is a means of subordinating market activity to central authority—that is, money is a form taken by the delegation of power, and is therefore a form of power itself. Money is the power to command the labor of others.",
@@ -1773,7 +1773,7 @@
     "definitionQuote": "So, originary media is a network, a set of invisible lines we could hypothetically draw connecting the sensorium of each of the scene’s participants to each other’s, but also to all the different “parts” (what counts as a “part” depends on the vision, embedded in a body in motion or stasis) of all the others’ bodies.",
     "definitionSource": "Mediated Centrality",
     "definitionSlug": "anthropomorphics-mediated-centrality",
-    "definitionAuthor": "Dennis Bouvard",
+    "definitionAuthor": "Adam Katz",
     "passages": [
       {
         "text": "Jousse insists that even more technologically advanced and abstracted forms of media, like reading or films, are thoroughly mediated mimologically.",
@@ -1843,7 +1843,7 @@
     "definitionQuote": "Indeed, technology is the dominant form of power. If technology presents itself to us as an enormous system of interlocking imperatives which provides a very precise slot for us to insert our own imperatives, who or what is at the center? What ostensive sign generates the system of imperatives? Technology is completely bound up with the specific forms the centralization of power takes in the wake of the desacralization of power.",
     "definitionSource": "Anthropomorphics: An Originary Grammar of the Center",
     "definitionSlug": "anthropomorphics-book",
-    "definitionAuthor": "Dennis Bouvard",
+    "definitionAuthor": "Adam Katz",
     "passages": [
       {
         "text": "From this initial technology, predicated upon total command, we can derive the axiom that all technology is governance. Within any technological order, the machines will be modeled on and complement the activities of human collectives, while human collectives will be modeled on actual or possible machinic articulations.",
@@ -1990,11 +1990,16 @@
     ]
   },
   "narrative": {
-    "definitionQuote": "Originary analysis provides a simple explanation for the failure of attempts to define the “grammar” of narrative: narrative begins not with articulated language but with the originary sign. What makes storytelling a useful paradigm for culture in general is precisely the absence of any simple correspondence between the formal structures of language and the institutional structures of narrative.",
-    "definitionSource": "Originary Narrative",
-    "definitionSlug": "ap0302-narrative",
+    "definitionQuote": "It is now clear to me that the conversion of ritual/myth into practice/hypothesis implies the opposition to narrative, which is really the continuation of myth. Narrative is always sacrificial, regardless of the best efforts of its most sophisticated practitioners.",
+    "definitionSource": "Hypothesis/Practice Vs. Narrative: The Iterative Center",
+    "definitionSlug": "hypothesis-practice-vs-narrative-the-iterative-center-gablog",
     "definitionAuthor": "Adam Katz",
     "passages": [
+      {
+        "text": "Originary analysis provides a simple explanation for the failure of attempts to define the “grammar” of narrative: narrative begins not with articulated language but with the originary sign. What makes storytelling a useful paradigm for culture in general is precisely the absence of any simple correspondence between the formal structures of language and the institutional structures of narrative.",
+        "source": "Originary Narrative",
+        "sourceSlug": "ap0302-narrative"
+      },
       {
         "text": "But once we grant this, we must conceive the originary—and every subsequent—use of the sign as “narrative.” Narrativity requires nothing of the sign beyond its own inherent temporality. Narrative emerges when the time of the sign returns to the world as a model of the time of action.",
         "source": "Originary Narrative",
@@ -2063,7 +2068,7 @@
     "definitionQuote": "Modern capital is the power to abstract individuals, groups and perhaps most importantly of all, entire disciplines, from the traditions and communities within which they are embedded so as to introduce them into new hierarchies.",
     "definitionSource": "Anthropomorphics: An Originary Grammar of the Center",
     "definitionSlug": "anthropomorphics-book",
-    "definitionAuthor": "Dennis Bouvard",
+    "definitionAuthor": "Adam Katz",
     "passages": [
       {
         "text": "I would say that if money represents power over a piece of the center, capital represents power over the disciplines.",
@@ -2368,7 +2373,7 @@
     "definitionQuote": "Liberalism is the political theory justifying this state of affairs, which means that the purpose of liberalism is to ensure that no one ever knows who decides anything.",
     "definitionSource": "The Center and Imperative Authority",
     "definitionSlug": "anthropomorphics-the-center-and-imperative-authority",
-    "definitionAuthor": "Dennis Bouvard",
+    "definitionAuthor": "Adam Katz",
     "passages": [
       {
         "text": "By “liberalism,” of course, I mean the traditional variety, which starts political reflection with the assumption that there is something pre-politically inviolable in the individual, that this inviolability implies a series of rights that the individual bears with him or her in entering political society, and that the main business of politics is cataloguing those rights, setting up hierarchies amongst them, figuring out how best to protect them, to prevent their exercise from leading to one colliding into another, and so on.",
@@ -2440,11 +2445,16 @@
     ]
   },
   "event": {
-    "definitionQuote": "Conversely, if we define the human in cultural terms by the presence or absence of (shared) representation, then we cannot exclude from our definition the notion of the event and its singular status. It is by choosing the intuitive evidence of eventfulness over empirical methodology that our new way of thinking parts company with the sciences.",
-    "definitionSource": "Heuristic Necessity",
-    "definitionSlug": "clr-403",
-    "definitionAuthor": "Eric Gans",
+    "definitionQuote": "A minimal, formal definition: an event is an occurence which cannot be sufficiently accounted for by what has preceded it, and after which nothing can be sufficiently accounted for other than by reference to it. A break, then, which cannot be defined by what came before, while defining what comes after.",
+    "definitionSource": "The 9/11 Event",
+    "definitionSlug": "the-9-11-event",
+    "definitionAuthor": "Adam Katz",
     "passages": [
+      {
+        "text": "Conversely, if we define the human in cultural terms by the presence or absence of (shared) representation, then we cannot exclude from our definition the notion of the event and its singular status. It is by choosing the intuitive evidence of eventfulness over empirical methodology that our new way of thinking parts company with the sciences.",
+        "source": "Heuristic Necessity",
+        "sourceSlug": "clr-403"
+      },
       {
         "text": "the origin of the human, as defined by our use of language, must be understood not merely as a process but as an event",
         "source": "Originary and Evolutionary Esthetics",
@@ -2518,7 +2528,7 @@
     "definitionQuote": "The market is constituted by its anxiety about its own future existence.",
     "definitionSource": "There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary",
     "definitionSlug": "there-is-no-economy-pdf",
-    "definitionAuthor": "Adam Katz",
+    "definitionAuthor": "Adam Katz & Zack Baker",
     "passages": [
       {
         "text": "I do not think it an exaggeration to say that the course of human history may be described as the never-completable transition from the ritual system of distribution inaugurated in the originary scene to the market system , where no central authority is necessary to mediate between human beings beyond the universal human order of representation through signs.",
@@ -2588,7 +2598,7 @@
     "definitionQuote": "I’ve suggested before that center study (I won’t complain if anyone wants to continue calling what I’m doing “GA”) might best be seen as a kind of programming idiom to be made interoperable with other idioms. Less “meta” than “infra”—other idioms don’t need to be translated into a fully operationalized theoretical discourse; rather, the asymptomatically self-cancelling idioms designed within center study generate aligned idioms out of others.",
     "definitionSource": "Infra-Humaning",
     "definitionSlug": "infra-humaning",
-    "definitionAuthor": "Dennis Bouvard",
+    "definitionAuthor": "Adam Katz",
     "passages": [
       {
         "text": "Center study could be seen as a kind of metalanguage, converting all discourses into mimesis and deferral just psychoanalysis converts all discourse into desire and repression or historical materialism converts all discourse into base and superstructure.",
