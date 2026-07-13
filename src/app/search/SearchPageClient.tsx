@@ -648,7 +648,7 @@ export default function SearchPageClient({
           parent, and main must NOT have overflow-x-hidden (any overflow
           on an ancestor disables position:sticky entirely).
           Solid background: backdrop-filter lags on mobile momentum scroll. */}
-      <div className="sticky top-12 z-20 -mx-4 px-4 pt-3 pb-3 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800">
+      <div className="sticky top-12 z-20 -mx-4 px-4 pt-3 pb-3 bg-[var(--background)] border-b border-gray-100 dark:border-gray-800">
         <div className="relative flex items-center border-2 border-gray-200 focus-within:border-gray-400 rounded-xl bg-white dark:bg-gray-900 dark:border-gray-700 dark:focus-within:border-gray-500 transition-colors">
           {/* Center study icon — reacts to search state; shared view-transition with home icon */}
           <div

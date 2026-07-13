@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 
-interface Heading {
+interface Item {
   level: number;
   text: string;
   id: string;
@@ -12,8 +12,8 @@ interface Props {
   paragraphs: string[];
 }
 
-function extractHeadings(paragraphs: string[]): Heading[] {
-  const headings: Heading[] = [];
+function extractHeadings(paragraphs: string[]): Item[] {
+  const headings: Item[] = [];
   paragraphs.forEach((para, i) => {
     const match = para.match(/^(#{1,3})\s+(.+)/);
     if (match) {
@@ -27,15 +27,46 @@ function extractHeadings(paragraphs: string[]): Heading[] {
   return headings;
 }
 
+// Orientation for heading-less essays (only 2 of ~1,970 posts have ≥3 real
+// headings, so a headings-only ToC was a phantom feature). Landmarks are the
+// VERBATIM opening words of paragraphs at the quarter points of the essay —
+// nothing invented, per the site's verbatim ethos — each linking to its
+// existing stable #p-N anchor.
+function extractLandmarks(paragraphs: string[]): Item[] {
+  const substantive: { index: number; text: string }[] = [];
+  paragraphs.forEach((para, i) => {
+    const p = para.trim();
+    if (!p || p === '---' || /^#{1,3}\s/.test(p) || p.length < 120) return;
+    substantive.push({ index: i, text: p });
+  });
+  if (substantive.length < 20) return []; // short reads don't need landmarks
+  const picks = [0, 0.25, 0.5, 0.75].map((f) =>
+    substantive[Math.min(substantive.length - 1, Math.floor(f * substantive.length))]
+  );
+  const seen = new Set<number>();
+  return picks
+    .filter((p) => (seen.has(p.index) ? false : (seen.add(p.index), true)))
+    .map((p) => {
+      const words = p.text.replace(/^>\s*/, '').replace(/[*_]/g, '').split(/\s+/);
+      return {
+        level: 1,
+        text: `“${words.slice(0, 7).join(' ')}${words.length > 7 ? ' …' : ''}”`,
+        id: `p-${p.index + 1}`,
+      };
+    });
+}
+
 export default function TableOfContents({ paragraphs }: Props) {
   const [open, setOpen] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   const headings = extractHeadings(paragraphs);
+  const isLandmarks = headings.length < 3;
+  const items = isLandmarks ? extractLandmarks(paragraphs) : headings;
 
   useEffect(() => {
-    if (!open || headings.length === 0) return;
+    if (!open || items.length === 0) return;
 
     observerRef.current?.disconnect();
 
@@ -51,7 +82,7 @@ export default function TableOfContents({ paragraphs }: Props) {
       { rootMargin: '-10% 0px -80% 0px' }
     );
 
-    headings.forEach(({ id }) => {
+    items.forEach(({ id }) => {
       const el = document.getElementById(id);
       if (el) observerRef.current?.observe(el);
     });
@@ -59,9 +90,9 @@ export default function TableOfContents({ paragraphs }: Props) {
     return () => {
       observerRef.current?.disconnect();
     };
-  }, [open, headings.length]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [open, items.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (headings.length < 3) return null;
+  if (items.length === 0) return null;
 
   return (
     <nav className="mt-8 mb-6 print:hidden">
@@ -79,12 +110,12 @@ export default function TableOfContents({ paragraphs }: Props) {
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
-        Contents ({headings.length} sections)
+        {isLandmarks ? 'Landmarks' : `Contents (${items.length} sections)`}
       </button>
 
       {open && (
         <ol className="mt-3 space-y-1 border-l border-gray-200 dark:border-gray-700 pl-4">
-          {headings.map(({ level, text, id }) => (
+          {items.map(({ level, text, id }, i) => (
             <li key={id} style={{ paddingLeft: (level - 1) * 14 + 'px' }}>
               <a
                 href={`#${id}`}
@@ -98,7 +129,14 @@ export default function TableOfContents({ paragraphs }: Props) {
                     : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
                 }`}
               >
-                {text}
+                {isLandmarks && (
+                  <span className="font-mono text-[10px] text-gray-400 dark:text-gray-500 mr-1.5">
+                    {['¼', '½', '¾', ''][i - 1] ?? ''}
+                  </span>
+                )}
+                <span className={isLandmarks ? 'italic' : ''} style={isLandmarks ? { fontFamily: 'var(--prose-font-family)' } : undefined}>
+                  {text}
+                </span>
               </a>
             </li>
           ))}

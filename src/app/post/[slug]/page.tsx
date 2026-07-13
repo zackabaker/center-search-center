@@ -219,6 +219,11 @@ export default async function PostPage({
 
   // ── Headings (for conditional Contents sidebar) ────────────────────────────
   const hasHeadings = paragraphs.filter((p) => /^#{1,3}\s/.test(p)).length >= 3;
+  // Long heading-less essays get verbatim paragraph LANDMARKS instead (the
+  // headings-only ToC matched 2 of ~1,970 posts — a phantom feature). Mirrors
+  // TableOfContents.extractLandmarks' threshold.
+  const hasNav = hasHeadings ||
+    paragraphs.filter((p) => { const t = p.trim(); return t && t !== '---' && !/^#{1,3}\s/.test(t) && t.length >= 120; }).length >= 20;
 
   // ── Related posts — computed server-side once; sidebar gets top 3, the
   // below-article grid gets top 6 as a slim array (never pass full posts
@@ -424,6 +429,16 @@ export default async function PostPage({
                     authorName={authorName}
                     chronicleNo={chronicleNo}
                   />
+                  <a
+                    href={`/post/${slug}/text`}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200 transition-colors print:hidden"
+                    title="Clean single-file copy — for reading apps, text-to-speech, or saving"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    Reader
+                  </a>
                   {originalHref && (
                     <a
                       href={originalHref}
@@ -457,8 +472,9 @@ export default async function PostPage({
               )}
 
               {/* Reader mode previously had no in-page navigation at all — for
-                  long texts with real headings, offer the same collapsible ToC. */}
-              {reader && hasHeadings && (
+                  long texts, offer the collapsible ToC (headings when they
+                  exist, verbatim paragraph landmarks otherwise). */}
+              {reader && hasNav && (
                 <div className="max-w-[65ch] mx-auto text-left mb-8">
                   <TableOfContents paragraphs={paragraphs} />
                 </div>
@@ -558,8 +574,9 @@ export default async function PostPage({
           {!reader && (
           <aside className="hidden lg:block sticky top-6 self-start space-y-0 print:hidden">
 
-            {/* Contents — only shown when post has ≥3 headings */}
-            {hasHeadings && (
+            {/* Contents — headings when present, paragraph landmarks for long
+                heading-less essays */}
+            {hasNav && (
               <div className="pb-5">
                 <p className={SIDEBAR_LABEL}>Contents</p>
                 <TableOfContents paragraphs={paragraphs} />
@@ -568,7 +585,7 @@ export default async function PostPage({
 
             {/* Key Terms — compact mode: no outer chrome, terms always visible */}
             {termFreq.length > 0 && (
-              <div className={`${hasHeadings ? 'border-t border-gray-100 dark:border-gray-800 ' : ''}pt-5 pb-5`}>
+              <div className={`${hasNav ? 'border-t border-gray-100 dark:border-gray-800 ' : ''}pt-5 pb-5`}>
                 <p className={SIDEBAR_LABEL}>Key terms</p>
                 <Concordance terms={termFreq} compact />
               </div>

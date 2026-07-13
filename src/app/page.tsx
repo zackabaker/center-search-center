@@ -202,7 +202,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
-    <main className="min-h-screen bg-white dark:bg-gray-950">
+    <main className="min-h-screen">
 
       {/* Hero */}
       <header className="max-w-2xl mx-auto px-4 pt-16 pb-10 text-center">

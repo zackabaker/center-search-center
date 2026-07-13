@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { CS_TERMS_SORTED, extractFollowUps } from '@/lib/cs-terms';
+import { CS_TERMS_SORTED, extractFollowUps, TERM_TO_CONCEPT_SLUG } from '@/lib/cs-terms';
 import { logSearch } from '@/lib/log-search';
 import SceneMark from '@/components/SceneMark';
 
@@ -28,6 +28,16 @@ interface Answer {
   sources?: Source[];
   followUps?: string[];
   passages?: Passage[];
+  /** Inline synthesis quotes that failed verbatim verification (count / total checked). */
+  inlineUnverified?: { failed: number; checked: number };
+}
+
+// Quoted spans inside the synthesis prose — the text most readers actually
+// take away — extracted for the same verbatim check the Excerpts get.
+function extractInlineQuotes(prose: string): string[] {
+  const out: string[] = [];
+  for (const m of prose.matchAll(/[“"]([^”"]{20,400})[”"]/g)) out.push(m[1]);
+  return out.slice(0, 20); // verify-quotes API caps at 30 per request
 }
 
 const SOURCE_COLORS: Record<string, string> = {
@@ -79,6 +89,22 @@ function linkTerms(
     const lower = part.toLowerCase();
     const match = CS_TERMS_SORTED.find(t => t.term.toLowerCase() === lower);
     if (match) {
+      // Route to the curated treatment when one exists — a term tap should
+      // open the concept hub (instant, owner-curated), not silently burn a
+      // fresh 15s generation and replace the answer being read.
+      const conceptSlug = TERM_TO_CONCEPT_SLUG[lower];
+      if (conceptSlug) {
+        return (
+          <Link
+            key={`${key}-${i}`}
+            href={`/guide/concepts/${conceptSlug}`}
+            title={`Concept: ${part}`}
+            className="text-blue-700 dark:text-blue-400 underline decoration-dotted underline-offset-2 hover:decoration-solid hover:text-blue-800 dark:hover:text-blue-300 rounded px-0.5 -mx-0.5 py-0.5 -my-0.5 transition-colors"
+          >
+            {part}
+          </Link>
+        );
+      }
       return (
         <button
           key={`${key}-${i}`}
@@ -288,7 +314,12 @@ async function verifyPassages(passages: Passage[], signal?: AbortSignal): Promis
   }
 }
 
-export default function AskClient() {
+export default function AskClient({
+  reviewed = [],
+}: {
+  /** Owner-reviewed static answers (/ask/[slug]) — offered before live generation. */
+  reviewed?: { slug: string; question: string }[];
+}) {
   const [currentQuestion, setCurrentQuestion] = useState('');
   const [answer, setAnswer] = useState<Answer | null>(null);
   // Real error state — an error must never impersonate a synthesis.
@@ -478,14 +509,25 @@ export default function AskClient() {
       setSessionQs((p) => (p.includes(question) ? p : [...p, question]));
       historyRef.current.push({ role: 'user', content: question }, { role: 'assistant', content: splitAnswer(content).prose });
 
-      // Verify each passage verbatim against the corpus (one cheap request,
-      // after streaming — never blocks the answer, aborts on navigation)
-      if (passages.length > 0) {
-        verifyPassages(passages, ac.signal).then((verified) => {
+      // Verify verbatim against the corpus (one cheap request, after
+      // streaming — never blocks the answer, aborts on navigation). Checks
+      // BOTH the Excerpts passages and the quotes inside the synthesis prose:
+      // the prose is what most readers take away, so it can't be exempt.
+      const inlineQuotes = extractInlineQuotes(splitAnswer(content).prose);
+      if (passages.length > 0 || inlineQuotes.length > 0) {
+        const combined = [
+          ...passages.map((p) => ({ kind: 'passage' as const, quote: p.quote })),
+          ...inlineQuotes.map((q) => ({ kind: 'inline' as const, quote: q })),
+        ].slice(0, 30);
+        verifyPassages(combined as unknown as Passage[], ac.signal).then((verified) => {
           if (!verified || !mountedRef.current) return;
+          const passageVerified = verified.slice(0, passages.length);
+          const inlineVerified = verified.slice(passages.length);
+          const failed = inlineVerified.filter((v) => v === false).length;
           const withVerify: Answer = {
             ...finalAnswer,
-            passages: passages.map((p, i) => ({ ...p, verified: verified[i] })),
+            passages: passages.map((p, i) => ({ ...p, verified: passageVerified[i] })),
+            inlineUnverified: inlineVerified.length > 0 ? { failed, checked: inlineVerified.length } : undefined,
           };
           setAnswer((prev) => (prev && prev.content === content ? withVerify : prev));
           if (sentHistory.length === 0) setCache(question, withVerify);
@@ -656,8 +698,28 @@ export default function AskClient() {
               <p className="text-sm text-gray-500 dark:text-gray-400 max-w-md mx-auto mb-8 leading-relaxed">
                 Describe what you&apos;re looking for and the AI will surface the best direct quotes from the archive — passages you wouldn&apos;t find with keyword search.
               </p>
+              {/* Reviewed answers first — instant, owner-curated, no 15s burn */}
+              {reviewed.length > 0 && (
+                <div className="grid sm:grid-cols-2 gap-2 max-w-2xl mx-auto text-left mb-6">
+                  {reviewed.map(({ slug, question }) => (
+                    <Link
+                      key={slug}
+                      href={`/ask/${slug}`}
+                      className="group text-left text-sm px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-all"
+                    >
+                      <span className="block">{question}</span>
+                      <span className="mt-1 inline-block text-[10px] font-mono uppercase tracking-widest text-gray-300 dark:text-gray-600 group-hover:text-gray-400">
+                        instant · reviewed
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+              <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+                Or generate a fresh answer
+              </p>
               <div className="grid sm:grid-cols-2 gap-2 max-w-2xl mx-auto text-left">
-                {SUGGESTED.map(q => (
+                {SUGGESTED.slice(0, 2).map(q => (
                   <button
                     key={q}
                     onClick={() => submit(q)}
@@ -753,6 +815,14 @@ export default function AskClient() {
                 ) : answer?.content ? (
                   <div>
                     {renderMarkdown(splitAnswer(answer.content).prose, fontSize, handleTermClick)}
+                    {answer.inlineUnverified && answer.inlineUnverified.failed > 0 && (
+                      <p className="mt-4 flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
+                        <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /></svg>
+                        {answer.inlineUnverified.failed} of {answer.inlineUnverified.checked} quotes in this
+                        synthesis couldn&rsquo;t be matched word-for-word against the archive — open the
+                        sources to verify before citing.
+                      </p>
+                    )}
                   </div>
                 ) : (
                   /* Animated circles while streaming */
