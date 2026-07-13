@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { citationAuthor, citationVenue, citationDate, bibtexKey } from '@/lib/citation';
 
 interface CitationProps {
   title: string;
@@ -7,47 +8,27 @@ interface CitationProps {
   source: string;
   url?: string;
   slug: string;
+  /** Display-order author from the post page ("Eric Gans", "Adam Katz & Zack Baker"…). */
+  authorName: string;
+  /** Chronicle number when the post is one — scholars cite "no. N". */
+  chronicleNo?: string | null;
 }
 
-function formatDate(dateStr: string | null): { year: string; full: string } {
-  if (!dateStr) return { year: 'n.d.', full: 'n.d.' };
-  const d = new Date(dateStr);
-  if (isNaN(d.getTime())) return { year: dateStr, full: dateStr };
-  const year = d.getFullYear().toString();
-  const full = d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-  return { year, full };
-}
-
-function sourceLabel(source: string): string {
-  const labels: Record<string, string> = {
-    substack: 'Center Study Center',
-    gablog: 'Center Study Blog',
-    book: 'Anthropomorphics',
-    pdf: 'Anthropoetics',
-    reddit: 'Reddit',
-  };
-  return labels[source] || source;
-}
-
-export default function CitationButton({ title, date, source, url, slug }: CitationProps) {
+export default function CitationButton({ title, date, source, url, slug, authorName, chronicleNo }: CitationProps) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
 
-  const { year, full: fullDate } = formatDate(date);
+  const { year, full: fullDate } = citationDate(date);
   const siteUrl = `https://center.study/post/${slug}`;
   const externalUrl = url || siteUrl;
-  const publisher = sourceLabel(source);
-
-  // Katz and Bouvard are the same author using two pen names:
-  // "Adam Katz" on the blog; "Dennis Bouvard" on Substack/PDFs.
-  const authorFull  = source === 'substack' ? 'Bouvard, Dennis' : 'Katz, Adam';
-  const authorShort = source === 'substack' ? 'Bouvard, D.' : 'Katz, A.';
+  const publisher = citationVenue(source, chronicleNo);
+  const author = citationAuthor(authorName);
 
   const citations = {
-    Chicago: `${authorFull}. "${title}." ${publisher}, ${fullDate}. In Center Study Corpus v1.0 (2026). ${siteUrl}.`,
-    MLA: `${authorFull}. "${title}." ${publisher}, ${fullDate}, ${externalUrl}.`,
-    APA: `${authorShort} (${year}). ${title}. ${publisher}. ${externalUrl}`,
-    BibTeX: `@misc{${authorFull.split(',')[0].toLowerCase()}${year}_${slug.replace(/^(gablog|substack|pdf|book|reddit|twitter)-/, '').slice(0, 20).replace(/-/g, '_')},\n  author       = {${authorFull}},\n  title        = {{${title}}},\n  year         = {${year}},\n  howpublished = {\\url{${externalUrl}}},\n  note         = {${publisher}; Center Study Corpus v1.0, https://center.study}\n}`,
+    Chicago: `${author.full}. "${title}." ${publisher}, ${fullDate}. In Center Study Corpus v1.0 (2026). ${siteUrl}.`,
+    MLA: `${author.full}. "${title}." ${publisher}, ${fullDate}, ${externalUrl}.`,
+    APA: `${author.short} (${year}). ${title}. ${publisher}. ${externalUrl}`,
+    BibTeX: `@misc{${bibtexKey(author.key, year, slug)},\n  author       = {${author.full}},\n  title        = {{${title}}},\n  year         = {${year}},\n  howpublished = {\\url{${externalUrl}}},\n  note         = {${publisher}; Center Study Corpus v1.0, https://center.study}\n}`,
     Permalink: siteUrl,
   };
 

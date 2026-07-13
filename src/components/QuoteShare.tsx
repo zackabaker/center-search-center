@@ -39,15 +39,22 @@ export default function QuoteShare({ title, author, date, url }: QuoteShareProps
 
   useEffect(() => {
     const onUp = () => setTimeout(refresh, 0);
+    // Touch selection (iOS/Android long-press) never fires mouseup — debounce
+    // selectionchange and refresh once the handles stop moving, so the copy
+    // pill appears on phones too.
+    let selTimer: ReturnType<typeof setTimeout> | undefined;
     const onSelChange = () => {
       const s = window.getSelection();
-      if (!s || s.isCollapsed) setSel(null);
+      if (!s || s.isCollapsed) { setSel(null); return; }
+      clearTimeout(selTimer);
+      selTimer = setTimeout(refresh, 350);
     };
     const onScroll = () => setSel(null);
     document.addEventListener('mouseup', onUp);
     document.addEventListener('selectionchange', onSelChange);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
+      clearTimeout(selTimer);
       document.removeEventListener('mouseup', onUp);
       document.removeEventListener('selectionchange', onSelChange);
       window.removeEventListener('scroll', onScroll);

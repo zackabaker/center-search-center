@@ -472,6 +472,49 @@ export const READING_PATHS: ReadingPath[] = [
     conclusion: `Center Study cannot describe itself from outside itself. This path ends where every path ends: back inside the discourse, which is the only place from which the discourse can be understood. The guide is not a substitute for the texts. It is a scene — constructed to make the texts accessible. Now go to the texts.`,
     opensOnto: ['foundation'],
   },
+  // Placed LAST deliberately: NextInPath threads by first match, so existing
+  // paths keep their claim on shared posts (gateways 03/04); the /start leak
+  // posts (the-discourse, gateways 01/02) are in no other path and thread here.
+  {
+    slug: 'start-here',
+    title: 'Start Here',
+    subtitle: 'The Start-page gateway sequence, threaded — from the foundational statement through the framework applied end to end.',
+    intro: 'Five texts in order: the founding statement of the center, the hypothesis and its use, what it can do, and one full application. The same sequence as the Start page, carried text to text.',
+    posture: 'ostensive',
+    posts: [
+      {
+        slug: 'the-discourse-of-the-center',
+        title: 'The Discourse of the Center',
+        source: 'GABlog',
+        bridge: 'The foundational statement: we are beings bound to the center. Now the founding move itself, stated plainly.',
+      },
+      {
+        slug: 'anthropomorphics-origin-and-hypothesis',
+        title: 'Origin and Hypothesis',
+        source: 'Anthropomorphics',
+        bridge: 'From the aborted gesture to the first sign. Next: what a center is, and why every social scene has one.',
+      },
+      {
+        slug: 'anthropomorphics-the-use-of-a-center',
+        title: 'The Use of a Center',
+        source: 'Anthropomorphics',
+        bridge: 'With the center in hand, what can the hypothesis actually do?',
+      },
+      {
+        slug: 'the-prospects-of-the-hypothesis',
+        title: 'The Prospects of the Hypothesis',
+        source: 'Substack',
+        bridge: 'Finally, the framework applied end to end: money read as the debt to the center.',
+      },
+      {
+        slug: 'there-is-no-economy-pdf',
+        title: 'There Is No Economy but Only the Debt to the Center',
+        source: 'Anthropoetics',
+      },
+    ],
+    conclusion: 'You have walked the gateway. From here the archive opens in every direction — the concepts, the lectures, or any question you bring to it.',
+    opensOnto: ['lectures', 'foundation'],
+  },
 ];
 
 export function getPathBySlug(slug: string): ReadingPath | undefined {

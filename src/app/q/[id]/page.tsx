@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import QuoteCite from './QuoteCite';
 import QUOTES from '@/data/quotes.json';
 import { CONCEPT_TITLES } from '@/lib/cs-terms';
 import { GLOSSARY } from '@/data/guide/glossary';
@@ -174,6 +175,14 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
         <Link href={readHref} className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
           Read in context →
         </Link>
+        <QuoteCite
+          text={q.text}
+          author={author}
+          sourceTitle={q.sourceTitle}
+          source={q.source}
+          date={q.date}
+          id={q.id}
+        />
         <span className="text-gray-400 dark:text-gray-500 font-mono text-xs">
           center.study/q/{q.id}
         </span>

@@ -269,4 +269,12 @@ html[data-reading-mode="night"] article h3 {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  /* The universal selector cannot match ::view-transition pseudo-elements —
+     without these, the center-icon morph and root cross-fade still animate
+     for reduced-motion users. */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }
