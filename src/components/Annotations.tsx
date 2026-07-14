@@ -1,11 +1,20 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAnnotations } from '@/hooks/useAnnotations';
 
 export default function Annotations({ slug }: { slug: string }) {
   const { note, save } = useAnnotations(slug);
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState('');
+
+  // Scroll-lock while the dialog is open — TEMPORARY and restored on close;
+  // a lingering overflow on body would silently kill position:sticky.
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, [open]);
 
   const handleOpen = () => {
     setDraft(note);
@@ -65,7 +74,7 @@ export default function Annotations({ slug }: { slug: string }) {
                 value={draft}
                 onChange={(e) => setDraft(e.target.value)}
                 placeholder="Your private notes for this post..."
-                className="w-full h-48 text-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 rounded-lg p-3 resize-none focus:outline-none focus:border-blue-400 dark:focus:border-blue-500"
+                className="w-full h-48 text-base border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 rounded-lg p-3 resize-none focus:outline-none focus:border-blue-400 dark:focus:border-blue-500"
               />
               <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">Stored only in your browser. Never sent to a server.</p>
             </div>

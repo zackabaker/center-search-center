@@ -65,7 +65,7 @@ export default function CommandPalette() {
   useEffect(() => {
     if (!open || texts || fetching.current) return;
     fetching.current = true;
-    fetch('/api/search-index?scope=lite')
+    fetch(`/api/search-index?scope=lite&v=${process.env.NEXT_PUBLIC_INDEX_V}`)
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((d) => {
         setTexts(

@@ -71,21 +71,25 @@
     outline-offset: 2px;
     border-radius: 2px;
   }
-}
 
-html {
-  -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
-}
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
-  transition: background-color 0.2s, color 0.2s;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  padding-bottom: env(safe-area-inset-bottom, 0);
+  /* Inside @layer base per the warning above — when this body rule was
+     unlayered it silently beat the body's own pb-16 utility, leaving page
+     bottoms with ZERO clearance under the fixed mobile tab bar. (The old
+     padding-bottom: env(safe-area-inset-bottom) line was dead weight: no
+     viewport-fit=cover, so env() is always 0; MobileNav pads itself.) */
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+    transition: background-color 0.2s, color 0.2s;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 
 /* ── Prose (post content renderer) ────────────────────────────── */

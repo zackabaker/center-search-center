@@ -56,16 +56,22 @@ export async function GET(request: Request) {
   const hits: Hit[] = [];
   let totalOccurrences = 0;
   let refOccurrences = 0;
+  let excludedRefPosts = 0;
   for (const p of getPublicPosts()) {
-    if (!includeArchives && isRef(p.source)) continue;
     re.lastIndex = 0;
     const first = re.exec(p.content);
     if (!first) continue;
     // Count remaining occurrences without allocating all matches
     let count = 1;
     while (re.exec(p.content) !== null) count++;
+    // Totals stay corpus-true even when archives=0 — the caller needs to be
+    // able to tell the user "N more in the Gans reference" rather than
+    // pretending those occurrences don't exist. Only the posts array filters.
     totalOccurrences += count;
-    if (isRef(p.source)) refOccurrences += count;
+    if (isRef(p.source)) {
+      refOccurrences += count;
+      if (!includeArchives) { excludedRefPosts++; continue; }
+    }
     hits.push({
       slug: p.slug,
       title: p.title,
@@ -78,12 +84,12 @@ export async function GET(request: Request) {
 
   // Katz tier first, then reference — each by count.
   hits.sort((a, b) => (isRef(a.source) ? 1 : 0) - (isRef(b.source) ? 1 : 0) || b.count - a.count);
-  const refPosts = hits.filter((h) => isRef(h.source)).length;
+  const refPosts = hits.filter((h) => isRef(h.source)).length + excludedRefPosts;
 
   return Response.json(
     {
       phrase: q,
-      totalPosts: hits.length,
+      totalPosts: hits.length + excludedRefPosts,
       totalOccurrences,
       refPosts,
       refOccurrences,

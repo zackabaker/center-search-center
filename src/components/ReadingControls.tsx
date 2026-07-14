@@ -77,7 +77,7 @@ export default function ReadingControls() {
     );
 
   return (
-    <div className="flex items-center gap-3 text-gray-400 print:hidden">
+    <div className="flex items-center gap-3 text-gray-500 dark:text-gray-400 print:hidden">
       {/* Reading mode toggle */}
       <button
         onClick={cycleMode}

@@ -31,6 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/guide`,               changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/guide/reading-paths`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/concepts`,            changeFrequency: 'weekly',  priority: 0.8 },
+    { url: `${BASE_URL}/concepts/glossary`,   changeFrequency: 'weekly',  priority: 0.8 },
     { url: `${BASE_URL}/browse`,              changeFrequency: 'weekly',  priority: 0.7 },
     { url: `${BASE_URL}/browse/gablog`,       changeFrequency: 'weekly',  priority: 0.7 },
     { url: `${BASE_URL}/browse/substack`,     changeFrequency: 'weekly',  priority: 0.7 },

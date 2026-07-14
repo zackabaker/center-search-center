@@ -2,8 +2,10 @@ import { getAllPosts } from '@/lib/parser';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { ContentSource } from '@/lib/types';
 import BrowseSourceClient from '@/components/BrowseSourceClient';
+import YearNav from '@/components/YearNav';
 
 export const revalidate = 3600;
 
@@ -131,17 +133,16 @@ export async function generateMetadata({
   };
 }
 
+// NOTE: no searchParams prop — awaiting it is a request-time API that opts
+// the route into per-request lambda rendering, silently voiding revalidate
+// (2.4 MB of /browse/chronicle HTML per hit). Year filtering (?from=&to=) is
+// read client-side by YearNav + BrowseSourceClient via useSearchParams.
 export default async function BrowseSourcePage({
   params,
-  searchParams,
 }: {
   params: Promise<{ source: string }>;
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { source } = await params;
-  const sp = await searchParams;
-  const initialYearFrom = sp.from ? parseInt(String(sp.from), 10) : undefined;
-  const initialYearTo   = sp.to   ? parseInt(String(sp.to),   10) : undefined;
 
   if (!VALID_SOURCES.includes(source as ValidSource)) notFound();
 
@@ -150,14 +151,10 @@ export default async function BrowseSourcePage({
 
   const allPosts = getAllPosts();
 
-  // When browsing "all" via a decade shortcut (?from=&to=), exclude archival
-  // sources (chronicle, ap) so decade views reflect the primary corpus only.
-  const decadeMode = src === 'all' && (initialYearFrom !== undefined || initialYearTo !== undefined);
-
   // Virtual sources
   const sourcePosts =
     src === 'threads' ? allPosts.filter((p) => p.source === 'reddit' || p.source === 'twitter') :
-    src === 'all'     ? allPosts.filter((p) => decadeMode ? !ARCHIVAL_SOURCES.includes(p.source as typeof ARCHIVAL_SOURCES[number]) : true) :
+    src === 'all'     ? allPosts :
     allPosts.filter((p) => p.source === (src as ContentSource));
 
   // Sort: dated posts newest-first, then undated alphabetically
@@ -186,9 +183,6 @@ export default async function BrowseSourcePage({
     }
     yearNav = [...years].sort((a, b) => a - b);
   }
-  const activeYear = yearNav.length && initialYearFrom !== undefined && initialYearFrom === initialYearTo
-    ? initialYearFrom
-    : undefined;
 
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
@@ -278,55 +272,33 @@ export default async function BrowseSourcePage({
         </p>
       </div>
 
-      {/* Year navigation for Chronicles / AP Journal */}
+      {/* Year navigation for Chronicles / AP Journal — Suspense is mandatory:
+          useSearchParams on a prerendered route CSR-bails to the nearest
+          boundary, and the build errors without one. */}
       {yearNav.length > 1 && (
-        <div className="mb-6 -mx-4 px-4 overflow-x-auto scrollbar-hide">
-          <div className="flex items-center gap-1.5 min-w-max">
-            <Link
-              href={`/browse/${src}`}
-              className={`px-2.5 py-1 rounded-lg text-xs font-medium tabular-nums transition-colors ${
-                activeYear === undefined
-                  ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
-                  : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
-              }`}
-            >
-              All
-            </Link>
-            {yearNav.map((y) => (
-              <Link
-                key={y}
-                href={`/browse/${src}?from=${y}&to=${y}`}
-                className={`px-2.5 py-1 rounded-lg text-xs font-medium tabular-nums transition-colors ${
-                  activeYear === y
-                    ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
-              >
-                {y}
-              </Link>
-            ))}
-          </div>
-        </div>
+        <Suspense fallback={<div className="mb-6 h-7" />}>
+          <YearNav years={yearNav} src={src} />
+        </Suspense>
       )}
 
       {/* Searchable post list (client component) — slim payload: full
           content stays on the server; the client gets word counts plus a
           capped lowercase prefix for keyword filtering. */}
-      <BrowseSourceClient
-        posts={sorted.map((p) => ({
-          slug: p.slug,
-          title: p.title,
-          date: p.date,
-          source: p.source,
-          excerpt: p.excerpt,
-          wordCount: p.content.split(/\s+/).length,
-          searchText: (p.title + ' ' + p.content.slice(0, 2000)).toLowerCase(),
-        }))}
-        source={src}
-        totalCount={totalCount}
-        initialYearFrom={initialYearFrom}
-        initialYearTo={initialYearTo}
-      />
+      <Suspense fallback={null}>
+        <BrowseSourceClient
+          posts={sorted.map((p) => ({
+            slug: p.slug,
+            title: p.title,
+            date: p.date,
+            source: p.source,
+            excerpt: p.excerpt,
+            wordCount: p.content.split(/\s+/).length,
+            searchText: (p.title + ' ' + p.content.slice(0, 2000)).toLowerCase(),
+          }))}
+          source={src}
+          totalCount={totalCount}
+        />
+      </Suspense>
 
     </main>
   );

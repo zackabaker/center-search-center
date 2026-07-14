@@ -12,6 +12,8 @@ const SOURCE_LABELS: Record<string, string> = {
   pdf:      'Essays & Articles',
   reddit:   'Reddit',
   twitter:  'X / Twitter',
+  chronicle: 'Chronicles of Love and Resentment',
+  ap:        'Anthropoetics Journal',
 };
 
 function escapeHtml(str: string): string {
@@ -37,11 +39,24 @@ export async function GET(
   const wordCount = post.content.split(/\s+/).length;
   const readingTime = Math.max(1, Math.round(wordCount / 230));
   const sourceLabel = SOURCE_LABELS[post.source] ?? post.source;
+  const chronicleNo = post.source === 'chronicle' ? slug.match(/^clr-(\d+)$/)?.[1] ?? null : null;
+  // Mirror the post page's byline logic — a TTS listener must hear whose
+  // words these are, especially on the Gans reference shelf.
+  const authorName = post.author
+    ? post.author
+    : post.source === 'ap' ? 'Various Authors'
+    : post.source === 'chronicle' ? 'Eric Gans'
+    : (post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter') ? 'Dennis Bouvard'
+    : 'Adam Katz';
 
   const paragraphs = post.content
     .split(/\n\n+/)
     .map((p) => p.trim())
-    .filter((p) => p.length > 20)
+    // No length floor — '[ADAM]' speaker labels, '---' dividers, and short
+    // real lines like '-eric gans' epigraph attributions must all survive.
+    // Boilerplate is handled by the explicit filter below, matching
+    // PostContent's behavior.
+    .filter((p) => p.length > 0)
     .filter((p) => {
       const t = p.trim();
       return (
@@ -82,7 +97,12 @@ export async function GET(
     })
     .join('\n');
 
-  const metaParts = [sourceLabel, post.date, `${readingTime} min read`]
+  const metaParts = [
+    authorName,
+    chronicleNo ? `${sourceLabel} · No. ${chronicleNo}` : sourceLabel,
+    post.date,
+    `${readingTime} min read`,
+  ]
     .filter(Boolean)
     .join(' · ');
 
@@ -94,7 +114,7 @@ export async function GET(
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>${escapeHtml(post.title)}</title>
-  <meta name="description" content="${escapeHtml(paragraphs[0]?.slice(0, 160) ?? '')}" />
+  <meta name="description" content="${escapeHtml(paragraphs.find((p) => p !== '---' && p !== '[ADAM]' && !/^#{1,3}\s/.test(p))?.slice(0, 160) ?? '')}" />
   <link rel="canonical" href="${canonicalUrl}" />
   <meta property="og:title"   content="${escapeHtml(post.title)}" />
   <meta property="og:type"    content="article" />
@@ -109,15 +129,33 @@ export async function GET(
   <script>
     (function () {
       try {
+        // Seed one-way from the site's theme/font keys when the reader has no
+        // preference of its own — a Night reader should not land on a bright
+        // page. Read-only: never write csc-* keys back, never persist the
+        // seed until the user presses a /text control.
         var pref = localStorage.getItem('reader-theme');
+        if (!pref) {
+          var site = localStorage.getItem('csc-reading-mode');
+          if (site === 'night') pref = 'dark';
+          else if (site) pref = 'light'; // sepia/normal → /text's warm paper
+        }
         if (pref === 'dark' || (!pref && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.classList.add('dark');
         }
         var mobile = window.innerWidth <= 600;
         var SIZES = mobile ? ['17px','19px','22px','26px'] : ['18px','21px','25px','29px'];
         var LHS   = mobile ? ['1.8','1.85','1.92','1.98'] : ['1.82','1.9','1.95','2.0'];
-        var sz = parseInt(localStorage.getItem('reader-font-step') || '1', 10);
-        if (sz < 0 || sz > 3) sz = 1;
+        var stored = localStorage.getItem('reader-font-step');
+        var sz;
+        if (stored === null) {
+          // Derive from the site's font size; 18 is the auto-written site
+          // default (no real signal), which maps to /text's own default step.
+          var siteFs = parseInt(localStorage.getItem('csc-font-size') || '18', 10);
+          sz = siteFs >= 24 ? 3 : siteFs >= 20 ? 2 : siteFs <= 15 ? 0 : 1;
+        } else {
+          sz = parseInt(stored, 10);
+        }
+        if (sz < 0 || sz > 3 || isNaN(sz)) sz = 1;
         // inline style beats any stylesheet rule — no specificity fight
         document.documentElement.style.setProperty('--fs', SIZES[sz]);
         document.documentElement.style.setProperty('--lh', LHS[sz]);
@@ -485,8 +523,17 @@ export async function GET(
       var mobile = window.innerWidth <= 600;
       var SIZES = mobile ? ['17px','19px','22px','26px'] : ['18px','21px','25px','29px'];
       var LHS   = mobile ? ['1.8','1.85','1.92','1.98'] : ['1.82','1.9','1.95','2.0'];
-      var step = parseInt(localStorage.getItem('reader-font-step') || '1', 10);
-      if (step < 0 || step >= SIZES.length) step = 1;
+      // Same seed derivation as the first-paint script so the +/- controls
+      // start from the size actually on screen.
+      var storedStep = localStorage.getItem('reader-font-step');
+      var step;
+      if (storedStep === null) {
+        var siteFs = parseInt(localStorage.getItem('csc-font-size') || '18', 10);
+        step = siteFs >= 24 ? 3 : siteFs >= 20 ? 2 : siteFs <= 15 ? 0 : 1;
+      } else {
+        step = parseInt(storedStep, 10);
+      }
+      if (step < 0 || step >= SIZES.length || isNaN(step)) step = 1;
 
       function applyStep(s) {
         step = Math.max(0, Math.min(SIZES.length - 1, s));

@@ -436,9 +436,13 @@ function parseSubstackPosts(text: string): Post[] {
 
 // Custom metadata for PDFs: map filename (without extension) to title and source override
 const PDF_METADATA: Record<string, { title: string; source?: ContentSource; url?: string; date?: string; author?: string; preCleaned?: boolean }> = {
+  // Eric GANS's book (new edition with a Katz introduction) — NOT a chapter
+  // of Katz's Anthropomorphics. source falls back to 'pdf' so the byline,
+  // eyebrow, citation, book CTA, and /browse/book hub all attribute correctly.
   'the-origin-of-language': {
     title: 'The Origin of Language',
-    source: 'book',
+    author: 'Eric Gans',
+    date: '2020',
   },
   'why-generative-anthropology': {
     title: 'Why Generative Anthropology (Peter Goldman)',

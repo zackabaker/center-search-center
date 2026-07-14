@@ -13,8 +13,13 @@ export async function GET(request: Request) {
   // Default scope is the core corpus (+ threads, which are filtered in/out
   // client-side). scope=archives returns the Chronicles + AP Journal index,
   // fetched lazily only when the reader toggles those sources into search.
-  const scope = new URL(request.url).searchParams.get('scope');
+  const url = new URL(request.url);
+  const scope = url.searchParams.get('scope');
   const wantArchives = scope === 'archives';
+  // ?v=<build token> — pure cache-buster (value ignored; data is build-baked).
+  // Versioned requests cache as immutable; the site rolls the token per
+  // deploy, so "cached after the first visit" is finally true.
+  const versioned = url.searchParams.has('v');
 
   const posts = getPublicPosts()
     .filter((p) => wantArchives ? ARCHIVAL_SOURCES.includes(p.source) : !ARCHIVAL_SOURCES.includes(p.source))
@@ -50,7 +55,9 @@ export async function GET(request: Request) {
     { entries, totalPosts: posts.length },
     {
       headers: {
-        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400, max-age=3600',
+        'Cache-Control': versioned
+          ? 'public, max-age=31536000, immutable, s-maxage=31536000'
+          : 'public, s-maxage=3600, stale-while-revalidate=86400, max-age=3600',
         'Access-Control-Allow-Origin': '*',
       },
     }

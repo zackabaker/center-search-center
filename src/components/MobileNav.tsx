@@ -13,12 +13,14 @@ interface NavItem {
 const navItems: NavItem[] = [
   {
     // Labeled what it is: "Start" on desktop goes to /start, so this tab says
-    // Guide to avoid one word pointing at two different pages.
+    // Guide to avoid one word pointing at two different pages. Map icon, not
+    // a house — a house icon promising home while navigating to /guide reads
+    // as a broken tab. (The nav wordmark is the way home.)
     href: '/guide',
     label: 'Guide',
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
       </svg>
     ),
   },
@@ -90,7 +92,8 @@ export default function MobileNav() {
   // composites on a separate layer that lags during mobile momentum scroll,
   // making the bar "float" up mid-page. Solid bg avoids that.
   return (
-    <div
+    <nav
+      aria-label="Primary"
       className={`fixed bottom-0 left-0 right-0 z-40 sm:hidden bg-[var(--background)] border-t border-gray-100 dark:border-gray-800 transition-transform duration-200 ${hidden ? 'translate-y-full' : 'translate-y-0'}`}
       style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
     >
@@ -108,7 +111,7 @@ export default function MobileNav() {
               className={`flex flex-col items-center gap-0.5 pt-2 pb-1 px-3 flex-1 transition-colors ${
                 isActive
                   ? 'text-gray-900 dark:text-white'
-                  : 'text-gray-400 dark:text-gray-500'
+                  : 'text-gray-500 dark:text-gray-400'
               }`}
             >
               {icon}
@@ -117,6 +120,6 @@ export default function MobileNav() {
           );
         })}
       </div>
-    </div>
+    </nav>
   );
 }

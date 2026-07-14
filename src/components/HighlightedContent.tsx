@@ -196,6 +196,7 @@ const HIGHLIGHT_STOPWORDS = new Set([
   'very','just','also','about','than','then','over','after','before','while',
   'here','there','their','they','them','you','your','our','its','him','his',
   'her','she','he','we','my','who','as','if','so','no','only','both','each',
+  'into',
 ]);
 
 const MAX_MARKS = 20; // cap highlights so frequent terms don't paint the whole page
@@ -223,55 +224,123 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
     if (!query || !contentRef.current) return;
     const container = contentRef.current;
 
-    // Build regex from meaningful keywords only
-    const terms = extractHighlightTerms(query);
-    if (terms.length === 0) return;
-    const pattern = terms
-      .map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-      .join('|');
-    const regex = new RegExp(`\\b(${pattern})\\b`, 'gi');
+    const allMarks: HTMLElement[] = [];
+    let totalMatches = 0;
 
-    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
-    const textNodes: Text[] = [];
-    let node: Node | null;
-    while ((node = walker.nextNode())) {
-      if (regex.test((node as Text).textContent || '')) textNodes.push(node as Text);
-      regex.lastIndex = 0;
+    const MARK_STYLE =
+      // Subtle inline highlight — neutral (amber is reserved for the verbatim center)
+      'background:rgba(120,113,108,0.30);color:inherit;border-radius:2px;padding:0 2px;';
+
+    // ── Pass 1: the query as a contiguous PHRASE, matched at block level ──
+    // Citation deep links (?q=first+words+of+the+quote) must land on the
+    // quoted passage, not on the first stray occurrence of a common word.
+    // Concept TermLinks and bold/italic split the phrase across text nodes,
+    // so we match against each block's textContent and then wrap the covered
+    // text-node segments (in reverse order, so offsets stay valid).
+    const rawPhrase = query.replace(/["“”„‟]/g, '').replace(/\s+/g, ' ').trim();
+    const phraseWords = rawPhrase.split(' ').filter(Boolean);
+    if (phraseWords.length >= 2) {
+      const phraseRegex = new RegExp(
+        phraseWords.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('[\\s\\u00a0]+'),
+        'gi'
+      );
+      const blocks = Array.from(container.querySelectorAll('p, blockquote')).filter(
+        (el) => el.tagName !== 'P' || !el.closest('blockquote')
+      );
+      for (const block of blocks) {
+        if (totalMatches >= MAX_MARKS) break;
+        const blockText = block.textContent || '';
+        phraseRegex.lastIndex = 0;
+        const ranges: [number, number][] = [];
+        let m: RegExpExecArray | null;
+        while ((m = phraseRegex.exec(blockText)) !== null && totalMatches < MAX_MARKS) {
+          ranges.push([m.index, m.index + m[0].length]);
+          totalMatches++;
+          if (m[0].length === 0) phraseRegex.lastIndex++;
+        }
+        if (ranges.length === 0) continue;
+        // Snapshot text nodes with cumulative offsets, then wrap segments
+        // back-to-front so earlier offsets survive the splits.
+        const walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT, null);
+        const entries: { node: Text; start: number; end: number }[] = [];
+        let off = 0;
+        let tn: Node | null;
+        while ((tn = walker.nextNode())) {
+          const len = (tn.textContent || '').length;
+          entries.push({ node: tn as Text, start: off, end: off + len });
+          off += len;
+        }
+        for (let r = ranges.length - 1; r >= 0; r--) {
+          const [rs, re] = ranges[r];
+          for (let e = entries.length - 1; e >= 0; e--) {
+            const entry = entries[e];
+            if (entry.end <= rs || entry.start >= re) continue;
+            const localStart = Math.max(0, rs - entry.start);
+            const localEnd = Math.min(entry.node.length, re - entry.start);
+            if (localEnd <= localStart) continue;
+            const mid = entry.node.splitText(localStart);
+            mid.splitText(localEnd - localStart);
+            const mark = document.createElement('mark');
+            mark.style.cssText = MARK_STYLE;
+            entry.node.parentNode?.insertBefore(mark, mid);
+            mark.appendChild(mid);
+            allMarks.push(mark);
+          }
+        }
+      }
+      // Restore document order (segments were created back-to-front)
+      allMarks.sort((a, b) =>
+        a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1
+      );
     }
 
-    let totalMatches = 0;
-    const allMarks: HTMLElement[] = [];
+    // ── Pass 2 (fallback): meaningful words — the ordinary search arrival ──
+    if (totalMatches === 0) {
+      const terms = extractHighlightTerms(query);
+      if (terms.length === 0) return;
+      const pattern = terms
+        .map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+        .join('|');
+      const regex = new RegExp(`\\b(${pattern})\\b`, 'gi');
 
-    for (const textNode of textNodes) {
-      if (totalMatches >= MAX_MARKS) break; // stop once we've hit the cap
-      const text = textNode.textContent || '';
-      const parts: (string | { match: string })[] = [];
-      let lastIndex = 0;
-      let match: RegExpExecArray | null;
-      regex.lastIndex = 0;
-      while ((match = regex.exec(text)) !== null) {
-        if (totalMatches >= MAX_MARKS) break;
-        if (match.index > lastIndex) parts.push(text.slice(lastIndex, match.index));
-        parts.push({ match: match[0] });
-        lastIndex = regex.lastIndex;
-        totalMatches++;
+      const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+      const textNodes: Text[] = [];
+      let node: Node | null;
+      while ((node = walker.nextNode())) {
+        if (regex.test((node as Text).textContent || '')) textNodes.push(node as Text);
+        regex.lastIndex = 0;
       }
-      if (lastIndex < text.length) parts.push(text.slice(lastIndex));
-      if (parts.length <= 1) continue;
-      const fragment = document.createDocumentFragment();
-      parts.forEach((part) => {
-        if (typeof part === 'string') {
-          fragment.appendChild(document.createTextNode(part));
-        } else {
-          const mark = document.createElement('mark');
-          mark.textContent = part.match;
-          // Subtle inline highlight — neutral (amber is reserved for the verbatim center)
-          mark.style.cssText = 'background:rgba(120,113,108,0.30);color:inherit;border-radius:2px;padding:0 2px;';
-          allMarks.push(mark);
-          fragment.appendChild(mark);
+
+      for (const textNode of textNodes) {
+        if (totalMatches >= MAX_MARKS) break; // stop once we've hit the cap
+        const text = textNode.textContent || '';
+        const parts: (string | { match: string })[] = [];
+        let lastIndex = 0;
+        let match: RegExpExecArray | null;
+        regex.lastIndex = 0;
+        while ((match = regex.exec(text)) !== null) {
+          if (totalMatches >= MAX_MARKS) break;
+          if (match.index > lastIndex) parts.push(text.slice(lastIndex, match.index));
+          parts.push({ match: match[0] });
+          lastIndex = regex.lastIndex;
+          totalMatches++;
         }
-      });
-      textNode.parentNode?.replaceChild(fragment, textNode);
+        if (lastIndex < text.length) parts.push(text.slice(lastIndex));
+        if (parts.length <= 1) continue;
+        const fragment = document.createDocumentFragment();
+        parts.forEach((part) => {
+          if (typeof part === 'string') {
+            fragment.appendChild(document.createTextNode(part));
+          } else {
+            const mark = document.createElement('mark');
+            mark.textContent = part.match;
+            mark.style.cssText = MARK_STYLE;
+            allMarks.push(mark);
+            fragment.appendChild(mark);
+          }
+        });
+        textNode.parentNode?.replaceChild(fragment, textNode);
+      }
     }
 
     marksRef.current = allMarks;
@@ -327,6 +396,13 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
       const isHeading = /^#{1,3}\s/.test(p);
       const headingLevel = isHeading ? (p.match(/^(#{1,3})\s/)?.[1].length ?? 2) : 0;
       const isBlockquote = !isHeading && !isDivider && (p.startsWith('>') || p.startsWith('_'));
+      // Reddit Q&A structural markers — mirror PostContent so the ?q= view
+      // never renders raw '[ADAM]' / '[Q:username]' brackets.
+      const isBouvardLabel = p.trim() === '[ADAM]';
+      const qMatch = (!isBlockquote && !isHeading && !isDivider && !isBouvardLabel)
+        ? p.match(/^\[Q:([^\]]*)\]\s*([\s\S]*)/)
+        : null;
+      const questionCard = qMatch ? { questioner: qMatch[1].trim(), questionText: qMatch[2].trim() } : null;
       // Strip the markdown markers so the marker text never renders literally.
       const text = isHeading
         ? p.replace(/^#{1,3}\s/, '')
@@ -334,8 +410,10 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
         ? p.replace(/^>\s*/, '').replace(/^_|_$/g, '')
         : p;
       // Don't linkify headings — they're structural, not prose
-      const nodes = isHeading || isDivider ? [text] : renderParagraphNodes(text, linkedAlready, i);
-      return { isBlockquote, isHeading, isDivider, headingLevel, text, nodes };
+      const nodes = isHeading || isDivider || isBouvardLabel || questionCard
+        ? [text]
+        : renderParagraphNodes(text, linkedAlready, i);
+      return { isBlockquote, isHeading, isDivider, isBouvardLabel, questionCard, headingLevel, text, nodes };
     });
   }, [paragraphs]);
 
@@ -361,11 +439,42 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
         </div>
       )}
       <div ref={contentRef} className="prose text-gray-800 dark:text-gray-200 mx-auto">
-        {linkedParagraphs.map(({ isBlockquote, isHeading, isDivider, headingLevel, text, nodes }, i) => {
+        {linkedParagraphs.map(({ isBlockquote, isHeading, isDivider, isBouvardLabel, questionCard, headingLevel, text, nodes }, i) => {
           const id = `p-${i + 1}`;
 
           if (isDivider) {
             return <hr key={i} className="border-gray-100 dark:border-gray-800 my-2" />;
+          }
+
+          // Adam Katz speaker label (before Bouvard's response in Q&A) —
+          // amber marks Katz's verbatim speech, matching PostContent.
+          if (isBouvardLabel) {
+            return (
+              <div key={i} className="flex items-center gap-2.5 pt-1 pb-0.5">
+                <span className="text-[11px] font-semibold text-amber-700 dark:text-amber-400 tracking-wide whitespace-nowrap">
+                  Adam Katz
+                </span>
+                <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
+              </div>
+            );
+          }
+
+          // Question card (Reddit Q&A questioner)
+          if (questionCard) {
+            return (
+              <div
+                key={i}
+                id={id}
+                className="rounded-xl bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700 px-4 py-3 mt-2 scroll-mt-20"
+              >
+                <div className="text-[10px] font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1.5">
+                  {questionCard.questioner}
+                </div>
+                <p className="text-sm text-gray-600 dark:text-gray-300 italic leading-relaxed">
+                  {questionCard.questionText}
+                </p>
+              </div>
+            );
           }
 
           if (isHeading) {

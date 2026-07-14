@@ -46,7 +46,8 @@ export async function GET() {
       const q = String(raw[i]);
       const n = Number(raw[i + 1]);
       // Skip one-offs and junk so a single stray query never becomes a chip.
-      if (n < 2 || q.length < 3 || q.length > 60) continue;
+      // __token__ patterns are uptime-monitor probes, not human searches.
+      if (n < 2 || q.length < 3 || q.length > 60 || /^__.*__$/.test(q) || !/[a-z]/i.test(q)) continue;
       terms.push({ q, n });
       if (terms.length >= 12) break;
     }
@@ -88,6 +89,9 @@ export async function POST(request: Request) {
 
   const entry = JSON.stringify({ q, mode, mine, n, t: Date.now() });
   const norm = q.toLowerCase().replace(/\s+/g, ' ').trim();
+  // Monitor probes must not accumulate in the terms ZSET at all — filtering
+  // only on read leaves them self-reinforcing (chip clicks re-log them).
+  if (/^__.*__$/.test(norm)) return Response.json({ ok: true, stored: false });
   try {
     await Promise.all([
       kv.lpush(LOG_KEY, entry),

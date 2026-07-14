@@ -49,6 +49,9 @@ export default function SemanticResults({
   useEffect(() => {
     const q = query.trim();
     if (!q) { setResults(null); setStatus('idle'); return; }
+    // Sub-2-char queries are rejected by the server — stay idle instead of
+    // rendering a false "meaning search isn't available" outage message.
+    if (q.replace(/\s/g, '').length < 2) { setResults(null); setStatus('idle'); return; }
     const id = ++reqId.current;
     (async () => {
       try {

@@ -52,6 +52,7 @@ const READER_SOURCES = new Set(['gablog', 'substack', 'book', 'pdf', 'ap', 'chro
 // small line above the title (journal / volume / date).
 const ACADEMIC_ARTICLES: Record<string, { issue?: string }> = {
   'there-is-no-economy-pdf': { issue: 'Anthropoetics XXVIII, no. 2 — Spring 2023' },
+  'the-origin-of-language': { issue: 'Eric Gans — The Origin of Language (new edition, Spuyten Duyvil, 2020)' },
 };
 
 // Module-level cache — computed once per server-process lifetime (survives warm serverless invocations)
@@ -199,7 +200,12 @@ export default async function PostPage({
   // Book chapters have no dates but posts-cache order IS the book's chapter
   // order — preserve it. Everything else sorts chronologically (parsePostDate
   // handles Chronicle-style "July 6th, 1995" that Date.parse rejects).
-  const sourceFiltered = allPosts.filter((p) => p.source === post.source);
+  // The whole-book blob is not a chapter — finishing the last real chapter
+  // must not offer "Next: Anthropomorphics" (the 325k-char full text).
+  const BOOK_BLOBS = new Set(['anthropomorphics-book']);
+  const sourceFiltered = allPosts.filter(
+    (p) => p.source === post.source && !(post.source === 'book' && BOOK_BLOBS.has(p.slug))
+  );
   const sourcePosts = post.source === 'book'
     ? sourceFiltered
     : [...sourceFiltered].sort((a, b) => {
@@ -212,7 +218,7 @@ export default async function PostPage({
       });
   const currentIdx = sourcePosts.findIndex((p) => p.slug === slug);
   const prevPost = currentIdx > 0 ? sourcePosts[currentIdx - 1] : null;
-  const nextPost = currentIdx < sourcePosts.length - 1 ? sourcePosts[currentIdx + 1] : null;
+  const nextPost = currentIdx >= 0 && currentIdx < sourcePosts.length - 1 ? sourcePosts[currentIdx + 1] : null;
 
   // ── Concordance ────────────────────────────────────────────────────────────
   const termFreq = getPostTermFrequency(post.content, 25);
@@ -417,7 +423,7 @@ export default async function PostPage({
                 )}
 
                 {/* Action buttons */}
-                <div className={`flex items-center gap-2 print:hidden${reader ? ' justify-center' : ''}`}>
+                <div className={`flex flex-wrap items-center gap-2 print:hidden${reader ? ' justify-center' : ''}`}>
                   <ShareButton title={post.title} url={`https://center.study/post/${slug}`} />
                   <BookmarkButton post={{ slug, title: post.title, source: post.source, date: post.date, savedAt: '' }} />
                   <CitationButton
@@ -437,7 +443,7 @@ export default async function PostPage({
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
-                    Reader
+                    Plain text
                   </a>
                   {originalHref && (
                     <a
