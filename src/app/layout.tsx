@@ -120,30 +120,31 @@ export default function RootLayout({
           <div className="max-w-5xl mx-auto px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
             <a
               href="https://center.study"
-              className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors font-medium flex-shrink-0"
+              className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors font-medium flex-shrink-0"
             >
               Center Study Center
             </a>
             <div className="flex items-center gap-4 flex-wrap">
-              <Link href="/intro"   className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Introduction</Link>
-              <Link href="/guide"   className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Guide</Link>
-              <Link href="/browse"  className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Archive</Link>
-              <Link href="/concepts?view=glossary" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Glossary</Link>
-              <Link href="/generative-anthropology" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Generative Anthropology</Link>
-              <Link href="/about"   className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">About</Link>
-              <Link href="/faq"     className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">FAQ</Link>
-              <Link href="/ask"     className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Ask AI</Link>
-              <Link href="/answers" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Answers</Link>
-              <Link href="/new" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">New</Link>
-              <Link href="/trending" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Trending</Link>
-              <Link href="/download" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Download</Link>
-              <Link href="/verify" className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Verify a Quote</Link>
+              <Link href="/intro"   className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Introduction</Link>
+              <Link href="/guide"   className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Guide</Link>
+              <Link href="/browse"  className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Archive</Link>
+              <Link href="/concepts/glossary" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Glossary</Link>
+              <Link href="/generative-anthropology" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Generative Anthropology</Link>
+              <Link href="/about"   className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">About</Link>
+              <Link href="/faq"     className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">FAQ</Link>
+              <Link href="/ask"     className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Ask AI</Link>
+              <Link href="/answers" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Answers</Link>
+              <Link href="/new" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">New</Link>
+              <Link href="/trending" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Trending</Link>
+              <Link href="/download" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Download</Link>
+              <Link href="/verify" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Verify a Quote</Link>
+              <Link href="/reading-list" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Reading List</Link>
               <span className="text-gray-200 dark:text-gray-800">·</span>
               <a
                 href="https://dennisbouvard.substack.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-gray-400 dark:text-gray-600 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
+                className="text-xs text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
               >
                 Substack ↗
               </a>
@@ -151,13 +152,13 @@ export default function RootLayout({
                 href="https://x.com/centerstudy_"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors"
+                className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
               >
                 X ↗
               </a>
               <a
                 href="/feed.xml"
-                className="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors"
+                className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
                 title="RSS feed"
               >
                 RSS
@@ -178,7 +179,7 @@ export default function RootLayout({
               { href: '/lectures',         label: 'Lectures' },
               { href: '/author/katz',      label: 'Adam Katz' },
             ].map(({ href, label }) => (
-              <Link key={href} href={href} className="text-[11px] text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">
+              <Link key={href} href={href} className="text-[11px] text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">
                 {label}
               </Link>
             ))}
@@ -188,7 +189,7 @@ export default function RootLayout({
               { href: '/browse/ap',        label: 'Anthropoetics' },
               { href: '/author/gans',      label: 'Eric Gans' },
             ].map(({ href, label }) => (
-              <Link key={href} href={href} className="text-[11px] text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">
+              <Link key={href} href={href} className="text-[11px] text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">
                 {label}
               </Link>
             ))}

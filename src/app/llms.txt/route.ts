@@ -59,7 +59,7 @@ the hypothesized event in which language, the sacred, and community emerged
 together as the deferral of mimetic violence. Core terms: the center,
 deferral, originary scene, ostensive/imperative/declarative, resentment,
 Big Man, succession, imperative exchange, anthropomorphics. Definitions with
-sources: https://center.study/concepts?view=glossary
+sources: https://center.study/concepts/glossary
 
 ## Attribution
 

@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { parsePostDate } from '@/lib/dates';
 
 interface QuoteShareProps {
   title: string;
@@ -21,6 +22,10 @@ interface Sel {
 export default function QuoteShare({ title, author, date, url }: QuoteShareProps) {
   const [sel, setSel] = useState<Sel | null>(null);
   const [copied, setCopied] = useState(false);
+  // Ref, not the copied state — the selectionchange effect closes over
+  // [refresh] and would capture `copied` stale. Guards the pill through the
+  // selection collapse a touch-tap causes, so the feedback stays visible.
+  const copiedRef = useRef(false);
 
   const refresh = useCallback(() => {
     const s = window.getSelection();
@@ -45,7 +50,9 @@ export default function QuoteShare({ title, author, date, url }: QuoteShareProps
     let selTimer: ReturnType<typeof setTimeout> | undefined;
     const onSelChange = () => {
       const s = window.getSelection();
-      if (!s || s.isCollapsed) { setSel(null); return; }
+      // A tap on the copy button itself collapses the selection — keep the
+      // pill up through the copied-feedback window instead of yanking it.
+      if (!s || s.isCollapsed) { if (!copiedRef.current) setSel(null); return; }
       clearTimeout(selTimer);
       selTimer = setTimeout(refresh, 350);
     };
@@ -64,17 +71,20 @@ export default function QuoteShare({ title, author, date, url }: QuoteShareProps
   if (!sel) return null;
 
   const year = (() => {
-    if (!date) return null;
-    const d = new Date(date);
-    return isNaN(d.getTime()) ? null : d.getFullYear();
+    // parsePostDate handles the Chronicle "July 6th, 1995" ordinal format
+    // that Date.parse rejects — otherwise all 855 Chronicles lose their year.
+    const d = parsePostDate(date);
+    return d ? d.getFullYear() : null;
   })();
 
   const copy = () => {
     const citation = `— ${author}, "${title}"${year ? ` (${year})` : ''}\n${url}`;
     const payload = `"${sel.text}"\n\n${citation}`;
     navigator.clipboard.writeText(payload).then(() => {
+      copiedRef.current = true;
       setCopied(true);
       setTimeout(() => {
+        copiedRef.current = false;
         setCopied(false);
         setSel(null);
         window.getSelection()?.removeAllRanges();
@@ -94,7 +104,12 @@ export default function QuoteShare({ title, author, date, url }: QuoteShareProps
     >
       <button
         onClick={copy}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium shadow-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:opacity-90 transition-opacity"
+        // touchend fires BEFORE the tap's default action collapses the
+        // selection (and before synthesized mouse events, which
+        // preventDefault suppresses so copy() can't double-fire) — without
+        // it the pill self-destructs before the tap lands on iOS.
+        onTouchEnd={(e) => { e.preventDefault(); copy(); }}
+        className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-lg text-xs font-medium shadow-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:opacity-90 transition-opacity"
       >
         {copied ? (
           <>

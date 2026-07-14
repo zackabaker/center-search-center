@@ -24,7 +24,7 @@ OUTPUT FORMAT (follow exactly, in this order):
 
 ## [A short noun-phrase title capturing the question's core, e.g. "Resentment and the Sacred" or "The Center as Political Foundation"]
 
-[PROVISIONAL ANSWER — 3–5 paragraphs of synthesized prose. This answer must be built almost entirely from direct quotes from the provided excerpts, woven into continuous prose. Structure each paragraph around one or two exact quotes embedded inline, introduced with minimal connective phrases like "As Katz writes," "Bouvard observes that," or "In Katz's formulation." Mark every embedded quote with "quotation marks" and follow it immediately with an em-dash and the source title as a markdown link using the exact slug from the excerpt's "Slug:" field, with the first 4 words of the quote as a ?q= parameter (lowercase, spaces as +) so the link opens the post AT the quoted passage: — [Title](/post/slug?q=first+four+quote+words). Whenever you mention an article title anywhere in your prose outside a direct quote, link it plainly: [Title](/post/slug). The connecting tissue between quotes should be 1–2 sentences at most, identifying how the passages relate without adding claims not found in the texts. Use the vocabulary and conceptual framework of the archive — center, deferral, resentment, scene, originary, mimesis — as the texts themselves use them. End the answer with the single most concentrated passage that crystallizes the question.]
+[PROVISIONAL ANSWER — 3–5 paragraphs of synthesized prose. This answer must be built almost entirely from direct quotes from the provided excerpts, woven into continuous prose. Structure each paragraph around one or two exact quotes embedded inline, introduced with minimal connective phrases like "As Katz writes," "Bouvard observes that," or "In Katz's formulation." Mark every embedded quote with "quotation marks" and follow it immediately with an em-dash and the source title as a markdown link using the exact slug from the excerpt's "Slug:" field, with the first 8 words of the quote as a ?q= parameter (lowercase, spaces as +) so the link opens the post AT the quoted passage: — [Title](/post/slug?q=first+eight+words+of+the+quote+go+here). Whenever you mention an article title anywhere in your prose outside a direct quote, link it plainly: [Title](/post/slug). The connecting tissue between quotes should be 1–2 sentences at most, identifying how the passages relate without adding claims not found in the texts. Use the vocabulary and conceptual framework of the archive — center, deferral, resentment, scene, originary, mimesis — as the texts themselves use them. End the answer with the single most concentrated passage that crystallizes the question.]
 
 ---
 
@@ -40,7 +40,7 @@ Format each block as:
 > "Verbatim passage — 2–5 sentences copied exactly from the excerpt."
 
 **[Post Title]** · [Source Type]
-[Read →](/post/{slug}?q={first+4+words+url+encoded})
+[Read →](/post/{slug}?q={first+8+words+url+encoded})
 
 Prioritize excerpts that most directly address the question and that were not already fully quoted in the Provisional Answer above. Excerpts should extend and deepen what the answer touched — not repeat it.]
 

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { READING_PATHS, getPathBySlug } from '@/data/guide/reading-paths';
+import ActivePathTracker from '@/components/ActivePathTracker';
 import type { Metadata } from 'next';
 
 export function generateStaticParams() {
@@ -41,6 +42,7 @@ export default async function ReadingPathPage({ params }: { params: Promise<{ sl
 
   return (
     <main className="max-w-3xl w-full mx-auto px-4 py-10">
+      <ActivePathTracker pathSlug={path.slug} />
       <div className="mb-8">
         <Link href="/guide/reading-paths" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
           ← Reading paths
@@ -89,7 +91,6 @@ export default async function ReadingPathPage({ params }: { params: Promise<{ sl
                       <Link
                         href={`/post/${post.slug}`}
                         className="font-semibold text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                        target="_blank"
                       >
                         {post.title}
                       </Link>

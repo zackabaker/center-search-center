@@ -4,7 +4,7 @@
 
 export interface GlossaryLinkTerm {
   term: string;
-  anchor: string; // /concepts?view=glossary#<anchor>
+  anchor: string; // /concepts/glossary#<anchor>
 }
 
 export const GLOSSARY_LINK_TERMS: GlossaryLinkTerm[] = [

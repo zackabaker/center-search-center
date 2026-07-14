@@ -89,7 +89,7 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ s
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
-      <GoBack fallback="/concepts?view=glossary" label="← Glossary" />
+      <GoBack fallback="/concepts/glossary" label="← Glossary" />
 
       <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mt-6 mb-2">
         Term{!katzDefined && ' · reference definition'}
@@ -191,7 +191,7 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ s
           ✦ Ask AI about it
         </Link>
         <Link
-          href="/concepts?view=glossary"
+          href="/concepts/glossary"
           className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
         >
           All 134 terms

@@ -186,7 +186,10 @@ function highlight(text: string, query: string) {
 // appear in the text. (Previously every query was auto-wrapped as a phrase but
 // matched leniently, so "exact phrase" returned loose all-word matches.)
 function commitQuery(raw: string): string {
-  return raw.trim();
+  // Smart quotes (iOS/macOS auto-punctuation, pastes from the site's own
+  // typographic text) must count as phrase operators — every downstream
+  // consumer (parseQuery, the grep gate, highlighting) expects straight ".
+  return raw.trim().replace(/[“”„‟]/g, '"');
 }
 
 // ── Transform current query when a syntax hint is clicked ────────────────────
@@ -373,7 +376,7 @@ export default function SearchPageClient({
   useEffect(() => {
     if (!includeArchives || archiveEntries.length > 0 || archiveLoading) return;
     setArchiveLoading(true);
-    fetch('/api/search-index?scope=archives')
+    fetch(`/api/search-index?scope=archives&v=${process.env.NEXT_PUBLIC_INDEX_V}`)
       .then((r) => r.ok ? r.json() : Promise.reject())
       .then((d) => { if (Array.isArray(d.entries)) setArchiveEntries(d.entries); })
       .catch(() => {})
@@ -450,6 +453,11 @@ export default function SearchPageClient({
     setCommitted(normalized);
     const raw = q.trim();
     if (raw) { saveRecent(raw); setRecentSearches(getRecent()); }
+    // An explicit submit means "show me results" — dismiss the phone keyboard
+    // so it stops covering the top of the list.
+    if (typeof document !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) {
+      (document.activeElement as HTMLElement | null)?.blur?.();
+    }
   }, []);
 
   // Live search: auto-phrase-wrap and commit after 100 ms of inactivity
@@ -527,6 +535,13 @@ export default function SearchPageClient({
   const isImplicitPhrase = hasQuery && committed.startsWith('"') && committed.endsWith('"') &&
     committed.length > 2;
 
+  // User-typed operators (mid-query quotes or AND/OR/NOT) suppress the
+  // universal meaning section; the zero-result rescue exists ONLY for that
+  // suppressed path — gating the rescue on this (not on the semanticQ settle
+  // timer) prevents mounting SemanticResults twice for the same query.
+  const userOperators =
+    (!isImplicitPhrase && /["“”]/.test(committed)) || /\b(AND|OR|NOT)\b/.test(committed);
+
   // "Did you mean" — only computed when results are empty
   const didYouMean = useMemo(() => {
     if (!committed || visibleResults.length > 0) return null;
@@ -545,16 +560,16 @@ export default function SearchPageClient({
       .trim();
   }, [committed]);
 
-  // Fire the full-corpus scan only for phrase-bearing queries whose local
-  // results are thin — single terms already match full content via the word
-  // index; only contiguous phrases are capped to each text's opening.
-  const thinResults = results.length < 8;
+  // Fire the full-corpus scan for EVERY phrase-bearing query — the local
+  // index only phrase-matches each text's opening ~20k chars, so even a
+  // healthy-looking local result list silently misses deep-only occurrences
+  // (the exact failure the scan exists to fix). Single terms already match
+  // full content via the word index, so they skip it.
   useEffect(() => {
     setGrep(null);
     setGrepStatus('idle');
     if (!committed) return;
     if (!(isImplicitPhrase || committed.includes('"'))) return;
-    if (!thinResults) return;
     if (grepPhrase.replace(/[^a-z0-9]/gi, '').length < 4) return;
     const ctl = new AbortController();
     setGrepStatus('loading');
@@ -564,19 +579,17 @@ export default function SearchPageClient({
       .catch(() => { if (!ctl.signal.aborted) setGrepStatus('error'); });
     return () => ctl.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [committed, isImplicitPhrase, grepPhrase, thinResults, includeArchives]);
+  }, [committed, isImplicitPhrase, grepPhrase, includeArchives]);
 
   // Settle the meaning-section query. User-typed operators (quotes that are
   // not the implicit whole-query wrap, or AND/OR/NOT) suppress it entirely.
   useEffect(() => {
     setSemanticQ('');
     if (!committed) return;
-    const userOperators =
-      (!isImplicitPhrase && /["“”]/.test(committed)) || /\b(AND|OR|NOT)\b/.test(committed);
     if (userOperators) return;
     const t = setTimeout(() => setSemanticQ(grepPhrase || committed), 1000);
     return () => clearTimeout(t);
-  }, [committed, isImplicitPhrase, grepPhrase]);
+  }, [committed, userOperators, grepPhrase]);
 
   // Corpus-true occurrence counts by slug (overrides the opening-only N×)
   const grepCounts = useMemo(
@@ -602,6 +615,25 @@ export default function SearchPageClient({
 
   // Speed: idle=1 (slow, like home), typing=2 (medium), searching=7 (fast)
   const iconSpeed = isSearching ? 7 : query ? 2 : 1;
+
+  // Screen-reader announcement — results were previously silent to AT.
+  // Settled states only, debounced so as-you-type re-renders don't spam.
+  const [announcement, setAnnouncement] = useState('');
+  useEffect(() => {
+    if (!committed) { setAnnouncement(''); return; }
+    if (isSearching || grepStatus === 'loading') { setAnnouncement('Searching…'); return; }
+    const t = setTimeout(() => {
+      setAnnouncement(
+        hasResults
+          ? `${visibleResults.length} result${visibleResults.length === 1 ? '' : 's'} for ${committed}`
+          : deepMatches.length > 0
+          ? `${grep?.totalPosts ?? deepMatches.length} texts found by full-text scan`
+          : `No results for ${committed}`
+      );
+    }, 600);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [committed, isSearching, grepStatus, hasResults, visibleResults.length, deepMatches.length]);
 
   // Source toggles — shared by keyword and meaning. Reddit/X and Chronicles/AP
   // are off by default and opt-in, so the Chronicles don't flood either search.
@@ -639,6 +671,8 @@ export default function SearchPageClient({
 
   return (
     <main className="max-w-4xl w-full mx-auto px-4 pt-6 pb-24 sm:py-10">
+      {/* Always-mounted polite status region for screen readers */}
+      <div className="sr-only" role="status" aria-live="polite">{announcement}</div>
       {/* Loading bar while the Chronicles/AP index streams in */}
       {archiveLoading && <TopLoadingBar label="Loading Chronicles & AP" />}
       {/* Search header — mode toggle + input pinned as ONE sticky unit, so
@@ -733,7 +767,7 @@ export default function SearchPageClient({
                 handleSubmit(transformed);
                 inputRef.current?.focus();
               }}
-              className="px-2 py-0.5 bg-gray-100 rounded text-[11px] text-gray-500 hover:bg-gray-200 font-mono transition-colors"
+              className="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded text-[11px] text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 font-mono transition-colors"
             >
               {tip}
             </button>
@@ -750,17 +784,35 @@ export default function SearchPageClient({
               <div className="text-sm text-gray-500 flex items-center gap-2 flex-wrap">
                 {hasResults ? (
                   <>
-                    <span className="font-medium text-gray-900">{visibleResults.length}</span>
+                    <span className="font-medium text-gray-900 dark:text-gray-100">{visibleResults.length}</span>
                     <span>result{visibleResults.length !== 1 ? 's' : ''}</span>
-                    {corpusCount !== null && (
-                      <span className="text-gray-400">
-                        · term in <span className="text-gray-600">{corpusCount}</span> of {totalPosts} posts
+                    {/* Word-level doc counts only make sense for term queries —
+                        for phrases the full-text scan line below is the truth */}
+                    {corpusCount !== null && !(isImplicitPhrase || committed.includes('"')) && (
+                      <span className="text-gray-400 dark:text-gray-500">
+                        · in <span className="text-gray-600 dark:text-gray-300">{corpusCount}</span> of {totalPosts} Katz texts
                       </span>
                     )}
                     {grepStatus === 'done' && grep && grep.totalPosts > 0 && (
-                      <span className="text-gray-400">
+                      <span className="text-gray-400 dark:text-gray-500">
                         · {grep.totalOccurrences - (grep.refOccurrences ?? 0)}× in {grep.totalPosts - (grep.refPosts ?? 0)} Katz text{grep.totalPosts - (grep.refPosts ?? 0) !== 1 ? 's' : ''}
-                        {(grep.refOccurrences ?? 0) > 0 && ` (+${grep.refOccurrences}× in Gans reference)`}
+                        {(grep.refOccurrences ?? 0) > 0 && (
+                          includeArchives ? (
+                            ` (+${grep.refOccurrences}× in Gans reference)`
+                          ) : (
+                            <>
+                              {' '}(
+                              <button
+                                onClick={toggleArchives}
+                                className="underline decoration-dotted underline-offset-2 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                                title="Include Chronicles & Anthropoetics in results"
+                              >
+                                +{grep.refOccurrences}× in Gans reference — include
+                              </button>
+                              )
+                            </>
+                          )
+                        )}
                       </span>
                     )}
                     {expansions.length > 0 && (
@@ -796,7 +848,7 @@ export default function SearchPageClient({
                     value={sort}
                     onChange={(e) => { setSort(e.target.value as typeof sort); setPage(0); }}
                     aria-label="Sort results"
-                    className="text-xs border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1.5 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 flex-shrink-0"
+                    className="text-base sm:text-xs border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1.5 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 flex-shrink-0"
                   >
                     <option value="relevance">Relevance</option>
                     <option value="newest">Newest first</option>
@@ -855,7 +907,7 @@ export default function SearchPageClient({
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-2 mt-8 flex-wrap">
               <button onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={page === 0}
-                className="min-h-[44px] px-4 py-2.5 text-sm rounded-xl border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                className="min-h-[44px] px-4 py-2.5 text-sm rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
                 ← Prev
               </button>
               <div className="flex items-center gap-1">
@@ -863,7 +915,7 @@ export default function SearchPageClient({
                   if (i === 0 || i === totalPages - 1 || Math.abs(i - page) <= 1) {
                     return (
                       <button key={i} onClick={() => setPage(i)}
-                        className={`w-10 h-10 text-sm rounded-xl transition-colors ${i === page ? 'bg-gray-900 text-white' : 'hover:bg-gray-100 text-gray-600'}`}>
+                        className={`w-10 h-10 text-sm rounded-xl transition-colors ${i === page ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400'}`}>
                         {i + 1}
                       </button>
                     );
@@ -875,7 +927,7 @@ export default function SearchPageClient({
                 })}
               </div>
               <button onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))} disabled={page === totalPages - 1}
-                className="min-h-[44px] px-4 py-2.5 text-sm rounded-xl border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                className="min-h-[44px] px-4 py-2.5 text-sm rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
                 Next →
               </button>
               <span className="w-full text-center text-xs text-gray-400">
@@ -960,19 +1012,11 @@ export default function SearchPageClient({
             </div>
           )}
 
-          {/* Passages by meaning — the second half of the one search: streams
-              in ~1s after the query settles; operators suppress it. */}
-          {semanticQ && (
-            <div className={hasResults || deepMatches.length > 0 ? 'mt-10' : 'mt-2'}>
-              <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
-                Passages by meaning
-              </p>
-              <SemanticResults query={semanticQ} sources={allowedSources} noClientFallback />
-            </div>
-          )}
-
           {/* No results — waits for the full-text scan so we never claim
-              "no results" while deeper matches are about to appear */}
+              "no results" while deeper matches are about to appear. Renders
+              BEFORE the meaning section so a zero-hit query is explained
+              first — semantic passages without that context read as wrong
+              keyword results. */}
           {!hasResults && !isSearching && visibleResults.length === 0 &&
            grepStatus !== 'loading' && deepMatches.length === 0 && (
             <div className="text-center py-12 text-gray-400">
@@ -1026,10 +1070,13 @@ export default function SearchPageClient({
                 </Link>
               </div>
 
-              {/* Meaning rescue — only when the universal meaning section was
+              {/* Meaning rescue — only when the universal meaning section is
                   suppressed by operators: an exact search that found nothing
-                  still deserves the closest real passages. */}
-              {!semanticQ && (
+                  still deserves the closest real passages. Gating on
+                  userOperators (not the semanticQ settle timer) means exactly
+                  ONE SemanticResults ever mounts per query — no double fetch,
+                  no heading flip mid-load. */}
+              {userOperators && (
                 <div className="mt-10 text-left">
                   <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3 text-center">
                     Closest passages by meaning
@@ -1052,6 +1099,19 @@ export default function SearchPageClient({
               )}
             </div>
           )}
+
+          {/* Passages by meaning — the second half of the one search: streams
+              in ~1s after the query settles; operators suppress it. Sits after
+              the no-results explanation so rescue passages never masquerade
+              as keyword matches. */}
+          {semanticQ && (
+            <div className={hasResults || deepMatches.length > 0 ? 'mt-10' : 'mt-6'}>
+              <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+                {hasResults || deepMatches.length > 0 ? 'Passages by meaning' : 'Closest passages by meaning'}
+              </p>
+              <SemanticResults query={semanticQ} sources={allowedSources} noClientFallback />
+            </div>
+          )}
         </>
       )}
 
@@ -1062,7 +1122,7 @@ export default function SearchPageClient({
             <SceneMark size={88} spin speed={1} className="text-gray-300 dark:text-gray-600" />
           </div>
           <p className="text-sm mb-1 text-gray-500 dark:text-gray-400">
-            Search across {totalPosts} posts
+            Search across {totalPosts} Katz texts
           </p>
           <p className="text-xs text-gray-400 dark:text-gray-600 mb-6">
             Substack · GABlog · Books · Essays &amp; Articles

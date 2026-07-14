@@ -106,7 +106,7 @@ function linkifyText(
       nodes.push(
         <TermLink
           key={`${paraIdx}-${start}`}
-          href={`/concepts?view=glossary#${glossaryAnchor}`}
+          href={`/concepts/glossary#${glossaryAnchor}`}
           defKey={`g:${glossaryAnchor}`}
           className={linkClass}
           title={`Glossary: ${term}`}
@@ -299,7 +299,7 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
         if (isBouvardLabel) {
           return (
             <div key={id} className="flex items-center gap-2.5 pt-1 pb-0.5">
-              <span className="text-[11px] font-semibold text-amber-600 dark:text-amber-400 tracking-wide whitespace-nowrap">
+              <span className="text-[11px] font-semibold text-amber-700 dark:text-amber-400 tracking-wide whitespace-nowrap">
                 Adam Katz
               </span>
               <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />

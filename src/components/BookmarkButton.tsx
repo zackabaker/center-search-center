@@ -11,8 +11,8 @@ export default function BookmarkButton({ post }: { post: SavedPost }) {
       title={saved ? 'Remove from reading list' : 'Save to reading list'}
       className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm border transition-colors print:hidden ${
         saved
-          ? 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100'
-          : 'bg-white border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700'
+          ? 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 dark:bg-blue-950/40 dark:border-blue-800 dark:text-blue-300 dark:hover:bg-blue-950/60'
+          : 'bg-white border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:text-gray-200'
       }`}
     >
       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill={saved ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">

@@ -96,7 +96,7 @@ export default function NamesClient({ approved }: { approved: NameEntry[] }) {
                 required
                 maxLength={80}
                 placeholder="Your name"
-                className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:border-gray-400 dark:focus:border-gray-500 transition-colors"
+                className="w-full px-3 py-2 text-base sm:text-sm border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:border-gray-400 dark:focus:border-gray-500 transition-colors"
               />
             </div>
 
@@ -110,7 +110,7 @@ export default function NamesClient({ approved }: { approved: NameEntry[] }) {
                 onChange={(e) => setLocation(e.target.value)}
                 maxLength={100}
                 placeholder="City, institution, practice…"
-                className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:border-gray-400 dark:focus:border-gray-500 transition-colors"
+                className="w-full px-3 py-2 text-base sm:text-sm border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:border-gray-400 dark:focus:border-gray-500 transition-colors"
               />
             </div>
 
@@ -124,7 +124,7 @@ export default function NamesClient({ approved }: { approved: NameEntry[] }) {
                 maxLength={300}
                 rows={2}
                 placeholder="What draws you to Center Study…"
-                className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:border-gray-400 dark:focus:border-gray-500 transition-colors resize-none"
+                className="w-full px-3 py-2 text-base sm:text-sm border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:border-gray-400 dark:focus:border-gray-500 transition-colors resize-none"
               />
             </div>
 

@@ -87,6 +87,9 @@ fs.writeFileSync(OUT, JSON.stringify(posts), 'utf-8');
 // Old prefixed slug → current canonical slug, for proxy.ts redirects.
 const redirects: Record<string, string> = {};
 for (const p of posts) if (p.legacySlug && p.legacySlug !== p.slug) redirects[p.legacySlug] = p.slug;
+// Retired legacy slugs whose source classification later changed — shared
+// links must keep resolving even though no current post carries them.
+redirects['book-the-origin-of-language'] = 'the-origin-of-language';
 fs.writeFileSync(REDIRECTS, JSON.stringify(redirects), 'utf-8');
 console.timeEnd('write');
 

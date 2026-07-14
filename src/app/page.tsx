@@ -121,8 +121,26 @@ export default function Home() {
     const d = parsePostDate(p.date);
     return !!d && d.getMonth() === today.getMonth() && d.getDate() === today.getDate();
   });
-  const onThisDay = onThisDayAll.filter((p) => !ARCHIVAL_SOURCES.includes(p.source));
+  let onThisDay = onThisDayAll.filter((p) => !ARCHIVAL_SOURCES.includes(p.source));
   const onThisDayRef = onThisDayAll.filter((p) => ARCHIVAL_SOURCES.includes(p.source)).slice(0, 4);
+
+  // ~45% of days have no Katz post on the exact date, which used to leave the
+  // module 100% reference-shelf — Gans leading the Katz archive's front door.
+  // Fall back to Katz posts from this WEEK in past years (±3 days), labeled
+  // honestly below via onThisDayIsWeek.
+  const onThisDayIsWeek = onThisDay.length === 0;
+  if (onThisDayIsWeek) {
+    const DAY = 24 * 60 * 60 * 1000;
+    onThisDay = allPosts
+      .filter((p) => {
+        if (ARCHIVAL_SOURCES.includes(p.source)) return false;
+        const d = parsePostDate(p.date);
+        if (!d) return false;
+        const thisYear = new Date(today.getFullYear(), d.getMonth(), d.getDate());
+        return Math.abs(thisYear.getTime() - new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime()) <= 3 * DAY;
+      })
+      .slice(0, 3);
+  }
 
   // sameAs identity graph — consolidates Adam Katz / Dennis Bouvard across the web
   // and lists generativeanthropology.com as an alternate of the same project.
@@ -315,9 +333,13 @@ export default function Home() {
         <div className="border-t border-gray-100 dark:border-gray-800">
           <div className="max-w-5xl mx-auto px-4 py-12">
             <div className="mb-6">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">On this day</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                {onThisDayIsWeek ? 'This week' : 'On this day'}
+              </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Published on {today.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} in past years
+                {onThisDayIsWeek
+                  ? `Published around ${today.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} in past years`
+                  : `Published on ${today.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} in past years`}
               </p>
             </div>
             <div className="space-y-2">

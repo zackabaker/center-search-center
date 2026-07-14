@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import TERM_DEFS from '@/data/term-defs.json';
 
@@ -33,6 +33,15 @@ export default function TermLink({
   const timers = useRef<{ open?: ReturnType<typeof setTimeout>; close?: ReturnType<typeof setTimeout> }>({});
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<{ top: number; left: number; width: number; above: boolean } | null>(null);
+  // useId, not defKey — the same term occurs many times per page and two
+  // instances can be open at once, which would create duplicate DOM ids.
+  const cardId = useId();
+  // Set after mount only: calling matchMedia during render would mismatch
+  // the SSR markup (server has no window).
+  const [touch, setTouch] = useState(false);
+  useEffect(() => {
+    try { setTouch(!window.matchMedia('(hover: hover) and (pointer: fine)').matches); } catch {}
+  }, []);
 
   const computePos = useCallback(() => {
     const el = anchorRef.current;
@@ -97,6 +106,8 @@ export default function TermLink({
         href={href}
         className={className}
         title={open ? undefined : title}
+        aria-describedby={open ? cardId : undefined}
+        aria-expanded={touch ? open : undefined}
         onMouseEnter={() => { if (hoverCapable()) scheduleOpen(); }}
         onMouseLeave={() => { if (hoverCapable()) scheduleClose(); }}
         onFocus={() => { if (hoverCapable()) show(); }}
@@ -115,6 +126,7 @@ export default function TermLink({
         createPortal(
           <div
             data-term-card
+            id={cardId}
             // Honest semantics: this is a hover preview, not a dialog — focus
             // never moves into it (role="dialog" promised keyboard entry that
             // doesn't exist). The term itself navigates on click/Enter.

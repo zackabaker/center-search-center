@@ -278,7 +278,9 @@ export function parseQuery(raw: string): ParsedQuery {
   });
 
   const notTerms: string[] = [];
-  remaining = remaining.replace(/(?:\bNOT\s+|-)(\w[\w'-]*)/gi, (_, term) => {
+  // The `-` exclusion only counts at a word start ("center -periphery") —
+  // a mid-word hyphen ("post-sacrificial") is part of the term, not a NOT.
+  remaining = remaining.replace(/(?:\bNOT\s+|(?<=^|\s)-)(\w[\w'-]*)/gi, (_, term) => {
     notTerms.push(term.toLowerCase());
     return ' ';
   });

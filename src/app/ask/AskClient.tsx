@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { CS_TERMS_SORTED, extractFollowUps, TERM_TO_CONCEPT_SLUG } from '@/lib/cs-terms';
+import { GLOSSARY_LINK_TERMS } from '@/data/guide/glossary-link-terms';
 import { logSearch } from '@/lib/log-search';
 import SceneMark from '@/components/SceneMark';
 
@@ -79,6 +80,11 @@ const termPattern = CS_TERMS_SORTED.map(t =>
 ).join('|');
 const TERM_REGEX = new RegExp(`\\b(${termPattern})\\b`, 'gi');
 
+// term (lowercased) → glossary page slug, for terms without a concept hub
+const TERM_TO_GLOSSARY_SLUG: Record<string, string> = Object.fromEntries(
+  GLOSSARY_LINK_TERMS.map((t) => [t.term.toLowerCase(), t.anchor])
+);
+
 function linkTerms(
   text: string,
   onTerm: (query: string, display: string) => void,
@@ -99,6 +105,22 @@ function linkTerms(
             key={`${key}-${i}`}
             href={`/guide/concepts/${conceptSlug}`}
             title={`Concept: ${part}`}
+            className="text-blue-700 dark:text-blue-400 underline decoration-dotted underline-offset-2 hover:decoration-solid hover:text-blue-800 dark:hover:text-blue-300 rounded px-0.5 -mx-0.5 py-0.5 -my-0.5 transition-colors"
+          >
+            {part}
+          </Link>
+        );
+      }
+      // No concept hub — link the glossary term page (instant, verbatim
+      // defining quote) rather than a tap that silently burns a fresh
+      // generation and replaces the answer being read.
+      const glossarySlug = TERM_TO_GLOSSARY_SLUG[lower];
+      if (glossarySlug) {
+        return (
+          <Link
+            key={`${key}-${i}`}
+            href={`/guide/glossary/${glossarySlug}`}
+            title={`Glossary: ${part}`}
             className="text-blue-700 dark:text-blue-400 underline decoration-dotted underline-offset-2 hover:decoration-solid hover:text-blue-800 dark:hover:text-blue-300 rounded px-0.5 -mx-0.5 py-0.5 -my-0.5 transition-colors"
           >
             {part}
@@ -324,6 +346,15 @@ export default function AskClient({
   const [answer, setAnswer] = useState<Answer | null>(null);
   // Real error state — an error must never impersonate a synthesis.
   const [error, setError] = useState<string | null>(null);
+  // Brief hold on "Try again" after a rate-limit error
+  const [coolingDown, setCoolingDown] = useState(false);
+  // Coarse-pointer (touch) devices: Enter makes a newline (no Shift key on
+  // phone keyboards — the send button submits) and the placeholder drops the
+  // keyboard-shortcut hint that wraps and clips at 375px.
+  const [isTouch, setIsTouch] = useState(false);
+  useEffect(() => {
+    try { setIsTouch(window.matchMedia('(pointer: coarse)').matches); } catch {}
+  }, []);
   // Start at 0 on both server and client to avoid a hydration mismatch, then
   // hydrate the real lifetime count from localStorage after mount.
   const [askCount, setAskCount] = useState<number>(0);
@@ -396,6 +427,10 @@ export default function AskClient({
     logSearch(question, 'ask');
     setInput('');
     setCurrentQuestion(question);
+    // Clear any previous failure up front — the cache-hit early returns below
+    // never reach the later setError(null), and the error state has render
+    // precedence, so a stale error would otherwise mask the restored answer.
+    setError(null);
 
     // Snap to top for fresh session view
     if (mainRef.current) mainRef.current.scrollTop = 0;
@@ -548,8 +583,15 @@ export default function AskClient({
         return;
       }
       if (mountedRef.current && abortRef.current === ac) {
-        setError(err instanceof Error ? err.message : 'Something went wrong');
+        const msg = err instanceof Error ? err.message : 'Something went wrong';
+        setError(msg);
         setAnswer(null);
+        // Rate-limited: an immediate "Try again" would just re-trigger the
+        // same 429 — hold the button for a beat instead of inviting the loop.
+        if (/too many requests|rate limit/i.test(msg)) {
+          setCoolingDown(true);
+          setTimeout(() => { if (mountedRef.current) setCoolingDown(false); }, 20_000);
+        }
       }
     } finally {
       // Only the request that's still current may clear the loading state —
@@ -559,7 +601,7 @@ export default function AskClient({
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(input); }
+    if (e.key === 'Enter' && !e.shiftKey && !isTouch) { e.preventDefault(); submit(input); }
   }
 
   function downloadAnswer() {
@@ -581,7 +623,11 @@ export default function AskClient({
   const topPosts = (answer?.sources ?? []).filter((s) => !passageSlugs.has(s.slug)).slice(0, 6);
 
   return (
-    <div className="h-screen bg-white dark:bg-gray-950 flex flex-col overflow-hidden">
+    // Height = viewport minus the 3rem sticky SiteNav above us — plain
+    // h-screen made the wrapper overflow the viewport by the nav height,
+    // pushing the composer's clearance under the mobile tab bar. dvh tracks
+    // the iOS dynamic URL bar; vh stays as the no-dvh fallback.
+    <div className="h-[calc(100vh-3rem)] supports-[height:100dvh]:h-[calc(100dvh-3rem)] bg-white dark:bg-gray-950 flex flex-col overflow-hidden">
       {/* Header */}
       <header className="border-b border-gray-100 dark:border-gray-800 px-4 py-3 flex items-center justify-between max-w-4xl mx-auto w-full flex-shrink-0 gap-2">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
@@ -634,13 +680,14 @@ export default function AskClient({
           {answer?.content && !isLoading && (
             <button
               onClick={downloadAnswer}
-              className="text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hidden sm:flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               title="Download as .md"
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
               </svg>
-              Save .md
+              {/* icon-only on phones — the 375px header is the historical collision zone */}
+              <span className="hidden sm:inline">Save .md</span>
             </button>
           )}
           {/* Share */}
@@ -732,6 +779,13 @@ export default function AskClient({
               <p className="text-xs text-gray-400 mt-6">
                 Answers download as <code className="font-mono">.md</code> — file into Obsidian to build your own wiki.
               </p>
+              <p className="text-xs text-gray-400 mt-2">
+                Browse all{' '}
+                <Link href="/answers" className="underline decoration-dotted underline-offset-2 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                  reviewed answers
+                </Link>
+                .
+              </p>
               {showNamesHint && (
                 <div className="mt-6">
                   <Link
@@ -754,7 +808,7 @@ export default function AskClient({
                   {sessionQs.map((q, qi) => (
                     <button
                       key={qi}
-                      onClick={() => { setCurrentQuestion(q); const a = sessionAnswersRef.current.get(q); if (a) { setAnswer(a); if (mainRef.current) mainRef.current.scrollTop = 0; } else { submit(q); } }}
+                      onClick={() => { setCurrentQuestion(q); setError(null); const a = sessionAnswersRef.current.get(q); if (a) { setAnswer(a); if (mainRef.current) mainRef.current.scrollTop = 0; } else { submit(q); } }}
                       title={q}
                       className={`max-w-[14rem] truncate text-[11px] px-2 py-1 rounded-full border transition-colors ${
                         q === currentQuestion
@@ -800,9 +854,10 @@ export default function AskClient({
                     <div className="flex flex-wrap items-center gap-3">
                       <button
                         onClick={() => submit(currentQuestion, conceptSeed ?? undefined)}
-                        className="px-4 py-2 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-medium hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors"
+                        disabled={coolingDown}
+                        className="px-4 py-2 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-medium hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                       >
-                        Try again
+                        {coolingDown ? 'Waiting a moment…' : 'Try again'}
                       </button>
                       <Link
                         href={`/search?q=${encodeURIComponent(currentQuestion)}`}
@@ -991,7 +1046,7 @@ export default function AskClient({
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask anything… (Enter to send, Shift+Enter for newline)"
+            placeholder={isTouch ? 'Ask anything…' : 'Ask anything… (Enter to send, Shift+Enter for newline)'}
             rows={1}
             className="flex-1 resize-none rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-base text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 overflow-hidden"
           />

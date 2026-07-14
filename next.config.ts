@@ -24,6 +24,13 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Per-deploy cache-buster for the search-index fetches. The index is
+  // build-baked, so clients can cache it as immutable for a year — this token
+  // in the URL is what rolls it over on deploy. VERCEL_GIT_COMMIT_SHA exists
+  // on every Vercel build; Date.now() covers local dev.
+  env: {
+    NEXT_PUBLIC_INDEX_V: (process.env.VERCEL_GIT_COMMIT_SHA ?? String(Date.now())).slice(0, 12),
+  },
   // Ensure data files are bundled into serverless function output.
   // posts-cache.json is created by the prebuild script and must be
   // available at runtime; ga_context.txt is the fallback source.
@@ -76,6 +83,18 @@ const nextConfig: NextConfig = {
       // "awe" removed from the glossary July 2026 (no Katz definition exists;
       // policy: no reference-defined terms). Briefly indexed, so redirect.
       { source: '/guide/glossary/awe', destination: '/concepts', permanent: true },
+      // Glossary moved to its own static route July 2026 (?view=glossary made
+      // /concepts dynamic per-request). Browsers keep the #fragment across
+      // the redirect, so term deep-links keep landing.
+      {
+        source: '/concepts',
+        has: [{ type: 'query', key: 'view', value: 'glossary' }],
+        destination: '/concepts/glossary',
+        permanent: true,
+      },
+      // Bare /guide/glossary (parent of the ~94 live term pages) had no page
+      // and 404ed while its sibling /guide/concepts redirects.
+      { source: '/guide/glossary', destination: '/concepts/glossary', permanent: false },
     ];
   },
 

@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { ContentSource } from '@/lib/types';
 
 // Slim post shape — the server page maps full posts down to this so the
@@ -137,20 +138,31 @@ interface Props {
   posts: BrowsePost[];
   source: string;
   totalCount: number;
-  initialYearFrom?: number;
-  initialYearTo?: number;
 }
 
 // ── Main component ────────────────────────────────────────────────────────────
 
-export default function BrowseSourceClient({ posts, source, totalCount, initialYearFrom, initialYearTo }: Props) {
+export default function BrowseSourceClient({ posts, source, totalCount }: Props) {
   const [query, setQuery]         = useState('');
   const [sortBy, setSortBy]       = useState<'newest' | 'oldest' | 'longest'>('newest');
-  const [yearFrom, setYearFrom]   = useState<number | ''>(initialYearFrom ?? '');
-  const [yearTo, setYearTo]       = useState<number | ''>(initialYearTo ?? '');
+  const [yearFrom, setYearFrom]   = useState<number | ''>('');
+  const [yearTo, setYearTo]       = useState<number | ''>('');
   const [page, setPage]           = useState(0);
   const [selectMode, setSelectMode] = useState(false);
   const [selected, setSelected]   = useState<Set<string>>(new Set());
+
+  // ?from=&to= comes from the year-chip links. Read reactively — a chip click
+  // is a same-pathname query navigation that does NOT remount this component,
+  // so a one-time useState seed would go stale. (The server page deliberately
+  // never reads searchParams: that would void its ISR cache.)
+  const sp = useSearchParams();
+  useEffect(() => {
+    const f = sp.get('from');
+    const t = sp.get('to');
+    setYearFrom(f ? parseInt(f, 10) : '');
+    setYearTo(t ? parseInt(t, 10) : '');
+    setPage(0);
+  }, [sp]);
 
   const { isSaved, toggle: toggleSave } = useReadingList();
 
@@ -175,6 +187,13 @@ export default function BrowseSourceClient({ posts, source, totalCount, initialY
   const filtered = useMemo(() => {
     let result = [...posts];
     const q = query.trim().toLowerCase();
+
+    // Decade shortcuts on /browse/all reflect the primary corpus only —
+    // Chronicles/AP would otherwise dominate every year view. (Was done
+    // server-side when the page still read searchParams.)
+    if (source === 'all' && (yearFrom !== '' || yearTo !== '')) {
+      result = result.filter((p) => p.source !== 'chronicle' && p.source !== 'ap');
+    }
 
     if (q) {
       const lq = q.toLowerCase();
@@ -212,7 +231,7 @@ export default function BrowseSourceClient({ posts, source, totalCount, initialY
     });
 
     return result;
-  }, [posts, query, yearFrom, yearTo, sortBy, wcMap]);
+  }, [posts, source, query, yearFrom, yearTo, sortBy, wcMap]);
 
   const isFiltering = query.trim().length > 0 || yearFrom !== '' || yearTo !== '';
   const activeFilterCount = [
@@ -313,7 +332,7 @@ export default function BrowseSourceClient({ posts, source, totalCount, initialY
             type="text" value={query}
             onChange={(e) => handleQuery(e.target.value)}
             placeholder="Filter by title or topic…"
-            className="w-full pl-9 pr-8 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
+            className="w-full pl-9 pr-8 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-base sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
           />
           {query && (
             <button onClick={() => handleQuery('')}
@@ -329,7 +348,7 @@ export default function BrowseSourceClient({ posts, source, totalCount, initialY
         <select
           value={sortBy}
           onChange={(e) => handleSort(e.target.value as 'newest' | 'oldest' | 'longest')}
-          className="py-2 pl-3 pr-7 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer"
+          className="py-2 pl-3 pr-7 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-base sm:text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer"
           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}
         >
           <option value="newest">Newest first</option>
@@ -380,7 +399,7 @@ export default function BrowseSourceClient({ posts, source, totalCount, initialY
           <select
             value={yearFrom}
             onChange={(e) => handleYearFrom(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
-            className="py-1.5 pl-2 pr-6 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer"
+            className="py-1.5 pl-2 pr-6 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-base sm:text-xs text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer"
             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 6px center' }}
           >
             <option value="">From…</option>
@@ -390,7 +409,7 @@ export default function BrowseSourceClient({ posts, source, totalCount, initialY
           <select
             value={yearTo}
             onChange={(e) => handleYearTo(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
-            className="py-1.5 pl-2 pr-6 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer"
+            className="py-1.5 pl-2 pr-6 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-base sm:text-xs text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer"
             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 6px center' }}
           >
             <option value="">To…</option>
