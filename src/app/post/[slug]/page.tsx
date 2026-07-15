@@ -111,10 +111,32 @@ export async function generateMetadata({
     : post.source === 'substack' ? 'Dennis Bouvard'
     : 'Adam Katz';
 
+  // Highwire citation_* tags — Zotero/Mendeley/Scholar pick these up so a
+  // researcher gets a correct reference with one click. Emitted ONLY on the
+  // Anthropoetics articles: the Embedded Metadata translator types any
+  // citation_*-bearing page as a journalArticle, which is right for the AP
+  // journal but wrong for the blog/book sources (they keep OG metadata, which
+  // Zotero reads as webpage/blogPost). Volume/issue derive from the slug
+  // (apVVII-…), verified against the source data with zero mismatches.
+  let scholarMeta: Record<string, string> | undefined;
+  if (post.source === 'ap') {
+    const m = slug.match(/^ap(\d\d)(\d\d)-/);
+    scholarMeta = {
+      citation_title: post.title,
+      citation_author: authorName,
+      citation_journal_title: 'Anthropoetics',
+      citation_publisher: 'UCLA',
+      citation_public_url: url,
+      ...(post.date ? { citation_publication_date: post.date } : {}),
+      ...(m ? { citation_volume: String(Number(m[1])), citation_issue: String(Number(m[2])) } : {}),
+    };
+  }
+
   return {
     title: post.title,
     description: excerpt,
     authors: [{ name: authorName }],
+    ...(scholarMeta ? { other: scholarMeta } : {}),
     // All sources (including chronicles and AP journal) are publicly crawlable
     openGraph: {
       title: post.title,

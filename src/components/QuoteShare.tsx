@@ -14,6 +14,19 @@ interface Sel {
   text: string;
   x: number;
   y: number;
+  anchorId: string | null; // the #p-N paragraph the selection starts in
+}
+
+// Walk up from the selection anchor to the nearest paragraph carrying a stable
+// #p-N id, so a copied quote links to the exact paragraph, not just the post.
+function paragraphAnchor(node: Node | null): string | null {
+  let el: HTMLElement | null =
+    node?.nodeType === Node.ELEMENT_NODE ? (node as HTMLElement) : node?.parentElement ?? null;
+  while (el && el.tagName !== 'ARTICLE') {
+    if (el.id && /^p-\d+$/.test(el.id)) return el.id;
+    el = el.parentElement;
+  }
+  return null;
 }
 
 // When the reader selects text inside the article, a small floating button
@@ -38,7 +51,7 @@ export default function QuoteShare({ title, author, date, url }: QuoteShareProps
     if (!article || !anchor || !article.contains(anchor)) { setSel(null); return; }
     const rect = s.getRangeAt(0).getBoundingClientRect();
     if (!rect || (rect.width === 0 && rect.height === 0)) { setSel(null); return; }
-    setSel({ text, x: rect.left + rect.width / 2, y: rect.top });
+    setSel({ text, x: rect.left + rect.width / 2, y: rect.top, anchorId: paragraphAnchor(anchor) });
     setCopied(false);
   }, []);
 
@@ -78,7 +91,10 @@ export default function QuoteShare({ title, author, date, url }: QuoteShareProps
   })();
 
   const copy = () => {
-    const citation = `— ${author}, "${title}"${year ? ` (${year})` : ''}\n${url}`;
+    // Link to the exact paragraph when we found its anchor — the manifest
+    // promises stable #p-N anchors, so the citation resolves to the sentence.
+    const citeUrl = sel.anchorId ? `${url}#${sel.anchorId}` : url;
+    const citation = `— ${author}, "${title}"${year ? ` (${year})` : ''}\n${citeUrl}`;
     const payload = `"${sel.text}"\n\n${citation}`;
     navigator.clipboard.writeText(payload).then(() => {
       copiedRef.current = true;
