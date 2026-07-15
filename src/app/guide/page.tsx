@@ -11,7 +11,7 @@ const RESOURCES = [
   {
     href: '/intro',
     title: 'Introduction',
-    body: 'What Center Study is: the originary hypothesis, the intellectual lineage, and why the discourse is built the way it is. Start here if you are new.',
+    body: 'The full introduction to Center Study: the originary hypothesis, the intellectual lineage, and why the discourse is built the way it is. (New here? The 10-minute Start Here is the quicker way in.)',
     cta: 'Read the introduction',
   },
   {

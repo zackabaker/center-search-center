@@ -15,11 +15,12 @@ const GATEWAY = [
   { step: '04', slug: 'there-is-no-economy-pdf', title: 'There Is No Economy but Only the Debt to the Center', source: 'Anthropoetics', why: 'The framework applied end to end: money read as the debt to the center.' },
 ];
 
-// Clickable starter questions — /ask reads ?q and answers immediately.
+// Clickable starter questions — each links to a human-reviewed, quote-verified
+// static answer (instant, no LLM burn) rather than firing a fresh generation.
 const ASK = [
-  'What is the originary hypothesis?',
-  'How is Center Study different from René Girard?',
-  'What does “the center” actually mean?',
+  { q: 'What is the originary hypothesis?', slug: 'what-is-the-originary-hypothesis' },
+  { q: 'How is Center Study different from René Girard?', slug: 'center-study-vs-girard' },
+  { q: 'What does “the center” actually mean?', slug: 'what-does-the-center-mean' },
 ];
 
 // Topic doors — each runs a search across the corpus.
@@ -112,10 +113,10 @@ export default function StartPage() {
           Put any question to the whole corpus — you get a synthesized answer grounded in direct quotes.
         </p>
         <div className="flex flex-wrap gap-2">
-          {ASK.map((q) => (
+          {ASK.map(({ q, slug }) => (
             <Link
-              key={q}
-              href={`/ask?q=${encodeURIComponent(q)}`}
+              key={slug}
+              href={`/ask/${slug}`}
               className="text-sm px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
             >
               {q}

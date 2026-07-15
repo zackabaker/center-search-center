@@ -173,7 +173,7 @@ export default function RootLayout({
             {[
               { href: '/browse/substack',  label: 'Substack' },
               { href: '/browse/gablog',    label: 'GABlog' },
-              { href: '/browse/book',      label: 'Anthropomorphics' },
+              { href: '/anthropomorphics', label: 'Anthropomorphics' },
               { href: '/browse/pdf',       label: 'Essays & Articles' },
               { href: '/browse/threads',   label: 'Threads & Q&A' },
               { href: '/lectures',         label: 'Lectures' },
