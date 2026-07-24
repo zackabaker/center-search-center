@@ -246,12 +246,9 @@ export default async function PostPage({
   const termFreq = getPostTermFrequency(post.content, 25);
 
   // ── Headings (for conditional Contents sidebar) ────────────────────────────
-  const hasHeadings = paragraphs.filter((p) => /^#{1,3}\s/.test(p)).length >= 3;
-  // Long heading-less essays get verbatim paragraph LANDMARKS instead (the
-  // headings-only ToC matched 2 of ~1,970 posts — a phantom feature). Mirrors
-  // TableOfContents.extractLandmarks' threshold.
-  const hasNav = hasHeadings ||
-    paragraphs.filter((p) => { const t = p.trim(); return t && t !== '---' && !/^#{1,3}\s/.test(t) && t.length >= 120; }).length >= 20;
+  // Headings only — the "Landmarks" fallback for heading-less essays was
+  // removed at the owner's direction (no landmarks button).
+  const hasNav = paragraphs.filter((p) => /^#{1,3}\s/.test(p)).length >= 3;
 
   // ── Related posts — computed server-side once; sidebar gets top 3, the
   // below-article grid gets top 6 as a slim array (never pass full posts
@@ -522,6 +519,9 @@ export default async function PostPage({
               </Suspense>
             </article>
 
+            {/* Everything below the article is screen-only — on paper the
+                text ends where the text ends. */}
+            <div className="print:hidden">
             {/* Reader mode drops the Key Terms / Related panels entirely; Notes
                 stay (a personal feature), placed below the article. */}
             {reader ? (
@@ -570,6 +570,7 @@ export default async function PostPage({
               next={nextPost ? { slug: nextPost.slug, title: nextPost.title, date: nextPost.date } : null}
               source={post.source}
             />
+            </div>
 
             {/* End-of-read CTA — source-aware, at the point of highest intent */}
             <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 print:hidden">
