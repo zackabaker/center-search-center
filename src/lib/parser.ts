@@ -253,6 +253,13 @@ function fixGABlogSpacing(text: string): string {
   return r;
 }
 
+// GABlog posts that are wholesale reprints of Eric Gans Chronicles, not Katz's
+// own writing — the venue default (Adam Katz) would misattribute them in the
+// byline, /q pages, TTS, and quotes.json. ending-white-guilt ≡ Chronicle 337.
+const GABLOG_REPRINT_AUTHORS: Record<string, string> = {
+  'gablog-ending-white-guilt': 'Eric Gans',
+};
+
 function parseGABlogPosts(text: string): Post[] {
   const posts: Post[] = [];
   const entries = text.split(/\n\nTitle: /);
@@ -298,6 +305,7 @@ function parseGABlogPosts(text: string): Post[] {
 
     const cleanedContent = fixGABlogSpacing(content);
     const slug = 'gablog-' + slugify(title);
+    const reprintAuthor = GABLOG_REPRINT_AUTHORS[slug];
     posts.push({
       slug,
       title,
@@ -305,6 +313,7 @@ function parseGABlogPosts(text: string): Post[] {
       excerpt: excerpt(cleanedContent),
       date,
       source: 'gablog' as ContentSource,
+      ...(reprintAuthor ? { author: reprintAuthor } : {}),
     });
   }
 
