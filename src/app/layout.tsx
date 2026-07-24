@@ -4,6 +4,7 @@ import "./globals.css";
 import Link from "next/link";
 import MobileNav from "@/components/MobileNav";
 import CommandPalette from "@/components/CommandPalette";
+import PrintLightMode from "@/components/PrintLightMode";
 import SiteNav from "@/components/SiteNav";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -197,6 +198,7 @@ export default function RootLayout({
         </footer>
         <MobileNav />
         <CommandPalette />
+        <PrintLightMode />
         <Analytics />
       </body>
     </html>

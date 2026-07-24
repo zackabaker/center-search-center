@@ -196,7 +196,8 @@ export async function GET(
     html, body { background: var(--bg); color: var(--fg); }
 
     body {
-      max-width: min(700px, 100% - 48px);
+      /* 65ch at the reading size — 700px read as a phone column on desktop */
+      max-width: min(65ch, 100% - 48px);
       margin: 0 auto;
       padding: 80px 0 120px;
       font-family: 'Lora', Palatino, 'Palatino Linotype', Georgia, serif;
@@ -204,6 +205,23 @@ export async function GET(
       line-height: var(--lh);
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Print: always ink on paper, no chrome, regardless of theme ── */
+    @media print {
+      :root, html.dark {
+        --bg: #fff;
+        --fg: #000;
+        --meta-color: #444;
+        --border: #ccc;
+      }
+      html, body { background: #fff !important; color: #000 !important; }
+      body { max-width: 100%; padding: 0; font-size: 12pt; line-height: 1.6; }
+      #toolbar, #btn-back, .listen-note { display: none !important; }
+      h1, h2, h3, h4 { page-break-after: avoid; color: #000 !important; }
+      p, blockquote { page-break-inside: avoid; }
+      .meta { color: #444 !important; }
+      a { color: #000 !important; text-decoration: none; }
     }
 
     @media (max-width: 600px) {

@@ -235,14 +235,38 @@ html[data-reading-mode="night"] article h3 {
 @media print {
   .print\:hidden, [class*="print:hidden"] { display: none !important; }
 
-  body {
+  /* Belt for the PrintLightMode beforeprint hook: even if a browser
+     rasterizes without firing the event, the theme vars go to paper values
+     on every theme root, so the page ground can never print dark. */
+  :root,
+  :root.dark,
+  :root[data-reading-mode="sepia"],
+  :root[data-reading-mode="night"] {
+    --background: #fff;
+    --foreground: #111;
+  }
+
+  html, body {
     background: #fff !important;
     color: #000 !important;
+  }
+
+  body {
     font-size: 12pt;
     line-height: 1.6;
+    padding-bottom: 0 !important;
   }
 
   * { box-shadow: none !important; text-shadow: none !important; }
+
+  /* The article is the print product: ink on paper, no tinted grounds,
+     no color chips — everything else on the page is hidden below. */
+  article, article * {
+    color: #000 !important;
+    background: transparent !important;
+    border-color: #ccc !important;
+  }
+  article a { text-decoration: none; }
 
   a[href]::after { content: " (" attr(href) ")"; font-size: 9pt; color: #444; }
   a[href^="#"]::after, a[href^="/"]::after { content: ""; }
@@ -254,7 +278,11 @@ html[data-reading-mode="night"] article h3 {
   .prose, .prose p, .prose blockquote { color: #000 !important; }
 
   header { margin-bottom: 1cm; }
-  nav { display: none !important; }
+  /* No chrome on paper: navs (site, mobile tab bar, ToC) and the site
+     footer. Fixed overlays (progress bar, copy pill, reader ground) carry
+     their own print:hidden. */
+  nav, footer { display: none !important; }
+  main { max-width: 100% !important; }
 }
 
 /* Scene glyph motion — the ring of figures circulates around the still center.
