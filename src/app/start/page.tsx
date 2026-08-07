@@ -4,16 +4,8 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Start Here — Center Study in 10 Minutes',
   description:
-    'The quick on-ramp to Center Study: what it is in two paragraphs, four gateway texts, starter questions for the AI, and topic doors into a corpus of 1,900+ texts. For the full essay-length introduction, see /intro.',
+    'The quick on-ramp to Center Study: what it is in one paragraph, the lineage it descends from, starter questions with reviewed answers, and topic doors into a corpus of 1,900+ texts. For the full essay-length introduction, see /intro.',
 };
-
-// The handful of essays that make the best on-ramp.
-const GATEWAY = [
-  { step: '01', slug: 'anthropomorphics-origin-and-hypothesis', title: 'Origin and Hypothesis', source: 'Anthropomorphics', why: 'The founding move, stated plainly: how the aborted gesture becomes the first sign.' },
-  { step: '02', slug: 'anthropomorphics-the-use-of-a-center', title: 'The Use of a Center', source: 'Anthropomorphics', why: 'What a center is — and why every social scene has one.' },
-  { step: '03', slug: 'the-prospects-of-the-hypothesis', title: 'The Prospects of the Hypothesis', source: 'Substack', why: 'What the hypothesis can actually do, from individual desire to geopolitics.' },
-  { step: '04', slug: 'there-is-no-economy-pdf', title: 'There Is No Economy but Only the Debt to the Center', source: 'Anthropoetics', why: 'The framework applied end to end: money read as the debt to the center.' },
-];
 
 // Clickable starter questions — each links to a human-reviewed, quote-verified
 // static answer (instant, no LLM burn) rather than firing a fresh generation.
@@ -37,7 +29,6 @@ const INTERESTS = [
 // Paths live in the nav and on /guide — this grid is not a second site map.
 const MORE = [
   { href: '/intro', label: 'The full Introduction', desc: 'The long-form, in-depth read — the whole picture in one essay.' },
-  { href: '/lineage', label: 'The lineage', desc: 'Girard → Gans → Katz, told in their own words.' },
   { href: '/lectures', label: 'Lecture series', desc: 'Five short introductory lectures, in order.' },
 ];
 
@@ -68,42 +59,22 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* If you read one thing */}
+      {/* Read this next — the lineage tells the descent in the authors' own
+          words; the clearest single next step for a newcomer. */}
       <section className="mb-10">
-        <p className={sectionLabel}>If you read one thing</p>
+        <p className={sectionLabel}>Read this next</p>
         <Link
-          href="/post/the-discourse-of-the-center"
+          href="/lineage"
           className="group block p-4 rounded-xl border border-gray-900 dark:border-gray-200 bg-gray-900 dark:bg-gray-900 hover:opacity-90 transition-opacity"
         >
-          <p className="text-[10px] text-gray-400 dark:text-gray-500 mb-1 font-mono uppercase tracking-widest">GABlog · Adam Katz</p>
+          <p className="text-[10px] text-gray-400 dark:text-gray-500 mb-1 font-mono uppercase tracking-widest">The Lineage</p>
           <p className="font-semibold text-white leading-snug group-hover:text-blue-300 dark:group-hover:text-blue-400 transition-colors">
-            The Discourse of the Center
+            Girard → Gans → Katz
           </p>
           <p className="text-sm text-gray-300 dark:text-gray-400 mt-1 leading-relaxed">
-            &ldquo;We are beings bound to the center.&rdquo; The clearest single-post statement of the core claim.
+            Where Center Study comes from, told in passages drawn directly from the texts — mimesis, the originary scene, the center.
           </p>
         </Link>
-        <details className="mt-3">
-          <summary className="cursor-pointer text-sm text-blue-600 dark:text-blue-400 hover:underline list-none">
-            …or the four essays to begin with →
-          </summary>
-          <div className="space-y-2 mt-3">
-            {GATEWAY.map((g) => (
-              <Link
-                key={g.slug}
-                href={`/post/${g.slug}`}
-                className="group flex gap-4 items-start p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
-              >
-                <span className="text-sm font-mono text-gray-300 dark:text-gray-600 pt-0.5 flex-shrink-0">{g.step}</span>
-                <span className="min-w-0">
-                  <span className="block font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">{g.title}</span>
-                  <span className="block text-[11px] font-medium text-gray-400 dark:text-gray-500 mt-0.5">{g.source}</span>
-                  <span className="block text-sm text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">{g.why}</span>
-                </span>
-              </Link>
-            ))}
-          </div>
-        </details>
       </section>
 
       {/* Or just ask */}
