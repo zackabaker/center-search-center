@@ -234,8 +234,17 @@ export default function AnimalCommunicationPage() {
       <P>
         No syntax, no subject, no news — a beg, elongated. The tapes also showed
         Nim&rsquo;s teachers unconsciously signing a fraction of a second before he
-        did. Terrace&rsquo;s later summary of the whole generation — Washoe and Koko
-        included — was that the apes &ldquo;only learned to use imperatives that were
+        did. And then there is Koko, the most famous case and scientifically the
+        weakest. Penny Patterson never published controlled data from the
+        decades-long project — Stanford primatologist Robert Sapolsky&rsquo;s verdict
+        was &ldquo;no data,&rdquo; just &ldquo;several heartwarming films&rdquo; with
+        nothing you could analyze — and Koko&rsquo;s celebrated utterances reached
+        the public only through Patterson&rsquo;s own interpretive glosses, the one
+        person positioned to say what any sign &ldquo;meant.&rdquo; That is the
+        Clever Hans structure: an expectant handler, an animal exquisitely tuned to
+        her cues, and no way from outside to tell performance from language.
+        Terrace&rsquo;s summary of the whole generation — Washoe and Koko included —
+        was that the apes &ldquo;only learned to use imperatives that were
         involuntary demands for primary rewards.&rdquo; Gans had reached the same
         verdict from theory:
       </P>
