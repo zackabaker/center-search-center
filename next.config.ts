@@ -17,7 +17,7 @@ const securityHeaders = [
       "img-src 'self' data: https:",
       "font-src 'self' data:",
       "connect-src 'self' https: blob:",
-      "frame-src https://dennisbouvard.substack.com",
+      "frame-src https://dennisbouvard.substack.com https://www.youtube-nocookie.com",
       "worker-src 'self' blob:",
     ].join('; '),
   },
