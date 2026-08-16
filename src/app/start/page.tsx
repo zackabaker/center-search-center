@@ -60,7 +60,9 @@ export default function StartPage() {
       </section>
 
       {/* Read this next — the lineage tells the descent in the authors' own
-          words; the clearest single next step for a newcomer. */}
+          words; the clearest single next step for a newcomer. Below it, the
+          two doors for different temperaments: the playful full intro and
+          the evidence page for skeptics. */}
       <section className="mb-10">
         <p className={sectionLabel}>Read this next</p>
         <Link
@@ -75,6 +77,22 @@ export default function StartPage() {
             Where Center Study comes from, told in passages drawn directly from the texts — mimesis, the originary scene, the center.
           </p>
         </Link>
+        <div className="grid sm:grid-cols-2 gap-3 mt-3">
+          <Link
+            href="/the-center-of-everything"
+            className="group block p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
+          >
+            <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">The Center of Everything</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">The playful full introduction, stick figures included — in the style of Wait But Why.</p>
+          </Link>
+          <Link
+            href="/animal-communication"
+            className="group block p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
+          >
+            <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Don&rsquo;t animals talk too?</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">The evidence page for skeptics — vervets, Nim, Kanzi, Koko, and why the difference needs an event.</p>
+          </Link>
+        </div>
       </section>
 
       {/* Or just ask */}
