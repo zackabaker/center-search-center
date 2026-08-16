@@ -24,6 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/anthropomorphics`,    changeFrequency: 'monthly', priority: 0.9 },
     { url: `${BASE_URL}/companies`,           changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/the-center-of-everything`, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${BASE_URL}/animal-communication`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/download`,            changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/verify`,              changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/ask`,                 changeFrequency: 'monthly', priority: 0.8 },
