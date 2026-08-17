@@ -67,9 +67,9 @@ curl -X POST https://center.study/api/verify \\
 
       <h2 className={H}>Ask (synthesized answers)</h2>
       <p className={P}>
-        POST <code className="text-sm">{`{ message }`}</code> to <code className="text-sm">/api/chat</code> for a streamed,
+        POST <code className="text-sm">{`{ message }`}</code>{' '}to <code className="text-sm">/api/chat</code>{' '}for a streamed,
         verbatim-cited answer (ndjson: first line <code className="text-sm">{`{sources}`}</code>, then{' '}
-        <code className="text-sm">{`{text}`}</code> deltas). Each call bills a model request, so browser use is limited
+        <code className="text-sm">{`{text}`}</code>{' '}deltas). Each call bills a model request, so browser use is limited
         to first-party origins; server-to-server calls are rate-limited. Want your origin allowlisted? Ask via{' '}
         <a href="https://x.com/centerstudy_" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">@centerstudy_ on X</a>.
         Twenty canonical questions are pre-answered as static pages under{' '}
@@ -93,8 +93,8 @@ https://center.study/llms.txt          # orientation for language models`}</pre>
       <h2 className={H}>Ground rules</h2>
       <p className={P}>
         Quote verbatim and link the source text (every paragraph has a stable{' '}
-        <code className="text-sm">#p-N</code> anchor). Cite the edition as{' '}
-        <em>Center Study Corpus</em> v1.0 (2026) — see{' '}
+        <code className="text-sm">#p-N</code>{' '}anchor). Cite the edition as{' '}
+        <em>Center Study Corpus</em>{' '}v1.0 (2026) — see{' '}
         <Link href="/about" className="text-blue-600 dark:text-blue-400 hover:underline">about</Link>. Rate limits are
         generous but present; be a good citizen and identify your agent in the User-Agent string.
       </p>

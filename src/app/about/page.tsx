@@ -25,8 +25,8 @@ export default function AboutPage() {
         The Center Study Center is the archive of Adam Katz&rsquo;s Center Study — his development
         of, and beyond, the Generative Anthropology founded by Eric Gans. Katz publishes
         contemporary work under the pen name Dennis Bouvard. The primary corpus is Katz&rsquo;s
-        GABlog and Substack essays, the book <em>Anthropomorphics</em> (2020), and academic papers;
-        Gans&rsquo;s <em>Chronicles of Love and Resentment</em> and the <em>Anthropoetics</em>{' '}
+        GABlog and Substack essays, the book <em>Anthropomorphics</em>{' '}(2020), and academic papers;
+        Gans&rsquo;s <em>Chronicles of Love and Resentment</em>{' '}and the <em>Anthropoetics</em>{' '}
         journal are included as reference material — citable and fully searchable on request, but
         the archive&rsquo;s positions are Katz&rsquo;s. Together: ~1,969 texts and over five million
         words spanning 1995 to the present. New Substack essays are ingested automatically as they
@@ -36,9 +36,9 @@ export default function AboutPage() {
       <h2 className={H}>The verbatim discipline</h2>
       <p className={P}>
         The archive&rsquo;s editorial rule is that the texts speak for themselves. Every definition
-        on the <Link href="/concepts" className="text-blue-600 dark:text-blue-400 hover:underline">concept and glossary pages</Link> leads
+        on the <Link href="/concepts" className="text-blue-600 dark:text-blue-400 hover:underline">concept and glossary pages</Link>{' '}leads
         with a verbatim quote from the corpus, linked to its source. These quotes are not curated by
-        trust alone: each one is <strong className="font-semibold text-gray-900 dark:text-white">machine-verified</strong> —
+        trust alone: each one is <strong className="font-semibold text-gray-900 dark:text-white">machine-verified</strong>{' '}—
         checked character-for-character (after typographic normalization) against the full corpus
         before publication. The same pipeline governs the{' '}
         <Link href="/answers" className="text-blue-600 dark:text-blue-400 hover:underline">answer pages</Link>: quoted passages are
@@ -50,8 +50,8 @@ export default function AboutPage() {
       <h2 className={H}>Provenance</h2>
       <p className={P}>
         GABlog texts were recovered from the original blog before it went offline; Substack essays
-        ingest from the author&rsquo;s feed; the Chronicles and <em>Anthropoetics</em> articles come
-        from their published editions; book chapters from <em>Anthropomorphics</em> (Imperium Press,
+        ingest from the author&rsquo;s feed; the Chronicles and <em>Anthropoetics</em>{' '}articles come
+        from their published editions; book chapters from <em>Anthropomorphics</em>{' '}(Imperium Press,
         2020). Each text page links its original venue where one still exists. Corrections are
         welcome — write via{' '}
         <a href="https://x.com/centerstudy_" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">X</a>{' '}
@@ -71,7 +71,7 @@ export default function AboutPage() {
       </p>
       <blockquote className="border-l-2 border-gray-300 dark:border-gray-600 pl-4 mb-4 max-w-2xl">
         <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-          Author, &ldquo;Title,&rdquo; original venue, date; in <em>Center Study Corpus</em> v1.0
+          Author, &ldquo;Title,&rdquo; original venue, date; in <em>Center Study Corpus</em>{' '}v1.0
           (2026), center.study/post/slug#p-N.
         </p>
       </blockquote>
@@ -80,7 +80,7 @@ export default function AboutPage() {
       <p className={P}>
         The archive is built to be read by AI systems as first-class citizens: plain-text views of
         every text, a documented API, full structured data, and open feeds. See{' '}
-        <Link href="/developers" className="text-blue-600 dark:text-blue-400 hover:underline">the developer page</Link> and{' '}
+        <Link href="/developers" className="text-blue-600 dark:text-blue-400 hover:underline">the developer page</Link>{' '}and{' '}
         <a href="/llms.txt" className="text-blue-600 dark:text-blue-400 hover:underline">llms.txt</a>.
       </p>
 

@@ -49,11 +49,11 @@ export default function StartPage() {
         >
           <p>
             Center Study branches off from René Girard&rsquo;s Mimetic Theory and Eric
-            Gans&rsquo;s <Link href="/generative-anthropology" className={linkCls}>Generative Anthropology</Link> to create a
+            Gans&rsquo;s <Link href="/generative-anthropology" className={linkCls}>Generative Anthropology</Link>{' '}to create a
             new discipline grounded in the{' '}
             <Link href="/guide/concepts/originary-scene" className={linkCls}>Originary Hypothesis</Link>: the
             hypothetical origin of humanity in the{' '}
-            <Link href="/guide/concepts/deferral" className={linkCls}>deferral of violence</Link> via
+            <Link href="/guide/concepts/deferral" className={linkCls}>deferral of violence</Link>{' '}via
             representation (language).
           </p>
         </div>
@@ -143,7 +143,7 @@ export default function StartPage() {
           className="group flex items-center justify-between gap-3 px-4 py-3.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
         >
           <span className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-            <span className="font-semibold text-gray-900 dark:text-white">New, or skeptical?</span> The
+            <span className="font-semibold text-gray-900 dark:text-white">New, or skeptical?</span>{' '}The
             FAQ takes the common questions and objections head-on — is it falsifiable, how does it differ
             from Girard and GA, and more.
           </span>

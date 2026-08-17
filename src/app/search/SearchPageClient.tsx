@@ -790,7 +790,7 @@ export default function SearchPageClient({
                         for phrases the full-text scan line below is the truth */}
                     {corpusCount !== null && !(isImplicitPhrase || committed.includes('"')) && (
                       <span className="text-gray-400 dark:text-gray-500">
-                        · in <span className="text-gray-600 dark:text-gray-300">{corpusCount}</span> of {totalPosts} Katz texts
+                        · in <span className="text-gray-600 dark:text-gray-300">{corpusCount}</span>{' '}of {totalPosts} Katz texts
                       </span>
                     )}
                     {grepStatus === 'done' && grep && grep.totalPosts > 0 && (
