@@ -576,7 +576,7 @@ export default async function PostPage({
             <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 print:hidden">
               {post.source === 'book' ? (
                 <p className="text-[15px] text-gray-700 dark:text-gray-300 leading-relaxed">
-                  From <em>Anthropomorphics: An Originary Grammar of the Center</em> by Dennis Bouvard.{' '}
+                  From <em>Anthropomorphics: An Originary Grammar of the Center</em>{' '}by Dennis Bouvard.{' '}
                   <a href="https://www.amazon.com/Anthropomorphics-Originary-Grammar-Dennis-Bouvard/dp/0648690571" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Get the book&nbsp;↗</a>
                 </p>
               ) : post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter' ? (

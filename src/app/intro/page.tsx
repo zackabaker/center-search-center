@@ -132,13 +132,13 @@ export default function IntroPage() {
           }}
         >
           <p>
-            Center Study is a transdisciplinary discourse descended from Generative Anthropology — the study of human society and culture in the light of the originary hypothesis, formulated by Eric Gans in <em>The Origin of Language</em> (1981). The originary hypothesis is of the origin of language, which is also the origin of the human and the sacred.
+            Center Study is a transdisciplinary discourse descended from Generative Anthropology — the study of human society and culture in the light of the originary hypothesis, formulated by Eric Gans in <em>The Origin of Language</em>{' '}(1981). The originary hypothesis is of the origin of language, which is also the origin of the human and the sacred.
           </p>
           <p>
             The hypothesis: a group of hominids is converging on a single central object. Mimetic desire has broken down the pecking order that limits violence in animal groups — everyone wants the same thing, and they are closing in on it together. At the moment of crisis, someone converts the grasping gesture into a pointing gesture. Appropriation becomes sign. This is the first word: iterable, addressed to all the others, referring to the shared object — symbolic rather than merely indexical. From this single scene, language, community, and the sacred emerge simultaneously. The object, deferred rather than consumed, becomes the first sacred thing. The group, constituted by shared attention, becomes the first human community.
           </p>
           <p>
-            Center Study departs from Generative Anthropology by staying focused on the <em>enduring</em> nature of the center — not just its origin but its ongoing operation in every subsequent form of human social life. That first ritual, sacrificial center eventually gets seized: first by the Big Man, then the chief, the sacred king, the emperor, the state. Center Study follows this thread and reads any social order as an effect of the engagement between periphery and center. Every institution, every political form, every medium of exchange is an attempt to hold the center, occupy it, or deny that any center exists.
+            Center Study departs from Generative Anthropology by staying focused on the <em>enduring</em>{' '}nature of the center — not just its origin but its ongoing operation in every subsequent form of human social life. That first ritual, sacrificial center eventually gets seized: first by the Big Man, then the chief, the sacred king, the emperor, the state. Center Study follows this thread and reads any social order as an effect of the engagement between periphery and center. Every institution, every political form, every medium of exchange is an attempt to hold the center, occupy it, or deny that any center exists.
           </p>
           <p>
             This means thinking always in terms of scenes and an originary grammar — ostensive (pointing, naming), imperative (demand), interrogative (question), declarative (proposition) — tracing every concept back to a scene in which some exchange with the center is at stake. Politically, it produces a critique of any theory that starts from &ldquo;the bottom&rdquo; — from the free individual, the social contract, natural rights — insisting instead on starting from the center, from where authority was established and the terms of all future exchange were set.
@@ -183,13 +183,13 @@ export default function IntroPage() {
 
         <div className="space-y-4 text-base leading-relaxed text-gray-800 dark:text-gray-200">
           <p>
-            The originary hypothesis posits a scene. A group of proto-humans converges on a single central object — prey, food, some object of intense collective desire. Mimetic desire escalates: everyone wants it because everyone else wants it, and the pecking order that normally manages competition breaks down. Each participant reaches toward the object; each perceives the others also reaching; the gesture of grasping hesitates and converts into one of <em>aborted appropriation</em> — pointing.
+            The originary hypothesis posits a scene. A group of proto-humans converges on a single central object — prey, food, some object of intense collective desire. Mimetic desire escalates: everyone wants it because everyone else wants it, and the pecking order that normally manages competition breaks down. Each participant reaches toward the object; each perceives the others also reaching; the gesture of grasping hesitates and converts into one of <em>aborted appropriation</em>{' '}— pointing.
           </p>
           <p>
             Why does the gesture abort? Because mutual perception of simultaneous appropriation makes appropriation lethal. Anyone who grabs will face the entire group. Precisely at the threshold of collective violence, the grasping gesture becomes a designating gesture. It is still directed at the object — but now it names the object rather than seizing it. This is the first sign. It works because everyone emits it at the same moment, and everyone understands it because everyone else emits it too.
           </p>
           <p>
-            The sign is <em>symbolic</em> in Peirce&rsquo;s sense: iterable, having a referent. It can be re-issued by anyone in the group to designate the same object even when the object is absent. Deferral, GA&rsquo;s key term, names this function: language defers the violence of appropriation by substituting representation for the act.
+            The sign is <em>symbolic</em>{' '}in Peirce&rsquo;s sense: iterable, having a referent. It can be re-issued by anyone in the group to designate the same object even when the object is absent. Deferral, GA&rsquo;s key term, names this function: language defers the violence of appropriation by substituting representation for the act.
           </p>
           <p>
             What follows from this single scene — not sequentially, but simultaneously:
@@ -252,7 +252,7 @@ export default function IntroPage() {
             The center begins as a ritual, sacrificial center: a sacred object around which the community is constituted by its shared sign. The first human to seize the center — the Big Man — does so through a different kind of exchange: production and redistribution rather than inherited status. Authority is personal, provisional, and requires constant renewal through generosity. Over time this personal authority becomes heritable (chief), then sacralized in the person of the king, then institutionalized in law, bureaucracy, and money, and finally claimed to be absent altogether.
           </p>
           <p>
-            The diagnostic question Center Study always asks is: <em>what is the actual center here, and who occupies it?</em> This applies to markets, algorithms, legal procedures, and platforms as much as to kings and priests. When an institution claims to be centerless — run by procedure, by code, by the market — Center Study looks for what it is displacing, and for the actual authority to which claims are made and against which resentment accumulates.
+            The diagnostic question Center Study always asks is: <em>what is the actual center here, and who occupies it?</em>{' '}This applies to markets, algorithms, legal procedures, and platforms as much as to kings and priests. When an institution claims to be centerless — run by procedure, by code, by the market — Center Study looks for what it is displacing, and for the actual authority to which claims are made and against which resentment accumulates.
           </p>
           <blockquote className="border-l-2 border-gray-200 dark:border-gray-700 pl-4 text-sm text-gray-500 dark:text-gray-400 italic">
             &ldquo;We are beings bound to the center: everything that we say, think or do is homage to the center.&rdquo;
@@ -292,7 +292,7 @@ export default function IntroPage() {
 
         <div className="space-y-4 text-base leading-relaxed text-gray-800 dark:text-gray-200">
           <p>
-            The originary sign is <em>ostensive</em>: it designates something present on the scene. From this, three further forms derive. The <em>imperative</em> requests or commands action toward or from the center. The <em>interrogative</em> arises when an imperative cannot be directly fulfilled, opening the space of the not-yet-known. The <em>declarative</em> — the fullest and most distinctly human form — makes statements about what is absent from the immediate scene; it is representation freed from the requirement of presence.
+            The originary sign is <em>ostensive</em>: it designates something present on the scene. From this, three further forms derive. The <em>imperative</em>{' '}requests or commands action toward or from the center. The <em>interrogative</em>{' '}arises when an imperative cannot be directly fulfilled, opening the space of the not-yet-known. The <em>declarative</em>{' '}— the fullest and most distinctly human form — makes statements about what is absent from the immediate scene; it is representation freed from the requirement of presence.
           </p>
           <p>
             Center Study treats this as more than historical sequence. Every utterance can be analyzed through these forms, and every social institution can be understood as a scene organized around some version of the ostensive-imperative exchange. We are always, as Katz puts it, &ldquo;trying to get word from the center&rdquo; — and the center is always, in some sense, speaking back. The declarative that appears to describe a neutral world is always embedded in some scene that is more fundamental.
@@ -354,13 +354,13 @@ export default function IntroPage() {
           style={{ fontFamily: 'var(--prose-font-family)', fontSize: 'var(--prose-font-size, 17px)', lineHeight: 'var(--prose-line-height, 1.85)' }}
         >
           <p>
-            <strong className="text-gray-800 dark:text-gray-200">The vocabulary is technical and self-referential.</strong> Terms like <em>originary</em>, <em>scenic</em>, <em>deferral</em>, <em>attentionality</em> don&rsquo;t map cleanly onto existing frameworks. The Key Concepts section below defines them with real passages from the texts — that is probably the most direct entry.
+            <strong className="text-gray-800 dark:text-gray-200">The vocabulary is technical and self-referential.</strong>{' '}Terms like <em>originary</em>, <em>scenic</em>, <em>deferral</em>, <em>attentionality</em>{' '}don&rsquo;t map cleanly onto existing frameworks. The Key Concepts section below defines them with real passages from the texts — that is probably the most direct entry.
           </p>
           <p>
-            <strong className="text-gray-800 dark:text-gray-200">The hypothesis sits between all available positions.</strong> It cannot claim the clarity of a system or the comfort of a tradition. It finds itself in an uncomfortable zone — atheist to believers, too speculative to philosophers, transdisciplinary to every discipline it touches. It is, as Katz puts it, like a perfectly materialist refutation of materialism.
+            <strong className="text-gray-800 dark:text-gray-200">The hypothesis sits between all available positions.</strong>{' '}It cannot claim the clarity of a system or the comfort of a tradition. It finds itself in an uncomfortable zone — atheist to believers, too speculative to philosophers, transdisciplinary to every discipline it touches. It is, as Katz puts it, like a perfectly materialist refutation of materialism.
           </p>
           <p>
-            <strong className="text-gray-800 dark:text-gray-200">The best entry point varies by reader.</strong> Some find the originary scene immediately clarifying. Others find the political applications — succession, sovereignty, the algorithmic center — more tractable first. Start where it grabs you and read back into the foundations as needed.
+            <strong className="text-gray-800 dark:text-gray-200">The best entry point varies by reader.</strong>{' '}Some find the originary scene immediately clarifying. Others find the political applications — succession, sovereignty, the algorithmic center — more tractable first. Start where it grabs you and read back into the foundations as needed.
           </p>
         </div>
         <Link

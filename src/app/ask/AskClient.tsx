@@ -777,7 +777,7 @@ export default function AskClient({
                 ))}
               </div>
               <p className="text-xs text-gray-400 mt-6">
-                Answers download as <code className="font-mono">.md</code> — file into Obsidian to build your own wiki.
+                Answers download as <code className="font-mono">.md</code>{' '}— file into Obsidian to build your own wiki.
               </p>
               <p className="text-xs text-gray-400 mt-2">
                 Browse all{' '}
