@@ -93,14 +93,6 @@ export default function AnimalCommunicationPage() {
         <h1 className="font-serif text-3xl sm:text-4xl font-bold leading-tight text-gray-900 dark:text-white">
           Don&rsquo;t animals talk too?
         </h1>
-        <p className="text-[15px] text-gray-600 dark:text-gray-400 leading-relaxed mt-4 max-w-2xl">
-          Everything in Generative Anthropology rests on one empirical wall: human
-          language differs <em>in kind</em>, not in degree, from every animal
-          communication system. One rule governs this page: the evidence never
-          cites the archive. Every claim below stands on primatology, neuroscience,
-          and linguistics — the studies, the videos, the primary sources. The
-          archive enters only at the end, to collect what follows.
-        </p>
       </header>
 
       <div className="flex items-center gap-3 mb-10">
