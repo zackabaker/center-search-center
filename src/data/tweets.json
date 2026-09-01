@@ -1,7 +1,847 @@
 {
   "author_id": "1305857593433305095",
-  "fetched_at": "2026-08-28T16:41:33.441Z",
+  "fetched_at": "2026-09-01T16:59:00.366Z",
   "tweets": [
+    {
+      "conversation_id": "2094809941554999535",
+      "created_at": "2026-09-01T16:22:24.000Z",
+      "edit_history_tweet_ids": [
+        "2094823195102548291"
+      ],
+      "id": "2094823195102548291",
+      "in_reply_to_user_id": "1305857593433305095",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 24,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094816056569106513",
+          "type": "replied_to"
+        }
+      ],
+      "text": "I myself got suckered by a quick read of his interview last night, because I focused on the part of the discussion where I most agree with him--that the US-Israel alliance should be based on geopolitics, not sentiment."
+    },
+    {
+      "conversation_id": "2094820722287730825",
+      "created_at": "2026-09-01T16:12:34.000Z",
+      "edit_history_tweet_ids": [
+        "2094820722287730825"
+      ],
+      "id": "2094820722287730825",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 96,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094814249768116375",
+          "type": "quoted"
+        }
+      ],
+      "text": "Very interesting.\nhttps://t.co/emLpdttyUN"
+    },
+    {
+      "conversation_id": "2094809941554999535",
+      "created_at": "2026-09-01T15:54:02.000Z",
+      "edit_history_tweet_ids": [
+        "2094816056569106513"
+      ],
+      "id": "2094816056569106513",
+      "in_reply_to_user_id": "1305857593433305095",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 37,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094809941554999535",
+          "type": "replied_to"
+        }
+      ],
+      "text": "It is in fact designed to provide a loophole to not only exonerate Tucker Carlson but allow for agreement with Carlson that Jews are in fact the ones guilty of the larger \"blood libel\" category of which antisemitism would just be one instance."
+    },
+    {
+      "conversation_id": "2094809941554999535",
+      "created_at": "2026-09-01T15:29:44.000Z",
+      "edit_history_tweet_ids": [
+        "2094809941554999535"
+      ],
+      "id": "2094809941554999535",
+      "public_metrics": {
+        "bookmark_count": 1,
+        "impression_count": 127,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094784675298353608",
+          "type": "quoted"
+        }
+      ],
+      "text": "This is all true and it's unlikely that this weird definition of \"antisemitism\" and insidious misunderstanding of \"blood libel\" was accidental. \nhttps://t.co/7qG2HgM6qv"
+    },
+    {
+      "conversation_id": "2094760453826023589",
+      "created_at": "2026-09-01T15:25:50.000Z",
+      "edit_history_tweet_ids": [
+        "2094808958863016326"
+      ],
+      "id": "2094808958863016326",
+      "in_reply_to_user_id": "1566328841827762177",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 23,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094807550671937702",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@xenospheric and raise existing ones"
+    },
+    {
+      "conversation_id": "2094760453826023589",
+      "created_at": "2026-09-01T15:17:00.000Z",
+      "edit_history_tweet_ids": [
+        "2094806737949778355"
+      ],
+      "id": "2094806737949778355",
+      "in_reply_to_user_id": "1566328841827762177",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 30,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094803300587852145",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@xenospheric With some optimization as well."
+    },
+    {
+      "conversation_id": "2094760453826023589",
+      "created_at": "2026-09-01T12:13:12.000Z",
+      "edit_history_tweet_ids": [
+        "2094760484134072580"
+      ],
+      "id": "2094760484134072580",
+      "in_reply_to_user_id": "1305857593433305095",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 42,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094760453826023589",
+          "type": "replied_to"
+        }
+      ],
+      "text": "https://t.co/g3oEfT0y7Z"
+    },
+    {
+      "conversation_id": "2094760453826023589",
+      "created_at": "2026-09-01T12:13:05.000Z",
+      "edit_history_tweet_ids": [
+        "2094760453826023589"
+      ],
+      "id": "2094760453826023589",
+      "public_metrics": {
+        "bookmark_count": 1,
+        "impression_count": 134,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "text": "The Expectant Scene and the Parahost"
+    },
+    {
+      "conversation_id": "2094750431406694567",
+      "created_at": "2026-09-01T11:33:16.000Z",
+      "edit_history_tweet_ids": [
+        "2094750431406694567"
+      ],
+      "id": "2094750431406694567",
+      "public_metrics": {
+        "bookmark_count": 1,
+        "impression_count": 120,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "text": "Vance was still dishonest about his friends in the Carlson and groyper spheres, which means we can expect him and his surrogates to continue to tar his critics as foreign bots, \"scumbags,\" etc.  I can imagine he satisfied quite a few Jewish donors, though."
+    },
+    {
+      "conversation_id": "2094624868373299662",
+      "created_at": "2026-09-01T04:14:52.000Z",
+      "edit_history_tweet_ids": [
+        "2094640105227006197"
+      ],
+      "id": "2094640105227006197",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 50,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "text": "@KassyAkiva Vance said all the right things, which makes the insistence on secrecy all the more puzzling."
+    },
+    {
+      "conversation_id": "2094624868373299662",
+      "created_at": "2026-09-01T04:14:13.000Z",
+      "edit_history_tweet_ids": [
+        "2094639942412492859"
+      ],
+      "id": "2094639942412492859",
+      "in_reply_to_user_id": "178999981",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 320,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094624868373299662",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@KassyAkiva It was very good that he told Norm Coleman that the 2008 Senate race was stolen from him by Al Franken and the Democrats. I remember it well. An audit of many elections going way back would be illuminating--another task for AI."
+    },
+    {
+      "conversation_id": "2094624868373299662",
+      "created_at": "2026-09-01T04:03:43.000Z",
+      "edit_history_tweet_ids": [
+        "2094637299849924949"
+      ],
+      "id": "2094637299849924949",
+      "in_reply_to_user_id": "178999981",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 160,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094624868373299662",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@KassyAkiva Very well kept secret."
+    },
+    {
+      "conversation_id": "2094404287833022733",
+      "created_at": "2026-08-31T22:09:15.000Z",
+      "edit_history_tweet_ids": [
+        "2094548096277487770"
+      ],
+      "id": "2094548096277487770",
+      "in_reply_to_user_id": "1784142550355599360",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 41,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094547394952347730",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@slooperbia50068 Eliminate vigor and force and you're left with cleverness."
+    },
+    {
+      "conversation_id": "2094421094706848149",
+      "created_at": "2026-08-31T21:04:06.000Z",
+      "edit_history_tweet_ids": [
+        "2094531698830487691"
+      ],
+      "id": "2094531698830487691",
+      "in_reply_to_user_id": "21612122",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 52,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094421094706848149",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@JoshKraushaar “We have a moral imperative to place the needs of the world above even our own self-interest and, yes, even our own survival\"\n\nYou first."
+    },
+    {
+      "conversation_id": "2094486925772021818",
+      "created_at": "2026-08-31T20:49:58.000Z",
+      "edit_history_tweet_ids": [
+        "2094528143738433716"
+      ],
+      "id": "2094528143738433716",
+      "in_reply_to_user_id": "1077527394897006592",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 75,
+        "like_count": 3,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094486925772021818",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@HAHazony Then Vance would surely want to make a public speech to the RJC claiming credit for all he has done on behalf of Israel."
+    },
+    {
+      "conversation_id": "2094485162134245647",
+      "created_at": "2026-08-31T18:50:22.000Z",
+      "edit_history_tweet_ids": [
+        "2094498044318261430"
+      ],
+      "id": "2094498044318261430",
+      "in_reply_to_user_id": "402883123",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 36,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094495159753072876",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@truepeers Yes, but I was thinking once he's past this particuklar impasse and he's got to choose one or another approach going forward. He can't keep whispering to Jews while accusing them of being foreign bots publicly."
+    },
+    {
+      "conversation_id": "2094485162134245647",
+      "created_at": "2026-08-31T18:25:11.000Z",
+      "edit_history_tweet_ids": [
+        "2094491707341492683"
+      ],
+      "id": "2094491707341492683",
+      "in_reply_to_user_id": "402883123",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 42,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094488164257902815",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@truepeers He could lean into the hostility towards Jews he's drawing energey from."
+    },
+    {
+      "conversation_id": "2094485162134245647",
+      "created_at": "2026-08-31T17:59:10.000Z",
+      "edit_history_tweet_ids": [
+        "2094485162134245647"
+      ],
+      "id": "2094485162134245647",
+      "public_metrics": {
+        "bookmark_count": 2,
+        "impression_count": 279,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "text": "Vance's quasi-private address to the RJC seems to be an admission that he can't square the circle of appealing to his groyper base while avoiding seeming hostile to Jews. I wonder which position he'll jettison."
+    },
+    {
+      "conversation_id": "2094451610327937418",
+      "created_at": "2026-08-31T16:28:20.000Z",
+      "edit_history_tweet_ids": [
+        "2094462301138985240"
+      ],
+      "id": "2094462301138985240",
+      "in_reply_to_user_id": "1964335494",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 94,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094451610327937418",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SaraHirschhorn1 I don't like the term \"suicidal empathy\" but in this case the label fits."
+    },
+    {
+      "conversation_id": "2094239480467313144",
+      "created_at": "2026-08-31T13:12:20.000Z",
+      "edit_history_tweet_ids": [
+        "2094412974848909523"
+      ],
+      "id": "2094412974848909523",
+      "in_reply_to_user_id": "2046716352954810368",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 36,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094412374778556688",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@redwhiteblue173 @LauraLoomer @RJC @JDVance Then it seems my post can stand."
+    },
+    {
+      "conversation_id": "2094239480467313144",
+      "created_at": "2026-08-31T13:04:24.000Z",
+      "edit_history_tweet_ids": [
+        "2094410977844367375"
+      ],
+      "id": "2094410977844367375",
+      "in_reply_to_user_id": "2046716352954810368",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 38,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094410653905887710",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@redwhiteblue173 @LauraLoomer @RJC @JDVance Then Vance himself presumably factored that in, so what's the point?"
+    },
+    {
+      "conversation_id": "2094239480467313144",
+      "created_at": "2026-08-31T12:55:48.000Z",
+      "edit_history_tweet_ids": [
+        "2094408815298974180"
+      ],
+      "id": "2094408815298974180",
+      "in_reply_to_user_id": "537709549",
+      "public_metrics": {
+        "bookmark_count": 1,
+        "impression_count": 110,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094239480467313144",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@LauraLoomer @RJC @JDVance He's not exactly meeting with RJC members in private--he's meeting them in private, publicly. It seems to me that this intensifies distrust on all sides. It makes sense as an attempt to humiliate the Jews, but the groypers and Carlsonites will still wonder what he's telling them."
+    },
+    {
+      "conversation_id": "2094404287833022733",
+      "created_at": "2026-08-31T12:37:49.000Z",
+      "edit_history_tweet_ids": [
+        "2094404287833022733"
+      ],
+      "id": "2094404287833022733",
+      "public_metrics": {
+        "bookmark_count": 2,
+        "impression_count": 523,
+        "like_count": 12,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 1
+      },
+      "text": "Where the wolves are killed off, the foxes increase.\n\nHerman Melville."
+    },
+    {
+      "conversation_id": "2094041931676373096",
+      "created_at": "2026-08-31T11:23:00.000Z",
+      "edit_history_tweet_ids": [
+        "2094385460214645111"
+      ],
+      "id": "2094385460214645111",
+      "in_reply_to_user_id": "1784142550355599360",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 33,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094377311021994146",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@slooperbia50068 An insurance company can make great use of a data center"
+    },
+    {
+      "conversation_id": "2093897474360348678",
+      "created_at": "2026-08-31T01:53:33.000Z",
+      "edit_history_tweet_ids": [
+        "2094242153593511977"
+      ],
+      "id": "2094242153593511977",
+      "in_reply_to_user_id": "42814698",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 31,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094221672844771544",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@tomscullin We'll see."
+    },
+    {
+      "conversation_id": "2093897474360348678",
+      "created_at": "2026-08-30T23:47:39.000Z",
+      "edit_history_tweet_ids": [
+        "2094210472727765085"
+      ],
+      "id": "2094210472727765085",
+      "in_reply_to_user_id": "42814698",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 49,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094202153711566933",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@tomscullin Perhaps, but the various zogisms are not yet common linguistic currency."
+    },
+    {
+      "conversation_id": "2093897474360348678",
+      "created_at": "2026-08-30T23:02:45.000Z",
+      "edit_history_tweet_ids": [
+        "2094199170433175645"
+      ],
+      "id": "2094199170433175645",
+      "in_reply_to_user_id": "42814698",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 70,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 2,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094198356981498131",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@tomscullin It's up to me what I treat as meaningful, especially with a term intended to polarize and demonize."
+    },
+    {
+      "conversation_id": "2094171891854426261",
+      "created_at": "2026-08-30T22:01:20.000Z",
+      "edit_history_tweet_ids": [
+        "2094183715995844955"
+      ],
+      "id": "2094183715995844955",
+      "in_reply_to_user_id": "1902492762467172352",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 53,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094171891854426261",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SchmukQatarlson Yes, but it's not the newspaperman's (or media's) fault--they couldn't possible function any other way. Sherman should have learned, as has been learned since, to make them *his* spies. The \"independent media\" as a concept needs a very thorough audit."
+    },
+    {
+      "conversation_id": "2093897474360348678",
+      "created_at": "2026-08-30T21:53:01.000Z",
+      "edit_history_tweet_ids": [
+        "2094181622677442805"
+      ],
+      "id": "2094181622677442805",
+      "in_reply_to_user_id": "42814698",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 57,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094179961246556250",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@tomscullin That's really more for others than for me because you have no reason to assume I take \"goyslop\" to be a meaningful category."
+    },
+    {
+      "conversation_id": "2093897474360348678",
+      "created_at": "2026-08-30T20:12:15.000Z",
+      "edit_history_tweet_ids": [
+        "2094156262267031912"
+      ],
+      "id": "2094156262267031912",
+      "in_reply_to_user_id": "42814698",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 55,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094155012708479155",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@tomscullin So all you’re doing is saying “I think you’re this” but no one would care so you try to suggest you’ve caught me in some contradiction."
+    },
+    {
+      "conversation_id": "2093897474360348678",
+      "created_at": "2026-08-30T19:37:07.000Z",
+      "edit_history_tweet_ids": [
+        "2094147422695887099"
+      ],
+      "id": "2094147422695887099",
+      "in_reply_to_user_id": "42814698",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 56,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094126183789080845",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@tomscullin The \"this you?\" meme is supposed to confront someone with something they've said previously at odds with what they're saying now so you're using it inappropriately."
+    },
+    {
+      "conversation_id": "2094041931676373096",
+      "created_at": "2026-08-30T12:37:56.000Z",
+      "edit_history_tweet_ids": [
+        "2094041931676373096"
+      ],
+      "id": "2094041931676373096",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 462,
+        "like_count": 13,
+        "quote_count": 0,
+        "reply_count": 4,
+        "retweet_count": 3
+      },
+      "text": "We are each and everyone one of us a data center."
+    },
+    {
+      "conversation_id": "2093897474360348678",
+      "created_at": "2026-08-30T03:03:55.000Z",
+      "edit_history_tweet_ids": [
+        "2093897474360348678"
+      ],
+      "id": "2093897474360348678",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 232,
+        "like_count": 3,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "text": "Loyalty to Tucker Carlson is disloyalty to Donald Trump."
+    },
+    {
+      "conversation_id": "2093853407454912804",
+      "created_at": "2026-08-30T00:27:53.000Z",
+      "edit_history_tweet_ids": [
+        "2093858208259436970"
+      ],
+      "id": "2093858208259436970",
+      "in_reply_to_user_id": "1158175160094117889",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 61,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2093853407454912804",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@evikokalari It would be good to know if the Vice President is."
+    },
+    {
+      "conversation_id": "2093687167742509452",
+      "created_at": "2026-08-29T15:00:32.000Z",
+      "edit_history_tweet_ids": [
+        "2093715430871318566"
+      ],
+      "id": "2093715430871318566",
+      "in_reply_to_user_id": "1116152599575769088",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 11,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2093687167742509452",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@realJEXITusa We might at least find out if he wants to run against the Jews explicitly."
+    },
+    {
+      "conversation_id": "2093714923226308661",
+      "created_at": "2026-08-29T14:58:31.000Z",
+      "edit_history_tweet_ids": [
+        "2093714923226308661"
+      ],
+      "id": "2093714923226308661",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 34,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "text": "Neither NatCon nor postliberalism has anything to do with Trump. They are worn out, narrow ideologies that will be of no help in reworking sovereignty."
+    },
+    {
+      "conversation_id": "2093489237395927163",
+      "created_at": "2026-08-29T00:01:44.000Z",
+      "edit_history_tweet_ids": [
+        "2093489237395927163"
+      ],
+      "id": "2093489237395927163",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 142,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "text": "Has anyone coined the term “Medea complex”?"
+    },
+    {
+      "conversation_id": "2093397745516023916",
+      "created_at": "2026-08-28T17:58:10.000Z",
+      "edit_history_tweet_ids": [
+        "2093397745516023916"
+      ],
+      "id": "2093397745516023916",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 147,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "text": "Trump can keep revising his presidential rankings over the course of his term, creating his own precursors, like T.S. Eliot said."
+    },
     {
       "conversation_id": "2093370938477699143",
       "created_at": "2026-08-28T16:11:39.000Z",
