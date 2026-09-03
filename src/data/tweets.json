@@ -1,7 +1,560 @@
 {
   "author_id": "1305857593433305095",
-  "fetched_at": "2026-09-01T16:59:00.366Z",
+  "fetched_at": "2026-09-03T16:47:26.975Z",
   "tweets": [
+    {
+      "conversation_id": "2095540135400030297",
+      "created_at": "2026-09-03T15:51:16.000Z",
+      "edit_history_tweet_ids": [
+        "2095540135400030297"
+      ],
+      "id": "2095540135400030297",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 131,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 1
+      },
+      "referenced_tweets": [
+        {
+          "id": "2095169458473980402",
+          "type": "quoted"
+        }
+      ],
+      "text": "This Tablet article comes close to the point--Vance is signaling that he will run against the Jews, after first offering them a chance to be saved so he (or, probably, his proxies) can claim they stabbed him in the back.\nhttps://t.co/Yahialvn53"
+    },
+    {
+      "conversation_id": "2095338069129912741",
+      "created_at": "2026-09-03T02:28:19.000Z",
+      "edit_history_tweet_ids": [
+        "2095338069129912741"
+      ],
+      "id": "2095338069129912741",
+      "public_metrics": {
+        "bookmark_count": 1,
+        "impression_count": 306,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2095321352630636999",
+          "type": "quoted"
+        }
+      ],
+      "text": "Carlson is determined to make things very difficult for Vance, i.e., to compromise him as thoroughly as possible. It will be quite a show.\nhttps://t.co/r8EVlh4xOC"
+    },
+    {
+      "conversation_id": "2095258089620394350",
+      "created_at": "2026-09-03T02:03:08.000Z",
+      "edit_history_tweet_ids": [
+        "2095331731897298957"
+      ],
+      "id": "2095331731897298957",
+      "in_reply_to_user_id": "1784142550355599360",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 25,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2095313115852451846",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@slooperbia50068 Yes, when I enter a context shaped by the term \"antisemitism\" it would often be too convoluted to make a point of eschewing the use of the term. Here, for example, that's the way Vance speaks of it."
+    },
+    {
+      "conversation_id": "2095258847208472729",
+      "created_at": "2026-09-02T21:39:07.000Z",
+      "edit_history_tweet_ids": [
+        "2095265289306861785"
+      ],
+      "id": "2095265289306861785",
+      "in_reply_to_user_id": "1790595878702714880",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 101,
+        "like_count": 3,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2095258847208472729",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@VladimirSuvor And Gobry pretends to be incapable of realizing that \"the internet big brains\" don't say one thing but, rather that opposing groups are equally disgusted with Vance. Shilling for Vance is going to ruin his content."
+    },
+    {
+      "conversation_id": "2094953547771335048",
+      "created_at": "2026-09-02T21:29:07.000Z",
+      "edit_history_tweet_ids": [
+        "2095262773148098858"
+      ],
+      "id": "2095262773148098858",
+      "in_reply_to_user_id": "1305857593433305095",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 35,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094977952261795869",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@fortziyon Has JD Vance ever criticized a specific instance of antisemitism as antisemitism, just so we could know what he thinks it looks like? Even his objections to Fuentes seem based on what Fuentes said about his wife."
+    },
+    {
+      "conversation_id": "2095258089620394350",
+      "created_at": "2026-09-02T21:11:28.000Z",
+      "edit_history_tweet_ids": [
+        "2095258328456728586"
+      ],
+      "id": "2095258328456728586",
+      "in_reply_to_user_id": "1305857593433305095",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 51,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2095258089620394350",
+          "type": "replied_to"
+        }
+      ],
+      "text": "I will say, though, that when Vance says \"the gospel is the solution,\" I'm pretty sure he means for would be antisemites, not Jews."
+    },
+    {
+      "conversation_id": "2095258089620394350",
+      "created_at": "2026-09-02T21:10:31.000Z",
+      "edit_history_tweet_ids": [
+        "2095258089620394350"
+      ],
+      "id": "2095258089620394350",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 184,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 2,
+        "retweet_count": 0
+      },
+      "text": "Diana West points out that, in addition to his bizarre Carlsonian theory (which is really a practice) of antisemitism, Vance thoroughly obscures the question of Islam, e.g., in the Michigan senate race, essentially conflating it with wokeness."
+    },
+    {
+      "conversation_id": "2094965370637443124",
+      "created_at": "2026-09-02T16:30:00.000Z",
+      "edit_history_tweet_ids": [
+        "2095187495885406504"
+      ],
+      "id": "2095187495885406504",
+      "in_reply_to_user_id": "1366284957203763200",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 34,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094965370637443124",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@Yiddish_Liberty It's possible that taking over and groyperizing the Republican Party is more important o Vance and (especially) his backers than winning in 2028."
+    },
+    {
+      "conversation_id": "2095146343748477383",
+      "created_at": "2026-09-02T13:46:28.000Z",
+      "edit_history_tweet_ids": [
+        "2095146343748477383"
+      ],
+      "id": "2095146343748477383",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 137,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "text": "Vance may not be Tucker to a T but if one thinks the stakes are fairly high and given the lack of any attempt by Vance to demonstrate otherwise, that's the way to bet."
+    },
+    {
+      "conversation_id": "2094953547771335048",
+      "created_at": "2026-09-02T02:37:21.000Z",
+      "edit_history_tweet_ids": [
+        "2094977952261795869"
+      ],
+      "id": "2094977952261795869",
+      "in_reply_to_user_id": "15388864",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 63,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094953547771335048",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@fortziyon It's worth noting that while Vance defines antisemitism in terms of \"blood libel\" (or \"blood guilt\") the Muslim immigrants he (rightly) blames for most antisemitism don't frame their hostility to Israel and Jews in that way at all. He never hits an actual target."
+    },
+    {
+      "conversation_id": "2094920970242830537",
+      "created_at": "2026-09-01T23:57:19.000Z",
+      "edit_history_tweet_ids": [
+        "2094937678852579711"
+      ],
+      "id": "2094937678852579711",
+      "in_reply_to_user_id": "1366284957203763200",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 65,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094920970242830537",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@Yiddish_Liberty There's a kind of logic and narrative here: Jews are very low on \"credit\" from young nationalists. They will let Jews know whether more credit will be extended or their credit line closed, with even \"better\" Jews being on probation. A presumption of \"inevitability\" is implicit."
+    },
+    {
+      "conversation_id": "2094917521895825584",
+      "created_at": "2026-09-01T23:15:53.000Z",
+      "edit_history_tweet_ids": [
+        "2094927250801999958"
+      ],
+      "id": "2094927250801999958",
+      "in_reply_to_user_id": "1710718005410201600",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 130,
+        "like_count": 1,
+        "quote_count": 1,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094917521895825584",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@yitzzzzz I think the building of the Tabernacle was intended as an iteration of creation--maybe Newton knew about that."
+    },
+    {
+      "conversation_id": "2094912434595123272",
+      "created_at": "2026-09-01T23:13:51.000Z",
+      "edit_history_tweet_ids": [
+        "2094926741563228554"
+      ],
+      "id": "2094926741563228554",
+      "in_reply_to_user_id": "1710718005410201600",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 76,
+        "like_count": 3,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094912434595123272",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@yitzzzzz And where are you on that scene?"
+    },
+    {
+      "conversation_id": "2094912615348637776",
+      "created_at": "2026-09-01T23:11:33.000Z",
+      "edit_history_tweet_ids": [
+        "2094926161776177469"
+      ],
+      "id": "2094926161776177469",
+      "in_reply_to_user_id": "1710718005410201600",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 31,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094926000937202142",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@yitzzzzz This will require extended treatment."
+    },
+    {
+      "conversation_id": "2094912615348637776",
+      "created_at": "2026-09-01T23:11:03.000Z",
+      "edit_history_tweet_ids": [
+        "2094926034541879399"
+      ],
+      "id": "2094926034541879399",
+      "in_reply_to_user_id": "1710718005410201600",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 25,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094925807487430975",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@yitzzzzz I'll have to think about it."
+    },
+    {
+      "conversation_id": "2094912615348637776",
+      "created_at": "2026-09-01T23:06:34.000Z",
+      "edit_history_tweet_ids": [
+        "2094924908480340295"
+      ],
+      "id": "2094924908480340295",
+      "in_reply_to_user_id": "1710718005410201600",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 51,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094912615348637776",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@yitzzzzz I think so but this should be demonstrated."
+    },
+    {
+      "conversation_id": "2094895902099972534",
+      "created_at": "2026-09-01T22:22:11.000Z",
+      "edit_history_tweet_ids": [
+        "2094913737077440677"
+      ],
+      "id": "2094913737077440677",
+      "in_reply_to_user_id": "1784142550355599360",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 18,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094913395137061278",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@slooperbia50068 Unsurprising, if true."
+    },
+    {
+      "conversation_id": "2094895902099972534",
+      "created_at": "2026-09-01T22:20:29.000Z",
+      "edit_history_tweet_ids": [
+        "2094913311582077438"
+      ],
+      "id": "2094913311582077438",
+      "in_reply_to_user_id": "1784142550355599360",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 23,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094912276226769041",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@slooperbia50068 I've seen that disputed, but I don't care."
+    },
+    {
+      "conversation_id": "2094895902099972534",
+      "created_at": "2026-09-01T21:43:34.000Z",
+      "edit_history_tweet_ids": [
+        "2094904021009969475"
+      ],
+      "id": "2094904021009969475",
+      "in_reply_to_user_id": "1784142550355599360",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 42,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 3,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094902622058844285",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@slooperbia50068 This one seems to me a little more interesting."
+    },
+    {
+      "conversation_id": "2094895902099972534",
+      "created_at": "2026-09-01T21:32:54.000Z",
+      "edit_history_tweet_ids": [
+        "2094901337322377638"
+      ],
+      "id": "2094901337322377638",
+      "in_reply_to_user_id": "1784142550355599360",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 37,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094900787583537231",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@slooperbia50068 She has to exist for the furor, but whatever she did and whoever she is does not explain it."
+    },
+    {
+      "conversation_id": "2094895902099972534",
+      "created_at": "2026-09-01T21:26:35.000Z",
+      "edit_history_tweet_ids": [
+        "2094899747983172048"
+      ],
+      "id": "2094899747983172048",
+      "in_reply_to_user_id": "1784142550355599360",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 40,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094898262264496498",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@slooperbia50068 It doesn't intrigue me and I'm not interested in delving into her mind--it's the court's job to dispose of her. It's the feverish furor surrounding her that I'm remarking on."
+    },
+    {
+      "conversation_id": "2094809941554999535",
+      "created_at": "2026-09-01T21:13:51.000Z",
+      "edit_history_tweet_ids": [
+        "2094896543476129971"
+      ],
+      "id": "2094896543476129971",
+      "in_reply_to_user_id": "1784142550355599360",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 16,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094896081230500108",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@slooperbia50068 I'm at a loss."
+    },
+    {
+      "conversation_id": "2094895902099972534",
+      "created_at": "2026-09-01T21:11:19.000Z",
+      "edit_history_tweet_ids": [
+        "2094895902099972534"
+      ],
+      "id": "2094895902099972534",
+      "public_metrics": {
+        "bookmark_count": 1,
+        "impression_count": 259,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "text": "Are the Lindsay Clancy devotees more Medea or Maenad?"
+    },
+    {
+      "conversation_id": "2094809941554999535",
+      "created_at": "2026-09-01T20:50:12.000Z",
+      "edit_history_tweet_ids": [
+        "2094890591020544339"
+      ],
+      "id": "2094890591020544339",
+      "in_reply_to_user_id": "1784142550355599360",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 23,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2094889969483743521",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@slooperbia50068 She blocks a lot, and sometimes rather impulsively, I think. Did you even reply to a post?"
+    },
     {
       "conversation_id": "2094809941554999535",
       "created_at": "2026-09-01T16:22:24.000Z",
