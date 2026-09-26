@@ -1,7 +1,2148 @@
 {
   "author_id": "1305857593433305095",
-  "fetched_at": "2026-09-17T23:15:55.958Z",
+  "fetched_at": "2026-09-26T17:16:02.825Z",
   "tweets": [
+    {
+      "conversation_id": "2103626196647116932",
+      "created_at": "2026-09-25T23:31:28.000Z",
+      "edit_history_tweet_ids": [
+        "2103628482349560200"
+      ],
+      "id": "2103628482349560200",
+      "in_reply_to_user_id": "1786060167697604608",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 94,
+        "like_count": 6,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2103626196647116932",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@colonialbot3 The collision with groypers will be quite a spectacle."
+    },
+    {
+      "conversation_id": "2103607017294504093",
+      "created_at": "2026-09-25T23:19:02.000Z",
+      "edit_history_tweet_ids": [
+        "2103625352786669642"
+      ],
+      "id": "2103625352786669642",
+      "in_reply_to_user_id": "1601413355738210308",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 50,
+        "like_count": 3,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2103607017294504093",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@GBNT1952 Maybe it's more like a Ponzi scheme and everyone wants to max out their payback on genocide accusations before cognitive dissonance sinks in."
+    },
+    {
+      "conversation_id": "2103250833483714805",
+      "created_at": "2026-09-24T22:53:34.000Z",
+      "edit_history_tweet_ids": [
+        "2103256558779937174"
+      ],
+      "id": "2103256558779937174",
+      "in_reply_to_user_id": "775083112787091457",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 27,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2103252305906995282",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@dwp4401 That's a helpful way to think about it."
+    },
+    {
+      "conversation_id": "2103250833483714805",
+      "created_at": "2026-09-24T22:30:49.000Z",
+      "edit_history_tweet_ids": [
+        "2103250833483714805"
+      ],
+      "id": "2103250833483714805",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 203,
+        "like_count": 3,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "text": "100m deportations, sure, but it would be very encouraging just to see Mahmoud Khalil removed from the country."
+    },
+    {
+      "conversation_id": "2103104715189801333",
+      "created_at": "2026-09-24T20:31:10.000Z",
+      "edit_history_tweet_ids": [
+        "2103220719559881053"
+      ],
+      "id": "2103220719559881053",
+      "in_reply_to_user_id": "1910742306820378624",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 24,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2103104715189801333",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@AGToddBlanche At some point the Rubicon must be crossed and unlawful orders from these courts disobeyed. You can just do things. Don't be a neocon, a paleocon, a soccon, a natcon--be a rubicon."
+    },
+    {
+      "conversation_id": "2103211271214829900",
+      "created_at": "2026-09-24T19:53:37.000Z",
+      "edit_history_tweet_ids": [
+        "2103211271214829900"
+      ],
+      "id": "2103211271214829900",
+      "public_metrics": {
+        "bookmark_count": 1,
+        "impression_count": 343,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102824673197080929",
+          "type": "quoted"
+        }
+      ],
+      "text": "It would take a lot of resentment for a self-proclaimed one-time Trump supporter to not want to see a lot more of this, targeting the deep state, immigration and, indirectly, the media all at once:\nhttps://t.co/FouaUThFI8"
+    },
+    {
+      "conversation_id": "2103070184701567410",
+      "created_at": "2026-09-24T18:47:06.000Z",
+      "edit_history_tweet_ids": [
+        "2103194530388594989"
+      ],
+      "id": "2103194530388594989",
+      "in_reply_to_user_id": "48252327",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 37,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2103070184701567410",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@mdubowitz Your article offers some good advice but the results of the policies that would really satisfy the anti-Israel movement would be far more devastating than any sanctions."
+    },
+    {
+      "conversation_id": "2103190869604200768",
+      "created_at": "2026-09-24T18:41:29.000Z",
+      "edit_history_tweet_ids": [
+        "2103193119260869011"
+      ],
+      "id": "2103193119260869011",
+      "in_reply_to_user_id": "66019768",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 275,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2103190869604200768",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@ASavageNation Nobody needs to make a UN speech, The UN doesn't even need to exist. Bring your complaints about the Iran war to Trump, instead of deflecting to Netanyahu. Being a war hero has nothing to do with being PM. Your post is rambling nonsense."
+    },
+    {
+      "conversation_id": "2103191310110748778",
+      "created_at": "2026-09-24T18:34:18.000Z",
+      "edit_history_tweet_ids": [
+        "2103191310110748778"
+      ],
+      "id": "2103191310110748778",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 162,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2103185189417435254",
+          "type": "quoted"
+        }
+      ],
+      "text": "Very important. Are there some remaining? \nhttps://t.co/PVN0rVmbHA"
+    },
+    {
+      "conversation_id": "2103177084994830751",
+      "created_at": "2026-09-24T18:23:09.000Z",
+      "edit_history_tweet_ids": [
+        "2103188506533351511"
+      ],
+      "id": "2103188506533351511",
+      "in_reply_to_user_id": "1855727915654348800",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 29,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2103177086756434094",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@BAARTMNS It will be hard to consoldiate an AI oversight bureaucracy if the AIs are overseeing each other. It's one answer to the old \"who will guard the guardians\" question."
+    },
+    {
+      "conversation_id": "2103186151700050336",
+      "created_at": "2026-09-24T18:13:48.000Z",
+      "edit_history_tweet_ids": [
+        "2103186151700050336"
+      ],
+      "id": "2103186151700050336",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 156,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "text": "If all the big media outlets are boycotting Trump doesn't this provide the perfect opportunity for a killshot? Replace them with other media outlets and, even more important, cut off their leaks from inside federal agencies, including by firing those doing the leaking."
+    },
+    {
+      "conversation_id": "2102593595312320575",
+      "created_at": "2026-09-24T15:57:14.000Z",
+      "edit_history_tweet_ids": [
+        "2103151782163566815"
+      ],
+      "id": "2103151782163566815",
+      "in_reply_to_user_id": "1676077866176647170",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 38,
+        "like_count": 3,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102597195367412096",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@elocinationn @willdepue Still, countering entropy across the universe would be the great human project imaginable."
+    },
+    {
+      "conversation_id": "2103144924187087354",
+      "created_at": "2026-09-24T15:29:59.000Z",
+      "edit_history_tweet_ids": [
+        "2103144924187087354"
+      ],
+      "id": "2103144924187087354",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 204,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 1
+      },
+      "referenced_tweets": [
+        {
+          "id": "2103118779983040798",
+          "type": "quoted"
+        }
+      ],
+      "text": "Regular reminder to the would be new red elite to pump less ideological sewage into the system and construct more (or at least some, or any) durable counter-lawfare machinery. \nhttps://t.co/NzUuTmuCnL"
+    },
+    {
+      "conversation_id": "2103135577394803134",
+      "created_at": "2026-09-24T14:52:50.000Z",
+      "edit_history_tweet_ids": [
+        "2103135577394803134"
+      ],
+      "id": "2103135577394803134",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 133,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "text": "Watching those who want to extend Trump's reworking of US sovereignty free of Reaganite GOP verities cut clearly and cleanly from the Jew-obsessives will provide an instructive spectacle, and I wish them luck."
+    },
+    {
+      "conversation_id": "2103126387024379914",
+      "created_at": "2026-09-24T14:16:19.000Z",
+      "edit_history_tweet_ids": [
+        "2103126387024379914"
+      ],
+      "id": "2103126387024379914",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 286,
+        "like_count": 5,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102831599335125183",
+          "type": "quoted"
+        }
+      ],
+      "text": "A reminder that James O'Keefe dropped into X a while back to vouch for the integrity and reliability of Ian Carroll.\nhttps://t.co/6G4AnxqZPQ"
+    },
+    {
+      "conversation_id": "2103124694971117941",
+      "created_at": "2026-09-24T14:09:36.000Z",
+      "edit_history_tweet_ids": [
+        "2103124694971117941"
+      ],
+      "id": "2103124694971117941",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 112,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "text": "The purpose of hastening to digitize everything is to produce more analog."
+    },
+    {
+      "conversation_id": "2102774570013093984",
+      "created_at": "2026-09-23T22:15:28.000Z",
+      "edit_history_tweet_ids": [
+        "2102884579140907377"
+      ],
+      "id": "2102884579140907377",
+      "in_reply_to_user_id": "1581763577781813249",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 50,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102883640376021133",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@taimur_____ So we'd be remaking their governments as we remake our own."
+    },
+    {
+      "conversation_id": "2102746022740898056",
+      "created_at": "2026-09-23T21:16:51.000Z",
+      "edit_history_tweet_ids": [
+        "2102869828222538171"
+      ],
+      "id": "2102869828222538171",
+      "in_reply_to_user_id": "1651954936832245761",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 26,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102869374839517346",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@cherutLmoledet @ExplodingBoner Once we start talking about what the logic of their beliefs licenses them to do then the question of their credibility comes into play."
+    },
+    {
+      "conversation_id": "2102746022740898056",
+      "created_at": "2026-09-23T21:15:45.000Z",
+      "edit_history_tweet_ids": [
+        "2102869553931809241"
+      ],
+      "id": "2102869553931809241",
+      "in_reply_to_user_id": "1619767977963913216",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 27,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102868895678042420",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@ExplodingBoner @cherutLmoledet You might like to check out Jose Faur's The Gospel According to the Jews. Vitriolic, but very interesting, especially regarding the representation of the trial."
+    },
+    {
+      "conversation_id": "2102746022740898056",
+      "created_at": "2026-09-23T21:12:03.000Z",
+      "edit_history_tweet_ids": [
+        "2102868620451733855"
+      ],
+      "id": "2102868620451733855",
+      "in_reply_to_user_id": "1619767977963913216",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 66,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 2,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102768952128745672",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@ExplodingBoner @cherutLmoledet If you want to take all this seriously at a certain point you'd have to ask how much credibility you're giving to the Gospels as a historical narrative. Otherwise you're arguing within the other's frame."
+    },
+    {
+      "conversation_id": "2102774570013093984",
+      "created_at": "2026-09-23T21:08:29.000Z",
+      "edit_history_tweet_ids": [
+        "2102867722501824738"
+      ],
+      "id": "2102867722501824738",
+      "in_reply_to_user_id": "1581763577781813249",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 55,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102865868975931615",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@taimur_____ If we're talking empire Americans, depending on participation, can be given stakes in vassal states. This would be somewhat modeled on earlier European empires but the trick is preventing flows into the US."
+    },
+    {
+      "conversation_id": "2102774570013093984",
+      "created_at": "2026-09-23T20:49:59.000Z",
+      "edit_history_tweet_ids": [
+        "2102863066589192336"
+      ],
+      "id": "2102863066589192336",
+      "in_reply_to_user_id": "1581763577781813249",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 53,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102862205997781055",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@taimur_____ This is true well beyond Central America, isn't it? But this is a reminder that empires tend to allow free movement for all imperial subjects and this would need to be addressed."
+    },
+    {
+      "conversation_id": "2102823023355253167",
+      "created_at": "2026-09-23T20:06:38.000Z",
+      "edit_history_tweet_ids": [
+        "2102852160711229553"
+      ],
+      "id": "2102852160711229553",
+      "in_reply_to_user_id": "1902492762467172352",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 17,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102851902878695539",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SchmukQatarlson What took them so long?"
+    },
+    {
+      "conversation_id": "2102823023355253167",
+      "created_at": "2026-09-23T20:04:55.000Z",
+      "edit_history_tweet_ids": [
+        "2102851727665811826"
+      ],
+      "id": "2102851727665811826",
+      "in_reply_to_user_id": "1902492762467172352",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 61,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102823023355253167",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SchmukQatarlson The flight from white is now towards Palestine."
+    },
+    {
+      "conversation_id": "2102746022740898056",
+      "created_at": "2026-09-23T16:10:12.000Z",
+      "edit_history_tweet_ids": [
+        "2102792660436328789"
+      ],
+      "id": "2102792660436328789",
+      "in_reply_to_user_id": "1651954936832245761",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 50,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102791911811514598",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@cherutLmoledet Yes but, first, nothing in the Gospels suggests eternal enmity on the part of the Jews--it was a one time act and nothing authorized the head priest to put the guilt on all our heads forever. And, second, this means Jews have a better way of controlling resentment."
+    },
+    {
+      "conversation_id": "2102746022740898056",
+      "created_at": "2026-09-23T16:04:12.000Z",
+      "edit_history_tweet_ids": [
+        "2102791149446398181"
+      ],
+      "id": "2102791149446398181",
+      "in_reply_to_user_id": "984231679282876416",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 27,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102784998549946563",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@LeeJupiter3 @cherutLmoledet They're auditioning."
+    },
+    {
+      "conversation_id": "2102746022740898056",
+      "created_at": "2026-09-23T16:03:41.000Z",
+      "edit_history_tweet_ids": [
+        "2102791020069179651"
+      ],
+      "id": "2102791020069179651",
+      "in_reply_to_user_id": "1651954936832245761",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 93,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102785427396579532",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@cherutLmoledet Yes, but that's why there's no attempt to make it possible to know and, in fact, an insistence that we can't know. You can hold the grudge without any possibility of pursuing it, which means keeping and withholding  your resentment. You can forget without forgiving."
+    },
+    {
+      "conversation_id": "2102774570013093984",
+      "created_at": "2026-09-23T14:58:19.000Z",
+      "edit_history_tweet_ids": [
+        "2102774570013093984"
+      ],
+      "id": "2102774570013093984",
+      "public_metrics": {
+        "bookmark_count": 1,
+        "impression_count": 455,
+        "like_count": 14,
+        "quote_count": 1,
+        "reply_count": 2,
+        "retweet_count": 0
+      },
+      "text": "Many signs point to a more explicit American Empire as the solution to many problems and maybe not only America's."
+    },
+    {
+      "conversation_id": "2102405963533717782",
+      "created_at": "2026-09-23T14:57:18.000Z",
+      "edit_history_tweet_ids": [
+        "2102774312667107648"
+      ],
+      "id": "2102774312667107648",
+      "in_reply_to_user_id": "58313109",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 24,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102772865208557908",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@cajuns1995 @NolteNC OK, I've been getting convincing replies."
+    },
+    {
+      "conversation_id": "2102746022740898056",
+      "created_at": "2026-09-23T13:59:27.000Z",
+      "edit_history_tweet_ids": [
+        "2102759753671667882"
+      ],
+      "id": "2102759753671667882",
+      "in_reply_to_user_id": "1651954936832245761",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 125,
+        "like_count": 3,
+        "quote_count": 0,
+        "reply_count": 2,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102755915615125909",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@cherutLmoledet Yes, but that accusation only lands on some present source of enmity or  treachery (and maybe every faith or group needs something like that). There's no permanent Amalek guilty of that original attack in the desert."
+    },
+    {
+      "conversation_id": "2102746022740898056",
+      "created_at": "2026-09-23T13:42:41.000Z",
+      "edit_history_tweet_ids": [
+        "2102755533036159215"
+      ],
+      "id": "2102755533036159215",
+      "in_reply_to_user_id": "1651954936832245761",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 210,
+        "like_count": 4,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102746022740898056",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@cherutLmoledet Yes, but Jews don't continue to accuse today's Egyptians of enslaving them. That is, this doesn't account for the \"transferring\" of the sin."
+    },
+    {
+      "conversation_id": "2102739240832446855",
+      "created_at": "2026-09-23T13:23:28.000Z",
+      "edit_history_tweet_ids": [
+        "2102750699134070999"
+      ],
+      "id": "2102750699134070999",
+      "in_reply_to_user_id": "1305857593433305095",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 63,
+        "like_count": 3,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102750039223521471",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@colonialbot3 If the very existence of Jews is a scandal, then the mere fact of that existence is evidence of unaccountable and monstrous Jewish power. If you look at all the lesser accusations they all share this structure: the real scandal is Jews refusing to liquidate themselves."
+    },
+    {
+      "conversation_id": "2102739240832446855",
+      "created_at": "2026-09-23T13:20:51.000Z",
+      "edit_history_tweet_ids": [
+        "2102750039223521471"
+      ],
+      "id": "2102750039223521471",
+      "in_reply_to_user_id": "1786060167697604608",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 97,
+        "like_count": 4,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102739240832446855",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@colonialbot3 This accusation will always be recovered because it is the only one that makes the very existence of Jews a scandal and places Jews in a perfect double bind: to respond acceptably to the accusation is to liquidate themselves. All the other tropes are derivatives of it."
+    },
+    {
+      "conversation_id": "2102405963533717782",
+      "created_at": "2026-09-23T02:25:40.000Z",
+      "edit_history_tweet_ids": [
+        "2102585159413305821"
+      ],
+      "id": "2102585159413305821",
+      "in_reply_to_user_id": "1677421165827031042",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 26,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102559149238235506",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@warblingdorado @NolteNC Maybe. Then it's really a question of the stash he brought down. Everyone treats him like a fixture but he's been there less than a year and half."
+    },
+    {
+      "conversation_id": "2102405963533717782",
+      "created_at": "2026-09-23T00:29:22.000Z",
+      "edit_history_tweet_ids": [
+        "2102555889202811301"
+      ],
+      "id": "2102555889202811301",
+      "in_reply_to_user_id": "1677421165827031042",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 39,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102551654122062207",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@warblingdorado @NolteNC Yes, but that's when he's starting to go soft. Aside from helping Renault cheat there's no indication he's been rigging things for his own profit. If he were, he'd hardly be someone to trust with your \"letters of transit.\" He'd be no better than Sidney Greenstreet."
+    },
+    {
+      "conversation_id": "2102405963533717782",
+      "created_at": "2026-09-22T23:01:40.000Z",
+      "edit_history_tweet_ids": [
+        "2102533819530113033"
+      ],
+      "id": "2102533819530113033",
+      "in_reply_to_user_id": "1677421165827031042",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 32,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102532312563134933",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@warblingdorado @NolteNC There's no way to make it work in a way that preserves Rick's reputation for integrity. If he were genuinely criminal rather than just jaded and cynical the story doesn't work."
+    },
+    {
+      "conversation_id": "2102476621349560519",
+      "created_at": "2026-09-22T19:17:13.000Z",
+      "edit_history_tweet_ids": [
+        "2102477333902848067"
+      ],
+      "id": "2102477333902848067",
+      "in_reply_to_user_id": "1710718005410201600",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 54,
+        "like_count": 3,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102476621349560519",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@yitzzzzz Make Intelligence Great Again."
+    },
+    {
+      "conversation_id": "2102469987369660717",
+      "created_at": "2026-09-22T19:15:38.000Z",
+      "edit_history_tweet_ids": [
+        "2102476937603977245"
+      ],
+      "id": "2102476937603977245",
+      "in_reply_to_user_id": "1281356403194699776",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 72,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102469987369660717",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@ginamilan_ Megyn Kelly's pointless viciousness knows no bounds. I suppose it's a media niche that's gone unfulfilled until now, so maybe this is an example of her media genius."
+    },
+    {
+      "conversation_id": "2102463528468676774",
+      "created_at": "2026-09-22T18:22:21.000Z",
+      "edit_history_tweet_ids": [
+        "2102463528468676774"
+      ],
+      "id": "2102463528468676774",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 331,
+        "like_count": 3,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102421513047564589",
+          "type": "quoted"
+        }
+      ],
+      "text": "If there were such a thing as a new red elite instead of sponsoring endless streams of ideological slop it would build massive counter-lawfare machinery.\nhttps://t.co/14IGplOOF1"
+    },
+    {
+      "conversation_id": "2102405963533717782",
+      "created_at": "2026-09-22T17:59:50.000Z",
+      "edit_history_tweet_ids": [
+        "2102457860731056521"
+      ],
+      "id": "2102457860731056521",
+      "in_reply_to_user_id": "16163639",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 136,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 2,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102405963533717782",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@NolteNC Still, how does Rick, between the fall of Paris (June 1940) and the first week of December 1941 manage to buy a cafe and become an established, wealthy and respected Casablancan, with a very precise reputation (he never sits with guests, etc.)? You don't have to think about it..."
+    },
+    {
+      "conversation_id": "2102455044872589615",
+      "created_at": "2026-09-22T17:48:39.000Z",
+      "edit_history_tweet_ids": [
+        "2102455044872589615"
+      ],
+      "id": "2102455044872589615",
+      "public_metrics": {
+        "bookmark_count": 1,
+        "impression_count": 121,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "text": "I wonder if the administration has gamed out possible scenarios for simply defying a court ruling, including one of the SC. The relation between courts and other parts of the system needs to be reset, and who better to do it?"
+    },
+    {
+      "conversation_id": "2102396326663323893",
+      "created_at": "2026-09-22T15:16:31.000Z",
+      "edit_history_tweet_ids": [
+        "2102416759030747469"
+      ],
+      "id": "2102416759030747469",
+      "in_reply_to_user_id": "1566328841827762177",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 43,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102416145169236377",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@xenospheric Anyway, I could probably work with an irreducible fuzziness."
+    },
+    {
+      "conversation_id": "2102396326663323893",
+      "created_at": "2026-09-22T15:13:32.000Z",
+      "edit_history_tweet_ids": [
+        "2102416011047690408"
+      ],
+      "id": "2102416011047690408",
+      "in_reply_to_user_id": "1566328841827762177",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 32,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102415652225192178",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@xenospheric Maybe that's how it looks from the computational side."
+    },
+    {
+      "conversation_id": "2102396326663323893",
+      "created_at": "2026-09-22T15:12:11.000Z",
+      "edit_history_tweet_ids": [
+        "2102415670654677360"
+      ],
+      "id": "2102415670654677360",
+      "in_reply_to_user_id": "1566328841827762177",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 37,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102415210804052419",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@xenospheric I'm sure it could, but this is a different question."
+    },
+    {
+      "conversation_id": "2102396326663323893",
+      "created_at": "2026-09-22T15:09:55.000Z",
+      "edit_history_tweet_ids": [
+        "2102415098480410686"
+      ],
+      "id": "2102415098480410686",
+      "in_reply_to_user_id": "1566328841827762177",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 33,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102414796616519985",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@xenospheric We may be speaking different languages here."
+    },
+    {
+      "conversation_id": "2102396326663323893",
+      "created_at": "2026-09-22T15:07:39.000Z",
+      "edit_history_tweet_ids": [
+        "2102414530928415017"
+      ],
+      "id": "2102414530928415017",
+      "in_reply_to_user_id": "1566328841827762177",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 35,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102408554997321781",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@xenospheric Tacit knowledge is definitionally inexhaustible--growth just produces more of it. The program can't anticipate every last bit of my response to it because there is no \"last bit.\" I'm always drawing on a particular arrangement of avaialble signs, depending on what confronts me."
+    },
+    {
+      "conversation_id": "2102396326663323893",
+      "created_at": "2026-09-22T15:04:45.000Z",
+      "edit_history_tweet_ids": [
+        "2102413799370510656"
+      ],
+      "id": "2102413799370510656",
+      "in_reply_to_user_id": "1566328841827762177",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 32,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102408158887248004",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@xenospheric Tacit knowledge doesn't have a skill cap--it's what you know without knowing that you know it. It's what you attend *from* in order to attend *to*--and we can get mor aware of doing this but there's a tacit dimension to that awareness as well."
+    },
+    {
+      "conversation_id": "2102379895665860621",
+      "created_at": "2026-09-22T15:02:03.000Z",
+      "edit_history_tweet_ids": [
+        "2102413118861443133"
+      ],
+      "id": "2102413118861443133",
+      "in_reply_to_user_id": "2062347678541922304",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 29,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102408956702314800",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SiobhanShamwow In this case, anyway."
+    },
+    {
+      "conversation_id": "2102379895665860621",
+      "created_at": "2026-09-22T14:39:52.000Z",
+      "edit_history_tweet_ids": [
+        "2102407537840599545"
+      ],
+      "id": "2102407537840599545",
+      "in_reply_to_user_id": "2062347678541922304",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 52,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102406991134203954",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SiobhanShamwow I'd like to think I'm neither optimistic nor pessimistic but open to possibilities (well, maybe that's at least minimally optimistic)  but, yes, I also enjoy these exchanges."
+    },
+    {
+      "conversation_id": "2102396326663323893",
+      "created_at": "2026-09-22T14:31:51.000Z",
+      "edit_history_tweet_ids": [
+        "2102405522150551772"
+      ],
+      "id": "2102405522150551772",
+      "in_reply_to_user_id": "1566328841827762177",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 47,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102405322178703360",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@xenospheric I wouldn't equate tacit knowing with stamina and indefatigability."
+    },
+    {
+      "conversation_id": "2102396326663323893",
+      "created_at": "2026-09-22T14:29:41.000Z",
+      "edit_history_tweet_ids": [
+        "2102404974382833902"
+      ],
+      "id": "2102404974382833902",
+      "in_reply_to_user_id": "1566328841827762177",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 43,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102404813980115357",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@xenospheric How does the chart prove that?"
+    },
+    {
+      "conversation_id": "2102379895665860621",
+      "created_at": "2026-09-22T14:28:43.000Z",
+      "edit_history_tweet_ids": [
+        "2102404733512393019"
+      ],
+      "id": "2102404733512393019",
+      "in_reply_to_user_id": "2062347678541922304",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 50,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102400295036768630",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SiobhanShamwow Interest need not imply respect but I see a work in progress here. Maybe that reflex accusation against Vance-skeptics as bots or whatever will get dropped. Plenty of time to let things unfold."
+    },
+    {
+      "conversation_id": "2102396326663323893",
+      "created_at": "2026-09-22T14:26:50.000Z",
+      "edit_history_tweet_ids": [
+        "2102404256057762149"
+      ],
+      "id": "2102404256057762149",
+      "in_reply_to_user_id": "1566328841827762177",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 42,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102398374498709977",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@xenospheric How does that bear on the inexhaustibility of tacit knowing?"
+    },
+    {
+      "conversation_id": "2102379895665860621",
+      "created_at": "2026-09-22T14:01:48.000Z",
+      "edit_history_tweet_ids": [
+        "2102397957228446107"
+      ],
+      "id": "2102397957228446107",
+      "in_reply_to_user_id": "2062347678541922304",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 75,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102396737071542654",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SiobhanShamwow Yes, he's a Vance booster and inevitablist but that awkward sentence you quote shows an awareness of the suspicions Jews might have toward Vance, among other things. I'm not for or against him but he's working out what might be an interesting persona."
+    },
+    {
+      "conversation_id": "2102396326663323893",
+      "created_at": "2026-09-22T13:56:32.000Z",
+      "edit_history_tweet_ids": [
+        "2102396631266074881"
+      ],
+      "id": "2102396631266074881",
+      "in_reply_to_user_id": "1566328841827762177",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 61,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102396326663323893",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@xenospheric What is this representing?"
+    },
+    {
+      "conversation_id": "2102379895665860621",
+      "created_at": "2026-09-22T13:43:46.000Z",
+      "edit_history_tweet_ids": [
+        "2102393421142860017"
+      ],
+      "id": "2102393421142860017",
+      "in_reply_to_user_id": "2062347678541922304",
+      "public_metrics": {
+        "bookmark_count": 1,
+        "impression_count": 228,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102379895665860621",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SiobhanShamwow I think, based on some of his other posts, that he's trying to provide a narrative for Jews to support what he sees as the right-wing agenda in the wake of Trump. The point here is to introduce a clear separation from the groypers by calling Fuentes a Democrat tool."
+    },
+    {
+      "conversation_id": "2102389731690487974",
+      "created_at": "2026-09-22T13:29:07.000Z",
+      "edit_history_tweet_ids": [
+        "2102389731690487974"
+      ],
+      "id": "2102389731690487974",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 179,
+        "like_count": 4,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "text": "Instead of arguing about whether we \"believe\" in the Constitution, the Constitutionalists opposing \"postliberalism\" would strengthen their case by exploring ruthlessly the outer limits of what they think could be done within the Constitution."
+    },
+    {
+      "conversation_id": "2102367656653254995",
+      "created_at": "2026-09-22T13:15:35.000Z",
+      "edit_history_tweet_ids": [
+        "2102386327417188650"
+      ],
+      "id": "2102386327417188650",
+      "in_reply_to_user_id": "394952298",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 34,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2102379168642277421",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@_benjaminparry I’ll think about it"
+    },
+    {
+      "conversation_id": "2102367656653254995",
+      "created_at": "2026-09-22T12:01:24.000Z",
+      "edit_history_tweet_ids": [
+        "2102367656653254995"
+      ],
+      "id": "2102367656653254995",
+      "public_metrics": {
+        "bookmark_count": 4,
+        "impression_count": 879,
+        "like_count": 11,
+        "quote_count": 1,
+        "reply_count": 1,
+        "retweet_count": 1
+      },
+      "text": "The ultimate substrate of machine intelligence is tacit knowing, which is inexhaustible and replenished by every attempt to map it."
+    },
+    {
+      "conversation_id": "2101798542863990823",
+      "created_at": "2026-09-20T22:19:56.000Z",
+      "edit_history_tweet_ids": [
+        "2101798542863990823"
+      ],
+      "id": "2101798542863990823",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 142,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "text": "The Vanceguard feels very strongly that they have innoculated themselves against \"Nazi\" and related accusations and yet still have not a word to say about Vance's relationship with his mentor, Tucker Carlson. Perhaps they're hoping to tuck that away with the other charges."
+    },
+    {
+      "conversation_id": "2101784914005754301",
+      "created_at": "2026-09-20T21:27:27.000Z",
+      "edit_history_tweet_ids": [
+        "2101785334052692363"
+      ],
+      "id": "2101785334052692363",
+      "in_reply_to_user_id": "1305857593433305095",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 97,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2101601315885289977",
+          "type": "quoted"
+        },
+        {
+          "id": "2101784914005754301",
+          "type": "replied_to"
+        }
+      ],
+      "text": "things explicitly, and the people in this network not only want to run candidates, they want to take over a political party. So, they have to dissemble, bluff, threaten, ridicule, smear, etc., anyone referring explicitly to their own ideas \"too soon.\"\nhttps://t.co/3gukzaIF7o"
+    },
+    {
+      "conversation_id": "2101784914005754301",
+      "created_at": "2026-09-20T21:25:47.000Z",
+      "edit_history_tweet_ids": [
+        "2101784914005754301"
+      ],
+      "id": "2101784914005754301",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 209,
+        "like_count": 4,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "text": "As the thread below shows, Charles Haywood's thought is a fairly familiar version of postliberal thought. It could be disputed or objected to, but as a set of ideas to debate, not particularly scandalous. The problem, though, is that you couldn't run a candidate saying these"
+    },
+    {
+      "conversation_id": "2101739821592900087",
+      "created_at": "2026-09-20T19:23:21.000Z",
+      "edit_history_tweet_ids": [
+        "2101754102946349442"
+      ],
+      "id": "2101754102946349442",
+      "in_reply_to_user_id": "1682425063432134658",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 38,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2101739821592900087",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@Shoshana51728 If Bibi is smart he'll make sure Israelis know about this international campaign against him."
+    },
+    {
+      "conversation_id": "2101736824586555667",
+      "created_at": "2026-09-20T18:59:15.000Z",
+      "edit_history_tweet_ids": [
+        "2101748036162515407"
+      ],
+      "id": "2101748036162515407",
+      "in_reply_to_user_id": "1676077866176647170",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 27,
+        "like_count": 3,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2101747131229102175",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@elocinationn Yes, where else could it have come from? But also being taken in by sycophancy."
+    },
+    {
+      "conversation_id": "2101736824586555667",
+      "created_at": "2026-09-20T18:14:42.000Z",
+      "edit_history_tweet_ids": [
+        "2101736824586555667"
+      ],
+      "id": "2101736824586555667",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 284,
+        "like_count": 3,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "text": "The Eliza effect accounts for a lot of our interactions with other humans as well."
+    },
+    {
+      "conversation_id": "2101688213957992457",
+      "created_at": "2026-09-20T15:05:38.000Z",
+      "edit_history_tweet_ids": [
+        "2101689245458985068"
+      ],
+      "id": "2101689245458985068",
+      "in_reply_to_user_id": "1305857593433305095",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 65,
+        "like_count": 4,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 1
+      },
+      "referenced_tweets": [
+        {
+          "id": "2101688213957992457",
+          "type": "replied_to"
+        }
+      ],
+      "text": "These big right wing donors (the new red elite!) don't get much bang for their buck. None of what comes from them is any good. If you're going to ape the left, at least set up some good lawfare organizations like they do, rather than funding people who shovel this dreck."
+    },
+    {
+      "conversation_id": "2101688213957992457",
+      "created_at": "2026-09-20T15:01:32.000Z",
+      "edit_history_tweet_ids": [
+        "2101688213957992457"
+      ],
+      "id": "2101688213957992457",
+      "public_metrics": {
+        "bookmark_count": 1,
+        "impression_count": 245,
+        "like_count": 6,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 1
+      },
+      "text": "It's good that the \"postliberal\" networks are being exposed but what should harm them is less their \"extremism,\" \"white nationalism\" or anything like that but just how pathetic and feeble it all is--completely derivative patchwork carried forward by empty, confident assertions."
+    },
+    {
+      "conversation_id": "2101687480894337176",
+      "created_at": "2026-09-20T14:58:37.000Z",
+      "edit_history_tweet_ids": [
+        "2101687480894337176"
+      ],
+      "id": "2101687480894337176",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 149,
+        "like_count": 4,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "text": "I'm not sure \"extreme\" or \"superior\" intelligence is less scary than \"artificial\" intelligence (\"machine\" intelligence is best, as it leaves evaluative questions open and we're \"artificial\" too) but it's encouraging to see what a booster the president has become."
+    },
+    {
+      "conversation_id": "2101412034931761215",
+      "created_at": "2026-09-19T20:47:04.000Z",
+      "edit_history_tweet_ids": [
+        "2101412785145926032"
+      ],
+      "id": "2101412785145926032",
+      "in_reply_to_user_id": "1305857593433305095",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 49,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2101412497773211986",
+          "type": "replied_to"
+        }
+      ],
+      "text": "presumably include the possibility of worse terms? This seems to me a better way of getting at the issues than free trade vs. tariffs. Multilateral vs. bilateral agreements is the more important question."
+    },
+    {
+      "conversation_id": "2101412034931761215",
+      "created_at": "2026-09-19T20:45:56.000Z",
+      "edit_history_tweet_ids": [
+        "2101412497773211986"
+      ],
+      "id": "2101412497773211986",
+      "in_reply_to_user_id": "1305857593433305095",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 84,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2101412034931761215",
+          "type": "replied_to"
+        }
+      ],
+      "text": "trade agreements, each one is more or less favorable to each of the countries involved. Angling for better terms can easily be presented as \"anti-free market\"--you're bargaining over access and prices. Should a president work for better terms or \"freer markets,\" which would"
+    },
+    {
+      "conversation_id": "2101412034931761215",
+      "created_at": "2026-09-19T20:44:06.000Z",
+      "edit_history_tweet_ids": [
+        "2101412034931761215"
+      ],
+      "id": "2101412034931761215",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 160,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "text": "What I rarely see mentioned in recent arguments on the right over the \"free market\" is the obvious fact that countries have trade agreements with each other. Shouldn't discussions start with that obvious fact, rather than abstractions like the \"free market\"? If there are to be"
+    },
+    {
+      "conversation_id": "2101409202472194094",
+      "created_at": "2026-09-19T20:32:50.000Z",
+      "edit_history_tweet_ids": [
+        "2101409202472194094"
+      ],
+      "id": "2101409202472194094",
+      "public_metrics": {
+        "bookmark_count": 1,
+        "impression_count": 222,
+        "like_count": 4,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "text": "Believing that specific media companies have a first amendment right to a WH press pass is a sure sign one is completely locked into the sacralization of the media created by the Watergate scandal and other tales of heroism and righteousness revealed under persecution."
+    },
+    {
+      "conversation_id": "2101401134640316622",
+      "created_at": "2026-09-19T20:00:47.000Z",
+      "edit_history_tweet_ids": [
+        "2101401134640316622"
+      ],
+      "id": "2101401134640316622",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 139,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "text": "I've been setting up the distinction between identity&gt;sovereignty and sovereignty&gt;identity but I will keep in mind that there are learning processes that might get one from the former to the latter, and a lot may depend on modeling this transition for learning purposes."
+    },
+    {
+      "conversation_id": "2100941994331672935",
+      "created_at": "2026-09-19T11:23:01.000Z",
+      "edit_history_tweet_ids": [
+        "2101270836569104865"
+      ],
+      "id": "2101270836569104865",
+      "in_reply_to_user_id": "1784142550355599360",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 27,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2101261179998113886",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@slooperbia50068 One should always exepct retaliation."
+    },
+    {
+      "conversation_id": "2101073286222246291",
+      "created_at": "2026-09-19T11:22:24.000Z",
+      "edit_history_tweet_ids": [
+        "2101270679085588812"
+      ],
+      "id": "2101270679085588812",
+      "in_reply_to_user_id": "1784142550355599360",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 50,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2101246874963365952",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@slooperbia50068 @truepeers Study the forms of speech that could cause so as to design a set of rules prohibiting them."
+    },
+    {
+      "conversation_id": "2101073286222246291",
+      "created_at": "2026-09-18T23:54:58.000Z",
+      "edit_history_tweet_ids": [
+        "2101097680105533748"
+      ],
+      "id": "2101097680105533748",
+      "in_reply_to_user_id": "402883123",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 59,
+        "like_count": 3,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2101094279653511203",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@truepeers A very elaborate and nuanced study of the forms of speech that could cause even the slightest humiliation or harm. Really something exquisite about it."
+    },
+    {
+      "conversation_id": "2101073557669519570",
+      "created_at": "2026-09-18T22:19:06.000Z",
+      "edit_history_tweet_ids": [
+        "2101073557669519570"
+      ],
+      "id": "2101073557669519570",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 202,
+        "like_count": 4,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 1
+      },
+      "text": "Greenland, sure, but how are things progressing with the Panama Canal?"
+    },
+    {
+      "conversation_id": "2101073286222246291",
+      "created_at": "2026-09-18T22:18:02.000Z",
+      "edit_history_tweet_ids": [
+        "2101073286222246291"
+      ],
+      "id": "2101073286222246291",
+      "public_metrics": {
+        "bookmark_count": 2,
+        "impression_count": 228,
+        "like_count": 3,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "text": "No one will be asking my opinion on such things but I think a stream of Judaism articulating Jose Faur's work on alphabetic literacy and the covenant with Chofetz Chaim's refinement of the prohibition on Lashon Hara might pioneer a sturdier future for Judaism and Israel."
+    },
+    {
+      "conversation_id": "2100998284194295939",
+      "created_at": "2026-09-18T22:14:20.000Z",
+      "edit_history_tweet_ids": [
+        "2101072356026564716"
+      ],
+      "id": "2101072356026564716",
+      "in_reply_to_user_id": "1712095702258446336",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 48,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2101060830683132168",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@GlobeStrobe @amanpour The Khan is dead, long live the Khan."
+    },
+    {
+      "conversation_id": "2101070439703531594",
+      "created_at": "2026-09-18T22:08:48.000Z",
+      "edit_history_tweet_ids": [
+        "2101070962913382600"
+      ],
+      "id": "2101070962913382600",
+      "in_reply_to_user_id": "1305857593433305095",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 46,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2101070439703531594",
+          "type": "replied_to"
+        }
+      ],
+      "text": "question to the president and he can answer it or not; the same goes for MSNBC or whoever. And the president decides who gets within range. If these outlets sue on 1st amendment grounds, why can't all the bloggers, posters and podcasters not admitted also sue?"
+    },
+    {
+      "conversation_id": "2101070439703531594",
+      "created_at": "2026-09-18T22:06:43.000Z",
+      "edit_history_tweet_ids": [
+        "2101070439703531594"
+      ],
+      "id": "2101070439703531594",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 133,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "text": "The principle that the president can determine who enters the WH and whose questions he answers is critical; even more critical is the principle that no media outlet has any special rights to be recognized as if they are part of government. If he's in range, I can shout out a"
+    },
+    {
+      "conversation_id": "2101065750492676372",
+      "created_at": "2026-09-18T21:48:05.000Z",
+      "edit_history_tweet_ids": [
+        "2101065750492676372"
+      ],
+      "id": "2101065750492676372",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 295,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2101048448875143659",
+          "type": "quoted"
+        }
+      ],
+      "text": "A real \"Red Elite\" would be on top of this kind of thing:\nhttps://t.co/5Q5o16fglK"
+    },
+    {
+      "conversation_id": "2101048622146334871",
+      "created_at": "2026-09-18T21:14:11.000Z",
+      "edit_history_tweet_ids": [
+        "2101057220448563515"
+      ],
+      "id": "2101057220448563515",
+      "in_reply_to_user_id": "1790595878702714880",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 44,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2101053912673661090",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@VladimirSuvor @HebrewConTeam Strange coming from him--I've never seen this kind of thing from him before. Setting aside the questions of grounds for imprisonment and treatment of prisoners, Joel Davis is explicitly a Nazi (not a \"Nazi\"), so if you consider that \"patriotic,\" it says a lot about you."
+    },
+    {
+      "conversation_id": "2100952565919674647",
+      "created_at": "2026-09-18T20:27:15.000Z",
+      "edit_history_tweet_ids": [
+        "2101045407694348421"
+      ],
+      "id": "2101045407694348421",
+      "in_reply_to_user_id": "884070744333922305",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 28,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2100952565919674647",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@Bweezie81 Yes, just understand who he is and act accordingly."
+    },
+    {
+      "conversation_id": "2100964278714995096",
+      "created_at": "2026-09-18T20:26:05.000Z",
+      "edit_history_tweet_ids": [
+        "2101045115032576294"
+      ],
+      "id": "2101045115032576294",
+      "in_reply_to_user_id": "33574174",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 32,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2100964278714995096",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@jakejakeny Vance and Carlson are collaborators on a shared political project."
+    },
+    {
+      "conversation_id": "2101021728784744510",
+      "created_at": "2026-09-18T18:53:09.000Z",
+      "edit_history_tweet_ids": [
+        "2101021728784744510"
+      ],
+      "id": "2101021728784744510",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 126,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "text": "A Stanley Cavell revival in the context of AI would be welcome"
+    },
+    {
+      "conversation_id": "2101002610652197090",
+      "created_at": "2026-09-18T18:14:14.000Z",
+      "edit_history_tweet_ids": [
+        "2101011934732521904"
+      ],
+      "id": "2101011934732521904",
+      "in_reply_to_user_id": "1648141395171893249",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 101,
+        "like_count": 5,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2101002610652197090",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@Awesome_Jew_ @LauraLoomer These little rituals are becoming unintentionally (I assume) hilarious."
+    },
+    {
+      "conversation_id": "2100407410498179203",
+      "created_at": "2026-09-18T15:56:46.000Z",
+      "edit_history_tweet_ids": [
+        "2100977340415095032"
+      ],
+      "id": "2100977340415095032",
+      "in_reply_to_user_id": "1305857593433305095",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 51,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2100976968422281663",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@taimur_____ against Trump. It seems like a simple \"this is not the Tucker I knew\" would take care of it--and, yet, nothing. So, I assume there's real political coordination and not just friendship here."
+    },
+    {
+      "conversation_id": "2100407410498179203",
+      "created_at": "2026-09-18T15:55:18.000Z",
+      "edit_history_tweet_ids": [
+        "2100976968422281663"
+      ],
+      "id": "2100976968422281663",
+      "in_reply_to_user_id": "1581763577781813249",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 54,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2100971197655667191",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@taimur_____ Vance linked to Carlson and some others would be part of a takeover, from the old GOP but also from Trump. That's what makes the Carlson connection perplexing--it interferes with what should be happening, given that (leaving the Jews out of it) Carlson has come out so virulently"
+    },
+    {
+      "conversation_id": "2100407410498179203",
+      "created_at": "2026-09-18T15:22:07.000Z",
+      "edit_history_tweet_ids": [
+        "2100968618792006090"
+      ],
+      "id": "2100968618792006090",
+      "in_reply_to_user_id": "1581763577781813249",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 66,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2100963250670018850",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@taimur_____ Yes, I agree with this assessment and think it's broader than the Iran war. I think planning for the takeover of the GOP has been going on for awhile, using Trump's victory as a cover, and this is accelerating things."
+    },
+    {
+      "conversation_id": "2100407410498179203",
+      "created_at": "2026-09-18T14:16:56.000Z",
+      "edit_history_tweet_ids": [
+        "2100952214491591017"
+      ],
+      "id": "2100952214491591017",
+      "in_reply_to_user_id": "1581763577781813249",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 70,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2100950775778136103",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@taimur_____ Neither do I, but Vance seems to. I admit to being puzzled here, which is a reason I keep returning to it. Vance's discussion of antisemitism in that meeting with Jewish Republicans was shown to be very Tuckeresque, which indicates recent conversations on this very issue."
+    },
+    {
+      "conversation_id": "2100407410498179203",
+      "created_at": "2026-09-18T13:58:30.000Z",
+      "edit_history_tweet_ids": [
+        "2100947576904204337"
+      ],
+      "id": "2100947576904204337",
+      "in_reply_to_user_id": "1581763577781813249",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 59,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2100945441873355038",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@taimur_____ First, Thiel influence wouldn't be a problem, for me at least, and would be steady, at any rate. Second, I think he has maintained much closer intellectual and political ties with Carlson, even after Carlson's \"turn\"--closer than he is acknowledging."
+    },
+    {
+      "conversation_id": "2100941994331672935",
+      "created_at": "2026-09-18T13:36:19.000Z",
+      "edit_history_tweet_ids": [
+        "2100941994331672935"
+      ],
+      "id": "2100941994331672935",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 134,
+        "like_count": 7,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "text": "Any criticism of Trump's manner and style is worthless to the extent that it doesn' take into account the persistent attempts since 2015 of the establishments of both parties, federal LE and intelligence agencies and their media operatives to thoroughly destroy him."
+    },
+    {
+      "conversation_id": "2100931488480891315",
+      "created_at": "2026-09-18T12:54:34.000Z",
+      "edit_history_tweet_ids": [
+        "2100931488480891315"
+      ],
+      "id": "2100931488480891315",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 159,
+        "like_count": 4,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "text": "I look at the Google ngram viewer for \"data\" and it seems to be very low and flat until the early 20th century but Melville uses it in The Confidence Man (1857) exactly the way we use it now and very matter of factly."
+    },
+    {
+      "conversation_id": "2100930103484043476",
+      "created_at": "2026-09-18T12:51:17.000Z",
+      "edit_history_tweet_ids": [
+        "2100930659061510189"
+      ],
+      "id": "2100930659061510189",
+      "in_reply_to_user_id": "1305857593433305095",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 45,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2100930103484043476",
+          "type": "replied_to"
+        }
+      ],
+      "text": "faith needed to sustain such an approach could hardly be expected even in the best of times (but maybe certain agencies and companies managed to sneak in something like this for awhile over the years and could do so again once things are under control)."
+    },
+    {
+      "conversation_id": "2100930103484043476",
+      "created_at": "2026-09-18T12:49:04.000Z",
+      "edit_history_tweet_ids": [
+        "2100930103484043476"
+      ],
+      "id": "2100930103484043476",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 282,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "text": "The strongest way to think about immigration would be to see it as like the NFL draft, where the US recruits the top talent in essential fields from across the world so as to defeat them, thereby providing growth and benefits across the board. But the rigor, discipline and good"
+    },
     {
       "conversation_id": "2100723508447674372",
       "created_at": "2026-09-17T23:11:03.000Z",
