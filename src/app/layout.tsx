@@ -5,6 +5,7 @@ import Link from "next/link";
 import MobileNav from "@/components/MobileNav";
 import CommandPalette from "@/components/CommandPalette";
 import PrintLightMode from "@/components/PrintLightMode";
+import ConvertTracker from "@/components/ConvertTracker";
 import SiteNav from "@/components/SiteNav";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -147,7 +148,7 @@ export default function RootLayout({
                 rel="noopener noreferrer"
                 className="text-xs text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
               >
-                Substack ↗
+                New essays — Substack ↗
               </a>
               <a
                 href="https://x.com/centerstudy_"
@@ -199,6 +200,7 @@ export default function RootLayout({
         <MobileNav />
         <CommandPalette />
         <PrintLightMode />
+        <ConvertTracker />
         <Analytics />
       </body>
     </html>

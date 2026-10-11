@@ -57,10 +57,24 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const q = byId.get(id);
   if (!q) return {};
   const head = q.text.length > 150 ? q.text.slice(0, 150).replace(/\s+\S*$/, '') + '…' : q.text;
+  // Without explicit openGraph/twitter, all 949 quote permalinks shared with
+  // the generic site title and og:url pointing at the HOMEPAGE — the per-quote
+  // card image rendered, but the caption under it was boilerplate.
+  const ogTitle = `${quoteAuthor(q)} — ${q.sourceTitle}`;
   return {
     title: `“${head.slice(0, 60)}${head.length > 60 ? '…' : ''}” — Center Study`,
     description: `${head} — ${quoteAuthor(q)}, ${q.sourceTitle}`,
     alternates: { canonical: `https://center.study/q/${id}` },
+    openGraph: {
+      title: ogTitle,
+      description: head,
+      url: `https://center.study/q/${id}`,
+      siteName: 'Center Study Center',
+      type: 'article',
+      // No images key: the segment's own opengraph-image.tsx (the per-quote
+      // card) is still injected as long as this config omits images.
+    },
+    twitter: { card: 'summary_large_image', title: ogTitle, description: head },
   };
 }
 

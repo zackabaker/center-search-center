@@ -581,20 +581,24 @@ export default async function PostPage({
                 </p>
               ) : post.source === 'substack' || post.source === 'reddit' || post.source === 'twitter' ? (
                 <p className="text-[15px] text-gray-700 dark:text-gray-300 leading-relaxed">
-                  Dennis Bouvard publishes new applied essays on Substack.{' '}
-                  <a href="https://dennisbouvard.substack.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Subscribe&nbsp;↗</a>
+                  Dennis Bouvard publishes a new essay on Substack every two weeks.{' '}
+                  <a href="https://dennisbouvard.substack.com" target="_blank" rel="noopener noreferrer" data-where="post-end" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Subscribe&nbsp;↗</a>
                 </p>
               ) : (
                 <p className="text-[15px] text-gray-700 dark:text-gray-300 leading-relaxed">
-                  Keep reading across the archive —{' '}
-                  <Link href="/start" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">start here</Link>{' '}or{' '}
+                  Adam Katz publishes a new essay every two weeks, writing as Dennis Bouvard on{' '}
+                  <a href="https://dennisbouvard.substack.com" target="_blank" rel="noopener noreferrer" data-where="post-end" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Substack&nbsp;↗</a>.
+                  {' '}Keep reading here:{' '}
+                  <Link href="/start" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">start</Link>{' '}or{' '}
                   <Link href="/search" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">search the corpus</Link>.
                 </p>
               )}
               <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">
-                <a href="https://x.com/centerstudy_" target="_blank" rel="noopener noreferrer" className="hover:text-gray-700 dark:hover:text-gray-300">Follow on X&nbsp;↗</a>
+                <a href="https://x.com/centerstudy_" target="_blank" rel="noopener noreferrer" data-where="post-end" className="hover:text-gray-700 dark:hover:text-gray-300">@centerstudy_ on X&nbsp;↗</a>
                 {' · '}
-                <Link href="/lectures" className="hover:text-gray-700 dark:hover:text-gray-300">Lecture series</Link>
+                <a href="/feed.xml" data-where="post-end" className="hover:text-gray-700 dark:hover:text-gray-300">RSS</a>
+                {' · '}
+                <Link href="/lectures" className="hover:text-gray-700 dark:hover:text-gray-300">Lectures</Link>
               </p>
             </div>
           </div>

@@ -12,6 +12,10 @@
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://center.study/the-center-of-everything">
 <meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://center.study/cards/the-center-of-everything.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://center.study/cards/the-center-of-everything.png">
 
 <style>
   :root{
@@ -533,6 +537,7 @@ The staircase gives you a surprisingly practical razor. On the originary account
 <li><span class="doorname"><a href="https://center.study/ask">Ask AI</a></span> — put any question to the whole 2,000-text corpus and get an answer grounded in direct quotes.</li>
 <li><span class="doorname"><a href="https://center.study/search">Search the corpus</a></span> — keyword and meaning search across five million words. Try <a href="https://center.study/search?q=the%20sacred">"the sacred"</a>, <a href="https://center.study/search?q=sovereignty%20succession">"succession"</a>, or <a href="https://center.study/search?q=artificial%20intelligence%20data">"AI &amp; data"</a>.</li>
 <li><span class="doorname"><a href="https://center.study/post/the-discourse-of-the-center">"The Discourse of the Center"</a></span> — the recommended single first text, and the source of the epigraph above.</li>
+<li><span class="doorname"><a href="https://dennisbouvard.substack.com">Follow the work</a></span> — this is a live project, not a finished one. Adam Katz publishes a new essay as Dennis Bouvard on Substack twice a month, and each one lands in this archive within days. The archive posts at <a href="https://x.com/centerstudy_">@centerstudy_</a>.</li>
 </ul>
 
 <div class="footnotes">
@@ -546,5 +551,44 @@ The staircase gives you a surprisingly practical razor. On the originary account
 </div>
 
 </div>
+<script>
+/* Anonymous conversion counters (see /api/convert). This document bypasses
+   the site layout, so it carries its own copy of the tracker: landing stamp,
+   one "read" at >=50% scroll + 90s, "follow" on Substack/X clicks. Counts
+   only - nothing identifying is sent or stored. */
+(function(){
+  try{
+    var post=function(p){try{fetch('/api/convert',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p),keepalive:true}).catch(function(){});}catch(e){}};
+    try{if(!sessionStorage.getItem('csc-landed'))sessionStorage.setItem('csc-landed','/the-center-of-everything');}catch(e){}
+    try{
+      var landed=sessionStorage.getItem('csc-landed');
+      if(landed&&landed!=='/the-center-of-everything'&&!sessionStorage.getItem('csc-open')){sessionStorage.setItem('csc-open','1');post({event:'open'});}
+    }catch(e){}
+    try{
+      var today=new Date().toISOString().slice(0,10);
+      var seen=localStorage.getItem('csc-seen');
+      if(seen&&seen!==today&&localStorage.getItem('csc-return-fired')!==today){
+        var gap=Math.round((Date.parse(today)-Date.parse(seen))/86400000);
+        if(gap>=1&&gap<=30){localStorage.setItem('csc-return-fired',today);post({event:'return',gap:gap});}
+      }
+      localStorage.setItem('csc-seen',today);
+    }catch(e){}
+    var scrolled=false,elapsed=false,fired=false;
+    try{fired=!!sessionStorage.getItem('csc-read-the-center-of-everything');}catch(e){}
+    var fire=function(){if(fired||!scrolled||!elapsed)return;fired=true;try{sessionStorage.setItem('csc-read-the-center-of-everything','1');}catch(e){}post({event:'read'});};
+    var onScroll=function(){var el=document.scrollingElement||document.documentElement;if((el.scrollTop+window.innerHeight)/el.scrollHeight>=0.5){scrolled=true;fire();}};
+    setTimeout(function(){elapsed=true;fire();},90000);
+    window.addEventListener('scroll',onScroll,{passive:true});
+    onScroll();
+    document.addEventListener('click',function(e){
+      var t=e.target,a=t&&t.closest?t.closest('a[href]'):null;
+      if(!a)return;
+      var h=a.href||'';
+      var d=h.indexOf('dennisbouvard.substack.com')>-1?'substack':(h.indexOf('x.com/centerstudy_')>-1?'x':null);
+      if(d)post({event:'follow',dest:d,where:'flagship'});
+    },true);
+  }catch(e){}
+})();
+</script>
 </body>
 </html>
