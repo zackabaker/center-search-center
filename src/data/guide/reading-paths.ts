@@ -274,7 +274,13 @@ export const READING_PATHS: ReadingPath[] = [
         slug: 'discipline-and-debt',
         title: 'Discipline and Debt',
         source: 'GABlog',
-        bridge: 'The Big Man\'s out-gifting as the origin of hierarchical debt — the mechanism by which egalitarian communities become hierarchical ones through the acceptance of asymmetric obligation. Then: how money carries this sacred credit forward.',
+        bridge: 'The Big Man\'s out-gifting as the origin of hierarchical debt — asymmetric obligation as the engine of hierarchy. Then: the debit/credit logic at ground level, in the register of a notebook rather than a journal — the easiest place to hold the accounting before taking it on whole.',
+      },
+      {
+        slug: 'debits-and-credits',
+        title: 'Debits and Credits',
+        source: 'Substack',
+        bridge: 'The full statement: forty-four minutes, systematic, written for Anthropoetics. You arrive with the groundwork — debt that cannot be repaid, and the accounting that records it. What remains is the essay\'s own move: money as credit drawn on the sacred. Everything after this is development.',
       },
       {
         slug: 'there-is-no-economy-pdf',
@@ -299,12 +305,6 @@ export const READING_PATHS: ReadingPath[] = [
         title: 'Debts and Deferences',
         source: 'GABlog',
         bridge: 'Debt and deferral as paired concepts: the only repayment of the debt to the center is ongoing deferral. The moral-economic dimension: to pay one\'s debt is not to provide an equivalent exchange but to continue the practice of deferral the center demands.',
-      },
-      {
-        slug: 'debits-and-credits',
-        title: 'Debits and Credits',
-        source: 'Substack',
-        bridge: 'A close-grained analysis of the debit/credit structure as it actually operates — the accounting logic of originary economics made concrete.',
       },
     ],
     conclusion: `The economic path arrives at the question that liberal economics never asks: what is the center against which all this credit is being drawn? Modern financial crises are center crises — failures of the originary credit structure that money represents. The scenic design path develops how institutions might be designed to make this visible and manageable.`,

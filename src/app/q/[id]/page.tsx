@@ -129,11 +129,15 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
       <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-8">
         Verbatim quote · {author === 'Eric Gans'
           ? 'reference material — Eric Gans'
-          : q.defining ? 'defining passage' : 'from the corpus'}
+          : !/\bKatz\b/.test(author)
+            ? `quoted source — ${author}`
+            : q.defining ? 'defining passage' : 'from the corpus'}
       </p>
 
-      {/* Amber marks Katz's verbatim center; reference-tier quotes take gray */}
-      <blockquote className={`border-l-2 pl-5 sm:pl-6 mb-8 ${author === 'Eric Gans' ? 'border-gray-300 dark:border-gray-600' : 'border-amber-600 dark:border-amber-500'}`}>
+      {/* Amber marks Katz's verbatim words ONLY — not merely "non-Gans": a
+          third-party author quoted inside a Katz text (e.g. Colin Drumm in
+          There Is No Economy) takes the gray reference treatment. */}
+      <blockquote className={`border-l-2 pl-5 sm:pl-6 mb-8 ${/\bKatz\b/.test(author) ? 'border-amber-600 dark:border-amber-500' : 'border-gray-300 dark:border-gray-600'}`}>
         <p
           className="text-gray-900 dark:text-gray-100 leading-relaxed text-xl sm:text-2xl"
           style={{ fontFamily: 'var(--prose-font-family)' }}
