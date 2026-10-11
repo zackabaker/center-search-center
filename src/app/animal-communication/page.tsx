@@ -3,11 +3,30 @@ import type { Metadata } from 'next';
 import SceneMark from '@/components/SceneMark';
 import VideoCard from '@/components/VideoCard';
 
+const DESCRIPTION =
+  'The case that human language differs in kind from animal communication, argued entirely from outside sources — the vervet studies, the ape-language experiments, Deacon, Tomasello, Lévi-Strauss — and what follows from it.';
+
 export const metadata: Metadata = {
   title: 'Don’t animals talk too? — the difference, for skeptics',
-  description:
-    'The case that human language differs in kind from animal communication, argued entirely from outside sources — the vervet studies, the ape-language experiments, Deacon, Tomasello, Lévi-Strauss — and what follows from it.',
+  description: DESCRIPTION,
   alternates: { canonical: 'https://center.study/animal-communication' },
+  // Without these the page shared with the generic homepage card — wrong
+  // title and wrong og:url on the site's skeptic flagship. NOTE: a segment
+  // openGraph REPLACES the root's resolved one (it does not merge), so
+  // siteName and images must be restated here or the card ships imageless.
+  openGraph: {
+    title: 'Don’t animals talk too? — the difference, for skeptics',
+    description: DESCRIPTION,
+    url: 'https://center.study/animal-communication',
+    siteName: 'Center Study Center',
+    type: 'article',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Center Study Center' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Don’t animals talk too? — the difference, for skeptics',
+    description: DESCRIPTION,
+  },
 };
 
 // Verbatim quotes. Corpus quotes (kind 'katz' | 'gans' | 'other') are
@@ -451,6 +470,7 @@ export default function AnimalCommunicationPage() {
           <li><Link href="/post/the-origin-of-language" className="text-blue-600 dark:text-blue-400 hover:underline">Gans, The Origin of Language</Link>{' '}<span className="text-gray-500 dark:text-gray-400">— the source text, complete, with Katz&rsquo;s introduction.</span></li>
           <li><Link href="/faq" className="text-blue-600 dark:text-blue-400 hover:underline">The FAQ</Link>{' '}<span className="text-gray-500 dark:text-gray-400">— falsifiability, &ldquo;just-so story,&rdquo; and the other standing objections.</span></li>
           <li><Link href="/ask" className="text-blue-600 dark:text-blue-400 hover:underline">Ask AI</Link>{' '}<span className="text-gray-500 dark:text-gray-400">— put your own objection to the corpus.</span></li>
+          <li><a href="https://dennisbouvard.substack.com" target="_blank" rel="noopener noreferrer" data-where="endlist" className="text-blue-600 dark:text-blue-400 hover:underline">Follow the work&nbsp;↗</a>{' '}<span className="text-gray-500 dark:text-gray-400">— new essays twice a month on Substack; each lands in this archive within days.</span></li>
         </ul>
       </section>
     </main>
