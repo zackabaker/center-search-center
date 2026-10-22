@@ -1,4 +1,5 @@
 import { isSameOrigin, rateLimit, clientIp } from '@/lib/rate-limit';
+import { openCors } from '@/lib/cors';
 import { Redis } from '@upstash/redis';
 
 // Conversion counters — the four anonymous events that make "did that change
@@ -88,9 +89,13 @@ export async function POST(request: Request) {
   return Response.json({ ok: true, stored: true });
 }
 
+export function OPTIONS() {
+  return new Response(null, { status: 204, headers: openCors() });
+}
+
 export async function GET() {
   const kv = getKV();
-  if (!kv) return Response.json({ totals: {}, days: {} });
+  if (!kv) return Response.json({ totals: {}, days: {} }, { headers: openCors() });
 
   const keys: string[] = [];
   for (let i = 0; i < 30; i++) keys.push(dayKey(new Date(Date.now() - i * 86_400_000)));
@@ -112,9 +117,9 @@ export async function GET() {
       // s-maxage so Vercel's edge absorbs repeat hits — without it every GET
       // runs a 30-command pipeline against the shared store (house pattern:
       // GET /api/search-log).
-      { headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600' } },
+      { headers: openCors({ 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600' }) },
     );
   } catch {
-    return Response.json({ totals: {}, days: {} });
+    return Response.json({ totals: {}, days: {} }, { headers: openCors() });
   }
 }
