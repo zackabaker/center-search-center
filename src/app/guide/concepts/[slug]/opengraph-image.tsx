@@ -18,7 +18,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   const g = (GLOSSARY as Record<string, { definitionQuote?: string; definitionSource?: string; definitionAuthor?: string }>)[slug];
 
   const title = concept?.title ?? 'Center Study';
-  const quoteRaw = g?.definitionQuote || concept?.definition || concept?.subtitle || '';
+  const quoteRaw = g?.definitionQuote || '';
   const quote = quoteRaw.length > 240 ? quoteRaw.slice(0, 240).replace(/\s+\S*$/, '') + '…' : quoteRaw;
   const meta = g?.definitionSource
     ? `${g.definitionAuthor ? g.definitionAuthor + ' · ' : ''}${g.definitionSource}`

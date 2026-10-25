@@ -2,12 +2,11 @@ import type { MetadataRoute } from 'next';
 
 // The archive WANTS to be crawled — by search engines and by AI systems.
 // Data endpoints (/api/corpus, /api/download, /llms.txt) are explicitly
-// open. Only the endpoints that spend AI credits per request (/api/chat,
-// /api/reading-path) and admin surfaces are closed to bots.
+// open. Only the endpoints that spend AI credits per request (admin and non-content endpoints) and admin surfaces are closed to bots.
 
 const OPEN = {
   allow: ['/', '/api/corpus', '/api/corpus/', '/api/download', '/llms.txt'],
-  disallow: ['/api/chat', '/api/reading-path', '/api/random', '/names/admin'],
+  disallow: ['/api/chat', '/api/random', '/names/admin'],
 };
 
 // AI crawlers, named explicitly so an overly cautious default elsewhere

@@ -185,7 +185,7 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ s
           Every mention in the archive →
         </Link>
         <Link
-          href={`/ask?q=${encodeURIComponent(`What is ${entry.term.toLowerCase()} in Center Study?`)}`}
+          href={`/search?q=${encodeURIComponent(entry.term.toLowerCase())}`}
           className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
         >
           ✦ Ask AI about it

@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Trending',
-  description: 'The most-read texts in the Center Study archive right now.',
+  description: 'The most-read texts in the Center Study archive.',
   alternates: { canonical: 'https://center.study/trending' },
 };
 
@@ -94,8 +94,8 @@ export default async function TrendingPage() {
       <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2 text-gray-900 dark:text-white">Trending</h1>
       <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed mb-10 max-w-2xl">
         {windowed
-          ? 'The most-read texts over the past two months. A live snapshot of what readers are finding.'
-          : 'The most-read texts in the archive. A live snapshot of what readers are finding.'}
+          ? 'The most-read texts over the past two months.'
+          : 'The most-read texts in the archive.'}
       </p>
 
       {items.length === 0 ? (

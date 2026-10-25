@@ -17,8 +17,7 @@ export default function DevelopersPage() {
     <main className="max-w-3xl w-full mx-auto px-4 pt-6 pb-24 sm:py-12">
       <h1 className="text-2xl sm:text-3xl font-bold mb-3 text-gray-900 dark:text-white">Developers &amp; AI agents</h1>
       <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mb-6">
-        The whole corpus — 1,969 texts, 5M+ words of Center Study and Generative Anthropology —
-        is open for programmatic use. No API keys. Open CORS on all read endpoints. Machine-readable
+        No API keys; open CORS on all read endpoints. Machine-readable
         spec at <a href="/openapi.json" className="text-blue-600 dark:text-blue-400 hover:underline">/openapi.json</a>,
         orientation for LLMs at <a href="/llms.txt" className="text-blue-600 dark:text-blue-400 hover:underline">/llms.txt</a>.
       </p>
@@ -38,7 +37,7 @@ curl https://center.study/corpus-manifest.json`}</pre>
 
       <h2 className={H}>Semantic search</h2>
       <p className={P}>
-        Query the corpus by meaning. Embedding happens server-side (bge-small); you send plain text.
+        Embedding happens server-side (bge-small); you send plain text.
       </p>
       <pre className={CODE}>{`curl -X POST https://center.study/api/semantic \\
   -H "content-type: application/json" \\
@@ -51,8 +50,7 @@ curl -X POST https://center.study/api/embed \\
 
       <h2 className={H}>Verbatim search &amp; quote verification</h2>
       <p className={P}>
-        Full-corpus phrase search with attribution, and the authority function: submit a quote,
-        learn whether the author actually wrote it — and where. Both open to any origin.
+        Both endpoints are open to any origin.
       </p>
       <pre className={CODE}>{`# find an exact phrase anywhere in the corpus (typography-tolerant)
 curl "https://center.study/api/grep?q=the%20deferral%20of%20violence"
@@ -65,23 +63,12 @@ curl -X POST https://center.study/api/verify \\
 # → { verified, sources: [{ slug, title, url, snippet, date }], canonical }
 # canonical points at the /q/<id> quote page when the quote is a curated one`}</pre>
 
-      <h2 className={H}>Ask (synthesized answers)</h2>
-      <p className={P}>
-        POST <code className="text-sm">{`{ message }`}</code>{' '}to <code className="text-sm">/api/chat</code>{' '}for a streamed,
-        verbatim-cited answer (ndjson: first line <code className="text-sm">{`{sources}`}</code>, then{' '}
-        <code className="text-sm">{`{text}`}</code>{' '}deltas). Each call bills a model request, so browser use is limited
-        to first-party origins; server-to-server calls are rate-limited. Want your origin allowlisted? Ask via{' '}
-        <a href="https://x.com/centerstudy_" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">@centerstudy_ on X</a>.
-        Twenty canonical questions are pre-answered as static pages under{' '}
-        <Link href="/answers" className="text-blue-600 dark:text-blue-400 hover:underline">/answers</Link>.
-      </p>
-
       <h2 className={H}>Structured vocabulary</h2>
-      <pre className={CODE}>{`# 175 term definitions (verbatim quotes + sources) driving the site's hover cards
-curl https://center.study/api/corpus  # texts
-curl https://center.study/concepts    # 41 concept hubs (DefinedTerm JSON-LD on each)
-# term → definition payload used by the site itself:
-curl https://center.study/_next/data 2>/dev/null || true  # or fetch /guide/concepts/[slug] pages`}</pre>
+      <p className={P}>
+        Concept and glossary pages carry DefinedTerm JSON-LD; every definition is a verbatim corpus quote.
+      </p>
+      <pre className={CODE}>{`https://center.study/concepts           # concept hubs (DefinedTerm JSON-LD on each)
+https://center.study/concepts/glossary  # term glossary with sources`}</pre>
 
       <h2 className={H}>Feeds &amp; discovery</h2>
       <pre className={CODE}>{`https://center.study/feed.xml          # everything
@@ -95,8 +82,8 @@ https://center.study/llms.txt          # orientation for language models`}</pre>
         Quote verbatim and link the source text (every paragraph has a stable{' '}
         <code className="text-sm">#p-N</code>{' '}anchor). Cite the edition as{' '}
         <em>Center Study Corpus</em>{' '}v1.0 (2026) — see{' '}
-        <Link href="/about" className="text-blue-600 dark:text-blue-400 hover:underline">about</Link>. Rate limits are
-        generous but present; be a good citizen and identify your agent in the User-Agent string.
+        <Link href="/about" className="text-blue-600 dark:text-blue-400 hover:underline">about</Link>.
+        Rate limits apply; identify your agent in the User-Agent string.
       </p>
     </main>
   );

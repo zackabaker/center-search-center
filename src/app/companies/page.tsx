@@ -7,7 +7,7 @@ import SceneMark from '@/components/SceneMark';
 export const metadata: Metadata = {
   title: 'On Companies',
   description:
-    'Every passage in the archive where Adam Katz discusses companies — starting them, joining them, their discipline and their place in the order: startups, insurance, data security, prediction markets, monopolies.',
+    'Verbatim paragraphs from the Center Study archive where Adam Katz discusses companies, each linked to its source text.',
   alternates: { canonical: 'https://center.study/companies' },
 };
 
@@ -31,12 +31,9 @@ export default function CompaniesPage() {
           On Companies
         </h1>
         <p className="text-[15px] text-gray-600 dark:text-gray-400 leading-relaxed mt-4 max-w-2xl">
-          Every passage where Adam Katz talks about companies — starting them, joining
-          them, their discipline and their place in the order: startups, insurance,
-          data security, prediction markets, monopolies, profit. {excerpts.length.toLocaleString()}{' '}
-          verbatim paragraphs from {new Set(excerpts.map((e) => e.slug)).size.toLocaleString()} texts,
-          ranked by how directly they bear on the creation of companies. Every passage
-          links to its exact place in the source text.
+          {excerpts.length.toLocaleString()} verbatim paragraphs from{' '}
+          {new Set(excerpts.map((e) => e.slug)).size.toLocaleString()} texts, each linked
+          to its place in the source text.
         </p>
       </header>
 

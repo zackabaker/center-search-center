@@ -24,6 +24,10 @@ interface Passage {
   verified?: boolean;  // confirmed verbatim against the corpus
 }
 
+// A retrieval excerpt — corpus text found by meaning across the whole index.
+// Verbatim by construction (chunks come straight from the posts cache).
+interface Excerpt { slug: string; title: string; source: string; text: string; score: number; }
+
 interface Answer {
   content: string;
   sources?: Source[];
@@ -344,6 +348,10 @@ export default function AskClient({
 }) {
   const [currentQuestion, setCurrentQuestion] = useState('');
   const [answer, setAnswer] = useState<Answer | null>(null);
+  // The primary result (owner direction, 2026-10): the closest verbatim
+  // excerpts from the whole corpus, retrieved by meaning — null = loading.
+  const [excerpts, setExcerpts] = useState<Excerpt[] | null>(null);
+  const excerptQRef = useRef('');
   // Real error state — an error must never impersonate a synthesis.
   const [error, setError] = useState<string | null>(null);
   // Brief hold on "Try again" after a rate-limit error
@@ -438,6 +446,24 @@ export default function AskClient({
     // A new question always supersedes whatever is in flight — abort it first
     // so a still-streaming previous answer can't keep updating the screen.
     abortRef.current?.abort();
+
+    // Excerpt retrieval — independent of the AI note and of the answer cache,
+    // so cached answers still get fresh excerpts. Last-question-wins guard.
+    excerptQRef.current = question;
+    setExcerpts(null);
+    fetch('/api/semantic', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ q: question }),
+    })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (excerptQRef.current !== question) return;
+        setExcerpts(((d?.results ?? []) as Excerpt[]).slice(0, 12));
+      })
+      .catch(() => {
+        if (excerptQRef.current === question) setExcerpts([]);
+      });
 
     // History sent to the model so a follow-up builds on the conversation.
     const sentHistory = historyRef.current.slice(-6);
@@ -839,10 +865,58 @@ export default function AskClient({
                 {currentQuestion}
               </h2>
 
-              {/* AI answer — synthesized from texts */}
+              {/* From the archive — the primary result: the closest verbatim
+                  excerpts across the whole corpus, retrieved by meaning. */}
               <div className="mb-8">
                 <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
-                  Synthesis
+                  From the archive
+                </p>
+                {excerpts === null ? (
+                  <div className="flex flex-col items-center py-8 gap-3">
+                    <SceneMark size={48} spin speed={4} className="text-gray-400 dark:text-gray-500" />
+                    <p className="text-xs text-gray-400 dark:text-gray-600 font-mono tracking-wide">
+                      searching the corpus…
+                    </p>
+                  </div>
+                ) : excerpts.length === 0 ? (
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    No close passages found.{' '}
+                    <Link href={`/search?q=${encodeURIComponent(currentQuestion)}`} className="text-blue-600 dark:text-blue-400 hover:underline">
+                      Try keyword search →
+                    </Link>
+                  </p>
+                ) : (
+                  <div className="space-y-3">
+                    {excerpts.map((x, i) => (
+                      <div key={`${x.slug}-${i}`} className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-4">
+                        <blockquote
+                          className="text-gray-800 dark:text-gray-200 leading-relaxed mb-3"
+                          style={{ fontFamily: 'var(--font-lora, Georgia, serif)' }}
+                        >
+                          {x.text}
+                        </blockquote>
+                        <Link
+                          href={`/post/${x.slug}?q=${encodeURIComponent(x.text.split(/\s+/).slice(0, 6).join(' '))}`}
+                          className="group inline-flex items-center gap-2 min-w-0"
+                        >
+                          <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 ${SOURCE_COLORS[x.source] || 'bg-gray-100 text-gray-600'}`}>
+                            {sourceFromSlug(x.slug) || x.source}
+                          </span>
+                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
+                            {x.title}
+                          </span>
+                          <span className="text-xs text-gray-400 dark:text-gray-500 group-hover:text-blue-500 flex-shrink-0">Read in context →</span>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* AI note — brief, clearly labeled, secondary to the excerpts above */}
+              <div className="mb-8">
+                <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
+                  AI note — generated; the excerpts above are the corpus itself
                 </p>
                 {error ? (
                   /* Real error card — never impersonates a synthesis */

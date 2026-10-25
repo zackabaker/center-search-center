@@ -63,6 +63,13 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
+      // Archive-first cleanup (2026-10): AI-prose surfaces removed; preserve
+      // inbound links with permanent redirects to the surviving routes.
+      { source: '/intro', destination: '/lectures', permanent: true },
+      { source: '/ask/:slug', destination: '/search', permanent: true },
+      { source: '/answers', destination: '/search', permanent: true },
+      { source: '/the-center-of-everything', destination: '/start', permanent: true },
+      { source: '/animal-communication', destination: '/start', permanent: true },
       // www → apex as a permanent 308 (Vercel's domain-level redirect is a 307).
       {
         source: '/:path*',

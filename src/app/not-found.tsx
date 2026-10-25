@@ -56,10 +56,10 @@ export default function NotFound() {
           Search
         </Link>
         <Link
-          href="/ask"
+          href="/search"
           className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500 transition-colors"
         >
-          Ask AI
+          Search
         </Link>
       </div>
 

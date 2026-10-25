@@ -3,7 +3,6 @@ import { CONCEPTS } from '@/data/guide/concepts';
 import { GLOSSARY } from '@/data/guide/glossary';
 import QUOTES from '@/data/quotes.json';
 import { READING_PATHS } from '@/data/guide/reading-paths';
-import ANSWERS from '@/data/answers.json';
 import { parsePostDate } from '@/lib/dates';
 import { MetadataRoute } from 'next';
 
@@ -16,19 +15,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: BASE_URL,                          lastModified: new Date(), changeFrequency: 'daily',   priority: 1.0 },
     { url: `${BASE_URL}/generative-anthropology`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.95 },
     { url: `${BASE_URL}/start`,               changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${BASE_URL}/intro`,               changeFrequency: 'monthly', priority: 0.9 },
     { url: `${BASE_URL}/about`,               changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/developers`,          changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/faq`,                 changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/lineage`,             changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/anthropomorphics`,    changeFrequency: 'monthly', priority: 0.9 },
     { url: `${BASE_URL}/companies`,           changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${BASE_URL}/the-center-of-everything`, changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${BASE_URL}/animal-communication`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/download`,            changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/verify`,              changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${BASE_URL}/ask`,                 changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${BASE_URL}/answers`,             changeFrequency: 'weekly',  priority: 0.8 },
     { url: `${BASE_URL}/search`,              changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/new`,                 changeFrequency: 'daily',   priority: 0.7 },
     { url: `${BASE_URL}/trending`,            changeFrequency: 'daily',   priority: 0.6 },
@@ -72,13 +66,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.5,
   }));
 
-  // Static, citable answer pages — the canonical questions (GEO surface).
-  const answerRoutes: MetadataRoute.Sitemap = Object.keys(ANSWERS).map((slug) => ({
-    url: `${BASE_URL}/ask/${slug}`,
-    changeFrequency: 'monthly',
-    priority: 0.8,
-  }));
-
   const pathRoutes: MetadataRoute.Sitemap = READING_PATHS.map((p) => ({
     url: `${BASE_URL}/guide/reading-paths/${p.slug}`,
     changeFrequency: 'monthly',
@@ -110,5 +97,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: SOURCE_PRIORITY[p.source] ?? 0.6,
   }));
 
-  return [...staticRoutes, ...conceptRoutes, ...termRoutes, ...quoteRoutes, ...answerRoutes, ...pathRoutes, ...postRoutes];
+  return [...staticRoutes, ...conceptRoutes, ...termRoutes, ...quoteRoutes, ...pathRoutes, ...postRoutes];
 }

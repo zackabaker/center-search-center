@@ -43,10 +43,6 @@ export default function ConceptsPage() {
       <ConceptsHeader active="core" />
 
       <div className="space-y-10">
-        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
-          Each concept page collects real passages from the archive where the concept is named and
-          developed. Follow the links. The definitions are in the texts themselves.
-        </p>
         {TIERS.map(({ label, slugs }) => {
           const tierConcepts = slugs.map((s) => CONCEPTS.find((c) => c.slug === s)).filter(Boolean);
           return (
@@ -66,21 +62,24 @@ export default function ConceptsPage() {
                         <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                           {concept!.title}
                         </h3>
-                        <span className="text-xs text-gray-400 dark:text-gray-500 hidden sm:block">{concept!.subtitle}</span>
                       </div>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
-                        {(() => {
-                          // Lead with the curated verbatim defining quote, not a random passage.
-                          const dq = (CONCEPT_GLOSSARY as Record<string, { definitionQuote?: string }>)[concept!.slug]?.definitionQuote;
-                          const text = dq || concept!.passages[0]?.text;
-                          return text
-                            ? `"${text.slice(0, 120)}${text.length > 120 ? '…' : ''}"`
-                            : concept!.subtitle;
-                        })()}
-                      </p>
+                      {(() => {
+                        // Preview is the curated verbatim defining quote (fallback: first
+                        // verbatim passage) — never AI-written text.
+                        const g = (CONCEPT_GLOSSARY as Record<string, { definitionQuote?: string }>)[concept!.slug];
+                        const text = g?.definitionQuote || concept!.passages[0]?.text;
+                        return text ? (
+                          <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
+                            &ldquo;{text.slice(0, 120)}{text.length > 120 ? '…' : ''}&rdquo;
+                          </p>
+                        ) : null;
+                      })()}
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
-                      <span className="text-xs text-gray-400 dark:text-gray-500">{concept!.posts.length} posts</span>
+                      {/* Count matches the hub page's Key Texts list (glossary posts win there). */}
+                      <span className="text-xs text-gray-400 dark:text-gray-500">
+                        {((CONCEPT_GLOSSARY as Record<string, { posts?: unknown[] }>)[concept!.slug]?.posts?.length || concept!.posts.length)} posts
+                      </span>
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-300 dark:text-gray-600 group-hover:text-blue-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>

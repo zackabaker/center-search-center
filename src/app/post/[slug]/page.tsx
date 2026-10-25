@@ -21,7 +21,6 @@ import { relatedSlugs } from '@/lib/related';
 import { parsePostDate, postTime } from '@/lib/dates';
 import { MarkPostRead } from '@/components/MarkPostRead';
 import NextInPath from '@/components/NextInPath';
-import AiPathNext from '@/components/AiPathNext';
 import PostSearchContext, { BackButton } from '@/components/PostSearchContext';
 import SceneMark from '@/components/SceneMark';
 import QuoteShare from '@/components/QuoteShare';
@@ -559,7 +558,6 @@ export default async function PostPage({
             )}
 
             {/* Next in AI-generated reading path (client, localStorage) */}
-            <AiPathNext slug={slug} />
 
             {/* Next in curated reading path */}
             <NextInPath slug={slug} />

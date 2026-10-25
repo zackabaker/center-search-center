@@ -4,42 +4,18 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'FAQ & Objections',
   description:
-    'Common questions about Center Study and Generative Anthropology — what the center is, how it differs from Girard and from GA, how human language differs from animal communication, and the standard objections — answered in the discourse’s own words, with verbatim citations.',
+    'Common questions about Center Study and Generative Anthropology, answered in verbatim passages from the texts, with links to each source.',
 };
 
 // Every quote is verbatim from the corpus and links to its source post.
-// Answers lead with a brief frame, then let the texts speak at length.
+// Entries are question + verbatim quotes + source links only.
 type Cite = { text: string; slug: string; title: string };
-type Item = { q: string; lead: string; quotes?: Cite[]; cta?: { href: string; label: string } };
+type Item = { q: string; quotes: Cite[]; cta?: { href: string; label: string } };
 
-// ── 1. The basics ───────────────────────────────────────────────────────────
-const BASICS: Item[] = [
-  {
-    q: 'What is Center Study, in one sentence?',
-    lead:
-      'A way of reading every social order — language, ritual, kingship, law, money, media, the algorithm — as an attempt to hold, occupy, or deny a center. It is the most developed branch of Eric Gans’s Generative Anthropology.',
-    cta: { href: '/intro', label: 'The full introduction' },
-  },
-  {
-    q: 'Who writes it? Who are Adam Katz and Dennis Bouvard?',
-    lead:
-      'Both names are one person. Adam Katz develops the theory on GABlog; “Dennis Bouvard” is the pen name under which he applies it to contemporary life — AI, money, governance, media — on Substack. The book Anthropomorphics is the systematic statement.',
-    cta: { href: '/lineage', label: 'Girard → Gans → Katz, in their own words' },
-  },
-  {
-    q: 'Where should I start?',
-    lead:
-      'You don’t need to read Eric Gans first. If you’re new, take the short guided path — it orients you, gives the lineage, and hands you the handful of essays to read first — or put a question to the whole corpus with Ask AI and follow the citations. For a single first text, “The Discourse of the Center” is the clearest entry into the core claim.',
-    cta: { href: '/start', label: 'Start here' },
-  },
-];
-
-// ── 2. The ideas & the lineage ──────────────────────────────────────────────
+// ── 1. The ideas & the lineage ──────────────────────────────────────────────
 const IDEAS: Item[] = [
   {
     q: 'What is “the center” — and why is it called Center Study?',
-    lead:
-      'Everything turns on this. The center is the shared focus of attention every social scene is organized around — first the desired object on the originary scene, then the sacred, the king, the institution, the algorithm. It is both cause and product of the sign, and we are never without one.',
     quotes: [
       {
         text: 'What is a center? Whatever can invoke and be referenced by an ostensive sign: the center is both cause and product of the sign—as cause it subsists beyond any particular reference, and as product it is continually renewed.',
@@ -55,8 +31,6 @@ const IDEAS: Item[] = [
   },
   {
     q: 'How is human language different from animal communication?',
-    lead:
-      'This is the load-bearing distinction. Animal signals are fixed responses to what is present; human language is made of arbitrary, conventional signs that refer — and can refer to what is absent. Because you would already need language to agree on such signs, the difference can’t have crept in gradually — which is the puzzle the originary hypothesis sets out to answer.',
     quotes: [
       {
         text: '…the fundamental difference between human language and animal communication. Only human language has signs (words, to keep it simple) that are purely “arbitrary,” or “conventional.” There’s no reason for the word “dog” to refer to that particular four-legged furry mammal and, of course, in other languages it doesn’t. So, somehow, some human community must have “agreed” to use words in shared ways. But to form such an agreement, you would already need to have language. This is a dilemma, and there’s no “natural” way of explaining how it would happen.',
@@ -72,8 +46,6 @@ const IDEAS: Item[] = [
   },
   {
     q: 'How is this different from René Girard — and why does the difference matter?',
-    lead:
-      'It begins where Girard does — mimetic rivalry escalating toward a group-destroying crisis — but breaks with him twice. First on the founding act: a sign, not a killing, which is the same as saying it, and not Girard, explains the birth of language. Second on scapegoating: for Girard it lies at the origin of the human; for Gans and Katz it arrives much later, an institution of already-centralized societies.',
     quotes: [
       {
         text: 'The limit of Girard’s account is that there is no reason for the event in question to become meaningful and memorable. Why should the killing of a conspecific, not a very unusual event among mammals, transform the group in any way? I used the word “murder” in my description of the scene, but “murder” presupposes a moral order, and nothing in Girard’s scenario accounts for how the scene would create such an order.',
@@ -89,8 +61,6 @@ const IDEAS: Item[] = [
   },
   {
     q: 'How is Center Study different from Generative Anthropology?',
-    lead:
-      'Center Study accepts Gans’s hypothesis whole, but keeps the center at the center. Standard GA can emphasize the originary scene and the equality of the participants ringed around the center; Center Study (Katz’s “centerism”) makes the center itself — its defense, its maintenance, its operation across all of history, from the daily reference to kingship to money to code — the primary thing. The center isn’t only where things began; it’s what holds every arrangement together.',
     quotes: [
       {
         text: 'Liberal GA works with the circle model, and can therefore emphasize the equidistance from the center over the center itself—implicitly, at least the equidistance, which is to say the “equality” of all the members is what produces the center, and it is that equality that is therefore to be preserved above all. Absolutist GA, or centerism, sees the defense of the center by those who best see the threats to it as primary, since that defense is what holds together the positions arrayed around the center.',
@@ -106,12 +76,10 @@ const IDEAS: Item[] = [
   },
 ];
 
-// ── 3. Objections & responses ───────────────────────────────────────────────
+// ── 2. Objections & responses ───────────────────────────────────────────────
 const OBJECTIONS: Item[] = [
   {
     q: 'Is this reactionary politics?',
-    lead:
-      'The proximity is real, and the texts never pretend otherwise: the corpus analyzes sovereignty, hierarchy, and post-liberal order at length, and Katz wrote through — and argued with — the blogosphere years in which “absolutism” was a live conversation. But Center Study is an anthropology, not a program. It asks how any order — tribal, royal, liberal, algorithmic — holds together around a center, and it treats hierarchy as a structural feature of every scene so organized, present in a classroom or a startup as much as in a kingdom. The diagnostic question is always who holds the center here, and on what terms — not who ought to. And the moves that define reactionary polemic are absent: no ethnos to defend, no golden age to mourn, no restoration on offer.',
     quotes: [
       {
         text: 'A center establishes a hierarchy—at the very least between center and margin. But every other hierarchy is modeled on the hierarchy between center and margin—hierarchies are only possible if there is a center.',
@@ -124,12 +92,10 @@ const OBJECTIONS: Item[] = [
         title: 'Social Knowledge',
       },
     ],
-    cta: { href: '/search?q=sovereignty', label: 'Search “sovereignty” and judge for yourself' },
+    cta: { href: '/search?q=sovereignty', label: 'Search “sovereignty”' },
   },
   {
     q: 'Isn’t the originary hypothesis unfalsifiable — so, not really science?',
-    lead:
-      'It doesn’t claim to be a falsifiable empirical science — there could be no fossil of a “first word” — and asks to be judged by a different standard: minimality. You don’t refute it with evidence; you displace it with a more minimal account that explains the same things.',
     quotes: [
       {
         text: '…once we have agreed we need a hypothesis, the rules of the game are that to challenge the originary hypothesis you should have a better, which is to say, more minimal, one. What makes it a good hypothesis? One, it accounts for the fact that everyone on the scene would have to be looking at the same thing — the best explanation for this is that they all desire it.',
@@ -145,8 +111,6 @@ const OBJECTIONS: Item[] = [
   },
   {
     q: 'Isn’t it just a “just-so story” about a past nobody can observe?',
-    lead:
-      'The scene can’t be excavated — granted. But you cannot avoid having an origin story; GA only insists on making its own explicit, and on testing it against the whole record of what sign-users do.',
     quotes: [
       {
         text: 'You will have anthropological and linguistic assumptions one way or another. You can come by them haphazardly or reflectively. Haphazardly means just trying out whatever seems convincing to whomever you want to convince right now. Reflectively means you want to understand why you have the categories you have.',
@@ -162,8 +126,6 @@ const OBJECTIONS: Item[] = [
   },
   {
     q: 'Why assume language began once, in a single scene?',
-    lead:
-      'A methodological assumption, not a dogma. A shared sign that everyone issues and understands at once can’t accrete gradually — it takes an event — but plural origins aren’t excluded, and the load-bearing claim survives either way.',
     quotes: [
       {
         text: 'We draw from this the conclusion that language must have emerged in a singular event, in which a sign was used and repeated (i.e., “understood”) by everyone in a memorable way. Clearly, we can’t know there was such a scene — we don’t expect to find some archeological or fossil evidence for it. So, we can only hypothesize.',
@@ -179,8 +141,6 @@ const OBJECTIONS: Item[] = [
   },
   {
     q: 'Do you have to be religious to accept this? Is it theology in disguise?',
-    lead:
-      'No. It’s built to be ontology-neutral — a model of the human, not a creed — and is meant to be common ground for believers and unbelievers alike.',
     quotes: [
       {
         text: 'Because its hypothesis is conceived as a minimal object of belief, GA is in principle an optimal meeting place for believers and unbelievers.',
@@ -196,8 +156,6 @@ const OBJECTIONS: Item[] = [
   },
   {
     q: 'Isn’t reading “the center” into everything circular — unfalsifiable in practice?',
-    lead:
-      'The discourse guards against exactly this — a concept that explains everything explains nothing — and answers by demanding observable markers rather than reading the center in by fiat.',
     quotes: [
       {
         text: '…the marker is not being able to make an operationalizable request to a responsible institution or authority. If you can’t do that, you’re just addicted to the complaint. If that’s the marker, then, we can point to that dysfunctional relation to the center without having to argue about whether the person is “really” resentful.',
@@ -238,13 +196,7 @@ function Accordion({ item }: { item: Item }) {
         <span className="text-gray-300 dark:text-gray-600 group-open:rotate-45 transition-transform text-xl leading-none flex-shrink-0 mt-0.5">+</span>
       </summary>
       <div className="mt-3 space-y-4">
-        <p
-          className="text-gray-700 dark:text-gray-300"
-          style={{ fontFamily: 'var(--prose-font-family)', fontSize: '16px', lineHeight: 1.7 }}
-        >
-          {item.lead}
-        </p>
-        {item.quotes?.map((c) => <Citation key={c.text} c={c} />)}
+        {item.quotes.map((c) => <Citation key={c.text} c={c} />)}
         {item.cta && (
           <Link href={item.cta.href} className="inline-block text-sm text-blue-600 dark:text-blue-400 hover:underline">
             {item.cta.label} &rarr;
@@ -267,27 +219,25 @@ function Section({ label, items }: { label: string; items: Item[] }) {
 }
 
 export default function FaqPage() {
-  // FAQPage schema from every Q&A (lead + verbatim quotes) — machine-extractable
-  // for Google rich results and AI answer engines.
+  // FAQPage schema from every Q&A — answer text is the verbatim quotes only,
+  // each attributed to its source title. No AI prose.
   const faqJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     '@id': 'https://center.study/faq#faq',
-    mainEntity: [...BASICS, ...IDEAS, ...OBJECTIONS].map((it) => ({
+    mainEntity: [...IDEAS, ...OBJECTIONS].map((it) => ({
       '@type': 'Question',
       name: it.q,
       acceptedAnswer: {
         '@type': 'Answer',
-        text: it.quotes?.length
-          ? `${it.lead} ${it.quotes.map((c) => `“${c.text}” — ${c.title}`).join(' ')}`
-          : it.lead,
+        text: it.quotes.map((c) => `“${c.text}” — ${c.title}`).join(' '),
       },
     })),
   };
   return (
     <main className="max-w-3xl w-full mx-auto px-4 pt-6 pb-24 sm:py-12">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }} />
-      <Link href="/intro" className="text-sm text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+      <Link href="/lineage" className="text-sm text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
         ← Introduction
       </Link>
 
@@ -295,13 +245,10 @@ export default function FaqPage() {
         Questions &amp; Objections
       </h1>
       <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed mb-12 max-w-2xl">
-        What a careful first-time reader tends to ask — the orientation, the ideas and where they
-        come from, and the standard objections. Most answers are anchored to the discourse&rsquo;s own
-        words: the framing is brief, and the texts do the rest. Every quotation is verbatim and links
-        to the passage in full.
+        Common questions, answered in passages from the texts. Every quotation is verbatim and links
+        to its source.
       </p>
 
-      <Section label="The basics" items={BASICS} />
       <Section label="The ideas &amp; the lineage" items={IDEAS} />
       <Section label="Objections &amp; responses" items={OBJECTIONS} />
 
@@ -309,8 +256,8 @@ export default function FaqPage() {
         <p className="text-sm text-gray-600 dark:text-gray-400">
           Still have a question? Put it to the whole corpus.
         </p>
-        <Link href="/ask" className="inline-block mt-3 px-5 py-2.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold hover:opacity-90 transition-opacity">
-          Ask AI
+        <Link href="/search" className="inline-block mt-3 px-5 py-2.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold hover:opacity-90 transition-opacity">
+          Search the archive
         </Link>
       </div>
     </main>
