@@ -18,42 +18,42 @@ const SOURCE_META: Record<
 > = {
   substack: {
     label: 'Bouvard Substack',
-    description: 'Essays and dispatches from the Substack newsletter',
+    description: '',
     color: 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
   },
   gablog: {
     label: 'GABlog',
-    description: 'Generative Anthropology Blog posts and essays',
+    description: '',
     color: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
   },
   book: {
     label: 'Anthropomorphics',
-    description: 'Chapters from Adam Katz\'s book on systematic originary grammar',
+    description: '',
     color: 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
   },
   pdf: {
     label: 'Essays & Articles',
-    description: 'Academic papers, journal articles, introductory lectures, and longer works',
+    description: '',
     color: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
   },
   reddit: {
     label: 'Reddit',
-    description: 'Dialogue threads and Q&A discussions from Reddit',
+    description: '',
     color: 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
   },
   twitter: {
     label: 'X / Twitter',
-    description: 'Threads and notes from X (formerly Twitter)',
+    description: '',
     color: 'bg-slate-100 text-slate-800 dark:bg-slate-800/40 dark:text-slate-300',
   },
   chronicle: {
     label: 'Chronicles of Love and Resentment',
-    description: 'Eric Gans\'s weekly column on culture, desire, and the originary hypothesis (1996–2019)',
+    description: '1996–2019',
     color: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
   },
   ap: {
     label: 'Anthropoetics Journal',
-    description: 'Peer-reviewed journal of Generative Anthropology — articles by Van Oort, Bartlett, Dennis, Ludwigs, and others (1995–2016)',
+    description: '1995–2024',
     color: 'bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300',
   },
 };

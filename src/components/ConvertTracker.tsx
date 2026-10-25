@@ -10,8 +10,6 @@ import { usePathname } from 'next/navigation';
 // browser comes back after 1–30 days (day gap only). Everything lives in
 // session/localStorage, nothing identifying leaves the browser, and every
 // call is wrapped — a storage or network failure must never affect the page.
-// The /the-center-of-everything flagship bypasses this layout, so it carries
-// its own equivalent inline script.
 
 function send(payload: Record<string, unknown>) {
   try {
@@ -140,9 +138,7 @@ export default function ConvertTracker() {
               ? 'post-end'
               : location.pathname === '/start'
                 ? 'start'
-                : location.pathname === '/animal-communication'
-                  ? 'endlist'
-                  : 'other');
+                : 'other');
         send({ event: 'follow', dest, where });
       } catch {
         /* ignore */

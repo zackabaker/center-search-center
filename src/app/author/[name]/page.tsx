@@ -25,7 +25,7 @@ interface AuthorProfile {
 const KATZ: AuthorProfile = {
   name: 'Adam Katz',
   altName: 'Dennis Bouvard',
-  bio: 'Adam Katz is the author of Center Study. He develops originary grammar across the GABlog (~480 posts since 2007), academic essays and articles, and the book Anthropomorphics. He also writes applied essays on AI, governance, and contemporary politics on Substack under the pen name Dennis Bouvard.',
+  bio: 'Adam Katz writes the GABlog, academic essays and articles, and the book Anthropomorphics: An Originary Grammar of the Center (Imperium Press, 2020). On Substack, Reddit, and X he writes under the pen name Dennis Bouvard.',
   sources: ['gablog', 'pdf', 'book', 'substack', 'reddit', 'twitter'] as ContentSource[],
   selectPosts: (all) =>
     all.filter((p) => (['gablog', 'pdf', 'book', 'substack', 'reddit', 'twitter'] as string[]).includes(p.source)),
@@ -55,7 +55,7 @@ const BAKER: AuthorProfile = {
 // Resentment" (the chronicle source) anchor the field center.study extends.
 const GANS: AuthorProfile = {
   name: 'Eric Gans',
-  bio: 'Eric Gans is the founder of Generative Anthropology and the originary hypothesis, introduced in The Origin of Language (1981). A student of René Girard, he founded the journal Anthropoetics in 1995 and has written the "Chronicles of Love and Resentment" for over two decades. Center Study develops out of his work.',
+  bio: 'Eric Gans introduced the originary hypothesis in The Origin of Language (1981), founded the journal Anthropoetics in 1995, and wrote the "Chronicles of Love and Resentment" from 1996 to 2019.',
   sources: ['chronicle', 'ap'] as ContentSource[],
   selectPosts: (all) => all.filter((p) => p.source === 'chronicle' || /\beric gans\b/i.test(p.author ?? '')),
   links: [

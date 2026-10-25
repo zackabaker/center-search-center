@@ -52,8 +52,7 @@ export default function NewPage() {
         New in the archive
       </h1>
       <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mb-6">
-        The corpus is alive — new essays land here automatically as they are published.
-        The latest thirty texts, newest first.
+        The latest texts, newest first.
       </p>
 
 

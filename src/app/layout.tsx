@@ -126,22 +126,11 @@ export default function RootLayout({
             >
               Center Study Center
             </a>
+            {/* Deliberately spare (owner direction, 2026-10): the nav carries
+                the site's doors; the footer carries only identity, About, and
+                the follow links. */}
             <div className="flex items-center gap-4 flex-wrap">
-              <Link href="/intro"   className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Introduction</Link>
-              <Link href="/guide"   className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Guide</Link>
-              <Link href="/browse"  className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Archive</Link>
-              <Link href="/concepts/glossary" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Glossary</Link>
-              <Link href="/generative-anthropology" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Generative Anthropology</Link>
               <Link href="/about"   className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">About</Link>
-              <Link href="/faq"     className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">FAQ</Link>
-              <Link href="/ask"     className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Ask AI</Link>
-              <Link href="/answers" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Answers</Link>
-              <Link href="/new" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">New</Link>
-              <Link href="/trending" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Trending</Link>
-              <Link href="/download" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Download</Link>
-              <Link href="/verify" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Verify a Quote</Link>
-              <Link href="/reading-list" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Reading List</Link>
-              <span className="text-gray-200 dark:text-gray-800">·</span>
               <a
                 href="https://dennisbouvard.substack.com"
                 target="_blank"
@@ -166,35 +155,6 @@ export default function RootLayout({
                 RSS
               </a>
             </div>
-          </div>
-          {/* Collections row — the per-source hubs and authors, site-wide (the
-              homepage is a front door, not a portal; link equity lives here).
-              Katz collections first; the Gans reference tier labeled after. */}
-          <div className="max-w-5xl mx-auto px-4 pb-3 -mt-1 flex items-center gap-x-4 gap-y-1 flex-wrap">
-            <span className="text-[11px] font-mono uppercase tracking-widest text-gray-300 dark:text-gray-700">Collections</span>
-            {[
-              { href: '/browse/substack',  label: 'Substack' },
-              { href: '/browse/gablog',    label: 'GABlog' },
-              { href: '/anthropomorphics', label: 'Anthropomorphics' },
-              { href: '/browse/pdf',       label: 'Essays & Articles' },
-              { href: '/browse/threads',   label: 'Threads & Q&A' },
-              { href: '/lectures',         label: 'Lectures' },
-              { href: '/author/katz',      label: 'Adam Katz' },
-            ].map(({ href, label }) => (
-              <Link key={href} href={href} className="text-[11px] text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">
-                {label}
-              </Link>
-            ))}
-            <span className="text-[11px] font-mono uppercase tracking-widest text-gray-300 dark:text-gray-700 ml-2">Reference</span>
-            {[
-              { href: '/browse/chronicle', label: 'Chronicles' },
-              { href: '/browse/ap',        label: 'Anthropoetics' },
-              { href: '/author/gans',      label: 'Eric Gans' },
-            ].map(({ href, label }) => (
-              <Link key={href} href={href} className="text-[11px] text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">
-                {label}
-              </Link>
-            ))}
           </div>
         </footer>
         <MobileNav />

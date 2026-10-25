@@ -26,13 +26,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const concept = getConceptBySlug(slug);
   if (!concept) return {};
+  // Description is the verbatim defining quote only — never AI-written text.
+  const dq = (GLOSSARY as Record<string, { definitionQuote?: string }>)[slug]?.definitionQuote;
   return {
     title: `${concept.title} — Center Study Concepts`,
-    description: clipDescription(
-      (GLOSSARY as Record<string, { definitionQuote?: string }>)[slug]?.definitionQuote
-      || concept.definition
-      || concept.subtitle
-    ),
+    ...(dq ? { description: clipDescription(dq) } : {}),
     alternates: { canonical: `https://center.study/guide/concepts/${slug}` },
   };
 }
@@ -46,7 +44,7 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
   type GlossaryEntry = {
     definitionQuote: string; definitionSource: string; definitionSlug: string; definitionAuthor: string;
     passages: { text: string; source: string; sourceSlug: string }[];
-    posts: { slug: string; title: string; note: string }[];
+    posts: { slug: string; title: string; note?: string }[];
   };
   const g = (GLOSSARY as Record<string, GlossaryEntry>)[slug];
   const passages = g?.passages?.length ? g.passages : concept.passages;
@@ -67,12 +65,9 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
     .map((s) => CONCEPTS.find((c) => c.slug === s))
     .filter(Boolean);
 
-  const askQuery = encodeURIComponent(`What is ${concept.title} in Center Study?`);
-  const askHref = `/ask?q=${askQuery}&concept=${concept.slug}`;
-
   // Machine-readable controlled vocabulary: each concept is a DefinedTerm keyed
-  // to its verbatim sourced definition, plus a breadcrumb trail.
-  const definitionText = g?.definitionQuote || concept.definition || concept.subtitle || '';
+  // to its verbatim sourced definition (never AI text), plus a breadcrumb trail.
+  const definitionText = g?.definitionQuote || '';
   const definedTermJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'DefinedTerm',
@@ -108,19 +103,9 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
         <h1 className="font-serif text-3xl sm:text-4xl font-bold leading-tight mb-2 text-gray-900 dark:text-white">
           {concept.title}
         </h1>
-        <p className="text-gray-500 dark:text-gray-400 text-sm italic mb-4">{concept.subtitle}</p>
 
-        {/* Ask AI shortcut + every-mention escape hatch */}
+        {/* Every-mention escape hatch */}
         <div className="flex items-center gap-2 flex-wrap">
-          <Link
-            href={askHref}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-800 dark:hover:text-gray-200 transition-all"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-            </svg>
-            Ask AI about {concept.title}
-          </Link>
           <Link
             href={`/search?q=${encodeURIComponent(concept.title.toLowerCase())}`}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-800 dark:hover:text-gray-200 transition-all"
@@ -133,29 +118,20 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
         </div>
       </div>
 
-      {/* Definition — a verbatim defining quote from the archive (not an AI summary) */}
-      {(g?.definitionQuote || concept.definition) && (
+      {/* Definition — a verbatim defining quote from the archive (never an AI summary) */}
+      {g?.definitionQuote && (
         <section className="mb-10">
-          {g?.definitionQuote ? (
-            <blockquote className="border-l-2 border-amber-600 dark:border-amber-500 pl-5" style={{ fontFamily: 'var(--prose-font-family)' }}>
-              <p className="text-gray-900 dark:text-gray-100 text-lg sm:text-xl leading-relaxed">
-                &ldquo;{g.definitionQuote}&rdquo;
-              </p>
-              <footer className="mt-2.5 text-sm">
-                <Link href={`/post/${g.definitionSlug}`} className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
-                  {g.definitionSource}
-                </Link>
-                <span className="text-gray-400 dark:text-gray-500"> · {g.definitionAuthor}</span>
-              </footer>
-            </blockquote>
-          ) : (
-            <p
-              className="text-gray-900 dark:text-gray-100"
-              style={{ fontFamily: 'var(--prose-font-family)', fontSize: 'calc(var(--prose-font-size, 17px) + 1px)', lineHeight: 'var(--prose-line-height, 1.85)' }}
-            >
-              {concept.definition}
+          <blockquote className="border-l-2 border-amber-600 dark:border-amber-500 pl-5" style={{ fontFamily: 'var(--prose-font-family)' }}>
+            <p className="text-gray-900 dark:text-gray-100 text-lg sm:text-xl leading-relaxed">
+              &ldquo;{g.definitionQuote}&rdquo;
             </p>
-          )}
+            <footer className="mt-2.5 text-sm">
+              <Link href={`/post/${g.definitionSlug}`} className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
+                {g.definitionSource}
+              </Link>
+              <span className="text-gray-400 dark:text-gray-500"> · {g.definitionAuthor}</span>
+            </footer>
+          </blockquote>
         </section>
       )}
 
@@ -183,30 +159,6 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
                   </svg>
                 </footer>
               </blockquote>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* AI overview — clearly labelled, secondary to the archive quotes above */}
-      {concept.body && (
-        <section className="mb-10 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/40 px-5 py-4">
-          <div className="flex items-center gap-2 mb-3">
-            <h2 className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase tracking-widest">
-              AI Overview
-            </h2>
-            <span className="text-[10px] text-gray-400 dark:text-gray-500 italic">
-              — AI-generated synthesis. The archive passages above are the primary source.
-            </span>
-          </div>
-          <div className="prose prose-sm max-w-none text-gray-700 dark:text-gray-300 leading-relaxed space-y-3">
-            {concept.body.split('\n\n').map((para, i) => (
-              <p key={i} className="text-sm leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: para
-                  .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-                  .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-                }}
-              />
             ))}
           </div>
         </section>
@@ -256,9 +208,6 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
                   >
                     {post.title}
                   </Link>
-                  {post.note && (
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed italic">{post.note}</p>
-                  )}
                 </div>
               </div>
             ))}
@@ -287,7 +236,7 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
       {/* Bottom nav */}
       <div className="border-t border-gray-200 dark:border-gray-800 pt-6 flex items-center justify-between text-sm">
         <GoBack label="← Back" />
-        <Link href={askHref} className="text-gray-500 dark:text-gray-400 hover:text-blue-500 transition-colors">Ask AI →</Link>
+        <Link href="/concepts" className="text-gray-500 dark:text-gray-400 hover:text-blue-500 transition-colors">All concepts →</Link>
       </div>
     </main>
   );

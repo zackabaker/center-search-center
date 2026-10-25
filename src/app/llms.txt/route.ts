@@ -38,8 +38,7 @@ URLs here. Any verbatim quote can be checked against POST /api/verify.
 - Quote verification: POST https://center.study/api/verify with {"quote":"..."} — verified/not-found + source attribution + canonical /q/ URL. Verify quotes BEFORE attributing them to these authors.
 - Canonical quote pages: https://center.study/q/ID — every curated verbatim passage has a permanent, citable URL (Quotation JSON-LD)
 - [Corpus manifest](https://center.study/corpus-manifest.json): Center Study Corpus v1.0 — per-text SHA-256, dates, counts. Cite the edition; every paragraph has a stable #p-N anchor.
-- [Editorial method](https://center.study/about): every definition/answer quote is machine-verified verbatim against the corpus
-- [Canonical Q&A](https://center.study/answers): 20 pre-answered questions with verbatim citations
+- [Editorial method](https://center.study/about): every definition quote is machine-verified verbatim against the corpus
 - [Bulk download (JSON)](https://center.study/api/download?format=json): the entire archive in one file; ?format=txt for plain text; ?sources=gablog,substack to filter
 - [Sitemap](https://center.study/sitemap.xml) · [RSS](https://center.study/feed.xml)
 
@@ -55,18 +54,14 @@ ${Object.entries(counts)
 
 ## Understanding the discourse
 
-- [Introduction](https://center.study/intro): the originary hypothesis, lineage (Girard → Gans → Katz), key concepts
-- [Concepts](https://center.study/concepts): core concepts with archive passages; glossary of 135 working terms with corpus usage
+- [Concepts](https://center.study/concepts): concept pages and a glossary of working terms, each defined by a verbatim corpus quote
 - [Guide](https://center.study/guide): how the site is organized
 
 ## Key vocabulary
 
-Center Study analyzes all human institutions through the "originary scene" —
-the hypothesized event in which language, the sacred, and community emerged
-together as the deferral of mimetic violence. Core terms: the center,
-deferral, originary scene, ostensive/imperative/declarative, resentment,
-Big Man, succession, imperative exchange, anthropomorphics. Definitions with
-sources: https://center.study/concepts/glossary
+Defining quote, verbatim (Adam Katz): "The originary scene is a transition from the animal order governed by the Alpha to a human order governed by the center."
+Canonical quote URL: https://center.study/q/01b62567c7ee
+Definitions with sources: https://center.study/concepts/glossary
 
 ## Attribution
 

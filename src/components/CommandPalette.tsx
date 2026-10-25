@@ -12,12 +12,10 @@ type Item = { label: string; sub?: string; href: string; group: 'Pages' | 'Conce
 
 const PAGES: Item[] = [
   { label: 'Start Here', href: '/start', group: 'Pages' },
-  { label: 'Introduction', href: '/intro', group: 'Pages' },
   { label: 'Guide', href: '/guide', group: 'Pages' },
   { label: 'Concepts & Glossary', href: '/concepts', group: 'Pages' },
   { label: 'Search', href: '/search', group: 'Pages' },
   { label: 'Ask AI', href: '/ask', group: 'Pages' },
-  { label: 'Answers', href: '/answers', group: 'Pages' },
   { label: 'Archive', href: '/browse', group: 'Pages' },
   { label: 'New in the archive', href: '/new', group: 'Pages' },
   { label: 'Trending', href: '/trending', group: 'Pages' },

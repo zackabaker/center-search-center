@@ -19,7 +19,7 @@ export default function ClickableTerm({ children, query, className = '' }: Click
       router.push(`/guide/concepts/${conceptSlug}`);
     } else {
       const q = query ?? `What is "${children}" in Center Study? Explain how it is derived, what work it does, and how it appears across the archive.`;
-      router.push(`/ask?q=${encodeURIComponent(q)}`);
+      router.push(`/search?q=${encodeURIComponent(q)}`);
     }
   };
 

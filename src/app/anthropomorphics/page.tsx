@@ -72,10 +72,7 @@ export default function AnthropomorphicsPage() {
           by Dennis Bouvard <span className="text-gray-400 dark:text-gray-500">(Adam Katz)</span>{' '}· Imperium Press, 2020
         </p>
         <p className="text-[15px] text-gray-600 dark:text-gray-400 leading-relaxed mt-5 max-w-2xl">
-          The most complete statement of Center Study — twenty-two chapters that build the
-          originary grammar of the center from the ground up. Every chapter is here in full;
-          the vocabulary it introduces is threaded into the{' '}
-          <Link href="/concepts" className="text-blue-600 dark:text-blue-400 hover:underline">concepts and glossary</Link>.
+          All {chapters.length} chapters are here in full.
         </p>
 
         <div className="flex flex-wrap items-center gap-3 mt-6">

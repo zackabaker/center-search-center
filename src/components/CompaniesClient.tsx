@@ -39,10 +39,10 @@ const THEME_LABELS: Record<string, string> = {
   'anglo-modernity': 'Anglo modernity',
 };
 
-const TIER_META: Record<number, { label: string; sub: string }> = {
-  3: { label: 'Blueprints', sub: 'Proposals and working designs — companies to be built, and how they would operate' },
-  2: { label: 'The company as a form', sub: 'Sustained analysis of companies, corporations, insurance, monopoly, and markets' },
-  1: { label: 'Mentions', sub: 'Passages that touch the theme in passing' },
+const TIER_META: Record<number, { label: string }> = {
+  3: { label: 'Blueprints' },
+  2: { label: 'Analysis' },
+  1: { label: 'Mentions' },
 };
 
 function year(date: string | null): string {
@@ -119,7 +119,6 @@ export default function CompaniesClient({ excerpts }: { excerpts: CompanyExcerpt
               <h2 className="text-lg font-bold text-gray-900 dark:text-white">
                 {meta.label} <span className="text-sm font-normal text-gray-400 dark:text-gray-500">· {items.length}</span>
               </h2>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{meta.sub}</p>
             </div>
             <div className="space-y-6">
               {items.map((e) => (

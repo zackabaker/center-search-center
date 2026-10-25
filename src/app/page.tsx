@@ -138,21 +138,6 @@ export default function Home() {
       </header>
 
 
-      {/* The Center of Everything — the featured introduction */}
-      <div className="max-w-xl mx-auto px-4 pb-10">
-        <Link
-          href="/the-center-of-everything"
-          className="group block p-6 sm:p-7 rounded-2xl bg-gray-900 dark:bg-gray-900 dark:border dark:border-gray-700 hover:opacity-90 transition-opacity"
-        >
-          <p className="text-[10px] text-gray-400 mb-2 font-mono uppercase tracking-widest">Featured</p>
-          <p className="font-serif text-2xl sm:text-[1.7rem] font-bold text-white leading-tight group-hover:text-blue-300 transition-colors">
-            The Center of Everything
-          </p>
-          <p className="text-sm text-gray-300 dark:text-gray-400 mt-2 leading-relaxed">
-            The playful full introduction, stick figures included — in the style of Wait But Why.
-          </p>
-        </Link>
-      </div>
 
       {/* Discover — desktop position */}
       <div className="hidden sm:block max-w-xl mx-auto px-4 pb-10">

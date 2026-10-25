@@ -34,9 +34,6 @@ const navItems: NavItem[] = [
     ),
   },
   {
-    // One door for both retrieval modes (owner direction, 2026-08-18):
-    // /search carries keyword + meaning and hands off to ✦ Ask AI, so Ask
-    // no longer needs its own tab. The tab stays lit on /ask pages.
     href: '/search',
     label: 'Search',
     icon: (
@@ -108,7 +105,7 @@ export default function MobileNav() {
               : pathname === href ||
                 pathname.startsWith(href + '/') ||
                 pathname.startsWith(href + '?') ||
-                // Ask folded into the Search tab — keep it lit on /ask pages
+                // Ask shares the Search tab
                 (href === '/search' && (pathname === '/ask' || pathname.startsWith('/ask/')));
           return (
             <Link

@@ -16,7 +16,6 @@ const CORE_SOURCES = [
     slug: 'gablog',
     label: 'GABlog',
     author: 'Adam Katz',
-    description: 'The primary theoretical blog — originary grammar, the center through history, scenic design, and succession. 25+ years of continuous development.',
     dot: 'bg-blue-400',
     badge: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
     ring: 'hover:ring-2 hover:ring-blue-300 dark:hover:ring-blue-700',
@@ -26,7 +25,6 @@ const CORE_SOURCES = [
     slug: 'substack',
     label: 'Substack',
     author: 'Dennis Bouvard (Adam Katz)',
-    description: 'Applied Center Study: AI, governance, money, media, succession, and contemporary politics. Written under the pen name Dennis Bouvard.',
     dot: 'bg-orange-400',
     badge: 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
     ring: 'hover:ring-2 hover:ring-orange-300 dark:hover:ring-orange-700',
@@ -36,7 +34,6 @@ const CORE_SOURCES = [
     slug: 'pdf',
     label: 'Essays & Articles',
     author: 'Adam Katz',
-    description: 'Academic papers, journal articles, introductory lectures, and longer works — including NER, JCRT publications, and the five Center Study lectures.',
     dot: 'bg-green-400',
     badge: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
     ring: 'hover:ring-2 hover:ring-green-300 dark:hover:ring-green-700',
@@ -46,7 +43,6 @@ const CORE_SOURCES = [
     slug: 'book',
     label: 'Anthropomorphics',
     author: 'Adam Katz',
-    description: 'The systematic treatment — an originary grammar of the center. Derives language, personhood, institutions, and the human sciences from the originary scene.',
     dot: 'bg-purple-400',
     badge: 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
     ring: 'hover:ring-2 hover:ring-purple-300 dark:hover:ring-purple-700',
@@ -56,7 +52,6 @@ const CORE_SOURCES = [
     slug: 'threads',
     label: 'Threads & Q&A',
     author: 'Dennis Bouvard (Adam Katz)',
-    description: 'Reddit dialogues and X threads — long-form responses, Q&A exchanges with full question context, and applied thinking across social media.',
     dot: 'bg-violet-400',
     badge: 'bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300',
     ring: 'hover:ring-2 hover:ring-violet-300 dark:hover:ring-violet-700',
@@ -71,7 +66,6 @@ const ARCHIVE_SOURCES = [
     label: 'Chronicles of Love and Resentment',
     shortLabel: 'Chronicles',
     author: 'Eric Gans',
-    description: "Eric Gans's weekly column (1996–2019) developing the originary hypothesis that Center Study builds on — hosted here as reference material.",
     dot: 'bg-amber-400',
     badge: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
     ring: 'hover:ring-2 hover:ring-amber-300 dark:hover:ring-amber-700',
@@ -82,7 +76,6 @@ const ARCHIVE_SOURCES = [
     label: 'Anthropoetics Journal',
     shortLabel: 'AP Journal',
     author: 'Van Oort, Bartlett, Dennis, Gans, and others',
-    description: "The peer-reviewed journal of Generative Anthropology, founded by Eric Gans at UCLA. Published 1995–2024 (Vols 1–30), featuring essays by Van Oort, Bartlett, Dennis, Ludwigs, McKenna, Goldman, Eshelman, Gans, and others.",
     dot: 'bg-teal-400',
     badge: 'bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300',
     ring: 'hover:ring-2 hover:ring-teal-300 dark:hover:ring-teal-700',
@@ -255,9 +248,6 @@ export default async function BrowsePage() {
                         </span>
                       </div>
                       <p className="text-[11px] text-gray-400 dark:text-gray-500 mb-2">{source.author}</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
-                        {source.description}
-                      </p>
 
                       {/* Recent post titles */}
                       {recent.length > 0 && (
@@ -296,7 +286,7 @@ export default async function BrowsePage() {
         <div className="flex items-center gap-3 mb-4">
           <p className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500">Reference — Eric Gans</p>
           <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
-          <p className="text-[10px] text-gray-400 dark:text-gray-600">Source material Center Study builds on · opt-in in search</p>
+          <p className="text-[10px] text-gray-400 dark:text-gray-600">Opt-in in search</p>
         </div>
         <div className="grid sm:grid-cols-2 gap-3">
           {ARCHIVE_SOURCES.map((source) => {
@@ -322,9 +312,6 @@ export default async function BrowsePage() {
                         </span>
                       </div>
                       <p className="text-[11px] text-gray-400 dark:text-gray-500 mb-1.5">{source.author}</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-3">
-                        {source.description}
-                      </p>
                       {recent.length > 0 && (
                         <div className="mt-2 space-y-0.5">
                           {recent.map((post) => (
