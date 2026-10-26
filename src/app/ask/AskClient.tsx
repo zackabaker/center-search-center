@@ -26,7 +26,7 @@ interface Passage {
 
 // A retrieval excerpt — corpus text found by meaning across the whole index.
 // Verbatim by construction (chunks come straight from the posts cache).
-interface Excerpt { slug: string; title: string; source: string; text: string; score: number; }
+interface Excerpt { slug: string; title: string; source: string; text: string; score: number; anchor?: string | null; }
 
 interface Answer {
   content: string;
@@ -429,6 +429,32 @@ export default function AskClient({
     submit(query, conceptSeed ?? undefined);
   }
 
+  // Two-stage retrieval: the question plus the synthesis prose (quotes and
+  // vocabulary included) is the embedding query — ranked, deduped,
+  // paragraph-expanded server-side (expand: true). Shows the strong tail only:
+  // results within 0.10 of the top score, floor 0.40, cap 10.
+  function fetchExcerpts(question: string, prose: string) {
+    excerptQRef.current = question;
+    setExcerpts(null);
+    const combined = prose ? `${question}\n\n${prose.slice(0, 700)}` : question;
+    fetch('/api/semantic', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ q: combined, expand: true }),
+    })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (excerptQRef.current !== question) return;
+        const all = (d?.results ?? []) as Excerpt[];
+        const top = all[0]?.score ?? 0;
+        const kept = all.filter((x) => x.score >= Math.max(0.4, top - 0.1)).slice(0, 10);
+        setExcerpts(kept.length > 0 ? kept : all.slice(0, 3));
+      })
+      .catch(() => {
+        if (excerptQRef.current === question) setExcerpts([]);
+      });
+  }
+
   async function submit(q: string, concept?: string) {
     if (!q.trim()) return;
     const question = q.trim();
@@ -447,23 +473,11 @@ export default function AskClient({
     // so a still-streaming previous answer can't keep updating the screen.
     abortRef.current?.abort();
 
-    // Excerpt retrieval — independent of the AI note and of the answer cache,
-    // so cached answers still get fresh excerpts. Last-question-wins guard.
+    // Excerpts load after the synthesis: retrieval embeds the question PLUS
+    // the generated answer, which finds markedly closer passages than the
+    // bare question. Cleared here; fetched by fetchExcerpts() once prose exists.
     excerptQRef.current = question;
     setExcerpts(null);
-    fetch('/api/semantic', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ q: question }),
-    })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (excerptQRef.current !== question) return;
-        setExcerpts(((d?.results ?? []) as Excerpt[]).slice(0, 12));
-      })
-      .catch(() => {
-        if (excerptQRef.current === question) setExcerpts([]);
-      });
 
     // History sent to the model so a follow-up builds on the conversation.
     const sentHistory = historyRef.current.slice(-6);
@@ -473,6 +487,7 @@ export default function AskClient({
     if (sessionHit) {
       abortRef.current = null;
       setAnswer(sessionHit);
+      fetchExcerpts(question, splitAnswer(sessionHit.content).prose);
       setIsLoading(false);
       return;
     }
@@ -486,6 +501,7 @@ export default function AskClient({
         sessionAnswersRef.current.set(question, cached);
         setSessionQs((p) => (p.includes(question) ? p : [...p, question]));
         historyRef.current.push({ role: 'user', content: question }, { role: 'assistant', content: splitAnswer(cached.content).prose });
+        fetchExcerpts(question, splitAnswer(cached.content).prose);
         setIsLoading(false);
         return;
       }
@@ -562,6 +578,7 @@ export default function AskClient({
       const passages = parsePassages(content);
       const finalAnswer: Answer = { content, sources, followUps, passages };
       setAnswer(finalAnswer);
+      fetchExcerpts(question, splitAnswer(content).prose);
       // Record the turn: cache standalone answers, remember every answer for the
       // session thread, and append to the model-visible history (prose only, to
       // keep follow-up context lean).
@@ -865,58 +882,11 @@ export default function AskClient({
                 {currentQuestion}
               </h2>
 
-              {/* From the archive — the primary result: the closest verbatim
-                  excerpts across the whole corpus, retrieved by meaning. */}
+              {/* AI synthesis — the generated answer, quotes woven through,
+                  every quote deep-linked and verified. Explicitly labeled. */}
               <div className="mb-8">
                 <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
-                  From the archive
-                </p>
-                {excerpts === null ? (
-                  <div className="flex flex-col items-center py-8 gap-3">
-                    <SceneMark size={48} spin speed={4} className="text-gray-400 dark:text-gray-500" />
-                    <p className="text-xs text-gray-400 dark:text-gray-600 font-mono tracking-wide">
-                      searching the corpus…
-                    </p>
-                  </div>
-                ) : excerpts.length === 0 ? (
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    No close passages found.{' '}
-                    <Link href={`/search?q=${encodeURIComponent(currentQuestion)}`} className="text-blue-600 dark:text-blue-400 hover:underline">
-                      Try keyword search →
-                    </Link>
-                  </p>
-                ) : (
-                  <div className="space-y-3">
-                    {excerpts.map((x, i) => (
-                      <div key={`${x.slug}-${i}`} className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-4">
-                        <blockquote
-                          className="text-gray-800 dark:text-gray-200 leading-relaxed mb-3"
-                          style={{ fontFamily: 'var(--font-lora, Georgia, serif)' }}
-                        >
-                          {x.text}
-                        </blockquote>
-                        <Link
-                          href={`/post/${x.slug}?q=${encodeURIComponent(x.text.split(/\s+/).slice(0, 6).join(' '))}`}
-                          className="group inline-flex items-center gap-2 min-w-0"
-                        >
-                          <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 ${SOURCE_COLORS[x.source] || 'bg-gray-100 text-gray-600'}`}>
-                            {sourceFromSlug(x.slug) || x.source}
-                          </span>
-                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
-                            {x.title}
-                          </span>
-                          <span className="text-xs text-gray-400 dark:text-gray-500 group-hover:text-blue-500 flex-shrink-0">Read in context →</span>
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* AI note — brief, clearly labeled, secondary to the excerpts above */}
-              <div className="mb-8">
-                <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
-                  AI note — generated; the excerpts above are the corpus itself
+                  AI synthesis — generated from the texts
                 </p>
                 {error ? (
                   /* Real error card — never impersonates a synthesis */
@@ -963,6 +933,55 @@ export default function AskClient({
                   </div>
                 )}
               </div>
+
+              {/* From the archive — long verbatim excerpts, retrieved by
+                  meaning from the question PLUS the synthesis, ranked, each
+                  landing on its exact paragraph. */}
+              {!error && (
+                <div className="mb-8">
+                  <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
+                    From the archive — verbatim
+                  </p>
+                  {excerpts === null ? (
+                    <p className="text-xs text-gray-400 dark:text-gray-600 font-mono tracking-wide py-2">
+                      finding the closest passages…
+                    </p>
+                  ) : excerpts.length === 0 ? (
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      No close passages found.{' '}
+                      <Link href={`/search?q=${encodeURIComponent(currentQuestion)}`} className="text-blue-600 dark:text-blue-400 hover:underline">
+                        Try keyword search →
+                      </Link>
+                    </p>
+                  ) : (
+                    <div className="space-y-3">
+                      {excerpts.map((x, i) => (
+                        <Link
+                          key={`${x.slug}-${x.anchor ?? i}`}
+                          href={x.anchor ? `/post/${x.slug}#${x.anchor}` : `/post/${x.slug}?q=${encodeURIComponent(x.text.split(/\s+/).slice(0, 6).join(' '))}`}
+                          className="group block min-w-0 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-4 hover:border-gray-400 dark:hover:border-gray-500 transition-colors"
+                        >
+                          <blockquote
+                            className="text-gray-800 dark:text-gray-200 leading-relaxed mb-3 break-words"
+                            style={{ fontFamily: 'var(--font-lora, Georgia, serif)' }}
+                          >
+                            {x.text}
+                          </blockquote>
+                          <div className="flex items-center gap-2 flex-wrap min-w-0">
+                            <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 ${SOURCE_COLORS[x.source] || 'bg-gray-100 text-gray-600'}`}>
+                              {sourceFromSlug(x.slug) || x.source}
+                            </span>
+                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors min-w-0 flex-1 truncate">
+                              {x.title}
+                            </span>
+                            <span className="text-xs text-gray-400 dark:text-gray-500 group-hover:text-blue-500 flex-shrink-0">Read in context →</span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Passages from the archive — the verbatim quotes, below the synthesis */}
               {answer?.passages && answer.passages.length > 0 && (
