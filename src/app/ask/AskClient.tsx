@@ -352,6 +352,7 @@ export default function AskClient({
   // excerpts from the whole corpus, retrieved by meaning — null = loading.
   const [excerpts, setExcerpts] = useState<Excerpt[] | null>(null);
   const excerptQRef = useRef('');
+  const [copiedExcerpt, setCopiedExcerpt] = useState<number | null>(null);
   // Real error state — an error must never impersonate a synthesis.
   const [error, setError] = useState<string | null>(null);
   // Brief hold on "Try again" after a rate-limit error
@@ -956,27 +957,49 @@ export default function AskClient({
                   ) : (
                     <div className="space-y-3">
                       {excerpts.map((x, i) => (
-                        <Link
+                        <div
                           key={`${x.slug}-${x.anchor ?? i}`}
-                          href={x.anchor ? `/post/${x.slug}#${x.anchor}` : `/post/${x.slug}?q=${encodeURIComponent(x.text.split(/\s+/).slice(0, 6).join(' '))}`}
-                          className="group block min-w-0 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-4 hover:border-gray-400 dark:hover:border-gray-500 transition-colors"
+                          className="min-w-0 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-4"
                         >
+                          {/* Plain text, deliberately selectable — the card is
+                              NOT a link so copy/paste works on every device. */}
                           <blockquote
-                            className="text-gray-800 dark:text-gray-200 leading-relaxed mb-3 break-words"
+                            className="text-gray-800 dark:text-gray-200 leading-relaxed mb-3 break-words select-text cursor-text"
                             style={{ fontFamily: 'var(--font-lora, Georgia, serif)' }}
                           >
                             {x.text}
                           </blockquote>
                           <div className="flex items-center gap-2 flex-wrap min-w-0">
-                            <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 ${SOURCE_COLORS[x.source] || 'bg-gray-100 text-gray-600'}`}>
-                              {sourceFromSlug(x.slug) || x.source}
-                            </span>
-                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors min-w-0 flex-1 truncate">
-                              {x.title}
-                            </span>
-                            <span className="text-xs text-gray-400 dark:text-gray-500 group-hover:text-blue-500 flex-shrink-0">Read in context →</span>
+                            <Link
+                              href={x.anchor ? `/post/${x.slug}#${x.anchor}` : `/post/${x.slug}?q=${encodeURIComponent(x.text.split(/\s+/).slice(0, 6).join(' '))}`}
+                              className="group flex items-center gap-2 min-w-0 flex-1"
+                            >
+                              <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 ${SOURCE_COLORS[x.source] || 'bg-gray-100 text-gray-600'}`}>
+                                {sourceFromSlug(x.slug) || x.source}
+                              </span>
+                              <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors min-w-0 flex-1 truncate">
+                                {x.title}
+                              </span>
+                              <span className="text-xs text-gray-400 dark:text-gray-500 group-hover:text-blue-500 flex-shrink-0">Read in context →</span>
+                            </Link>
+                            <button
+                              onClick={() => {
+                                const url = `https://center.study/post/${x.slug}${x.anchor ? `#${x.anchor}` : ''}`;
+                                navigator.clipboard
+                                  .writeText(`“${x.text}” — ${x.title}\n${url}`)
+                                  .then(() => {
+                                    setCopiedExcerpt(i);
+                                    setTimeout(() => setCopiedExcerpt((c) => (c === i ? null : c)), 1500);
+                                  })
+                                  .catch(() => {});
+                              }}
+                              className="text-xs px-2 py-1 rounded-md border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-700 dark:hover:text-gray-200 transition-colors flex-shrink-0"
+                              title="Copy the excerpt with its source link"
+                            >
+                              {copiedExcerpt === i ? '✓ Copied' : 'Copy'}
+                            </button>
                           </div>
-                        </Link>
+                        </div>
                       ))}
                     </div>
                   )}
