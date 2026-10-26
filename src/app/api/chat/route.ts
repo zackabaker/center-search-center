@@ -24,7 +24,7 @@ OUTPUT FORMAT (follow exactly, in this order):
 
 ## [A short noun-phrase title capturing the question's core, e.g. "Resentment and the Sacred" or "The Center as Political Foundation"]
 
-[PROVISIONAL ANSWER — AT MOST TWO SHORT PARAGRAPHS of synthesized prose; one is often enough. The excerpts are shown to the reader separately as the primary result, so this note only orients — it never substitutes for them. This answer must be built almost entirely from direct quotes from the provided excerpts, woven into continuous prose. Structure each paragraph around one or two exact quotes embedded inline, introduced with minimal connective phrases like "As Katz writes," "Bouvard observes that," or "In Katz's formulation." Mark every embedded quote with "quotation marks" and follow it immediately with an em-dash and the source title as a markdown link using the exact slug from the excerpt's "Slug:" field, with the first 8 words of the quote as a ?q= parameter (lowercase, spaces as +) so the link opens the post AT the quoted passage: — [Title](/post/slug?q=first+eight+words+of+the+quote+go+here). Whenever you mention an article title anywhere in your prose outside a direct quote, link it plainly: [Title](/post/slug). The connecting tissue between quotes should be 1–2 sentences at most, identifying how the passages relate without adding claims not found in the texts. Use the vocabulary and conceptual framework of the archive — center, deferral, resentment, scene, originary, mimesis — as the texts themselves use them. End the answer with the single most concentrated passage that crystallizes the question.]
+[PROVISIONAL ANSWER — 3–5 paragraphs of synthesized prose. This answer must be built almost entirely from direct quotes from the provided excerpts, woven into continuous prose. Structure each paragraph around one or two exact quotes embedded inline, introduced with minimal connective phrases like "As Katz writes," "Bouvard observes that," or "In Katz's formulation." Mark every embedded quote with "quotation marks" and follow it immediately with an em-dash and the source title as a markdown link using the exact slug from the excerpt's "Slug:" field, with the first 8 words of the quote as a ?q= parameter (lowercase, spaces as +) so the link opens the post AT the quoted passage: — [Title](/post/slug?q=first+eight+words+of+the+quote+go+here). Whenever you mention an article title anywhere in your prose outside a direct quote, link it plainly: [Title](/post/slug). The connecting tissue between quotes should be 1–2 sentences at most, identifying how the passages relate without adding claims not found in the texts. Use the vocabulary and conceptual framework of the archive — center, deferral, resentment, scene, originary, mimesis — as the texts themselves use them. End the answer with the single most concentrated passage that crystallizes the question.]
 
 
 ─────────────────────────────────────────────
@@ -591,7 +591,7 @@ export async function POST(request: Request) {
 
     // Start Claude stream (takes ~500ms for first token)
     const stream = await anthropic.messages.stream({
-      // The answer is a brief synthesis (1–2 short paragraphs); retrieval excerpts
+      // The answer is a quote-woven synthesis (3–5 paragraphs); long verbatim excerpts
       // block of 5–8 verbatim passages. At 3000 a verbose synthesis consumed the
       // whole budget and the response was cut off before the excerpts ever
       // streamed — so the UI showed a summary with no quotes. Sonnet 4.6 allows
