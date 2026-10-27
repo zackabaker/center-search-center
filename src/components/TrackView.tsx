@@ -18,10 +18,12 @@ export default function TrackView({ slug, title, source, date }: {
       const key = `csc-viewed-${slug}`;
       if (sessionStorage.getItem(key)) return;
       sessionStorage.setItem(key, '1');
+      let mine = false;
+      try { mine = !!localStorage.getItem('csc-mine'); } catch { /* ignore */ }
       fetch('/api/view', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug }),
+        body: JSON.stringify(mine ? { slug, mine: true } : { slug }),
         keepalive: true,
       }).catch(() => {});
     } catch {

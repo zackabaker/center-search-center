@@ -41,12 +41,16 @@ export async function POST(request: Request) {
     return Response.json({ ok: false }, { status: 429 });
   }
 
-  let body: { slug?: unknown };
+  let body: { slug?: unknown; mine?: unknown };
   try {
     body = await request.json();
   } catch {
     return Response.json({ error: 'Invalid JSON' }, { status: 400 });
   }
+
+  // Owner views (flag set at /mine) don't feed the view counts — /trending
+  // should rank what READERS read, and the owner is the heaviest user.
+  if (body.mine === true) return Response.json({ ok: true, stored: false });
 
   const slug = typeof body.slug === 'string' ? body.slug.trim().slice(0, 200) : '';
   // Slugs are lowercase, hyphen-separated — reject anything else.
