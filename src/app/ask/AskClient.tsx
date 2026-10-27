@@ -430,18 +430,19 @@ export default function AskClient({
     submit(query, conceptSeed ?? undefined);
   }
 
-  // Two-stage retrieval: the question plus the synthesis prose (quotes and
-  // vocabulary included) is the embedding query — ranked, deduped,
-  // paragraph-expanded server-side (expand: true). Shows the strong tail only:
-  // results within 0.10 of the top score, floor 0.40, cap 10.
-  function fetchExcerpts(question: string, prose: string) {
+  // Retrieval embeds the QUESTION ALONE (owner direction, 2026-10-27): the
+  // earlier question+synthesis query diluted the search term — the embed cap
+  // left ~450 of 500 chars to markdown prose full of link URLs, dragging in
+  // passages related to the answer's tangents rather than the question.
+  // Ranked, deduped, paragraph-expanded server-side (expand: true); shows the
+  // strong tail only: within 0.10 of the top score, floor 0.40, cap 10.
+  function fetchExcerpts(question: string) {
     excerptQRef.current = question;
     setExcerpts(null);
-    const combined = prose ? `${question}\n\n${prose.slice(0, 700)}` : question;
     fetch('/api/semantic', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ q: combined, expand: true }),
+      body: JSON.stringify({ q: question, expand: true }),
     })
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
@@ -474,11 +475,9 @@ export default function AskClient({
     // so a still-streaming previous answer can't keep updating the screen.
     abortRef.current?.abort();
 
-    // Excerpts load after the synthesis: retrieval embeds the question PLUS
-    // the generated answer, which finds markedly closer passages than the
-    // bare question. Cleared here; fetched by fetchExcerpts() once prose exists.
-    excerptQRef.current = question;
-    setExcerpts(null);
+    // Excerpts are independent of the answer — fire immediately so they load
+    // while the synthesis streams (and for cache hits too).
+    fetchExcerpts(question);
 
     // History sent to the model so a follow-up builds on the conversation.
     const sentHistory = historyRef.current.slice(-6);
@@ -488,7 +487,6 @@ export default function AskClient({
     if (sessionHit) {
       abortRef.current = null;
       setAnswer(sessionHit);
-      fetchExcerpts(question, splitAnswer(sessionHit.content).prose);
       setIsLoading(false);
       return;
     }
@@ -502,7 +500,6 @@ export default function AskClient({
         sessionAnswersRef.current.set(question, cached);
         setSessionQs((p) => (p.includes(question) ? p : [...p, question]));
         historyRef.current.push({ role: 'user', content: question }, { role: 'assistant', content: splitAnswer(cached.content).prose });
-        fetchExcerpts(question, splitAnswer(cached.content).prose);
         setIsLoading(false);
         return;
       }
@@ -579,7 +576,6 @@ export default function AskClient({
       const passages = parsePassages(content);
       const finalAnswer: Answer = { content, sources, followUps, passages };
       setAnswer(finalAnswer);
-      fetchExcerpts(question, splitAnswer(content).prose);
       // Record the turn: cache standalone answers, remember every answer for the
       // session thread, and append to the model-visible history (prose only, to
       // keep follow-up context lean).
