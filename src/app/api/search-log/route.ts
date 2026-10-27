@@ -36,9 +36,29 @@ const MODES = new Set(['keyword', 'meaning', 'ask']);
 
 // GET → { terms: [{ q, n }] } — the most-searched queries, for the /search
 // empty state ("What readers search"). Read-only, anonymous, edge-cached.
-export async function GET() {
+// GET ?raw=1 → { entries: [{ q, mode, mine, n, t }] } — the recent raw log
+// (capped list, newest first). Same anonymity as the terms: no id, no IP;
+// timestamps only. Lets the owner study session bursts and usage shape.
+export async function GET(request: Request) {
   const kv = getKV();
   if (!kv) return Response.json({ terms: [] });
+  const raw1 = new URL(request.url).searchParams.get('raw') === '1';
+  if (raw1) {
+    try {
+      const rows = (await kv.lrange(LOG_KEY, 0, LOG_CAP - 1)) as unknown[];
+      const entries = rows
+        .map((r) => {
+          try { return typeof r === 'string' ? JSON.parse(r) : r; } catch { return null; }
+        })
+        .filter(Boolean);
+      return Response.json(
+        { entries },
+        { headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600' } },
+      );
+    } catch {
+      return Response.json({ entries: [] });
+    }
+  }
   try {
     const raw = (await kv.zrange(TERMS_KEY, 0, 39, { rev: true, withScores: true })) as (string | number)[];
     const terms: { q: string; n: number }[] = [];
