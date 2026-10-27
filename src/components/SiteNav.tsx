@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { href: '/guide',    label: 'Guide' },
   { href: '/concepts', label: 'Concepts' },
   { href: '/search',   label: 'Search' },
-  { href: '/ask',      label: 'Ask AI' },
+  { href: '/ask',      label: 'AI Search' },
   { href: '/browse',   label: 'Archive' },
   { href: '/download', label: 'Download' },
 ];
