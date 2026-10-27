@@ -725,7 +725,7 @@ export default function SearchPageClient({
               href={`/ask?q=${encodeURIComponent((query.trim() || committed).replace(/["“”]/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').replace(/\s+/g, ' ').trim())}`}
               className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors px-1 py-0.5"
             >
-              ✦ Ask AI this question →
+              ✦ AI search this question →
             </Link>
           </div>
         )}

@@ -27,7 +27,9 @@ const SUGGESTIONS = [
 
 export default function HomeSearch() {
   const [query, setQuery] = useState('');
-  const [mode, setMode] = useState<Mode>('search');
+  // AI search is the default (owner direction, 2026-10-27) — the excerpt-first
+  // Ask experience is the stronger front door; keyword stays one tap away.
+  const [mode, setMode] = useState<Mode>('ask');
   const [isNavigating, setIsNavigating] = useState(false);
   const [compact, setCompact] = useState(false);
   const router = useRouter();
@@ -113,7 +115,7 @@ export default function HomeSearch() {
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
-              Keyword Search
+              Keyword search
             </button>
             <button
               type="button"
@@ -124,7 +126,7 @@ export default function HomeSearch() {
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
-              ✦ Ask AI
+              ✦ AI search
             </button>
           </div>
         </div>

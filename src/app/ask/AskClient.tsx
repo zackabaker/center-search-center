@@ -479,6 +479,14 @@ export default function AskClient({
     // while the synthesis streams (and for cache hits too).
     fetchExcerpts(question);
 
+    // Keep the question in the URL: back from a post restores this answer
+    // (cache/session makes it instant), refresh re-runs it, and the page is
+    // shareable. lastAutoQ stops the searchParams effect from re-submitting.
+    if (lastAutoQ.current !== question) {
+      lastAutoQ.current = question;
+      router.replace(`/ask?q=${encodeURIComponent(question)}`, { scroll: false });
+    }
+
     // History sent to the model so a follow-up builds on the conversation.
     const sentHistory = historyRef.current.slice(-6);
 
@@ -690,10 +698,10 @@ export default function AskClient({
             return (
               <div className="flex items-center gap-0.5 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
                 <Link href={`/search${qs}`} className={`${seg} text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300`}>
-                  Search
+                  Keyword search
                 </Link>
                 <span className={`${seg} bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm`}>
-                  ✦ Ask AI
+                  ✦ AI search
                 </span>
               </div>
             );
@@ -989,10 +997,28 @@ export default function AskClient({
                                   })
                                   .catch(() => {});
                               }}
-                              className="text-xs px-2 py-1 rounded-md border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-700 dark:hover:text-gray-200 transition-colors flex-shrink-0"
+                              className="text-xs px-3 py-2 sm:px-2 sm:py-1 rounded-md border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-700 dark:hover:text-gray-200 transition-colors flex-shrink-0"
                               title="Copy the excerpt with its source link"
                             >
                               {copiedExcerpt === i ? '✓ Copied' : 'Copy'}
+                            </button>
+                            <button
+                              onClick={() => {
+                                const url = `https://center.study/post/${x.slug}${x.anchor ? `#${x.anchor}` : ''}`;
+                                const payload = { title: `${x.title} — Center Study`, text: `“${x.text}” — ${x.title}`, url };
+                                if (navigator.share) {
+                                  navigator.share(payload).catch(() => {});
+                                } else {
+                                  navigator.clipboard.writeText(`${payload.text}\n${url}`).then(() => {
+                                    setCopiedExcerpt(i);
+                                    setTimeout(() => setCopiedExcerpt((c) => (c === i ? null : c)), 1500);
+                                  }).catch(() => {});
+                                }
+                              }}
+                              className="text-xs px-3 py-2 sm:px-2 sm:py-1 rounded-md border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-700 dark:hover:text-gray-200 transition-colors flex-shrink-0"
+                              title="Share the excerpt (native share sheet on mobile)"
+                            >
+                              Share
                             </button>
                           </div>
                         </div>
