@@ -13,6 +13,11 @@ import { usePathname } from 'next/navigation';
 
 function send(payload: Record<string, unknown>) {
   try {
+    // Owner flag (set at /mine): rides along so the owner's own usage can be
+    // separated from readers' — tagged, never dropped.
+    let mine = false;
+    try { mine = !!localStorage.getItem('csc-mine'); } catch { /* ignore */ }
+    if (mine) payload = { ...payload, mine: true };
     fetch('/api/convert', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

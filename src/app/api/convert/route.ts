@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     return Response.json({ ok: false }, { status: 429 });
   }
 
-  let body: { event?: unknown; dest?: unknown; where?: unknown; gap?: unknown };
+  let body: { event?: unknown; dest?: unknown; where?: unknown; gap?: unknown; mine?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -70,6 +70,11 @@ export async function POST(request: Request) {
     const gap = typeof body.gap === 'number' && body.gap >= 1 && body.gap <= 30 ? Math.round(body.gap) : null;
     if (gap !== null) fields.push(gap <= 7 ? 'return:7d' : 'return:30d');
   }
+
+  // Owner-flagged events (set at /mine) count normally AND into ":mine"
+  // shadow fields, so the readout can show owner vs. readers; readers =
+  // base minus mine.
+  if (body.mine === true) fields.push(...fields.map((f) => `${f}:mine`));
 
   const kv = getKV();
   if (!kv) return Response.json({ ok: true, stored: false }); // KV not configured — no-op
