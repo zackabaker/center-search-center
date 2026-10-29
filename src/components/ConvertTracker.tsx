@@ -1,6 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import { getSid } from '@/lib/session-id';
 
 // Anonymous conversion events (counted by /api/convert): the landing page is
 // remembered per session; "open" fires once when the session moves past that
@@ -22,6 +23,26 @@ function send(payload: Record<string, unknown>) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
+      keepalive: true,
+    }).catch(() => {});
+  } catch {
+    /* best-effort */
+  }
+}
+
+// Mirror an engagement event into the session trail (/api/activity), so a
+// visit's timeline on /study shows texts actually read and follows clicked,
+// not just pages opened. Aggregate counting stays /api/convert's job.
+function sendTrailEvent(ev: string) {
+  try {
+    const sid = getSid();
+    if (!sid) return;
+    let mine = false;
+    try { mine = !!localStorage.getItem('csc-mine'); } catch { /* ignore */ }
+    fetch('/api/activity', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sid, path: location.pathname, ev, ...(mine ? { mine: true } : {}) }),
       keepalive: true,
     }).catch(() => {});
   } catch {
@@ -92,6 +113,7 @@ export default function ConvertTracker() {
         /* still count it */
       }
       send({ event: 'read' });
+      sendTrailEvent('read');
     };
     const onScroll = () => {
       const el = document.scrollingElement;
@@ -145,6 +167,7 @@ export default function ConvertTracker() {
                 ? 'start'
                 : 'other');
         send({ event: 'follow', dest, where });
+        sendTrailEvent(`follow:${dest}:${where}`);
       } catch {
         /* ignore */
       }

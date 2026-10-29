@@ -1,5 +1,6 @@
 import { isSameOrigin, rateLimit, clientIp } from '@/lib/rate-limit';
 import { maskSid } from '@/lib/sid-mask';
+import { isOwner } from '@/lib/study-auth';
 import { Redis } from '@upstash/redis';
 
 // Records search queries so we can later show what readers look for. Every
@@ -40,14 +41,19 @@ const MODES = new Set(['keyword', 'meaning', 'ask']);
 // GET → { terms: [{ q, n }] } — the most-searched queries, for the /search
 // empty state ("What readers search"). Read-only, anonymous, edge-cached.
 // GET ?raw=1 → { entries: [{ q, mode, mine, n, sid?, t }] } — the recent raw
-// log (capped list, newest first). No IP, no identity; the sid is served as
-// a one-way mask (src/lib/sid-mask.ts), so entries group by visit without
-// exposing a token the POST would accept. Lets the owner study session
-// bursts and usage shape.
+// log (capped list, newest first). OWNER-ONLY: raw entries are what the
+// gated /study console is built from, so this requires the same csc-study
+// cookie (src/lib/study-auth.ts). The sid is still served as a one-way mask
+// (src/lib/sid-mask.ts), so even owner pulls never hold a POSTable token.
 export async function GET(request: Request) {
-  const kv = getKV();
-  if (!kv) return Response.json({ terms: [] });
   const raw1 = new URL(request.url).searchParams.get('raw') === '1';
+  // The gate runs before anything else so the raw branch behaves identically
+  // whether or not KV is configured.
+  if (raw1 && !isOwner(request)) {
+    return new Response('Not found', { status: 404 });
+  }
+  const kv = getKV();
+  if (!kv) return Response.json(raw1 ? { entries: [] } : { terms: [] });
   if (raw1) {
     // Uncached hits run a large lrange — keep a per-instance lid on it.
     if (!rateLimit(`searchlogread:${clientIp(request)}`, 30, 60_000).ok) {
@@ -61,10 +67,8 @@ export async function GET(request: Request) {
         })
         .filter((e): e is Record<string, unknown> => !!e && typeof e === 'object')
         .map((e) => (e.sid ? { ...e, sid: maskSid(e.sid) } : e));
-      return Response.json(
-        { entries },
-        { headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600' } },
-      );
+      // private: an owner-gated response must never land in a shared cache.
+      return Response.json({ entries }, { headers: { 'Cache-Control': 'private, no-store' } });
     } catch {
       return Response.json({ entries: [] });
     }
@@ -118,19 +122,30 @@ export async function POST(request: Request) {
   const kv = getKV();
   if (!kv) return Response.json({ ok: true, stored: false }); // KV not configured — no-op
 
-  const entry = JSON.stringify({ q, mode, mine, n, sid, t: Date.now() });
+  const now = Date.now();
+  const entry = JSON.stringify({ q, mode, mine, n, sid, t: now });
   const norm = q.toLowerCase().replace(/\s+/g, ' ').trim();
   // Monitor probes must not accumulate in the terms ZSET at all — filtering
   // only on read leaves them self-reinforcing (chip clicks re-log them).
   if (/^__.*__$/.test(norm)) return Response.json({ ok: true, stored: false });
+  // Durable daily counts (search:day:YYYY-MM-DD, ~400-day TTL) so the
+  // searches-per-day series survives after the capped list rolls over.
+  const dayKey = `search:day:${new Date(now).toISOString().slice(0, 10)}`;
   try {
-    await Promise.all([
-      kv.lpush(LOG_KEY, entry),
-      kv.ltrim(LOG_KEY, 0, LOG_CAP - 1),
-      kv.zincrby(TERMS_KEY, 1, norm),
-      kv.incr(TOTAL_KEY),
-      ...(mine ? [kv.lpush(MINE_KEY, entry), kv.ltrim(MINE_KEY, 0, MINE_CAP - 1)] : []),
-    ]);
+    const pipe = kv.pipeline();
+    pipe.lpush(LOG_KEY, entry);
+    pipe.ltrim(LOG_KEY, 0, LOG_CAP - 1);
+    pipe.zincrby(TERMS_KEY, 1, norm);
+    pipe.incr(TOTAL_KEY);
+    if (mine) {
+      pipe.lpush(MINE_KEY, entry);
+      pipe.ltrim(MINE_KEY, 0, MINE_CAP - 1);
+    }
+    pipe.hincrby(dayKey, 'n', 1);
+    pipe.hincrby(dayKey, mode, 1);
+    if (mine) pipe.hincrby(dayKey, 'mine', 1);
+    pipe.expire(dayKey, 60 * 60 * 24 * 400);
+    await pipe.exec();
   } catch {
     return Response.json({ ok: true, stored: false }); // never surface a logging failure
   }
