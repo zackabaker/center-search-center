@@ -6,6 +6,7 @@ import MobileNav from "@/components/MobileNav";
 import CommandPalette from "@/components/CommandPalette";
 import PrintLightMode from "@/components/PrintLightMode";
 import ConvertTracker from "@/components/ConvertTracker";
+import ActivityTracker from "@/components/ActivityTracker";
 import SiteNav from "@/components/SiteNav";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -161,6 +162,7 @@ export default function RootLayout({
         <CommandPalette />
         <PrintLightMode />
         <ConvertTracker />
+        <ActivityTracker />
         <Analytics />
       </body>
     </html>

@@ -8,6 +8,8 @@
 // flag once in the console:  localStorage.setItem('csc-mine','1')
 const MINE_FLAG = 'csc-mine';
 
+import { getSid } from './session-id';
+
 export type SearchMode = 'keyword' | 'meaning' | 'ask';
 
 export function logSearch(q: string, mode: SearchMode, n?: number): void {
@@ -16,10 +18,11 @@ export function logSearch(q: string, mode: SearchMode, n?: number): void {
   if (query.length < 2) return;
   try {
     const mine = !!localStorage.getItem(MINE_FLAG);
+    const sid = getSid();
     fetch('/api/search-log', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ q: query, mode, mine, n }),
+      body: JSON.stringify({ q: query, mode, mine, n, ...(sid ? { sid } : {}) }),
       keepalive: true,
     }).catch(() => {});
   } catch {
