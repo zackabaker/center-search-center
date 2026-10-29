@@ -6,7 +6,10 @@ import type { MetadataRoute } from 'next';
 
 const OPEN = {
   allow: ['/', '/api/corpus', '/api/corpus/', '/api/download', '/llms.txt'],
-  disallow: ['/api/chat', '/api/random', '/names/admin'],
+  // /sessions is deliberately NOT listed: a disallow line would advertise the
+  // unlinked URL in public robots.txt; its meta noindex already keeps it out
+  // of indexes.
+  disallow: ['/api/chat', '/api/random', '/names/admin', '/api/activity'],
 };
 
 // AI crawlers, named explicitly so an overly cautious default elsewhere

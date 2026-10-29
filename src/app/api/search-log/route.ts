@@ -1,4 +1,5 @@
 import { isSameOrigin, rateLimit, clientIp } from '@/lib/rate-limit';
+import { maskSid } from '@/lib/sid-mask';
 import { Redis } from '@upstash/redis';
 
 // Records search queries so we can later show what readers look for. Every
@@ -7,7 +8,9 @@ import { Redis } from '@upstash/redis';
 // a mine:true flag so they can be filtered out/in later. Logging is best-effort:
 // any failure here must never affect the search itself.
 //
-// POST { q, mode, mine?, n? } → { ok }
+// POST { q, mode, mine?, n?, sid? } → { ok } — sid is the ephemeral per-tab
+// session token (see src/lib/session-id.ts): random, anonymous, gone when the
+// tab closes. It only lets one visit's searches be grouped together.
 
 function getKV(): Redis | null {
   // The live Upstash store is connected with the "centerstudy" prefix, so its
@@ -36,21 +39,28 @@ const MODES = new Set(['keyword', 'meaning', 'ask']);
 
 // GET → { terms: [{ q, n }] } — the most-searched queries, for the /search
 // empty state ("What readers search"). Read-only, anonymous, edge-cached.
-// GET ?raw=1 → { entries: [{ q, mode, mine, n, t }] } — the recent raw log
-// (capped list, newest first). Same anonymity as the terms: no id, no IP;
-// timestamps only. Lets the owner study session bursts and usage shape.
+// GET ?raw=1 → { entries: [{ q, mode, mine, n, sid?, t }] } — the recent raw
+// log (capped list, newest first). No IP, no identity; the sid is served as
+// a one-way mask (src/lib/sid-mask.ts), so entries group by visit without
+// exposing a token the POST would accept. Lets the owner study session
+// bursts and usage shape.
 export async function GET(request: Request) {
   const kv = getKV();
   if (!kv) return Response.json({ terms: [] });
   const raw1 = new URL(request.url).searchParams.get('raw') === '1';
   if (raw1) {
+    // Uncached hits run a large lrange — keep a per-instance lid on it.
+    if (!rateLimit(`searchlogread:${clientIp(request)}`, 30, 60_000).ok) {
+      return Response.json({ entries: [] }, { status: 429 });
+    }
     try {
       const rows = (await kv.lrange(LOG_KEY, 0, LOG_CAP - 1)) as unknown[];
       const entries = rows
         .map((r) => {
           try { return typeof r === 'string' ? JSON.parse(r) : r; } catch { return null; }
         })
-        .filter(Boolean);
+        .filter((e): e is Record<string, unknown> => !!e && typeof e === 'object')
+        .map((e) => (e.sid ? { ...e, sid: maskSid(e.sid) } : e));
       return Response.json(
         { entries },
         { headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600' } },
@@ -89,7 +99,7 @@ export async function POST(request: Request) {
     return Response.json({ ok: false }, { status: 429 });
   }
 
-  let body: { q?: unknown; mode?: unknown; mine?: unknown; n?: unknown };
+  let body: { q?: unknown; mode?: unknown; mine?: unknown; n?: unknown; sid?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -100,6 +110,7 @@ export async function POST(request: Request) {
   if (q.length < 2) return Response.json({ ok: true, stored: false });
   const mode = typeof body.mode === 'string' && MODES.has(body.mode) ? body.mode : 'keyword';
   const mine = body.mine === true;
+  const sid = typeof body.sid === 'string' && /^[a-z0-9]{4,12}$/i.test(body.sid) ? body.sid : undefined;
   const n = typeof body.n === 'number' && Number.isFinite(body.n)
     ? Math.max(0, Math.min(99999, Math.floor(body.n)))
     : undefined;
@@ -107,7 +118,7 @@ export async function POST(request: Request) {
   const kv = getKV();
   if (!kv) return Response.json({ ok: true, stored: false }); // KV not configured — no-op
 
-  const entry = JSON.stringify({ q, mode, mine, n, t: Date.now() });
+  const entry = JSON.stringify({ q, mode, mine, n, sid, t: Date.now() });
   const norm = q.toLowerCase().replace(/\s+/g, ' ').trim();
   // Monitor probes must not accumulate in the terms ZSET at all — filtering
   // only on read leaves them self-reinforcing (chip clicks re-log them).
