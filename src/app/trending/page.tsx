@@ -32,8 +32,10 @@ const SOURCE_LABEL: Record<string, string> = {
 };
 
 function monthKey(offset = 0): string {
-  const d = new Date();
-  d.setUTCMonth(d.getUTCMonth() + offset);
+  // Anchored to day 1: setUTCMonth on a day the target month lacks (Oct 31
+  // → Sep) rolls forward and would read the current month twice.
+  const now = new Date();
+  const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + offset, 1));
   return `views:counts:${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
 }
 

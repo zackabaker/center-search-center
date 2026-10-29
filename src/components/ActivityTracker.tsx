@@ -20,8 +20,8 @@ export default function ActivityTracker() {
   useEffect(() => {
     if (!pathname || pathname === last.current) return;
     last.current = pathname;
-    // The log viewer itself stays out of the log.
-    if (pathname.startsWith('/sessions')) return;
+    // The console itself stays out of the log.
+    if (pathname.startsWith('/study')) return;
     try {
       const sid = getSid();
       if (!sid) return;

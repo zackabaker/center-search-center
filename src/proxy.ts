@@ -10,6 +10,34 @@ const MAP = redirects as Record<string, string>;
 
 // In Next 16 "Middleware" is "Proxy"; the runtime contract is unchanged.
 export function proxy(request: NextRequest) {
+  // /study — the owner's private analytics console. Gated here, before any
+  // rendering: a request either carries the long-lived cookie, or presents
+  // ?key= once (checked against the STUDY_KEY env var) and gets the cookie
+  // set. Everything else sees a plain 404. Fails CLOSED when the env var is
+  // absent — the repo is public, so the key can only ever live in the
+  // environment. The cookie is set for the whole site (path '/') because the
+  // raw-log API GETs check it too (src/lib/study-auth.ts).
+  if (request.nextUrl.pathname === '/study' || request.nextUrl.pathname.startsWith('/study/')) {
+    const key = process.env.STUDY_KEY;
+    if (key && request.cookies.get('csc-study')?.value === key) {
+      return NextResponse.next();
+    }
+    if (key && request.nextUrl.searchParams.get('key') === key) {
+      const url = request.nextUrl.clone();
+      url.searchParams.delete('key');
+      const res = NextResponse.redirect(url);
+      res.cookies.set('csc-study', key, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 365,
+        path: '/',
+      });
+      return res;
+    }
+    return new NextResponse('Not found', { status: 404 });
+  }
+
   const m = request.nextUrl.pathname.match(/^\/(post|api\/corpus)\/([^/]+)\/?$/);
   if (m) {
     const base = m[1];
@@ -33,5 +61,7 @@ export const config = {
   matcher: [
     '/post/:slug(chronicle-.*|gablog-.*|ap-.*|substack-.*|reddit-.*|twitter-.*|pdf-.*|book-.*|lecture-.*)',
     '/api/corpus/:slug(chronicle-.*|gablog-.*|ap-.*|substack-.*|reddit-.*|twitter-.*|pdf-.*|book-.*|lecture-.*)',
+    '/study',
+    '/study/:path*',
   ],
 };

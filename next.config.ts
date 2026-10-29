@@ -83,6 +83,9 @@ const nextConfig: NextConfig = {
       { source: '/guide/concepts/the-market', destination: '/guide/concepts/market', permanent: true },
       // /follow page removed July 2026 — its two links live in the site footer.
       { source: '/follow', destination: '/about', permanent: true },
+      // The short-lived public /sessions page became the private /study
+      // console (2026-10-29). The destination is key-gated in src/proxy.ts.
+      { source: '/sessions', destination: '/study', permanent: false },
       // Bare /q has no index page — quotes are reached from terms/concepts/verify.
       { source: '/q', destination: '/concepts', permanent: false },
       // The numbered series' home is the Chronicles browse hub.
