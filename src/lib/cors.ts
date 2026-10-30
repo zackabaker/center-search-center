@@ -25,7 +25,14 @@ export function openCors(extra: Record<string, string> = {}): Record<string, str
 export function partnerCors(request: Request): Record<string, string> | null {
   const origin = request.headers.get('origin');
   if (!origin) return {}; // same-origin nav or server-to-server — no CORS needed
-  if (origin.startsWith('http://localhost') || PARTNER_ORIGINS.has(origin)) {
+  // Exact-host localhost check: a startsWith('http://localhost') prefix test
+  // would also match http://localhost.evil.com.
+  let isLocalhost = false;
+  try {
+    const host = new URL(origin).hostname;
+    isLocalhost = host === 'localhost' || host === '127.0.0.1';
+  } catch {}
+  if (isLocalhost || PARTNER_ORIGINS.has(origin)) {
     return {
       'Access-Control-Allow-Origin': origin,
       'Access-Control-Allow-Methods': 'POST, OPTIONS',

@@ -536,7 +536,13 @@ export async function POST(request: Request) {
   // This endpoint spends Anthropic credits per request. Headerless clients
   // (curl/scripts) are rejected; each IP gets a small per-minute budget.
   const cors = partnerCors(request);
-  if (cors === null && !isSameOrigin(request)) {
+  // partnerCors returns {} when there is NO Origin header (fine for the open
+  // read endpoints, where server-to-server callers are welcome) — but this
+  // endpoint spends an Anthropic request per call, and browsers always send
+  // Origin on POST, so a missing Origin here means a script. Those must
+  // still pass the origin/referer check, which rejects headerless clients.
+  const hasOrigin = !!request.headers.get('origin');
+  if ((cors === null || !hasOrigin) && !isSameOrigin(request)) {
     return Response.json({ error: 'Forbidden — this endpoint is limited to partner origins; see /developers' }, { status: 403 });
   }
   if (BOT_UA.test(request.headers.get('user-agent') ?? '')) {
