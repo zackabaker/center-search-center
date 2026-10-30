@@ -18,6 +18,9 @@ const SYSTEM_PROMPT = `You are an archival research assistant for Center Study �
 ⚠️ ACCURACY RULE — NON-NEGOTIABLE:
 You may ONLY quote text that appears WORD-FOR-WORD in the excerpts provided. Never continue, complete, paraphrase, or extend a quote from memory — even if you believe you know how the passage continues. Every quoted phrase must exist verbatim in the provided excerpts. A short accurate quote is better than a longer fabricated one. If you are not sure a phrase appears in the excerpt, do not use it.
 
+⚠️ LANGUAGE:
+Answer in the language of the user's question — a question in Portuguese gets an answer in Portuguese, and so on. If the user asks for a particular language at any point, keep answering in it for the rest of the conversation unless they switch. The one exception is quotes: quoted excerpts stay verbatim in their original English, never translated inside the quotation marks; you may follow a quote with a brief gloss in the user's language.
+
 ─────────────────────────────────────────────
 OUTPUT FORMAT (follow exactly, in this order):
 ─────────────────────────────────────────────
@@ -35,8 +38,8 @@ RULES:
 4. Do not introduce ideas, claims, or examples not present in the provided excerpts.
 5. Always say "Center Study" for the field; Katz by surname for the author. You may use "Bouvard" when referring to the Substack voice/persona, but note that Bouvard is a pen name for Katz if relevant.
 6. If an excerpt is marked as reference material by Eric Gans, attribute it explicitly ("As Gans writes in the Chronicles…") and never blur it into Katz's voice; Katz's own formulations take precedence when they differ.
-6. The tone should match the archive: precise, conceptual, scene-focused, not academic-jargon-y.
-7. URL-encode the ?q= parameter: spaces become +, all lowercase.`;
+7. The tone should match the archive: precise, conceptual, scene-focused, not academic-jargon-y.
+8. URL-encode the ?q= parameter: spaces become +, all lowercase.`;
 
 interface ChunkWithMeta {
   text: string;
@@ -182,8 +185,29 @@ function getCachedPosts() {
   return _postsCache;
 }
 
+// Deaccented + lowercased copies for scoring, memoized per process. Both
+// sides of every match must be deaccented — normalizing only the query made
+// accented corpus terms (différance, méconnaissance) unmatchable — and the
+// post-level scorer runs over the whole corpus per request, so the corpus
+// side is computed once, not per request.
+const _lcCache = new Map<string, { title: string; content: string }>();
+function lcPost(post: Post): { title: string; content: string } {
+  let v = _lcCache.get(post.slug);
+  if (!v) {
+    v = { title: deaccent(post.title.toLowerCase()), content: deaccent(post.content.toLowerCase()) };
+    _lcCache.set(post.slug, v);
+  }
+  return v;
+}
+
+// Strip diacritics so accented queries ("mimética", "refaça") keep their
+// words intact instead of shattering at the [^a-z0-9] replace below.
+function deaccent(s: string): string {
+  return s.normalize('NFD').replace(/\p{M}+/gu, '');
+}
+
 function extractQueryTerms(query: string): string[] {
-  const lowerQuery = query.toLowerCase();
+  const lowerQuery = deaccent(query.toLowerCase());
 
   // First pass: inject synonyms for short/multi-word terms BEFORE length filtering
   // so "AI" (2 chars) still gets its synonyms
@@ -235,8 +259,7 @@ function extractQueryTerms(query: string): string[] {
 
 // Extract meaningful 2-word phrases from the query for phrase-matching bonus
 function extractBigrams(query: string): string[] {
-  const words = query
-    .toLowerCase()
+  const words = deaccent(query.toLowerCase())
     .replace(/[^a-z0-9\s'-]/g, ' ')
     .split(/\s+/)
     .filter((w) => w.length > 1 && !STOP_WORDS.has(w));
@@ -248,7 +271,7 @@ function extractBigrams(query: string): string[] {
 }
 
 function scoreChunk(chunkText: string, queryTerms: string[], bigrams: string[]): number {
-  const lower = chunkText.toLowerCase();
+  const lower = deaccent(chunkText.toLowerCase());
   const words = lower.split(/\s+/).length;
   let rawScore = 0;
 
@@ -327,8 +350,7 @@ async function retrieveChunks(query: string, maxChunks = 25, origin?: string): P
   // Substack gets a 1.5x multiplier to compensate for indirect, essayistic titles
   // that don't always contain the exact query term.
   const postScores = posts.map((post) => {
-    const lowerTitle = post.title.toLowerCase();
-    const lowerContent = post.content.toLowerCase();
+    const { title: lowerTitle, content: lowerContent } = lcPost(post);
     const isSubstack = post.source === 'substack';
     let score = 0;
 
@@ -347,7 +369,7 @@ async function retrieveChunks(query: string, maxChunks = 25, origin?: string): P
     }
 
     // Exact full-query match
-    const fullQuery = query.toLowerCase();
+    const fullQuery = deaccent(query.toLowerCase());
     if (lowerTitle.includes(fullQuery)) score += 500;
     if (lowerContent.includes(fullQuery)) score += 100;
 
@@ -494,6 +516,16 @@ ${chunk.text}`;
     .join('\n\n');
 }
 
+// JS-executing crawlers follow the /ask?q= links emitted on /search and
+// auto-fire real, credit-burning generations (observed in the logs as
+// templated "What is X in Center Study?" waves). Honest bot UAs are refused
+// before any credits burn; the client adds a navigator.webdriver gate for
+// the rest. The (?<!cu) lookbehind keeps Cubot-brand Android phones (real
+// users) out of the match while Googlebot/bingbot/etc. still hit; broad
+// tokens like "preview"/"fetch"/"monitor" are deliberately NOT matched here
+// — false positives on a user-facing endpoint cost more than they save.
+const BOT_UA = /(?<!cu)bot|crawl|spider|slurp|headless|scrape|lighthouse/i;
+
 export function OPTIONS(request: Request) {
   const cors = partnerCors(request);
   return preflight(cors ?? {});
@@ -507,6 +539,9 @@ export async function POST(request: Request) {
   if (cors === null && !isSameOrigin(request)) {
     return Response.json({ error: 'Forbidden — this endpoint is limited to partner origins; see /developers' }, { status: 403 });
   }
+  if (BOT_UA.test(request.headers.get('user-agent') ?? '')) {
+    return Response.json({ error: 'Automated clients may not use this endpoint — see /developers' }, { status: 403 });
+  }
   {
     const limited = rateLimit(`chat:${clientIp(request)}`, 10, 60_000);
     if (!limited.ok) {
@@ -518,7 +553,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { message, history, concept } = await request.json();
+    const { message, history, concept, fresh } = await request.json();
 
     if (!message || typeof message !== 'string') {
       return Response.json({ error: 'Message is required' }, { status: 400 });
@@ -578,16 +613,25 @@ export async function POST(request: Request) {
       ? `${conceptContextBlock}Here are the most relevant excerpts from the Center Study archive:\n\n${formatChunksForPrompt(chunks)}\n\n---\n\nUser question: ${message}`
       : `${conceptContextBlock}No relevant excerpts were found for this query.\n\nUser question: ${message}`;
 
-    // Build message history for multi-turn
+    // Build message history for multi-turn. 12 messages = 6 exchanges — at 6,
+    // a standing instruction like "answer in Portuguese" fell out of the
+    // window after three follow-ups and the model literally never saw it again.
     const messages: { role: 'user' | 'assistant'; content: string }[] = [];
 
     if (history && Array.isArray(history)) {
-      for (const msg of history.slice(-6)) {
+      for (const msg of history.slice(-12)) {
         messages.push({ role: msg.role, content: msg.content });
       }
     }
 
-    messages.push({ role: 'user', content: contextBlock });
+    // Explicit regenerate: the user has seen an answer to this question and
+    // asked for a fresh one — without this note (and the prior answer in
+    // history) retrieval convergence made "redo" return near-identical text.
+    const freshNote = fresh === true
+      ? '\n\n(The user has already seen an answer to this question and asked for a fresh one — vary the structure and draw on different excerpts and angles than before, where the texts allow.)'
+      : '';
+
+    messages.push({ role: 'user', content: contextBlock + freshNote });
 
     // Start Claude stream (takes ~500ms for first token)
     const stream = await anthropic.messages.stream({
@@ -622,6 +666,15 @@ export async function POST(request: Request) {
               controller.enqueue(encoder.encode(data));
             }
           }
+
+          // Surface truncation: a max_tokens stop used to just end the stream,
+          // so a mid-sentence cutoff looked like a finished answer.
+          try {
+            const final = await stream.finalMessage();
+            if (final.stop_reason === 'max_tokens') {
+              controller.enqueue(encoder.encode(JSON.stringify({ truncated: true }) + '\n'));
+            }
+          } catch { /* stream already errored — nothing to report */ }
 
           controller.close();
         } catch (err) {
