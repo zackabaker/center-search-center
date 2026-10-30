@@ -9,8 +9,19 @@ const OPEN = {
   // /sessions is deliberately NOT listed: a disallow line would advertise the
   // unlinked URL in public robots.txt; its meta noindex already keeps it out
   // of indexes.
-  disallow: ['/api/chat', '/api/random', '/names/admin', '/api/activity'],
+  // /ask is disallowed because loading /ask?q=… auto-fires a real,
+  // credit-burning AI generation (observed: a JS-rendering crawler walking
+  // the /ask?q= term links on /search). Known tradeoff: the block hides the
+  // page's meta noindex, so heavily-linked /ask?q= URLs could appear as
+  // reference-only listings — accepted; the content is generated, not
+  // archival. Link-preview scrapers get a carve-out below so Share links
+  // still unfurl.
+  disallow: ['/api/chat', '/api/random', '/names/admin', '/api/activity', '/ask'],
 };
+
+// Link-preview scrapers don't execute JS, so they can't trigger generations —
+// let them fetch /ask so the Share button's own links unfurl into cards.
+const CARD_SCRAPERS = ['Twitterbot', 'facebookexternalhit', 'LinkedInBot', 'Slackbot'];
 
 // AI crawlers, named explicitly so an overly cautious default elsewhere
 // never reads as a block. Same permissions as everyone else.
@@ -37,6 +48,11 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       { userAgent: '*', ...OPEN },
       ...AI_CRAWLERS.map((userAgent) => ({ userAgent, ...OPEN })),
+      ...CARD_SCRAPERS.map((userAgent) => ({
+        userAgent,
+        allow: OPEN.allow,
+        disallow: OPEN.disallow.filter((p) => p !== '/ask'),
+      })),
     ],
     sitemap: 'https://center.study/sitemap.xml',
     host: 'https://center.study',

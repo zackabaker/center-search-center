@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { CS_TERMS_SORTED, extractFollowUps, TERM_TO_CONCEPT_SLUG } from '@/lib/cs-terms';
@@ -35,6 +35,8 @@ interface Answer {
   passages?: Passage[];
   /** Inline synthesis quotes that failed verbatim verification (count / total checked). */
   inlineUnverified?: { failed: number; checked: number };
+  /** The model hit its output limit — the answer ends mid-thought. */
+  truncated?: boolean;
 }
 
 // Quoted spans inside the synthesis prose — the text most readers actually
@@ -280,6 +282,65 @@ function setCache(question: string, answer: Answer) {
   } catch { /* ignore storage errors */ }
 }
 
+// ── Conversation thread persistence ────────────────────────────────────────
+// The thread survives reloads and back-navigation for as long as the tab
+// lives (sessionStorage — same lifetime as the per-tab sid). Before this,
+// any reload silently wiped the conversation, and with it standing
+// instructions like "answer in Portuguese".
+const THREAD_KEY = 'csc-ask-thread';
+
+interface ThreadSnapshot {
+  qs: string[];
+  history: { role: 'user' | 'assistant'; content: string }[];
+  answers: [string, Answer][];
+}
+
+function loadThread(): { qs: string[]; history: ThreadSnapshot['history']; answers: Map<string, Answer> } | null {
+  try {
+    const raw = sessionStorage.getItem(THREAD_KEY);
+    if (!raw) return null;
+    const t = JSON.parse(raw) as ThreadSnapshot;
+    const msgOk = (m: ThreadSnapshot['history'][number]) =>
+      !!m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string';
+    if (
+      !Array.isArray(t.qs) || !t.qs.every((q) => typeof q === 'string') ||
+      !Array.isArray(t.history) || !t.history.every(msgOk) ||
+      !Array.isArray(t.answers) ||
+      !t.answers.every((e) => Array.isArray(e) && typeof e[0] === 'string' && !!e[1] && typeof (e[1] as Answer).content === 'string')
+    ) {
+      // A malformed snapshot must never brick /ask for the tab's lifetime.
+      sessionStorage.removeItem(THREAD_KEY);
+      return null;
+    }
+    return { qs: t.qs, history: t.history, answers: new Map(t.answers) };
+  } catch {
+    try { sessionStorage.removeItem(THREAD_KEY); } catch {}
+    return null;
+  }
+}
+
+function saveThread(
+  qs: string[],
+  history: { role: 'user' | 'assistant'; content: string }[],
+  answers: Map<string, Answer>
+) {
+  try {
+    const keptQs = qs.slice(-24);
+    const snap: ThreadSnapshot = {
+      qs: keptQs,
+      history: history.slice(-24),
+      // Derived from keptQs, NOT from Map order: Map.set on an existing key
+      // keeps its original position, so slicing the Map evicted freshly
+      // regenerated answers and let restored chips lose their answers.
+      answers: keptQs.flatMap((q): [string, Answer][] => {
+        const a = answers.get(q);
+        return a ? [[q, a]] : [];
+      }),
+    };
+    sessionStorage.setItem(THREAD_KEY, JSON.stringify(snap));
+  } catch { /* storage full/unavailable — the thread just won't survive a reload */ }
+}
+
 function sourceFromSlug(slug: string): string {
   const prefix = slug.split('-')[0];
   return SOURCE_LABELS[prefix] ?? prefix;
@@ -340,12 +401,7 @@ async function verifyPassages(passages: Passage[], signal?: AbortSignal): Promis
   }
 }
 
-export default function AskClient({
-  reviewed = [],
-}: {
-  /** Owner-reviewed static answers (/ask/[slug]) — offered before live generation. */
-  reviewed?: { slug: string; question: string }[];
-}) {
+export default function AskClient() {
   const [currentQuestion, setCurrentQuestion] = useState('');
   const [answer, setAnswer] = useState<Answer | null>(null);
   // The primary result (owner direction, 2026-10): the closest verbatim
@@ -400,11 +456,54 @@ export default function AskClient({
   const historyRef = useRef<{ role: 'user' | 'assistant'; content: string }[]>([]);
   const sessionAnswersRef = useRef<Map<string, Answer>>(new Map());
   const [sessionQs, setSessionQs] = useState<string[]>([]);
+  // Mirror of sessionQs for use inside async callbacks without stale closures.
+  const sessionQsRef = useRef<string[]>([]);
+  // Server Retry-After for the 429 cooldown (was a fixed 20s regardless).
+  const retryAfterRef = useRef(20);
+  // Whether the last failed attempt was a fresh regenerate, so "Try again"
+  // carries the intent instead of silently restoring the stale cached answer.
+  const failedFreshRef = useRef(false);
+  // A failed regenerate keeps the good answer on screen with this note,
+  // instead of blowing it away with the full error card.
+  const [regenFailed, setRegenFailed] = useState<string | null>(null);
+
+  // Record a completed turn in the thread strip and persist the whole thread.
+  function recordTurn(question: string) {
+    if (!sessionQsRef.current.includes(question)) {
+      sessionQsRef.current = [...sessionQsRef.current, question];
+      setSessionQs(sessionQsRef.current);
+    }
+    saveThread(sessionQsRef.current, historyRef.current, sessionAnswersRef.current);
+  }
   useEffect(() => {
     // Set true on every (re)mount — not just initial — so a StrictMode or HMR
     // remount doesn't leave it stuck false and silently drop answer completions.
     mountedRef.current = true;
     return () => { mountedRef.current = false; abortRef.current?.abort(); };
+  }, []);
+
+  // Rehydrate the conversation thread. Declared BEFORE the ?q= auto-submit
+  // effect (effects run in declaration order) so a restored thread is already
+  // in place when the URL question re-runs — the restore is then an instant
+  // session hit with the model-visible history intact.
+  useEffect(() => {
+    const t = loadThread();
+    if (!t || t.qs.length === 0) return;
+    historyRef.current = t.history;
+    sessionAnswersRef.current = t.answers;
+    sessionQsRef.current = t.qs;
+    setSessionQs(t.qs);
+    // No ?q= in the URL → land on the last question of the restored thread.
+    if (!searchParams.get('q')) {
+      const last = t.qs[t.qs.length - 1];
+      const a = sessionAnswersRef.current.get(last);
+      if (a) {
+        setCurrentQuestion(last);
+        setAnswer(a);
+        fetchExcerpts(last);
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -413,6 +512,12 @@ export default function AskClient({
     if (concept) setConceptSeed(concept);
     if (q && q !== lastAutoQ.current) {
       lastAutoQ.current = q;
+      // Headless crawlers follow /ask?q= links and used to auto-fire real,
+      // credit-burning generations. They get the question staged, not run.
+      if (typeof navigator !== 'undefined' && navigator.webdriver) {
+        setInput(q);
+        return;
+      }
       submit(q, concept ?? undefined);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -457,16 +562,22 @@ export default function AskClient({
       });
   }
 
-  async function submit(q: string, concept?: string) {
+  async function submit(q: string, concept?: string, opts?: { fresh?: boolean; isRetry?: boolean }) {
     if (!q.trim()) return;
     const question = q.trim();
-    logSearch(question, 'ask');
+    // A deliberate regenerate — the Regenerate button, or re-sending the exact
+    // question already on screen. Bypasses the caches (which made every "redo"
+    // return byte-identical text) and tells the server to vary the answer.
+    const fresh =
+      opts?.fresh === true ||
+      (!opts?.isRetry && question === currentQuestion && !!answer?.content);
     setInput('');
     setCurrentQuestion(question);
     // Clear any previous failure up front — the cache-hit early returns below
     // never reach the later setError(null), and the error state has render
     // precedence, so a stale error would otherwise mask the restored answer.
     setError(null);
+    setRegenFailed(null);
 
     // Snap to top for fresh session view
     if (mainRef.current) mainRef.current.scrollTop = 0;
@@ -488,30 +599,47 @@ export default function AskClient({
     }
 
     // History sent to the model so a follow-up builds on the conversation.
-    const sentHistory = historyRef.current.slice(-6);
+    // 12 messages = 6 exchanges — at 6, a standing instruction like "answer
+    // in Portuguese" fell out of the window after three follow-ups.
+    const sentHistory = historyRef.current.slice(-12);
 
-    // Already answered this exact question in this session → show it instantly.
-    const sessionHit = sessionAnswersRef.current.get(question);
-    if (sessionHit) {
-      abortRef.current = null;
-      setAnswer(sessionHit);
-      setIsLoading(false);
-      return;
-    }
-    // Cache hit — only for standalone questions. Follow-ups depend on the
-    // conversation, so they must not collide with the question-keyed cache.
-    if (sentHistory.length === 0) {
-      const cached = getCached(question);
-      if (cached) {
+    // A regenerate of a standalone question (history is exactly this
+    // question's own exchange) must overwrite the 24h cache — otherwise a
+    // truncated first answer kept being served in every new tab, immune to
+    // regeneration. Follow-ups deeper in a thread still skip the cache.
+    const standalone =
+      sentHistory.length === 0 ||
+      (fresh && sentHistory.length === 2 && sentHistory[0].role === 'user' && sentHistory[0].content === question);
+
+    if (!fresh) {
+      // Already answered this exact question in this session → show it instantly.
+      const sessionHit = sessionAnswersRef.current.get(question);
+      if (sessionHit) {
         abortRef.current = null;
-        setAnswer(cached);
-        sessionAnswersRef.current.set(question, cached);
-        setSessionQs((p) => (p.includes(question) ? p : [...p, question]));
-        historyRef.current.push({ role: 'user', content: question }, { role: 'assistant', content: splitAnswer(cached.content).prose });
+        setAnswer(sessionHit);
         setIsLoading(false);
         return;
       }
+      // Cache hit — only for standalone questions. Follow-ups depend on the
+      // conversation, so they must not collide with the question-keyed cache.
+      if (sentHistory.length === 0) {
+        const cached = getCached(question);
+        if (cached) {
+          abortRef.current = null;
+          setAnswer(cached);
+          sessionAnswersRef.current.set(question, cached);
+          historyRef.current.push({ role: 'user', content: question }, { role: 'assistant', content: splitAnswer(cached.content).prose });
+          recordTurn(question);
+          setIsLoading(false);
+          return;
+        }
+      }
     }
+
+    // Log only real generations. Cache restores and the silent auto-retry used
+    // to be logged as fresh asks too — which made one reader's reloads read as
+    // an 8x overnight retry storm in the search log.
+    if (!opts?.isRetry) logSearch(question, 'ask');
 
     setIsLoading(true);
     setError(null);
@@ -536,11 +664,15 @@ export default function AskClient({
           message: question,
           history: sentHistory,
           ...(concept ? { concept } : {}),
+          ...(fresh ? { fresh: true } : {}),
         }),
         signal: ac.signal,
       });
 
       if (!res.ok) {
+        // Honor the server's Retry-After on a 429 instead of a fixed 20s hold.
+        const ra = Number(res.headers.get('Retry-After'));
+        retryAfterRef.current = Number.isFinite(ra) && ra > 0 ? Math.min(ra, 120) : 20;
         let msg = 'Failed';
         try { msg = (await res.json()).error || msg; } catch { /* non-JSON error body */ }
         throw new Error(msg);
@@ -551,7 +683,18 @@ export default function AskClient({
       const decoder = new TextDecoder();
       let content = '';
       let sources: Source[] | undefined;
+      let truncated = false;
       let buffer = '';
+
+      // Throttle streaming renders to ~12fps. Re-parsing and re-rendering the
+      // whole growing answer on every token batch was visible jank on phones
+      // (the render cost grows with the answer, so late-stream it stuttered).
+      // parsePassages only runs once the Excerpts block has actually started.
+      let lastFlush = 0;
+      const flush = () => {
+        const hasExcerpts = /##\s+Excerpts/i.test(content);
+        setAnswer({ content, sources, passages: hasExcerpts ? parsePassages(content) : undefined });
+      };
 
       while (true) {
         const { done, value } = await reader.read();
@@ -559,6 +702,7 @@ export default function AskClient({
         buffer += decoder.decode(value, { stream: true });
         const lines = buffer.split('\n');
         buffer = lines.pop() || '';
+        let dirty = false;
         for (const line of lines) {
           if (!line.trim()) continue;
           try {
@@ -567,30 +711,42 @@ export default function AskClient({
             if (abortRef.current !== ac) continue;
             if (data.text) {
               content += data.text;
-              // Parse passages as the Excerpts block streams in so the quotes
-              // appear progressively, not only once the whole answer finishes.
-              setAnswer({ content, sources, passages: parsePassages(content) });
+              dirty = true;
             }
             if (data.sources) {
               sources = data.sources;
-              setAnswer({ content, sources, passages: parsePassages(content) });
+              dirty = true;
             }
+            if (data.truncated) truncated = true;
           } catch { /* skip malformed lines */ }
         }
+        if (dirty && Date.now() - lastFlush > 80) {
+          lastFlush = Date.now();
+          flush();
+        }
       }
+      if (abortRef.current === ac) flush();
 
       if (!mountedRef.current || abortRef.current !== ac) return;
       const followUps = extractFollowUps(content, question);
       const passages = parsePassages(content);
-      const finalAnswer: Answer = { content, sources, followUps, passages };
+      const finalAnswer: Answer = { content, sources, followUps, passages, ...(truncated ? { truncated: true } : {}) };
       setAnswer(finalAnswer);
       // Record the turn: cache standalone answers, remember every answer for the
       // session thread, and append to the model-visible history (prose only, to
       // keep follow-up context lean).
-      if (sentHistory.length === 0) setCache(question, finalAnswer);
+      if (standalone) setCache(question, finalAnswer);
       sessionAnswersRef.current.set(question, finalAnswer);
-      setSessionQs((p) => (p.includes(question) ? p : [...p, question]));
-      historyRef.current.push({ role: 'user', content: question }, { role: 'assistant', content: splitAnswer(content).prose });
+      // If the immediately preceding exchange is this same question (any
+      // regenerate path, including one restored from a snapshot), replace its
+      // answer instead of appending a consecutive duplicate exchange.
+      const h = historyRef.current;
+      if (h.length >= 2 && h[h.length - 2].role === 'user' && h[h.length - 2].content === question && h[h.length - 1].role === 'assistant') {
+        h[h.length - 1] = { role: 'assistant', content: splitAnswer(content).prose };
+      } else {
+        h.push({ role: 'user', content: question }, { role: 'assistant', content: splitAnswer(content).prose });
+      }
+      recordTurn(question);
 
       // Verify verbatim against the corpus (one cheap request, after
       // streaming — never blocks the answer, aborts on navigation). Checks
@@ -613,8 +769,9 @@ export default function AskClient({
             inlineUnverified: inlineVerified.length > 0 ? { failed, checked: inlineVerified.length } : undefined,
           };
           setAnswer((prev) => (prev && prev.content === content ? withVerify : prev));
-          if (sentHistory.length === 0) setCache(question, withVerify);
+          if (standalone) setCache(question, withVerify);
           sessionAnswersRef.current.set(question, withVerify);
+          saveThread(sessionQsRef.current, historyRef.current, sessionAnswersRef.current);
         });
       }
     } catch (err) {
@@ -627,18 +784,27 @@ export default function AskClient({
       const isNetworkDrop = err instanceof TypeError;
       if (isNetworkDrop && abortRef.current === ac && !retriedRef.current.has(question)) {
         retriedRef.current.add(question);
-        if (mountedRef.current) submit(question, concept);
+        if (mountedRef.current) submit(question, concept, { isRetry: true, fresh });
         return;
       }
       if (mountedRef.current && abortRef.current === ac) {
         const msg = err instanceof Error ? err.message : 'Something went wrong';
-        setError(msg);
-        setAnswer(null);
+        failedFreshRef.current = fresh;
+        // A failed regenerate must not blow away the good answer already on
+        // screen — restore it and surface the failure as a small note.
+        const prior = fresh ? sessionAnswersRef.current.get(question) : undefined;
+        if (prior) {
+          setAnswer(prior);
+          setRegenFailed(msg);
+        } else {
+          setError(msg);
+          setAnswer(null);
+        }
         // Rate-limited: an immediate "Try again" would just re-trigger the
         // same 429 — hold the button for a beat instead of inviting the loop.
         if (/too many requests|rate limit/i.test(msg)) {
           setCoolingDown(true);
-          setTimeout(() => { if (mountedRef.current) setCoolingDown(false); }, 20_000);
+          setTimeout(() => { if (mountedRef.current) setCoolingDown(false); }, retryAfterRef.current * 1000);
         }
       }
     } finally {
@@ -724,6 +890,24 @@ export default function AskClient({
               </button>
             ))}
           </div>
+          {/* Regenerate — a fresh generation for the question on screen.
+              Before this, re-asking returned byte-identical cached text.
+              Desktop-only: a 4th header button overflowed the 375px header;
+              on phones, re-sending the same question regenerates (and the
+              truncation note has its own inline regenerate link). */}
+          {answer?.content && !isLoading && (
+            <button
+              onClick={() => submit(currentQuestion, conceptSeed ?? undefined, { fresh: true })}
+              className="text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hidden sm:flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              title="Generate a fresh answer to this question"
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M1 4v6h6M23 20v-6h-6"/>
+                <path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/>
+              </svg>
+              <span className="hidden sm:inline">Regenerate</span>
+            </button>
+          )}
           {/* Download */}
           {answer?.content && !isLoading && (
             <button
@@ -765,9 +949,12 @@ export default function AskClient({
                 abortRef.current?.abort();
                 historyRef.current = [];
                 sessionAnswersRef.current.clear();
+                sessionQsRef.current = [];
                 setSessionQs([]);
                 setCurrentQuestion('');
                 setAnswer(null);
+                setRegenFailed(null);
+                try { sessionStorage.removeItem(THREAD_KEY); } catch {}
               }}
               className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-400 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             >
@@ -793,26 +980,6 @@ export default function AskClient({
               <p className="text-sm text-gray-500 dark:text-gray-400 max-w-md mx-auto mb-8 leading-relaxed">
                 Describe what you&apos;re looking for and the AI will surface the best direct quotes from the archive — passages you wouldn&apos;t find with keyword search.
               </p>
-              {/* Reviewed answers first — instant, owner-curated, no 15s burn */}
-              {reviewed.length > 0 && (
-                <div className="grid sm:grid-cols-2 gap-2 max-w-2xl mx-auto text-left mb-6">
-                  {reviewed.map(({ slug, question }) => (
-                    <Link
-                      key={slug}
-                      href={`/ask/${slug}`}
-                      className="group text-left text-sm px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-all"
-                    >
-                      <span className="block">{question}</span>
-                      <span className="mt-1 inline-block text-[10px] font-mono uppercase tracking-widest text-gray-300 dark:text-gray-600 group-hover:text-gray-400">
-                        instant · reviewed
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              )}
-              <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
-                Or generate a fresh answer
-              </p>
               <div className="grid sm:grid-cols-2 gap-2 max-w-2xl mx-auto text-left">
                 {SUGGESTED.slice(0, 2).map(q => (
                   <button
@@ -826,13 +993,6 @@ export default function AskClient({
               </div>
               <p className="text-xs text-gray-400 mt-6">
                 Answers download as <code className="font-mono">.md</code>{' '}— file into Obsidian to build your own wiki.
-              </p>
-              <p className="text-xs text-gray-400 mt-2">
-                Browse all{' '}
-                <Link href="/answers" className="underline decoration-dotted underline-offset-2 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-                  reviewed answers
-                </Link>
-                .
               </p>
               {showNamesHint && (
                 <div className="mt-6">
@@ -856,7 +1016,7 @@ export default function AskClient({
                   {sessionQs.map((q, qi) => (
                     <button
                       key={qi}
-                      onClick={() => { setCurrentQuestion(q); setError(null); const a = sessionAnswersRef.current.get(q); if (a) { setAnswer(a); if (mainRef.current) mainRef.current.scrollTop = 0; } else { submit(q); } }}
+                      onClick={() => { setCurrentQuestion(q); setError(null); setRegenFailed(null); const a = sessionAnswersRef.current.get(q); if (a) { setAnswer(a); if (excerptQRef.current !== q) fetchExcerpts(q); if (mainRef.current) mainRef.current.scrollTop = 0; } else { submit(q); } }}
                       title={q}
                       className={`max-w-[14rem] truncate text-[11px] px-2 py-1 rounded-full border transition-colors ${
                         q === currentQuestion
@@ -902,7 +1062,7 @@ export default function AskClient({
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{error}</p>
                     <div className="flex flex-wrap items-center gap-3">
                       <button
-                        onClick={() => submit(currentQuestion, conceptSeed ?? undefined)}
+                        onClick={() => submit(currentQuestion, conceptSeed ?? undefined, failedFreshRef.current ? { fresh: true } : undefined)}
                         disabled={coolingDown}
                         className="px-4 py-2 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-medium hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                       >
@@ -919,6 +1079,27 @@ export default function AskClient({
                 ) : answer?.content ? (
                   <div>
                     {renderMarkdown(splitAnswer(answer.content).prose, fontSize, handleTermClick)}
+                    {regenFailed && !isLoading && (
+                      <p className="mt-4 flex items-center gap-1.5 text-xs text-amber-700 dark:text-amber-400">
+                        <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /></svg>
+                        <span>{'Couldn’t regenerate ('}{regenFailed}{') — showing the previous answer. Try again in a moment.'}</span>
+                      </p>
+                    )}
+                    {answer.truncated && !isLoading && (
+                      <p className="mt-4 flex items-center gap-1.5 text-xs text-amber-700 dark:text-amber-400">
+                        <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /></svg>
+                        <span>
+                          This answer hit the length limit and ends early —{' '}
+                          <button
+                            onClick={() => submit(currentQuestion, conceptSeed ?? undefined, { fresh: true })}
+                            className="underline underline-offset-2 hover:text-amber-900 dark:hover:text-amber-300"
+                          >
+                            regenerate
+                          </button>{' '}
+                          for a complete one.
+                        </span>
+                      </p>
+                    )}
                     {answer.inlineUnverified && answer.inlineUnverified.failed > 0 && (
                       <p className="mt-4 flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
                         <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /></svg>

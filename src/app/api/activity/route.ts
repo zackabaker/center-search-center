@@ -43,7 +43,8 @@ const LOG_CAP = 20000;
 // Self-identified crawlers add nothing to a log that exists to show how
 // PEOPLE move through the site — skip them at ingest (the UA itself is
 // checked and discarded, never stored).
-const BOT_UA = /bot|crawl|spider|slurp|headless|preview|fetch|scrape|monitor|lighthouse/i;
+// (?<!cu) keeps Cubot-brand Android phones (real users) out of the match.
+const BOT_UA = /(?<!cu)bot|crawl|spider|slurp|headless|preview|fetch|scrape|monitor|lighthouse/i;
 
 export async function POST(request: Request) {
   if (!isSameOrigin(request)) {
