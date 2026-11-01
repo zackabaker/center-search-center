@@ -1,14 +1,21 @@
-name: Weekly corpus refresh
+name: Corpus refresh (new-post watch)
 
 # The Vercel build already ingests new Substack posts (prebuild runs
-# scripts/fetch-new-posts.ts against the RSS feed). This job just notices when
-# the feed has something the live site doesn't and pushes an EMPTY commit to
-# trigger a deploy — no files touched, so it can never conflict with local
-# ga_context.txt edits.
+# scripts/fetch-new-posts.ts against the RSS feed). This job polls every
+# 15 minutes, notices when the feed has a post the live site doesn't, and
+# pushes an EMPTY commit to trigger a deploy — no files touched, so it can
+# never conflict with local ga_context.txt edits.
+#
+# The comparison is deliberately DAY-granular on each feed's FIRST item:
+# the site's feed renders pubDates at midnight GMT, so a timestamp compare
+# would stay "new" all day after a deploy and loop 96 builds/day at this
+# cadence. Day-equal means ingested. (Edge accepted: a second post published
+# the same day waits for the next unrelated deploy or the Monday weekly
+# update to be picked up.)
 
 on:
   schedule:
-    - cron: '0 13 * * 1,4'   # Mon + Thu 13:00 UTC
+    - cron: '*/15 * * * *'
   workflow_dispatch: {}
 
 permissions:
@@ -22,13 +29,26 @@ jobs:
       - name: Compare Substack feed vs live site
         id: check
         run: |
-          feed_latest=$(curl -s https://dennisbouvard.substack.com/feed | grep -oE '<pubDate>[^<]+</pubDate>' | head -2 | tail -1 | sed 's/<[^>]*>//g')
-          site_latest=$(curl -s https://center.study/feed/substack | grep -oE '<pubDate>[^<]+</pubDate>' | head -2 | tail -1 | sed 's/<[^>]*>//g')
+          # First <pubDate> AFTER the first <item> tag — channel-level dates
+          # (lastBuildDate, or a pubDate Substack may add) must not be read as
+          # the newest post.
+          first_item_date() {
+            curl -s "$1" | tr '\n' ' ' | grep -oE '<item>.*' | head -1 \
+              | grep -oE '<pubDate>[^<]+</pubDate>' | head -1 | sed 's/<[^>]*>//g'
+          }
+          feed_latest=$(first_item_date https://dennisbouvard.substack.com/feed)
+          site_latest=$(first_item_date https://center.study/feed/substack)
           echo "feed:  $feed_latest"
           echo "site:  $site_latest"
-          feed_ts=$(date -d "$feed_latest" +%s 2>/dev/null || echo 0)
-          site_ts=$(date -d "$site_latest" +%s 2>/dev/null || echo 0)
-          if [ "$feed_ts" -gt "$site_ts" ]; then
+          # Fail safe on BOTH sides: an unparseable/empty feed date reads as
+          # "nothing new" (0), and an unparseable/empty site date reads as
+          # "site is current" (99999999) — a transient fetch failure on either
+          # feed must never start a deploy loop at this cadence. The -z checks
+          # matter: GNU `date -d ""` succeeds and returns TODAY, which would
+          # turn a Substack hiccup into "new post today" every 15 minutes.
+          if [ -z "$feed_latest" ]; then feed_day=0; else feed_day=$(date -u -d "$feed_latest" +%Y%m%d 2>/dev/null || echo 0); fi
+          if [ -z "$site_latest" ]; then site_day=99999999; else site_day=$(date -u -d "$site_latest" +%Y%m%d 2>/dev/null || echo 99999999); fi
+          if [ "$feed_day" -gt "$site_day" ]; then
             echo "new=true" >> "$GITHUB_OUTPUT"
           else
             echo "new=false" >> "$GITHUB_OUTPUT"
