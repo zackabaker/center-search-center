@@ -173,9 +173,14 @@ export default function InvitePage() {
             <SectionHead>Preparation</SectionHead>
             <p className={p}>
               We will be working with the vocabulary of{' '}
-              <Link href="/mining-the-gaps" className={link}>
+              <a
+                href="https://app.notion.com/p/Mining-the-Gaps-99110453eed540bb94af6e88274be7c8?pvs=25"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={link}
+              >
                 Mining the Gaps
-              </Link>
+              </a>
               , which is required reading before the first session. Participants are also expected
               to be familiar with Dennis Bouvard&rsquo;s{' '}
               <a href="https://amazon.com/dp/0648690571" className={link}>
