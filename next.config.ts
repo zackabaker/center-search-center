@@ -58,6 +58,10 @@ const nextConfig: NextConfig = {
       // The long vanity domain (thereisnoeconomybutonlythedebttothecenter.com)
       // can redirect here. Keeps the URL clean — no .html, no site chrome.
       { source: '/there-is-no-economy', destination: '/original/there-is-no-economy.html' },
+      // Shareable seminar invitation: /invite IS the syllabus PDF (per owner,
+      // the designed HTML treatments read worse than the document). Clean URL,
+      // inline PDF; the file lives in public/.
+      { source: '/invite', destination: '/writing-companies-into-existence.pdf' },
     ];
   },
 
