@@ -16,6 +16,9 @@ interface AuthorProfile {
   selectPosts: (all: Post[]) => Post[];
   sources: ContentSource[];
   links: { label: string; href: string }[];
+  /** Off-site identity links (X, Substack, publisher). External URLs also feed
+   *  the Person JSON-LD's sameAs, tying the identity together for crawlers. */
+  elsewhere?: { label: string; href: string }[];
   /** Reference-tier author — work hosted as source material, not the archive's own voice. */
   tier?: 'reference';
 }
@@ -35,6 +38,11 @@ const KATZ: AuthorProfile = {
     { label: 'Essays & Articles', href: '/browse/pdf' },
     { label: 'Threads & Q&A', href: '/browse/threads' },
   ],
+  elsewhere: [
+    { label: '@bouvard38829538', href: 'https://x.com/bouvard38829538' },
+    { label: 'Substack', href: 'https://dennisbouvard.substack.com' },
+    { label: 'Anthropomorphics (Imperium Press)', href: 'https://amazon.com/dp/0648690571' },
+  ],
 };
 
 // Zack Baker — co-author with Adam Katz of "There Is No Economy…" and the
@@ -42,13 +50,18 @@ const KATZ: AuthorProfile = {
 // credited on (matched by byline).
 const BAKER: AuthorProfile = {
   name: 'Zack Baker',
-  bio: 'Zack Baker is the co-author, with Adam Katz, of “There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary” (Anthropoetics XXVIII, no. 2, Spring 2023), and the builder of the Center Study archive.',
+  bio: 'Zack Baker is the maintainer of center.study. He is the co-author, with Adam Katz, of “There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary” (Anthropoetics XXVIII, no. 2, Spring 2023).',
   sources: ['pdf'] as ContentSource[],
   // Matched by byline. The essay exists in two source-copies (our clean reading
   // copy under `pdf` and the raw Anthropoetics-journal copy under `ap`); show
   // only the canonical `pdf` one so the work isn't listed twice.
   selectPosts: (all) => all.filter((p) => /\bzack baker\b/i.test(p.author ?? '') && p.source !== 'ap'),
   links: [{ label: 'Essays & Articles', href: '/browse/pdf' }],
+  elsewhere: [
+    { label: '@zackabaker', href: 'https://x.com/zackabaker' },
+    { label: 'Substack', href: 'https://zackbaker.substack.com' },
+    { label: 'There Is No Economy…', href: '/there-is-no-economy' },
+  ],
 };
 
 // Eric Gans — founder of Generative Anthropology. His "Chronicles of Love and
@@ -159,6 +172,12 @@ export default async function AuthorPage({
 
   const totalCount = posts.length;
 
+  // Off-site profile URLs tie the identity together for crawlers (sameAs);
+  // on-site paths in `elsewhere` are navigation, not identity — leave them out.
+  const sameAs = (profile.elsewhere ?? [])
+    .map((l) => l.href)
+    .filter((href) => href.startsWith('https://'));
+
   const personJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
@@ -167,6 +186,7 @@ export default async function AuthorPage({
     ...(profile.altName ? { alternateName: profile.altName } : {}),
     description: profile.bio,
     url: `https://center.study/author/${name}`,
+    ...(sameAs.length > 0 ? { sameAs } : {}),
   };
 
   return (
@@ -208,6 +228,34 @@ export default async function AuthorPage({
             </Link>
           ))}
         </div>
+        {profile.elsewhere && profile.elsewhere.length > 0 && (
+          <div className="flex flex-wrap gap-2 items-center mt-2.5">
+            <span className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500">
+              Elsewhere
+            </span>
+            {profile.elsewhere.map((l) =>
+              l.href.startsWith('/') ? (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="text-xs px-2 py-1 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
+                  {l.label}
+                </Link>
+              ) : (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  target="_blank"
+                  rel="me noopener noreferrer"
+                  className="text-xs px-2 py-1 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
+                  {l.label} ↗
+                </a>
+              )
+            )}
+          </div>
+        )}
       </div>
 
       {/* Posts grouped by source */}
