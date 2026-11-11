@@ -89,14 +89,74 @@ export default function BeginPage() {
   return (
     <main className="max-w-3xl w-full mx-auto px-4 py-10 pb-24">
       <header className="mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-3 text-gray-900 dark:text-white">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-gray-900 dark:text-white">
           Begin
         </h1>
-        {/* Subheading wording is the owner's call — placeholder until he sets it. */}
-        <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
-          Center Study is an archive of 1,900+ texts built on one hypothesis about
-          the origin of language and the human.
-        </p>
+        {/* Owner-authored intro (2026-11-11, final), woven with verbatim archive
+            sentences — the quoted, linked clauses are exact corpus substrings
+            (verified against posts-cache.json). Edit only on his direction. */}
+        <div className="space-y-4 text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
+          <p>
+            Center Study branches off from Rene Girard&rsquo;s Mimetic Theory and
+            Eric Gans&rsquo; Generative Anthropology to found a new discipline
+            grounded in the originary hypothesis: a hypothesis of the origin of
+            language, which is also the origin of the human and the sacred.
+            &ldquo;
+            <Link
+              href={`/post/the-modernity-of-absolutism?q=${encodeURIComponent('At the origin of humanity lies representation')}`}
+              className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2"
+            >
+              At the origin of humanity lies representation as the deferral of violence.
+            </Link>
+            &rdquo; Language originates in a gesture, issued in the midst of a
+            mimetic crisis in which an entire group of hominids converges on a
+            single object, breaking down the pecking order that limits violence
+            in animal groups. This gesture &mdash; a gesture of aborted
+            appropriation, grasping converted into pointing &mdash; is the first
+            sign, because it is iterable and has a referent: the first symbol
+            that has meaning.
+          </p>
+          <p>
+            Center Study departs from Generative Anthropology by staying focused
+            on the enduring centrality of the center to any form of human
+            organization or sociality. The center is first a ritual, sacrificial
+            center, a site of exchange with the animal consumed and deified by
+            the group; it is eventually seized by a human &mdash; what
+            anthropologists call the &ldquo;Big Man,&rdquo; then chiefs, sacred
+            kings, emperors, and the state. &ldquo;
+            <Link
+              href={`/post/centering?q=${encodeURIComponent('Any occupation of the center, then, means')}`}
+              className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2"
+            >
+              Any occupation of the center, then, means absolute power within the space of attention producing that center.
+            </Link>
+            &rdquo; Center study reads the social order as an effect of the
+            engagement between periphery and center &mdash; on the premise that
+            &ldquo;
+            <Link
+              href={`/post/the-scene-is-the-same?q=${encodeURIComponent('the originary scene has never closed')}`}
+              className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2"
+            >
+              the originary scene has never closed
+            </Link>
+            .&rdquo;
+          </p>
+          <p>
+            Center Study is a source of not just hypotheses but of companies that
+            sit on the boundary between the capitalist, even ultra-capitalist,
+            and the no longer quite capitalist order: betting, prediction
+            markets, employment agencies, new currencies, investment inquiries
+            &mdash; but also a space where well-being, learning and inquiry are
+            ends in themselves. It insists on building a new vocabulary of
+            thinking from the bottom up, resisting familiar phrases and reworking
+            everything in terms of center study fundamentals. Politically, this
+            involves a critique of political theories that start from the
+            &ldquo;bottom&rdquo; (the free subject, the people, etc.), insisting
+            on starting from the center, from where authority and an originary
+            distribution are assumed to have taken place and set the terms for
+            future distributions and exchanges.
+          </p>
+        </div>
       </header>
 
       <PathOrientation />
