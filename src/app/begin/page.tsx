@@ -17,7 +17,7 @@ const TERM_CLASS =
 // (verified against posts-cache.json when authored).
 
 export const metadata: Metadata = {
-  title: 'Begin',
+  title: 'Getting Started',
   description:
     'An introduction to Center Study in the archive’s own words: what the originary hypothesis is, what it can do — and a personal reading path into 1,900+ texts.',
 };
@@ -95,8 +95,8 @@ export default function BeginPage() {
   return (
     <main className="max-w-3xl w-full mx-auto px-4 py-10 pb-24">
       <header className="mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-gray-900 dark:text-white">
-          Begin
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-900 dark:text-white text-center">
+          Getting Started
         </h1>
         {/* Owner-authored intro (2026-11-11, final), woven with verbatim archive
             sentences — the quoted, linked clauses are exact corpus substrings
@@ -166,7 +166,10 @@ export default function BeginPage() {
       <PathOrientation />
 
       <section className="mb-12">
-        <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mb-6">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white text-center mb-4">
+          Generate a Reading Path
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto text-center mb-6">
           Select your interests and, if you want, describe your background. The
           site assembles a reading path &mdash; five to seven texts in order, each
           opened by a verbatim passage &mdash; and saves it at a link you can
