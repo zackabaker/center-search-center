@@ -93,8 +93,8 @@ export default function BeginPage() {
         </h1>
         <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
           Center Study is an archive of 1,900+ texts built on one hypothesis about
-          the origin of language and the human. The archive introduces itself best
-          in its own words.
+          the origin of language and the human. Below, in the archive&rsquo;s own
+          words: the hypothesis, and what it is for.
         </p>
       </header>
 
@@ -121,20 +121,20 @@ export default function BeginPage() {
           Your way in
         </h2>
         <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mb-6">
-          Tell the archive where you&rsquo;re coming from and it will assemble a
-          reading path for you &mdash; a handful of texts in order, each opened by a
-          passage quoted verbatim from the archive, saved at a link you can return
-          to. No account, nothing personal: just your interests.
+          Select your interests and, if you want, describe your background. The
+          site assembles a reading path &mdash; five to seven texts in order, each
+          opened by a verbatim passage &mdash; and saves it at a link you can
+          return to. No account; nothing personal is asked.
         </p>
         <BeginClient />
       </section>
 
       <section className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-        Prefer to walk in unaided? Try the{' '}
-        <Link href="/start" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">guided start</Link>,{' '}
+        Other ways in:{' '}
+        <Link href="/start" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">the guided start</Link>,{' '}
         the curated{' '}
         <Link href="/guide/reading-paths" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">reading paths</Link>,{' '}
-        or the{' '}
+        and the{' '}
         <Link href="/guide" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">guide</Link>.
       </section>
     </main>
