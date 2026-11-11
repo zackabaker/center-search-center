@@ -16,7 +16,10 @@ const OPEN = {
   // reference-only listings — accepted; the content is generated, not
   // archival. Link-preview scrapers get a carve-out below so Share links
   // still unfurl.
-  disallow: ['/api/chat', '/api/random', '/names/admin', '/api/activity', '/ask'],
+  // /api/begin spends an AI generation per request, like /api/chat.
+  // /begin/p/* (saved paths) rely on meta noindex, not a disallow line, for
+  // the same don't-advertise-unlinked-URLs reason as /sessions above.
+  disallow: ['/api/chat', '/api/begin', '/api/random', '/names/admin', '/api/activity', '/ask'],
 };
 
 // Link-preview scrapers don't execute JS, so they can't trigger generations —
