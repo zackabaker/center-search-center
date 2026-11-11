@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getKV } from '@/lib/kv';
+import PathOrientation from '@/components/PathOrientation';
 
 // A saved /begin reading path. Server-rendered from KV; the URL is the
 // visitor's returnable/shareable copy. Unlisted: noindex, not in the sitemap.
@@ -104,11 +105,13 @@ export default async function SavedPathPage(
           </div>
         )}
         <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl">
-          {saved.items.length} texts chosen for you{createdLabel ? ` on ${createdLabel}` : ''}.
-          Every excerpt below is quoted verbatim from the archive. This page lives at
-          this address &mdash; bookmark it or share the link to come back.
+          {saved.items.length} texts{createdLabel ? `, assembled ${createdLabel}` : ''}.
+          Every excerpt is quoted verbatim from the archive. Bookmark or share
+          this link to return.
         </p>
       </header>
+
+      <PathOrientation />
 
       {saved.note && (
         <section className="mb-10 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 p-5">
@@ -145,11 +148,9 @@ export default async function SavedPathPage(
                   </span>
                 )}
               </div>
-              {item.why && (
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 ml-8">
-                  {item.why}
-                </p>
-              )}
+              {/* The stored record also carries an AI "why" line per item;
+                  deliberately not rendered — the verbatim excerpt carries the
+                  page, per the verbatim-over-AI-prose policy. */}
               <figure className="ml-8 border-l-2 border-gray-300 dark:border-gray-600 pl-5">
                 <blockquote className="font-serif text-[16px] leading-[1.8] text-gray-800 dark:text-gray-200">
                   {item.excerpt}
@@ -193,7 +194,7 @@ export default async function SavedPathPage(
         </Link>
         {' '}&middot;{' '}
         <Link href="/guide" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">
-          All the ways into the archive
+          Guide
         </Link>
       </section>
     </main>

@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { READING_PATHS, getPathBySlug } from '@/data/guide/reading-paths';
 import ActivePathTracker from '@/components/ActivePathTracker';
+import PathOrientation from '@/components/PathOrientation';
 import type { Metadata } from 'next';
 
 export function generateStaticParams() {
@@ -32,6 +33,8 @@ export default async function ReadingPathPage({ params }: { params: Promise<{ sl
         </Link>
         <h1 className="text-2xl sm:text-3xl font-bold leading-tight mt-4 text-gray-900 dark:text-white">{path.title}</h1>
       </div>
+
+      <PathOrientation />
 
       <ol className="list-decimal pl-6 space-y-3">
         {path.posts.map((post) => (
