@@ -2,6 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import BeginClient from './BeginClient';
 import PathOrientation from '@/components/PathOrientation';
+import TermLink from '@/components/TermLink';
+
+// Dotted concept links in the intro — same style and hover-card behavior as
+// term links inside posts (PostContent).
+const TERM_CLASS =
+  'underline decoration-dotted decoration-gray-400 dark:decoration-gray-600 hover:decoration-gray-700 dark:hover:decoration-gray-400 transition-colors';
 
 // /begin — the engaging introduction. The page explains what the originary
 // hypothesis is and what it can do ENTIRELY in verbatim passages from the
@@ -97,59 +103,57 @@ export default function BeginPage() {
             (verified against posts-cache.json). Edit only on his direction. */}
         <div className="space-y-4 text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
           <p>
-            Center Study branches off from Rene Girard&rsquo;s Mimetic Theory and
-            Eric Gans&rsquo; Generative Anthropology to found a new discipline
-            grounded in the originary hypothesis: a hypothesis of the origin of
-            language, which is also the origin of the human and the sacred.
-            &ldquo;
-            <Link
-              href={`/post/the-modernity-of-absolutism?q=${encodeURIComponent('At the origin of humanity lies representation')}`}
-              className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2"
-            >
-              At the origin of humanity lies representation as the deferral of violence.
-            </Link>
-            &rdquo; Language originates in a gesture, issued in the midst of a
-            mimetic crisis in which an entire group of hominids converges on a
+            Center Study branches off from Rene Girard&rsquo;s{' '}
+            <Link href="/lineage" className={TERM_CLASS} title="The Lineage">Mimetic Theory</Link>
+            {' '}and Eric Gans&rsquo;{' '}
+            <Link href="/generative-anthropology" className={TERM_CLASS} title="Generative Anthropology">Generative Anthropology</Link>
+            {' '}to found a new discipline grounded in the{' '}
+            <TermLink href="/guide/concepts/originary-scene" defKey="g:originary-hypothesis" className={TERM_CLASS} title="Concept: originary scene">originary hypothesis</TermLink>
+            : the hypothetical origin of humanity in the{' '}
+            <TermLink href="/guide/concepts/deferral" defKey="c:deferral" className={TERM_CLASS} title="Concept: deferral">deferral</TermLink>
+            {' '}of violence via representation (language) &mdash; which is also
+            the origin of the human and{' '}
+            <TermLink href="/guide/concepts/the-sacred" defKey="c:the-sacred" className={TERM_CLASS} title="Concept: the sacred">the sacred</TermLink>.
+            {' '}Language originates in a gesture, issued in the midst of a{' '}
+            <TermLink href="/guide/concepts/mimesis" defKey="g:mimetic-crisis" className={TERM_CLASS} title="Concept: mimesis">mimetic crisis</TermLink>
+            {' '}in which an entire group of hominids converges on a
             single object, breaking down the pecking order that limits violence
-            in animal groups. This gesture &mdash; a gesture of aborted
-            appropriation, grasping converted into pointing &mdash; is the first
-            sign, because it is iterable and has a referent: the first symbol
+            in animal groups. This gesture &mdash; a{' '}
+            <TermLink href="/guide/concepts/originary-scene" defKey="g:aborted-gesture-of-appropriation" className={TERM_CLASS} title="Concept: originary scene">gesture of aborted appropriation</TermLink>
+            , grasping converted into pointing &mdash; is{' '}
+            <TermLink href="/guide/concepts/the-sign" defKey="c:the-sign" className={TERM_CLASS} title="Concept: the sign">the first sign</TermLink>
+            , because it is iterable and has a referent: the first symbol
             that has meaning.
           </p>
           <p>
             Center Study departs from Generative Anthropology by staying focused
-            on the enduring centrality of the center to any form of human
-            organization or sociality. The center is first a ritual, sacrificial
+            on the enduring centrality of{' '}
+            <TermLink href="/guide/concepts/the-center" defKey="c:the-center" className={TERM_CLASS} title="Concept: the center">the center</TermLink>
+            {' '}to any form of human
+            organization or sociality. The center is first a{' '}
+            <TermLink href="/guide/concepts/ritual" defKey="c:ritual" className={TERM_CLASS} title="Concept: ritual">ritual</TermLink>
+            , sacrificial
             center, a site of exchange with the animal consumed and deified by
             the group; it is eventually seized by a human &mdash; what
-            anthropologists call the &ldquo;Big Man,&rdquo; then chiefs, sacred
-            kings, emperors, and the state. &ldquo;
-            <Link
-              href={`/post/centering?q=${encodeURIComponent('Any occupation of the center, then, means')}`}
-              className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2"
-            >
-              Any occupation of the center, then, means absolute power within the space of attention producing that center.
-            </Link>
-            &rdquo; Center study reads the social order as an effect of the
-            engagement between periphery and center &mdash; on the premise that
-            &ldquo;
-            <Link
-              href={`/post/the-scene-is-the-same?q=${encodeURIComponent('the originary scene has never closed')}`}
-              className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2"
-            >
-              the originary scene has never closed
-            </Link>
-            .&rdquo;
+            anthropologists call the &ldquo;
+            <TermLink href="/guide/concepts/big-man" defKey="c:big-man" className={TERM_CLASS} title="Concept: the Big Man">Big Man</TermLink>
+            ,&rdquo; then chiefs, sacred
+            kings, emperors, and the state. Center study follows this thread, and
+            reads the social order as an effect of the engagement between
+            periphery and center.
           </p>
           <p>
             Center Study is a source of not just hypotheses but of companies that
             sit on the boundary between the capitalist, even ultra-capitalist,
-            and the no longer quite capitalist order: betting, prediction
-            markets, employment agencies, new currencies, investment inquiries
+            and the no longer quite capitalist order: betting,{' '}
+            <TermLink href="/guide/concepts/market" defKey="c:market" className={TERM_CLASS} title="Concept: the market">prediction markets</TermLink>
+            , employment agencies, new currencies, investment inquiries
             &mdash; but also a space where well-being, learning and inquiry are
             ends in themselves. It insists on building a new vocabulary of
             thinking from the bottom up, resisting familiar phrases and reworking
-            everything in terms of center study fundamentals. Politically, this
+            everything in terms of{' '}
+            <TermLink href="/guide/concepts/center-study" defKey="c:center-study" className={TERM_CLASS} title="Concept: center study">center study fundamentals</TermLink>
+            . Politically, this
             involves a critique of political theories that start from the
             &ldquo;bottom&rdquo; (the free subject, the people, etc.), insisting
             on starting from the center, from where authority and an originary
@@ -161,31 +165,12 @@ export default function BeginPage() {
 
       <PathOrientation />
 
-      <form action="/search" method="get" className="mb-10" role="search">
-        <label htmlFor="begin-search" className="sr-only">Search the archive</label>
-        <div className="flex gap-2">
-          <input
-            id="begin-search"
-            type="search"
-            name="q"
-            placeholder="Search the archive"
-            className="flex-1 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-3 py-2.5 text-[15px] text-gray-800 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-gray-500 dark:focus:border-gray-400"
-          />
-          <button
-            type="submit"
-            className="px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-gray-500 dark:hover:border-gray-400 transition-colors"
-          >
-            Search
-          </button>
-        </div>
-      </form>
-
       <section className="mb-12">
         <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mb-6">
           Select your interests and, if you want, describe your background. The
           site assembles a reading path &mdash; five to seven texts in order, each
           opened by a verbatim passage &mdash; and saves it at a link you can
-          return to. No account; nothing personal is asked.
+          return to.
         </p>
         <BeginClient />
       </section>
