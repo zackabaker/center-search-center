@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import BeginClient from './BeginClient';
+import PathOrientation from '@/components/PathOrientation';
 
 // /begin — the engaging introduction. The page explains what the originary
 // hypothesis is and what it can do ENTIRELY in verbatim passages from the
@@ -87,16 +88,47 @@ function PassageBlock({ p }: { p: Passage }) {
 export default function BeginPage() {
   return (
     <main className="max-w-3xl w-full mx-auto px-4 py-10 pb-24">
-      <header className="mb-10">
+      <header className="mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold mb-3 text-gray-900 dark:text-white">
-          Begin here
+          Begin
         </h1>
+        {/* Subheading wording is the owner's call — placeholder until he sets it. */}
         <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
           Center Study is an archive of 1,900+ texts built on one hypothesis about
-          the origin of language and the human. Below, in the archive&rsquo;s own
-          words: the hypothesis, and what it is for.
+          the origin of language and the human.
         </p>
       </header>
+
+      <PathOrientation />
+
+      <form action="/search" method="get" className="mb-10" role="search">
+        <label htmlFor="begin-search" className="sr-only">Search the archive</label>
+        <div className="flex gap-2">
+          <input
+            id="begin-search"
+            type="search"
+            name="q"
+            placeholder="Search the archive"
+            className="flex-1 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-3 py-2.5 text-[15px] text-gray-800 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-gray-500 dark:focus:border-gray-400"
+          />
+          <button
+            type="submit"
+            className="px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-gray-500 dark:hover:border-gray-400 transition-colors"
+          >
+            Search
+          </button>
+        </div>
+      </form>
+
+      <section className="mb-12">
+        <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mb-6">
+          Select your interests and, if you want, describe your background. The
+          site assembles a reading path &mdash; five to seven texts in order, each
+          opened by a verbatim passage &mdash; and saves it at a link you can
+          return to. No account; nothing personal is asked.
+        </p>
+        <BeginClient />
+      </section>
 
       <section className="mb-12">
         <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-6">
@@ -114,19 +146,6 @@ export default function BeginPage() {
         <div className="space-y-8">
           {WHAT_IT_CAN_DO.map((p) => <PassageBlock key={p.slug} p={p} />)}
         </div>
-      </section>
-
-      <section className="mb-12">
-        <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">
-          Your way in
-        </h2>
-        <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mb-6">
-          Select your interests and, if you want, describe your background. The
-          site assembles a reading path &mdash; five to seven texts in order, each
-          opened by a verbatim passage &mdash; and saves it at a link you can
-          return to. No account; nothing personal is asked.
-        </p>
-        <BeginClient />
       </section>
 
       <section className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
