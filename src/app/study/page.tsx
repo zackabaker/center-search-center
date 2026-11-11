@@ -309,6 +309,30 @@ export default async function StudyPage() {
         </ol>
       </section>
 
+      {/* ---------------- Begin paths ---------------- */}
+      <section id="begin" className="mt-12">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Generated reading paths</h2>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          Everything entered on /begin — chips, free text — and what came back. The link opens the saved path.
+        </p>
+        <ol className="mt-3 space-y-2 text-sm">
+          {data.beginPaths.map((b, i) => (
+            <li key={`${b.id}-${i}`} className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+              <span className="text-xs tabular-nums text-gray-400 w-28 shrink-0">{timeET.format(b.t)}</span>
+              {b.interests.map((it) => (
+                <span key={it} className="rounded bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 text-xs text-gray-700 dark:text-gray-300">{it}</span>
+              ))}
+              {b.text && <span className="text-gray-800 dark:text-gray-200">“{b.text}”</span>}
+              <a href={`/begin/p/${b.id}`} className="text-xs text-gray-500 underline">{b.n} texts →</a>
+              {b.fb && <span className="text-xs text-rose-600 dark:text-rose-300">fallback</span>}
+              {b.mine && <span className="text-xs text-amber-600 dark:text-amber-300">you</span>}
+              {b.sid && sidSet.has(b.sid) && <a href={`#s-${b.sid}`} className="text-xs text-gray-500 underline">session →</a>}
+            </li>
+          ))}
+          {data.beginPaths.length === 0 && <li className="text-gray-400">None generated yet.</li>}
+        </ol>
+      </section>
+
       {/* ---------------- Sessions ---------------- */}
       <section id="sessions" className="mt-12">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Sessions</h2>

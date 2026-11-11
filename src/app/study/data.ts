@@ -36,6 +36,16 @@ export type DayRow = {
 export type TermRow = { q: string; n: number };
 export type TopPost = { slug: string; title: string; source: string; n: number };
 export type SearchHit = { q: string; mode: string; mine: boolean; t: number; sid?: string; n?: number };
+export type BeginHit = {
+  id: string;          // saved path id → /begin/p/<id>
+  interests: string[];
+  text?: string;       // the visitor's free-text background (capped at write)
+  n: number;           // texts in the generated path
+  fb: boolean;         // true when the model failed and top-score fallback ran
+  mine: boolean;
+  sid?: string;
+  t: number;
+};
 export type PeopleHit = { q: string; t: number; mine: boolean; sid?: string; term: string };
 
 export type SessionEvent = {
@@ -75,6 +85,7 @@ export type StudyData = {
   zeroResult: SearchHit[];
   peopleHits: PeopleHit[];
   recentSearches: SearchHit[];
+  beginPaths: BeginHit[]; // generated reading paths (/begin), newest first
   topRecent: TopPost[]; // rolling two-month window
   topAll: TopPost[];
   sessions: SessionView[];
@@ -295,6 +306,7 @@ export async function fetchStudyData(): Promise<StudyData | null> {
   pb.zrange(monthKey(-1), 0, 49, { rev: true, withScores: true });
   pb.lrange('search:log', 0, 4999);
   pb.lrange('activity:log', 0, 11999);
+  pb.lrange('begin:log', 0, 1999);
 
   let ra: unknown[];
   let rb: unknown[];
@@ -325,6 +337,20 @@ export async function fetchStudyData(): Promise<StudyData | null> {
       ev: typeof e.ev === 'string' ? e.ev : undefined,
       t: e.t as number,
     })) as RawActivity[];
+  const beginPaths = parseRows((rb[8] as unknown[]) ?? [])
+    .filter((e) => typeof e.id === 'string' && typeof e.t === 'number')
+    .map((e) => ({
+      id: e.id as string,
+      interests: Array.isArray(e.interests)
+        ? (e.interests as unknown[]).filter((x): x is string => typeof x === 'string')
+        : [],
+      text: typeof e.text === 'string' ? e.text : undefined,
+      n: typeof e.n === 'number' ? e.n : 0,
+      fb: e.fb === true,
+      mine: e.mine === true,
+      sid: typeof e.sid === 'string' ? e.sid : undefined,
+      t: e.t as number,
+    })) as BeginHit[];
 
   // Searches-per-day fallback before search:day existed, computed from the
   // retained raw log.
@@ -474,6 +500,7 @@ export async function fetchStudyData(): Promise<StudyData | null> {
     zeroResult,
     peopleHits,
     recentSearches,
+    beginPaths: beginPaths.slice(0, 60),
     topRecent,
     topAll,
     sessions,

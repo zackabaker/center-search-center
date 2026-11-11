@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { getSid } from '@/lib/session-id';
 
 // The /begin form: interest chips + one free-text field. No PII is asked for
 // or stored — the API drops anything beyond the canonical chips and the capped
@@ -64,10 +65,22 @@ export default function BeginClient() {
     setBusy(true);
     setError(null);
     try {
+      // Same anonymous conventions as the search/activity trackers: the
+      // per-tab sid joins this generation to its session trail on /study;
+      // mine marks the owner's own browser. Both best-effort.
+      let sid: string | undefined;
+      let mine = false;
+      try { sid = getSid() || undefined; } catch { /* ignore */ }
+      try { mine = !!localStorage.getItem('csc-mine'); } catch { /* ignore */ }
       const res = await fetch('/api/begin', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ interests: selected, text: text.trim() }),
+        body: JSON.stringify({
+          interests: selected,
+          text: text.trim(),
+          ...(sid ? { sid } : {}),
+          ...(mine ? { mine: true } : {}),
+        }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.id) {

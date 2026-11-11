@@ -115,7 +115,7 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: { interests?: unknown; text?: unknown };
+  let body: { interests?: unknown; text?: unknown; sid?: unknown; mine?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -126,6 +126,11 @@ export async function POST(request: Request) {
     ? body.interests.filter((x): x is string => typeof x === 'string' && INTERESTS.has(x)).slice(0, 12)
     : [];
   const text = typeof body.text === 'string' ? body.text.trim().slice(0, 600) : '';
+  // Same anonymous-session conventions as the search/activity logs: sid is the
+  // ephemeral per-tab token (joins this generation to its /study session
+  // trail), mine flags the owner's own browser so his tests can be filtered.
+  const sid = typeof body.sid === 'string' ? body.sid.slice(0, 64) : undefined;
+  const mine = body.mine === true;
 
   if (interests.length === 0 && text.length < 3) {
     return Response.json({ error: 'Pick an interest or describe your background first.' }, { status: 400 });
@@ -204,7 +209,9 @@ export async function POST(request: Request) {
 
   // Degrade without a dead end: if the model failed or picked too few, take
   // the top-scored candidates directly (they're already relevance-ordered).
+  let fallback = false;
   if (picked.length < 4) {
+    fallback = true;
     note = '';
     picked = [];
     const usedSlugs = new Set<string>();
@@ -239,8 +246,19 @@ export async function POST(request: Request) {
   };
   try {
     await kv.set(`begin:${id}`, record);
-    // Anonymous usage trace for the /study console — best-effort, capped.
-    await kv.lpush('begin:log', JSON.stringify({ id, interests, n: items.length, t: Date.now() }));
+    // Full anonymous usage trace for the /study console — everything the
+    // visitor entered (interests + free text), what came back, and the same
+    // sid/mine conventions as the search log. Best-effort, capped.
+    await kv.lpush('begin:log', JSON.stringify({
+      id,
+      interests,
+      ...(text ? { text: text.slice(0, 300) } : {}),
+      n: items.length,
+      ...(fallback ? { fb: true } : {}),
+      ...(sid ? { sid } : {}),
+      ...(mine ? { mine: true } : {}),
+      t: Date.now(),
+    }));
     await kv.ltrim('begin:log', 0, 1999);
   } catch (err) {
     console.error('begin: KV write failed', err);
