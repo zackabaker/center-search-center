@@ -1,0 +1,142 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import BeginClient from './BeginClient';
+
+// /begin — the engaging introduction. The page explains what the originary
+// hypothesis is and what it can do ENTIRELY in verbatim passages from the
+// archive (deep-linked into their posts); the only AI involvement is the
+// reading-path generator below, which is labeled and selects — never writes —
+// excerpts. Every string in PASSAGES is an exact substring of the corpus
+// (verified against posts-cache.json when authored).
+
+export const metadata: Metadata = {
+  title: 'Begin',
+  description:
+    'An introduction to Center Study in the archive’s own words: what the originary hypothesis is, what it can do — and a personal reading path into 1,900+ texts.',
+};
+
+interface Passage {
+  text: string;
+  slug: string;
+  title: string;
+  attribution: string; // e.g. 'GABlog, 2017'
+  q: string;           // distinctive phrase for the ?q= highlight deep link
+}
+
+const WHAT_IT_IS: Passage[] = [
+  {
+    text: 'Now, as all start to rush to the center, the animal hierarchy is abolished. What takes its place, according to the originary hypothesis, is the sign—what Gans calls the “aborted gesture of appropriation.” Think about traditional gestures of greeting, like hand shaking—it’s a way for each side to show it is not holding any weapons. Stretching out your hand with a weapon in it would signal violence; here, the same physical gesture is converted into a renunciation of violence. Think, for that matter, of a threatening gesture (which I doubt anyone does any more), like shaking your fist at someone—by demonstratively withholding the act of violence, you actually provide a space of peace, even if coupled with a warning.',
+    slug: 'mimetic-theory-and-high-low-v-the-middle',
+    title: 'Mimetic Theory and High-Low v the Middle',
+    attribution: 'GABlog, 2017',
+    q: 'aborted gesture of appropriation',
+  },
+  {
+    text: 'The originary hypothesis proposes a single human origin, which we can sketch out as universally shared human characteristics: there is always mimesis and therefore rivalry, and therefore the possibility or reality of mimetic crisis, and, finally, therefore, signification as the deferral of the violence consequent upon that crisis.',
+    slug: 'anthropomorphics-and-reaction',
+    title: 'Anthropomorphics and Reaction',
+    attribution: 'GABlog, 2016',
+    q: 'a single human origin',
+  },
+  {
+    text: 'The originary hypothesis is a genuine hypothesis on how language emerged out of non-language, and therefore how humans emerged out of pre-humans—this empirical dimension, while making an unfalsifiable claim (we could obviously never obtain evidence of the event in which language was invented/discovered), is to be taken literally and seriously—but we can also see it as an answer to a very basic, inevitable question—why do words “mean”?',
+    slug: 'language-the-deepest-and-most-reliable-tradition',
+    title: 'Language, the Deepest and Most Reliable Tradition',
+    attribution: 'GABlog, 2017',
+    q: 'how language emerged out of non-language',
+  },
+];
+
+const WHAT_IT_CAN_DO: Passage[] = [
+  {
+    text: 'To offer such guidance, which is to say, to found a research program that can diagnose the current global situation and offer remedies anyone could imagine oneself contributing to, we would need the following: first of all, a set of defensible anthropological assumptions, or an answer to the question, what is the human?; a transdisciplinary approach not bound to the limited and arbitrary lenses of sociology, economics, psychology, and so on; the capacity to scale up and down as needed, that is, to analyze geo-political fractures as effectively as and consistently with individual desires; an openness to a range of different theoretical approaches that nevertheless share a similar starting point, so that increasingly large scale collaboration is possible; ways of analyzing historical transformations that lend themselves to proposing ways of intervening in those transformations.',
+    slug: 'the-prospects-of-the-hypothesis',
+    title: 'The Prospects of the Hypothesis',
+    attribution: 'Bouvard Substack, 2021',
+    q: 'diagnose the current global situation',
+  },
+  {
+    text: 'What this leaves us as a research program is no less than all of human self-knowledge. Far from exhausting the universe of humanistic study, originary thinking calls us to a reinterpretation of the totality of our metaphysical heritage.',
+    slug: 'clr-210',
+    title: 'Is GA Too Perfect?',
+    attribution: 'Eric Gans, Chronicles of Love & Resentment, 2000',
+    q: 'all of human self-knowledge',
+  },
+];
+
+function PassageBlock({ p }: { p: Passage }) {
+  return (
+    <figure className="border-l-2 border-gray-300 dark:border-gray-600 pl-5 sm:pl-6">
+      <blockquote className="font-serif text-[17px] leading-[1.8] text-gray-800 dark:text-gray-200">
+        {p.text}
+      </blockquote>
+      <figcaption className="mt-3 text-sm text-gray-500 dark:text-gray-400">
+        {'— '}
+        <Link
+          href={`/post/${p.slug}?q=${encodeURIComponent(p.q)}`}
+          className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2"
+        >
+          {p.title}
+        </Link>
+        <span className="ml-2 text-gray-400 dark:text-gray-500">{p.attribution}</span>
+      </figcaption>
+    </figure>
+  );
+}
+
+export default function BeginPage() {
+  return (
+    <main className="max-w-3xl w-full mx-auto px-4 py-10 pb-24">
+      <header className="mb-10">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-3 text-gray-900 dark:text-white">
+          Begin here
+        </h1>
+        <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
+          Center Study is an archive of 1,900+ texts built on one hypothesis about
+          the origin of language and the human. The archive introduces itself best
+          in its own words.
+        </p>
+      </header>
+
+      <section className="mb-12">
+        <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-6">
+          What the originary hypothesis is
+        </h2>
+        <div className="space-y-8">
+          {WHAT_IT_IS.map((p) => <PassageBlock key={p.slug} p={p} />)}
+        </div>
+      </section>
+
+      <section className="mb-12">
+        <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-6">
+          What it can do
+        </h2>
+        <div className="space-y-8">
+          {WHAT_IT_CAN_DO.map((p) => <PassageBlock key={p.slug} p={p} />)}
+        </div>
+      </section>
+
+      <section className="mb-12">
+        <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">
+          Your way in
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mb-6">
+          Tell the archive where you&rsquo;re coming from and it will assemble a
+          reading path for you &mdash; a handful of texts in order, each opened by a
+          passage quoted verbatim from the archive, saved at a link you can return
+          to. No account, nothing personal: just your interests.
+        </p>
+        <BeginClient />
+      </section>
+
+      <section className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+        Prefer to walk in unaided? Try the{' '}
+        <Link href="/start" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">guided start</Link>,{' '}
+        the curated{' '}
+        <Link href="/guide/reading-paths" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">reading paths</Link>,{' '}
+        or the{' '}
+        <Link href="/guide" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">guide</Link>.
+      </section>
+    </main>
+  );
+}
