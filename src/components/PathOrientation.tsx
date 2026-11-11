@@ -1,14 +1,14 @@
 import Link from 'next/link';
 
-// Standing orientation block shown at the beginning of every reading path
-// (generated /begin/p/* paths and the curated /guide/reading-paths/* ones):
-// the Lineage situates the authors, Search and Concepts are the two tools a
-// reader needs alongside any path.
+// Standing orientation block shown at the top of /begin and at the beginning
+// of every reading path (generated /begin/p/* and curated
+// /guide/reading-paths/*). Bare links by owner direction — no articles, no
+// descriptions.
 
 const LINKS = [
-  { href: '/lineage', label: 'The Lineage', hint: 'the writers and the tradition' },
-  { href: '/search', label: 'Search', hint: 'the full archive' },
-  { href: '/concepts', label: 'Concepts', hint: 'the vocabulary, defined in quotes' },
+  { href: '/lineage', label: 'Lineage' },
+  { href: '/search', label: 'Search' },
+  { href: '/concepts', label: 'Concepts' },
 ];
 
 export default function PathOrientation() {
@@ -17,16 +17,15 @@ export default function PathOrientation() {
       <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
         Before you read
       </p>
-      <ul className="flex flex-col sm:flex-row gap-2 sm:gap-6">
+      <ul className="flex flex-wrap gap-x-8 gap-y-2">
         {LINKS.map((l) => (
-          <li key={l.href} className="text-sm">
+          <li key={l.href}>
             <Link
               href={l.href}
-              className="font-medium text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2"
+              className="text-sm font-medium text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2"
             >
               {l.label}
             </Link>
-            <span className="ml-2 text-gray-400 dark:text-gray-500">{l.hint}</span>
           </li>
         ))}
       </ul>
