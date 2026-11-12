@@ -100,7 +100,7 @@ export default function Home() {
         <RotatingEpigraph />
 
         {/* Primary action for newcomers — the /begin introduction */}
-        <div className="flex items-center justify-center mb-2.5">
+        <div className="flex items-center justify-center mb-7">
           <Link
             href="/begin"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors"
@@ -111,16 +111,6 @@ export default function Home() {
             </svg>
           </Link>
         </div>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-7">
-          or the{' '}
-          <Link
-            href="/intro-center-study-zack-baker"
-            className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2"
-          >
-            Introduction to Center Study Talk
-          </Link>
-          {' '}&mdash; slides &amp; transcript
-        </p>
 
         {/* Search — directly under the CTA so it's visible on mobile too */}
         <HomeSearch />

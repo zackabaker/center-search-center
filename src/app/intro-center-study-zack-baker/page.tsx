@@ -63,6 +63,23 @@ function H2({ children }: { children: React.ReactNode }) {
   );
 }
 
+
+// A quoted passage linked to its verbatim source in the archive — the quote
+// underlines on hover and carries a small arrow so readers can see it's
+// addressable. href lands on the post with the passage highlighted (?q=).
+function Q({ slug, q, children }: { slug: string; q: string; children: React.ReactNode }) {
+  return (
+    <Link
+      href={`/post/${slug}?q=${encodeURIComponent(q)}`}
+      className="hover:underline decoration-1 underline-offset-2"
+      title="Read this passage in its post"
+    >
+      {children}
+      <sup className="ml-0.5 text-[11px] text-gray-400 dark:text-gray-500" aria-hidden>&#8599;</sup>
+    </Link>
+  );
+}
+
 export default function IntroPage() {
   return (
     <main className="max-w-3xl w-full mx-auto px-4 py-10 pb-24">
@@ -179,15 +196,15 @@ export default function IntroPage() {
         of the sign. Girard 1972: violence at the origin of culture. Gans in
         1981 puts the two together: language generative, not representational;
         violence at its origin; one scene that does both. As Katz puts it,
-        &ldquo;Only the originary hypothesis enables us to complete the
+        <Q slug="linguistic-turn-generative-literacy" q="complete the linguistic turn">&ldquo;Only the originary hypothesis enables us to complete the
         linguistic turn, because only originary thinking can be free of the
         victimary investments of those critiques of metaphysics that emerged
-        alongside the anti-colonial revolts.&rdquo; Completing it: no
-        metalanguage, only infralanguage. &ldquo;If language is the deferral of
+        alongside the anti-colonial revolts.&rdquo;</Q> Completing it: no
+        metalanguage, only infralanguage. <Q slug="gasc-2019-paper" q="how we are going about deferring violence">&ldquo;If language is the deferral of
         violence, the only thing we are ever talking about is how we are going
-        about deferring violence.&rdquo; And the contingency of the hypothesis:
-        it could have been thought and wasn&rsquo;t, until it was — &ldquo;a
-        fork that takes on board the contingency of the hypothesis.&rdquo;
+        about deferring violence.&rdquo;</Q> And the contingency of the hypothesis:
+        it could have been thought and wasn&rsquo;t, until it was — <Q slug="the-contingency-of-the-hypothesis" q="contingency of the hypothesis">&ldquo;a
+        fork that takes on board the contingency of the hypothesis.&rdquo;</Q>
       </P>
       <P>
         Gans: born New York, 1941; Columbia, then Johns Hopkins under Girard;
@@ -207,8 +224,8 @@ export default function IntroPage() {
       <P>
         A word is only a word if others already understand it. So how can there
         be a first one? Why does the other person understand? How do you know?
-        There is &ldquo;the miraculousness of any utterance&mdash;to revise
-        Heidegger, that there is speech rather than silence.&rdquo; Genesis
+        There is <Q slug="the-originary-hypothesis-in-itself" q="miraculousness of any utterance">&ldquo;the miraculousness of any utterance&mdash;to revise
+        Heidegger, that there is speech rather than silence.&rdquo;</Q> Genesis
         1:3, John 1:1. Scripture puts the first word in the mouth of God
         because there&rsquo;s nowhere else it can go.
       </P>
@@ -261,19 +278,19 @@ export default function IntroPage() {
         One hesitates. The grasp stops — a{' '}
         <TermLink href="/guide/concepts/originary-scene" defKey="g:aborted-gesture-of-appropriation" className={TERM_CLASS} title="Concept: the originary scene">gesture of aborted appropriation</TermLink>
         , seen by all, imitated by all. Grasping becomes pointing.
-        &ldquo;Humanity was created around a center — that central object all
+        <Q slug="the-prospects-of-the-hypothesis" q="humanity was created around a center">&ldquo;Humanity was created around a center — that central object all
         members of the group desired and that &lsquo;interdicted&rsquo; its own
         appropriation. All &lsquo;legitimate&rsquo; commands can be traced back
-        to that.&rdquo;
+        to that.&rdquo;</Q>
       </P>
       <P>
         The object becomes the center:{' '}
         <TermLink href="/guide/concepts/the-sacred" defKey="c:the-sacred" className={TERM_CLASS} title="Concept: the sacred">sacred</TermLink>
         , untouchable, shared because it belongs to none. Violence deferred,
-        not resolved. &ldquo;The first sign is the Name-of-God, and the center
-        is sacred&rdquo; — Genesis comes back. Why it&rsquo;s the best
+        not resolved. <Q slug="event-origin-center" q="first sign is the Name-of-God">&ldquo;The first sign is the Name-of-God, and the center
+        is sacred&rdquo;</Q> — Genesis comes back. Why it&rsquo;s the best
         solution: minimal; language, the sacred and deferral as one event.
-        &ldquo;The first shared meaning in the universe.&rdquo; The Little
+        <Q slug="ap3001-kawahara3001" q="first shared meaning in the universe">&ldquo;The first shared meaning in the universe.&rdquo;</Q> The Little
         Bang. The human: the being that threatens itself more than anything
         outside does, and so defers violence through representation.
       </P>
@@ -286,18 +303,18 @@ export default function IntroPage() {
       <H2>V. Center Study as idiom laboratory</H2>
       <P>
         There is always a center: a conversation, a classroom, a company, a
-        market. &ldquo;Originary programming is a kind of maxim assembly kit,
-        making maxims adjustable for the occasion.&rdquo;
+        market. <Q slug="programming-power-and-declarative-culture" q="maxim assembly kit">&ldquo;Originary programming is a kind of maxim assembly kit,
+        making maxims adjustable for the occasion.&rdquo;</Q>
       </P>
       <Slide n={18} alt="Center Study is an idiom laboratory" />
       <P>
-        &ldquo;If you want to infiltrate and reshape a scene you need to be
+        <Q slug="scenic-linguistic-undecidability" q="infiltrate and reshape the scene">&ldquo;If you want to infiltrate and reshape a scene you need to be
         primarily concerned with formulating idioms that will stick,
-        proliferate, and turn into networks.&rdquo; &ldquo;Style is
+        proliferate, and turn into networks.&rdquo;</Q> <Q slug="language-the-ultimate-source-and-analysis-of-data" q="styles of learning idioms">&ldquo;Style is
         technology&mdash;if you imitate and translate another&rsquo;s style
         you&rsquo;ll be saying things you wouldn&rsquo;t have thought of
         otherwise; idioms are shared styles, and creating styles of learning
-        idioms is a way of proposing new idioms.&rdquo;
+        idioms is a way of proposing new idioms.&rdquo;</Q>
       </P>
       <Slide n={19} alt="Seven idioms of Center Study" />
       <P>
@@ -323,8 +340,8 @@ export default function IntroPage() {
       </P>
       <Slide n={22} alt="The ambition" />
       <P>
-        The hypothesis is worth holding only if it can &ldquo;offer us guidance
-        out of our current crisis… because, otherwise, why care?&rdquo; The
+        The hypothesis is worth holding only if it can <Q slug="the-prospects-of-the-hypothesis" q="guidance out of our current crisis">&ldquo;offer us guidance
+        out of our current crisis… because, otherwise, why care?&rdquo;</Q> The
         program: a research program that can diagnose the global situation and
         offer remedies anyone could imagine contributing to.
         &ldquo;Improving justice systems so much that we can imagine not
@@ -336,8 +353,8 @@ export default function IntroPage() {
         discussion with this minimal projection.&rdquo; Each one a company
         whose success is its own abolition — the firm that puts itself out of
         business by becoming governance. And the scale is the planet:
-        &ldquo;our stage is now the planet, and we will be designing it, one
-        way or another.&rdquo;
+        <Q slug="the-stack-the-city" q="our stage is now the planet">&ldquo;our stage is now the planet, and we will be designing it, one
+        way or another.&rdquo;</Q>
       </P>
       <Slide n={23} alt="Anglo-Modernity" />
       <P>
@@ -350,13 +367,13 @@ export default function IntroPage() {
         them. Elections re-enact the civil war without having it. Probability
         as the thread: Nicholas Barbon starts selling fire insurance behind the
         Royal Exchange in 1667, and the first dedicated Fire Office opens in
-        1681. &ldquo;The cloud of unknowing that blankets the modern world has
+        1681. <Q slug="muffled-transmission-from-the-center-substack" q="cloud of unknowing that blankets">&ldquo;The cloud of unknowing that blankets the modern world has
         its starting point when the British state jump-started itself an empire
         by subordinating itself to the central bank and writing itself out an
         unlimited line of credit. From that point on I don&rsquo;t think we can
         say the ruling classes themselves know what they&rsquo;re
-        doing.&rdquo; Not pro- or anti-Anglo: take it all in and develop an
-        exit. &ldquo;No way of opposing this order without entering it.&rdquo;
+        doing.&rdquo;</Q> Not pro- or anti-Anglo: take it all in and develop an
+        exit. <Q slug="programming-the-same" q="opposing this order without entering it">&ldquo;No way of opposing this order without entering it.&rdquo;</Q>
         It ends in good governance, not collapse. The security firm that
         accumulates the contracts, absorbs the other firms and sets the
         protocols assumes, in some crisis, the attributes of sovereignty. The
@@ -367,12 +384,12 @@ export default function IntroPage() {
       </P>
       <Slide n={24} alt="A unique politics" />
       <P>
-        &ldquo;Center study implies what I think is a unique politics: placing
+        <Q slug="notes-on-governance-and-center-study-politics" q="placing all the bets on a center">&ldquo;Center study implies what I think is a unique politics: placing
         all the bets on a center or prospective or type of pointman so inside
         as to turn the central bank and central intelligence into a single
         entity, thereby abolishing both, along with the outside spread and
         outside option. Everything is to circulate through succession
-        practices.&rdquo;
+        practices.&rdquo;</Q>
       </P>
       <Slide n={25} alt="The companies" />
       <P>
@@ -383,8 +400,8 @@ export default function IntroPage() {
         companies to report the cases. Judgment — Thirdness: cases constituted
         and settled;{' '}
         <TermLink href="/guide/concepts/market" defKey="c:market" className={TERM_CLASS} title="Concept: the market">prediction markets</TermLink>
-        {' '}on the rulings; currency out of the bets; &ldquo;a kind of world
-        brain.&rdquo; Pedagogy — the Officer Class Academy: gifted kids
+        {' '}on the rulings; currency out of the bets; <Q slug="thirdness" q="a kind of world brain">&ldquo;a kind of world
+        brain.&rdquo;</Q> Pedagogy — the Officer Class Academy: gifted kids
         straight from high school into the pathfinding firms; companies holding
         options on students. Insurance taken to its limit, transgenerational;
         we all become insurance companies. And currency: the party or company
@@ -395,13 +412,13 @@ export default function IntroPage() {
         scenario: Marxism, liberalism, nationalism, anti-colonialism all
         construct a rival who usurped my place at the center. Replace it with
         the center: clarify, repair, reconstruct, hand off. Start from the
-        center, not the bottom: &ldquo;authority is first of all ostensive,
-        then imperative, and only finally declarative.&rdquo; Liberalism puts
+        center, not the bottom: <Q slug="linguistic-turn-generative-literacy" q="authority is first of all ostensive">&ldquo;authority is first of all ostensive,
+        then imperative, and only finally declarative.&rdquo;</Q> Liberalism puts
         the declarative first (the free subject, the people). Market model
         versus state-centralization model: a central authority can establish
-        markets; markets can&rsquo;t establish a central authority. &ldquo;If
+        markets; markets can&rsquo;t establish a central authority. <Q slug="linguistic-turn-generative-literacy" q="why the massive growth of the state">&ldquo;If
         the world is becoming increasingly marketized, why the massive growth
-        of the state?&rdquo; And{' '}
+        of the state?&rdquo;</Q> And{' '}
         <TermLink href="/guide/concepts/succession" defKey="c:succession" className={TERM_CLASS} title="Concept: succession">succession</TermLink>
         {' '}is the test of seriousness: if you are not choosing your successor
         you are not in power. Every company is a succession practice.
@@ -409,9 +426,9 @@ export default function IntroPage() {
       <P>
         The technological implications. Literacy was the second revelation
         after the Big Man: the autonomy of the declarative sentence. Every
-        medium since is a new mode of deferral. &ldquo;Technology joins us in
+        medium since is a new mode of deferral. <Q slug="exhaustive-imitation" q="joins us in the practice of imitation">&ldquo;Technology joins us in
         the practice of imitation and always had, even well before the
-        linguistic imitation programmed into Large Language Models.&rdquo;
+        linguistic imitation programmed into Large Language Models.&rdquo;</Q>
         LLMs: signs with no scene behind them; &ldquo;there is no AI alignment
         but only center alignment.&rdquo; The stack: data centers as temples
         (&ldquo;center data center&rdquo;); data as currency; the universal
@@ -425,11 +442,11 @@ export default function IntroPage() {
       <H2>VII. Close</H2>
       <P>
         Back to the wheel. One question to carry out: where is the center, what
-        is it deferring, who succeeds it. &ldquo;The first revolution in human
+        is it deferring, who succeeds it. <Q slug="the-prospects-of-the-hypothesis" q="first revolution in human affairs">&ldquo;The first revolution in human
         affairs was some individual &lsquo;seizing&rsquo; the center — what the
         anthropologists call the Big Man, and from whom follow (along extremely
         complicated routes) all the kings and emperors and prime ministers and
-        presidents and even &lsquo;bosses.&rsquo;&rdquo; The most consequential
+        presidents and even &lsquo;bosses.&rsquo;&rdquo;</Q> The most consequential
         revolution in history, and the only one worth unreserved support.
         America is the furthest point West: it conserved the Big Man revolution
         through every transition of kingship, and it is the place where that
@@ -438,23 +455,23 @@ export default function IntroPage() {
         to actually be in charge of it.
       </P>
       <P>
-        The founder carries it forward. &ldquo;Our Big Men today will have to
+        The founder carries it forward. <Q slug="trails-of-liminal-succession" q="will have to be cartographers">&ldquo;Our Big Men today will have to
         be cartographers, and being cartographers today means organizing the
         cleanest and most comprehensive data and submitting it to algorithmic
         training dedicated to the expansion of the nomos and the settling of
-        cases within it.&rdquo; A new generation of robber barons, with more
-        emphasis on baron. &ldquo;There&rsquo;s nothing more important, and
+        cases within it.&rdquo;</Q> A new generation of robber barons, with more
+        emphasis on baron. <Q slug="credit-and-succession" q="imagining and building such companies">&ldquo;There&rsquo;s nothing more important, and
         really nothing else than, imagining and building such
-        companies.&rdquo; Start-ups are proto-empires. Get in on the ground
+        companies.&rdquo;</Q> Start-ups are proto-empires. Get in on the ground
         floor.
       </P>
       <Slide n={26} alt="Diagnosis and prescription" />
       <P>
-        &ldquo;The goal of center study is to stay as close to the boundary
+        <Q slug="hyperstitching-the-soliciting-of-the-center-and-the-prolonging-of-the-imperative" q="boundary between diagnosis and prescription">&ldquo;The goal of center study is to stay as close to the boundary
         between diagnosis and prescription as possible on the longest timeline
         imaginable: to always be able to say, this is what everyone is already
         doing and here&rsquo;s how they might, given certain shifts in visible
-        trajectories, do it more explicitly and accountably.&rdquo;
+        trajectories, do it more explicitly and accountably.&rdquo;</Q>
       </P>
       <P>
         Idioms and succession. The way I&rsquo;ll know this talk worked is if
