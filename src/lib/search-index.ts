@@ -535,40 +535,43 @@ export function searchEntries(
       return 0;
     };
 
+    // Stem-aware term scoring. The inverted-index prefilter already finds
+    // candidates through stems ("markets" → stem "market" → posts saying only
+    // "market"), but scoring used to require the LITERAL term and killed those
+    // candidates with -1 — so the plural of a query could zero out results the
+    // singular found. Each term now also matches through its stem, scored just
+    // below an exact hit so literal matches still rank first.
+    const scoreTerm = (term: string): number => {
+      const stem = stemWord(term);
+      const inTitle = entry.titleWords.some((w) => w === term) ||
+        (term.length >= 4 && entry.titleWords.some((w) => w.startsWith(term)));
+      if (inTitle) return 100;
+      if (stem !== term &&
+          entry.titleWords.some((w) => w === stem || (stem.length >= 4 && w.startsWith(stem)))) return 90;
+      if (wordSet.has(term)) return 10;
+      if (stem !== term && wordSet.has(stem)) return 8;
+      // Prefix expansion only for terms ≥ 4 chars to avoid false positives
+      // ("or" → "originary")
+      if (term.length >= 4 && entry.contentWords.some((w) => w.startsWith(term))) return 5;
+      if (stem !== term && stem.length >= 4 &&
+          entry.contentWords.some((w) => w.startsWith(stem))) return 4;
+      return aliasHit(term);
+    };
+
     if (orMode) {
       let anyMatch = false;
       for (const term of orTerms) {
-        const inTitle = entry.titleWords.some((w) => w === term) ||
-          (term.length >= 4 && entry.titleWords.some((w) => w.startsWith(term)));
-        if (inTitle) { score += 100; anyMatch = true; }
-        else if (wordSet.has(term)) { score += 10; anyMatch = true; }
-        // Prefix expansion only for terms ≥ 4 chars to avoid false positives
-        else if (term.length >= 4 && entry.contentWords.some((w) => w.startsWith(term))) {
-          score += 5; anyMatch = true;
-        } else {
-          const a = aliasHit(term);
-          if (a > 0) { score += a; anyMatch = true; }
-        }
+        const s = scoreTerm(term);
+        if (s > 0) { score += s; anyMatch = true; }
       }
       if (!anyMatch && phrases.length === 0) return { entry, score: -1 };
     } else {
       for (const term of mustTerms) {
-        const inTitle = entry.titleWords.some((w) => w === term) ||
-          (term.length >= 4 && entry.titleWords.some((w) => w.startsWith(term)));
-        if (inTitle) {
-          score += 100;
-        } else if (wordSet.has(term)) {
-          score += 10;
-        } else if (term.length >= 4 && entry.contentWords.some((w) => w.startsWith(term))) {
-          // Prefix match only for longer terms — avoids "or"→"originary" false positives
-          score += 5;
-        } else {
-          const a = aliasHit(term);
-          if (a > 0) {
-            score += a;
-          } else if (phrases.length === 0) {
-            return { entry, score: -1 };
-          }
+        const s = scoreTerm(term);
+        if (s > 0) {
+          score += s;
+        } else if (phrases.length === 0) {
+          return { entry, score: -1 };
         }
       }
     }

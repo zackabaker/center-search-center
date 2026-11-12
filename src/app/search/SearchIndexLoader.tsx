@@ -89,7 +89,9 @@ export default function SearchIndexLoader() {
                  Type now; your search runs the moment it&rsquo;s ready.</>}
           </p>
           <div className="flex flex-wrap justify-center gap-2">
-            {['deferral', 'the sacred', 'sovereignty', 'money', 'originary scene', 'resentment'].map((s) => (
+            {/* Seed chips drawn from what readers actually search most (per the
+                search log) — not a hand-guessed list. */}
+            {['deferral', 'prediction markets', 'there is no economy', 'the center', 'sovereignty', 'resentment'].map((s) => (
               <button
                 key={s}
                 onClick={() => setPendingQ(s)}

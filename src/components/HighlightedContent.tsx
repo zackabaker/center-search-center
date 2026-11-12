@@ -237,11 +237,18 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
     // Concept TermLinks and bold/italic split the phrase across text nodes,
     // so we match against each block's textContent and then wrap the covered
     // text-node segments (in reverse order, so offsets stay valid).
+    // Punctuation-insensitive: the phrase's words must appear in order
+    // separated by ANY run of non-alphanumerics (same contract as
+    // lib/phrase-match). A whitespace-only joiner broke on quoted text —
+    // ?q=unlike+e.g.+prevent never matched “unlike, e.g., ‘prevent,’ …” and
+    // the highlight fell back to scattered single-word marks.
     const rawPhrase = query.replace(/["“”„‟]/g, '').replace(/\s+/g, ' ').trim();
-    const phraseWords = rawPhrase.split(' ').filter(Boolean);
+    const phraseWords = rawPhrase.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
     if (phraseWords.length >= 2) {
       const phraseRegex = new RegExp(
-        phraseWords.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('[\\s\\u00a0]+'),
+        `(?<![a-zA-Z0-9])${phraseWords
+          .map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+          .join('[^a-zA-Z0-9]+')}(?![a-zA-Z0-9])`,
         'gi'
       );
       const blocks = Array.from(container.querySelectorAll('p, blockquote')).filter(
