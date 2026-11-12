@@ -432,7 +432,12 @@ export default function SearchPageClient({
   // Log the settled search query (1.5s after it stops changing) so we can later
   // surface what readers look for. Debounced so live-typing logs the finished
   // query, not every keystroke; once per distinct query+mode. Best-effort.
+  // The result count rides along (read via ref so it never re-arms the timer):
+  // zero-result queries are the searches that failed readers, and without n
+  // they're invisible in /study.
   const lastLoggedRef = useRef('');
+  const resultsLenRef = useRef(0);
+  useEffect(() => { resultsLenRef.current = results.length; }, [results]);
   useEffect(() => {
     const q = committed.trim().replace(/^["']+|["']+$/g, '').trim();
     if (q.length < 2) return;
@@ -440,7 +445,7 @@ export default function SearchPageClient({
     if (key === lastLoggedRef.current) return;
     const id = setTimeout(() => {
       lastLoggedRef.current = key;
-      logSearch(q, 'keyword');
+      logSearch(q, 'keyword', resultsLenRef.current);
     }, 1500);
     return () => clearTimeout(id);
   }, [committed]);

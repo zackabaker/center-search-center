@@ -63,14 +63,45 @@ const SOURCE_LABELS: Record<string, string> = {
   twitter: 'X / Twitter', lecture: 'Lecture', ap: 'AP Journal',
 };
 
+// Drawn from what readers actually ask most (per the search log), not a
+// hand-guessed list. Two are shown per visit, rotated at random on mount.
 const SUGGESTED = [
+  'What is deferral in Center Study?',
   'What is the originary scene and how does it found language?',
-  'How does Katz develop the concept of the juridical?',
+  'What is attentional space?',
+  'What does "there is no economy" mean?',
+  'How do prediction markets relate to the center?',
   'What is the relationship between resentment and the sacred in Center Study?',
-  'How does scenic design relate to the center?',
+  'How does money relate to the debt to the center?',
   'What does succession mean in Center Study?',
-  'How does attentionality function as an ethical concept in Center Study?',
 ];
+
+// Rotates two suggested questions per visit. Initial render uses the first
+// two (stable for SSR hydration); the shuffle happens after mount.
+function SuggestedChips({ onPick }: { onPick: (q: string) => void }) {
+  const [picks, setPicks] = useState<string[]>(() => SUGGESTED.slice(0, 2));
+  useEffect(() => {
+    const pool = [...SUGGESTED];
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    setPicks(pool.slice(0, 2));
+  }, []);
+  return (
+    <>
+      {picks.map((q) => (
+        <button
+          key={q}
+          onClick={() => onPick(q)}
+          className="text-left text-sm px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-all"
+        >
+          {q}
+        </button>
+      ))}
+    </>
+  );
+}
 
 type FontSize = 'sm' | 'md' | 'lg';
 
@@ -981,15 +1012,7 @@ export default function AskClient() {
                 Describe what you&apos;re looking for and the AI will surface the best direct quotes from the archive — passages you wouldn&apos;t find with keyword search.
               </p>
               <div className="grid sm:grid-cols-2 gap-2 max-w-2xl mx-auto text-left">
-                {SUGGESTED.slice(0, 2).map(q => (
-                  <button
-                    key={q}
-                    onClick={() => submit(q)}
-                    className="text-left text-sm px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-all"
-                  >
-                    {q}
-                  </button>
-                ))}
+                <SuggestedChips onPick={(q) => submit(q)} />
               </div>
               <p className="text-xs text-gray-400 mt-6">
                 Answers download as <code className="font-mono">.md</code>{' '}— file into Obsidian to build your own wiki.
