@@ -1,4 +1,5 @@
 import HomeSearch from '@/components/HomeSearch';
+import RotatingEpigraph from '@/components/RotatingEpigraph';
 import RandomPostButton from '@/components/RandomPostButton';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -96,18 +97,10 @@ export default function Home() {
         </h1>
 
         <div className="w-10 border-t-2 border-amber-600 dark:border-amber-500 mx-auto mb-5" aria-hidden />
-        <blockquote
-          className="mb-6 px-2 max-w-lg mx-auto"
-          style={{ fontFamily: 'var(--font-lora, Georgia, serif)' }}
-        >
-          {/* Upright (non-italic) serif — italic Lora is too ornate to read comfortably */}
-          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-            &ldquo;The originary hypothesis repels the kind of initiatory revelatory &lsquo;download&rsquo; that is nevertheless the only way of understanding it&rdquo;
-          </p>
-        </blockquote>
+        <RotatingEpigraph />
 
         {/* Primary action for newcomers — the /begin introduction */}
-        <div className="flex items-center justify-center mb-7">
+        <div className="flex items-center justify-center mb-2.5">
           <Link
             href="/begin"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors"
@@ -118,6 +111,16 @@ export default function Home() {
             </svg>
           </Link>
         </div>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-7">
+          or the{' '}
+          <Link
+            href="/intro-center-study-zack-baker"
+            className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2"
+          >
+            Introduction to Center Study Talk
+          </Link>
+          {' '}&mdash; slides &amp; transcript
+        </p>
 
         {/* Search — directly under the CTA so it's visible on mobile too */}
         <HomeSearch />

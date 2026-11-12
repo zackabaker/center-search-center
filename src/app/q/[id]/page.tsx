@@ -231,6 +231,14 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
           center.study/q/{q.id}
         </span>
       </div>
+
+      {/* Orientation for visitors landing here from a shared link */}
+      <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">
+        From Center Study &mdash; the Adam Katz / Dennis Bouvard archive ·{' '}
+        <Link href="/begin" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">
+          Getting started →
+        </Link>
+      </p>
     </main>
   );
 }

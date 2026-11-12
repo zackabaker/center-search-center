@@ -8,8 +8,6 @@ import { PostContent } from '@/components/PostContent';
 import ReadingProgress from '@/components/ReadingProgress';
 import ReadingControls from '@/components/ReadingControls';
 import RelatedPosts from '@/components/RelatedPosts';
-import BookmarkButton from '@/components/BookmarkButton';
-import CitationButton from '@/components/CitationButton';
 import Annotations from '@/components/Annotations';
 import TrackView from '@/components/TrackView';
 import ShareButton from '@/components/ShareButton';
@@ -461,26 +459,6 @@ export default async function PostPage({
                 {/* Action buttons */}
                 <div className={`flex flex-wrap items-center gap-2 print:hidden${reader ? ' justify-center' : ''}`}>
                   <ShareButton title={post.title} url={`https://center.study/post/${slug}`} />
-                  <BookmarkButton post={{ slug, title: post.title, source: post.source, date: post.date, savedAt: '' }} />
-                  <CitationButton
-                    title={post.title}
-                    date={post.date}
-                    source={post.source}
-                    url={externalUrl}
-                    slug={slug}
-                    authorName={authorName}
-                    chronicleNo={chronicleNo}
-                  />
-                  <a
-                    href={`/post/${slug}/text`}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200 transition-colors print:hidden"
-                    title="Clean single-file copy — for reading apps, text-to-speech, or saving"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                    </svg>
-                    Plain text
-                  </a>
                   {originalHref && (
                     <a
                       href={originalHref}

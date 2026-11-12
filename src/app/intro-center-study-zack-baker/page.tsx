@@ -76,6 +76,27 @@ export default function IntroPage() {
         <p className="text-gray-500 dark:text-gray-400">
           Slides and transcript · Zack Baker
         </p>
+        <p className="mt-3 text-sm text-gray-400 dark:text-gray-500">
+          Thank you to{' '}
+          <a
+            href="https://x.com/yitzzzzz"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-1 underline-offset-2 hover:text-gray-600 dark:hover:text-gray-300"
+          >
+            Isaac Friedman (Yitzz)
+          </a>
+          {' '}for recording the talk, and to the{' '}
+          <a
+            href="https://avalon.institute"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-1 underline-offset-2 hover:text-gray-600 dark:hover:text-gray-300"
+          >
+            Avalon Institute
+          </a>
+          {' '}for hosting.
+        </p>
       </header>
 
       <Slide n={1} alt="Title slide: An Introduction to Center Study" />
