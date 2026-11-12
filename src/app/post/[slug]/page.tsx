@@ -92,7 +92,12 @@ export async function generateMetadata({
   const post = getPostBySlug(slug);
   if (!post) return { title: 'Post not found' };
 
+  // Meta description: plain prose, no markdown tokens — "## Abstract We…"
+  // in the SERP snippet reads as broken.
   const excerpt = post.content
+    .replace(/^#+\s*/gm, '')          // heading markers
+    .replace(/[*_`>]+/g, '')          // emphasis / quote markers
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1') // links → their text
     .replace(/\n+/g, ' ')
     .trim()
     .slice(0, 160)
@@ -131,12 +136,23 @@ export async function generateMetadata({
     };
   }
 
+  // Index only the Katz core (gablog, substack, book, pdf). The archival
+  // reprints (Gans's Chronicles, AP journal — originals live at
+  // anthropoetics.ucla.edu) and thread captures (reddit, X) are duplicate
+  // content in Google's eyes: with ~1,300 of them crawlable-and-indexable the
+  // site read as mostly-duplicate and Search Console coverage collapsed from
+  // ~1,600 indexed pages to ~100. noindex,follow keeps them reachable (links
+  // still pass) while concentrating the index on the core. Humans and the
+  // site's own search are unaffected.
+  const ARCHIVAL = new Set(['chronicle', 'ap', 'reddit', 'twitter']);
+  const noindex = ARCHIVAL.has(post.source);
+
   return {
     title: post.title,
     description: excerpt,
     authors: [{ name: authorName }],
     ...(scholarMeta ? { other: scholarMeta } : {}),
-    // All sources (including chronicles and AP journal) are publicly crawlable
+    ...(noindex ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title: post.title,
       description: excerpt,
