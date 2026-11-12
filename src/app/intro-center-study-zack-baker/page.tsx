@@ -23,9 +23,13 @@ export const metadata: Metadata = {
   },
 };
 
-// The talk as delivered at the Avalon Institute Exposition, lightly sharpened
-// for the page from the speaking notes. Quoted material inside quotation
-// marks is verbatim from the archive. Slides render at their cue points.
+// The talk as delivered at the Avalon Institute Exposition — the speaking
+// notes lightly edited into prose, in the speaker's own words and order.
+// Quoted material inside quotation marks is verbatim from the archive.
+// Slides render at their cue points. Two fact corrections are carried from
+// the notes: Gans "among his first doctoral students" (not "his first"),
+// and the 1667 insurance line (Barbon's fire insurance; the dedicated Fire
+// Office is 1681). Do not re-compress or re-stylize this text.
 
 function Slide({ n, alt }: { n: number; alt: string }) {
   return (
@@ -80,139 +84,142 @@ export default function IntroPage() {
       <Slide n={3} alt="What is Center Study?" />
       <P>
         The anthropology we assume about ourselves is the implicit structure
-        under every conversation about politics, religion, and economics.
-        Ignore the question of what the human is, and the paradoxes show up
-        later — in your theory of money, in your theory of the state, in your
-        theory of language.
+        under every conversation about politics, religion, economics. Ignore
+        the question of what the human is, and the paradoxes show up later.
       </P>
       <Slide n={4} alt="A 2×2: generativity of idioms against difficulty of learning" />
       <P>
-        One way to place Center Study is on this grid: the generativity of an
-        idiom against the difficulty of learning it. Political ideologies are
-        easy to learn and generate little. Programming languages, law school,
-        a new natural language each buy their generativity at a price. Center
-        Study sits near the top on generativity, middling on difficulty — and
-        what it asks you to learn is one thing.
+        One way to place it: the generativity of idioms against the difficulty
+        of learning them — political ideologies, programming languages, law
+        school, learning a new language. Center Study is near the top on
+        generativity, middling on difficulty.
       </P>
       <P>
-        It asks for one constant: a minimal hypothesis of human origin.
+        What it asks you to learn is a minimal hypothesis of human origin.
         First, humans are a{' '}
         <TermLink href="/guide/concepts/mimesis" defKey="c:mimesis" className={TERM_CLASS} title="Concept: mimesis">mimetic</TermLink>
-        {' '}species. Second, our mimetic capacities
-        lead to violence, which we resolve through representation — a mode of
-        coordination unique to the human species. Third, language is the{' '}
+        {' '}species. Second, our mimetic capacities lead to violence, which we
+        resolve via representation, a mode of coordination unique to the human
+        species. Third, language is the{' '}
         <TermLink href="/guide/concepts/deferral" defKey="c:deferral" className={TERM_CLASS} title="Concept: deferral">deferral</TermLink>
-        {' '}of violence. Everything else stays open to question.
+        {' '}of violence.
       </P>
       <P>
         Girard: &ldquo;Man is the creature who does not know what to desire,
         and who turns to others in order to make up his mind.&rdquo; How did
-        you learn to do anything? &ldquo;Ape&rdquo; means both the creature
-        and the act of imitating, and humans are the most mimetic of apes —
-        Aristotle says it in the Poetics: man is the most mimetic of all, and
-        it is through mimesis that he develops his earliest understanding.
+        you learn to do anything? &ldquo;Ape&rdquo; means both the creature and
+        to imitate; humans are the most mimetic species. Aristotle, Poetics IV:
+        &ldquo;man is the most mimetic of all, and it is through mimesis that
+        he develops his earliest understanding.&rdquo;
       </P>
       <P>
-        Center Study branches off from Generative Anthropology and stays
-        focused on the enduring{' '}
+        Center Study branches from Generative Anthropology and stays focused on
+        the enduring{' '}
         <TermLink href="/guide/concepts/the-center" defKey="c:the-center" className={TERM_CLASS} title="Concept: the center">center</TermLink>
-        {' '}of any form of human organization: the{' '}
+        : the{' '}
         <TermLink href="/guide/concepts/ritual" defKey="c:ritual" className={TERM_CLASS} title="Concept: ritual">ritual</TermLink>
         {' '}center, then the{' '}
         <TermLink href="/guide/concepts/big-man" defKey="c:big-man" className={TERM_CLASS} title="Concept: the Big Man">Big Man</TermLink>
-        , then chiefs, kings, emperors, the
-        state. It reads the social order as the engagement between periphery
-        and center, and it reads language through{' '}
+        , then chiefs, kings, emperors, the state. It reads the social order as
+        periphery&ndash;center engagement, and it reads language through{' '}
         <TermLink href="/guide/concepts/originary-grammar" defKey="c:originary-grammar" className={TERM_CLASS} title="Concept: originary grammar">originary grammar</TermLink>
-        : the
-        ostensive, the imperative, the interrogative, the declarative — in
-        that order.
+        : ostensive, imperative, interrogative, declarative.
       </P>
       <P>
-        It is not a doctrine. It is closer to a programming idiom — a language
-        for programming languages, a way of infiltrating other discourses. It
-        is interoperable: you install it, and things run differently, more
-        explicitly. It is a maximally generative resource, because the first
-        &ldquo;solution&rdquo; is the model for all other solutions. Like a
-        roulette wheel, once you see the center you cannot unsee it. All I ask
-        for tonight is an open mind.
+        It is not a doctrine: a programming idiom, a language programming
+        language, a way of infiltrating other discourses. It is interoperable
+        with others — you install it, things run differently, more explicitly.
+        A maximally generative resource: the first &ldquo;solution&rdquo; and
+        the model for all other solutions. It asks for one constant, a
+        hypothesis about human origin; everything else is open to question.
+        Like a roulette wheel, once you see the center you can&rsquo;t unsee
+        it. All I ask for is an open mind.
       </P>
 
       <H2>II. The lineage</H2>
       <Slide n={6} alt="René Girard and Eric Gans" />
       <P>
-        Three generations, each a break with the last. René Girard: born in
-        Avignon in 1923, to America in 1947, Johns Hopkins and then Stanford,
-        died 2015. In 1961, <em>Deceit, Desire and the Novel</em>: mimesis. In
-        1972, <em>Violence and the Sacred</em>: the scapegoat.
+        Three generations, each a break with the last. Girard: born in Avignon
+        in 1923, to America in 1947, Johns Hopkins then Stanford, died 2015. In
+        1961, <em>Deceit, Desire and the Novel</em>: mimesis. In 1972,{' '}
+        <em>Violence and the Sacred</em>: the scapegoat.
       </P>
       <Slide n={7} alt="Timeline: 1961–2021, Girard to Gans to Katz" />
       <P>
-        The hypothesis has a date — it was only thinkable after the linguistic
-        turn. Saussure: meaning comes from difference, not reference. In 1966
-        at Johns Hopkins, Girard hosts the symposium where Derrida reads
-        &ldquo;Structure, Sign, and Play&rdquo;; Eric Gans, among his first
-        doctoral students, finishes that same year. Derrida: there is no outside of the
-        text, and a &ldquo;violence of the letter&rdquo; constitutive of the
-        sign. Girard in 1972: violence at the origin of culture. In 1981 Gans
-        puts the two together — language is generative, not representational;
-        violence stands at its origin; one scene does both. As Katz puts it,
+        In 1966, at Johns Hopkins, Girard hosts the symposium where Derrida
+        reads &ldquo;Structure, Sign, and Play&rdquo;; Gans, among his first
+        doctoral students, finishes that year.
+      </P>
+      <P>
+        The hypothesis has a date: it was only thinkable after the linguistic
+        turn. Saussure: meaning from difference, not reference. Derrida,
+        Baltimore 1966 and <em>Of Grammatology</em> 1967: no outside of the
+        text; the &ldquo;violence of the letter,&rdquo; violence constitutive
+        of the sign. Girard 1972: violence at the origin of culture. Gans in
+        1981 puts the two together: language generative, not representational;
+        violence at its origin; one scene that does both. As Katz puts it,
         &ldquo;Only the originary hypothesis enables us to complete the
         linguistic turn, because only originary thinking can be free of the
         victimary investments of those critiques of metaphysics that emerged
-        alongside the anti-colonial revolts.&rdquo; Completing the turn means
-        no metalanguage, only infralanguage: &ldquo;If language is the
-        deferral of violence, the only thing we are ever talking about is how
-        we are going about deferring violence.&rdquo;
+        alongside the anti-colonial revolts.&rdquo; Completing it: no
+        metalanguage, only infralanguage. &ldquo;If language is the deferral of
+        violence, the only thing we are ever talking about is how we are going
+        about deferring violence.&rdquo; And the contingency of the hypothesis:
+        it could have been thought and wasn&rsquo;t, until it was — &ldquo;a
+        fork that takes on board the contingency of the hypothesis.&rdquo;
       </P>
       <P>
         Gans: born New York, 1941; Columbia, then Johns Hopkins under Girard;
-        professor of French at UCLA from 1969. <em>The Origin of Language</em>,
-        1981, is the break: Girard explains ritual and the sacred but not
-        language — there needs to be a sign. Gans went his own way, and from
-        1995 built <em>Anthropoetics</em> and the <em>Chronicles of Love and
-        Resentment</em>. In 2001, after 9/11, Adam Katz reads Gans on the
-        victimary. Then GABlog; <em>Anthropomorphics</em> in 2020; the Center
-        Study fork in 2021. He writes as Dennis Bouvard — about 1,900 texts,
-        all searchable here.
+        professor of French at UCLA from 1969. 1981, <em>The Origin of
+        Language</em>: the break. Girard explains ritual and the sacred but not
+        language; there needs to be a sign. He went his own way;{' '}
+        <em>Anthropoetics</em> and the <em>Chronicles</em> from 1995.
+      </P>
+      <P>
+        2001: Katz reads Gans on the victimary after 9/11. GABlog;{' '}
+        <em>Anthropomorphics</em> (2020); the Center Study fork (2021). He
+        writes as Dennis Bouvard — 1,900 texts, all searchable here.
       </P>
 
       <H2>III. The paradox of the first word</H2>
       <Slide n={9} alt="The Origin of Language: the paradox of the first word" />
       <P>
-        A word is only a word if others already understand it. So how can
-        there be a first one? Why does the other person understand — and how
-        do you know they do? There is a miraculousness to any utterance: to
-        revise Heidegger, that there is speech rather than silence. Genesis
-        1:3; John 1:1. Scripture puts the first word in the mouth of God
-        because there is nowhere else it can go.
+        A word is only a word if others already understand it. So how can there
+        be a first one? Why does the other person understand? How do you know?
+        There is &ldquo;the miraculousness of any utterance&mdash;to revise
+        Heidegger, that there is speech rather than silence.&rdquo; Genesis
+        1:3, John 1:1. Scripture puts the first word in the mouth of God
+        because there&rsquo;s nowhere else it can go.
+      </P>
+      <P>
+        The point to stress: language is a radical break from animal
+        communication, not a development of it. Tomasello, &ldquo;Why
+        Don&rsquo;t Apes Point?&rdquo; (2006): apes raised with humans learn to
+        point for what they want, never to share attention; they never create a
+        joint attentional frame, with each other or with us. Infants point to
+        share before age one. The bucket: apes follow the arm and say, in
+        effect, &ldquo;A bucket. So what? Now where&rsquo;s the food?&rdquo; A
+        fourteen-month-old asks why you&rsquo;re showing her. Joint attention
+        is &ldquo;two people experiencing the same thing at the same time and
+        knowing together that they are doing this.&rdquo;
       </P>
       <Slide n={10} alt="Tomasello: joint attention — the eyes" />
       <P>
-        The point to stress: language is a radical break from animal
-        communication, not a development of it. Tomasello asks, &ldquo;Why
-        don&rsquo;t apes point?&rdquo; Apes raised with humans learn to point
-        for what they want — they never point to <em>share</em>. They never
-        create a joint attentional frame, with each other or with us. Show an
-        ape a bucket and it follows your arm and says, in effect: a bucket, so
-        what — now where&rsquo;s the food? A fourteen-month-old asks why
-        you&rsquo;re showing her. Joint attention is two people experiencing
-        the same thing at the same time and knowing together that they are
-        doing this. Deacon calls the line the symbolic threshold; in
-        Peirce&rsquo;s terms, the symbol, not the index. And a radical
-        difference — like being pregnant, you are or you aren&rsquo;t — needs
-        an origin at a point in time.
+        Deacon, <em>The Symbolic Species</em>: the symbolic threshold. Peirce:
+        symbolic, not merely indexical. Like being pregnant — you are or you
+        aren&rsquo;t. A radical difference needs an origin at a point in time.
+      </P>
+      <P>
+        Lévi-Strauss: language can only have arisen all at once. No half a
+        sign; no agreement to institute language without language.
       </P>
       <Slide n={11} alt="Société de Linguistique de Paris, statutes of 1866, Article 2" />
       <P>
-        Lévi-Strauss saw that language can only have arisen all at once: there
-        is no half a sign, and no agreement to institute language without
-        language. The Société de Linguistique de Paris wrote it into their
-        1866 statutes: the Society admits no communication concerning the
-        origin of language. Humboldt had already stated the paradox — man is
-        man only through language, but to invent language he would already
-        have to be man. The question was banned because nobody could pose it
-        properly. The{' '}
+        The Société de Linguistique de Paris wrote it into their statutes of
+        1866: the Society admits no communication concerning the origin of
+        language. Humboldt: man is man only through language, but to invent
+        language he had already to be man. The question was banned because
+        nobody could pose it properly. The{' '}
         <TermLink href="/guide/concepts/originary-scene" defKey="g:originary-hypothesis" className={TERM_CLASS} title="Concept: the originary scene">originary hypothesis</TermLink>
         {' '}poses it properly.
       </P>
@@ -220,65 +227,67 @@ export default function IntroPage() {
       <H2>IV. The originary scene</H2>
       <Slide n={13} alt="The originary hypothesis" />
       <P>
-        Picture proto-humans around a kill. The pecking order that limits
-        violence in animal groups is breaking down: mimetic appetite
-        escalates, everyone converges on the same object at once.
+        Proto-humans, a kill, the pecking order. Mimetic appetite escalates;
+        everyone reaches at once; the order collapses.
       </P>
       <Slide n={14} alt="Pecking order versus center" />
       <P>
-        Alpha beats beta, not the pack. An animal dominance hierarchy handles
-        one rival at a time; it has no answer to everyone at once. The human
-        is the species whose main danger is itself.
+        Alpha beats beta, not the pack. The human: the species whose main
+        danger is itself.
       </P>
       <Slide n={15} alt="The scene, in four frames" />
       <P>
-        One of them hesitates. The grasp stops — a{' '}
+        One hesitates. The grasp stops — a{' '}
         <TermLink href="/guide/concepts/originary-scene" defKey="g:aborted-gesture-of-appropriation" className={TERM_CLASS} title="Concept: the originary scene">gesture of aborted appropriation</TermLink>
-        , seen by all, imitated by all. Grasping becomes
-        pointing. &ldquo;Humanity was created around a center — that central
-        object all members of the group desired and that
-        &lsquo;interdicted&rsquo; its own appropriation. All
-        &lsquo;legitimate&rsquo; commands can be traced back to that.&rdquo;
+        , seen by all, imitated by all. Grasping becomes pointing.
+        &ldquo;Humanity was created around a center — that central object all
+        members of the group desired and that &lsquo;interdicted&rsquo; its own
+        appropriation. All &lsquo;legitimate&rsquo; commands can be traced back
+        to that.&rdquo;
+      </P>
+      <P>
         The object becomes the center:{' '}
         <TermLink href="/guide/concepts/the-sacred" defKey="c:the-sacred" className={TERM_CLASS} title="Concept: the sacred">sacred</TermLink>
-        , untouchable, shared because it
-        belongs to none. Violence is deferred, not resolved. &ldquo;The first
-        sign is the Name-of-God, and the center is sacred&rdquo; — Genesis
-        comes back. This is the best hypothesis because it is minimal:
-        language, the sacred, and deferral in one event. The first shared
-        meaning in the universe. The Little Bang.
+        , untouchable, shared because it belongs to none. Violence deferred,
+        not resolved. &ldquo;The first sign is the Name-of-God, and the center
+        is sacred&rdquo; — Genesis comes back. Why it&rsquo;s the best
+        solution: minimal; language, the sacred and deferral as one event.
+        &ldquo;The first shared meaning in the universe.&rdquo; The Little
+        Bang. The human: the being that threatens itself more than anything
+        outside does, and so defers violence through representation.
       </P>
       <Slide n={16} alt="The center through history: ritual center to central intelligence" />
       <P>
-        The center never goes away; it changes what sits in it. Ritual center,
-        Big Man, chiefs and kings, empire, the state, central intelligence.
-        That sequence is the spine of Center Study.
+        Ritual center, Big Man, chiefs and kings, empire, the state, central
+        intelligence. The center never goes away; it changes what sits in it.
       </P>
 
       <H2>V. Center Study as idiom laboratory</H2>
+      <P>
+        There is always a center: a conversation, a classroom, a company, a
+        market. &ldquo;Originary programming is a kind of maxim assembly kit,
+        making maxims adjustable for the occasion.&rdquo;
+      </P>
       <Slide n={18} alt="Center Study is an idiom laboratory" />
       <P>
-        There is always a center: in a conversation, a classroom, a company, a
-        market. &ldquo;Originary programming is a kind of maxim assembly kit,
-        making maxims adjustable for the occasion.&rdquo; And: &ldquo;If you
-        want to infiltrate and reshape a scene you need to be primarily
-        concerned with formulating idioms that will stick, proliferate, and
-        turn into networks.&rdquo; Style is technology — if you imitate and
-        translate another&rsquo;s style you&rsquo;ll be saying things you
-        wouldn&rsquo;t have thought of otherwise; idioms are shared styles,
-        and creating styles of learning idioms is a way of proposing new
-        idioms.
+        &ldquo;If you want to infiltrate and reshape a scene you need to be
+        primarily concerned with formulating idioms that will stick,
+        proliferate, and turn into networks.&rdquo; &ldquo;Style is
+        technology&mdash;if you imitate and translate another&rsquo;s style
+        you&rsquo;ll be saying things you wouldn&rsquo;t have thought of
+        otherwise; idioms are shared styles, and creating styles of learning
+        idioms is a way of proposing new idioms.&rdquo;
       </P>
       <Slide n={19} alt="Seven idioms of Center Study" />
       <P>
-        Seven idioms — read them slowly and let each one land: singularized
-        succession in perpetuity · there is no economy, but only the debt to
-        the center · the conversion of assets into data · pedagogy is the
-        residue and the surplus — there will always be a need to show others
-        how to do things · language will increasingly approximate programming
-        · our primary ethical obligation is to provide worthy data flows and
-        see to their uptake and circulation · everybody is saying the same
-        thing so as not to do the same thing at the same time.
+        Seven idioms — read them off and let each land: singularized succession
+        in perpetuity · there is no economy, but only the debt to the center ·
+        the conversion of assets into data · pedagogy is the residue and the
+        surplus, there will always be a need to show others how to do things ·
+        language will increasingly approximate programming · our primary
+        ethical obligation is to provide worthy data flows and see to their
+        uptake and circulation · everybody is saying the same thing so as not
+        to do the same thing at the same time.
       </P>
 
       <H2>VI. What is to be done?</H2>
@@ -286,56 +295,54 @@ export default function IntroPage() {
       <P>
         No theories but in companies; no companies but through{' '}
         <TermLink href="/guide/concepts/sovereignty" defKey="c:sovereignty" className={TERM_CLASS} title="Concept: sovereignty">sovereignty</TermLink>
-        . A
-        theory you can&rsquo;t put into a company is a few guys talking.
+        . A theory you can&rsquo;t put into a company is a few guys talking.
         Political thinking that isn&rsquo;t thinking in companies isn&rsquo;t
-        serious — rights, coalitions, petitions are all ways of asking someone
-        else&rsquo;s company to do it.
+        serious: rights, coalitions, petitions are asking someone else&rsquo;s
+        company to do it.
       </P>
       <Slide n={22} alt="The ambition" />
       <P>
-        The hypothesis is worth holding only if it can &ldquo;offer us
-        guidance out of our current crisis… because, otherwise, why
-        care?&rdquo; The program is a research program that can diagnose the
-        global situation and offer remedies anyone could imagine contributing
-        to: &ldquo;Improving justice systems so much that we can imagine not
-        needing them; tying money so closely to productive activity that we
-        can imagine transacting without it; teaching leadership so
-        comprehensively that it&rsquo;s effective, unquestioned and minimally
-        obtrusive; making future possibilities so concrete and visible that
-        they can replace currency.&rdquo; Each one a company whose success is
-        its own abolition — the firm that puts itself out of business by
-        becoming governance. And the scale is the planet: &ldquo;our stage is
-        now the planet, and we will be designing it, one way or
-        another.&rdquo;
+        The hypothesis is worth holding only if it can &ldquo;offer us guidance
+        out of our current crisis… because, otherwise, why care?&rdquo; The
+        program: a research program that can diagnose the global situation and
+        offer remedies anyone could imagine contributing to.
+        &ldquo;Improving justice systems so much that we can imagine not
+        needing them; tying money so closely to productive activity that we can
+        imagine transacting without it; teaching leadership so comprehensively
+        that it&rsquo;s effective, unquestioned and minimally obtrusive; making
+        future possibilities so concrete and visible that they can replace
+        currency. But I of course don&rsquo;t mean to close off further
+        discussion with this minimal projection.&rdquo; Each one a company
+        whose success is its own abolition — the firm that puts itself out of
+        business by becoming governance. And the scale is the planet:
+        &ldquo;our stage is now the planet, and we will be designing it, one
+        way or another.&rdquo;
       </P>
       <Slide n={23} alt="Anglo-Modernity" />
       <P>
-        Modernity is a corporate order, comprised of companies — and the
-        modern world&rsquo;s operating system is Anglo. It was built in
-        late-seventeenth-century England by demolishing the sacral occupied
-        center: regicide in 1649, 1688, the Bank of England in 1694, the
-        two-party system. Sovereignty split between a central bank and a
-        central intelligence, with liberal democracy as the oscillation
-        between them — elections re-enact the civil war without having it.
-        Probability is the thread: Nicholas Barbon starts selling fire
-        insurance behind the Royal Exchange in 1667, and the first dedicated
-        Fire Office opens in 1681.
-        &ldquo;The cloud of unknowing that blankets the modern world has its
-        starting point when the British state jump-started itself an empire by
-        subordinating itself to the central bank and writing itself out an
-        unlimited line of credit. From that point on I don&rsquo;t think we
-        can say the ruling classes themselves know what they&rsquo;re
-        doing.&rdquo; This is not pro- or anti-Anglo: take it all in and
-        develop an exit. &ldquo;No way of opposing this order without entering
-        it.&rdquo; It ends in good governance, not collapse. The security firm
-        that accumulates the contracts, absorbs the other firms and sets the
-        protocols assumes, in some crisis, the attributes of sovereignty — and
-        the judiciary makes it legal. Sovereignty is what it always was: the
+        &ldquo;Modernity is a corporate order, comprised of companies.&rdquo;
+        The nature of Anglo modernity: the modern world&rsquo;s operating
+        system. Built in late-seventeenth-century England by demolishing the
+        sacral occupied center: regicide 1649, 1688, the Bank of England 1694,
+        the two-party system. Sovereignty split between a central bank and a
+        central intelligence; liberal democracy as the oscillation between
+        them. Elections re-enact the civil war without having it. Probability
+        as the thread: Nicholas Barbon starts selling fire insurance behind the
+        Royal Exchange in 1667, and the first dedicated Fire Office opens in
+        1681. &ldquo;The cloud of unknowing that blankets the modern world has
+        its starting point when the British state jump-started itself an empire
+        by subordinating itself to the central bank and writing itself out an
+        unlimited line of credit. From that point on I don&rsquo;t think we can
+        say the ruling classes themselves know what they&rsquo;re
+        doing.&rdquo; Not pro- or anti-Anglo: take it all in and develop an
+        exit. &ldquo;No way of opposing this order without entering it.&rdquo;
+        It ends in good governance, not collapse. The security firm that
+        accumulates the contracts, absorbs the other firms and sets the
+        protocols assumes, in some crisis, the attributes of sovereignty. The
+        judiciary makes it legal. Sovereignty is what it always was: the
         largest property owner presiding over the{' '}
         <TermLink href="/guide/concepts/nomos" defKey="c:nomos" className={TERM_CLASS} title="Concept: nomos">nomos</TermLink>
-        . The property is now
-        data; the fees look like tribute.
+        . The property is now data; the fees look like tribute.
       </P>
       <Slide n={24} alt="A unique politics" />
       <P>
@@ -348,65 +355,66 @@ export default function IntroPage() {
       </P>
       <Slide n={25} alt="The companies" />
       <P>
-        The companies, concretely. Data security: whoever learns and tells the
-        truth most reliably acquires a monopoly — justice, insurance and
-        credit all depend on it. Litigation: defamation and fraud suits that
-        make lying expensive, civil suits where prosecutors won&rsquo;t act,
-        media companies to report the cases. Judgment: cases constituted and
-        settled,{' '}
+        Data security: whoever learns and tells the truth most reliably
+        acquires a monopoly. Justice, insurance and credit all depend on it.
+        Litigation — Nomos, Class Action: defamation and fraud suits that make
+        lying expensive; civil suits where prosecutors won&rsquo;t act; media
+        companies to report the cases. Judgment — Thirdness: cases constituted
+        and settled;{' '}
         <TermLink href="/guide/concepts/market" defKey="c:market" className={TERM_CLASS} title="Concept: the market">prediction markets</TermLink>
-        {' '}on the rulings, currency out of the bets —
-        &ldquo;a kind of world brain.&rdquo; Pedagogy: gifted kids straight
-        from high school into the pathfinding firms, companies holding options
-        on students. Insurance taken to its limit, transgenerational — we all
-        become insurance companies. And currency: the party or company that
-        issues its own, and protects its members.
+        {' '}on the rulings; currency out of the bets; &ldquo;a kind of world
+        brain.&rdquo; Pedagogy — the Officer Class Academy: gifted kids
+        straight from high school into the pathfinding firms; companies holding
+        options on students. Insurance taken to its limit, transgenerational;
+        we all become insurance companies. And currency: the party or company
+        that issues its own, and protects its members.
       </P>
       <P>
-        The political implication: liberation politics is one mimetic scenario
-        — Marxism, liberalism, nationalism, anti-colonialism all construct a
-        rival who usurped my place at the center. Replace it with the center
-        itself: clarify, repair, reconstruct, hand off. Start from the center,
-        not the bottom — &ldquo;authority is first of all ostensive, then
-        imperative, and only finally declarative,&rdquo; while liberalism puts
-        the declarative first. A central authority can establish markets;
-        markets cannot establish a central authority — if the world is
-        becoming increasingly marketized, why the massive growth of the state?
-        And{' '}
+        The political implications. Liberation politics is one mimetic
+        scenario: Marxism, liberalism, nationalism, anti-colonialism all
+        construct a rival who usurped my place at the center. Replace it with
+        the center: clarify, repair, reconstruct, hand off. Start from the
+        center, not the bottom: &ldquo;authority is first of all ostensive,
+        then imperative, and only finally declarative.&rdquo; Liberalism puts
+        the declarative first (the free subject, the people). Market model
+        versus state-centralization model: a central authority can establish
+        markets; markets can&rsquo;t establish a central authority. &ldquo;If
+        the world is becoming increasingly marketized, why the massive growth
+        of the state?&rdquo; And{' '}
         <TermLink href="/guide/concepts/succession" defKey="c:succession" className={TERM_CLASS} title="Concept: succession">succession</TermLink>
-        {' '}is the test of seriousness: if you are not choosing
-        your successor, you are not in power. Every company is a succession
-        practice.
+        {' '}is the test of seriousness: if you are not choosing your successor
+        you are not in power. Every company is a succession practice.
       </P>
       <P>
-        The technological implication: literacy was the second revelation
-        after the Big Man — the autonomy of the declarative sentence — and
-        every medium since is a new mode of deferral.
-        &ldquo;Technology joins us in the practice of imitation and always
-        had, even well before the linguistic imitation programmed into Large
-        Language Models.&rdquo; LLMs are signs with no scene behind them, and
-        &ldquo;there is no AI alignment but only center alignment.&rdquo; Data
-        centers as temples; data as currency; the universal translation
-        machine; a promise believed and kept as the space every company
-        occupies and enlarges. Center Study is a literacy program for the AI
-        age.
+        The technological implications. Literacy was the second revelation
+        after the Big Man: the autonomy of the declarative sentence. Every
+        medium since is a new mode of deferral. &ldquo;Technology joins us in
+        the practice of imitation and always had, even well before the
+        linguistic imitation programmed into Large Language Models.&rdquo;
+        LLMs: signs with no scene behind them; &ldquo;there is no AI alignment
+        but only center alignment.&rdquo; The stack: data centers as temples
+        (&ldquo;center data center&rdquo;); data as currency; the universal
+        translation machine; NSM primes as the idiom AIs can be trained on.
+        Language into currency: money is already data; a promise believed and
+        kept is the space every company occupies and enlarges; idioms as
+        tokens; currency replaced by language itself. Secondary orality versus
+        secondary literacy: Center Study as a literacy program for the AI age.
       </P>
 
       <H2>VII. Close</H2>
       <P>
-        Back to the wheel. One question to carry out of this room: where is
-        the center, what is it deferring, who succeeds it. &ldquo;The first
-        revolution in human affairs was some individual
-        &lsquo;seizing&rsquo; the center — what the anthropologists call the
-        Big Man, and from whom follow (along extremely complicated routes) all
-        the kings and emperors and prime ministers and presidents and even
-        &lsquo;bosses.&rsquo;&rdquo; It is the most consequential revolution
-        in history, and the only one worth unreserved support. America is the
-        furthest point West: it conserved the Big Man revolution through every
-        transition of kingship, and it is the place where that revolution can
-        be unapologetically restored — American freedom is an executive
-        culture, where the people in charge of something should be allowed to
-        actually be in charge of it.
+        Back to the wheel. One question to carry out: where is the center, what
+        is it deferring, who succeeds it. &ldquo;The first revolution in human
+        affairs was some individual &lsquo;seizing&rsquo; the center — what the
+        anthropologists call the Big Man, and from whom follow (along extremely
+        complicated routes) all the kings and emperors and prime ministers and
+        presidents and even &lsquo;bosses.&rsquo;&rdquo; The most consequential
+        revolution in history, and the only one worth unreserved support.
+        America is the furthest point West: it conserved the Big Man revolution
+        through every transition of kingship, and it is the place where that
+        revolution can be unapologetically restored. American freedom is an
+        executive culture: the people in charge of something should be allowed
+        to actually be in charge of it.
       </P>
       <P>
         The founder carries it forward. &ldquo;Our Big Men today will have to
@@ -430,8 +438,8 @@ export default function IntroPage() {
       <P>
         Idioms and succession. The way I&rsquo;ll know this talk worked is if
         it succeeds: if there&rsquo;s succession, if the idioms infiltrate,
-        spread and start to click. I hope I&rsquo;ve done some of that today,
-        and that we can start working on this together.
+        spread and start to click. I hope I&rsquo;ve done some of that today
+        and that we can start working on this together. Questions.
       </P>
 
       <footer className="mt-14 pt-6 border-t border-gray-200 dark:border-gray-700 text-sm text-gray-500 dark:text-gray-400 text-center">
