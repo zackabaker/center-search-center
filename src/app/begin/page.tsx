@@ -198,6 +198,8 @@ export default function BeginPage() {
 
       <section className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
         Other ways in:{' '}
+        <Link href="/avalon" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">the Avalon introduction</Link>{' '}
+        (a talk, with slides),{' '}
         <Link href="/start" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">the guided start</Link>,{' '}
         the curated{' '}
         <Link href="/guide/reading-paths" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">reading paths</Link>,{' '}
