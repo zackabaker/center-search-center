@@ -165,7 +165,7 @@ export default function BeginPage() {
 
       <PathOrientation />
 
-      <section className="mb-12">
+      <section id="generate" className="mb-12 scroll-mt-20">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white text-center mb-4">
           Generate a Reading Path
         </h2>

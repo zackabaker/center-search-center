@@ -30,6 +30,16 @@ export default function BeginClient() {
   const [grow, setGrow] = useState(false);
   const [stage, setStage] = useState(0);
 
+  // Prefill from ?text= — the bridge from Ask ("Generate a reading path from
+  // this question") hands the question over in the URL. Read once on mount;
+  // never overwrite something the visitor already typed.
+  useEffect(() => {
+    try {
+      const fromUrl = new URLSearchParams(window.location.search).get('text');
+      if (fromUrl) setText((prev) => prev || fromUrl.slice(0, 600));
+    } catch { /* no URL access — skip */ }
+  }, []);
+
   // Drive the progress bar + stage captions while a generation is running.
   // The bar eases toward 95% over ~18s (CSS transition does the work); it
   // never claims completion — navigation to the saved page is the real finish.

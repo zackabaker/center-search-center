@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { rateLimit, clientIp, isSameOrigin } from '@/lib/rate-limit';
+import { getKV } from '@/lib/kv';
 import { partnerCors, preflight } from '@/lib/cors';
 import { getAllPosts, getPublicPosts } from '@/lib/parser';
 import { Post, ARCHIVAL_SOURCES } from '@/lib/types';
@@ -39,7 +40,8 @@ RULES:
 5. Always say "Center Study" for the field; Katz by surname for the author. You may use "Bouvard" when referring to the Substack voice/persona, but note that Bouvard is a pen name for Katz if relevant.
 6. If an excerpt is marked as reference material by Eric Gans, attribute it explicitly ("As Gans writes in the Chronicles…") and never blur it into Katz's voice; Katz's own formulations take precedence when they differ.
 7. The tone should match the archive: precise, conceptual, scene-focused, not academic-jargon-y.
-8. URL-encode the ?q= parameter: spaces become +, all lowercase.`;
+8. URL-encode the ?q= parameter: spaces become +, all lowercase.
+9. ORIENTATION QUESTIONS: when the question is about the site or project itself, or is too vague to be a retrieval target — "what is this?", "what does this even mean?", "what's the value here?", "summarize this website" — do NOT lead with a request for clarification. Make the case directly: Center Study branches off from René Girard's mimetic theory and Eric Gans's generative anthropology to found a new discipline grounded in the originary hypothesis — the origin of language, which is also the origin of the human and the sacred, in a gesture of deferral issued in a mimetic crisis — and reads the social order as an effect of the engagement between periphery and center, from the ritual center through Big Men, kings, and states to money, companies, and prediction markets. Weave in whatever provided excerpts bear on what the hypothesis is and what it can do, with the usual verbatim quoting. Close by inviting a more specific question (a concept, a text, or the reader's own field).`;
 
 interface ChunkWithMeta {
   text: string;
@@ -663,11 +665,13 @@ export async function POST(request: Request) {
           controller.enqueue(encoder.encode(metaFirst));
 
           // ── Stream AI text ───────────────────────────────────────────────
+          let answerText = '';
           for await (const event of stream) {
             if (
               event.type === 'content_block_delta' &&
               event.delta.type === 'text_delta'
             ) {
+              answerText += event.delta.text;
               const data = JSON.stringify({ text: event.delta.text }) + '\n';
               controller.enqueue(encoder.encode(data));
             }
@@ -675,12 +679,35 @@ export async function POST(request: Request) {
 
           // Surface truncation: a max_tokens stop used to just end the stream,
           // so a mid-sentence cutoff looked like a finished answer.
+          let truncated = false;
           try {
             const final = await stream.finalMessage();
             if (final.stop_reason === 'max_tokens') {
+              truncated = true;
               controller.enqueue(encoder.encode(JSON.stringify({ truncated: true }) + '\n'));
             }
           } catch { /* stream already errored — nothing to report */ }
+
+          // ── Persist the Q+A pair (owner-readable, for quality auditing) ──
+          // Answers used to evaporate on render: the search log kept the
+          // question, nothing kept what the AI actually said. Capped list,
+          // best-effort, awaited BEFORE close (after close the lambda may
+          // freeze and drop the write).
+          try {
+            const kv = getKV();
+            if (kv && answerText.length > 0) {
+              await kv.lpush('ask:log', JSON.stringify({
+                q: String(message).slice(0, 300),
+                a: answerText.slice(0, 6000),
+                ...(answerText.length > 6000 ? { aLen: answerText.length } : {}),
+                ...(truncated ? { cut: true } : {}),
+                ...(typeof concept === 'string' && concept ? { concept: concept.slice(0, 60) } : {}),
+                ...(fresh === true ? { fresh: true } : {}),
+                t: Date.now(),
+              }));
+              await kv.ltrim('ask:log', 0, 999);
+            }
+          } catch { /* logging must never break the answer */ }
 
           controller.close();
         } catch (err) {

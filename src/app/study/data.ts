@@ -47,6 +47,15 @@ export type BeginHit = {
   t: number;
 };
 export type PeopleHit = { q: string; t: number; mine: boolean; sid?: string; term: string };
+export type AskHit = {
+  q: string;
+  a: string;           // the AI's answer (capped at write; aLen holds full length)
+  aLen?: number;
+  cut?: boolean;       // answer hit max_tokens
+  concept?: string;    // asked from a concept page
+  fresh?: boolean;     // explicit regenerate
+  t: number;
+};
 
 export type SessionEvent = {
   t: number;
@@ -86,6 +95,8 @@ export type StudyData = {
   peopleHits: PeopleHit[];
   recentSearches: SearchHit[];
   beginPaths: BeginHit[]; // generated reading paths (/begin), newest first
+  askAnswers: AskHit[];   // recent Ask Q+A pairs (ask:log), newest first
+  engaged7: number;       // distinct visitor sids, last 7d, ≥2 events or a referrer
   topRecent: TopPost[]; // rolling two-month window
   topAll: TopPost[];
   sessions: SessionView[];
@@ -307,6 +318,7 @@ export async function fetchStudyData(): Promise<StudyData | null> {
   pb.lrange('search:log', 0, 4999);
   pb.lrange('activity:log', 0, 11999);
   pb.lrange('begin:log', 0, 1999);
+  pb.lrange('ask:log', 0, 149);
 
   let ra: unknown[];
   let rb: unknown[];
@@ -351,6 +363,36 @@ export async function fetchStudyData(): Promise<StudyData | null> {
       sid: typeof e.sid === 'string' ? e.sid : undefined,
       t: e.t as number,
     })) as BeginHit[];
+  const askAnswers = parseRows((rb[9] as unknown[]) ?? [])
+    .filter((e) => typeof e.q === 'string' && typeof e.a === 'string' && typeof e.t === 'number')
+    .map((e) => ({
+      q: e.q as string,
+      a: e.a as string,
+      aLen: typeof e.aLen === 'number' ? e.aLen : undefined,
+      cut: e.cut === true || undefined,
+      concept: typeof e.concept === 'string' ? e.concept : undefined,
+      fresh: e.fresh === true || undefined,
+      t: e.t as number,
+    })) as AskHit[];
+
+  // Engaged visitors, last 7 days: distinct non-owner sids that either came
+  // from somewhere (a referrer) or did more than one thing. The headline
+  // "visitors" aggregate counts every tab that executed JS — including bots
+  // that run a browser — so most single-event, referrer-less sids are noise.
+  // This is the floor estimate of real people; the aggregate is the ceiling.
+  const engagedCutoff = Date.now() - 7 * 86_400_000;
+  const sidStats = new Map<string, { n: number; ref: boolean }>();
+  for (const a of activityLog) {
+    if (a.mine || a.t < engagedCutoff) continue;
+    const row = sidStats.get(a.sid) ?? { n: 0, ref: false };
+    row.n += 1;
+    if (a.ref) row.ref = true;
+    sidStats.set(a.sid, row);
+  }
+  let engaged7 = 0;
+  for (const row of sidStats.values()) {
+    if (row.n >= 2 || row.ref) engaged7 += 1;
+  }
 
   // Searches-per-day fallback before search:day existed, computed from the
   // retained raw log.
@@ -501,6 +543,8 @@ export async function fetchStudyData(): Promise<StudyData | null> {
     peopleHits,
     recentSearches,
     beginPaths: beginPaths.slice(0, 60),
+    askAnswers: askAnswers.slice(0, 40),
+    engaged7,
     topRecent,
     topAll,
     sessions,
