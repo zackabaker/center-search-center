@@ -76,6 +76,24 @@ const SUGGESTED = [
   'What does succession mean in Center Study?',
 ];
 
+// The texts the answer itself cited, as deep links that land on the quoted
+// passage. The sources cards below the answer show what retrieval FOUND;
+// this shows what the synthesis actually USED — the natural next reads.
+function extractCitations(md: string): { href: string; title: string }[] {
+  const out: { href: string; title: string }[] = [];
+  const seen = new Set<string>();
+  const re = /\[([^\]]{2,120})\]\((\/post\/[a-z0-9-]+(?:\?q=[^)\s]*)?)\)/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(md)) !== null) {
+    const slug = m[2].split('?')[0];
+    if (seen.has(slug)) continue;
+    seen.add(slug);
+    out.push({ href: m[2], title: m[1] });
+    if (out.length >= 4) break;
+  }
+  return out;
+}
+
 // Rotates two suggested questions per visit. Initial render uses the first
 // two (stable for SSR hydration); the shuffle happens after mount.
 function SuggestedChips({ onPick }: { onPick: (q: string) => void }) {
@@ -1332,6 +1350,30 @@ export default function AskClient() {
               </div>
               )}
 
+              {/* Keep reading — the texts the answer itself cited, as deep
+                  links that open AT the quoted passage. Readers were satisfied
+                  by answers in place and rarely clicked onward; this makes the
+                  bridge from answer to archive explicit. */}
+              {answer?.content && !isLoading && extractCitations(answer.content).length > 0 && (
+                <div className="pt-4 border-t border-gray-100 dark:border-gray-800 mb-6">
+                  <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2.5">Keep reading — the texts behind this answer</p>
+                  <div className="flex flex-col gap-1.5">
+                    {extractCitations(answer.content).map((c) => (
+                      <Link
+                        key={c.href}
+                        href={c.href}
+                        className="text-left text-sm px-3 py-2.5 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-600 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-900 transition-all flex items-start gap-2 group"
+                      >
+                        <svg className="w-3 h-3 mt-1 text-gray-300 dark:text-gray-600 group-hover:text-blue-400 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        <span>{c.title}<span className="text-xs text-gray-400 dark:text-gray-500 ml-1.5">opens at the quoted passage →</span></span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Follow-up questions */}
               {answer?.followUps && answer.followUps.length > 0 && !isLoading && (
                 <div className="pt-4 border-t border-gray-100 dark:border-gray-800 mb-6">
@@ -1350,15 +1392,17 @@ export default function AskClient() {
                       </button>
                     ))}
                   </div>
-                  {/* Hand off to the reading-path builder with this question */}
+                  {/* Hand off to the reading-path generator with this question
+                      prefilled (the old /guide/reading-paths?q= target ignored
+                      the query entirely). */}
                   <Link
-                    href={`/guide/reading-paths?q=${encodeURIComponent(currentQuestion)}`}
+                    href={`/begin?text=${encodeURIComponent(currentQuestion.slice(0, 300))}#generate`}
                     className="mt-3 inline-flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                     </svg>
-                    Get a reading path on this topic →
+                    Generate a reading path from this question →
                   </Link>
                 </div>
               )}

@@ -54,6 +54,8 @@ const SECTIONS = [
   ['days', 'Days'],
   ['content', 'Content'],
   ['searches', 'Searches'],
+  ['begin', 'Paths'],
+  ['answers', 'Answers'],
   ['sessions', 'Sessions'],
 ] as const;
 
@@ -113,7 +115,7 @@ export default async function StudyPage() {
             today={fmt(today.uniq)}
             week={fmt(sum(d7, (r) => r.uniq))}
             month={fmt(sum(d30, (r) => r.uniq))}
-            note="unique tabs per day, summed"
+            note={`unique tabs per day, summed — incl. JS-running bots; engaged humans ≈ ${fmt(data.engaged7)} · 7d (≥2 pages or a referrer)`}
           />
           <Tile
             label="Searches"
@@ -330,6 +332,33 @@ export default async function StudyPage() {
             </li>
           ))}
           {data.beginPaths.length === 0 && <li className="text-gray-400">None generated yet.</li>}
+        </ol>
+      </section>
+
+      {/* ---------------- Ask answers ---------------- */}
+      <section id="answers" className="mt-12">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Ask answers</h2>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          What the AI actually told readers — the full answer behind each recent Ask question. Click a question to read it.
+        </p>
+        <ol className="mt-3 space-y-2 text-sm">
+          {data.askAnswers.map((h, i) => (
+            <li key={`${h.t}-${i}`}>
+              <details>
+                <summary className="cursor-pointer flex flex-wrap items-baseline gap-x-2">
+                  <span className="text-xs tabular-nums text-gray-400 w-28 shrink-0">{timeET.format(h.t)}</span>
+                  <span className="text-gray-800 dark:text-gray-200">“{h.q}”</span>
+                  {h.concept && <span className="rounded bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 text-xs text-gray-700 dark:text-gray-300">from {h.concept}</span>}
+                  {h.fresh && <span className="text-xs text-gray-400">regenerate</span>}
+                  {h.cut && <span className="text-xs text-rose-600 dark:text-rose-300">truncated</span>}
+                </summary>
+                <div className="mt-2 ml-28 max-w-2xl whitespace-pre-wrap rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 px-4 py-3 text-[13px] leading-relaxed text-gray-700 dark:text-gray-300">
+                  {h.a}{h.aLen ? ` … [${h.aLen} chars total]` : ''}
+                </div>
+              </details>
+            </li>
+          ))}
+          {data.askAnswers.length === 0 && <li className="text-gray-400">None recorded yet — answers are kept from today forward.</li>}
         </ol>
       </section>
 
