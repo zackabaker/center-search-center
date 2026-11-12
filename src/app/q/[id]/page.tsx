@@ -65,6 +65,11 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     title: `“${head.slice(0, 60)}${head.length > 60 ? '…' : ''}” — Center Study`,
     description: `${head} — ${quoteAuthor(q)}, ${q.sourceTitle}`,
     alternates: { canonical: `https://center.study/q/${id}` },
+    // Share permalinks, not search destinations: 961 of these thin stubs in
+    // the index dragged the site's coverage down (see sitemap.ts). They keep
+    // rendering rich OG cards everywhere they're shared; follow passes link
+    // signals through to the post.
+    robots: { index: false, follow: true },
     openGraph: {
       title: ogTitle,
       description: head,
