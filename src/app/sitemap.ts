@@ -15,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/generative-anthropology`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.95 },
     { url: `${BASE_URL}/start`,               changeFrequency: 'monthly', priority: 0.9 },
     { url: `${BASE_URL}/begin`,               changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${BASE_URL}/avalon`,              changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${BASE_URL}/intro-center-study-zack-baker`, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${BASE_URL}/about`,               changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/developers`,          changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/faq`,                 changeFrequency: 'monthly', priority: 0.8 },

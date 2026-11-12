@@ -1,18 +1,23 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import PathOrientation from '@/components/PathOrientation';
+import TermLink from '@/components/TermLink';
+
+// Dotted concept links — same style and hover-card behavior as term links
+// inside posts and the /begin intro.
+const TERM_CLASS =
+  'underline decoration-dotted decoration-gray-400 dark:decoration-gray-600 hover:decoration-gray-700 dark:hover:decoration-gray-400 transition-colors';
 
 export const metadata: Metadata = {
   title: 'An Introduction to Center Study',
   description:
     'The Avalon Institute Exposition talk, October 30, 2026 — what Center Study is, where it comes from, the paradox of the first word, the originary scene, and what is to be done. Slides and transcript.',
-  alternates: { canonical: 'https://center.study/avalon' },
+  alternates: { canonical: 'https://center.study/intro-center-study-zack-baker' },
   openGraph: {
     title: 'An Introduction to Center Study',
     description:
       'The Avalon Exposition talk: the originary hypothesis, the lineage from Girard and Gans, and the companies it implies. Slides and transcript.',
-    url: 'https://center.study/avalon',
+    url: 'https://center.study/intro-center-study-zack-baker',
     siteName: 'Center Study Center',
     type: 'article',
   },
@@ -69,8 +74,6 @@ export default function IntroPage() {
         </p>
       </header>
 
-      <PathOrientation />
-
       <Slide n={1} alt="Title slide: An Introduction to Center Study" />
 
       <H2>I. What is Center Study?</H2>
@@ -93,10 +96,13 @@ export default function IntroPage() {
       </P>
       <P>
         It asks for one constant: a minimal hypothesis of human origin.
-        First, humans are a mimetic species. Second, our mimetic capacities
+        First, humans are a{' '}
+        <TermLink href="/guide/concepts/mimesis" defKey="c:mimesis" className={TERM_CLASS} title="Concept: mimesis">mimetic</TermLink>
+        {' '}species. Second, our mimetic capacities
         lead to violence, which we resolve through representation — a mode of
-        coordination unique to the human species. Third, language is the
-        deferral of violence. Everything else stays open to question.
+        coordination unique to the human species. Third, language is the{' '}
+        <TermLink href="/guide/concepts/deferral" defKey="c:deferral" className={TERM_CLASS} title="Concept: deferral">deferral</TermLink>
+        {' '}of violence. Everything else stays open to question.
       </P>
       <P>
         Girard: &ldquo;Man is the creature who does not know what to desire,
@@ -108,10 +114,17 @@ export default function IntroPage() {
       </P>
       <P>
         Center Study branches off from Generative Anthropology and stays
-        focused on the enduring center of any form of human organization: the
-        ritual center, then the Big Man, then chiefs, kings, emperors, the
+        focused on the enduring{' '}
+        <TermLink href="/guide/concepts/the-center" defKey="c:the-center" className={TERM_CLASS} title="Concept: the center">center</TermLink>
+        {' '}of any form of human organization: the{' '}
+        <TermLink href="/guide/concepts/ritual" defKey="c:ritual" className={TERM_CLASS} title="Concept: ritual">ritual</TermLink>
+        {' '}center, then the{' '}
+        <TermLink href="/guide/concepts/big-man" defKey="c:big-man" className={TERM_CLASS} title="Concept: the Big Man">Big Man</TermLink>
+        , then chiefs, kings, emperors, the
         state. It reads the social order as the engagement between periphery
-        and center, and it reads language through originary grammar: the
+        and center, and it reads language through{' '}
+        <TermLink href="/guide/concepts/originary-grammar" defKey="c:originary-grammar" className={TERM_CLASS} title="Concept: originary grammar">originary grammar</TermLink>
+        : the
         ostensive, the imperative, the interrogative, the declarative — in
         that order.
       </P>
@@ -138,8 +151,8 @@ export default function IntroPage() {
         The hypothesis has a date — it was only thinkable after the linguistic
         turn. Saussure: meaning comes from difference, not reference. In 1966
         at Johns Hopkins, Girard hosts the symposium where Derrida reads
-        &ldquo;Structure, Sign, and Play&rdquo;; Eric Gans, his first doctoral
-        student, finishes that same year. Derrida: there is no outside of the
+        &ldquo;Structure, Sign, and Play&rdquo;; Eric Gans, among his first
+        doctoral students, finishes that same year. Derrida: there is no outside of the
         text, and a &ldquo;violence of the letter&rdquo; constitutive of the
         sign. Girard in 1972: violence at the origin of culture. In 1981 Gans
         puts the two together — language is generative, not representational;
@@ -199,7 +212,9 @@ export default function IntroPage() {
         origin of language. Humboldt had already stated the paradox — man is
         man only through language, but to invent language he would already
         have to be man. The question was banned because nobody could pose it
-        properly. The originary hypothesis poses it properly.
+        properly. The{' '}
+        <TermLink href="/guide/concepts/originary-scene" defKey="g:originary-hypothesis" className={TERM_CLASS} title="Concept: the originary scene">originary hypothesis</TermLink>
+        {' '}poses it properly.
       </P>
 
       <H2>IV. The originary scene</H2>
@@ -217,13 +232,16 @@ export default function IntroPage() {
       </P>
       <Slide n={15} alt="The scene, in four frames" />
       <P>
-        One of them hesitates. The grasp stops — a gesture of aborted
-        appropriation, seen by all, imitated by all. Grasping becomes
+        One of them hesitates. The grasp stops — a{' '}
+        <TermLink href="/guide/concepts/originary-scene" defKey="g:aborted-gesture-of-appropriation" className={TERM_CLASS} title="Concept: the originary scene">gesture of aborted appropriation</TermLink>
+        , seen by all, imitated by all. Grasping becomes
         pointing. &ldquo;Humanity was created around a center — that central
         object all members of the group desired and that
         &lsquo;interdicted&rsquo; its own appropriation. All
         &lsquo;legitimate&rsquo; commands can be traced back to that.&rdquo;
-        The object becomes the center: sacred, untouchable, shared because it
+        The object becomes the center:{' '}
+        <TermLink href="/guide/concepts/the-sacred" defKey="c:the-sacred" className={TERM_CLASS} title="Concept: the sacred">sacred</TermLink>
+        , untouchable, shared because it
         belongs to none. Violence is deferred, not resolved. &ldquo;The first
         sign is the Name-of-God, and the center is sacred&rdquo; — Genesis
         comes back. This is the best hypothesis because it is minimal:
@@ -266,7 +284,9 @@ export default function IntroPage() {
       <H2>VI. What is to be done?</H2>
       <Slide n={21} alt="The maxim: no theories but in companies" />
       <P>
-        No theories but in companies; no companies but through sovereignty. A
+        No theories but in companies; no companies but through{' '}
+        <TermLink href="/guide/concepts/sovereignty" defKey="c:sovereignty" className={TERM_CLASS} title="Concept: sovereignty">sovereignty</TermLink>
+        . A
         theory you can&rsquo;t put into a company is a few guys talking.
         Political thinking that isn&rsquo;t thinking in companies isn&rsquo;t
         serious — rights, coalitions, petitions are all ways of asking someone
@@ -298,7 +318,9 @@ export default function IntroPage() {
         two-party system. Sovereignty split between a central bank and a
         central intelligence, with liberal democracy as the oscillation
         between them — elections re-enact the civil war without having it.
-        Probability is the thread: the first Insurance Office opens in 1667.
+        Probability is the thread: Nicholas Barbon starts selling fire
+        insurance behind the Royal Exchange in 1667, and the first dedicated
+        Fire Office opens in 1681.
         &ldquo;The cloud of unknowing that blankets the modern world has its
         starting point when the British state jump-started itself an empire by
         subordinating itself to the central bank and writing itself out an
@@ -310,7 +332,9 @@ export default function IntroPage() {
         that accumulates the contracts, absorbs the other firms and sets the
         protocols assumes, in some crisis, the attributes of sovereignty — and
         the judiciary makes it legal. Sovereignty is what it always was: the
-        largest property owner presiding over the nomos. The property is now
+        largest property owner presiding over the{' '}
+        <TermLink href="/guide/concepts/nomos" defKey="c:nomos" className={TERM_CLASS} title="Concept: nomos">nomos</TermLink>
+        . The property is now
         data; the fees look like tribute.
       </P>
       <Slide n={24} alt="A unique politics" />
@@ -329,7 +353,9 @@ export default function IntroPage() {
         credit all depend on it. Litigation: defamation and fraud suits that
         make lying expensive, civil suits where prosecutors won&rsquo;t act,
         media companies to report the cases. Judgment: cases constituted and
-        settled, prediction markets on the rulings, currency out of the bets —
+        settled,{' '}
+        <TermLink href="/guide/concepts/market" defKey="c:market" className={TERM_CLASS} title="Concept: the market">prediction markets</TermLink>
+        {' '}on the rulings, currency out of the bets —
         &ldquo;a kind of world brain.&rdquo; Pedagogy: gifted kids straight
         from high school into the pathfinding firms, companies holding options
         on students. Insurance taken to its limit, transgenerational — we all
@@ -346,7 +372,9 @@ export default function IntroPage() {
         the declarative first. A central authority can establish markets;
         markets cannot establish a central authority — if the world is
         becoming increasingly marketized, why the massive growth of the state?
-        And succession is the test of seriousness: if you are not choosing
+        And{' '}
+        <TermLink href="/guide/concepts/succession" defKey="c:succession" className={TERM_CLASS} title="Concept: succession">succession</TermLink>
+        {' '}is the test of seriousness: if you are not choosing
         your successor, you are not in power. Every company is a succession
         practice.
       </P>

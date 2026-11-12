@@ -127,6 +127,16 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
     q.text.split(/\s+/).slice(0, 8).join(' ')
   )}`;
 
+  // X share intent: quote + attribution, trimmed to a word boundary so the
+  // whole tweet (text + 23-char t.co link) stays under the 280 limit.
+  const attribution = ` — ${author}`;
+  const maxQuote = 280 - 25 - attribution.length - 4; // link + quotes + ellipsis slack
+  const tweetQuote =
+    q.text.length > maxQuote ? q.text.slice(0, maxQuote).replace(/\s+\S*$/, '') + '…' : q.text;
+  const tweetHref = `https://x.com/intent/post?text=${encodeURIComponent(
+    `“${tweetQuote}”${attribution}`
+  )}&url=${encodeURIComponent(`https://center.study/q/${id}`)}`;
+
   return (
     <main className="max-w-3xl w-full mx-auto px-4 py-10 sm:py-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(quotationJsonLd) }} />
@@ -198,6 +208,17 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
         <Link href={readHref} className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
           Read in context →
         </Link>
+        <a
+          href={tweetHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium transition-colors"
+        >
+          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current" aria-hidden="true">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+          </svg>
+          Post on X
+        </a>
         <QuoteCite
           text={q.text}
           author={author}

@@ -70,6 +70,9 @@ const nextConfig: NextConfig = {
       // Archive-first cleanup (2026-10): AI-prose surfaces removed; preserve
       // inbound links with permanent redirects to the surviving routes.
       { source: '/intro', destination: '/lectures', permanent: true },
+      // The Avalon talk page lived at /avalon for its first day (2026-11-12,
+      // sitemapped) before being renamed to its descriptive URL.
+      { source: '/avalon', destination: '/intro-center-study-zack-baker', permanent: true },
       { source: '/ask/:slug', destination: '/search', permanent: true },
       { source: '/answers', destination: '/search', permanent: true },
       { source: '/the-center-of-everything', destination: '/start', permanent: true },

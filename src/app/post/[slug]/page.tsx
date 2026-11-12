@@ -24,6 +24,7 @@ import NextInPath from '@/components/NextInPath';
 import PostSearchContext, { BackButton } from '@/components/PostSearchContext';
 import SceneMark from '@/components/SceneMark';
 import QuoteShare from '@/components/QuoteShare';
+import FirstVisitBanner from '@/components/FirstVisitBanner';
 
 // Maps a byline name to its on-site author page. Names not listed render as
 // plain text — we never link a byline to an external (and often broken) source.
@@ -386,6 +387,7 @@ export default async function PostPage({
       {/* Reader mode: warm, full-viewport reading background behind everything */}
       {reader && <div className="reader-bg fixed inset-0 -z-10 bg-[#fbfaf7] dark:bg-[#111111] print:hidden" />}
       <main className={`${reader ? 'max-w-3xl' : 'max-w-3xl lg:max-w-5xl'} w-full mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden lg:overflow-x-visible`}>
+        <FirstVisitBanner />
         {/* Top nav — full width */}
         <div className="flex items-center justify-between mb-6 sm:mb-8 print:hidden">
           <Suspense fallback={
@@ -537,6 +539,35 @@ export default async function PostPage({
             {/* Everything below the article is screen-only — on paper the
                 text ends where the text ends. */}
             <div className="print:hidden">
+
+            {/* End-of-read follow — X first (the live funnel), Substack quiet.
+                ConvertTracker logs these clicks as follow:x / follow:substack
+                with placement post-end; no wiring needed here. */}
+            <div className="mt-10 pt-5 border-t border-gray-200 dark:border-gray-800 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+              <a
+                href="https://x.com/centerstudy_"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 font-medium hover:opacity-85 transition-opacity"
+              >
+                <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+                Follow @centerstudy_
+              </a>
+              <span className="text-gray-500 dark:text-gray-400">
+                new texts and threads as they land · or{' '}
+                <a
+                  href="https://dennisbouvard.substack.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline decoration-1 underline-offset-2 hover:text-gray-700 dark:hover:text-gray-300"
+                >
+                  the Substack
+                </a>
+              </span>
+            </div>
+
             {/* Reader mode drops the Key Terms / Related panels entirely; Notes
                 stay (a personal feature), placed below the article. */}
             {reader ? (

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import BeginClient from './BeginClient';
-import PathOrientation from '@/components/PathOrientation';
 import TermLink from '@/components/TermLink';
 
 // Dotted concept links in the intro — same style and hover-card behavior as
@@ -101,7 +100,7 @@ export default function BeginPage() {
         {/* Owner-authored intro (2026-11-11, final), woven with verbatim archive
             sentences — the quoted, linked clauses are exact corpus substrings
             (verified against posts-cache.json). Edit only on his direction. */}
-        <div className="space-y-4 text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
+        <div className="space-y-4 text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto">
           <p>
             Center Study branches off from Rene Girard&rsquo;s{' '}
             <Link href="/lineage" className={TERM_CLASS} title="The Lineage">Mimetic Theory</Link>
@@ -163,8 +162,6 @@ export default function BeginPage() {
         </div>
       </header>
 
-      <PathOrientation />
-
       <section id="generate" className="mb-12 scroll-mt-20">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white text-center mb-4">
           Generate a Reading Path
@@ -198,7 +195,7 @@ export default function BeginPage() {
 
       <section className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
         Other ways in:{' '}
-        <Link href="/avalon" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">the Avalon introduction</Link>{' '}
+        <Link href="/intro-center-study-zack-baker" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">the Avalon introduction</Link>{' '}
         (a talk, with slides),{' '}
         <Link href="/start" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">the guided start</Link>,{' '}
         the curated{' '}
