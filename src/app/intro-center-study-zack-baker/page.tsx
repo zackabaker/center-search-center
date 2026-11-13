@@ -11,13 +11,13 @@ const TERM_CLASS =
 export const metadata: Metadata = {
   title: 'Introduction to Center Study',
   description:
-    'The Avalon Institute Exposition talk, October 30, 2026 — what Center Study is, where it comes from, the paradox of the first word, the originary scene, and what is to be done. Slides and edited transcript.',
+    'The Avalon Institute Exposition talk, October 30, 2026 — what Center Study is, where it comes from, the paradox of the first word, the originary scene, and what is to be done. Slides and transcript.',
   authors: [{ name: 'Zack Baker', url: 'https://center.study/author/baker' }],
   alternates: { canonical: 'https://center.study/intro-center-study-zack-baker' },
   openGraph: {
     title: 'Introduction to Center Study',
     description:
-      'The Avalon Exposition talk: the originary hypothesis, the lineage from Girard and Gans, and the companies it implies. Slides and edited transcript.',
+      'The Avalon Exposition talk: the originary hypothesis, the lineage from Girard and Gans, and the companies it implies. Slides and transcript.',
     url: 'https://center.study/intro-center-study-zack-baker',
     siteName: 'Center Study Center',
     type: 'article',
@@ -88,7 +88,7 @@ const articleJsonLd = {
   '@type': 'Article',
   headline: 'Introduction to Center Study',
   description:
-    'Slides and edited transcript from the Introduction to Center Study talk at the Avalon Institute Exposition on October 30, 2026.',
+    'Slides and transcript from the Introduction to Center Study talk at the Avalon Institute Exposition on October 30, 2026.',
   url: 'https://center.study/intro-center-study-zack-baker',
   datePublished: '2026-10-30',
   author: {
@@ -116,7 +116,7 @@ export default function IntroPage() {
           </Link>
         </p>
         <p className="text-gray-500 dark:text-gray-400">
-          Slides and edited transcript from the Introduction to Center Study
+          Slides and transcript from the Introduction to Center Study
           talk at the Avalon Institute Exposition on October 30, 2026.
         </p>
         <p className="mt-3 text-sm text-gray-400 dark:text-gray-500">
