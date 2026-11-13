@@ -227,10 +227,10 @@ export default function IntroPage() {
       <P>
         There&rsquo;s a history here, with people like Claude Lévi-Strauss and
         Wilhelm von Humboldt. <Q slug="clr-628" q="arisen all at once">&ldquo;Language can only have arisen all at
-        once: things cannot have begun to signify gradually.&rdquo;</Q> &ldquo;Man is man
-        only through language, but in order to invent language he had already
-        to be a man.&rdquo; Rousseau has comments on this too. And I always
-        point out that the French Academy of Sciences actually banned all
+        once. Things cannot have begun to signify gradually.&rdquo;</Q> &ldquo;Man is man
+        only through speech; but in order to invent speech, he must already be
+        man.&rdquo; Rousseau has comments on this too. And I always
+        point out that the Linguistic Society of Paris actually banned all
         discussion of the origin of language because no one could figure out
         the answer. We&rsquo;re against the ban&mdash;we&rsquo;re going to
         break it, which I think is probably still in force, and propose a
@@ -347,9 +347,9 @@ export default function IntroPage() {
         thinking.
       </P>
       <P>
-        Second: style is technology. If you imitate and translate another
-        style, you&rsquo;ll be saying things you wouldn&rsquo;t have thought of
-        otherwise. <Q slug="language-the-ultimate-source-and-analysis-of-data" q="styles of learning idioms">Idioms are shared styles, and creating styles of learning
+        Second: style is technology. If you imitate and translate
+        another&rsquo;s style, you&rsquo;ll be saying things you wouldn&rsquo;t
+        have thought of otherwise. <Q slug="language-the-ultimate-source-and-analysis-of-data" q="styles of learning idioms">Idioms are shared styles, and creating styles of learning
         idioms is a way of proposing new idioms.</Q>
       </P>
       <P>
@@ -372,7 +372,7 @@ export default function IntroPage() {
       </P>
       <P>
         <strong>There is no economy, only the debt to the center.</strong> This
-        is the title of an article I co-authored with Adam, but the phrase is
+        is the title of <Q slug="ap2802-ap2802katzbaker" q="debt to the center">an article I co-authored with Adam</Q>, but the phrase is
         more than that. From the first animal sacrifice to the Fed&rsquo;s
         quantitative easing yesterday, we can think about the economy as a{' '}
         <TermLink href="/guide/concepts/debt-and-credit" defKey="c:debt-and-credit" className={TERM_CLASS} title="Concept: debt and credit">debt and credit</TermLink>
@@ -438,7 +438,7 @@ export default function IntroPage() {
         <li>Making future possibilities so concrete and visible that they can replace currency.</li>
       </ul>
       <P>
-        And then he closes the list: &ldquo;But I don&rsquo;t, of course, mean
+        And then he closes the list: &ldquo;But I of course don&rsquo;t mean
         to close off further discussion with this minimal projection.&rdquo;
         These are very minimal. Where we&rsquo;re going is far more radical
         than any of this. But take the justice one: justice so deeply inscribed
@@ -454,10 +454,11 @@ export default function IntroPage() {
       <Slide n={24} alt="A unique politics" />
       <P>
         Center Study implies what I think is a unique politics: <Q slug="notes-on-governance-and-center-study-politics" q="placing all the bets on a center">placing all
-        bets on a center, or perspective, or type of point man so inside as to
-        turn the central bank and central intelligence into a single entity,
-        thereby abolishing both, along with the outside spread and the outside
-        option. Everything is to circulate through succession practices.</Q>
+        the bets on a center or prospective or type of pointman so inside as
+        to turn the central bank and central intelligence into a single
+        entity, thereby abolishing both, along with the outside spread and
+        outside option. Everything is to circulate through succession
+        practices.</Q>
         {' '}That&rsquo;s a lot, and I could go through those terms, but the
         idea is this: at the beginning of Anglo-modernity you get the first
         central bank, the first central intelligence, parliamentary
@@ -471,7 +472,7 @@ export default function IntroPage() {
         boundary between diagnosis and prescription, on the longest timeline
         imaginable&mdash;to always be able to say: this is what everyone is
         already doing, and here&rsquo;s how they might, given certain shifts
-        and visible trajectories, do it more explicitly and accountably.</Q>
+        in visible trajectories, do it more explicitly and accountably.</Q>
       </P>
       <P>
         There&rsquo;s an oscillation with many of these idioms, where at one
