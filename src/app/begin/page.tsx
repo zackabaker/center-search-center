@@ -162,18 +162,6 @@ export default function BeginPage() {
         </div>
       </header>
 
-      {/* The talk as a way in — between the intro above and the path generator */}
-      <p className="text-center text-gray-600 dark:text-gray-400 mb-12 -mt-2">
-        Or start with the{' '}
-        <Link
-          href="/intro-center-study-zack-baker"
-          className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2"
-        >
-          Introduction to Center Study Talk
-        </Link>
-        {' '}&mdash; slides &amp; transcript.
-      </p>
-
       <section id="generate" className="mb-12 scroll-mt-20">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white text-center mb-4">
           Generate a Reading Path
@@ -182,7 +170,14 @@ export default function BeginPage() {
           Select your interests and, if you want, describe your background. The
           site assembles a reading path &mdash; five to seven texts in order, each
           opened by a verbatim passage &mdash; and saves it at a link you can
-          return to.
+          return to. Or start with the{' '}
+          <Link
+            href="/intro-center-study-zack-baker"
+            className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2"
+          >
+            Introduction to Center Study talk
+          </Link>
+          .
         </p>
         <BeginClient />
       </section>
