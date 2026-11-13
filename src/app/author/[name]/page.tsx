@@ -19,6 +19,9 @@ interface AuthorProfile {
   /** Off-site identity links (X, Substack, publisher). External URLs also feed
    *  the Person JSON-LD's sameAs, tying the identity together for crawlers. */
   elsewhere?: { label: string; href: string }[];
+  /** On-site pages authored by this person that live outside the post corpus
+   *  (talks, standalone essays) — listed in their own section above the posts. */
+  featured?: { label: string; href: string; date?: string; tag?: string }[];
   /** Reference-tier author — work hosted as source material, not the archive's own voice. */
   tier?: 'reference';
 }
@@ -61,6 +64,14 @@ const BAKER: AuthorProfile = {
     { label: '@zackabaker', href: 'https://x.com/zackabaker' },
     { label: 'Substack', href: 'https://zackbaker.substack.com' },
     { label: 'There Is No Economy…', href: '/there-is-no-economy' },
+  ],
+  featured: [
+    {
+      label: 'Introduction to Center Study — the Avalon Institute Exposition talk (slides and edited transcript)',
+      href: '/intro-center-study-zack-baker',
+      date: '2026-10-30',
+      tag: 'Talk',
+    },
   ],
 };
 
@@ -257,6 +268,39 @@ export default async function AuthorPage({
           </div>
         )}
       </div>
+
+      {/* Pages authored outside the post corpus (talks, standalone essays) */}
+      {profile.featured && profile.featured.length > 0 && (
+        <section className="mb-10">
+          <div className="flex items-baseline gap-3 mb-4">
+            <h2 className="text-base font-semibold text-gray-900 dark:text-white">Talks &amp; Pages</h2>
+            <span className="text-xs text-gray-400 dark:text-gray-500">{profile.featured.length}</span>
+          </div>
+          <div className="space-y-px">
+            {profile.featured.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="group flex items-start gap-3 py-2.5 min-h-[44px] border-b border-gray-50 dark:border-gray-800/60 last:border-b-0 hover:bg-gray-50 dark:hover:bg-gray-900/40 -mx-2 px-2 rounded transition-colors"
+              >
+                {item.date && (
+                  <span className="text-xs text-gray-400 dark:text-gray-500 w-20 flex-shrink-0 tabular-nums pt-0.5">
+                    {new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
+                  </span>
+                )}
+                {item.tag && (
+                  <span className="text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 mt-0.5 bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300">
+                    {item.tag}
+                  </span>
+                )}
+                <span className="text-sm text-gray-800 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug flex-1 min-w-0">
+                  {item.label}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Posts grouped by source */}
       {bySource.map(([source, sourcePosts]) => (
