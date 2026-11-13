@@ -53,7 +53,7 @@ const KATZ: AuthorProfile = {
 // credited on (matched by byline).
 const BAKER: AuthorProfile = {
   name: 'Zack Baker',
-  bio: 'Zack Baker is the creator and maintainer of center.study and the co-author, with Adam Katz, of “There Is No Economy but Only the Debt to the Center: Money, Capital and the Tributary” (Anthropoetics XXVIII, no. 2, Spring 2023).',
+  bio: 'Zack Baker is the creator and maintainer of center.study.',
   sources: ['pdf'] as ContentSource[],
   // Matched by byline. The essay exists in two source-copies (our clean reading
   // copy under `pdf` and the raw Anthropoetics-journal copy under `ap`); show
@@ -67,7 +67,7 @@ const BAKER: AuthorProfile = {
   ],
   featured: [
     {
-      label: 'Introduction to Center Study — the Avalon Institute Exposition talk (slides and edited transcript)',
+      label: 'Introduction to Center Study — the Avalon Institute Exposition talk (slides and transcript)',
       href: '/intro-center-study-zack-baker',
       date: '2026-10-30',
       tag: 'Talk',
