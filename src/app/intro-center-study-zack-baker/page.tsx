@@ -172,6 +172,7 @@ export default function IntroPage() {
       </P>
 
       <H2>II. The lineage</H2>
+      <Slide n={6} alt="René Girard and Eric Gans" />
       <P>
         Who in this room has heard of René Girard? The whole room&mdash;so I
         won&rsquo;t spend time on Girard. This is his student, Eric Gans. Gans
@@ -182,7 +183,6 @@ export default function IntroPage() {
         Johns Hopkins and was part of the 1966 conference where Derrida gave
         his presentation on structure, sign, and play in the human sciences.
       </P>
-      <Slide n={6} alt="René Girard and Eric Gans" />
       <P>
         At that conference Gans started to realize that Girard had a big hole
         in his hypothesis. You know the{' '}
@@ -227,7 +227,7 @@ export default function IntroPage() {
       <P>
         There&rsquo;s a history here, with people like Claude Lévi-Strauss and
         Wilhelm von Humboldt. <Q slug="clr-628" q="arisen all at once">&ldquo;Language can only have arisen all at
-        once. Things cannot have begun to signify gradually.&rdquo;</Q> &ldquo;Man is man
+        once. Things cannot have begun to signify gradually.&rdquo;</Q>{' '}&ldquo;Man is man
         only through speech; but in order to invent speech, he must already be
         man.&rdquo; Rousseau has comments on this too. And I always
         point out that the Linguistic Society of Paris actually banned all
@@ -269,7 +269,7 @@ export default function IntroPage() {
         Gans preserves from Girard the violent origin, but unlike Girard,
         it&rsquo;s not violence that forges the human&mdash;it&rsquo;s
         non-violence. It&rsquo;s our ability to withhold. Not so much free will
-        as free won&rsquo;t. Humans are non-instinctual creatures. We
+        as <em>free won&rsquo;t</em>. Humans are non-instinctual creatures. We
         don&rsquo;t just act on our animal appetites; we&rsquo;re also able to
         withhold them.
       </P>
@@ -283,7 +283,7 @@ export default function IntroPage() {
         <TermLink href="/guide/concepts/the-center" defKey="c:the-center" className={TERM_CLASS} title="Concept: the center">center</TermLink>
         . The originary hypothesis explains how you go from the animal pecking
         order to this human order&mdash;which, by the way, is hierarchical, not
-        egalitarian, but has a very different structure.
+        egalitarian.
       </P>
       <Slide n={15} alt="The scene, in four frames" />
       <P>
@@ -301,7 +301,7 @@ export default function IntroPage() {
       </P>
       <P>
         That scene, or something like it, was the first sign and the first
-        word, and it meant something like stop, or hold back. They did
+        word, and it meant something like <em>stop</em>, or <em>hold back</em>. They did
         something no animal has ever done: shared attention on a central
         object. That is deferral. They deferred the violence. The sign meant
         &ldquo;we&rsquo;re going to hold back,&rdquo; and then they would have
@@ -339,7 +339,7 @@ export default function IntroPage() {
       <P>
         First: <Q slug="scenic-linguistic-undecidability" q="infiltrate and reshape the scene">if you want to infiltrate and reshape a scene, you need to be
         primarily concerned with formulating idioms that will stick,
-        proliferate, and turn into networks.</Q> I think this is even more true
+        proliferate, and turn into networks.</Q>{' '}I think this is even more true
         in the age of artificial intelligence and large language models. What
         matters is that the idioms you create&mdash;the new language, the
         neologisms, the terms you coin&mdash;go places. They succeed. They fly
@@ -379,13 +379,13 @@ export default function IntroPage() {
         {' '}relationship with the center itself.
       </P>
       <P>
-        <strong>The conversion of assets into data.</strong> There&rsquo;s a
+        <strong>The conversion of assets into data.</strong>{' '}There&rsquo;s a
         lot to say here, but let&rsquo;s say{' '}
         <TermLink href="/guide/concepts/money" defKey="c:money" className={TERM_CLASS} title="Concept: money">money</TermLink>
         {' '}itself is just data, and will become more so.
       </P>
       <P>
-        <strong>The infinite exhaustibility of pedagogy.</strong> There will
+        <strong>The infinite exhaustibility of pedagogy.</strong>{' '}There will
         always be a need to show others how to do things. When we think about
         what large language models are doing to work and the social order, one
         thing we&rsquo;ll never run out of is ways of teaching and learning
@@ -394,7 +394,7 @@ export default function IntroPage() {
       </P>
       <P>
         <strong>Language will increasingly approximate programming.</strong>
-        {' '}Our prompts will increasingly be done in language, and language
+        {' '}Our programming will increasingly be done in language, and language
         becomes a kind of programming we&rsquo;re always doing. One way to
         describe Center Study is as a language programming language&mdash;a way
         of getting at language itself, from the origin, in order to work on
@@ -406,8 +406,8 @@ export default function IntroPage() {
       <Slide n={21} alt="The maxim: no theories but in companies" />
       <P>
         If you take Center Study and the originary scene seriously, what can
-        you do? One idiom I haven&rsquo;t said yet: No theory but in companies;
-        no companies but through{' '}
+        you do? One idiom I haven&rsquo;t said yet: No theories but in
+        companies; no companies but through{' '}
         <TermLink href="/guide/concepts/sovereignty" defKey="c:sovereignty" className={TERM_CLASS} title="Concept: sovereignty">sovereignty</TermLink>
         . All of the idioms need to turn into companies.
       </P>
@@ -443,7 +443,7 @@ export default function IntroPage() {
         These are very minimal. Where we&rsquo;re going is far more radical
         than any of this. But take the justice one: justice so deeply inscribed
         into the social order that people don&rsquo;t commit crimes because
-        they know they&rsquo;ll be prosecuted. You don&rsquo;t even need a
+        they know they&rsquo;d be prosecuted. You don&rsquo;t even need a
         justice order because it works so well.
       </P>
       <Slide n={25} alt="The companies: data security, litigation, judgment, pedagogy, insurance, currency" />
@@ -482,10 +482,18 @@ export default function IntroPage() {
         explicitly.
       </P>
       <P>
-        So that&rsquo;s Center Study. There&rsquo;s a QR code for the Center
-        Study Twitter account if you want to follow along. I know this was a
-        lot&mdash;the whole enchilada, very quickly&mdash;so let&rsquo;s do
-        twenty minutes of Q&amp;A.
+        So that&rsquo;s Center Study. There&rsquo;s a{' '}
+        <a
+          href="https://x.com/centerstudy_"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-1 underline-offset-2 hover:text-gray-600 dark:hover:text-gray-300"
+        >
+          Center Study Twitter account
+        </a>
+        {' '}if you want to follow along. I know this was a lot&mdash;the whole
+        enchilada, very quickly&mdash;so let&rsquo;s do twenty minutes of
+        Q&amp;A.
       </P>
 
       <footer className="mt-14 pt-6 border-t border-gray-200 dark:border-gray-700 text-sm text-gray-500 dark:text-gray-400 text-center">
