@@ -232,8 +232,8 @@ export default function IntroPage() {
         man.&rdquo; Rousseau has comments on this too. And I always
         point out that the Linguistic Society of Paris actually banned all
         discussion of the origin of language because no one could figure out
-        the answer. We&rsquo;re against the ban&mdash;we&rsquo;re going to
-        break it, which I think is probably still in force, and propose a
+        the answer. We&rsquo;re against the ban&mdash;which I think is probably
+        still in force&mdash;so we&rsquo;re going to break it and propose a
         hypothesis.
       </P>
       <P>
