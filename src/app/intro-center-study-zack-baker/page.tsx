@@ -64,14 +64,14 @@ function H2({ children }: { children: React.ReactNode }) {
 }
 
 
-// A quoted passage linked to its verbatim source in the archive — the quote
-// underlines on hover and carries a small arrow so readers can see it's
+// A quoted passage linked to its verbatim source in the archive — always
+// visibly underlined (dotted) with a small arrow so readers can see it's
 // addressable. href lands on the post with the passage highlighted (?q=).
 function Q({ slug, q, children }: { slug: string; q: string; children: React.ReactNode }) {
   return (
     <Link
       href={`/post/${slug}?q=${encodeURIComponent(q)}`}
-      className="hover:underline decoration-1 underline-offset-2"
+      className="underline decoration-dotted decoration-gray-400 dark:decoration-gray-600 underline-offset-2 hover:decoration-solid hover:decoration-gray-700 dark:hover:decoration-gray-400 transition-colors"
       title="Read this passage in its post"
     >
       {children}
@@ -127,12 +127,15 @@ export default function IntroPage() {
         audience&mdash;Mr. Tivy and others who, in Berkeley at that time, were
         asking really big questions: What is the nature of our social order?
         What is the nature of the human? During that time I discovered a very
-        strange theory called generative anthropology, which I became totally
-        fixated on and have not stopped thinking about since.
+        strange theory called{' '}
+        <Link href="/generative-anthropology" className={TERM_CLASS} title="Generative Anthropology — the overview">generative anthropology</Link>
+        , which I became totally fixated on and have not stopped thinking
+        about since.
       </P>
       <P>
-        Since then, generative anthropology has forked into something called
-        Center Study. My goal today is to give you a quick overview of what
+        Since then, generative anthropology has forked into something called{' '}
+        <TermLink href="/guide/concepts/center-study" defKey="c:center-study" className={TERM_CLASS} title="Concept: Center Study">Center Study</TermLink>
+        . My goal today is to give you a quick overview of what
         Center Study is, where it comes from, and what you can do with it. What
         I want to convince you of is that it&rsquo;s one of the most powerful
         ways of thinking I&rsquo;ve discovered, and that for any of the
@@ -156,7 +159,9 @@ export default function IntroPage() {
       <Slide n={4} alt="A 2×2: generativity of idioms against difficulty of learning" />
       <P>
         I made a two-by-two. On the x-axis is difficulty of learning. On the
-        y-axis is what I&rsquo;d call the generativity of idioms&mdash;think of
+        y-axis is what I&rsquo;d call the generativity of{' '}
+        <TermLink href="/guide/concepts/idiom" defKey="c:idiom" className={TERM_CLASS} title="Concept: idiom">idioms</TermLink>
+        &mdash;think of
         it like the Sapir-Whorf hypothesis: once you learn the thing, how
         differently do you see the world? What new ideas and phrases does it
         give you for approaching reality? Imagine the difficulty of learning
@@ -170,8 +175,9 @@ export default function IntroPage() {
       <P>
         Who in this room has heard of René Girard? The whole room&mdash;so I
         won&rsquo;t spend time on Girard. This is his student, Eric Gans. Gans
-        was among Girard&rsquo;s first PhD students&mdash;and firstness is a
-        theme we&rsquo;ll keep returning to; it&rsquo;s very important in
+        was among Girard&rsquo;s first PhD students&mdash;and{' '}
+        <TermLink href="/guide/concepts/firstness" defKey="c:firstness" className={TERM_CLASS} title="Concept: firstness">firstness</TermLink>
+        {' '}is a theme we&rsquo;ll keep returning to; it&rsquo;s very important in
         generative anthropology and Center Study. Gans studied under Girard at
         Johns Hopkins and was part of the 1966 conference where Derrida gave
         his presentation on structure, sign, and play in the human sciences.
@@ -179,23 +185,29 @@ export default function IntroPage() {
       <Slide n={6} alt="René Girard and Eric Gans" />
       <P>
         At that conference Gans started to realize that Girard had a big hole
-        in his hypothesis. You know the scapegoating event: everybody gangs up
-        on a single human and lynches them. But why would this be meaningful?
+        in his hypothesis. You know the{' '}
+        <TermLink href="/guide/concepts/scapegoating" defKey="c:scapegoating" className={TERM_CLASS} title="Concept: scapegoating">scapegoating</TermLink>
+        {' '}event: everybody gangs up on a single human and lynches them. But
+        why would this be meaningful?
         Animals kill single animals in their groups all the time. Girard wants
         to say there&rsquo;s something about this scapegoating event that
         radically transformed the community. That means there must be some
         sense of meaning&mdash;some way in which this event was a meaningful
-        event, an event at all&mdash;and he doesn&rsquo;t explain why that
+        event, an{' '}
+        <TermLink href="/guide/concepts/event" defKey="c:event" className={TERM_CLASS} title="Concept: event">event</TermLink>
+        {' '}at all&mdash;and he doesn&rsquo;t explain why that
         happens. One way to put it: he doesn&rsquo;t explain where language
         comes from. So Gans amends Girard&rsquo;s theory.
       </P>
       <Slide n={7} alt="Timeline: 1961–2021, Girard to Gans to Katz" />
       <P>Here&rsquo;s the timeline in twenty-year punches:</P>
       <ul className="text-gray-800 dark:text-gray-200 leading-relaxed mb-5 list-none pl-0 space-y-2">
-        <li>1961 &mdash; Girard, <em>Deceit, Desire, and the Novel</em>: the imitative nature of humans; mimetic theory.</li>
+        <li>1961 &mdash; Girard, <em>Deceit, Desire, and the Novel</em>: the imitative nature of humans;{' '}
+          <TermLink href="/guide/concepts/mimesis" defKey="g:mimetic-desire" className={TERM_CLASS} title="Concept: mimesis">mimetic theory</TermLink>.</li>
         <li>1981 &mdash; Gans, <em>The Origin of Language</em>.</li>
         <li>2001 &mdash; Adam Katz discovers Gans&rsquo;s work and begins working through what becomes Center Study.</li>
-        <li>2021 &mdash; Katz, <em>Anthropomorphics: An Originary Grammar of the Center</em>.</li>
+        <li>2021 &mdash; Katz,{' '}
+          <TermLink href="/guide/concepts/anthropomorphics" defKey="c:anthropomorphics" className={TERM_CLASS} title="Concept: Anthropomorphics"><em>Anthropomorphics: An Originary Grammar of the Center</em></TermLink>.</li>
       </ul>
       <P>
         That&rsquo;s the lineage: mimetic theory, to generative anthropology,
@@ -214,8 +226,8 @@ export default function IntroPage() {
       <Slide n={11} alt="Société de Linguistique de Paris, statutes of 1866, Article 2" />
       <P>
         There&rsquo;s a history here, with people like Claude Lévi-Strauss and
-        Wilhelm von Humboldt. &ldquo;Language can only have arisen all at once:
-        things cannot have begun to signify gradually.&rdquo; &ldquo;Man is man
+        Wilhelm von Humboldt. <Q slug="clr-628" q="arisen all at once">&ldquo;Language can only have arisen all at
+        once: things cannot have begun to signify gradually.&rdquo;</Q> &ldquo;Man is man
         only through language, but in order to invent language he had already
         to be a man.&rdquo; Rousseau has comments on this too. And I always
         point out that the French Academy of Sciences actually banned all
@@ -237,8 +249,10 @@ export default function IntroPage() {
         know that I know: third-order attention. I&rsquo;m seeing you see me
         see something. No animal does this. I have five minutes of video, which
         I won&rsquo;t play now, showing how apes and human babies differ in
-        this way. Third-order attention&mdash;shared attention&mdash;is unique
-        to the human species, and it&rsquo;s part of how language emerges.
+        this way. Third-order attention&mdash;
+        <TermLink href="/guide/concepts/attentionality" defKey="g:shared-attention" className={TERM_CLASS} title="Concept: attentionality">shared attention</TermLink>
+        &mdash;is unique to the human species, and it&rsquo;s part of how
+        language emerges.
       </P>
 
       <H2>IV. The originary scene</H2>
@@ -280,8 +294,9 @@ export default function IntroPage() {
         time. As they reach, there&rsquo;s something not quite a realization
         but a fear that if everyone goes for it at once, violence will ensue.
         At least one of the animals&mdash;likely a sigma, someone not quite the
-        alpha, someone in the middle&mdash;holds back and turns a gesture of
-        appropriation, of grabbing, into something like a point. That gesture
+        alpha, someone in the middle&mdash;holds back and turns a{' '}
+        <TermLink href="/guide/concepts/originary-scene" defKey="g:aborted-gesture-of-appropriation" className={TERM_CLASS} title="Concept: the aborted gesture of appropriation">gesture of appropriation</TermLink>
+        , of grabbing, into something like a point. That gesture
         is recognized by others and imitated, and they all point at the object.
       </P>
       <P>
@@ -359,13 +374,15 @@ export default function IntroPage() {
         <strong>There is no economy, only the debt to the center.</strong> This
         is the title of an article I co-authored with Adam, but the phrase is
         more than that. From the first animal sacrifice to the Fed&rsquo;s
-        quantitative easing yesterday, we can think about the economy as a debt
-        and credit relationship with the center itself.
+        quantitative easing yesterday, we can think about the economy as a{' '}
+        <TermLink href="/guide/concepts/debt-and-credit" defKey="c:debt-and-credit" className={TERM_CLASS} title="Concept: debt and credit">debt and credit</TermLink>
+        {' '}relationship with the center itself.
       </P>
       <P>
         <strong>The conversion of assets into data.</strong> There&rsquo;s a
-        lot to say here, but let&rsquo;s say money itself is just data, and
-        will become more so.
+        lot to say here, but let&rsquo;s say{' '}
+        <TermLink href="/guide/concepts/money" defKey="c:money" className={TERM_CLASS} title="Concept: money">money</TermLink>
+        {' '}itself is just data, and will become more so.
       </P>
       <P>
         <strong>The infinite exhaustibility of pedagogy.</strong> There will
