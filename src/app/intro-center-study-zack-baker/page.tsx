@@ -9,14 +9,14 @@ const TERM_CLASS =
   'underline decoration-dotted decoration-gray-400 dark:decoration-gray-600 hover:decoration-gray-700 dark:hover:decoration-gray-400 transition-colors';
 
 export const metadata: Metadata = {
-  title: 'An Introduction to Center Study',
+  title: 'Introduction to Center Study',
   description:
-    'The Avalon Institute Exposition talk, October 30, 2026 — what Center Study is, where it comes from, the paradox of the first word, the originary scene, and what is to be done. Slides and transcript.',
+    'The Avalon Institute Exposition talk, October 30, 2026 — what Center Study is, where it comes from, the paradox of the first word, the originary scene, and what is to be done. Slides and lightly edited transcript.',
   alternates: { canonical: 'https://center.study/intro-center-study-zack-baker' },
   openGraph: {
-    title: 'An Introduction to Center Study',
+    title: 'Introduction to Center Study',
     description:
-      'The Avalon Exposition talk: the originary hypothesis, the lineage from Girard and Gans, and the companies it implies. Slides and transcript.',
+      'The Avalon Exposition talk: the originary hypothesis, the lineage from Girard and Gans, and the companies it implies. Slides and lightly edited transcript.',
     url: 'https://center.study/intro-center-study-zack-baker',
     siteName: 'Center Study Center',
     type: 'article',
@@ -84,14 +84,14 @@ export default function IntroPage() {
   return (
     <main className="max-w-3xl w-full mx-auto px-4 py-10 pb-24">
       <header className="mb-10 text-center">
-        <p className="text-xs font-mono uppercase tracking-widest text-gray-400 mb-3">
-          The Avalon Institute Exposition · October 30, 2026
-        </p>
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-3">
-          An Introduction to Center Study
+          Introduction to Center Study
         </h1>
+        <p className="text-gray-700 dark:text-gray-300 mb-2">Zack Baker</p>
         <p className="text-gray-500 dark:text-gray-400">
-          Slides and transcript · Zack Baker
+          Slides and lightly edited transcript from Zack&rsquo;s Introduction to
+          Center Study talk at the Avalon Institute Exposition on October 30,
+          2026.
         </p>
         <p className="mt-3 text-sm text-gray-400 dark:text-gray-500">
           Thank you to{' '}
@@ -125,15 +125,16 @@ export default function IntroPage() {
         about ten years ago, and some of the people who first opened my mind to
         these questions of political philosophy and anthropology are in the
         audience&mdash;Mr. Tivy and others who, in Berkeley at that time, were
-        asking really big questions: What is the nature of our social order?
-        What is the nature of the human? During that time I discovered a very
-        strange theory called{' '}
+        asking questions about the nature of this social order itself. And
+        those questions led me ultimately to questions of anthropology: What is
+        the nature, or origin, of the human being? During that time I
+        discovered a very strange theory called{' '}
         <Link href="/generative-anthropology" className={TERM_CLASS} title="Generative Anthropology — the overview">generative anthropology</Link>
         , which I became totally fixated on and have not stopped thinking
         about since.
       </P>
       <P>
-        Since then, generative anthropology has forked into something called{' '}
+        Generative anthropology ultimately became something called{' '}
         <TermLink href="/guide/concepts/center-study" defKey="c:center-study" className={TERM_CLASS} title="Concept: Center Study">Center Study</TermLink>
         . My goal today is to give you a quick overview of what
         Center Study is, where it comes from, and what you can do with it. What
