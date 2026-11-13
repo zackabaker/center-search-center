@@ -259,10 +259,8 @@ export default function IntroPage() {
         that the violent scapegoating generates this capacity for
         representation. If it didn&rsquo;t already exist, the event
         wouldn&rsquo;t be meaningful. And if it already existed, then you
-        don&rsquo;t need the event to explain it. It is that{' '}
-        <Q slug="clr-5" q="pragmatic paradox created by the convergence">&ldquo;pragmatic paradox&rdquo;</Q>
-        {' '}that Gans resolved with his hypothesis about the origin of
-        language.
+        don&rsquo;t need the event to explain it. It is that paradox that Gans
+        resolves with his hypothesis about the origin of language.
       </P>
       <Slide n={7} alt="Timeline: 1961–2021, Girard to Gans to Katz" />
       <P>
