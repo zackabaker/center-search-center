@@ -370,8 +370,9 @@ export default function IntroPage() {
         is recognized by others and imitated, and they all point at the object.
       </P>
       <P>
-        That scene, or something like it, was the first sign and the first
-        word, and it meant something like <em>stop</em>, or <em>hold back</em>. They did
+        That scene, or something like it, was the first gesture, word, or
+        &ldquo;thing&rdquo; in the universe that has meaning, and it meant
+        something like <em>stop</em>, or <em>hold back</em>. They did
         something no animal has ever done: shared attention on a central
         object. That is deferral. They deferred the violence. The sign meant
         &ldquo;we&rsquo;re going to hold back,&rdquo; and then they would have
