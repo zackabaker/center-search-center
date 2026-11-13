@@ -201,30 +201,42 @@ export default function IntroPage() {
       <H2>II. The lineage</H2>
       <Slide n={6} alt="René Girard and Eric Gans" />
       <P>
-        Who in this room has heard of René Girard? The whole room&mdash;so I
-        won&rsquo;t spend time on Girard. This is his student, Eric Gans. Gans
-        was among Girard&rsquo;s first PhD students&mdash;and{' '}
-        <TermLink href="/guide/concepts/firstness" defKey="c:firstness" className={TERM_CLASS} title="Concept: firstness">firstness</TermLink>
-        {' '}is a theme we&rsquo;ll keep returning to; it&rsquo;s very important in
-        generative anthropology and Center Study. Gans studied under Girard at
-        Johns Hopkins and was part of the 1966 conference where Derrida gave
-        his presentation on structure, sign, and play in the human sciences.
+        Center Study, like everything, comes from somewhere. And at least for
+        this conversation, I want to try to situate its origin with René
+        Girard. Who in this room has heard of René Girard? Okay, the whole
+        room. So I won&rsquo;t spend any time on Girard. This gentleman to his
+        right is Eric Gans. Gans was among Girard&rsquo;s first PhD students.
+        Gans studied under Girard at Johns Hopkins&mdash;and realized that
+        Girard had a kind of &ldquo;plot hole&rdquo; in his{' '}
+        <TermLink href="/guide/concepts/scapegoating" defKey="c:scapegoating" className={TERM_CLASS} title="Concept: scapegoating">scapegoating</TermLink>
+        {' '}mechanism.
       </P>
       <P>
-        At that conference Gans started to realize that Girard had a big hole
-        in his hypothesis. You know the{' '}
-        <TermLink href="/guide/concepts/scapegoating" defKey="c:scapegoating" className={TERM_CLASS} title="Concept: scapegoating">scapegoating</TermLink>
-        {' '}event: everybody gangs up on a single human and lynches them. But
-        why would this be meaningful?
-        Animals kill single animals in their groups all the time. Girard wants
-        to say there&rsquo;s something about this scapegoating event that
-        radically transformed the community. That means there must be some
-        sense of meaning&mdash;some way in which this event was a meaningful
-        event, an{' '}
+        In Girard&rsquo;s model of the scapegoating event that founds the
+        origin of the human, the proto-hominids&mdash;the not-yet-human
+        creatures&mdash;gang up and lynch a selected individual. But the
+        question for Gans was: why would this event be a meaningful one? In
+        fact, animals kill individual animals in their groups all the
+        time&mdash;and nothing &ldquo;event-al&rdquo; happens. The event
+        isn&rsquo;t meaningful. It&rsquo;s not remembered. It&rsquo;s not
+        iterated. So Girard wants to say there&rsquo;s something about this
+        founding scapegoating event that radically transformed the community.
+        But in order to do so, he must rely on some capacity for
+        representation. The event must be represented to the community of
+        now-human hominids as an{' '}
         <TermLink href="/guide/concepts/event" defKey="c:event" className={TERM_CLASS} title="Concept: event">event</TermLink>
-        {' '}at all&mdash;and he doesn&rsquo;t explain why that
-        happens. One way to put it: he doesn&rsquo;t explain where language
-        comes from. So Gans amends Girard&rsquo;s theory.
+        {' '}as such. Without this capacity for representation, the killing of
+        the individual would be like it is in every other animal species: not
+        meaningful, not iterated, not memorable, and certainly not sacred. For
+        there to be some kind of origin where the sacred, representation,
+        meaning, and language originate, one would have to explain how it is
+        that the violent scapegoating generates this capacity for
+        representation. If it didn&rsquo;t already exist, the event
+        wouldn&rsquo;t be meaningful. And if it already existed, then you
+        don&rsquo;t need the event to explain it. It is that{' '}
+        <Q slug="clr-5" q="pragmatic paradox created by the convergence">&ldquo;pragmatic paradox&rdquo;</Q>
+        {' '}that Gans resolved with his hypothesis about the origin of
+        language.
       </P>
       <Slide n={7} alt="Timeline: 1961–2021, Girard to Gans to Katz" />
       <P>Here&rsquo;s the timeline in twenty-year punches:</P>
