@@ -11,12 +11,13 @@ const TERM_CLASS =
 export const metadata: Metadata = {
   title: 'Introduction to Center Study',
   description:
-    'The Avalon Institute Exposition talk, October 30, 2026 — what Center Study is, where it comes from, the paradox of the first word, the originary scene, and what is to be done. Slides and lightly edited transcript.',
+    'The Avalon Institute Exposition talk, October 30, 2026 — what Center Study is, where it comes from, the paradox of the first word, the originary scene, and what is to be done. Slides and edited transcript.',
+  authors: [{ name: 'Zack Baker', url: 'https://center.study/author/baker' }],
   alternates: { canonical: 'https://center.study/intro-center-study-zack-baker' },
   openGraph: {
     title: 'Introduction to Center Study',
     description:
-      'The Avalon Exposition talk: the originary hypothesis, the lineage from Girard and Gans, and the companies it implies. Slides and lightly edited transcript.',
+      'The Avalon Exposition talk: the originary hypothesis, the lineage from Girard and Gans, and the companies it implies. Slides and edited transcript.',
     url: 'https://center.study/intro-center-study-zack-baker',
     siteName: 'Center Study Center',
     type: 'article',
@@ -80,18 +81,43 @@ function Q({ slug, q, children }: { slug: string; q: string; children: React.Rea
   );
 }
 
+// Article JSON-LD crediting the talk to Zack Baker's Person entity, so the
+// page is machine-readably his (the author page carries the matching @id).
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Introduction to Center Study',
+  description:
+    'Slides and edited transcript from the Introduction to Center Study talk at the Avalon Institute Exposition on October 30, 2026.',
+  url: 'https://center.study/intro-center-study-zack-baker',
+  datePublished: '2026-10-30',
+  author: {
+    '@type': 'Person',
+    '@id': 'https://center.study/author/baker',
+    name: 'Zack Baker',
+    url: 'https://center.study/author/baker',
+  },
+};
+
 export default function IntroPage() {
   return (
     <main className="max-w-3xl w-full mx-auto px-4 py-10 pb-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd).replace(/</g, '\\u003c') }}
+      />
       <header className="mb-10 text-center">
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-3">
           Introduction to Center Study
         </h1>
-        <p className="text-gray-700 dark:text-gray-300 mb-2">Zack Baker</p>
+        <p className="text-gray-700 dark:text-gray-300 mb-2">
+          <Link href="/author/baker" className="hover:underline underline-offset-2" title="Zack Baker — author page">
+            Zack Baker
+          </Link>
+        </p>
         <p className="text-gray-500 dark:text-gray-400">
-          Slides and lightly edited transcript from Zack&rsquo;s Introduction to
-          Center Study talk at the Avalon Institute Exposition on October 30,
-          2026.
+          Slides and edited transcript from the Introduction to Center Study
+          talk at the Avalon Institute Exposition on October 30, 2026.
         </p>
         <p className="mt-3 text-sm text-gray-400 dark:text-gray-500">
           Thank you to{' '}
