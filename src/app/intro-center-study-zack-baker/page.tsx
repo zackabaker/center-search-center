@@ -537,9 +537,8 @@ export default function IntroPage() {
         >
           Center Study Twitter account
         </a>
-        {' '}if you want to follow along. I know this was a lot&mdash;the whole
-        enchilada, very quickly&mdash;so let&rsquo;s do twenty minutes of
-        Q&amp;A.
+        {' '}if you want to follow along. Thank you everyone, and now
+        we&rsquo;ll go into Q&amp;A.
       </P>
 
       <footer className="mt-14 pt-6 border-t border-gray-200 dark:border-gray-700 text-sm text-gray-500 dark:text-gray-400 text-center">
