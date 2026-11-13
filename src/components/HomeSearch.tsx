@@ -139,7 +139,7 @@ export default function HomeSearch() {
             onChange={(e) => setQuery(e.target.value)}
             placeholder={
               mode === 'ask'
-                ? (compact ? 'Ask anything…' : 'Ask anything about Center Study or the originary hypothesis…')
+                ? (compact ? 'Ask anything…' : 'Ask anything about center study or the originary hypothesis…')
                 : (compact ? 'Search the corpus…' : 'Search for a concept or phrase…')
             }
             className="flex-1 px-4 sm:px-5 py-3 sm:py-4 text-base sm:text-lg outline-none bg-transparent text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 min-w-0"
