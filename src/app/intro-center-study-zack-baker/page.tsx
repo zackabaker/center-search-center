@@ -152,24 +152,50 @@ export default function IntroPage() {
         does emerge, to domesticate it.&rdquo;</Q>
       </P>
       <P>
-        It&rsquo;s a bit like an old Marxist critique, but think about
-        disciplines like sociology, economics, political science. These things
-        are designed so as not to be radical, and Center Study is designed to
-        be as radical as possible.
+        Center Study is a discipline similar to existing disciplines like
+        sociology, economics, or political science&mdash;but unlike them
+        insofar as Center Study is much more radical than any of these
+        existing disciplines. It&rsquo;s also, in a way, totally indigestible
+        by those disciplines. It&rsquo;s hard for the sociologist or the
+        economist to &ldquo;take in&rdquo; Center Study and the{' '}
+        <TermLink href="/guide/concepts/originary-scene" defKey="g:originary-hypothesis" className={TERM_CLASS} title="Concept: the originary hypothesis">originary hypothesis</TermLink>
+        &mdash;but Center Study is able to metabolize all of them: to
+        infiltrate these different disciplines, the idioms and vocabulary
+        they&rsquo;ve constructed, the anthropology of the human that they all
+        take as an implicit model for what the human being is. The minimal
+        anthropology, or{' '}
+        <TermLink href="/guide/concepts/anthropomorphics" defKey="c:anthropomorphics" className={TERM_CLASS} title="Concept: anthropomorphics">anthropomorphics</TermLink>
+        , that Center Study is founded on becomes a way of refounding each of
+        these disciplines on the terms of the originary hypothesis, so as to
+        generate a radical new vocabulary that lets us solve the currently
+        unsolvable questions in each discipline&mdash;and make each of them
+        able to speak with one another. So Center Study is a discipline like
+        sociology, like economics, like political science; but it&rsquo;s
+        unlike other disciplines insofar as it&rsquo;s radically
+        interdisciplinary and radically generative.
       </P>
       <Slide n={4} alt="A 2×2: generativity of idioms against difficulty of learning" />
       <P>
-        I made a two-by-two. On the x-axis is difficulty of learning. On the
-        y-axis is what I&rsquo;d call the generativity of{' '}
+        So this slide is a little bit tongue-in-cheek, but the idea here is to
+        illustrate on the x-axis the difficulty of learning a new vocabulary
+        or new idiom, and on the y-axis something I&rsquo;m calling,
+        provisionally, the generativity of{' '}
         <TermLink href="/guide/concepts/idiom" defKey="c:idiom" className={TERM_CLASS} title="Concept: idiom">idioms</TermLink>
-        &mdash;think of
-        it like the Sapir-Whorf hypothesis: once you learn the thing, how
-        differently do you see the world? What new ideas and phrases does it
-        give you for approaching reality? Imagine the difficulty of learning
-        French and how differently you see the world afterward. I want to say
-        Center Study is less difficult than learning a language but radically
-        generative once you take it in. It&rsquo;s hard to take in, but the
-        goal today is to explain what it is and why you&rsquo;d want to.
+        &mdash;i.e., how profoundly does the vocabulary you learn from the
+        discipline shape your worldview and give you new insights and new ways
+        of thinking about existing problems you&rsquo;ve been wrestling with?
+        So you can imagine learning a language like French, and different
+        French idioms and vocabularies giving you new perches on the
+        world&mdash;maybe French culture specifically, but also probably the
+        English language, which will change for you once you&rsquo;ve learned
+        French. I want to say Center Study is much less difficult to learn
+        than an entirely new language. However, it&rsquo;s radically more
+        generative once you&rsquo;re able to start thinking in terms of the
+        center. So it&rsquo;s hard to take in&mdash;at least it resists a kind
+        of <Q slug="originary-hypothesis-as-mobius-strip" q="the kind of initiatory download">&ldquo;initiatory download,&rdquo;</Q>{' '}
+        the way most &ldquo;theory&rdquo; lends itself to. But it&rsquo;s
+        precisely that difficulty that makes it such a generative way of
+        thinking.
       </P>
 
       <H2>II. The lineage</H2>
