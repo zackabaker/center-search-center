@@ -118,7 +118,7 @@ export default function IntroPage() {
 
       <Slide n={1} alt="Title slide: An Introduction to Center Study" />
 
-      <H2>I. What is Center Study?</H2>
+      <H2>I. What Is Center Study?</H2>
       <P>
         Thank you all so much for coming out to this introduction to Center
         Study. It&rsquo;s a full-circle moment for me, because I went to Cal
@@ -198,7 +198,7 @@ export default function IntroPage() {
         thinking.
       </P>
 
-      <H2>II. The lineage</H2>
+      <H2>II. The Lineage</H2>
       <Slide n={6} alt="René Girard and Eric Gans" />
       <P>
         Center Study, like everything, comes from somewhere. And at least for
@@ -239,21 +239,28 @@ export default function IntroPage() {
         language.
       </P>
       <Slide n={7} alt="Timeline: 1961–2021, Girard to Gans to Katz" />
-      <P>Here&rsquo;s the timeline in twenty-year punches:</P>
-      <ul className="text-gray-800 dark:text-gray-200 leading-relaxed mb-5 list-none pl-0 space-y-2">
-        <li>1961 &mdash; Girard, <em>Deceit, Desire, and the Novel</em>: the imitative nature of humans;{' '}
-          <TermLink href="/guide/concepts/mimesis" defKey="g:mimetic-desire" className={TERM_CLASS} title="Concept: mimesis">mimetic theory</TermLink>.</li>
-        <li>1981 &mdash; Gans, <em>The Origin of Language</em>.</li>
-        <li>2001 &mdash; Adam Katz discovers Gans&rsquo;s work and begins working through what becomes Center Study.</li>
-        <li>2021 &mdash; Katz,{' '}
-          <TermLink href="/guide/concepts/anthropomorphics" defKey="c:anthropomorphics" className={TERM_CLASS} title="Concept: Anthropomorphics"><em>Anthropomorphics: An Originary Grammar of the Center</em></TermLink>.</li>
-      </ul>
       <P>
-        That&rsquo;s the lineage: mimetic theory, to generative anthropology,
-        to Center Study.
+        One way of thinking about the lineage is just isolating these
+        different events, over twenty years, where the origins of each theory
+        were first articulated. Girard releases <em>Deceit, Desire, and the
+        Novel</em> in 1961. Gans publishes <em>The Origin of Language</em> in
+        1981. Adam Katz&mdash;who writes under the pseudonym Dennis
+        Bouvard&mdash;starts contributing to <em>Anthropoetics</em>, the
+        journal of generative anthropology, in the early 2000s, and begins to
+        take the absolutist turn, where he focuses on bringing the center back
+        to the center. And this culminates in the forking of Center Study from
+        generative anthropology in Adam&rsquo;s book{' '}
+        <TermLink href="/guide/concepts/anthropomorphics" defKey="c:anthropomorphics" className={TERM_CLASS} title="Concept: Anthropomorphics"><em>Anthropomorphics</em></TermLink>
+        , released in 2020, and on his Substack, Center Study Center, which
+        starts being published in 2021 and continues today.
+      </P>
+      <P>
+        That&rsquo;s the lineage:{' '}
+        <TermLink href="/guide/concepts/mimesis" defKey="g:mimetic-desire" className={TERM_CLASS} title="Concept: mimesis">mimetic theory</TermLink>
+        , to generative anthropology, to Center Study.
       </P>
 
-      <H2>III. The paradox of the first word</H2>
+      <H2>III. The Paradox of the First Word</H2>
       <Slide n={9} alt="The Origin of Language: the paradox of the first word" />
       <P>
         So what was this amendment? I want to begin with a paradox: the first
@@ -294,7 +301,7 @@ export default function IntroPage() {
         language emerges.
       </P>
 
-      <H2>IV. The originary scene</H2>
+      <H2>IV. The Originary Scene</H2>
       <Slide n={13} alt="The originary hypothesis" />
       <P>
         It all comes together in what Gans called the{' '}
@@ -369,7 +376,7 @@ export default function IntroPage() {
         theory of our social orders.
       </P>
 
-      <H2>V. Center Study as idiom laboratory</H2>
+      <H2>V. Center Study as Idiom Laboratory</H2>
       <Slide n={18} alt="Center Study is an idiom laboratory" />
       <P>
         So what is the discipline? It&rsquo;s an idiom laboratory. That sounds
@@ -441,7 +448,7 @@ export default function IntroPage() {
         meta-linguistic ways.
       </P>
 
-      <H2>VI. What is to be done?</H2>
+      <H2>VI. What Is to Be Done?</H2>
       <Slide n={21} alt="The maxim: no theories but in companies" />
       <P>
         If you take Center Study and the originary scene seriously, what can
