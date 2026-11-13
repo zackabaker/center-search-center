@@ -32,11 +32,6 @@ const QUOTES: { text: string; slug: string; q: string }[] = [
     slug: 'successful-succession',
     q: 'the mode of succession is the most important',
   },
-  {
-    text: 'Money is a means of subordinating market activity to central authority—that is, money is a form taken by the delegation of power, and is therefore a form of power itself. Money is the power to command the labor of others.',
-    slug: 'anthropomorphics-book',
-    q: 'Money is a means of subordinating market activity',
-  },
 ];
 
 const INTERVAL_MS = 14000;
