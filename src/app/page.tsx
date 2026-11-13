@@ -115,15 +115,6 @@ export default function Home() {
         {/* Search — directly under the CTA so it's visible on mobile too */}
         <HomeSearch />
 
-        {/* Corpus stats */}
-        <div className="flex items-center justify-center gap-3 mt-5 text-sm text-gray-400 dark:text-gray-500">
-          <span>900+ texts by Katz</span>
-          <span className="text-gray-200 dark:text-gray-700">·</span>
-          <span>1,000+ reference texts</span>
-          <span className="text-gray-200 dark:text-gray-700">·</span>
-          <span>5M+ words</span>
-        </div>
-
         {/* Discover — mobile only, just below search (favorite mobile feature) */}
         <div className="sm:hidden text-left mt-10">
           <RandomPostButton />
