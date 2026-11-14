@@ -669,8 +669,10 @@ export default function AskClient() {
     setError(null);
     setRegenFailed(null);
 
-    // Snap to top for fresh session view
+    // Snap to top for fresh session view (inner scroller on desktop, the
+    // document itself on mobile)
     if (mainRef.current) mainRef.current.scrollTop = 0;
+    window.scrollTo(0, 0);
 
     // A new question always supersedes whatever is in flight — abort it first
     // so a still-streaming previous answer can't keep updating the screen.
@@ -927,11 +929,15 @@ export default function AskClient() {
   const topPosts = (answer?.sources ?? []).filter((s) => !passageSlugs.has(s.slug)).slice(0, 6);
 
   return (
-    // Height = viewport minus the 3rem sticky SiteNav above us — plain
-    // h-screen made the wrapper overflow the viewport by the nav height,
-    // pushing the composer's clearance under the mobile tab bar. dvh tracks
-    // the iOS dynamic URL bar; vh stays as the no-dvh fallback.
-    <div className="h-[calc(100vh-3rem)] supports-[height:100dvh]:h-[calc(100dvh-3rem)] bg-white dark:bg-gray-950 flex flex-col overflow-hidden">
+    // DESKTOP (sm+): app layout — viewport-height column, inner-scrolling
+    // main, composer pinned at the bottom. Height = viewport minus the 3rem
+    // sticky SiteNav (plain h-screen overflowed by the nav height); dvh
+    // tracks the iOS dynamic URL bar, vh is the no-dvh fallback.
+    // MOBILE: natural document flow and ordinary page scroll. The pinned
+    // composer swallowed upward swipes that started on it, so readers
+    // couldn't scroll; the follow-up composer renders inline at the end of
+    // the answer instead.
+    <div className="bg-white dark:bg-gray-950 sm:flex sm:flex-col sm:overflow-hidden sm:h-[calc(100vh-3rem)] sm:supports-[height:100dvh]:h-[calc(100dvh-3rem)]">
       {/* Header */}
       <header className="border-b border-gray-100 dark:border-gray-800 px-4 py-3 flex items-center justify-between max-w-4xl mx-auto w-full flex-shrink-0 gap-2">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
@@ -1055,7 +1061,7 @@ export default function AskClient() {
       </header>
 
       {/* Main scroll area */}
-      <main ref={mainRef} className="flex-1 overflow-y-auto" style={{ overflowAnchor: 'none' }}>
+      <main ref={mainRef} className="sm:flex-1 sm:overflow-y-auto" style={{ overflowAnchor: 'none' }}>
         {/* Screen-reader status for the async answer (WCAG 4.1.3) */}
         <div className="sr-only" aria-live="polite" role="status">
           {isLoading ? 'Searching the archive…' : answer ? 'Answer ready.' : ''}
@@ -1098,7 +1104,7 @@ export default function AskClient() {
                   {sessionQs.map((q, qi) => (
                     <button
                       key={qi}
-                      onClick={() => { setCurrentQuestion(q); setError(null); setRegenFailed(null); const a = sessionAnswersRef.current.get(q); if (a) { setAnswer(a); if (excerptQRef.current !== q) fetchExcerpts(q); if (mainRef.current) mainRef.current.scrollTop = 0; } else { submit(q); } }}
+                      onClick={() => { setCurrentQuestion(q); setError(null); setRegenFailed(null); const a = sessionAnswersRef.current.get(q); if (a) { setAnswer(a); if (excerptQRef.current !== q) fetchExcerpts(q); if (mainRef.current) mainRef.current.scrollTop = 0; window.scrollTo(0, 0); } else { submit(q); } }}
                       title={q}
                       className={`max-w-[14rem] truncate text-[11px] px-2 py-1 rounded-full border transition-colors ${
                         q === currentQuestion
@@ -1468,6 +1474,36 @@ export default function AskClient() {
                 </div>
               )}
 
+              {/* Mobile follow-up composer — inline at the end of the scroll.
+                  The pinned bottom bar is hidden on phones while an answer is
+                  shown (swipes starting on it couldn't scroll the page); the
+                  thread continues from here instead. */}
+              <div className="sm:hidden pt-5 mt-2 mb-20 border-t border-gray-100 dark:border-gray-800">
+                <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2.5">
+                  Ask a follow-up
+                </p>
+                <div className="flex gap-2 items-end">
+                  <textarea
+                    value={input}
+                    onChange={e => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Ask anything…"
+                    rows={2}
+                    className="flex-1 resize-none rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-base text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600"
+                  />
+                  <button
+                    onClick={() => submit(input)}
+                    disabled={!input.trim()}
+                    aria-label="Send"
+                    className="flex-shrink-0 px-4 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl text-sm font-medium disabled:opacity-40"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
               {/* Book of names hint */}
               {showNamesHint && !isLoading && (
                 <div className="py-4 text-center">
@@ -1484,9 +1520,11 @@ export default function AskClient() {
         </div>
       </main>
 
-      {/* Input footer — pb-20 on mobile clears the fixed bottom tab bar
-          (measured: with h-screen + MobileNav the textarea was fully covered) */}
-      <footer className="border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 pt-4 pb-20 sm:pb-4 flex-shrink-0">
+      {/* Input footer — pinned composer. Desktop always; on phones only on
+          the landing view (no answer yet), since while reading an answer it
+          swallowed upward swipes and broke scrolling. pb-20 on mobile clears
+          the fixed bottom tab bar. */}
+      <footer className={`border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 pt-4 pb-20 sm:pb-4 flex-shrink-0 ${currentQuestion ? 'hidden sm:block' : ''}`}>
         <div className="max-w-3xl mx-auto flex gap-3 items-end">
           <textarea
             ref={textareaRef}
