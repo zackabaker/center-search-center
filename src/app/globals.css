@@ -127,6 +127,14 @@
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
+/* The paragraph a reader was sent to (#p-N) — a light neutral tint, same
+   family as the search-match mark. box-shadow widens it without moving text. */
+.excerpt-target {
+  background: rgba(120, 113, 108, 0.12);
+  box-shadow: 0 0 0 8px rgba(120, 113, 108, 0.12);
+  border-radius: 2px;
+}
+
 /* Dark prose */
 .dark .prose { color: #d1d1d1; }
 .dark .prose a { color: #60a5fa; }
