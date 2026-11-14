@@ -3,6 +3,7 @@ import { rateLimit, clientIp } from '@/lib/rate-limit';
 import { semanticChunks, semanticAvailable } from '@/lib/semantic';
 import { EMBED_DIM } from '@/lib/vecmath';
 import { getPublicPosts } from '@/lib/parser';
+import { lexicalPassages } from '@/lib/lexical-passages';
 
 // ── Expand mode (Ask excerpts) ───────────────────────────────────────────────
 // expand: true enriches each hit with its containing PARAGRAPH from the posts
@@ -74,9 +75,6 @@ export function OPTIONS() {
 }
 
 export async function POST(request: Request) {
-  if (!semanticAvailable()) {
-    return Response.json({ error: 'Semantic index unavailable' }, { status: 503 });
-  }
 
   let vector: unknown;
   let sources: unknown;
@@ -87,6 +85,28 @@ export async function POST(request: Request) {
     ({ vector, sources, q, full, expand } = await request.json());
   } catch {
     return Response.json({ error: 'Invalid JSON' }, { status: 400 });
+  }
+
+  // Ask excerpts are hybrid: passages that match the question's distinctive
+  // WORDING lead, meaning-matches follow. Embeddings alone miss a
+  // half-remembered sentence ("tears in the social fabric") in favour of
+  // passages that are merely about the same subject. Wording matches need no
+  // model or index, so they also keep excerpts alive when either is down.
+  const wording =
+    expand === true && typeof q === 'string' && q.trim().length >= 2
+      ? lexicalPassages(q.trim().slice(0, 500), 3)
+      : [];
+  const wordingOnly = () => {
+    const out = wording.map((w) => {
+      const { excerpt, anchor } = expandHit(w.slug, w.text);
+      return { slug: w.slug, title: w.title, source: w.source, text: excerpt, anchor, score: 0.99 };
+    });
+    return Response.json({ results: out }, { headers: openCors() });
+  };
+
+  if (!semanticAvailable()) {
+    if (wording.length > 0) return wordingOnly();
+    return Response.json({ error: 'Semantic index unavailable' }, { status: 503 });
   }
 
   // Raw-text mode: embed server-side via the dedicated /api/embed function
@@ -107,6 +127,7 @@ export async function POST(request: Request) {
       // fall through to the 503 below
     }
     if (!vector) {
+      if (wording.length > 0) return wordingOnly();
       return Response.json({ error: 'Server-side embedding unavailable' }, { status: 503 });
     }
   }
@@ -148,6 +169,16 @@ export async function POST(request: Request) {
     // deduped so two chunks of one paragraph surface once.
     const seen = new Set<string>();
     const expanded = [];
+    // Wording matches first, scored just above the best meaning-match so the
+    // client's "within 0.10 of the top" cut keeps the meaning-matches too.
+    const lead = Math.min(0.999, (results[0]?.score ?? 0.98) + 0.01);
+    for (const w of wording) {
+      const { excerpt, anchor } = expandHit(w.slug, w.text);
+      const key = `${w.slug}|${anchor ?? excerpt.slice(0, 60)}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      expanded.push({ slug: w.slug, title: w.title, source: w.source, text: excerpt, anchor, score: lead });
+    }
     for (const r of results) {
       const { excerpt, anchor } = expandHit(r.slug, r.text);
       const key = `${r.slug}|${anchor ?? excerpt.slice(0, 60)}`;
