@@ -63,6 +63,47 @@ const SOURCE_LABELS: Record<string, string> = {
   twitter: 'X / Twitter', lecture: 'Lecture', ap: 'AP Journal',
 };
 
+// Words too common to be worth highlighting inside an excerpt.
+const HIGHLIGHT_STOP = new Set([
+  'the', 'a', 'an', 'and', 'or', 'of', 'to', 'in', 'on', 'is', 'are', 'was',
+  'were', 'be', 'been', 'what', 'how', 'why', 'who', 'does', 'do', 'did',
+  'for', 'with', 'that', 'this', 'these', 'those', 'it', 'its', 'about',
+  'as', 'by', 'at', 'from', 'can', 'not', 'but', 'his', 'her', 'their',
+  'between', 'mean', 'meaning', 'relate', 'relationship', 'center', 'study',
+]);
+
+// Mark every place a (non-stopword) query word appears in an excerpt, so the
+// reader's eye lands on why this passage matched. Leading word boundary only:
+// "scapegoat" also lights up "scapegoating".
+function highlightQuery(text: string, query: string): React.ReactNode {
+  const words = Array.from(
+    new Set(
+      query
+        .toLowerCase()
+        .split(/[^a-z0-9'’-]+/i)
+        .filter((w) => w.length >= 3 && !HIGHLIGHT_STOP.has(w))
+    )
+  );
+  if (words.length === 0) return text;
+  const esc = words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  let parts: string[];
+  try {
+    parts = text.split(new RegExp(`\\b(${esc.join('|')})`, 'gi'));
+  } catch {
+    return text;
+  }
+  if (parts.length === 1) return text;
+  return parts.map((part, i) =>
+    i % 2 === 1 ? (
+      <mark key={i} className="bg-yellow-200 dark:bg-yellow-500/30 text-inherit rounded-sm px-0.5 -mx-0.5">
+        {part}
+      </mark>
+    ) : (
+      part
+    )
+  );
+}
+
 // Drawn from what readers actually ask most (per the search log), not a
 // hand-guessed list. Two are shown per visit, rotated at random on mount.
 const SUGGESTED = [
@@ -1088,8 +1129,120 @@ export default function AskClient() {
                 {currentQuestion}
               </h2>
 
+              {/* From the archive — FIRST, above the synthesis (owner
+                  direction, 2026-11-14): these verbatim passages arrive almost
+                  instantly, while the synthesis streams for many seconds. With
+                  the synthesis on top, every streamed chunk pushed the quotes
+                  down and readers on mobile could never hold their place.
+                  Quotes at the top render once and stay put; the synthesis
+                  streams BELOW them where appending text moves nothing. */}
+              <div className="mb-8">
+                <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
+                  From the archive — verbatim
+                </p>
+                {excerpts === null ? (
+                  /* Skeleton cards reserve space so later arrival shifts layout less */
+                  <div className="space-y-3 animate-pulse" aria-hidden>
+                    {[1, 2].map((k) => (
+                      <div key={k} className="rounded-xl border border-gray-200 dark:border-gray-700 p-4">
+                        <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-full mb-2" />
+                        <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-11/12 mb-2" />
+                        <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-2/3 mb-4" />
+                        <div className="h-9 bg-gray-100 dark:bg-gray-800 rounded w-full sm:w-44" />
+                      </div>
+                    ))}
+                  </div>
+                ) : excerpts.length === 0 ? (
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    No close passages found.{' '}
+                    <Link href={`/search?q=${encodeURIComponent(currentQuestion)}`} className="text-blue-600 dark:text-blue-400 hover:underline">
+                      Try keyword search →
+                    </Link>
+                  </p>
+                ) : (
+                  <div className="space-y-3">
+                    {excerpts.map((x, i) => {
+                      const contextHref = x.anchor
+                        ? `/post/${x.slug}#${x.anchor}`
+                        : `/post/${x.slug}?q=${encodeURIComponent(x.text.split(/\s+/).slice(0, 6).join(' '))}`;
+                      return (
+                        <div
+                          key={`${x.slug}-${x.anchor ?? i}`}
+                          className="min-w-0 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-4"
+                        >
+                          {/* Plain text, deliberately selectable — the card is
+                              NOT a link so copy/paste works on every device.
+                              Query words are marked so the reader sees at a
+                              glance why this passage surfaced. */}
+                          <blockquote
+                            className="text-gray-800 dark:text-gray-200 leading-relaxed mb-3 break-words select-text cursor-text"
+                            style={{ fontFamily: 'var(--font-lora, Georgia, serif)' }}
+                          >
+                            {highlightQuery(x.text, currentQuestion)}
+                          </blockquote>
+                          {/* Full title, wrapping — never truncated */}
+                          <Link href={`/post/${x.slug}`} className="group flex items-start gap-2 mb-3 min-w-0">
+                            <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 mt-0.5 ${SOURCE_COLORS[x.source] || 'bg-gray-100 text-gray-600'}`}>
+                              {SOURCE_LABELS[x.source] || x.source || sourceFromSlug(x.slug)}
+                            </span>
+                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug min-w-0">
+                              {x.title}
+                            </span>
+                          </Link>
+                          <div className="flex items-center gap-2">
+                            {/* Read in context is the primary action */}
+                            <Link
+                              href={contextHref}
+                              className="flex-1 sm:flex-none sm:px-5 text-center px-4 py-2.5 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-medium hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors"
+                            >
+                              Read in context →
+                            </Link>
+                            <button
+                              onClick={() => {
+                                const url = `https://center.study/post/${x.slug}${x.anchor ? `#${x.anchor}` : ''}`;
+                                navigator.clipboard
+                                  .writeText(`“${x.text}” — ${x.title}\n${url}`)
+                                  .then(() => {
+                                    setCopiedExcerpt(i);
+                                    setTimeout(() => setCopiedExcerpt((c) => (c === i ? null : c)), 1500);
+                                  })
+                                  .catch(() => {});
+                              }}
+                              className="text-xs px-3 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-700 dark:hover:text-gray-200 transition-colors flex-shrink-0"
+                              title="Copy the excerpt with its source link"
+                            >
+                              {copiedExcerpt === i ? '✓' : 'Copy'}
+                            </button>
+                            <button
+                              onClick={() => {
+                                const url = `https://center.study/post/${x.slug}${x.anchor ? `#${x.anchor}` : ''}`;
+                                const payload = { title: `${x.title} — Center Study`, text: `“${x.text}” — ${x.title}`, url };
+                                if (navigator.share) {
+                                  navigator.share(payload).catch(() => {});
+                                } else {
+                                  navigator.clipboard.writeText(`${payload.text}\n${url}`).then(() => {
+                                    setCopiedExcerpt(i);
+                                    setTimeout(() => setCopiedExcerpt((c) => (c === i ? null : c)), 1500);
+                                  }).catch(() => {});
+                                }
+                              }}
+                              className="text-xs px-3 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-700 dark:hover:text-gray-200 transition-colors flex-shrink-0"
+                              title="Share the excerpt (native share sheet on mobile)"
+                            >
+                              Share
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
               {/* AI synthesis — the generated answer, quotes woven through,
-                  every quote deep-linked and verified. Explicitly labeled. */}
+                  every quote deep-linked and verified. Explicitly labeled.
+                  Rendered AFTER the verbatim excerpts so its streaming never
+                  moves them. */}
               <div className="mb-8">
                 <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
                   AI synthesis — generated from the texts
@@ -1160,95 +1313,6 @@ export default function AskClient() {
                   </div>
                 )}
               </div>
-
-              {/* From the archive — long verbatim excerpts, retrieved by
-                  meaning from the question PLUS the synthesis, ranked, each
-                  landing on its exact paragraph. */}
-              {!error && (
-                <div className="mb-8">
-                  <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
-                    From the archive — verbatim
-                  </p>
-                  {excerpts === null ? (
-                    <p className="text-xs text-gray-400 dark:text-gray-600 font-mono tracking-wide py-2">
-                      finding the closest passages…
-                    </p>
-                  ) : excerpts.length === 0 ? (
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      No close passages found.{' '}
-                      <Link href={`/search?q=${encodeURIComponent(currentQuestion)}`} className="text-blue-600 dark:text-blue-400 hover:underline">
-                        Try keyword search →
-                      </Link>
-                    </p>
-                  ) : (
-                    <div className="space-y-3">
-                      {excerpts.map((x, i) => (
-                        <div
-                          key={`${x.slug}-${x.anchor ?? i}`}
-                          className="min-w-0 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-4"
-                        >
-                          {/* Plain text, deliberately selectable — the card is
-                              NOT a link so copy/paste works on every device. */}
-                          <blockquote
-                            className="text-gray-800 dark:text-gray-200 leading-relaxed mb-3 break-words select-text cursor-text"
-                            style={{ fontFamily: 'var(--font-lora, Georgia, serif)' }}
-                          >
-                            {x.text}
-                          </blockquote>
-                          <div className="flex items-center gap-2 flex-wrap min-w-0">
-                            <Link
-                              href={x.anchor ? `/post/${x.slug}#${x.anchor}` : `/post/${x.slug}?q=${encodeURIComponent(x.text.split(/\s+/).slice(0, 6).join(' '))}`}
-                              className="group flex items-center gap-2 min-w-0 flex-1"
-                            >
-                              <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 ${SOURCE_COLORS[x.source] || 'bg-gray-100 text-gray-600'}`}>
-                                {sourceFromSlug(x.slug) || x.source}
-                              </span>
-                              <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors min-w-0 flex-1 truncate">
-                                {x.title}
-                              </span>
-                              <span className="text-xs text-gray-400 dark:text-gray-500 group-hover:text-blue-500 flex-shrink-0">Read in context →</span>
-                            </Link>
-                            <button
-                              onClick={() => {
-                                const url = `https://center.study/post/${x.slug}${x.anchor ? `#${x.anchor}` : ''}`;
-                                navigator.clipboard
-                                  .writeText(`“${x.text}” — ${x.title}\n${url}`)
-                                  .then(() => {
-                                    setCopiedExcerpt(i);
-                                    setTimeout(() => setCopiedExcerpt((c) => (c === i ? null : c)), 1500);
-                                  })
-                                  .catch(() => {});
-                              }}
-                              className="text-xs px-3 py-2 sm:px-2 sm:py-1 rounded-md border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-700 dark:hover:text-gray-200 transition-colors flex-shrink-0"
-                              title="Copy the excerpt with its source link"
-                            >
-                              {copiedExcerpt === i ? '✓ Copied' : 'Copy'}
-                            </button>
-                            <button
-                              onClick={() => {
-                                const url = `https://center.study/post/${x.slug}${x.anchor ? `#${x.anchor}` : ''}`;
-                                const payload = { title: `${x.title} — Center Study`, text: `“${x.text}” — ${x.title}`, url };
-                                if (navigator.share) {
-                                  navigator.share(payload).catch(() => {});
-                                } else {
-                                  navigator.clipboard.writeText(`${payload.text}\n${url}`).then(() => {
-                                    setCopiedExcerpt(i);
-                                    setTimeout(() => setCopiedExcerpt((c) => (c === i ? null : c)), 1500);
-                                  }).catch(() => {});
-                                }
-                              }}
-                              className="text-xs px-3 py-2 sm:px-2 sm:py-1 rounded-md border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-700 dark:hover:text-gray-200 transition-colors flex-shrink-0"
-                              title="Share the excerpt (native share sheet on mobile)"
-                            >
-                              Share
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
 
               {/* Passages from the archive — the verbatim quotes, below the synthesis */}
               {answer?.passages && answer.passages.length > 0 && (
