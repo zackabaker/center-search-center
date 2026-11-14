@@ -1137,9 +1137,6 @@ export default function AskClient() {
                   Quotes at the top render once and stay put; the synthesis
                   streams BELOW them where appending text moves nothing. */}
               <div className="mb-8">
-                <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
-                  From the archive — verbatim
-                </p>
                 {excerpts === null ? (
                   /* Skeleton cards reserve space so later arrival shifts layout less */
                   <div className="space-y-3 animate-pulse" aria-hidden>
