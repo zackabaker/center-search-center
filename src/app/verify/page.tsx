@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import VerifyClient from './VerifyClient';
 
 export const metadata: Metadata = {
-  title: 'Verify a Quote — Center Study Center',
+  title: 'Verify a Quote',
   description:
     'Check whether Adam Katz / Dennis Bouvard or Eric Gans actually wrote a quote. Verbatim verification against the full corpus, with source attribution.',
   alternates: { canonical: 'https://center.study/verify' },

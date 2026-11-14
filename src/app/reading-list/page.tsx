@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import ReadingListClient from './ReadingListClient';
 
 export const metadata: Metadata = {
-  title: 'Reading List — Center Study Center',
+  title: 'Reading List',
   description: 'Your saved posts and reading history.',
 };
 

@@ -146,7 +146,7 @@ export default function BeginClient() {
         onChange={(e) => setText(e.target.value.slice(0, 600))}
         rows={3}
         placeholder={'e.g. “I come from economics and I’m curious how money relates to language and ritual”'}
-        className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-3 py-2 text-[15px] text-gray-800 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-gray-500 dark:focus:border-gray-400 resize-y"
+        className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-3 py-2 text-base text-gray-800 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-gray-500 dark:focus:border-gray-400 resize-y"
       />
 
       {!busy && (
