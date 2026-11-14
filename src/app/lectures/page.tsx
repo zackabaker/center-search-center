@@ -3,7 +3,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Lecture Series — Center Study Center',
+  title: 'Lecture Series',
   description: 'Five introductory lectures by Adam Katz for Center Study: Origin, Mimetic, Deferral of Violence, The Center, The Sign.',
 };
 
