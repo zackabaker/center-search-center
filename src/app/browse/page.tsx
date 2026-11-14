@@ -146,7 +146,7 @@ export default async function BrowsePage() {
         <h1 className="text-2xl sm:text-3xl font-bold mt-2 mb-2 text-gray-900 dark:text-white">Archive</h1>
         <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">
           {(totalAll - (countsBySource['chronicle'] ?? 0) - (countsBySource['ap'] ?? 0)).toLocaleString()} texts
-          by Adam Katz, plus {((countsBySource['chronicle'] ?? 0) + (countsBySource['ap'] ?? 0)).toLocaleString()} reference
+          by Adam Katz, plus {((countsBySource['chronicle'] ?? 0) + (countsBySource['ap'] ?? 0)).toLocaleString()}{' '}reference
           texts (Gans&rsquo;s Chronicles &amp; Anthropoetics) — browse by source, topic, or year
         </p>
         {/* Utility links */}
