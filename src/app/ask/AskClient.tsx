@@ -1079,9 +1079,6 @@ export default function AskClient() {
               <div className="grid sm:grid-cols-2 gap-2 max-w-2xl mx-auto text-left">
                 <SuggestedChips onPick={(q) => submit(q)} />
               </div>
-              <p className="text-xs text-gray-400 mt-6">
-                Answers download as <code className="font-mono">.md</code>{' '}— file into Obsidian to build your own wiki.
-              </p>
               {showNamesHint && (
                 <div className="mt-6">
                   <Link
