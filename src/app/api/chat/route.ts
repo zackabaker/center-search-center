@@ -7,6 +7,7 @@ import { Post, ARCHIVAL_SOURCES } from '@/lib/types';
 import { getConceptBySlug } from '@/data/guide/concepts';
 import { relatedSlugs } from '@/lib/related';
 import { aliasesFor } from '@/lib/vocab';
+import { lexicalPassages } from '@/lib/lexical-passages';
 
 const anthropic = new Anthropic();
 
@@ -470,6 +471,21 @@ async function retrieveChunks(query: string, maxChunks = 25, origin?: string): P
       score: 0.4 + s.score * 0.8,
     } as ChunkWithMeta);
     added++;
+  }
+
+  // Wording matches: passages where the question's distinctive words sit close
+  // together. Post-level scoring above counts raw occurrences, so one common
+  // word ("social") can push the essay holding the actual sentence out of the
+  // candidate set entirely. These go in at the top so the synthesis can quote
+  // the sentence the reader is evidently looking for.
+  for (const w of lexicalPassages(query, 3)) {
+    const existing = allChunks.find((c) => c.slug === w.slug && (c.text.includes(w.text.slice(0, 80)) || w.text.includes(c.text.slice(0, 80))));
+    const top = allChunks.reduce((m, c) => Math.max(m, c.score), 0);
+    if (existing) {
+      existing.score = top + w.coverage;
+    } else {
+      allChunks.push({ slug: w.slug, title: w.title, source: w.source, text: w.text, score: top + w.coverage } as ChunkWithMeta);
+    }
   }
 
   // Source-diverse chunk selection: guarantee Substack representation
