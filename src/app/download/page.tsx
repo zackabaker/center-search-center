@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 import DownloadClient from './DownloadClient';
 
 export const metadata: Metadata = {
-  title: 'Download Archive — Center Study Center',
+  title: 'Download Archive',
   description: 'Download the Center Study Center archive as JSON or plain text. Select individual sources or grab everything.',
 };
 

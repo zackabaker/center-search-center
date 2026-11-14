@@ -670,7 +670,7 @@ function PostRow({
         className={`flex-shrink-0 p-1.5 rounded-lg transition-colors mt-0.5 ${
           isSaved
             ? 'text-blue-500 dark:text-blue-400'
-            : 'text-gray-300 dark:text-gray-700 hover:text-gray-500 dark:hover:text-gray-400 opacity-0 group-hover:opacity-100'
+            : 'text-gray-300 dark:text-gray-700 hover:text-gray-500 dark:hover:text-gray-400 sm:opacity-0 sm:group-hover:opacity-100'
         }`}
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill={isSaved ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={isSaved ? 0 : 2}>
