@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import HighlightedContent from './HighlightedContent';
 import { PostContent } from './PostContent';
+import { useFrozenSearchQ } from './useFrozenSearchQ';
 
 interface Props {
   paragraphs: string[];
@@ -13,8 +14,10 @@ interface Props {
 }
 
 export default function PostSearchContext({ paragraphs, content, postTitle, postUrl }: Props) {
-  const searchParams = useSearchParams();
-  const q = searchParams.get('q') ?? '';
+  // Frozen, not live: HighlightedContent strips ?q= from the address bar once
+  // the highlight is applied, and a live read here would instantly swap the
+  // view back to plain PostContent and lose the highlights.
+  const q = useFrozenSearchQ();
 
   if (q) {
     return (
@@ -37,7 +40,8 @@ export default function PostSearchContext({ paragraphs, content, postTitle, post
 
 export function BackButton() {
   const searchParams = useSearchParams();
-  const q = searchParams.get('q') ?? '';
+  // q is frozen (see above) so "Back to results" survives the ?q= strip.
+  const q = useFrozenSearchQ();
   const back = searchParams.get('back') ?? '';
 
   // Sanitise: only allow same-origin relative paths starting with /

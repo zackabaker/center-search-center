@@ -1,9 +1,9 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState, useCallback, Suspense, useMemo } from 'react';
 import { CS_TERMS, TERM_TO_CONCEPT_SLUG } from '@/lib/cs-terms';
 import TermLink from '@/components/TermLink';
+import { useFrozenSearchQ } from './useFrozenSearchQ';
 
 interface HighlightedContentProps {
   paragraphs: string[];
@@ -213,8 +213,9 @@ function extractHighlightTerms(query: string): string[] {
 }
 
 function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: HighlightedContentProps) {
-  const searchParams = useSearchParams();
-  const query = searchParams.get('q') || '';
+  // Frozen, not live — this component itself strips ?q= from the address bar
+  // after applying the highlight, and a live read would wipe the marks.
+  const query = useFrozenSearchQ();
   const contentRef = useRef<HTMLDivElement>(null);
   const [matchCount, setMatchCount] = useState(0);
   const [, setCurrentMatch] = useState(0);
@@ -359,6 +360,18 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
         allMarks[0].style.outlineOffset = '1px';
       }, 200);
     }
+    // The highlight is applied — drop ?q= from the address bar so sharing the
+    // page from the browser (share sheet, copied address) gives the clean
+    // canonical URL instead of leaking the reader's search query. The
+    // highlight itself stays; only the visible URL changes.
+    try {
+      const u = new URL(window.location.href);
+      if (u.searchParams.has('q')) {
+        u.searchParams.delete('q');
+        const qs = u.searchParams.toString();
+        window.history.replaceState(null, '', u.pathname + (qs ? `?${qs}` : '') + u.hash);
+      }
+    } catch {}
   }, [query]);
 
   useEffect(() => {
