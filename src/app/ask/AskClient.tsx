@@ -1162,9 +1162,18 @@ export default function AskClient() {
                 ) : (
                   <div className="space-y-3">
                     {excerpts.map((x, i) => {
+                      // "Go to excerpt" lands on the passage, lightly tinted. When
+                      // the excerpt is the whole paragraph the anchor is enough
+                      // (the post tints the anchored block). When it is a window
+                      // cut from a very long block, ?q= also marks its opening
+                      // words so the reader lands on the exact spot.
+                      const lead = x.text.replace(/^…\s*/, '').split(/\s+/).slice(0, 8).join(' ');
+                      const windowed = x.text.startsWith('…') || x.text.endsWith('…');
                       const contextHref = x.anchor
-                        ? `/post/${x.slug}#${x.anchor}`
-                        : `/post/${x.slug}?q=${encodeURIComponent(x.text.split(/\s+/).slice(0, 6).join(' '))}`;
+                        ? `/post/${x.slug}${windowed ? `?q=${encodeURIComponent(lead)}` : ''}#${x.anchor}`
+                        : `/post/${x.slug}?q=${encodeURIComponent(lead)}`;
+                      const actionClass =
+                        'flex items-center gap-2 min-w-0 px-3 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-800 dark:text-gray-200 hover:border-gray-900 dark:hover:border-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors';
                       return (
                         <div
                           key={`${x.slug}-${x.anchor ?? i}`}
@@ -1180,23 +1189,22 @@ export default function AskClient() {
                           >
                             {highlightQuery(x.text, currentQuestion)}
                           </blockquote>
-                          {/* Full title, wrapping — never truncated */}
-                          <Link href={`/post/${x.slug}`} className="group flex items-start gap-2 mb-3 min-w-0">
-                            <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 mt-0.5 ${SOURCE_COLORS[x.source] || 'bg-gray-100 text-gray-600'}`}>
-                              {SOURCE_LABELS[x.source] || x.source || sourceFromSlug(x.slug)}
-                            </span>
-                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug min-w-0">
-                              {x.title}
-                            </span>
-                          </Link>
-                          <div className="flex items-center gap-2">
-                            {/* Read in context is the primary action */}
-                            <Link
-                              href={contextHref}
-                              className="flex-1 sm:flex-none sm:px-5 text-center px-4 py-2.5 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-medium hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors"
-                            >
-                              Read in context →
+                          {/* Two equal doors (owner direction, 2026-11): the
+                              post from its beginning, or straight to this
+                              excerpt. Same weight — neither is "primary". */}
+                          <div className="grid sm:grid-cols-2 gap-2 mb-2">
+                            <Link href={`/post/${x.slug}`} className={actionClass}>
+                              <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 ${SOURCE_COLORS[x.source] || 'bg-gray-100 text-gray-600'}`}>
+                                {SOURCE_LABELS[x.source] || x.source || sourceFromSlug(x.slug)}
+                              </span>
+                              {/* Full title, wrapping — never truncated */}
+                              <span className="leading-snug min-w-0">{x.title}</span>
                             </Link>
+                            <Link href={contextHref} className={`${actionClass} justify-center`}>
+                              Go to excerpt →
+                            </Link>
+                          </div>
+                          <div className="flex items-center justify-end gap-2">
                             <button
                               onClick={() => {
                                 const url = `https://center.study/post/${x.slug}${x.anchor ? `#${x.anchor}` : ''}`;
