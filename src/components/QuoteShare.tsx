@@ -10,7 +10,7 @@ interface QuoteShareProps {
   author: string;
   date: string | null;
   url: string;
-  /** Post slug + source — needed to file a selection in the idiom depot. */
+  /** Post slug + source — needed to file a selection in the idiom archive. */
   slug?: string;
   source?: string;
 }
@@ -41,7 +41,7 @@ export default function QuoteShare({ title, author, date, url, slug, source }: Q
   const [sel, setSel] = useState<Sel | null>(null);
   const [copied, setCopied] = useState(false);
   // After a save the pill is replaced by a short-lived confirmation that
-  // links to the depot, independent of the (now cleared) selection.
+  // links to the archive, independent of the (now cleared) selection.
   const [savedAt, setSavedAt] = useState<{ x: number; y: number } | null>(null);
   // Ref, not the copied state — the selectionchange effect closes over
   // [refresh] and would capture `copied` stale. Guards the pill through the
@@ -97,7 +97,7 @@ export default function QuoteShare({ title, author, date, url, slug, source }: Q
           href="/idioms"
           className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-lg text-xs font-medium shadow-lg bg-amber-600 text-white hover:bg-amber-700 transition-colors whitespace-nowrap"
         >
-          Saved — open your idiom depot →
+          Saved — open your idiom archive →
         </Link>
       </div>
     );

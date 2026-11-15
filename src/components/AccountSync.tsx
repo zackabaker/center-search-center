@@ -6,7 +6,7 @@ import { IDIOMS_EVENT, loadIdioms, storeIdioms, type Idiom } from '@/lib/idioms'
 
 const OWNER_KEY = 'csc-idioms-owner';
 
-// Keeps a signed-in reader's idiom depot the same on every device.
+// Keeps a signed-in reader's idiom archive the same on every device.
 //
 //  - First load after signing in on this device: whatever was saved here while
 //    signed out is MERGED into the account, so nothing is lost by signing in.
