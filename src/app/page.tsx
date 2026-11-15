@@ -98,21 +98,49 @@ export default function Home() {
 
         <RotatingEpigraph />
 
-        {/* Primary action for newcomers — the /begin introduction */}
-        <div className="flex items-center justify-center mb-7">
+        {/* Search — directly under the epigraph so it's visible on mobile too */}
+        <HomeSearch />
+
+        {/* Start here — the three ways in for a newcomer, as a ruled list.
+            Replaces the single "Getting started" button (its first row). */}
+        <nav aria-label="Start here" className="text-left mt-12">
+          <h2 className="text-xs font-mono uppercase tracking-widest text-gray-900 dark:text-gray-100 mb-2">
+            Start here
+          </h2>
           <Link
             href="/begin"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors"
+            className="group flex flex-col gap-0.5 py-3.5 border-t border-gray-900 dark:border-gray-200"
           >
-            New to Center Study? Getting started
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-            </svg>
+            <span className="font-serif text-[1.375rem] leading-[1.2] font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              Getting started
+            </span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">
+              The introduction, then a reading path built for you
+            </span>
           </Link>
-        </div>
-
-        {/* Search — directly under the CTA so it's visible on mobile too */}
-        <HomeSearch />
+          <Link
+            href="/intro-center-study-zack-baker"
+            className="group flex flex-col gap-0.5 py-3.5 border-t border-gray-200 dark:border-gray-700"
+          >
+            <span className="font-serif text-[1.375rem] leading-[1.2] font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              Introduction to Center Study
+            </span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">
+              Zack Baker&rsquo;s talk at the Avalon Institute, slides and transcript
+            </span>
+          </Link>
+          <Link
+            href="/concepts"
+            className="group flex flex-col gap-0.5 py-3.5 border-y border-gray-200 dark:border-gray-700"
+          >
+            <span className="font-serif text-[1.375rem] leading-[1.2] font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              Concepts
+            </span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">
+              The vocabulary, each term defined in the author&rsquo;s own words
+            </span>
+          </Link>
+        </nav>
 
         {/* Discover — mobile only, just below search (favorite mobile feature) */}
         <div className="sm:hidden text-left mt-10">
