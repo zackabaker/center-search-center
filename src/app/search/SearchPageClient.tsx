@@ -1,5 +1,6 @@
 'use client';
 
+import { logAccountEvent } from '@/lib/account-client';
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link, { useLinkStatus } from 'next/link';
@@ -457,7 +458,7 @@ export default function SearchPageClient({
     setIsSearching(false);
     setCommitted(normalized);
     const raw = q.trim();
-    if (raw) { saveRecent(raw); setRecentSearches(getRecent()); }
+    if (raw) { saveRecent(raw); setRecentSearches(getRecent()); logAccountEvent({ type: 'query', q: raw, kind: 'search' }); }
     // An explicit submit means "show me results" — dismiss the phone keyboard
     // so it stops covering the top of the list.
     if (typeof document !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) {

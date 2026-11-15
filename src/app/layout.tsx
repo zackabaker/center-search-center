@@ -8,6 +8,7 @@ import PrintLightMode from "@/components/PrintLightMode";
 import ConvertTracker from "@/components/ConvertTracker";
 import ActivityTracker from "@/components/ActivityTracker";
 import SiteNav from "@/components/SiteNav";
+import AccountSync from "@/components/AccountSync";
 import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
@@ -131,6 +132,7 @@ export default function RootLayout({
                 the site's doors; the footer carries only identity, About, and
                 the follow links. */}
             <div className="flex items-center gap-4 flex-wrap">
+              <Link href="/idioms"  className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Idiom depot</Link>
               <Link href="/about"   className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">About</Link>
               <a
                 href="https://dennisbouvard.substack.com"
@@ -156,6 +158,7 @@ export default function RootLayout({
         <PrintLightMode />
         <ConvertTracker />
         <ActivityTracker />
+        <AccountSync />
         <Analytics />
       </body>
     </html>

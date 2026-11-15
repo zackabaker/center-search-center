@@ -406,7 +406,7 @@ export default async function PostPage({
 
           {/* ── Main content column ── */}
           <div className="min-w-0">
-            <QuoteShare title={post.title} author={authorName} date={post.date} url={`https://center.study/post/${slug}`} />
+            <QuoteShare title={post.title} author={authorName} date={post.date} url={`https://center.study/post/${slug}`} slug={slug} source={post.source} />
             <article>
               <header className={`mb-8 sm:mb-12${reader ? ' text-center' : ''}`}>
                 {reader ? (
@@ -681,7 +681,7 @@ export default async function PostPage({
           )}
 
         </div>
-        <MarkPostRead slug={slug} />
+        <MarkPostRead slug={slug} title={post.title} />
       </main>
     </>
   );
