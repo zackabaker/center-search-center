@@ -1,5 +1,5 @@
 import {
-  authConfigured, cookie, publicOrigin, readCookie, safeNext, sessionCookies, verifyToken, STATE_COOKIE,
+  authConfigured, cookie, googleClientId, googleClientSecret, publicOrigin, readCookie, safeNext, sessionCookies, verifyToken, STATE_COOKIE,
 } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
@@ -29,8 +29,8 @@ export async function GET(request: Request) {
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
         code,
-        client_id: process.env.GOOGLE_CLIENT_ID!,
-        client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+        client_id: googleClientId(),
+        client_secret: googleClientSecret(),
         redirect_uri: `${origin}/api/auth/callback`,
         grant_type: 'authorization_code',
       }),
@@ -48,7 +48,7 @@ export async function GET(request: Request) {
 
   const iss = claims.iss;
   if (
-    claims.aud !== process.env.GOOGLE_CLIENT_ID ||
+    claims.aud !== googleClientId() ||
     (iss !== 'https://accounts.google.com' && iss !== 'accounts.google.com') ||
     typeof claims.exp !== 'number' || claims.exp < Date.now() / 1000 ||
     typeof claims.sub !== 'string' || !claims.sub ||
