@@ -7,6 +7,9 @@ import { CS_TERMS_SORTED, extractFollowUps, TERM_TO_CONCEPT_SLUG } from '@/lib/c
 import { GLOSSARY_LINK_TERMS } from '@/data/guide/glossary-link-terms';
 import { logSearch } from '@/lib/log-search';
 import SceneMark from '@/components/SceneMark';
+import SaveIdiomButton from '@/components/SaveIdiomButton';
+import { passageHref, rememberPassage } from '@/lib/idioms';
+import { logAccountEvent } from '@/lib/account-client';
 
 interface Source {
   slug: string;
@@ -678,6 +681,9 @@ export default function AskClient() {
     // so a still-streaming previous answer can't keep updating the screen.
     abortRef.current?.abort();
 
+    // Signed-in readers keep their queries (no-op when signed out).
+    logAccountEvent({ type: 'query', q: question, kind: 'ask' });
+
     // Excerpts are independent of the answer — fire immediately so they load
     // while the synthesis streams (and for cache hits too).
     fetchExcerpts(question);
@@ -1162,18 +1168,10 @@ export default function AskClient() {
                 ) : (
                   <div className="space-y-3">
                     {excerpts.map((x, i) => {
-                      // "Go to excerpt" lands on the passage, lightly tinted. When
-                      // the excerpt is the whole paragraph the anchor is enough
-                      // (the post tints the anchored block). When it is a window
-                      // cut from a very long block, ?q= also marks its opening
-                      // words so the reader lands on the exact spot.
-                      const lead = x.text.replace(/^…\s*/, '').split(/\s+/).slice(0, 8).join(' ');
-                      const windowed = x.text.startsWith('…') || x.text.endsWith('…');
-                      const contextHref = x.anchor
-                        ? `/post/${x.slug}${windowed ? `?q=${encodeURIComponent(lead)}` : ''}#${x.anchor}`
-                        : `/post/${x.slug}?q=${encodeURIComponent(lead)}`;
-                      const actionClass =
-                        'flex items-center gap-2 min-w-0 px-3 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-800 dark:text-gray-200 hover:border-gray-900 dark:hover:border-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors';
+                      // One door (owner direction, 2026-11-15): open the post at
+                      // its TOP with this quotation lightly highlighted further
+                      // down — not a jump into the middle of the text.
+                      const postHref = passageHref(x.slug, x.anchor ?? null, x.text);
                       return (
                         <div
                           key={`${x.slug}-${x.anchor ?? i}`}
@@ -1189,22 +1187,31 @@ export default function AskClient() {
                           >
                             {highlightQuery(x.text, currentQuestion)}
                           </blockquote>
-                          {/* Two equal doors (owner direction, 2026-11): the
-                              post from its beginning, or straight to this
-                              excerpt. Same weight — neither is "primary". */}
-                          <div className="grid sm:grid-cols-2 gap-2 mb-2">
-                            <Link href={`/post/${x.slug}`} className={actionClass}>
-                              <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 ${SOURCE_COLORS[x.source] || 'bg-gray-100 text-gray-600'}`}>
-                                {SOURCE_LABELS[x.source] || x.source || sourceFromSlug(x.slug)}
+                          <Link
+                            href={postHref}
+                            onClick={() => rememberPassage(x.slug, x.text)}
+                            className="flex items-start gap-2.5 min-w-0 px-3.5 py-3 mb-2 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors"
+                          >
+                            <span className="min-w-0 flex-1">
+                              <span className="block text-sm font-medium leading-snug">
+                                {/* Full title, wrapping — never truncated */}
+                                Go to post: {x.title}
                               </span>
-                              {/* Full title, wrapping — never truncated */}
-                              <span className="leading-snug min-w-0">{x.title}</span>
-                            </Link>
-                            <Link href={contextHref} className={`${actionClass} justify-center`}>
-                              Go to excerpt →
-                            </Link>
-                          </div>
-                          <div className="flex items-center justify-end gap-2">
+                              <span className="block text-xs opacity-70 mt-0.5">
+                                {SOURCE_LABELS[x.source] || x.source || sourceFromSlug(x.slug)} · with this quotation highlighted
+                              </span>
+                            </span>
+                            <span aria-hidden className="text-sm mt-0.5">→</span>
+                          </Link>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <SaveIdiomButton
+                              text={x.text}
+                              slug={x.slug}
+                              title={x.title}
+                              source={x.source}
+                              anchor={x.anchor ?? null}
+                              className="flex-1 sm:flex-none"
+                            />
                             <button
                               onClick={() => {
                                 const url = `https://center.study/post/${x.slug}${x.anchor ? `#${x.anchor}` : ''}`;

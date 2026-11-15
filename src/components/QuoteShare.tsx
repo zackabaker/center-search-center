@@ -1,13 +1,18 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { parsePostDate } from '@/lib/dates';
+import { saveIdiom } from '@/lib/idioms';
 
 interface QuoteShareProps {
   title: string;
   author: string;
   date: string | null;
   url: string;
+  /** Post slug + source — needed to file a selection in the idiom depot. */
+  slug?: string;
+  source?: string;
 }
 
 interface Sel {
@@ -32,9 +37,12 @@ function paragraphAnchor(node: Node | null): string | null {
 // When the reader selects text inside the article, a small floating button
 // appears that copies the passage with a formatted citation attached — so a
 // quote can be pulled out of any essay and shared without losing attribution.
-export default function QuoteShare({ title, author, date, url }: QuoteShareProps) {
+export default function QuoteShare({ title, author, date, url, slug, source }: QuoteShareProps) {
   const [sel, setSel] = useState<Sel | null>(null);
   const [copied, setCopied] = useState(false);
+  // After a save the pill is replaced by a short-lived confirmation that
+  // links to the depot, independent of the (now cleared) selection.
+  const [savedAt, setSavedAt] = useState<{ x: number; y: number } | null>(null);
   // Ref, not the copied state — the selectionchange effect closes over
   // [refresh] and would capture `copied` stale. Guards the pill through the
   // selection collapse a touch-tap causes, so the feedback stays visible.
@@ -81,6 +89,19 @@ export default function QuoteShare({ title, author, date, url }: QuoteShareProps
     };
   }, [refresh]);
 
+  if (!sel && savedAt) {
+    const l = Math.min(Math.max(savedAt.x, 110), window.innerWidth - 110);
+    return (
+      <div style={{ position: 'fixed', left: l, top: Math.max(savedAt.y - 46, 8), transform: 'translateX(-50%)', zIndex: 60 }} className="print:hidden">
+        <Link
+          href="/idioms"
+          className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-lg text-xs font-medium shadow-lg bg-amber-600 text-white hover:bg-amber-700 transition-colors whitespace-nowrap"
+        >
+          Saved — open your idiom depot →
+        </Link>
+      </div>
+    );
+  }
   if (!sel) return null;
 
   const year = (() => {
@@ -108,14 +129,24 @@ export default function QuoteShare({ title, author, date, url }: QuoteShareProps
     }).catch(() => { /* clipboard blocked — leave the button up */ });
   };
 
-  // Keep the button on-screen near the selection's top edge.
-  const left = Math.min(Math.max(sel.x, 90), window.innerWidth - 90);
+  const save = () => {
+    if (!slug) return;
+    saveIdiom({ text: sel.text, slug, title, source: source ?? '', anchor: sel.anchorId });
+    setSavedAt({ x: sel.x, y: sel.y });
+    setSel(null);
+    window.getSelection()?.removeAllRanges();
+    setTimeout(() => setSavedAt(null), 4000);
+  };
+
+  // Keep the buttons on-screen near the selection's top edge.
+  const half = slug ? 150 : 90;
+  const left = Math.min(Math.max(sel.x, half), Math.max(half, window.innerWidth - half));
   const top = Math.max(sel.y - 46, 8);
 
   return (
     <div
       style={{ position: 'fixed', left, top, transform: 'translateX(-50%)', zIndex: 60 }}
-      className="print:hidden"
+      className="print:hidden flex items-center gap-1.5"
       onMouseDown={(e) => e.preventDefault()}
     >
       <button
@@ -139,6 +170,16 @@ export default function QuoteShare({ title, author, date, url }: QuoteShareProps
           </>
         )}
       </button>
+      {slug && !copied && (
+        <button
+          onClick={save}
+          onTouchEnd={(e) => { e.preventDefault(); save(); }}
+          className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-lg text-xs font-medium shadow-lg bg-amber-600 text-white hover:bg-amber-700 transition-colors whitespace-nowrap"
+        >
+          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden><path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m-7-7h14" /></svg>
+          Save idiom
+        </button>
+      )}
     </div>
   );
 }
