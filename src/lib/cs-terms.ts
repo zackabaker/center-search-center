@@ -137,7 +137,7 @@ export const CS_TERM_MAP = new Map<string, CSTerm>(
 /**
  * Maps CS term text (lowercase) to a /guide/concepts/[slug] route where a
  * dedicated concept page exists. Terms not listed here fall back to the
- * /search?q= link used in HighlightedContent.
+ * /search?q= link used in PostContent.
  *
  * This is the SINGLE canonical map — src/data/guide/concepts.ts re-exports it.
  * (The two files used to hold divergent copies; keep all edits here.)

@@ -8,13 +8,12 @@ import { PostContent } from './PostContent';
 import { useFrozenSearchQ } from './useFrozenSearchQ';
 
 interface Props {
-  paragraphs: string[];
   content: string;
   postTitle: string;
   postUrl: string;
 }
 
-export default function PostSearchContext({ paragraphs, content, postTitle, postUrl }: Props) {
+export default function PostSearchContext({ content, postTitle, postUrl }: Props) {
   // Frozen, not live: HighlightedContent strips ?q= from the address bar once
   // the highlight is applied, and a live read here would instantly swap the
   // view back to plain PostContent and lose the highlights.
@@ -83,7 +82,7 @@ export default function PostSearchContext({ paragraphs, content, postTitle, post
   if (q) {
     return (
       <HighlightedContent
-        paragraphs={paragraphs}
+        content={content}
         postTitle={postTitle}
         postUrl={postUrl}
       />
