@@ -7,15 +7,19 @@
  *   src/data/posts-cache.json     — all parsed posts (clean, standardized slugs)
  *   src/data/slug-redirects.json  — { oldPrefixedSlug: canonicalSlug } map, read
  *                                   by proxy.ts to 308-redirect already-shared URLs
+ *   src/data/post-meta.json       — slim slug → {title, source, date, excerpt,
+ *                                   readingTime} map, for lookups that must not
+ *                                   load (or tokenize) the full corpus
  */
 
 import fs from 'fs';
 import path from 'path';
-import { parseAllContent } from '../src/lib/parser';
+import { parseAllContent } from '../src/lib/parse-raw-sources';
 
 const DATA = path.join(process.cwd(), 'src', 'data');
 const OUT = path.join(DATA, 'posts-cache.json');
 const REDIRECTS = path.join(DATA, 'slug-redirects.json');
+const META = path.join(DATA, 'post-meta.json');
 
 console.time('parse');
 const posts = parseAllContent();
@@ -91,9 +95,25 @@ for (const p of posts) if (p.legacySlug && p.legacySlug !== p.slug) redirects[p.
 // links must keep resolving even though no current post carries them.
 redirects['book-the-origin-of-language'] = 'the-origin-of-language';
 fs.writeFileSync(REDIRECTS, JSON.stringify(redirects), 'utf-8');
+
+// Slim per-post metadata — everything a page needs to render a link to a post
+// (related lists, navigation) without loading the 30+ MB posts-cache or
+// tokenizing the corpus. readingTime mirrors calcReadingTime in search-index.ts.
+const meta: Record<string, { title: string; source: string; date: string | null; excerpt: string; readingTime: number }> = {};
+for (const p of posts) {
+  meta[p.slug] = {
+    title: p.title,
+    source: p.source,
+    date: p.date ?? null,
+    excerpt: p.excerpt,
+    readingTime: Math.max(1, Math.round(p.content.split(/\s+/).length / 230)),
+  };
+}
+fs.writeFileSync(META, JSON.stringify(meta), 'utf-8');
 console.timeEnd('write');
 
 const stat = fs.statSync(OUT);
 const kb = (stat.size / 1024).toFixed(1);
 console.log(`✓ ${posts.length} posts → posts-cache.json (${kb} KB)`);
 console.log(`✓ ${Object.keys(redirects).length} legacy slugs → slug-redirects.json`);
+console.log(`✓ ${Object.keys(meta).length} posts → post-meta.json (${(fs.statSync(META).size / 1024).toFixed(1)} KB)`);

@@ -31,14 +31,20 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_INDEX_V: (process.env.VERCEL_GIT_COMMIT_SHA ?? String(Date.now())).slice(0, 12),
   },
-  // Ensure data files are bundled into serverless function output.
-  // posts-cache.json is created by the prebuild script and must be
-  // available at runtime; ga_context.txt is the fallback source.
+  // Scoped per-route bundling of runtime data files. Everything with a
+  // statically analyzable read path — posts-cache.json, post-meta.json,
+  // related.json, slug-redirects.json, concept-passages.json — is traced into
+  // exactly the functions that import its reader, automatically; only reads
+  // tracing CANNOT see are listed here. Never add a catch-all "/**" data
+  // include: that once put all ~72 MB of src/data (raw source dumps included)
+  // into every serverless function and pushed /api/embed to 2/3 of Vercel's
+  // 250 MB limit.
   outputFileTracingIncludes: {
     // OG-card routes readFile() the Lora/Geist-Mono TTFs at runtime; that path
     // is dynamic so tracing misses it — include the font dir on every route
-    // that renders an opengraph-image (root, post, concept).
-    "/**": ["./src/data/**", "./src/assets/fonts/**"],
+    // that renders an opengraph-image (root, post, q, concept, glossary).
+    "/opengraph-image": ["./src/assets/fonts/**"],
+    "/**/opengraph-image": ["./src/assets/fonts/**"],
     // The corpus vectors (~50 MB) are bundled ONLY into the semantic-search
     // function — never into every route — so they can't bloat or break others.
     "/api/semantic": ["./vectors/**"],
