@@ -135,6 +135,11 @@
   border-radius: 2px;
 }
 
+/* The quoted words inside a very long paragraph (CSS Custom Highlight API). */
+::highlight(csc-excerpt) {
+  background-color: rgba(120, 113, 108, 0.22);
+}
+
 /* Dark prose */
 .dark .prose { color: #d1d1d1; }
 .dark .prose a { color: #60a5fa; }

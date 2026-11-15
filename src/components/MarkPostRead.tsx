@@ -1,7 +1,8 @@
 'use client';
 import { useEffect } from 'react';
+import { logAccountEvent } from '@/lib/account-client';
 
-export function MarkPostRead({ slug }: { slug: string }) {
+export function MarkPostRead({ slug, title }: { slug: string; title?: string }) {
   useEffect(() => {
     try {
       const key = 'csc-read-posts';
@@ -11,6 +12,8 @@ export function MarkPostRead({ slug }: { slug: string }) {
         localStorage.setItem(key, JSON.stringify(existing));
       }
     } catch {}
-  }, [slug]);
+    // Signed-in readers keep a reading history (no-op when signed out).
+    logAccountEvent({ type: 'read', slug, title: title ?? slug });
+  }, [slug, title]);
   return null;
 }

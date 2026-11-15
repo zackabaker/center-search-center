@@ -20,19 +20,57 @@ export default function PostSearchContext({ paragraphs, content, postTitle, post
   // view back to plain PostContent and lose the highlights.
   const q = useFrozenSearchQ();
 
-  // Arriving at a paragraph anchor (#p-N — "Go to excerpt", shared passage
-  // links): centre it and give it a light tint so the reader sees which
-  // passage they were sent to. Skipped for enormous single-block posts, where
-  // tinting the block would tint nearly the whole page.
+  // Show the reader which passage they were sent to.
+  //   ?hl=p-N  — "Go to post … with this quotation highlighted": tint the
+  //              passage but stay at the TOP of the post (no scroll).
+  //   #p-N     — a link to a paragraph: centre it and tint it.
+  // The tint covers the whole paragraph when it is a normal-sized one. Inside
+  // an enormous single-block post it covers only the quoted words, which the
+  // linking page handed over in sessionStorage (rememberPassage).
   useEffect(() => {
     const apply = () => {
       document.querySelectorAll('.excerpt-target').forEach((el) => el.classList.remove('excerpt-target'));
-      const m = /^#(p-\d+)$/.exec(window.location.hash);
-      if (!m) return;
-      const el = document.getElementById(m[1]);
+      const highlights = (window.CSS as unknown as { highlights?: Map<string, unknown> } | undefined)?.highlights;
+      highlights?.delete('csc-excerpt');
+
+      const hl = new URLSearchParams(window.location.search).get('hl');
+      const fromHash = /^#(p-\d+)$/.exec(window.location.hash)?.[1] ?? null;
+      const id = fromHash ?? (hl && /^p-\d+$/.test(hl) ? hl : null);
+      if (!id) return;
+      const el = document.getElementById(id);
       if (!el) return;
-      if ((el.textContent || '').length <= 2000) el.classList.add('excerpt-target');
-      el.scrollIntoView({ block: 'center' });
+
+      const full = el.textContent || '';
+      let marked = false;
+      if (full.length > 2000 && highlights && typeof Highlight !== 'undefined') {
+        // Mark just the quoted stretch: locate its first and last words in the
+        // paragraph's text, then map those offsets onto the text nodes.
+        let quote = '';
+        try {
+          const saved = JSON.parse(sessionStorage.getItem('csc-hl') || 'null');
+          if (saved && window.location.pathname.endsWith(`/${saved.slug}`)) quote = String(saved.text || '');
+        } catch {}
+        const head = quote.slice(0, 40);
+        const tail = quote.slice(-40);
+        const start = head ? full.indexOf(head) : -1;
+        const tailAt = start >= 0 && tail ? full.indexOf(tail, start) : -1;
+        if (start >= 0 && tailAt >= 0) {
+          const end = tailAt + tail.length;
+          const range = document.createRange();
+          const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+          let pos = 0;
+          let began = false;
+          for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+            const len = (node.textContent || '').length;
+            if (!began && start < pos + len) { range.setStart(node, start - pos); began = true; }
+            if (began && end <= pos + len) { range.setEnd(node, end - pos); marked = true; break; }
+            pos += len;
+          }
+          if (marked) highlights.set('csc-excerpt', new Highlight(range));
+        }
+      }
+      if (!marked && full.length <= 2000) el.classList.add('excerpt-target');
+      if (fromHash) el.scrollIntoView({ block: 'center' });
     };
     const t = setTimeout(apply, 350);
     window.addEventListener('hashchange', apply);
