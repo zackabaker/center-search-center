@@ -267,9 +267,11 @@ export default function IntroPage() {
         One way of thinking about the lineage is just isolating these
         different events, over twenty years, where the origins of each theory
         were first articulated. Girard releases <em>Deceit, Desire, and the
-        Novel</em> in 1961. Gans publishes <em>The Origin of Language</em> in
-        1981. Adam Katz&mdash;who writes under the pseudonym Dennis
-        Bouvard&mdash;starts contributing to <em>Anthropoetics</em>, the
+        Novel</em>{' '}in 1961. Gans publishes <em>The Origin of Language</em>{' '}in
+        1981. <Link href="/author/katz" className={TERM_CLASS}>Adam Katz</Link>
+        &mdash;who writes under the pseudonym{' '}
+        <Link href="/author/katz" className={TERM_CLASS}>Dennis Bouvard</Link>
+        &mdash;starts contributing to <em>Anthropoetics</em>, the
         journal of generative anthropology, in the early 2000s, and begins to
         take the absolutist turn, where he focuses on bringing the center back
         to the center. And this culminates in the forking of Center Study from
@@ -287,10 +289,10 @@ export default function IntroPage() {
       <H2>III. The Paradox of the First Word</H2>
       <Slide n={9} alt="The Origin of Language: the paradox of the first word" />
       <P>
-        So what was this amendment? I want to begin with a paradox: the first
-        word. Girard didn&rsquo;t have a theory of the origin of language.
+        So, what exactly was Gans&rsquo; amendment to Mimetic Theory? I want
+        to begin with a paradox: the first word. Girard didn&rsquo;t have a theory of the origin of language.
         It&rsquo;s a hard problem to grasp, but once you see the problem,
-        you&rsquo;ll see how elegant the solution is. Where does language come
+        you&rsquo;ll see how elegant Gans&rsquo; solution is. Where does language come
         from in the first instance?
       </P>
       <Slide n={11} alt="Société de Linguistique de Paris, statutes of 1866, Article 2" />
@@ -435,14 +437,14 @@ export default function IntroPage() {
         Here are seven idioms I selected; I&rsquo;ll talk through a few.
       </P>
       <P>
-        <strong>Singularized succession in perpetuity.</strong> All political
+        <strong>Singularized succession in perpetuity.</strong>{' '}All political
         problems are{' '}
         <TermLink href="/guide/concepts/succession" defKey="c:succession" className={TERM_CLASS} title="Concept: succession">succession</TermLink>
         {' '}problems. Who is going to lead in the future? How do you make that
         continuity a priority throughout the social order?
       </P>
       <P>
-        <strong>There is no economy, only the debt to the center.</strong> This
+        <strong>There is no economy, only the debt to the center.</strong>{' '}This
         is the title of <Q slug="ap2802-ap2802katzbaker" q="debt to the center">an article I co-authored with Adam</Q>, but the phrase is
         more than that. From the first animal sacrifice to the Fed&rsquo;s
         quantitative easing yesterday, we can think about the economy as a{' '}
