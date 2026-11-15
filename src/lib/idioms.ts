@@ -1,4 +1,4 @@
-// The reader's idiom depot — passages they chose to keep.
+// The reader's idiom archive — passages they chose to keep.
 //
 // Lives in this browser's localStorage, so it works with no account. When the
 // reader is signed in, AccountSync mirrors it to their account (see
@@ -18,7 +18,7 @@ export interface Idiom {
 }
 
 const KEY = 'csc-idioms';
-/** Fired on window whenever the depot changes (this tab). */
+/** Fired on window whenever the archive changes (this tab). */
 export const IDIOMS_EVENT = 'csc-idioms-changed';
 const MAX = 1000;
 
@@ -43,7 +43,7 @@ export function loadIdioms(): Idiom[] {
   }
 }
 
-/** Replace the whole depot. `silent` skips the change event (used when applying the account's copy). */
+/** Replace the whole archive. `silent` skips the change event (used when applying the account's copy). */
 export function storeIdioms(list: Idiom[], silent = false): void {
   try {
     localStorage.setItem(KEY, JSON.stringify(list.slice(0, MAX)));
