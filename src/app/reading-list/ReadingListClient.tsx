@@ -6,13 +6,13 @@ import { useReadingList, SavedPost } from '@/hooks/useReadingList';
 import { useReadingHistory } from '@/hooks/useReadingHistory';
 
 const SOURCE_COLORS: Record<string, string> = {
-  substack:  'bg-orange-100 text-orange-700',
-  gablog:    'bg-blue-100 text-blue-700',
-  book:      'bg-purple-100 text-purple-700',
-  pdf:       'bg-green-100 text-green-700',
-  reddit:    'bg-red-100 text-red-700',
-  twitter:   'bg-slate-100 text-slate-600',
-  ap:        'bg-teal-100 text-teal-700',
+  substack:  'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  gablog:    'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  book:      'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  pdf:       'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  reddit:    'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  twitter:   'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  ap:        'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
 };
 
 const SOURCE_LABELS: Record<string, string> = {

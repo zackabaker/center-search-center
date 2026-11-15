@@ -3,37 +3,186 @@
 /* ── Tailwind v4: use .dark CLASS (not media query) for dark mode ── */
 @variant dark (&:where(.dark, .dark *));
 
-/* ── CSS custom properties ─────────────────────────────────────── */
+/* ── Identity (2026-11 redesign: "a reading room, not a dashboard") ──
+   One identity with the Avalon talk deck: paper, ink, hairlines, a single
+   Prussian accent. Two families — Newsreader for every title and all reading
+   text, Archivo for interface. No cards-with-shadows, no pastel badge hues,
+   nothing under 13px. Most of the site inherits this from the token remaps
+   below rather than from per-component classes. */
 :root {
-  --background: #ffffff;
-  --foreground: #111111;
-  /* Prose: Lora (loaded via Next.js font) with Georgia fallback */
-  --prose-font-family: var(--font-lora, Georgia, 'Times New Roman', serif);
-  --prose-font-size: 17px;
-  --prose-line-height: 1.85;
+  --background: #f8f8f5;   /* paper */
+  --foreground: #141414;   /* ink */
+  --ink-2: #4f4f4b;        /* second ink — 8:1 on paper */
+  --hairline: #d8d8d4;
+  --accent: #1b4f6e;       /* Prussian */
+  --mark: #f3e6a0;         /* search / passage highlight */
+
+  /* Legacy font variable names, still referenced inline across components. */
+  --font-lora: var(--font-newsreader);
+  --font-geist-sans: var(--font-archivo);
+  --font-geist-mono: var(--font-archivo);
+
+  /* Prose: Newsreader runs smaller on the body than Lora did, so it sets
+     larger and tighter. */
+  --prose-font-family: var(--font-newsreader), Georgia, 'Times New Roman', serif;
+  --prose-font-size: 19px;
+  --prose-line-height: 1.62;
+
+  /* Neutral ramp, light. gray-400 was the site's most-used text color at
+     ≈2.9:1 on white; it is now 4.7:1 on paper, and gray-500 is the second ink. */
+  --color-gray-50: #f1f1ed;
+  --color-gray-100: #e6e6e1;
+  --color-gray-200: #d8d8d4;
+  --color-gray-300: #bdbdb7;
+  --color-gray-400: #6e6e69;
+  --color-gray-500: #4f4f4b;
+  --color-gray-600: #3f3f3b;
+  --color-gray-700: #2b2b28;
+  --color-gray-800: #1f1f1d;
+  --color-gray-900: #141414;
+  --color-gray-950: #0c0c0b;
+
+  /* The one accent. Blue utilities (links, focus, active states) resolve to
+     Prussian; the decorative hues that used to sit beside it collapse onto
+     the same ramp so nothing on a page competes with it. */
+  --color-blue-50: #eef3f6;
+  --color-blue-100: #dde8ee;
+  --color-blue-200: #bcd2de;
+  --color-blue-300: #8fb3c6;
+  --color-blue-400: #4d829d;
+  --color-blue-500: #2a6585;
+  --color-blue-600: #1b4f6e;
+  --color-blue-700: #153f58;
+  --color-blue-800: #113347;
+  --color-blue-900: #0d2838;
+  --color-blue-950: #091c28;
+
+  /* Search-match highlight */
+  --color-yellow-100: #f8efc4;
+  --color-yellow-200: #f3e6a0;
+  --color-yellow-300: #ecd97a;
 }
 
-/* On desktop bump prose to 18px — more comfortable for long reads */
+/* On desktop bump prose — more comfortable for long reads */
 @media (min-width: 768px) {
   :root {
-    --prose-font-size: 18px;
-    --prose-line-height: 1.875;
+    --prose-font-size: 20px;
+    --prose-line-height: 1.6;
   }
 }
 
 .dark {
-  --background: #111111;
-  --foreground: #e8e8e8;
+  --background: #111110;
+  --foreground: #e9e9e4;
+  --ink-2: #a6a6a0;
+  --hairline: #33332f;
+  --accent: #86b3c9;
+
+  /* Neutral ramp, dark: the same un-tinted family, light end for text. */
+  --color-gray-50: #f5f5f2;
+  --color-gray-100: #e9e9e4;
+  --color-gray-200: #d8d8d4;
+  --color-gray-300: #c4c4be;
+  --color-gray-400: #a6a6a0;
+  --color-gray-500: #7d7d77;
+  --color-gray-600: #55554f;
+  --color-gray-700: #3a3a36;
+  --color-gray-800: #262624;
+  --color-gray-900: #1a1a18;
+  --color-gray-950: #0e0e0d;
+
+  --color-blue-300: #a9c8d8;
+  --color-blue-400: #86b3c9;
+  --color-blue-500: #5f9ab6;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  /* Archive voice — what the corpus says (titles, terms, quotes) sets in Lora;
-     interface text stays Geist, catalog labels stay Geist Mono. */
-  --font-serif: var(--font-lora), Georgia, 'Times New Roman', serif;
+  --font-sans: var(--font-archivo), 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  /* Catalog labels were Geist Mono; they are Archivo now. The font-mono
+     utility is kept as the hook so the ~60 label call-sites restyle at once.
+     Real code uses --font-code (see the code/pre rule below). */
+  --font-mono: var(--font-archivo), 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  /* Archive voice — what the corpus says (titles, terms, quotes). */
+  --font-serif: var(--font-newsreader), Georgia, 'Times New Roman', serif;
+
+  /* Decorative hues fold into the accent or the neutral ramp. Semantic hues
+     (red = error, amber = warning, green/emerald = success) are untouched. */
+  --color-orange-50: var(--color-blue-50);
+  --color-orange-100: var(--color-blue-100);
+  --color-orange-200: var(--color-blue-200);
+  --color-orange-300: var(--color-blue-300);
+  --color-orange-400: var(--color-blue-400);
+  --color-orange-500: var(--color-blue-500);
+  --color-orange-600: var(--color-blue-600);
+  --color-orange-700: var(--color-blue-700);
+  --color-orange-800: var(--color-blue-800);
+  --color-orange-900: var(--color-blue-900);
+  --color-purple-50: var(--color-blue-50);
+  --color-purple-100: var(--color-blue-100);
+  --color-purple-200: var(--color-blue-200);
+  --color-purple-300: var(--color-blue-300);
+  --color-purple-400: var(--color-blue-400);
+  --color-purple-500: var(--color-blue-500);
+  --color-purple-600: var(--color-blue-600);
+  --color-purple-700: var(--color-blue-700);
+  --color-purple-800: var(--color-blue-800);
+  --color-purple-900: var(--color-blue-900);
+  --color-purple-950: var(--color-blue-950);
+  --color-violet-50: var(--color-blue-50);
+  --color-violet-100: var(--color-blue-100);
+  --color-violet-200: var(--color-blue-200);
+  --color-violet-300: var(--color-blue-300);
+  --color-violet-400: var(--color-blue-400);
+  --color-violet-500: var(--color-blue-500);
+  --color-violet-600: var(--color-blue-600);
+  --color-violet-700: var(--color-blue-700);
+  --color-violet-800: var(--color-blue-800);
+  --color-violet-900: var(--color-blue-900);
+  --color-indigo-100: var(--color-blue-100);
+  --color-indigo-300: var(--color-blue-300);
+  --color-indigo-800: var(--color-blue-800);
+  --color-indigo-900: var(--color-blue-900);
+  --color-teal-50: var(--color-blue-50);
+  --color-teal-100: var(--color-blue-100);
+  --color-teal-200: var(--color-blue-200);
+  --color-teal-300: var(--color-blue-300);
+  --color-teal-400: var(--color-blue-400);
+  --color-teal-500: var(--color-blue-500);
+  --color-teal-600: var(--color-blue-600);
+  --color-teal-700: var(--color-blue-700);
+  --color-teal-800: var(--color-blue-800);
+  --color-teal-900: var(--color-blue-900);
+  --color-sky-500: var(--color-blue-500);
+  --color-slate-100: var(--color-gray-100);
+  --color-slate-200: var(--color-gray-200);
+  --color-slate-300: var(--color-gray-300);
+  --color-slate-400: var(--color-gray-400);
+  --color-slate-500: var(--color-gray-500);
+  --color-slate-600: var(--color-gray-600);
+  --color-slate-700: var(--color-gray-700);
+  --color-slate-800: var(--color-gray-800);
+  --color-slate-900: var(--color-gray-900);
+
+  /* Corners: near-square everywhere. rounded-full is left alone (dots,
+     spinners, avatars need it). */
+  --radius-xs: 1px;
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 2px;
+  --radius-2xl: 3px;
+  --radius-3xl: 3px;
+
+  /* Flat: structure comes from rules, not elevation. */
+  --shadow-xs: 0 0 #0000;
+  --shadow-sm: 0 0 #0000;
+  --shadow-md: 0 0 #0000;
+
+  /* Nothing under 13px. */
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.4;
 }
 
 /* ── Base ──────────────────────────────────────────────────────── */
@@ -67,7 +216,7 @@
 
   /* Visible keyboard focus everywhere — mouse clicks stay clean */
   :focus-visible {
-    outline: 2px solid #2563eb;
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
     border-radius: 2px;
   }
@@ -82,6 +231,16 @@
      bottoms with ZERO clearance under the fixed mobile tab bar. (The old
      padding-bottom: env(safe-area-inset-bottom) line was dead weight: no
      viewport-fit=cover, so env() is always 0; MobileNav pads itself.) */
+  /* Every page title is set in the reading face. Section labels (the small
+     uppercase ones, which carry font-mono / uppercase utilities) are excluded
+     and stay in the interface face. Utilities still override size and color. */
+  h1,
+  h2:not(.font-mono):not(.uppercase) {
+    font-family: var(--font-serif);
+    letter-spacing: -0.012em;
+    text-wrap: balance;
+  }
+
   body {
     background: var(--background);
     color: var(--foreground);
@@ -98,7 +257,7 @@
   font-family: var(--prose-font-family);
   font-size: var(--prose-font-size);
   line-height: var(--prose-line-height);
-  color: #1a1a1a;
+  color: var(--foreground);
   font-feature-settings: "kern" 1, "liga" 1, "onum" 0;
 }
 
@@ -107,14 +266,15 @@
 }
 
 .prose a {
-  color: #2563eb;
+  color: var(--accent);
   text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .prose blockquote {
-  border-left: 3px solid #d1d5db;
+  border-left: 2px solid var(--foreground);
   padding-left: 1.1em;
-  color: #4b5563;
+  color: var(--ink-2);
   font-style: italic;
   margin: 1.5em 0;
 }
@@ -122,9 +282,31 @@
 .prose em  { font-style: italic; }
 .prose strong { font-weight: 700; }
 
-/* Headings inside prose use the UI font (Geist) for contrast with body text */
+/* Headings inside prose stay in the reading face, like every other title. */
 .prose h1, .prose h2, .prose h3 {
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-serif);
+  font-weight: 600;
+}
+
+/* Titles: Newsreader carries weight well at 600; 700 reads as shouting. */
+h1:where(.font-bold, .font-extrabold),
+h2:where(.font-bold, .font-extrabold):not(.font-mono):not(.uppercase) {
+  font-weight: 600;
+}
+
+/* Labels (the font-mono hook): Archivo small caps-style, tabular figures,
+   and tracking pulled in from the old monospace "tracking-widest". */
+.font-mono {
+  font-variant-numeric: tabular-nums;
+}
+.font-mono.uppercase {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* Real code keeps a real monospace. */
+code, kbd, pre, samp {
+  font-family: var(--font-code), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 /* The paragraph a reader was sent to (#p-N) — a light neutral tint, same
@@ -141,9 +323,9 @@
 }
 
 /* Dark prose */
-.dark .prose { color: #d1d1d1; }
-.dark .prose a { color: #60a5fa; }
-.dark .prose blockquote { border-color: #525252; color: #9e9e9e; }
+.dark .prose { color: var(--foreground); }
+.dark .prose a { color: var(--accent); }
+.dark .prose blockquote { border-color: #55554f; color: var(--ink-2); }
 
 /* ── Utility overrides ─────────────────────────────────────────── */
 .line-clamp-2 {
@@ -322,4 +504,27 @@ html[data-reading-mode="night"] article h3 {
   ::view-transition-new(*) {
     animation: none !important;
   }
+}
+
+/* Legacy arbitrary sizes (text-[9px]/[10px]/[11px], ~70 call-sites): the
+   floor is 13px. Overridden here rather than at each call-site. */
+[class*="text-[9px]"],
+[class*="text-[10px]"],
+[class*="text-[11px]"] {
+  font-size: 0.8125rem;
+}
+
+/* Chips and badges: squared, like every other control. rounded-full is kept
+   only where it draws an actual circle (dots, spinners, toggles) — those are
+   never links, buttons, or padded text spans. */
+a[class*="rounded-full"],
+button[class*="rounded-full"]:not([class*="w-1"]):not([class*="h-1"]),
+span[class*="rounded-full"][class*="px-"] {
+  border-radius: 2px;
+}
+
+/* Quote rules: the amber rail marked "in the author's own words". With one
+   accent in the system, that signal is the accent. */
+[class*="border-amber-"][class*="border-l"] {
+  border-left-color: var(--accent);
 }

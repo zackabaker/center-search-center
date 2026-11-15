@@ -22,16 +22,17 @@ export default function SiteNav() {
 
   return (
     <nav
-      className="sticky top-0 z-30 backdrop-blur border-b border-gray-100 dark:border-gray-800 print:hidden"
-      // Theme-var ground (90% opaque) so the bar matches normal/sepia/night
-      style={{ backgroundColor: 'color-mix(in srgb, var(--background) 90%, transparent)' }}
+      // Solid theme-var ground with one heavy ink rule beneath — the deck's
+      // masthead. Total height stays 49px (47 + 2): sticky offsets elsewhere
+      // (top-12) depend on it.
+      className="sticky top-0 z-30 bg-[var(--background)] border-b-2 border-gray-900 dark:border-gray-200 print:hidden"
     >
-      <div className="max-w-5xl mx-auto px-4 h-12 flex items-center justify-between">
+      <div className="max-w-5xl mx-auto px-4 h-[47px] flex items-center justify-between">
         <Link
           href="/"
-          className="scene-hover text-sm font-semibold text-gray-900 dark:text-white tracking-tight hover:opacity-70 transition-opacity flex-shrink-0 flex items-center gap-2"
+          className="scene-hover font-serif text-[19px] font-semibold text-gray-900 dark:text-white tracking-tight hover:opacity-70 transition-opacity flex-shrink-0 flex items-center gap-2"
         >
-          <SceneMark size={15} className="text-gray-400 dark:text-gray-500 flex-shrink-0" />
+          <SceneMark size={16} className="text-gray-500 dark:text-gray-400 flex-shrink-0" />
           Center Study Center
         </Link>
 
@@ -47,9 +48,9 @@ export default function SiteNav() {
                 key={href}
                 href={href}
                 aria-current={isActive ? 'page' : undefined}
-                className={`text-xs whitespace-nowrap transition-colors hidden sm:block ${
+                className={`text-sm font-medium whitespace-nowrap transition-colors hidden sm:flex items-center h-[47px] ${
                   isActive
-                    ? 'text-gray-900 dark:text-white font-medium'
+                    ? 'text-gray-900 dark:text-white shadow-[inset_0_-3px_0_var(--foreground)]'
                     : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                 }`}
               >

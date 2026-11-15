@@ -7,15 +7,15 @@ import { embedQueryClient, modelLoaded } from '@/lib/embed-client';
 interface Res { slug: string; title: string; source: string; text: string; score: number; }
 
 const SOURCE_COLORS: Record<string, string> = {
-  substack: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
-  gablog: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
-  book: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
-  pdf: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
-  reddit: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300',
-  twitter: 'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
+  substack: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  gablog: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  book: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  pdf: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  reddit: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  twitter: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
   // Reference tier — muted; color is reserved for Katz sources
-  chronicle: 'bg-gray-100 text-gray-500 dark:bg-gray-800/60 dark:text-gray-400',
-  ap: 'bg-gray-100 text-gray-500 dark:bg-gray-800/60 dark:text-gray-400',
+  chronicle: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  ap: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
 };
 const SOURCE_LABELS: Record<string, string> = {
   substack: 'Substack', gablog: 'GABlog', book: 'Anthropomorphics', pdf: 'Essay',

@@ -72,14 +72,14 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
 };
 
 const SOURCE_COLORS: Record<ContentSource, string> = {
-  substack:  'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
-  gablog:    'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
-  book:      'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
-  pdf:       'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
-  reddit:    'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
-  twitter:   'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
-  chronicle: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
-  ap:        'bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300',
+  substack:  'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  gablog:    'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  book:      'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  pdf:       'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  reddit:    'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  twitter:   'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  chronicle: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  ap:        'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
 };
 
 export async function generateMetadata({
@@ -383,7 +383,7 @@ export default async function PostPage({
       <ReadingProgress />
       <TrackView slug={slug} title={post.title} source={post.source} date={post.date} />
       {/* Reader mode: warm, full-viewport reading background behind everything */}
-      {reader && <div className="reader-bg fixed inset-0 -z-10 bg-[#fbfaf7] dark:bg-[#111111] print:hidden" />}
+      {reader && <div className="reader-bg fixed inset-0 -z-10 bg-[#f8f8f5] dark:bg-[#111110] print:hidden" />}
       <main className={`${reader ? 'max-w-3xl' : 'max-w-3xl lg:max-w-5xl'} w-full mx-auto px-4 pt-6 pb-24 sm:py-12 overflow-x-hidden lg:overflow-x-visible`}>
         <FirstVisitBanner />
         {/* Top nav — full width */}

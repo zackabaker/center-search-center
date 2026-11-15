@@ -87,15 +87,15 @@ const SOURCE_LABELS: Record<ContentSource, string> = {
   ap:        'Anthropoetics · ref',
 };
 const SOURCE_COLORS: Record<ContentSource, string> = {
-  substack:  'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300',
-  gablog:    'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
-  book:      'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
-  pdf:       'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
-  reddit:    'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
-  twitter:   'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
+  substack:  'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  gablog:    'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  book:      'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  pdf:       'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  reddit:    'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  twitter:   'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
   // Reference tier — muted; color (and amber especially) is for Katz sources
-  chronicle: 'bg-gray-100 text-gray-500 dark:bg-gray-800/60 dark:text-gray-400',
-  ap:        'bg-gray-100 text-gray-500 dark:bg-gray-800/60 dark:text-gray-400',
+  chronicle: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  ap:        'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
 };
 
 const RECENT_KEY = 'csc-recent-searches';
@@ -688,8 +688,8 @@ export default function SearchPageClient({
           parent, and main must NOT have overflow-x-hidden (any overflow
           on an ancestor disables position:sticky entirely).
           Solid background: backdrop-filter lags on mobile momentum scroll. */}
-      <div className="sticky top-12 z-20 -mx-4 px-4 pt-3 pb-3 bg-[var(--background)] border-b border-gray-100 dark:border-gray-800">
-        <div className="relative flex items-center border-2 border-gray-200 focus-within:border-gray-400 rounded-xl bg-white dark:bg-gray-900 dark:border-gray-700 dark:focus-within:border-gray-500 transition-colors">
+      <div className="sm:sticky sm:top-12 z-20 -mx-4 px-4 pt-3 pb-3 bg-[var(--background)] border-b border-gray-200 dark:border-gray-800">
+        <div className="relative flex items-center border-[1.5px] border-gray-900 rounded-xl bg-white dark:bg-gray-900 dark:border-gray-300 transition-colors">
           {/* Center study icon — reacts to search state; shared view-transition with home icon */}
           <div
             className="ml-3 flex-shrink-0"
@@ -731,7 +731,7 @@ export default function SearchPageClient({
               href={`/ask?q=${encodeURIComponent((query.trim() || committed).replace(/["“”]/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').replace(/\s+/g, ' ').trim())}`}
               className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors px-1 py-0.5"
             >
-              ✦ AI search this question →
+              AI search this question
             </Link>
           </div>
         )}
@@ -795,7 +795,7 @@ export default function SearchPageClient({
                     {/* Word-level doc counts only make sense for term queries —
                         for phrases the full-text scan line below is the truth */}
                     {corpusCount !== null && !(isImplicitPhrase || committed.includes('"')) && (
-                      <span className="text-gray-400 dark:text-gray-500">
+                      <span className="hidden sm:inline text-gray-400 dark:text-gray-500">
                         · in <span className="text-gray-600 dark:text-gray-300">{corpusCount}</span>{' '}of {totalPosts} Katz texts
                       </span>
                     )}
@@ -822,7 +822,7 @@ export default function SearchPageClient({
                       </span>
                     )}
                     {expansions.length > 0 && (
-                      <span className="text-xs text-gray-400 dark:text-gray-500">
+                      <span className="hidden sm:inline text-xs text-gray-400 dark:text-gray-500">
                         also matching {expansions.flatMap((e) => e.aliases).join(', ')}
                       </span>
                     )}
@@ -873,13 +873,13 @@ export default function SearchPageClient({
           {/* Result list — the whole card is the tap target (mobile-friendly),
               with a pending state so a tap never looks like a frozen page. */}
           {hasResults && (
-            <div className="space-y-3">
+            <div className="border-t border-gray-900 dark:border-gray-200">
               {pageItems.map(({ entry, contextSnippet, occurrences }: SearchResult) => (
                 <Link
                   key={entry.slug}
                   href={postUrl(entry.slug)}
                   prefetch={false}
-                  className="group block bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm active:bg-gray-50 dark:active:bg-gray-800/60 transition-all"
+                  className="group block py-5 border-b border-gray-200 dark:border-gray-700 active:bg-gray-50 dark:active:bg-gray-800/60 transition-colors"
                 >
                   <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                     <span className={`text-[11px] px-2 py-0.5 rounded-full whitespace-nowrap ${SOURCE_COLORS[entry.source]}`}>
@@ -891,12 +891,11 @@ export default function SearchPageClient({
                       <span className="text-xs text-gray-400">{grepCounts.get(entry.slug) ?? occurrences}×</span>
                     )}
                   </div>
-                  <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1.5 break-words">
+                  <p className="font-serif text-[1.375rem] leading-[1.2] font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-2 break-words">
                     {highlight(entry.title, committed)}
                   </p>
                   <p
-                    className="text-[15px] text-gray-600 dark:text-gray-400 leading-relaxed break-words mb-2.5"
-                    style={{ fontFamily: 'var(--prose-font-family)' }}
+                    className="font-serif text-[1.0625rem] text-gray-700 dark:text-gray-300 leading-[1.5] break-words mb-2.5"
                   >
                     {highlight(contextSnippet, committed)}
                   </p>
