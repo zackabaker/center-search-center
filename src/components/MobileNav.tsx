@@ -94,7 +94,7 @@ export default function MobileNav() {
   return (
     <nav
       aria-label="Primary"
-      className={`fixed bottom-0 left-0 right-0 z-40 sm:hidden bg-[var(--background)] border-t border-gray-100 dark:border-gray-800 transition-transform duration-200 ${hidden ? 'translate-y-full' : 'translate-y-0'}`}
+      className={`fixed bottom-0 left-0 right-0 z-40 sm:hidden bg-[var(--background)] border-t-2 border-gray-900 dark:border-gray-200 transition-transform duration-200 ${hidden ? 'translate-y-full' : 'translate-y-0'}`}
       style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
     >
       <div className="flex items-stretch justify-around">

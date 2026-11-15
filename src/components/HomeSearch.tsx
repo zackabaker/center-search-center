@@ -126,7 +126,7 @@ export default function HomeSearch() {
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
-              ✦ AI search
+              AI search
             </button>
           </div>
         </div>

@@ -21,12 +21,12 @@ function definitionAuthor(defSlug: string): string {
 // duplicate pages competing with the curated treatment.
 
 const SOURCE_COLORS: Record<string, string> = {
-  GABlog: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300',
-  Substack: 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300',
-  Essay: 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300',
-  Book: 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300',
-  Chronicles: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300',
-  'AP Journal': 'bg-teal-100 text-teal-700 dark:bg-teal-900/40 dark:text-teal-300',
+  GABlog: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  Substack: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  Essay: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  Book: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  Chronicles: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  'AP Journal': 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
 };
 
 function clipDescription(text: string, max = 160): string {
@@ -188,7 +188,7 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ s
           href={`/search?q=${encodeURIComponent(entry.term.toLowerCase())}`}
           className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
         >
-          ✦ Ask AI about it
+          Ask AI about it
         </Link>
         <Link
           href="/concepts/glossary"

@@ -51,14 +51,14 @@ function extractInlineQuotes(prose: string): string[] {
 }
 
 const SOURCE_COLORS: Record<string, string> = {
-  substack:  'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
-  gablog:    'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
-  book:      'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
-  pdf:       'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
-  reddit:    'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300',
-  twitter:   'bg-slate-100 text-slate-700 dark:bg-slate-800/40 dark:text-slate-300',
-  lecture:   'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300',
-  ap:        'bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300',
+  substack:  'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  gablog:    'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  book:      'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  pdf:       'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  reddit:    'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  twitter:   'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  lecture:   'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
+  ap:        'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
 };
 
 const SOURCE_LABELS: Record<string, string> = {
@@ -969,7 +969,7 @@ export default function AskClient() {
                   Keyword search
                 </Link>
                 <span className={`${seg} bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm`}>
-                  ✦ AI search
+                  AI search
                 </span>
               </div>
             );
@@ -1134,7 +1134,7 @@ export default function AskClient() {
                   </Link>
                 </div>
               )}
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 leading-snug">
+              <h2 className="text-[1.9rem] font-medium text-gray-900 dark:text-white mb-6 leading-[1.12] tracking-tight">
                 {currentQuestion}
               </h2>
 
@@ -1166,7 +1166,7 @@ export default function AskClient() {
                     </Link>
                   </p>
                 ) : (
-                  <div className="space-y-3">
+                  <div>
                     {excerpts.map((x, i) => {
                       // One door (owner direction, 2026-11-15): open the post at
                       // its TOP with this quotation lightly highlighted further
@@ -1175,15 +1175,16 @@ export default function AskClient() {
                       return (
                         <div
                           key={`${x.slug}-${x.anchor ?? i}`}
-                          className="min-w-0 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-4"
+                          // A ruled list, not boxed cards: an ink rule opens
+                          // the list, hairlines separate the passages.
+                          className="min-w-0 py-6 border-t border-gray-200 dark:border-gray-700 first:border-gray-900 dark:first:border-gray-200"
                         >
                           {/* Plain text, deliberately selectable — the card is
                               NOT a link so copy/paste works on every device.
                               Query words are marked so the reader sees at a
                               glance why this passage surfaced. */}
                           <blockquote
-                            className="text-gray-800 dark:text-gray-200 leading-relaxed mb-3 break-words select-text cursor-text"
-                            style={{ fontFamily: 'var(--font-lora, Georgia, serif)' }}
+                            className="font-serif text-[1.1875rem] leading-[1.5] text-gray-900 dark:text-gray-100 mb-4 break-words select-text cursor-text"
                           >
                             {highlightQuery(x.text, currentQuestion)}
                           </blockquote>

@@ -19,7 +19,7 @@ const CORE_SOURCES = [
     dot: 'bg-blue-400',
     badge: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
     ring: 'hover:ring-2 hover:ring-blue-300 dark:hover:ring-blue-700',
-    accent: 'border-l-4 border-blue-400',
+    accent: '',
   },
   {
     slug: 'substack',
@@ -28,7 +28,7 @@ const CORE_SOURCES = [
     dot: 'bg-orange-400',
     badge: 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
     ring: 'hover:ring-2 hover:ring-orange-300 dark:hover:ring-orange-700',
-    accent: 'border-l-4 border-orange-400',
+    accent: '',
   },
   {
     slug: 'pdf',
@@ -37,7 +37,7 @@ const CORE_SOURCES = [
     dot: 'bg-green-400',
     badge: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
     ring: 'hover:ring-2 hover:ring-green-300 dark:hover:ring-green-700',
-    accent: 'border-l-4 border-green-400',
+    accent: '',
   },
   {
     slug: 'book',
@@ -46,7 +46,7 @@ const CORE_SOURCES = [
     dot: 'bg-purple-400',
     badge: 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
     ring: 'hover:ring-2 hover:ring-purple-300 dark:hover:ring-purple-700',
-    accent: 'border-l-4 border-purple-400',
+    accent: '',
   },
   {
     slug: 'threads',
@@ -55,7 +55,7 @@ const CORE_SOURCES = [
     dot: 'bg-violet-400',
     badge: 'bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300',
     ring: 'hover:ring-2 hover:ring-violet-300 dark:hover:ring-violet-700',
-    accent: 'border-l-4 border-violet-400',
+    accent: '',
     isVirtual: true,
   },
 ] as const;
@@ -69,7 +69,7 @@ const ARCHIVE_SOURCES = [
     dot: 'bg-amber-400',
     badge: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
     ring: 'hover:ring-2 hover:ring-amber-300 dark:hover:ring-amber-700',
-    accent: 'border-l-4 border-amber-400',
+    accent: '',
   },
   {
     slug: 'ap',
@@ -79,7 +79,7 @@ const ARCHIVE_SOURCES = [
     dot: 'bg-teal-400',
     badge: 'bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300',
     ring: 'hover:ring-2 hover:ring-teal-300 dark:hover:ring-teal-700',
-    accent: 'border-l-4 border-teal-400',
+    accent: '',
   },
 ] as const;
 

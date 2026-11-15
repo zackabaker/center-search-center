@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Lora } from "next/font/google";
+import { Archivo, Geist_Mono, Newsreader } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import MobileNav from "@/components/MobileNav";
@@ -11,21 +11,28 @@ import SiteNav from "@/components/SiteNav";
 import AccountSync from "@/components/AccountSync";
 import { Analytics } from "@vercel/analytics/next";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Interface face. Archivo is a grotesque in the family of the Avalon deck's
+// Helvetica caps — the site and the slides share one identity.
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
+  display: "swap",
 });
 
+// Real monospace, for code only (the font-mono utility maps to Archivo —
+// see globals.css).
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+  variable: "--font-code",
   subsets: ["latin"],
 });
 
-// Lora: elegant serif designed for screen reading — used for all long-form prose.
-const lora = Lora({
-  variable: "--font-lora",
+// Newsreader: every title and all reading text. Optical sizing keeps it
+// crisp at 13px captions and elegant at 46px titles.
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
   subsets: ["latin"],
   style: ["normal", "italic"],
+  axes: ["opsz"],
   display: "swap",
 });
 
@@ -86,7 +93,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${lora.variable} h-full antialiased`}
+      className={`${archivo.variable} ${geistMono.variable} ${newsreader.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
@@ -120,35 +127,35 @@ export default function RootLayout({
         <div id="main-content" tabIndex={-1} className="contents">
           {children}
         </div>
-        <footer className="block border-t border-gray-100 dark:border-gray-800 mt-auto print:hidden">
-          <div className="max-w-5xl mx-auto px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+        <footer className="block border-t-2 border-gray-900 dark:border-gray-200 mt-auto print:hidden">
+          <div className="max-w-5xl mx-auto px-4 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
             <a
               href="https://center.study"
-              className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors font-medium flex-shrink-0"
+              className="font-serif text-base font-semibold text-gray-900 dark:text-white hover:opacity-70 transition-opacity flex-shrink-0"
             >
               Center Study Center
             </a>
             {/* Deliberately spare (owner direction, 2026-10): the nav carries
                 the site's doors; the footer carries only identity, About, and
                 the follow links. */}
-            <div className="flex items-center gap-4 flex-wrap">
-              <Link href="/idioms"  className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Idiom archive</Link>
-              <Link href="/about"   className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">About</Link>
+            <div className="flex items-center gap-x-5 gap-y-1 flex-wrap">
+              <Link href="/idioms"  className="text-sm py-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">Idiom archive</Link>
+              <Link href="/about"   className="text-sm py-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">About</Link>
               <a
                 href="https://dennisbouvard.substack.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+                className="text-sm py-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
               >
-                New essays — Substack ↗
+                New essays — Substack
               </a>
               <a
                 href="https://x.com/centerstudy_"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+                className="text-sm py-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
               >
-                X ↗
+                X
               </a>
             </div>
           </div>
