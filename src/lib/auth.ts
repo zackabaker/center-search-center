@@ -27,8 +27,15 @@ export const HINT_COOKIE = 'csc-signed-in';
 export const STATE_COOKIE = 'csc-oauth-state';
 const SESSION_DAYS = 90;
 
+// Values pasted into a hosting dashboard often arrive with a stray space,
+// newline or pair of quotes. Google rejects a client id that differs by even
+// one such character ("The OAuth client was not found"), so clean them here.
+const clean = (v: string | undefined): string => (v ?? '').trim().replace(/^["']|["']$/g, '').trim();
+export const googleClientId = (): string => clean(process.env.GOOGLE_CLIENT_ID);
+export const googleClientSecret = (): string => clean(process.env.GOOGLE_CLIENT_SECRET);
+
 export function authConfigured(): boolean {
-  return !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.env.AUTH_SECRET);
+  return !!(googleClientId() && googleClientSecret() && process.env.AUTH_SECRET);
 }
 
 function b64url(buf: Buffer | string): string {

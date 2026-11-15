@@ -1,4 +1,4 @@
-import { authConfigured, cookie, publicOrigin, randomState, safeNext, signToken, STATE_COOKIE } from '@/lib/auth';
+import { authConfigured, googleClientId, cookie, publicOrigin, randomState, safeNext, signToken, STATE_COOKIE } from '@/lib/auth';
 import { rateLimit, clientIp } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
@@ -18,7 +18,7 @@ export function GET(request: Request) {
   const stateCookie = signToken({ state, next, exp: Math.floor(Date.now() / 1000) + 600 });
 
   const google = new URL('https://accounts.google.com/o/oauth2/v2/auth');
-  google.searchParams.set('client_id', process.env.GOOGLE_CLIENT_ID!);
+  google.searchParams.set('client_id', googleClientId());
   google.searchParams.set('redirect_uri', `${publicOrigin(request)}/api/auth/callback`);
   google.searchParams.set('response_type', 'code');
   google.searchParams.set('scope', 'openid email profile');
