@@ -313,10 +313,11 @@ export default function IntroPage() {
         signs or words. But how do you go from zero words to one word? How do
         you go from a being or species without language to a species with
         language? That initial jump is a very strange problem. In fact, Eric
-        Gans once defined the originary hypothesis as an attempt to come to
-        grips with the fact that human language represents{' '}
-        <Q slug="ap0501-gans-2" q="not a gradual development of animal communication">not a gradual development from animal communication, but a radical
-        break from it</Q>.
+        Gans once defined the originary hypothesis as{' '}
+        <Q slug="ap0501-gans-2" q="not a gradual development of animal communication">&ldquo;an attempt to come to grips with the most salient truth about
+        human language: that language as we know it, the language of the sign
+        rather than the signal, represents not a gradual development of animal
+        communication but a radical break from it.&rdquo;</Q>
       </P>
       <Slide n={10} alt="Tomasello: joint attention — the eyes" />
       <P>
