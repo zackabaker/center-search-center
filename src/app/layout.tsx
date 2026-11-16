@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Archivo, Geist_Mono, Newsreader } from "next/font/google";
+import { Archivo, Geist_Mono, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import MobileNav from "@/components/MobileNav";
@@ -26,10 +26,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Newsreader: every title and all reading text. Optical sizing keeps it
-// crisp at 13px captions and elegant at 46px titles.
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
+// Source Serif 4: every title and all reading text. Low stroke contrast, so
+// titles stay clean at display sizes; optical sizing keeps 13px captions crisp.
+const sourceSerif = Source_Serif_4({
+  variable: "--font-source-serif",
   subsets: ["latin"],
   style: ["normal", "italic"],
   axes: ["opsz"],
@@ -93,7 +93,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${archivo.variable} ${geistMono.variable} ${newsreader.variable} h-full antialiased`}
+      className={`${archivo.variable} ${geistMono.variable} ${sourceSerif.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>

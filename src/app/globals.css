@@ -5,8 +5,8 @@
 
 /* ── Identity (2026-11 redesign: "a reading room, not a dashboard") ──
    One identity with the Avalon talk deck: paper, ink, hairlines, a single
-   Prussian accent. Two families — Newsreader for every title and all reading
-   text, Archivo for interface. No cards-with-shadows, no pastel badge hues,
+   Prussian accent. Two families — Source Serif 4 for every title and all
+   reading text, Archivo for interface. No cards-with-shadows, no pastel badge hues,
    nothing under 13px. Most of the site inherits this from the token remaps
    below rather than from per-component classes. */
 :root {
@@ -18,13 +18,13 @@
   --mark: #f3e6a0;         /* search / passage highlight */
 
   /* Legacy font variable names, still referenced inline across components. */
-  --font-lora: var(--font-newsreader);
+  --font-lora: var(--font-source-serif);
   --font-geist-sans: var(--font-archivo);
   --font-geist-mono: var(--font-archivo);
 
-  /* Prose: Newsreader runs smaller on the body than Lora did, so it sets
-     larger and tighter. */
-  --prose-font-family: var(--font-newsreader), Georgia, 'Times New Roman', serif;
+  /* Prose: Source Serif 4 has a larger x-height than Newsreader did, so 19px
+     reads comfortably — don't go bigger. */
+  --prose-font-family: var(--font-source-serif), Georgia, 'Times New Roman', serif;
   --prose-font-size: 19px;
   --prose-line-height: 1.62;
 
@@ -105,7 +105,7 @@
      Real code uses --font-code (see the code/pre rule below). */
   --font-mono: var(--font-archivo), 'Helvetica Neue', Helvetica, Arial, sans-serif;
   /* Archive voice — what the corpus says (titles, terms, quotes). */
-  --font-serif: var(--font-newsreader), Georgia, 'Times New Roman', serif;
+  --font-serif: var(--font-source-serif), Georgia, 'Times New Roman', serif;
 
   /* Decorative hues fold into the accent or the neutral ramp. Semantic hues
      (red = error, amber = warning, green/emerald = success) are untouched. */
@@ -288,7 +288,7 @@
   font-weight: 600;
 }
 
-/* Titles: Newsreader carries weight well at 600; 700 reads as shouting. */
+/* Titles: Source Serif 4 carries weight well at 600; 700 reads as shouting. */
 h1:where(.font-bold, .font-extrabold),
 h2:where(.font-bold, .font-extrabold):not(.font-mono):not(.uppercase) {
   font-weight: 600;
