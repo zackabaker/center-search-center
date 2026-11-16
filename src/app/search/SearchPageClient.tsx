@@ -1131,6 +1131,10 @@ export default function SearchPageClient({
           </p>
           <p className="text-xs text-gray-400 dark:text-gray-600 mb-6">
             Substack · GABlog · Books · Essays &amp; Articles
+            {' · '}
+            <Link href="/verify" className="hover:text-gray-600 dark:hover:text-gray-400 underline decoration-dotted underline-offset-2">
+              verify a quote
+            </Link>
           </p>
           {recentSearches.length > 0 && (
             <div>

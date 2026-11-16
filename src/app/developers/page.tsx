@@ -50,7 +50,8 @@ curl -X POST https://center.study/api/embed \\
 
       <h2 className={H}>Verbatim search &amp; quote verification</h2>
       <p className={P}>
-        Both endpoints are open to any origin.
+        Both endpoints are open to any origin. There&rsquo;s also a human UI at{' '}
+        <Link href="/verify" className="text-blue-600 dark:text-blue-400 hover:underline">/verify</Link>.
       </p>
       <pre className={CODE}>{`# find an exact phrase anywhere in the corpus (typography-tolerant)
 curl "https://center.study/api/grep?q=the%20deferral%20of%20violence"

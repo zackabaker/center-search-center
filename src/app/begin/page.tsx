@@ -142,7 +142,9 @@ export default function BeginPage() {
             periphery and center.
           </p>
           <p>
-            Center Study is a source of not just hypotheses but of companies that
+            Center Study is a source of not just hypotheses but of{' '}
+            <Link href="/companies" className={TERM_CLASS} title="On Companies — excerpts from the archive">companies</Link>
+            {' '}that
             sit on the boundary between the capitalist, even ultra-capitalist,
             and the no longer quite capitalist order: betting,{' '}
             <TermLink href="/guide/concepts/market" defKey="c:market" className={TERM_CLASS} title="Concept: the market">prediction markets</TermLink>
@@ -204,7 +206,6 @@ export default function BeginPage() {
         Other ways in:{' '}
         <Link href="/intro-center-study-zack-baker" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">the Avalon introduction</Link>{' '}
         (a talk, with slides),{' '}
-        <Link href="/start" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">the guided start</Link>,{' '}
         the curated{' '}
         <Link href="/guide/reading-paths" className="text-blue-600 dark:text-blue-400 underline decoration-1 underline-offset-2 hover:decoration-2">reading paths</Link>,{' '}
         and the{' '}

@@ -75,8 +75,11 @@ const nextConfig: NextConfig = {
       { source: '/avalon', destination: '/intro-center-study-zack-baker', permanent: true },
       { source: '/ask/:slug', destination: '/search', permanent: true },
       { source: '/answers', destination: '/search', permanent: true },
-      { source: '/the-center-of-everything', destination: '/start', permanent: true },
-      { source: '/animal-communication', destination: '/start', permanent: true },
+      { source: '/the-center-of-everything', destination: '/begin', permanent: true },
+      { source: '/animal-communication', destination: '/begin', permanent: true },
+      // Entry-page consolidation (2026-11): /start was a thinner duplicate of
+      // /guide; /begin is the one canonical first-visit page.
+      { source: '/start', destination: '/begin', permanent: true },
       // www → apex as a permanent 308 (Vercel's domain-level redirect is a 307).
       {
         source: '/:path*',

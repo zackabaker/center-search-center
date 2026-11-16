@@ -16,8 +16,20 @@ const RESOURCES = [
   { href: '/lectures', title: 'Lectures', cta: 'Start the lectures' },
   { href: '/lineage', title: 'The Lineage', cta: 'Trace the lineage' },
   { href: '/generative-anthropology', title: 'Generative Anthropology', cta: 'Read the overview' },
+  { href: '/companies', title: 'On Companies', cta: 'Read the excerpts' },
   { href: '/faq', title: 'FAQ', cta: 'Read the FAQ' },
   { href: '/download', title: 'Download', cta: 'Download the corpus' },
+];
+
+// Topic doors (moved here from the retired /start page) — each runs a search
+// across the corpus.
+const INTERESTS = [
+  { label: 'Language & the sign', q: 'the originary scene' },
+  { label: 'AI & data', q: 'artificial intelligence data' },
+  { label: 'Money & value', q: 'money debt to the center' },
+  { label: 'Sovereignty & succession', q: 'sovereignty succession' },
+  { label: 'Religion & the sacred', q: 'the sacred' },
+  { label: 'Resentment', q: 'resentment victimary' },
 ];
 
 export default function GuidePage() {
@@ -49,6 +61,24 @@ export default function GuidePage() {
           </Link>
         ))}
       </div>
+
+      {/* Topic doors */}
+      <section className="mb-12">
+        <h2 className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">
+          By interest
+        </h2>
+        <div className="flex flex-wrap gap-2">
+          {INTERESTS.map((t) => (
+            <Link
+              key={t.label}
+              href={`/search?q=${encodeURIComponent(t.q)}`}
+              className="text-sm px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
+            >
+              {t.label}
+            </Link>
+          ))}
+        </div>
+      </section>
 
       {/* Tips */}
       <section>
