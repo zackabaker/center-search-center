@@ -27,8 +27,6 @@ import { rateLimit, clientIp } from '@/lib/rate-limit';
 // in order, separated only by non-alphanumerics (covers curly quotes, dashes,
 // line breaks). Open CORS — it serves public text, like /api/corpus.
 
-export const revalidate = 86400;
-
 const MAX_POSTS = 50;
 
 type Hit = { slug: string; title: string; source: string; date: string; count: number; snippet: string };

@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { Redis } from '@upstash/redis';
+import { requireKV } from '@/lib/kv';
 
 export interface NameEntry {
   id: string;
@@ -7,17 +7,6 @@ export interface NameEntry {
   location?: string;
   note?: string;
   submittedAt: string;
-}
-
-function getKV() {
-  // Live Upstash store is connected with the 'centerstudy' prefix; the
-  // unprefixed KV_REST_API_* point at an old deleted DB, so prefer centerstudy_.
-  const url = process.env.centerstudy_KV_REST_API_URL || process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.centerstudy_KV_REST_API_TOKEN || process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) {
-    throw new Error('KV not configured');
-  }
-  return new Redis({ url, token });
 }
 
 export async function POST(req: NextRequest) {
@@ -45,7 +34,7 @@ export async function POST(req: NextRequest) {
       submittedAt: new Date().toISOString(),
     };
 
-    const kv = getKV();
+    const kv = requireKV();
     const pending: NameEntry[] = (await kv.get('names:pending')) || [];
     pending.push(entry);
     await kv.set('names:pending', pending);

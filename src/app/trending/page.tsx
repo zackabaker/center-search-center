@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Redis } from '@upstash/redis';
+import { getKV } from '@/lib/kv';
 import { getPostBySlug } from '@/lib/parser';
 import type { Metadata } from 'next';
 
@@ -11,20 +11,6 @@ export const metadata: Metadata = {
 
 // Reads live view counts — cache for 10 minutes.
 export const revalidate = 600;
-
-// Same KV resolution as /api/view (the live store uses the centerstudy_ prefix).
-function getKV(): Redis | null {
-  const url =
-    process.env.centerstudy_KV_REST_API_URL ||
-    process.env.KV_REST_API_URL ||
-    process.env.UPSTASH_REDIS_REST_URL;
-  const token =
-    process.env.centerstudy_KV_REST_API_TOKEN ||
-    process.env.KV_REST_API_TOKEN ||
-    process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) return null;
-  return new Redis({ url, token });
-}
 
 const SOURCE_LABEL: Record<string, string> = {
   substack: 'Substack', gablog: 'GABlog', book: 'Anthropomorphics', pdf: 'Essay',

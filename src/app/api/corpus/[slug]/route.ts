@@ -8,8 +8,6 @@ import { getPostBySlug, getPublicPosts } from '@/lib/parser';
 //
 // CORS-open and cacheable — point a scraper or an AI at it directly.
 
-export const revalidate = 3600;
-
 const BASE = 'https://center.study';
 
 const SOURCE_LABELS: Record<string, string> = {

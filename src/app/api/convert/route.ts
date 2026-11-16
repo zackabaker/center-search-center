@@ -1,7 +1,7 @@
 import { isSameOrigin, rateLimit, clientIp } from '@/lib/rate-limit';
 import { openCors } from '@/lib/cors';
 import { isOwnerRequest } from '@/lib/owner-mark';
-import { Redis } from '@upstash/redis';
+import { getKV } from '@/lib/kv';
 
 // Conversion counters — the four anonymous events that make "did that change
 // help?" answerable: open (the session moved past its landing page into a
@@ -14,21 +14,6 @@ import { Redis } from '@upstash/redis';
 // POST { event, dest?, where?, gap? } → { ok }
 // GET  → last-30-day totals + per-day series. Aggregates only, so public —
 //        the same posture as GET /api/search-log.
-
-function getKV(): Redis | null {
-  // The live Upstash store is connected with the "centerstudy" prefix; the
-  // unprefixed KV_REST_API_* point at an older, deleted DB. (Matches /api/view.)
-  const url =
-    process.env.centerstudy_KV_REST_API_URL ||
-    process.env.KV_REST_API_URL ||
-    process.env.UPSTASH_REDIS_REST_URL;
-  const token =
-    process.env.centerstudy_KV_REST_API_TOKEN ||
-    process.env.KV_REST_API_TOKEN ||
-    process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) return null;
-  return new Redis({ url, token });
-}
 
 const EVENTS = ['open', 'read', 'follow', 'return'] as const;
 const DESTS = ['substack', 'x', 'rss'] as const;

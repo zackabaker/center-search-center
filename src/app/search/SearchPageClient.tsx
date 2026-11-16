@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link, { useLinkStatus } from 'next/link';
 import { ContentSource } from '@/lib/types';
 import { logSearch } from '@/lib/log-search';
+import { HIGHLIGHT_STOPWORDS } from '@/lib/stopwords';
 import {
   SearchEntry,
   SearchResult,
@@ -155,11 +156,6 @@ function suggestTerms(q: string, limit = 5): string[] {
   }
   return scored.sort((a, b) => b.score - a.score).slice(0, limit).map((x) => x.term);
 }
-
-const HIGHLIGHT_STOPWORDS = new Set([
-  'the', 'of', 'a', 'an', 'and', 'or', 'but', 'to', 'in', 'on', 'at', 'is', 'it',
-  'as', 'by', 'for', 'with', 'that', 'this', 'be', 'are', 'was',
-]);
 
 function highlight(text: string, query: string) {
   const clean = query.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();

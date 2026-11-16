@@ -10,6 +10,7 @@ import { getConceptBySlug } from '@/data/guide/concepts';
 import { relatedSlugs } from '@/lib/related';
 import { aliasesFor } from '@/lib/vocab';
 import { lexicalPassages } from '@/lib/lexical-passages';
+import { RETRIEVAL_STOPWORDS } from '@/lib/stopwords';
 
 const anthropic = new Anthropic();
 
@@ -103,23 +104,6 @@ function chunkPost(post: Post): { text: string; title: string; slug: string; sou
     source: post.source,
   }));
 }
-
-// Common English stop words — filtered out of query terms to reduce noise
-const STOP_WORDS = new Set([
-  'the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'her', 'was', 'one',
-  'our', 'out', 'had', 'has', 'his', 'him', 'its', 'who', 'did', 'get', 'how', 'may',
-  'say', 'she', 'use', 'way', 'also', 'back', 'been', 'does', 'from', 'have', 'here',
-  'into', 'just', 'know', 'like', 'look', 'made', 'make', 'more', 'most', 'move',
-  'much', 'need', 'only', 'over', 'said', 'same', 'than', 'that', 'them', 'then',
-  'they', 'this', 'time', 'very', 'what', 'when', 'with', 'will', 'your', 'about',
-  'after', 'again', 'being', 'could', 'doing', 'every', 'first', 'going', 'great',
-  'other', 'right', 'since', 'some', 'still', 'there', 'these', 'think', 'those',
-  'through', 'under', 'where', 'which', 'while', 'would', 'their', 'does', 'both',
-  'each', 'even', 'from', 'give', 'good', 'help', 'high', 'keep', 'last', 'lets',
-  'long', 'look', 'make', 'many', 'mean', 'might', 'must', 'next', 'often', 'play',
-  'real', 'seem', 'show', 'such', 'talk', 'tell', 'turn', 'upon', 'used', 'well',
-  'were', 'whether', 'within', 'without',
-]);
 
 // Synonym/alias map: checked against the FULL query string (for multi-word phrases)
 // AND against each individual term. Expansion happens BEFORE length filtering so
@@ -227,7 +211,7 @@ function extractQueryTerms(query: string): string[] {
   const baseTerms = lowerQuery
     .replace(/[^a-z0-9\s'-]/g, ' ')
     .split(/\s+/)
-    .filter((w) => w.length > 1 && !STOP_WORDS.has(w)); // length > 1 (not 2) to catch "ai"
+    .filter((w) => w.length > 1 && !RETRIEVAL_STOPWORDS.has(w)); // length > 1 (not 2) to catch "ai"
 
   // Expand single-word terms through the synonym map, plus the shared
   // conservative alias layer (src/lib/vocab.ts) used by keyword search —
@@ -267,7 +251,7 @@ function extractBigrams(query: string): string[] {
   const words = deaccent(query.toLowerCase())
     .replace(/[^a-z0-9\s'-]/g, ' ')
     .split(/\s+/)
-    .filter((w) => w.length > 1 && !STOP_WORDS.has(w));
+    .filter((w) => w.length > 1 && !RETRIEVAL_STOPWORDS.has(w));
   const bigrams: string[] = [];
   for (let i = 0; i < words.length - 1; i++) {
     bigrams.push(`${words[i]} ${words[i + 1]}`);

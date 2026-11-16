@@ -7,8 +7,6 @@ import { buildSearchEntries } from '@/lib/search-index';
 // blocking first paint. As a separate fetch it loads async, gzips well,
 // and the browser + CDN cache it across visits.
 
-export const revalidate = 3600;
-
 export async function GET(request: Request) {
   // Default scope is the core corpus (+ threads, which are filtered in/out
   // client-side). scope=archives returns the Chronicles + AP Journal index,
