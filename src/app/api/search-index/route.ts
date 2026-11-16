@@ -1,11 +1,15 @@
 import { getPublicPosts } from '@/lib/parser';
 import { ARCHIVAL_SOURCES } from '@/lib/types';
-import { buildSearchEntries } from '@/lib/search-index';
+import { buildSearchEntries, toWireEntries } from '@/lib/search-index';
 
 // The client-side search index as a separately cached JSON document.
 // Previously this was serialized into the /search page HTML (~16 MB),
 // blocking first paint. As a separate fetch it loads async, gzips well,
 // and the browser + CDN cache it across visits.
+//
+// Entries go over the wire in the slim WireSearchEntry format — snippet text
+// plus only the words not derivable from it; the client rebuilds contentWords,
+// titleWords and excerpt via hydrateWireEntries (see search-index.ts).
 
 export const revalidate = 3600;
 
@@ -52,7 +56,7 @@ export async function GET(request: Request) {
   }
 
   return Response.json(
-    { entries, totalPosts: posts.length },
+    { entries: toWireEntries(entries), totalPosts: posts.length },
     {
       headers: {
         'Cache-Control': versioned

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { SearchEntry } from '@/lib/search-index';
+import { hydrateWireEntries, type SearchEntry } from '@/lib/search-index';
 import SearchPageClient from './SearchPageClient';
 import TopLoadingBar from '@/components/TopLoadingBar';
 
@@ -44,7 +44,13 @@ export default function SearchIndexLoader() {
         if (!r.ok) throw new Error('index fetch failed');
         return r.json();
       })
-      .then((d) => { if (!cancelled) setData(d); })
+      .then((d) => {
+        if (cancelled) return;
+        // The wire format ships only what the client can't derive; rebuild
+        // full entries (contentWords, titleWords, excerpt) here, off the
+        // interaction path, before the search UI mounts.
+        setData({ entries: hydrateWireEntries(d.entries), totalPosts: d.totalPosts });
+      })
       .catch(() => { if (!cancelled) setError(true); });
     return () => { cancelled = true; };
   }, []);
