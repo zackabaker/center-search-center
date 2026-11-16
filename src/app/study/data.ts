@@ -1,5 +1,12 @@
 import { Redis } from '@upstash/redis';
-import { getPostBySlug } from '@/lib/parser';
+import { getPostBySlug, getPublicPosts } from '@/lib/parser';
+import {
+  buildSearchEntries,
+  buildWordIndex,
+  searchEntries,
+  type SearchEntry,
+  type WordIndex,
+} from '@/lib/search-index';
 
 // Data layer for /study, the owner's private analytics console. Pulls every
 // store the site writes — the durable daily aggregates (activity:day:*,
@@ -238,6 +245,26 @@ function buildSessions(activity: RawActivity[], searches: RawSearch[]): SessionV
     });
   }
   return out;
+}
+
+// Verification index for the zero-result list, built once per process and
+// reused — the corpus only changes on deploy.
+let _zeroIdx: { entries: SearchEntry[]; wi: WordIndex } | null | undefined;
+function trulyZero(q: string): boolean {
+  if (_zeroIdx === undefined) {
+    try {
+      const entries = buildSearchEntries(getPublicPosts());
+      _zeroIdx = { entries, wi: buildWordIndex(entries) };
+    } catch {
+      _zeroIdx = null;
+    }
+  }
+  if (!_zeroIdx) return true; // can't verify — keep the row rather than hide data
+  try {
+    return searchEntries(_zeroIdx.entries, q, _zeroIdx.wi).length === 0;
+  } catch {
+    return true;
+  }
 }
 
 // Pre-sid history: the search log is the only timestamped store, so old
@@ -484,6 +511,12 @@ export async function fetchStudyData(): Promise<StudyData | null> {
     const norm = s.q.toLowerCase().trim();
     if (seenZero.has(norm)) continue;
     seenZero.add(norm);
+    // A logged 0 is only unmet demand if the corpus REALLY has nothing.
+    // Transient zeros happen (an index fetch racing a deploy, a degraded
+    // client) and would otherwise sit here forever accusing queries the
+    // archive answers fine — re-run each candidate against the live index
+    // and keep only true misses.
+    if (!trulyZero(s.q)) continue;
     zeroResult.push(s);
     if (zeroResult.length >= 25) break;
   }

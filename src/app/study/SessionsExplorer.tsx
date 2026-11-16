@@ -33,9 +33,16 @@ const FACETS = [
 
 type FacetKey = (typeof FACETS)[number]['key'];
 
+const ORDERS = [
+  { key: 'newest', label: 'Newest' },
+  { key: 'notable', label: 'Most notable' },
+] as const;
+type OrderKey = (typeof ORDERS)[number]['key'];
+
 export default function SessionsExplorer({ sessions }: { sessions: SessionView[] }) {
   const [filter, setFilter] = useState('');
   const [facet, setFacet] = useState<FacetKey>('all');
+  const [order, setOrder] = useState<OrderKey>('newest');
   // A #s-<id> hash (the "session →" links above) pins that session: it is
   // shown first regardless of facet or filter, so the anchor always lands.
   const [anchorId, setAnchorId] = useState<string | null>(null);
@@ -67,6 +74,9 @@ export default function SessionsExplorer({ sessions }: { sessions: SessionView[]
         (s.ref ?? '').toLowerCase().includes(f)
       );
     });
+    // The server delivers the 150 most notable sessions score-first; reorder
+    // for display. Newest = reverse chronology by the session's last event.
+    list.sort(order === 'newest' ? (a, b) => b.end - a.end : (a, b) => b.score - a.score);
     if (anchorId) {
       const i = list.findIndex((s) => s.id === anchorId);
       if (i > 0) {
@@ -75,7 +85,7 @@ export default function SessionsExplorer({ sessions }: { sessions: SessionView[]
       }
     }
     return list;
-  }, [sessions, filter, facet, anchorId]);
+  }, [sessions, filter, facet, anchorId, order]);
 
   useEffect(() => {
     if (!anchorId) return;
@@ -109,6 +119,21 @@ export default function SessionsExplorer({ sessions }: { sessions: SessionView[]
               }`}
             >
               {f.label}
+            </button>
+          ))}
+        </div>
+        <div className="flex gap-1.5 sm:ml-auto">
+          {ORDERS.map((o) => (
+            <button
+              key={o.key}
+              onClick={() => setOrder(o.key)}
+              className={`rounded-full px-2.5 py-1 text-xs transition-colors ${
+                order === o.key
+                  ? 'bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900'
+                  : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+              }`}
+            >
+              {o.label}
             </button>
           ))}
         </div>
