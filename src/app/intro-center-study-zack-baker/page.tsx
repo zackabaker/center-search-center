@@ -332,17 +332,36 @@ export default function IntroPage() {
         and the research of Michael Tomasello.
       </P>
       <P>
-        A quick way of explaining the difference is in terms of first-, second-,
-        and third-order attention. First-order attention is an animal seeing an
-        object. Second-order attention is social attention: I see another
-        animal see another thing. Third-order attention is I see something that
-        sees me, and I know that it sees me. Once you have third-order
-        attention, you have <em>n</em>-order attention. No animal has this kind
-        of third-order attention. And you can see this in the way that human
-        babies look back at their parents as they try to do things, or in the
-        way that a human being can follow the plot of a movie or a play in a
-        way that an animal cannot. This capacity for third-order
-        attention,{' '}
+        A quick way of explaining the difference is in terms of attention.
+        Tomasello and his colleagues describe{' '}
+        <a
+          href="https://doi.org/10.1017/S0140525X05000129"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-dotted decoration-gray-400 dark:decoration-gray-600 underline-offset-2 hover:decoration-solid hover:decoration-gray-700 dark:hover:decoration-gray-400 transition-colors"
+          title="Tomasello, Carpenter, Call, Behne & Moll, “Understanding and sharing intentions: The origins of cultural cognition,” Behavioral and Brain Sciences 28 (2005)"
+        >
+          three levels of engagement
+          <sup className="ml-0.5 text-[11px] text-gray-400 dark:text-gray-500" aria-hidden>&#8599;</sup>
+        </a>
+        . In dyadic engagement, an individual &ldquo;interacts with, and is
+        mutually responsive to, an animate agent directly.&rdquo; In triadic
+        engagement, an individual &ldquo;interacts together with a
+        goal-directed agent toward some shared goal.&rdquo; Collaborative
+        engagement adds &ldquo;joint attention (mutual knowledge).&rdquo; Adam
+        Katz,{' '}
+        <Link href="/post/double-helix-v2-tomasello-review" className={TERM_CLASS} title="Adam Katz’s review of Tomasello, A Natural History of Human Thinking">reviewing Tomasello</Link>
+        , calls joint attention{' '}
+        <Q slug="double-helix-v2-tomasello-review" q="Joint attention is a simple enough concept">&ldquo;a simple enough concept: I indicate to you that I am attending to
+        something and that I know you are attending to it along with me, and
+        you indicate the same.&rdquo;</Q>{' '}
+        And what Tomasello has shown{' '}
+        <Q slug="double-helix-v2-tomasello-review" q="apes do not point, at least not in such a way">&ldquo;is that apes do not point, at least not in such a way as to
+        provide information or attract another&rsquo;s interest.&rdquo;</Q>{' '}
+        You can see this in the way that human babies look back at their
+        parents as they try to do things, or in the way that a human being can
+        follow the plot of a movie or a play in a way that an animal cannot.
+        This capacity for joint attention,{' '}
         <TermLink href="/guide/concepts/attentionality" defKey="g:shared-attention" className={TERM_CLASS} title="Concept: attentionality">shared attention</TermLink>
         , is absolutely unique to the human species.
       </P>
