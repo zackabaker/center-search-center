@@ -301,17 +301,22 @@ export default function IntroPage() {
         Wilhelm von Humboldt. <Q slug="clr-628" q="arisen all at once">&ldquo;Language can only have arisen all at
         once. Things cannot have begun to signify gradually.&rdquo;</Q>{' '}&ldquo;Man is man
         only through speech; but in order to invent speech, he must already be
-        man.&rdquo; Rousseau has comments on this too. And I always
-        point out that the Linguistic Society of Paris actually banned all
-        discussion of the origin of language because no one could figure out
-        the answer. We&rsquo;re against the ban&mdash;which I think is probably
-        still in force&mdash;so we&rsquo;re going to break it and propose a
-        hypothesis.
+        man.&rdquo; Gans would always point out how the Linguistic Society of
+        Paris banned discussion of the origin of language. Today we&rsquo;re
+        going to break the taboo and try to propose a hypothesis.
       </P>
       <P>
-        It&rsquo;s very weird. Once you have some language, it&rsquo;s clear
-        you can get more; you agree on more words. But to go from zero to one,
-        from no language to the first word, is a very strange problem.
+        It&rsquo;s a paradoxical question, because it&rsquo;s obvious and even
+        trivial how you can get more language once you already have some
+        language. Once there&rsquo;s a word or a few words or a few signs in a
+        sign system, you can combine and iterate those signs to generate more
+        signs or words. But how do you go from zero words to one word? How do
+        you go from a being or species without language to a species with
+        language? That initial jump is a very strange problem. In fact, Eric
+        Gans once defined the originary hypothesis as an attempt to come to
+        grips with the fact that human language represents{' '}
+        <Q slug="ap0501-gans-2" q="not a gradual development of animal communication">not a gradual development from animal communication, but a radical
+        break from it</Q>.
       </P>
       <Slide n={10} alt="Tomasello: joint attention — the eyes" />
       <P>
