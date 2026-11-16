@@ -131,15 +131,12 @@ export async function deleteAccountData(sub: string): Promise<void> {
 }
 
 // ── Profile ─────────────────────────────────────────────────────────────
-// What a signed-in reader shows publicly: a username (random until they pick
-// one), an optional picture, and whether they appear on the leaderboard. The
-// Google name, email and photo are never shown to anyone else.
+// A signed-in reader's handle on the site: a username, random until they pick
+// one. No picture, and nothing about readers is shown to other readers; the
+// Google name, email and photo are never shown to anyone.
 
 export interface Profile {
   username: string;
-  /** Appears on the public leaderboard. Readers can turn this off. */
-  listed: boolean;
-  hasAvatar: boolean;
   createdAt: string;
 }
 
@@ -199,7 +196,7 @@ export async function getProfile(sub: string): Promise<Profile> {
   if (existing && existing.username) return existing;
   let username = randomUsername();
   for (let i = 0; i < 6 && !(await claimUsername(sub, username)); i++) username = randomUsername();
-  const profile: Profile = { username, listed: true, hasAvatar: false, createdAt: new Date().toISOString() };
+  const profile: Profile = { username, createdAt: new Date().toISOString() };
   await write(k(sub, 'profile'), profile);
   return profile;
 }
@@ -216,32 +213,6 @@ export async function setUsername(sub: string, name: string): Promise<string | n
   await write(k(sub, 'profile'), { ...profile, username: name });
   return null;
 }
-
-export async function setListed(sub: string, listed: boolean): Promise<void> {
-  const profile = await getProfile(sub);
-  await write(k(sub, 'profile'), { ...profile, listed });
-  if (listed) await lbSet(sub, score(await getStats(sub)));
-  else await lbRemove(sub);
-}
-
-const AVATAR_RE = /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/;
-export const MAX_AVATAR_CHARS = 60_000;
-
-/** Store a small picture (the browser resizes it first), or null to remove. */
-export async function setAvatar(sub: string, dataUrl: string | null): Promise<string | null> {
-  const profile = await getProfile(sub);
-  if (dataUrl === null) {
-    await remove(k(sub, 'avatar'));
-    await write(k(sub, 'profile'), { ...profile, hasAvatar: false });
-    return null;
-  }
-  if (dataUrl.length > MAX_AVATAR_CHARS || !AVATAR_RE.test(dataUrl)) return 'That picture could not be used.';
-  await write(k(sub, 'avatar'), dataUrl);
-  await write(k(sub, 'profile'), { ...profile, hasAvatar: true });
-  return null;
-}
-
-export const getAvatar = (sub: string) => read<string | null>(k(sub, 'avatar'), null);
 
 export async function subForUsername(name: string): Promise<string | null> {
   const kv = getKV();
@@ -266,14 +237,14 @@ export function score(st: Stats): number {
 async function updateStats(sub: string, change: (st: Stats) => Stats): Promise<void> {
   const next = change(await getStats(sub));
   await write(k(sub, 'stats'), next);
-  const profile = await read<Profile | null>(k(sub, 'profile'), null);
-  if (!profile || profile.listed) await lbSet(sub, score(next));
+  await lbSet(sub, score(next));
 }
 
 export const addReadingTime = (sub: string, sec: number) =>
   updateStats(sub, (st) => ({ ...st, readSec: st.readSec + sec }));
 
-// Leaderboard index: a sorted set of account ids by score.
+// Engagement index: a sorted set of account ids by score. Read only by the
+// owner's /study console — there is no public leaderboard.
 const LB = 'lb:engaged';
 const memLb = new Map<string, number>();
 
@@ -289,7 +260,7 @@ async function lbRemove(sub: string): Promise<void> {
   await kv.zrem(LB, ref(sub));
 }
 
-export interface Ranked { username: string; hasAvatar: boolean; score: number; readSec: number; searches: number; idioms: number; }
+export interface Ranked { username: string; score: number; readSec: number; searches: number; idioms: number; }
 
 export async function topEngaged(n: number): Promise<Ranked[]> {
   const kv = getKV();
@@ -304,22 +275,10 @@ export async function topEngaged(n: number): Promise<Ranked[]> {
   }
   const rows = await Promise.all(subs.map(async (sub) => {
     const [profile, st] = await Promise.all([read<Profile | null>(k(sub, 'profile'), null), getStats(sub)]);
-    if (!profile || !profile.listed) return null;
-    return { username: profile.username, hasAvatar: profile.hasAvatar, score: score(st), ...st };
+    if (!profile) return null;
+    return { username: profile.username, score: score(st), ...st };
   }));
   return rows.filter((r): r is Ranked => r !== null && r.score > 0).sort((a, b) => b.score - a.score);
-}
-
-/** 1-based place on the leaderboard, or null when unlisted. */
-export async function rankOf(sub: string): Promise<number | null> {
-  const kv = getKV();
-  if (!kv) {
-    if (!memLb.has(sub)) return null;
-    const mine = memLb.get(sub)!;
-    return [...memLb.values()].filter((v) => v > mine).length + 1;
-  }
-  const r = await kv.zrevrank(LB, ref(sub));
-  return r === null || r === undefined ? null : r + 1;
 }
 
 // ── Feedback ────────────────────────────────────────────────────────────

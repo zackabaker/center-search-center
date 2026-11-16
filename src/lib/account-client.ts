@@ -9,9 +9,8 @@ export interface Account {
   email: string;
   name: string;
   picture: string | null;
-  /** Public handle (random until the reader picks one). */
+  /** The reader's handle (random until they pick one). */
   username: string | null;
-  hasAvatar: boolean;
 }
 
 export interface AccountState {

@@ -90,7 +90,7 @@ export default function IdiomsClient() {
           <p className="text-sm text-amber-800 dark:text-amber-300/90 leading-relaxed">
             You will lose them if you clear your browser data or switch to another phone or computer
             {account.configured
-              ? ' — unless you create an account. An account also keeps your reading history and your queries, and gives you a username on the readers’ leaderboard (you can opt out).'
+              ? ' — unless you create an account. An account also keeps your reading history and your queries.'
               : '.'}
           </p>
           {account.configured && (

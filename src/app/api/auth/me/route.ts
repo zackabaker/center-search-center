@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: Request) {
   const configured = authConfigured() && storeAvailable();
   const user = configured ? getUser(request) : null;
-  // The profile (username, picture flag) is what the site shows; it is created
+  // The profile's username is what the site shows; it is created
   // with a random username on the reader's first signed-in request.
   const profile = user ? await getProfile(user.sub).catch(() => null) : null;
   return Response.json(
@@ -16,7 +16,7 @@ export async function GET(request: Request) {
       user: user
         ? {
             email: user.email, name: user.name, picture: user.picture ?? null, id: user.sub,
-            username: profile?.username ?? null, hasAvatar: profile?.hasAvatar ?? false,
+            username: profile?.username ?? null,
           }
         : null,
     },

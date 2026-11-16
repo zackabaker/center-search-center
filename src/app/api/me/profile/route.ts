@@ -1,23 +1,23 @@
 import { getUser } from '@/lib/auth';
 import { isSameOrigin, rateLimit } from '@/lib/rate-limit';
-import { getProfile, getStats, rankOf, score, setAvatar, setListed, setUsername } from '@/lib/user-store';
+import { getProfile, getStats, score, setUsername } from '@/lib/user-store';
 
 export const dynamic = 'force-dynamic';
 const PRIVATE = { 'Cache-Control': 'private, no-store' };
 
 async function payload(sub: string) {
-  const [profile, stats, rank] = await Promise.all([getProfile(sub), getStats(sub), rankOf(sub)]);
-  return { profile, stats, score: score(stats), rank: profile.listed ? rank : null };
+  const [profile, stats] = await Promise.all([getProfile(sub), getStats(sub)]);
+  return { profile, stats, score: score(stats) };
 }
 
-// GET /api/me/profile → { profile, stats, score, rank } for the signed-in reader.
+// GET /api/me/profile → { profile, stats, score } for the signed-in reader.
 export async function GET(request: Request) {
   const user = getUser(request);
   if (!user) return Response.json({ error: 'Not signed in' }, { status: 401 });
   return Response.json(await payload(user.sub), { headers: PRIVATE });
 }
 
-// PATCH { username?, avatar? (data URL | null), listed? } — change any of them.
+// PATCH { username } — change the reader's username.
 export async function PATCH(request: Request) {
   const user = getUser(request);
   if (!user) return Response.json({ error: 'Not signed in' }, { status: 401 });
@@ -30,10 +30,5 @@ export async function PATCH(request: Request) {
     const problem = await setUsername(user.sub, b.username.trim());
     if (problem) return Response.json({ error: problem }, { status: 400 });
   }
-  if (b.avatar === null || typeof b.avatar === 'string') {
-    const problem = await setAvatar(user.sub, b.avatar as string | null);
-    if (problem) return Response.json({ error: problem }, { status: 400 });
-  }
-  if (typeof b.listed === 'boolean') await setListed(user.sub, b.listed);
   return Response.json(await payload(user.sub), { headers: PRIVATE });
 }

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { fetchStudyData, type DayRow } from './data';
 import SessionsExplorer from './SessionsExplorer';
-import { recentFeedback } from '@/lib/user-store';
+import { recentFeedback, topEngaged } from '@/lib/user-store';
 
 // /study — the owner's private analytics console. One page, five rooms:
 // Overview (the numbers that matter now), Days (the last 30, every counter
@@ -58,12 +58,18 @@ const SECTIONS = [
   ['begin', 'Paths'],
   ['answers', 'Answers'],
   ['sessions', 'Sessions'],
+  ['readers', 'Readers'],
   ['feedback', 'Feedback'],
 ] as const;
 
 export default async function StudyPage() {
   const data = await fetchStudyData();
   const feedback = await recentFeedback(100).catch(() => []);
+  const readers = await topEngaged(50).catch(() => []);
+  const readTime = (sec: number) => {
+    const m = Math.floor(sec / 60);
+    return m < 60 ? `${m}m` : `${Math.floor(m / 60)}h ${m % 60}m`;
+  };
 
   if (!data) {
     return (
@@ -378,6 +384,44 @@ export default async function StudyPage() {
         <div className="mt-4">
           <SessionsExplorer sessions={data.sessions} />
         </div>
+      </section>
+
+      {/* ---------------- Readers ---------------- */}
+      <section id="readers" className="mt-12">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Most engaged readers</h2>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          {'Signed-in readers by score (minutes read + 2 × new searches + 5 × idioms saved). Shown here only — there is no public leaderboard. Usernames, never emails.'}
+        </p>
+        {readers.length === 0 ? (
+          <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">No signed-in reader has a score yet.</p>
+        ) : (
+          <div className="mt-4 overflow-x-auto">
+            <table className="w-full text-sm tabular-nums">
+              <thead>
+                <tr className="text-left text-xs uppercase text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
+                  <th className="py-2 pr-3 font-medium">#</th>
+                  <th className="py-2 pr-3 font-medium">Username</th>
+                  <th className="py-2 pr-3 font-medium text-right">Read</th>
+                  <th className="py-2 pr-3 font-medium text-right">Searches</th>
+                  <th className="py-2 pr-3 font-medium text-right">Idioms</th>
+                  <th className="py-2 font-medium text-right">Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                {readers.map((r, i) => (
+                  <tr key={r.username} className="border-b border-gray-100 dark:border-gray-800">
+                    <td className="py-2 pr-3 text-gray-500 dark:text-gray-400">{i + 1}</td>
+                    <td className="py-2 pr-3 font-medium text-gray-900 dark:text-gray-100">{r.username}</td>
+                    <td className="py-2 pr-3 text-right">{readTime(r.readSec)}</td>
+                    <td className="py-2 pr-3 text-right">{r.searches}</td>
+                    <td className="py-2 pr-3 text-right">{r.idioms}</td>
+                    <td className="py-2 text-right font-semibold text-gray-900 dark:text-gray-100">{r.score}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </section>
 
       {/* ---------------- Feedback ---------------- */}

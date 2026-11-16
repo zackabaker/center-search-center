@@ -1,14 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { fetchAccount, signInUrl, type AccountState } from '@/lib/account-client';
 import { IDIOMS_EVENT, loadIdioms, passageHref, rememberPassage, type Idiom } from '@/lib/idioms';
-import Avatar from '@/components/Avatar';
 
-interface Profile { username: string; listed: boolean; hasAvatar: boolean; createdAt: string; }
+interface Profile { username: string; createdAt: string; }
 interface Stats { readSec: number; searches: number; idioms: number; }
-interface Me { profile: Profile; stats: Stats; score: number; rank: number | null; }
+interface Me { profile: Profile; stats: Stats; score: number; }
 
 const LABEL = 'text-xs font-mono uppercase tracking-widest text-gray-900 dark:text-gray-100';
 const QUIET_BTN =
@@ -23,43 +22,13 @@ export function readingTime(sec: number): string {
   return `${Math.floor(m / 60)}h ${m % 60}m`;
 }
 
-// Shrink a chosen image to a small square JPEG in the browser, so the full
-// photo never leaves the reader's device.
-async function toAvatar(file: File): Promise<string> {
-  const img = await new Promise<HTMLImageElement>((resolve, reject) => {
-    const el = new Image();
-    el.onload = () => resolve(el);
-    el.onerror = () => reject(new Error('unreadable'));
-    el.src = URL.createObjectURL(file);
-  });
-  const side = Math.min(img.naturalWidth, img.naturalHeight);
-  const canvas = document.createElement('canvas');
-  canvas.width = canvas.height = 128;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) throw new Error('no canvas');
-  ctx.drawImage(
-    img,
-    (img.naturalWidth - side) / 2, (img.naturalHeight - side) / 2, side, side,
-    0, 0, 128, 128,
-  );
-  URL.revokeObjectURL(img.src);
-  for (const q of [0.85, 0.7, 0.55]) {
-    const url = canvas.toDataURL('image/jpeg', q);
-    if (url.length < 58_000) return url;
-  }
-  throw new Error('too large');
-}
-
 export default function ProfileClient() {
   const [account, setAccount] = useState<AccountState | null>(null);
   const [me, setMe] = useState<Me | null>(null);
   const [name, setName] = useState('');
   const [nameMsg, setNameMsg] = useState<{ ok: boolean; text: string } | null>(null);
-  const [picMsg, setPicMsg] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const [avatarVersion, setAvatarVersion] = useState(0);
   const [idioms, setIdioms] = useState<Idiom[]>([]);
-  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetchAccount(true).then((a) => {
@@ -106,19 +75,6 @@ export default function ProfileClient() {
     setNameMsg(res.ok ? { ok: true, text: 'Saved.' } : { ok: false, text: res.error! });
   };
 
-  const choosePicture = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    e.target.value = '';
-    if (!file) return;
-    setPicMsg(null);
-    try {
-      const res = await patch({ avatar: await toAvatar(file) });
-      if (res.ok) setAvatarVersion(Date.now()); else setPicMsg(res.error!);
-    } catch {
-      setPicMsg('That file could not be read as a picture.');
-    }
-  };
-
   const signOut = async () => {
     await fetch('/api/auth/logout', { method: 'POST' }).catch(() => {});
     window.location.href = '/';
@@ -131,9 +87,8 @@ export default function ProfileClient() {
       <main className="max-w-2xl mx-auto w-full px-4 py-10 min-h-screen">
         <h1 className="text-4xl font-medium text-gray-900 dark:text-white mb-3">Your profile</h1>
         <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
-          Sign in to keep your idiom archive on every device, track what you read, and take a
-          place among the site&rsquo;s most engaged readers. You get a random username you can
-          change; your name and email are never shown.
+          Sign in to keep your idiom archive on every device and a record of what you read.
+          You get a random username you can change; your name and email are never shown.
         </p>
         {account.configured ? (
           <a href={signInUrl('/profile')} className={`${INK_BTN} inline-flex items-center`}>Continue with Google</a>
@@ -152,24 +107,8 @@ export default function ProfileClient() {
     <main className="max-w-2xl mx-auto w-full px-4 py-10 min-h-screen">
       <h1 className="text-4xl font-medium text-gray-900 dark:text-white mb-8">Your profile</h1>
 
-      {/* ── Picture and username ─────────────────────────────────── */}
+      {/* ── Username ─────────────────────────────────────────────── */}
       <section className="border-t-2 border-gray-900 dark:border-gray-200 pt-6 pb-8">
-        <div className="flex items-center gap-4 mb-6">
-          <Avatar username={profile.username} hasAvatar={profile.hasAvatar} size={72} version={avatarVersion} />
-          <div className="flex flex-wrap gap-2">
-            <input ref={fileRef} type="file" accept="image/*" onChange={choosePicture} className="hidden" />
-            <button type="button" onClick={() => fileRef.current?.click()} disabled={busy} className={QUIET_BTN}>
-              {profile.hasAvatar ? 'Change picture' : 'Add a picture'}
-            </button>
-            {profile.hasAvatar && (
-              <button type="button" onClick={() => patch({ avatar: null })} disabled={busy} className={QUIET_BTN}>
-                Remove
-              </button>
-            )}
-          </div>
-        </div>
-        {picMsg && <p className="text-sm text-red-700 dark:text-red-400 mb-4">{picMsg}</p>}
-
         <form onSubmit={saveName}>
           <label htmlFor="username" className={`${LABEL} block mb-2`}>Username</label>
           <div className="flex gap-2">
@@ -191,7 +130,7 @@ export default function ProfileClient() {
         </form>
 
         <p className="mt-5 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-          Your username and picture are public. Your Google name, photo and email
+          Your Google name, photo and email
           {user ? <> (<span className="break-all">{user.email}</span>)</> : null} are never shown to anyone.
         </p>
       </section>
@@ -214,20 +153,9 @@ export default function ProfileClient() {
         </dl>
         <p className="mt-5 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
           Score = minutes spent reading, plus 2 for each new search, plus 5 for each idiom saved.
-          {me.rank ? <> You are <span className="font-medium text-gray-900 dark:text-white">#{me.rank}</span> among readers.</> : null}
+          Other readers cannot see any of this. The person who runs the site can see usernames
+          with these totals.
         </p>
-        <label className="mt-4 flex items-start gap-3 min-h-11 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={profile.listed}
-            disabled={busy}
-            onChange={(e) => patch({ listed: e.target.checked })}
-            className="mt-1 h-4 w-4 accent-gray-900 dark:accent-gray-100"
-          />
-          <span className="text-sm text-gray-800 dark:text-gray-200">
-            Show me on the readers&rsquo; leaderboard on the home page
-          </span>
-        </label>
       </section>
 
       {/* ── Idiom archive ────────────────────────────────────────── */}
