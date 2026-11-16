@@ -29,7 +29,7 @@ interface Passage {
 
 // A retrieval excerpt — corpus text found by meaning across the whole index.
 // Verbatim by construction (chunks come straight from the posts cache).
-interface Excerpt { slug: string; title: string; source: string; text: string; score: number; anchor?: string | null; }
+interface Excerpt { slug: string; title: string; source: string; text: string; score: number; anchor?: string | null; before?: string; after?: string; }
 
 interface Answer {
   content: string;
@@ -1167,6 +1167,10 @@ export default function AskClient() {
                   </p>
                 ) : (
                   <div>
+                    <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
+                      From the archive — verbatim excerpts
+                    </p>
+                    <div className="flex flex-col gap-4">
                     {excerpts.map((x, i) => {
                       // One door (owner direction, 2026-11-15): open the post at
                       // its TOP with this quotation lightly highlighted further
@@ -1175,36 +1179,56 @@ export default function AskClient() {
                       return (
                         <div
                           key={`${x.slug}-${x.anchor ?? i}`}
-                          // A ruled list, not boxed cards: an ink rule opens
-                          // the list, hairlines separate the passages.
-                          className="min-w-0 py-6 border-t border-gray-200 dark:border-gray-700 first:border-gray-900 dark:first:border-gray-200"
+                          // A window into the post (owner direction, 2026-11-15):
+                          // a hairline card headed by the post it comes from, the
+                          // quote in situ between its real neighboring text, dimmed.
+                          className="min-w-0 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden"
                         >
-                          {/* Plain text, deliberately selectable — the card is
-                              NOT a link so copy/paste works on every device.
-                              Query words are marked so the reader sees at a
-                              glance why this passage surfaced. */}
-                          <blockquote
-                            className="font-serif text-[1.1875rem] leading-[1.5] text-gray-900 dark:text-gray-100 mb-4 break-words select-text cursor-text"
-                          >
-                            {highlightQuery(x.text, currentQuestion)}
-                          </blockquote>
-                          <Link
-                            href={postHref}
-                            onClick={() => rememberPassage(x.slug, x.text)}
-                            className="flex items-start gap-2.5 min-w-0 px-3.5 py-3 mb-2 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors"
-                          >
-                            <span className="min-w-0 flex-1">
-                              <span className="block text-sm font-medium leading-snug">
-                                {/* Full title, wrapping — never truncated */}
-                                Go to post: {x.title}
-                              </span>
-                              <span className="block text-xs opacity-70 mt-0.5">
-                                {SOURCE_LABELS[x.source] || x.source || sourceFromSlug(x.slug)} · with this quotation highlighted
-                              </span>
+                          <div className="flex items-baseline gap-x-3 gap-y-0.5 flex-wrap px-4 sm:px-5 pt-3 pb-2.5 border-b border-gray-100 dark:border-gray-800">
+                            <span className="font-mono text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 flex-shrink-0">
+                              {SOURCE_LABELS[x.source] || x.source || sourceFromSlug(x.slug)}
                             </span>
-                            <span aria-hidden className="text-sm mt-0.5">→</span>
-                          </Link>
-                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="min-w-0 text-[13px] font-medium text-gray-700 dark:text-gray-300 leading-snug">
+                              {/* Full title, wrapping — never truncated */}
+                              From &ldquo;{x.title}&rdquo;
+                            </span>
+                          </div>
+                          <div className="px-4 sm:px-5 py-4">
+                            {x.before && (
+                              <p
+                                aria-hidden
+                                className="font-serif text-[0.9375rem] leading-[1.45] text-gray-400 dark:text-gray-500 line-clamp-2 select-none [mask-image:linear-gradient(to_top,rgba(0,0,0,0.75),transparent)]"
+                              >
+                                {x.before}
+                              </p>
+                            )}
+                            {/* Plain text, deliberately selectable — the quote is
+                                NOT a link so copy/paste works on every device.
+                                Query words are marked so the reader sees at a
+                                glance why this passage surfaced. */}
+                            <blockquote
+                              className="font-serif text-[1.1875rem] leading-[1.5] text-gray-900 dark:text-gray-100 my-3 first:mt-0 last:mb-0 break-words select-text cursor-text"
+                            >
+                              {highlightQuery(x.text, currentQuestion)}
+                            </blockquote>
+                            {x.after && (
+                              <p
+                                aria-hidden
+                                className="font-serif text-[0.9375rem] leading-[1.45] text-gray-400 dark:text-gray-500 line-clamp-2 select-none [mask-image:linear-gradient(to_bottom,rgba(0,0,0,0.75),transparent)]"
+                              >
+                                {x.after}
+                              </p>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-2 flex-wrap px-4 sm:px-5 pb-4">
+                            <Link
+                              href={postHref}
+                              onClick={() => rememberPassage(x.slug, x.text)}
+                              title="Opens the post with this quotation highlighted"
+                              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-medium hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors flex-shrink-0"
+                            >
+                              Go to post <span aria-hidden>→</span>
+                            </Link>
                             <SaveIdiomButton
                               text={x.text}
                               slug={x.slug}
@@ -1251,6 +1275,7 @@ export default function AskClient() {
                         </div>
                       );
                     })}
+                    </div>
                   </div>
                 )}
               </div>

@@ -34,10 +34,34 @@ function paragraphsFor(slug: string): string[] | undefined {
   return _paraCache.get(slug);
 }
 
+// Dimmed in-situ context for the Ask excerpt cards: the real post text just
+// before and after the excerpt, so the quote visibly sits inside its post.
+const CTX_CHARS = 240;
+function ctxTail(t: string | undefined): string | undefined {
+  const s = t?.replace(/^#+\s*/, '').trim();
+  if (!s) return undefined;
+  if (s.length <= CTX_CHARS) return s;
+  let cut = s.length - CTX_CHARS;
+  const sp = s.indexOf(' ', cut);
+  if (sp !== -1 && sp < s.length - 40) cut = sp + 1;
+  return '…' + s.slice(cut).trim();
+}
+function ctxHead(t: string | undefined): string | undefined {
+  const s = t?.replace(/^#+\s*/, '').trim();
+  if (!s) return undefined;
+  if (s.length <= CTX_CHARS) return s;
+  let cut = s.lastIndexOf(' ', CTX_CHARS);
+  if (cut < CTX_CHARS - 40) cut = CTX_CHARS;
+  return s.slice(0, cut).trim() + '…';
+}
+
 // Locate the chunk's paragraph; return a readable excerpt (the whole paragraph,
 // or a sentence-snapped window around the chunk when the paragraph is huge —
 // GABlog posts are often one multi-thousand-word block).
-function expandHit(slug: string, chunk: string): { excerpt: string; anchor: string | null } {
+function expandHit(
+  slug: string,
+  chunk: string,
+): { excerpt: string; anchor: string | null; before?: string; after?: string } {
   const paras = paragraphsFor(slug);
   if (!paras) return { excerpt: chunk, anchor: null };
   const probe = chunk.length > 80 ? chunk.slice(0, 80) : chunk;
@@ -50,7 +74,9 @@ function expandHit(slug: string, chunk: string): { excerpt: string; anchor: stri
   if (idx === -1) return { excerpt: chunk, anchor: null };
   const para = paras[idx];
   const anchor = `p-${idx + 1}`;
-  if (para.length <= 1400) return { excerpt: para, anchor };
+  if (para.length <= 1400) {
+    return { excerpt: para, anchor, before: ctxTail(paras[idx - 1]), after: ctxHead(paras[idx + 1]) };
+  }
   // Window around the chunk, snapped outward to sentence boundaries.
   const at = Math.max(0, para.indexOf(probe));
   let start = Math.max(0, at - 400);
@@ -60,7 +86,9 @@ function expandHit(slug: string, chunk: string): { excerpt: string; anchor: stri
   const fwd = para.indexOf('. ', end);
   if (fwd !== -1 && fwd - end < 300) end = fwd + 1;
   const excerpt = (start > 0 ? '…' : '') + para.slice(start, end).trim() + (end < para.length ? '…' : '');
-  return { excerpt, anchor };
+  const beforeSrc = para.slice(0, start).trim() || paras[idx - 1];
+  const afterSrc = para.slice(end).trim() || paras[idx + 1];
+  return { excerpt, anchor, before: ctxTail(beforeSrc), after: ctxHead(afterSrc) };
 }
 
 // Semantic search. The browser embeds the query locally (bge-small) and POSTs
@@ -98,8 +126,8 @@ export async function POST(request: Request) {
       : [];
   const wordingOnly = () => {
     const out = wording.map((w) => {
-      const { excerpt, anchor } = expandHit(w.slug, w.text);
-      return { slug: w.slug, title: w.title, source: w.source, text: excerpt, anchor, score: 0.99 };
+      const { excerpt, anchor, before, after } = expandHit(w.slug, w.text);
+      return { slug: w.slug, title: w.title, source: w.source, text: excerpt, anchor, before, after, score: 0.99 };
     });
     return Response.json({ results: out }, { headers: openCors() });
   };
@@ -173,18 +201,18 @@ export async function POST(request: Request) {
     // client's "within 0.10 of the top" cut keeps the meaning-matches too.
     const lead = Math.min(0.999, (results[0]?.score ?? 0.98) + 0.01);
     for (const w of wording) {
-      const { excerpt, anchor } = expandHit(w.slug, w.text);
+      const { excerpt, anchor, before, after } = expandHit(w.slug, w.text);
       const key = `${w.slug}|${anchor ?? excerpt.slice(0, 60)}`;
       if (seen.has(key)) continue;
       seen.add(key);
-      expanded.push({ slug: w.slug, title: w.title, source: w.source, text: excerpt, anchor, score: lead });
+      expanded.push({ slug: w.slug, title: w.title, source: w.source, text: excerpt, anchor, before, after, score: lead });
     }
     for (const r of results) {
-      const { excerpt, anchor } = expandHit(r.slug, r.text);
+      const { excerpt, anchor, before, after } = expandHit(r.slug, r.text);
       const key = `${r.slug}|${anchor ?? excerpt.slice(0, 60)}`;
       if (seen.has(key)) continue;
       seen.add(key);
-      expanded.push({ ...r, text: excerpt, anchor });
+      expanded.push({ ...r, text: excerpt, anchor, before, after });
       if (expanded.length >= 12) break;
     }
     return Response.json({ results: expanded }, { headers: openCors() });
