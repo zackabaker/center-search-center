@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { fetchStudyData, type DayRow } from './data';
 import SessionsExplorer from './SessionsExplorer';
+import { recentFeedback } from '@/lib/user-store';
 
 // /study — the owner's private analytics console. One page, five rooms:
 // Overview (the numbers that matter now), Days (the last 30, every counter
@@ -57,10 +58,12 @@ const SECTIONS = [
   ['begin', 'Paths'],
   ['answers', 'Answers'],
   ['sessions', 'Sessions'],
+  ['feedback', 'Feedback'],
 ] as const;
 
 export default async function StudyPage() {
   const data = await fetchStudyData();
+  const feedback = await recentFeedback(100).catch(() => []);
 
   if (!data) {
     return (
@@ -375,6 +378,28 @@ export default async function StudyPage() {
         <div className="mt-4">
           <SessionsExplorer sessions={data.sessions} />
         </div>
+      </section>
+
+      {/* ---------------- Feedback ---------------- */}
+      <section id="feedback" className="mt-12">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Feedback</h2>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          {'Notes sent from the footer’s Feedback button, newest first. A username appears only when the sender was signed in.'}
+        </p>
+        {feedback.length === 0 ? (
+          <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">Nothing yet.</p>
+        ) : (
+          <ol className="mt-4 divide-y divide-gray-200 dark:divide-gray-700 border-y border-gray-200 dark:border-gray-700">
+            {feedback.map((f, i) => (
+              <li key={`${f.at}-${i}`} className="py-3">
+                <p className="text-sm text-gray-900 dark:text-gray-100 whitespace-pre-wrap break-words">{f.text}</p>
+                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  {timeET.format(new Date(f.at))}{' · on '}{f.page}{f.username ? ` · ${f.username}` : ''}
+                </p>
+              </li>
+            ))}
+          </ol>
+        )}
       </section>
     </main>
   );

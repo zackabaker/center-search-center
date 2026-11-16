@@ -9,6 +9,7 @@ import ConvertTracker from "@/components/ConvertTracker";
 import ActivityTracker from "@/components/ActivityTracker";
 import SiteNav from "@/components/SiteNav";
 import AccountSync from "@/components/AccountSync";
+import FeedbackButton from "@/components/FeedbackButton";
 import { Analytics } from "@vercel/analytics/next";
 
 // Interface face. Archivo is a grotesque in the family of the Avalon deck's
@@ -135,12 +136,15 @@ export default function RootLayout({
             >
               Center Study Center
             </a>
-            {/* Deliberately spare (owner direction, 2026-10): the nav carries
-                the site's doors; the footer carries only identity, About, and
-                the follow links. */}
+            {/* The masthead carries the reading doors and the reader's idiom
+                archive; Search, Archive and Download live here (owner
+                direction, 2026-11-15), with About, the follow links and
+                Feedback. */}
             <div className="flex items-center gap-x-5 gap-y-1 flex-wrap">
-              <Link href="/idioms"  className="text-sm py-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">Idiom archive</Link>
-              <Link href="/about"   className="text-sm py-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">About</Link>
+              <Link href="/search"   className="text-sm py-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">Search</Link>
+              <Link href="/browse"   className="text-sm py-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">Archive</Link>
+              <Link href="/download" className="text-sm py-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">Download</Link>
+              <Link href="/about"    className="text-sm py-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">About</Link>
               <a
                 href="https://dennisbouvard.substack.com"
                 target="_blank"
@@ -157,6 +161,7 @@ export default function RootLayout({
               >
                 X
               </a>
+              <FeedbackButton className="text-sm py-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors underline underline-offset-4" />
             </div>
           </div>
         </footer>

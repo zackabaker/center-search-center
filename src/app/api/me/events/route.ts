@@ -1,6 +1,6 @@
 import { getUser } from '@/lib/auth';
 import { isSameOrigin, rateLimit } from '@/lib/rate-limit';
-import { addQuery, addRead, clearEvents, getQueries, getReads } from '@/lib/user-store';
+import { addQuery, addRead, addReadingTime, clearEvents, getQueries, getReads } from '@/lib/user-store';
 
 export const dynamic = 'force-dynamic';
 const PRIVATE = { 'Cache-Control': 'private, no-store' };
@@ -17,7 +17,7 @@ export async function GET(request: Request) {
   return Response.json({ reads, queries }, { headers: PRIVATE });
 }
 
-// POST { type: 'read', slug, title } | { type: 'query', q, kind }
+// POST { type: 'read', slug, title } | { type: 'query', q, kind } | { type: 'time' }
 export async function POST(request: Request) {
   const user = getUser(request);
   if (!user) return Response.json({ error: 'Not signed in' }, { status: 401 });
@@ -28,6 +28,11 @@ export async function POST(request: Request) {
 
   if (b.type === 'read' && typeof b.slug === 'string' && /^[a-z0-9-]{1,200}$/i.test(b.slug)) {
     await addRead(user.sub, b.slug, typeof b.title === 'string' ? b.title.slice(0, 300) : b.slug);
+  } else if (b.type === 'time') {
+    // Reading-time heartbeat: the page sends 30 once per 30 active seconds.
+    // The limiter caps what any one account can accrue at real time.
+    if (!rateLimit(`time:${user.sub}`, 2, 60_000).ok) return Response.json({ ok: true }, { headers: PRIVATE });
+    await addReadingTime(user.sub, 30);
   } else if (b.type === 'query' && typeof b.q === 'string' && b.q.trim()) {
     await addQuery(user.sub, b.q.trim().slice(0, 500), b.kind === 'search' ? 'search' : 'ask');
   } else {

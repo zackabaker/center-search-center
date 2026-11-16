@@ -9,6 +9,9 @@ export interface Account {
   email: string;
   name: string;
   picture: string | null;
+  /** Public handle (random until the reader picks one). */
+  username: string | null;
+  hasAvatar: boolean;
 }
 
 export interface AccountState {
@@ -35,7 +38,8 @@ export function fetchAccount(fresh = false): Promise<AccountState> {
 
 type AccountEvent =
   | { type: 'read'; slug: string; title: string }
-  | { type: 'query'; q: string; kind: 'ask' | 'search' };
+  | { type: 'query'; q: string; kind: 'ask' | 'search' }
+  | { type: 'time' };
 
 /** Add to the signed-in reader's history. Does nothing when signed out. */
 export function logAccountEvent(event: AccountEvent): void {

@@ -90,7 +90,7 @@ export default function IdiomsClient() {
           <p className="text-sm text-amber-800 dark:text-amber-300/90 leading-relaxed">
             You will lose them if you clear your browser data or switch to another phone or computer
             {account.configured
-              ? ' — unless you create an account. An account also keeps your reading history and your queries.'
+              ? ' — unless you create an account. An account also keeps your reading history and your queries, and gives you a username on the readers’ leaderboard (you can opt out).'
               : '.'}
           </p>
           {account.configured && (
@@ -120,7 +120,8 @@ export default function IdiomsClient() {
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <p className="text-sm text-gray-700 dark:text-gray-300 min-w-0 break-words">
               Signed in as <span className="font-medium text-gray-900 dark:text-white">{user.email}</span>.
-              Your idioms, reading history and queries are kept with your account.
+              Your idioms, reading history and queries are kept with your account.{' '}
+              <Link href="/profile" className="underline underline-offset-4">Your profile</Link>
             </p>
             <button onClick={signOut} className={SMALL_BTN}>Sign out</button>
           </div>

@@ -1,5 +1,6 @@
 import HomeSearch from '@/components/HomeSearch';
 import RotatingEpigraph from '@/components/RotatingEpigraph';
+import Leaderboard from '@/components/Leaderboard';
 import RandomPostButton from '@/components/RandomPostButton';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -88,7 +89,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
-    <main className="min-h-screen">
+    <main className="min-h-screen relative">
 
       {/* Hero */}
       <header className="max-w-2xl mx-auto px-4 pt-16 pb-10 text-center">
@@ -154,6 +155,12 @@ export default function Home() {
       <div className="hidden sm:block max-w-xl mx-auto px-4 pb-10">
         <RandomPostButton />
       </div>
+
+      {/* Most engaged readers — beside the hero where there is room for a
+          rail (xl+), otherwise at the bottom of the page. */}
+      <aside className="max-w-2xl mx-auto px-4 pb-14 xl:absolute xl:right-8 xl:top-20 xl:w-72 xl:max-w-none xl:mx-0 xl:px-0 xl:pb-0">
+        <Leaderboard />
+      </aside>
 
     </main>
     </>

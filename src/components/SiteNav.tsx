@@ -4,17 +4,18 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import SceneMark from '@/components/SceneMark';
+import AccountButton from '@/components/AccountButton';
 
+// The masthead carries the reading doors and the reader's own archive.
+// Search lives on the home page and in the mobile tab bar; Archive and
+// Download moved to the footer (owner direction, 2026-11-15).
 const NAV_LINKS = [
   // "Start" is /begin — the one canonical first-visit page (/start now
   // redirects there).
   { href: '/begin',    label: 'Start' },
   { href: '/guide',    label: 'Guide' },
   { href: '/concepts', label: 'Concepts' },
-  { href: '/search',   label: 'Search' },
-  { href: '/ask',      label: 'Ask AI' },
-  { href: '/browse',   label: 'Archive' },
-  { href: '/download', label: 'Download' },
+  { href: '/idioms',   label: 'Idiom archive' },
 ];
 
 export default function SiteNav() {
@@ -61,6 +62,7 @@ export default function SiteNav() {
             );
           })}
           <DarkModeToggle />
+          <AccountButton />
         </div>
       </div>
     </nav>
