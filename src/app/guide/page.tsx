@@ -45,18 +45,18 @@ export default function GuidePage() {
       </div>
 
       {/* The rest of the resources */}
-      <div className="grid sm:grid-cols-2 gap-3 mb-12">
+      <div className="grid sm:grid-cols-2 gap-x-8 mb-12 border-t border-gray-900 dark:border-gray-200">
         {RESOURCES.map((r) => (
           <Link
             key={r.href}
             href={r.href}
-            className="group block p-5 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
+            className="group block py-4 border-b border-gray-200 dark:border-gray-700"
           >
-            <h3 className="text-base font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1.5">
+            <h3 className="font-serif text-[1.375rem] leading-tight font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1">
               {r.title}
             </h3>
-            <span className="text-xs font-medium text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-              {r.cta} →
+            <span className="text-sm text-gray-500 dark:text-gray-400">
+              {r.cta}
             </span>
           </Link>
         ))}

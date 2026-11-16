@@ -77,13 +77,13 @@ export default function ReadingControls() {
     );
 
   return (
-    <div className="flex items-center gap-3 text-gray-500 dark:text-gray-400 print:hidden">
+    <div className="flex items-center gap-1 sm:gap-3 text-gray-500 dark:text-gray-400 print:hidden">
       {/* Reading mode toggle */}
       <button
         onClick={cycleMode}
         title={`Reading mode: ${MODE_LABELS[readingMode]} — click to cycle`}
         aria-label={`Reading mode: ${MODE_LABELS[readingMode]}. Cycle reading mode`}
-        className={`flex items-center gap-1 px-2 py-1 rounded text-xs transition-colors ${
+        className={`flex items-center gap-1 px-2 min-h-11 sm:min-h-0 sm:py-1 rounded text-xs transition-colors ${
           readingMode !== 'normal'
             ? 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
             : 'hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300'
@@ -99,7 +99,7 @@ export default function ReadingControls() {
         title={termLinks ? 'Term links on — click to hide concept/glossary links in the text' : 'Term links off — click to show them'}
         aria-pressed={termLinks}
         aria-label="Toggle concept and glossary links in the text"
-        className={`flex items-center gap-1 px-2 py-1 rounded text-xs transition-colors ${
+        className={`flex items-center gap-1 px-2 min-h-11 sm:min-h-0 sm:py-1 rounded text-xs transition-colors ${
           termLinks
             ? 'hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300'
             : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400 line-through'
@@ -112,10 +112,10 @@ export default function ReadingControls() {
       </button>
 
       {/* Font size */}
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-0 sm:gap-1">
         <button
           onClick={() => setFontSize((s) => Math.max(13, s - 1))}
-          className="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300 text-xs font-bold transition-colors"
+          className="w-11 h-11 sm:w-6 sm:h-6 flex items-center justify-center rounded hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300 text-xs font-bold transition-colors"
           title="Decrease font size"
           aria-label="Decrease font size"
         >
@@ -135,7 +135,7 @@ export default function ReadingControls() {
         </button>
         <button
           onClick={() => setFontSize((s) => Math.min(24, s + 1))}
-          className="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300 text-sm font-bold transition-colors"
+          className="w-11 h-11 sm:w-6 sm:h-6 flex items-center justify-center rounded hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300 text-sm font-bold transition-colors"
           title="Increase font size"
           aria-label="Increase font size"
         >

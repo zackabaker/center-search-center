@@ -139,12 +139,11 @@ export default function IdiomsClient() {
           and save an excerpt, or open any post, select a phrase and choose Save idiom.
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="border-t border-gray-900 dark:border-gray-200">
           {idioms.map((x) => (
-            <div key={x.id} className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-4">
+            <div key={x.id} className="py-5 border-b border-gray-200 dark:border-gray-700">
               <blockquote
-                className="text-gray-800 dark:text-gray-200 leading-relaxed mb-3 break-words"
-                style={{ fontFamily: 'var(--font-lora, Georgia, serif)' }}
+                className="font-serif text-[1.1875rem] leading-[1.5] text-gray-900 dark:text-gray-100 mb-3 break-words"
               >
                 {x.text}
               </blockquote>

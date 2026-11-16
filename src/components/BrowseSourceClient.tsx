@@ -512,7 +512,7 @@ export default function BrowseSourceClient({ posts, source, totalCount }: Props)
                   </span>
                   <span className="text-[10px] text-gray-300 dark:text-gray-700">{yearPosts.length}</span>
                 </div>
-                <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+                <div className="border-t border-gray-900 dark:border-gray-200">
                   {yearPosts.map((post, i) => (
                     <PostRow
                       key={post.slug}
@@ -535,7 +535,7 @@ export default function BrowseSourceClient({ posts, source, totalCount }: Props)
           </div>
         ) : (
           // Flat list (filtered, sorted by length, or undated source)
-          <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+          <div className="border-t border-gray-900 dark:border-gray-200">
             {displayPosts.map((post, i) => (
               <PostRow
                 key={post.slug}
@@ -605,9 +605,9 @@ function PostRow({
   isSaved, onToggleSave, isLast, selectMode, showSource,
 }: PostRowProps) {
   return (
-    <div className={`group flex items-start gap-3 p-4 bg-white dark:bg-gray-900 transition-colors ${
-      isSelected ? 'bg-blue-50 dark:bg-blue-950/20' : 'hover:bg-gray-50 dark:hover:bg-gray-800/60'
-    } ${isLast ? '' : 'border-b border-gray-100 dark:border-gray-800'}`}>
+    <div className={`group flex items-start gap-3 py-4 transition-colors border-b border-gray-200 dark:border-gray-700 ${
+      isSelected ? 'bg-blue-50 dark:bg-blue-950/20' : ''
+    }`}>
 
       {/* Checkbox (select mode) */}
       {selectMode && (

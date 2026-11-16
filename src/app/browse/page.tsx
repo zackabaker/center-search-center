@@ -212,15 +212,15 @@ export default async function BrowsePage() {
       {/* ── Browse by decade ── */}
       <section className="mb-10">
         <p className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">Browse by decade</p>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-4 gap-4">
           {DECADE_LINKS.map(({ label, from, to }) => (
             <Link
               key={label}
               href={`/browse/all?from=${from}&to=${to}`}
-              className="flex flex-col items-center justify-center py-3 px-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all text-center group"
+              className="group flex flex-col py-3 border-t border-gray-900 dark:border-gray-200 hover:border-blue-600 transition-colors"
             >
-              <span className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{label}</span>
-              <span className="text-[10px] text-gray-400 dark:text-gray-600 mt-0.5 font-mono">{from}–{to}</span>
+              <span className="font-serif text-xl font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{label}</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 tabular-nums">{from}–{to}</span>
             </Link>
           ))}
         </div>
@@ -229,7 +229,7 @@ export default async function BrowsePage() {
       {/* ── Browse by source — core ── */}
       <section className="mb-10">
         <p className="text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">Browse by source</p>
-        <div className="space-y-3">
+        <div className="border-t border-gray-900 dark:border-gray-200">
           {CORE_SOURCES.map((source) => {
             const count = source.slug === 'threads' ? threadsCount : (countsBySource[source.slug] ?? 0);
             const recent = recentBySource[source.slug] ?? [];
@@ -238,33 +238,31 @@ export default async function BrowsePage() {
               <Link
                 key={source.slug}
                 href={`/browse/${source.slug}`}
-                className={`group block rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-md transition-all overflow-hidden ${source.ring}`}
+                className="group block border-b border-gray-200 dark:border-gray-700"
               >
-                <div className={`${source.accent} pl-4 pr-5 py-4 sm:py-5`}>
+                <div className="py-5">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2.5 mb-1">
-                        <div className={`w-2 h-2 rounded-full flex-shrink-0 ${source.dot}`} />
-                        <span className="text-base font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      <div className="flex items-baseline justify-between gap-4 mb-0.5">
+                        <span className="font-serif text-2xl font-medium leading-tight text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                           {source.label}
                         </span>
-                        <span className={`text-[11px] px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${source.badge}`}>
+                        <span className="text-sm text-gray-600 dark:text-gray-300 tabular-nums flex-shrink-0">
                           {count.toLocaleString()}
                         </span>
                       </div>
-                      <p className="text-[11px] text-gray-400 dark:text-gray-500 mb-2">{source.author}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{source.author}</p>
 
                       {/* Recent post titles */}
                       {recent.length > 0 && (
-                        <div className="mt-3 space-y-0.5">
+                        <div className="mt-3 space-y-1">
                           {recent.map((post) => (
-                            <div key={post.slug} className="flex items-center gap-2">
-                              <div className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600 flex-shrink-0" />
-                              <span className="text-xs text-gray-500 dark:text-gray-400 truncate leading-relaxed">
+                            <div key={post.slug} className="flex items-baseline gap-3">
+                              <span className="text-sm text-gray-600 dark:text-gray-300 leading-snug min-w-0">
                                 {post.title}
                               </span>
                               {post.date && (
-                                <span className="text-[10px] text-gray-300 dark:text-gray-700 flex-shrink-0 tabular-nums ml-auto">
+                                <span className="text-xs text-gray-400 dark:text-gray-500 flex-shrink-0 tabular-nums ml-auto">
                                   {post.date.match(/\b(19|20)\d{2}\b/)?.[0] ?? ''}
                                 </span>
                               )}
@@ -274,10 +272,6 @@ export default async function BrowsePage() {
                       )}
                     </div>
 
-                    {/* Arrow */}
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-300 dark:text-gray-700 group-hover:text-gray-500 dark:group-hover:text-gray-400 flex-shrink-0 mt-1 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
                   </div>
                 </div>
               </Link>
@@ -293,7 +287,7 @@ export default async function BrowsePage() {
           <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
           <p className="text-[10px] text-gray-400 dark:text-gray-600">Opt-in in search</p>
         </div>
-        <div className="grid sm:grid-cols-2 gap-3">
+        <div className="grid sm:grid-cols-2 gap-x-8 border-t border-gray-900 dark:border-gray-200">
           {ARCHIVE_SOURCES.map((source) => {
             const count = countsBySource[source.slug] ?? 0;
             const recent = recentBySource[source.slug] ?? [];
@@ -302,35 +296,30 @@ export default async function BrowsePage() {
               <Link
                 key={source.slug}
                 href={`/browse/${source.slug}`}
-                className={`group block rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-md transition-all overflow-hidden ${source.ring}`}
+                className="group block border-b border-gray-200 dark:border-gray-700"
               >
-                <div className={`${source.accent} pl-4 pr-4 py-4`}>
+                <div className="py-4">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <div className={`w-2 h-2 rounded-full flex-shrink-0 ${source.dot}`} />
-                        <span className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
+                      <div className="flex items-baseline justify-between gap-4 mb-0.5">
+                        <span className="font-serif text-xl font-medium leading-tight text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                           {source.shortLabel}
                         </span>
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium flex-shrink-0 ${source.badge}`}>
+                        <span className="text-sm text-gray-600 dark:text-gray-300 tabular-nums flex-shrink-0">
                           {count.toLocaleString()}
                         </span>
                       </div>
-                      <p className="text-[11px] text-gray-400 dark:text-gray-500 mb-1.5">{source.author}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1.5">{source.author}</p>
                       {recent.length > 0 && (
                         <div className="mt-2 space-y-0.5">
                           {recent.map((post) => (
-                            <div key={post.slug} className="flex items-center gap-1.5">
-                              <div className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600 flex-shrink-0" />
-                              <span className="text-[11px] text-gray-400 dark:text-gray-500 truncate">{post.title}</span>
+                            <div key={post.slug}>
+                              <span className="text-sm text-gray-600 dark:text-gray-300 leading-snug">{post.title}</span>
                             </div>
                           ))}
                         </div>
                       )}
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-300 dark:text-gray-700 group-hover:text-gray-400 dark:group-hover:text-gray-500 flex-shrink-0 mt-0.5 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
                   </div>
                 </div>
               </Link>

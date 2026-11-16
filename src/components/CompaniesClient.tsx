@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 
 export interface CompanyExcerpt {
@@ -39,6 +39,10 @@ const THEME_LABELS: Record<string, string> = {
   'anglo-modernity': 'Anglo modernity',
 };
 
+
+const FIRST_BATCH = 12;
+const MORE_BATCH = 24;
+
 const TIER_META: Record<number, { label: string }> = {
   3: { label: 'Blueprints' },
   2: { label: 'Analysis' },
@@ -52,6 +56,11 @@ function year(date: string | null): string {
 export default function CompaniesClient({ excerpts }: { excerpts: CompanyExcerpt[] }) {
   const [q, setQ] = useState('');
   const [theme, setTheme] = useState<string | null>(null);
+  // 850 passages rendered at once made a page ~355 phone-screens long. Each
+  // tier now opens with a first batch and grows on request; a search or a
+  // theme filter starts the count over.
+  const [shown, setShown] = useState<Record<number, number>>({});
+  useEffect(() => { setShown({}); }, [q, theme]);
 
   const themeCounts = useMemo(() => {
     const m = new Map<string, number>();
@@ -113,6 +122,9 @@ export default function CompaniesClient({ excerpts }: { excerpts: CompanyExcerpt
         const items = byTier[tier];
         if (!items || items.length === 0) return null;
         const meta = TIER_META[tier];
+        const limit = shown[tier] ?? FIRST_BATCH;
+        const visible = items.slice(0, limit);
+        const remaining = items.length - visible.length;
         return (
           <section key={tier} className="mb-12" aria-label={meta.label}>
             <div className="mb-5 border-b border-gray-100 dark:border-gray-800 pb-2">
@@ -121,7 +133,7 @@ export default function CompaniesClient({ excerpts }: { excerpts: CompanyExcerpt
               </h2>
             </div>
             <div className="space-y-6">
-              {items.map((e) => (
+              {visible.map((e) => (
                 <article key={e.id} className="border-l-2 border-amber-600 dark:border-amber-500 pl-4">
                   <p
                     className="text-[15px] leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-wrap"
@@ -144,6 +156,16 @@ export default function CompaniesClient({ excerpts }: { excerpts: CompanyExcerpt
                 </article>
               ))}
             </div>
+            {remaining > 0 && (
+              <button
+                type="button"
+                onClick={() => setShown((cur) => ({ ...cur, [tier]: limit + MORE_BATCH }))}
+                className="mt-6 w-full sm:w-auto min-h-11 px-5 text-sm font-semibold bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-200 rounded-sm transition-colors"
+              >
+                Show {Math.min(MORE_BATCH, remaining)} more
+                <span className="font-normal opacity-70"> · {remaining.toLocaleString()} left in {meta.label}</span>
+              </button>
+            )}
           </section>
         );
       })}

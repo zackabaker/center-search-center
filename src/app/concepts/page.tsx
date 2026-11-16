@@ -47,19 +47,19 @@ export default function ConceptsPage() {
           const tierConcepts = slugs.map((s) => CONCEPTS.find((c) => c.slug === s)).filter(Boolean);
           return (
             <section key={label}>
-              <h2 className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4 border-b border-gray-100 dark:border-gray-800 pb-2">
+              <h2 className="text-xs font-mono text-gray-900 dark:text-gray-100 uppercase tracking-widest pb-2 border-b border-gray-900 dark:border-gray-200">
                 {label}
               </h2>
-              <div className="space-y-2">
+              <div>
                 {tierConcepts.map((concept) => (
                   <Link
                     key={concept!.slug}
                     href={`/guide/concepts/${concept!.slug}`}
-                    className="group flex items-start gap-4 p-4 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm transition-all bg-white dark:bg-gray-900"
+                    className="group flex items-start gap-4 py-4 border-b border-gray-200 dark:border-gray-700"
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex items-baseline gap-3 mb-1">
-                        <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        <h3 className="font-serif text-[1.375rem] leading-tight font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                           {concept!.title}
                         </h3>
                       </div>
@@ -69,7 +69,7 @@ export default function ConceptsPage() {
                         const g = (CONCEPT_GLOSSARY as Record<string, { definitionQuote?: string }>)[concept!.slug];
                         const text = g?.definitionQuote || concept!.passages[0]?.text;
                         return text ? (
-                          <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
+                          <p className="font-serif text-base text-gray-600 dark:text-gray-300 leading-snug line-clamp-2">
                             &ldquo;{text.slice(0, 120)}{text.length > 120 ? '…' : ''}&rdquo;
                           </p>
                         ) : null;

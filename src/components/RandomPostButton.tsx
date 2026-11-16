@@ -61,7 +61,7 @@ export default function RandomPostButton() {
         </button>
       </div>
 
-      <div className="space-y-2">
+      <div className="border-t border-gray-900 dark:border-gray-200">
         {picks.length === 0 && !loading && null}
         {loading && picks.length === 0 && (
           <div className="space-y-2">
@@ -74,7 +74,7 @@ export default function RandomPostButton() {
           <Link
             key={post.slug}
             href={`/post/${post.slug}`}
-            className="group flex items-center justify-between gap-3 p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all"
+            className="group flex items-center justify-between gap-3 py-3.5 border-b border-gray-200 dark:border-gray-700"
           >
             <div className="min-w-0 flex-1">
               <p className="text-xs text-gray-400 dark:text-gray-500 mb-0.5">
@@ -82,7 +82,7 @@ export default function RandomPostButton() {
                 {post.date ? (() => { const m = post.date.match(/\b(19|20)\d{2}\b/); return m ? ` · ${m[0]}` : ''; })() : ''}
                 {post.readingTime && !Number.isNaN(post.readingTime) ? ` · ${post.readingTime} min` : ''}
               </p>
-              <p className="text-sm font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 leading-snug line-clamp-2 transition-colors">
+              <p className="font-serif text-[1.1875rem] font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 leading-[1.25] transition-colors">
                 {post.title}
               </p>
             </div>
