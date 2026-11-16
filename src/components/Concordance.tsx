@@ -37,7 +37,7 @@ function TermList({
         const pct = maxCount > 0 ? (count / maxCount) * 100 : 0;
         const conceptSlug = TERM_TO_CONCEPT_SLUG[word.toLowerCase()];
         const href = conceptSlug
-          ? `/guide/concepts/${conceptSlug}`
+          ? `/concepts/${conceptSlug}`
           : `/search?q=${encodeURIComponent(word)}`;
         return (
           <div key={word} className="flex items-center gap-3">

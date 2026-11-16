@@ -135,7 +135,7 @@ export const CS_TERM_MAP = new Map<string, CSTerm>(
 );
 
 /**
- * Maps CS term text (lowercase) to a /guide/concepts/[slug] route where a
+ * Maps CS term text (lowercase) to a /concepts/[slug] route where a
  * dedicated concept page exists. Terms not listed here fall back to the
  * /search?q= link used in PostContent.
  *

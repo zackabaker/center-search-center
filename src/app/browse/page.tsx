@@ -193,7 +193,7 @@ export default async function BrowsePage() {
               // the rest fall back to keyword search.
               const conceptSlug = TERM_TO_CONCEPT_SLUG[topic.toLowerCase()];
               const href = conceptSlug
-                ? `/guide/concepts/${conceptSlug}`
+                ? `/concepts/${conceptSlug}`
                 : `/search?q=${encodeURIComponent(topic)}`;
               return (
                 <Link

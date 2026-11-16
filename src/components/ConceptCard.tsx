@@ -9,7 +9,7 @@ export default function ConceptCard({ query, className = '' }: { query: string; 
   if (!concept) return null;
   return (
     <Link
-      href={`/guide/concepts/${concept.slug}`}
+      href={`/concepts/${concept.slug}`}
       className={`group flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 py-4 border-y border-gray-900 dark:border-gray-200 ${className}`}
     >
       <span className="min-w-0">

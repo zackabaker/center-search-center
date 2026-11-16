@@ -33,7 +33,7 @@ console.log(`Health check against ${BASE}\n`);
 // ── Core pages return 200 ────────────────────────────────────────────────────
 // /begin and /lectures are the destinations of the retired /start and /intro
 // (see Redirects below).
-for (const path of ['/', '/begin', '/lectures', '/guide', '/concepts', '/browse', '/faq', '/lineage', '/trending', '/generative-anthropology', '/guide/concepts/the-center', '/guide/concepts/power']) {
+for (const path of ['/', '/begin', '/lectures', '/guide', '/concepts', '/browse', '/faq', '/lineage', '/trending', '/generative-anthropology', '/concepts/the-center', '/concepts/power']) {
   const { res } = await get(path);
   ok(`200 ${path}`, res.status === 200, `got ${res.status}`);
 }
@@ -56,7 +56,9 @@ for (const path of ['/', '/begin', '/lectures', '/guide', '/concepts', '/browse'
 }
 
 // ── Redirects ────────────────────────────────────────────────────────────────
-await redirects('renamed concept slug', '/guide/concepts/the-event', '/guide/concepts/event');
+await redirects('renamed concept slug', '/guide/concepts/the-event', '/concepts/event');
+await redirects('legacy /guide/concepts/*', '/guide/concepts/the-center', '/concepts/the-center');
+await redirects('legacy /guide/glossary/*', '/guide/glossary/firstness', '/concepts/glossary/firstness');
 await redirects('legacy post slug', '/post/gablog-the-discourse-of-the-center', '/post/the-discourse-of-the-center');
 // Retired entry pages (next.config.ts): /start was folded into /begin, the one
 // canonical first-visit page (2026-11); /intro went with the AI-prose cleanup
@@ -81,7 +83,8 @@ await redirects('retired /intro', '/intro', '/lectures');
     urls.includes(`${BASE}/begin`) && !urls.includes(`${BASE}/start`) && !urls.includes(`${BASE}/intro`));
   const dupes = urls.filter((u, i) => urls.indexOf(u) !== i);
   ok('sitemap has no duplicate URLs', dupes.length === 0, dupes.slice(0, 3).join(', '));
-  ok('sitemap omits redirecting /guide/concepts index', !urls.includes(`${BASE}/guide/concepts`));
+  const guideUrls = urls.filter((u) => u.startsWith(`${BASE}/guide/concepts`) || u.startsWith(`${BASE}/guide/glossary`));
+  ok('sitemap has no /guide concept or glossary URLs', guideUrls.length === 0, guideUrls.slice(0, 3).join(', '));
 }
 
 // ── Feeds + robots ───────────────────────────────────────────────────────────

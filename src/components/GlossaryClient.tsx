@@ -25,8 +25,8 @@ interface Props {
 function ShareTerm({ slug, term, concept }: { slug: string; term: string; concept?: string }) {
   const [copied, setCopied] = useState(false);
   const url = concept
-    ? `https://center.study/guide/concepts/${concept}`
-    : `https://center.study/guide/glossary/${slug}`;
+    ? `https://center.study/concepts/${concept}`
+    : `https://center.study/concepts/glossary/${slug}`;
   const share = async () => {
     try {
       if (navigator.share) {
@@ -150,7 +150,7 @@ export default function GlossaryClient({ entries }: Props) {
                   <div className="flex items-baseline gap-3 flex-wrap mb-1">
                     <h3 className="font-serif text-lg font-semibold text-gray-900 dark:text-white">
                       <Link
-                        href={entry.concept ? `/guide/concepts/${entry.concept}` : `/guide/glossary/${entry.slug}`}
+                        href={entry.concept ? `/concepts/${entry.concept}` : `/concepts/glossary/${entry.slug}`}
                         className="hover:underline decoration-gray-300 dark:decoration-gray-600 underline-offset-4"
                       >
                         {entry.term}
@@ -213,7 +213,7 @@ export default function GlossaryClient({ entries }: Props) {
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs">
                     {entry.concept && (
                       <Link
-                        href={`/guide/concepts/${entry.concept}`}
+                        href={`/concepts/${entry.concept}`}
                         className="font-medium text-blue-600 dark:text-blue-400 hover:underline"
                       >
                         Full concept page →
