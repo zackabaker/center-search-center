@@ -574,8 +574,8 @@ export default function IntroPage() {
           generate a reading path
         </Link>
         {' '}·{' '}
-        <Link href="/start" className="underline hover:text-gray-700 dark:hover:text-gray-300">
-          the guided start
+        <Link href="/guide" className="underline hover:text-gray-700 dark:hover:text-gray-300">
+          the guide
         </Link>
         {' '}·{' '}
         <Link href="/lectures" className="underline hover:text-gray-700 dark:hover:text-gray-300">

@@ -181,7 +181,7 @@ export function generateStaticParams() {
   // long-lived head of the corpus alongside the curated entry points below.
   const head = posts.filter((p) => p.source === 'book');
   const curated = [
-    // Homepage featured groups + /start gateway + /intro anchors
+    // Homepage featured groups + entry-page gateways + /intro anchors
     'the-discourse-of-the-center',
     'the-prospects-of-the-hypothesis',
     'the-transdisciplinarity-of-the-hypothesis',
@@ -612,7 +612,7 @@ export default async function PostPage({
                   Adam Katz publishes a new essay every two weeks, writing as Dennis Bouvard on{' '}
                   <a href="https://dennisbouvard.substack.com" target="_blank" rel="noopener noreferrer" data-where="post-end" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Substack&nbsp;↗</a>.
                   {' '}Keep reading here:{' '}
-                  <Link href="/start" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">start</Link>{' '}or{' '}
+                  <Link href="/begin" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">start</Link>{' '}or{' '}
                   <Link href="/search" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">search the corpus</Link>.
                 </p>
               )}

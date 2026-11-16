@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const path = getPathBySlug(slug);
   if (!path) return {};
   return {
-    title: `${path.title} — Center Study Reading Paths`,
+    title: `${path.title} — Reading Paths`,
     description: `${path.title}: ${path.posts.length} texts.`,
   };
 }

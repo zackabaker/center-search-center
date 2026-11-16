@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import AskClient from './AskClient';
 
 export const metadata: Metadata = {
-  title: 'Ask the Archive',
+  title: 'Ask AI',
   description: 'Put a question to the whole archive: the closest verbatim passages, retrieved by meaning, with a brief AI note.',
   robots: { index: false, follow: true },
 };
