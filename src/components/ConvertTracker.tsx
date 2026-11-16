@@ -5,7 +5,7 @@ import { getSid } from '@/lib/session-id';
 
 // Anonymous conversion events (counted by /api/convert): the landing page is
 // remembered per session; "open" fires once when the session moves past that
-// landing page into a text or /start; "read" once per post per session at
+// landing page into a text or /begin; "read" once per post per session at
 // ≥50% scroll AND ≥90s; "follow" on any click out to Substack /
 // @centerstudy_ / RSS (destination + placement only); "return" when a
 // browser comes back after 1–30 days (day gap only). Everything lives in
@@ -81,7 +81,7 @@ export default function ConvertTracker() {
   useEffect(() => {
     try {
       const landed = sessionStorage.getItem('csc-landed');
-      const isText = pathname.startsWith('/post/') || pathname === '/start';
+      const isText = pathname.startsWith('/post/') || pathname === '/begin';
       if (!landed || !isText || pathname === landed) return;
       if (sessionStorage.getItem('csc-open')) return;
       sessionStorage.setItem('csc-open', '1');
@@ -163,7 +163,7 @@ export default function ConvertTracker() {
             ? 'footer'
             : location.pathname.startsWith('/post/')
               ? 'post-end'
-              : location.pathname === '/start'
+              : location.pathname === '/begin'
                 ? 'start'
                 : 'other');
         send({ event: 'follow', dest, where });

@@ -6,11 +6,13 @@ import DarkModeToggle from '@/components/DarkModeToggle';
 import SceneMark from '@/components/SceneMark';
 
 const NAV_LINKS = [
-  { href: '/start',    label: 'Start' },
+  // "Start" is /begin — the one canonical first-visit page (/start now
+  // redirects there).
+  { href: '/begin',    label: 'Start' },
   { href: '/guide',    label: 'Guide' },
   { href: '/concepts', label: 'Concepts' },
   { href: '/search',   label: 'Search' },
-  { href: '/ask',      label: 'AI Search' },
+  { href: '/ask',      label: 'Ask AI' },
   { href: '/browse',   label: 'Archive' },
   { href: '/download', label: 'Download' },
 ];

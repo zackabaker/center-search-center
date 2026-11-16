@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   // Description is the verbatim defining quote only — never AI-written text.
   const dq = (GLOSSARY as Record<string, { definitionQuote?: string }>)[slug]?.definitionQuote;
   return {
-    title: `${concept.title} — Center Study Concepts`,
+    title: `${concept.title} — Concepts`,
     ...(dq ? { description: clipDescription(dq) } : {}),
     alternates: { canonical: `https://center.study/guide/concepts/${slug}` },
   };

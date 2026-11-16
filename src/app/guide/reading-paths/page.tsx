@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { READING_PATHS } from '@/data/guide/reading-paths';
 
 export const metadata: Metadata = {
-  title: 'Reading Paths — Center Study',
+  title: 'Reading Paths',
   description: `${READING_PATHS.length} reading paths through the Center Study archive.`,
 };
 

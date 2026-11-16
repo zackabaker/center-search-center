@@ -23,8 +23,6 @@ const navItems: NavItem[] = [
     ),
   },
   {
-    // Labeled what it is: "Start" on desktop goes to /start, so this tab says
-    // Guide to avoid one word pointing at two different pages.
     href: '/guide',
     label: 'Guide',
     icon: (

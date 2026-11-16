@@ -4,7 +4,7 @@ import { Redis } from '@upstash/redis';
 
 // Conversion counters — the four anonymous events that make "did that change
 // help?" answerable: open (the session moved past its landing page into a
-// text or /start), read (≥50% scroll AND ≥90s on one text), follow (a click
+// text or /begin), read (≥50% scroll AND ≥90s on one text), follow (a click
 // out to Substack / @centerstudy_ / RSS, with destination and placement),
 // return (a browser back after 1–30 days). Aggregate counts only — no IP, no
 // id, no per-visitor rows (clientIp is only an in-memory rate-limit key).

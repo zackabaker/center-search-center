@@ -104,7 +104,7 @@ export default async function TrendingPage() {
         <div className="rounded-xl border border-gray-200 dark:border-gray-700 p-6 text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">
             Nothing trending yet. Start anywhere —{' '}
-            <Link href="/start" className="text-blue-600 dark:text-blue-400 hover:underline">the introduction</Link>,{' '}
+            <Link href="/begin" className="text-blue-600 dark:text-blue-400 hover:underline">the introduction</Link>,{' '}
             <Link href="/browse" className="text-blue-600 dark:text-blue-400 hover:underline">the archive</Link>, or{' '}
             <Link href="/search" className="text-blue-600 dark:text-blue-400 hover:underline">search</Link>.
           </p>

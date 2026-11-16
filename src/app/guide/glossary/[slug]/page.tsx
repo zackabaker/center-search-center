@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const entry = GLOSSARY.find((e) => e.slug === slug);
   if (!entry || entry.concept) return {};
   return {
-    title: `${entry.term} — Center Study Glossary`,
+    title: `${entry.term} — Glossary`,
     description: clipDescription(`“${entry.definitionQuote}” — ${entry.definitionSource}`),
     alternates: { canonical: `https://center.study/guide/glossary/${slug}` },
   };

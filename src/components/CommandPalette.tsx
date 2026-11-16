@@ -11,7 +11,7 @@ import { CONCEPT_TITLES } from '@/lib/cs-terms';
 type Item = { label: string; sub?: string; href: string; group: 'Pages' | 'Concepts' | 'Texts' | 'Actions' };
 
 const PAGES: Item[] = [
-  { label: 'Start Here', href: '/start', group: 'Pages' },
+  { label: 'Getting Started', href: '/begin', group: 'Pages' },
   { label: 'Guide', href: '/guide', group: 'Pages' },
   { label: 'Concepts & Glossary', href: '/concepts', group: 'Pages' },
   { label: 'Search', href: '/search', group: 'Pages' },
@@ -26,6 +26,9 @@ const PAGES: Item[] = [
   { label: 'About this archive', href: '/about', group: 'Pages' },
   { label: 'Developers & AI agents', href: '/developers', group: 'Pages' },
   { label: 'Download the corpus', href: '/download', group: 'Pages' },
+  { label: 'Verify a quote', href: '/verify', group: 'Pages' },
+  { label: 'Anthropomorphics — the book', href: '/anthropomorphics', group: 'Pages' },
+  { label: 'On Companies', href: '/companies', group: 'Pages' },
 ];
 
 const CONCEPTS: Item[] = Object.entries(CONCEPT_TITLES).map(([slug, title]) => ({

@@ -120,7 +120,7 @@ export default function GenerativeAnthropologyPage() {
           <Link href="/guide/concepts/the-center" className={linkCls}>center</Link>.
         </p>
         <p>
-          <Link href="/start" className={linkCls}>Center Study</Link>{' '}is the discipline developed by{' '}
+          <Link href="/begin" className={linkCls}>Center Study</Link>{' '}is the discipline developed by{' '}
           <Link href="/author/katz" className={linkCls}>Adam Katz</Link>{' '}— who also writes as{' '}
           <Link href="/author/bouvard" className={linkCls}>Dennis Bouvard</Link>{' '}— that extends GA by
           keeping the center at the heart of every analysis. This site is the complete searchable
@@ -199,7 +199,7 @@ export default function GenerativeAnthropologyPage() {
         <p className={sectionLabel}>Explore the archive</p>
         <div className="grid sm:grid-cols-2 gap-3">
           {[
-            { href: '/start', label: 'Introduction to Center Study', desc: 'The discipline, its lineage, and what it can do.' },
+            { href: '/begin', label: 'Getting Started', desc: 'The discipline, its lineage, and what it can do.' },
             { href: '/concepts', label: 'Concepts & Glossary', desc: 'Every key term, defined in the texts’ own words.' },
             { href: '/search', label: 'Search the corpus', desc: `Keyword and meaning search across ${CORPUS.toLocaleString()}+ texts.` },
             { href: '/download', label: 'Download the full corpus', desc: 'The complete archive as JSON and plain text.' },
