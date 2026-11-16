@@ -3,7 +3,7 @@ import { rateLimit, clientIp } from '@/lib/rate-limit';
 import { semanticChunks, semanticAvailable } from '@/lib/semantic';
 import { EMBED_DIM } from '@/lib/vecmath';
 import { getPublicPosts } from '@/lib/parser';
-import { lexicalPassages } from '@/lib/lexical-passages';
+import { lexicalPassages, queryBases, containsBases } from '@/lib/lexical-passages';
 
 // ── Expand mode (Ask excerpts) ───────────────────────────────────────────────
 // expand: true enriches each hit with its containing PARAGRAPH from the posts
@@ -170,9 +170,22 @@ export async function POST(request: Request) {
     ? new Set((sources as unknown[]).filter((s): s is string => typeof s === 'string'))
     : undefined;
 
+  const ranked = semanticChunks(Float32Array.from(vector as number[]), expand === true ? 64 : 40, true, allow);
+
+  // Short queries (the default chips: bare core vocabulary) ride on embeddings
+  // alone, where the cosine band is too tight to separate passages that USE
+  // the query's words from ones vaguely near them — nudge the ones that do.
+  if (expand === true && typeof q === 'string') {
+    const bases = queryBases(q);
+    if (bases.length > 0 && bases.length <= 3) {
+      for (const r of ranked) if (containsBases(r.text, bases)) r.score += 0.06;
+      ranked.sort((a, b) => b.score - a.score);
+    }
+  }
+
   // Drop same-title duplicates (e.g. the pdf + ap copies of one article).
   const seenTitle = new Set<string>();
-  const results = semanticChunks(Float32Array.from(vector as number[]), 40, true, allow)
+  const results = ranked
     .filter((c) => {
       const key = c.title.trim().toLowerCase();
       if (seenTitle.has(key)) return false;

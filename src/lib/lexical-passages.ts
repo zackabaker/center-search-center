@@ -86,10 +86,65 @@ function termRegex(base: string, flags: string): RegExp {
   return new RegExp(`(?<![a-z0-9])${escapeRe(base)}(?:s|es|ed|ing|y|ies)?(?![a-z0-9])`, flags);
 }
 
-export function lexicalPassages(query: string, k = 3): LexicalPassage[] {
-  const bases = Array.from(
+/** Distinct content-word stems of a query — shared with the semantic route's
+    term-presence boost so both sides agree on what the query's words are. */
+export function queryBases(query: string, max = 12): string[] {
+  return Array.from(
     new Set(phraseWords(query).filter((w) => w.length >= 3 && !STOP.has(w)).map(stem)),
-  ).slice(0, 12);
+  ).slice(0, max);
+}
+
+/** True when the text contains every base (inflections allowed). */
+export function containsBases(text: string, bases: string[]): boolean {
+  return bases.length > 0 && bases.every((b) => termRegex(b, 'i').test(text));
+}
+
+// ── Single-word mode ────────────────────────────────────────────────────────
+// The default search chips submit bare core vocabulary ("scapegoating"), which
+// the phrase path above refuses (one word, and GA's core terms appear in far
+// more than RARE_SHARE of texts) — leaving those queries to embeddings alone,
+// whose cosine band is too tight on a single word to separate texts ABOUT the
+// term from texts vaguely near it. Rank instead by how centrally a text uses
+// the word: a title match, then occurrence count, with chatter subordinated.
+const SINGLE_MAX_SHARE = 0.35;
+const SINGLE_TIER: Record<string, number> = { reddit: 0.6, twitter: 0.6 };
+
+function singleTermPassages(base: string, k: number): LexicalPassage[] {
+  const all = docs();
+  const test = termRegex(base, 'i');
+  const hits = all.filter((d) => test.test(d.lower));
+  if (hits.length === 0 || hits.length / all.length >= SINGLE_MAX_SHARE) return [];
+
+  const scored: (LexicalPassage & { rank: number })[] = [];
+  for (const doc of hits) {
+    const count = Array.from(doc.lower.matchAll(termRegex(base, 'gi'))).length;
+    if (count === 0) continue;
+    // Best paragraph: the one using the word most; ties go to the earliest,
+    // where the definitional uses live.
+    let bestPara = '';
+    let bestN = 0;
+    for (const para of doc.paras) {
+      const n = Array.from(para.toLowerCase().matchAll(termRegex(base, 'gi'))).length;
+      if (n > bestN) { bestN = n; bestPara = para; }
+    }
+    if (!bestPara) continue;
+    let text = bestPara;
+    if (text.length > 1400) {
+      const at = Math.max(0, text.toLowerCase().search(test));
+      const s = Math.max(0, at - 400);
+      text = text.slice(s, Math.min(text.length, at + 900));
+    }
+    const titled = test.test(doc.title);
+    const rank = (Math.log(1 + count) + (titled ? 2 : 0)) * (SINGLE_TIER[doc.source] ?? 1);
+    scored.push({ slug: doc.slug, title: doc.title, source: doc.source, text, coverage: 1, rank });
+  }
+  scored.sort((a, b) => b.rank - a.rank);
+  return scored.slice(0, k).map(({ rank: _rank, ...p }) => p);
+}
+
+export function lexicalPassages(query: string, k = 3): LexicalPassage[] {
+  const bases = queryBases(query);
+  if (bases.length === 1) return singleTermPassages(bases[0], k);
   if (bases.length < 2) return [];
 
   const all = docs();
