@@ -27,9 +27,9 @@ const SUGGESTIONS = [
 
 export default function HomeSearch() {
   const [query, setQuery] = useState('');
-  // AI search is the default (owner direction, 2026-10-27) — the excerpt-first
-  // Ask experience is the stronger front door; keyword stays one tap away.
-  const [mode, setMode] = useState<Mode>('ask');
+  // Keyword search is the default (owner direction, 2026-11-15, reversing
+  // 2026-10-27) — AI search stays one tap away.
+  const [mode, setMode] = useState<Mode>('search');
   const [isNavigating, setIsNavigating] = useState(false);
   const [compact, setCompact] = useState(false);
   const router = useRouter();

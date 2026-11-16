@@ -1,6 +1,5 @@
 import HomeSearch from '@/components/HomeSearch';
 import RotatingEpigraph from '@/components/RotatingEpigraph';
-import Leaderboard from '@/components/Leaderboard';
 import RandomPostButton from '@/components/RandomPostButton';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -115,9 +114,6 @@ export default function Home() {
             <span className="font-serif text-[1.375rem] leading-[1.2] font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
               Getting started
             </span>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              The introduction, then a reading path built for you
-            </span>
           </Link>
           <Link
             href="/intro-center-study-zack-baker"
@@ -126,9 +122,6 @@ export default function Home() {
             <span className="font-serif text-[1.375rem] leading-[1.2] font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
               Introduction to Center Study
             </span>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              Zack Baker&rsquo;s talk at the Avalon Institute, slides and transcript
-            </span>
           </Link>
           <Link
             href="/concepts"
@@ -136,9 +129,6 @@ export default function Home() {
           >
             <span className="font-serif text-[1.375rem] leading-[1.2] font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
               Concepts
-            </span>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              The vocabulary, each term defined in the author&rsquo;s own words
             </span>
           </Link>
         </nav>
@@ -155,12 +145,6 @@ export default function Home() {
       <div className="hidden sm:block max-w-xl mx-auto px-4 pb-10">
         <RandomPostButton />
       </div>
-
-      {/* Most engaged readers — beside the hero where there is room for a
-          rail (xl+), otherwise at the bottom of the page. */}
-      <aside className="max-w-2xl mx-auto px-4 pb-14 xl:absolute xl:right-8 xl:top-20 xl:w-72 xl:max-w-none xl:mx-0 xl:px-0 xl:pb-0">
-        <Leaderboard />
-      </aside>
 
     </main>
     </>
