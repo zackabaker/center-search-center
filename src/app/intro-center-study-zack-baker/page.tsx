@@ -320,16 +320,30 @@ export default function IntroPage() {
       </P>
       <Slide n={10} alt="Tomasello: joint attention — the eyes" />
       <P>
-        Briefly, it&rsquo;s worth noting that apes don&rsquo;t point. This is a
-        simple point people often have trouble with, but there&rsquo;s a lot of
-        research on it&mdash;Michael Tomasello and many others. I know that you
-        know that I know: third-order attention. I&rsquo;m seeing you see me
-        see something. No animal does this. I have five minutes of video, which
-        I won&rsquo;t play now, showing how apes and human babies differ in
-        this way. Third-order attention&mdash;
+        The reason that language, or representation, or sign usage is a
+        radical break from animal communication is not that animal
+        communication is not complex. Indeed, it&rsquo;s very complex. And
+        there are certainly lots of modes of animal and maybe even plant
+        communication that we haven&rsquo;t yet scratched the surface of.
+        However, there&rsquo;s a difference in kind between animal
+        communication and human language. And there&rsquo;s been lots of great
+        research into this, including books like <em>The Symbolic Species</em>{' '}
+        and the research of Michael Tomasello.
+      </P>
+      <P>
+        A quick way of explaining the difference is in terms of first-, second-,
+        and third-order attention. First-order attention is an animal seeing an
+        object. Second-order attention is social attention: I see another
+        animal see another thing. Third-order attention is I see something that
+        sees me, and I know that it sees me. Once you have third-order
+        attention, you have <em>n</em>-order attention. No animal has this kind
+        of third-order attention. And you can see this in the way that human
+        babies look back at their parents as they try to do things, or in the
+        way that a human being can follow the plot of a movie or a play in a
+        way that an animal cannot. This capacity for third-order
+        attention,{' '}
         <TermLink href="/guide/concepts/attentionality" defKey="g:shared-attention" className={TERM_CLASS} title="Concept: attentionality">shared attention</TermLink>
-        &mdash;is unique to the human species, and it&rsquo;s part of how
-        language emerges.
+        , is absolutely unique to the human species.
       </P>
 
       <H2>IV. The Originary Scene</H2>
