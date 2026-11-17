@@ -1,15 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import TermLink from '@/components/TermLink';
 import { CS_TERMS_SORTED, TERM_TO_CONCEPT_SLUG } from '@/lib/cs-terms';
 import { GLOSSARY_LINK_TERMS } from '@/data/guide/glossary-link-terms';
+import { splitPostParagraphs } from '@/lib/post-paragraphs';
 
 interface PostContentProps {
   content: string;
   postTitle?: string;
   postUrl?: string;
+  /** Override the reader's csc-term-links preference (HighlightedContent owns
+      the toggle state there so it can remount this tree when it flips). */
+  linksEnabled?: boolean;
 }
 
 // Linkable terms: multi-word phrases, or single words ≥ 10 chars.
@@ -199,38 +202,28 @@ function renderInline(
   return out;
 }
 
-// Paragraphs to strip (Substack boilerplate etc.)
-const STRIP_PATTERNS = [
-  /Thanks for reading Center Study Center/,
-  /Thanks for reading GA Newsletter/,
-  /reader-supported publication/,
-  /^Subscribe$/,
-  /^Share$/,
-];
-
-function shouldStrip(p: string): boolean {
-  return STRIP_PATTERNS.some((re) => re.test(p));
-}
-
-export function PostContent({ content, postTitle = '', postUrl = '' }: PostContentProps) {
-  const [copiedId, setCopiedId] = useState<string | null>(null);
-
-  // Term links can be toggled off in ReadingControls (localStorage +
-  // window event). Default on; read the preference after mount.
-  const [linksEnabled, setLinksEnabled] = useState(true);
+// Term links can be toggled off in ReadingControls (localStorage +
+// window event). Default on; read the preference after mount.
+export function useTermLinksEnabled(): boolean {
+  const [enabled, setEnabled] = useState(true);
   useEffect(() => {
     const read = () => {
-      try { setLinksEnabled(localStorage.getItem('csc-term-links') !== 'off'); } catch {}
+      try { setEnabled(localStorage.getItem('csc-term-links') !== 'off'); } catch {}
     };
     read();
     window.addEventListener('csc-term-links-changed', read);
     return () => window.removeEventListener('csc-term-links-changed', read);
   }, []);
+  return enabled;
+}
 
-  const paragraphs = content
-    .split(/\n\n+/)
-    .filter((p) => p.trim())
-    .filter((p) => !shouldStrip(p));
+export function PostContent({ content, postTitle = '', postUrl = '', linksEnabled: linksProp }: PostContentProps) {
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const ownLinksEnabled = useTermLinksEnabled();
+  const linksEnabled = linksProp ?? ownLinksEnabled;
+
+  const paragraphs = splitPostParagraphs(content);
 
   // Pre-compute concept links — track linked terms across all paragraphs
   const linkedAlready = new Set<string>();
@@ -373,9 +366,10 @@ export function PostContent({ content, postTitle = '', postUrl = '' }: PostConte
         );
       })}
 
-      {/* Attribution footer */}
+      {/* Attribution footer — data-nohl keeps HighlightedContent's search
+          marks out of it (it is chrome, not citable body text) */}
       {postTitle && postUrl && (
-        <p className="text-xs text-gray-400 dark:text-gray-600 pt-2 border-t border-gray-100 dark:border-gray-800 print:hidden">
+        <p data-nohl className="text-xs text-gray-400 dark:text-gray-600 pt-2 border-t border-gray-100 dark:border-gray-800 print:hidden">
           {postTitle} — {postUrl}
         </p>
       )}

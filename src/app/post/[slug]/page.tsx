@@ -17,6 +17,7 @@ import Concordance from '@/components/Concordance';
 import { getPostTermFrequency, buildSearchEntries, getRelatedEntries } from '@/lib/search-index';
 import { relatedSlugs } from '@/lib/related';
 import { parsePostDate, postTime } from '@/lib/dates';
+import { splitPostParagraphs } from '@/lib/post-paragraphs';
 import { MarkPostRead } from '@/components/MarkPostRead';
 import NextInPath from '@/components/NextInPath';
 import PostSearchContext, { BackButton } from '@/components/PostSearchContext';
@@ -211,19 +212,9 @@ export default async function PostPage({
   const wordCount = post.content.split(/\s+/).length;
   const readingTime = Math.max(1, Math.round(wordCount / 230));
 
-  const paragraphs = post.content
-    .split(/\n\n+/)
-    .filter((p) => p.trim())
-    .filter((p) => {
-      const t = p.trim();
-      return (
-        !t.includes('Thanks for reading') &&
-        !t.includes('reader-supported publication') &&
-        !t.includes('Subscribe for free to receive new posts') &&
-        t !== 'Subscribe' &&
-        t !== 'Share'
-      );
-    });
+  // The SAME split the reader renders with — ToC entries address paragraphs
+  // by index as #p-N, so a divergent filter here misnumbers every ToC link.
+  const paragraphs = splitPostParagraphs(post.content);
 
   const externalUrl = post.url || `https://center.study/post/${slug}`;
   const originalHref = HOSTED_ORIGINAL[slug] ?? post.url;
@@ -506,7 +497,6 @@ export default async function PostPage({
                   Suspense fallback renders PostContent immediately so static HTML is useful. */}
               <Suspense fallback={<PostContent content={post.content} postTitle={post.title} postUrl={`https://center.study/post/${slug}`} />}>
                 <PostSearchContext
-                  paragraphs={paragraphs}
                   content={post.content}
                   postTitle={post.title}
                   postUrl={`https://center.study/post/${slug}`}

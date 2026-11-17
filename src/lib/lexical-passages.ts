@@ -13,6 +13,7 @@
 import { getPublicPosts } from './parser';
 import { ARCHIVAL_SOURCES } from './types';
 import { escapeRe, phraseWords } from './phrase-match';
+import { splitPostParagraphs } from './post-paragraphs';
 
 export interface LexicalPassage {
   slug: string;
@@ -36,16 +37,6 @@ const STOP = new Set([
   'passage', 'find', 'wrote', 'write', 'writes',
 ]);
 
-// Mirrors PostContent.tsx / the semantic route's paragraph split so the
-// excerpt's reader anchor lands on the right block.
-const STRIP_PATTERNS = [
-  /Thanks for reading Center Study Center/,
-  /Thanks for reading GA Newsletter/,
-  /reader-supported publication/,
-  /^Subscribe$/,
-  /^Share$/,
-];
-
 /** Words must sit within this many characters of each other to count as one stretch. */
 const WINDOW = 420;
 /** A word is "distinctive" when it appears in under this share of texts. */
@@ -63,10 +54,8 @@ function docs(): Doc[] {
         title: p.title,
         source: p.source,
         lower: p.content.toLowerCase(),
-        paras: p.content
-          .split(/\n\n+/)
-          .filter((x) => x.trim())
-          .filter((x) => !STRIP_PATTERNS.some((re) => re.test(x))),
+        // The reader's own split, so the excerpt's p-N anchor lands right.
+        paras: splitPostParagraphs(p.content),
       }));
   }
   return _docs;

@@ -1,189 +1,18 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback, Suspense, useMemo } from 'react';
-import { CS_TERMS, TERM_TO_CONCEPT_SLUG } from '@/lib/cs-terms';
-import TermLink from '@/components/TermLink';
+import { useEffect, useRef, useState, useCallback, Suspense } from 'react';
+import { PostContent, useTermLinksEnabled } from './PostContent';
 import { useFrozenSearchQ } from './useFrozenSearchQ';
 
+// The ?q= arrival view. NOT a second renderer: it renders the canonical
+// PostContent (term links, toggle, anchors, pilcrows — identical to a plain
+// visit) and lays the search highlight over the resulting DOM as <mark>
+// wrappers. Everything about how a paragraph looks lives in PostContent.
+
 interface HighlightedContentProps {
-  paragraphs: string[];
+  content: string;
   postTitle?: string;
   postUrl?: string;
-}
-
-// ── Inline concept linking ────────────────────────────────────────────────────
-// Build linkable terms once: 2+ words (specific enough), or single words ≥ 10
-// chars (very domain-specific). Sorted longest-first so multi-word phrases
-// match before their components.
-const LINKABLE_TERMS = CS_TERMS
-  .filter((t) => t.term.split(' ').length >= 2 || t.term.length >= 10)
-  .sort((a, b) => b.term.length - a.term.length);
-
-/**
- * Parse markdown-style links [text](url) in a paragraph and return segments.
- * Each segment is either a plain string or a rendered <a> element.
- * Text segments are passed through linkifyParagraph for concept linking.
- */
-// Inline **bold** / *italic* — without this, readers arriving from search
-// (the ?q= fork) saw literal asterisks in 102 posts, including every
-// Anthropoetics Notes section.
-function emphasize(text: string, keyBase: string): React.ReactNode[] {
-  const out: React.ReactNode[] = [];
-  const re = /\*\*([^*]+)\*\*|\*([^*\s][^*]*)\*/g;
-  let last = 0;
-  let m: RegExpExecArray | null;
-  let k = 0;
-  while ((m = re.exec(text)) !== null) {
-    if (m.index > last) out.push(text.slice(last, m.index));
-    if (m[1] !== undefined) out.push(<strong key={`${keyBase}-b${k++}`}>{m[1]}</strong>);
-    else out.push(<em key={`${keyBase}-i${k++}`}>{m[2]}</em>);
-    last = re.lastIndex;
-  }
-  if (last < text.length) out.push(text.slice(last));
-  return out;
-}
-
-function renderParagraphNodes(
-  rawText: string,
-  linkedAlready: Set<string>,
-  paraIndex: number
-): React.ReactNode[] {
-  const mdLinkRe = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
-  const segments: React.ReactNode[] = [];
-  let last = 0;
-  let m: RegExpExecArray | null;
-  let segKey = 0;
-
-  while ((m = mdLinkRe.exec(rawText)) !== null) {
-    if (m.index > last) {
-      // plain text before the link — run concept linking
-      segments.push(...linkifyParagraph(rawText.slice(last, m.index), linkedAlready).map((n, j) =>
-        typeof n === 'string' ? n : <span key={`${paraIndex}-pre-${segKey++}-${j}`}>{n}</span>
-      ));
-    }
-    segments.push(
-      <a
-        key={`${paraIndex}-link-${segKey++}`}
-        href={m[2]}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-blue-600 dark:text-blue-400 hover:underline"
-      >
-        {m[1]}
-      </a>
-    );
-    last = mdLinkRe.lastIndex;
-  }
-
-  if (last < rawText.length) {
-    segments.push(...linkifyParagraph(rawText.slice(last), linkedAlready).map((n, j) =>
-      typeof n === 'string' ? n : <span key={`${paraIndex}-post-${segKey++}-${j}`}>{n}</span>
-    ));
-  }
-
-  const base = segments.length > 0 ? segments : linkifyParagraph(rawText, linkedAlready);
-  // Final pass: render markdown emphasis inside plain-text segments.
-  return base.flatMap((n, j) =>
-    typeof n === 'string' ? emphasize(n, `${paraIndex}-em-${j}`) : [n]
-  );
-}
-
-/**
- * Split `text` into an array of strings and <a> nodes for matched concepts.
- * Only the FIRST occurrence of each term per paragraph is linked.
- */
-function linkifyParagraph(text: string, linkedAlready: Set<string>): React.ReactNode[] {
-  if (!text || LINKABLE_TERMS.length === 0) return [text];
-
-  // Find all non-overlapping matches
-  interface Match { start: number; end: number; original: string; term: string; }
-  const matches: Match[] = [];
-  const occupied = new Set<number>();
-
-  for (const { term } of LINKABLE_TERMS) {
-    if (linkedAlready.has(term)) continue; // already linked in a previous paragraph
-    const idx = text.toLowerCase().indexOf(term.toLowerCase());
-    if (idx === -1) continue;
-    // Check no position overlap with an already-claimed match
-    let overlap = false;
-    for (let i = idx; i < idx + term.length; i++) {
-      if (occupied.has(i)) { overlap = true; break; }
-    }
-    if (overlap) continue;
-    matches.push({ start: idx, end: idx + term.length, original: text.slice(idx, idx + term.length), term });
-    for (let i = idx; i < idx + term.length; i++) occupied.add(i);
-    linkedAlready.add(term);
-  }
-
-  if (matches.length === 0) return [text];
-
-  matches.sort((a, b) => a.start - b.start);
-  const nodes: React.ReactNode[] = [];
-  let last = 0;
-
-  for (const { start, end, original, term } of matches) {
-    if (start > last) nodes.push(text.slice(last, start));
-    const conceptSlug = TERM_TO_CONCEPT_SLUG[term.toLowerCase()];
-    const linkCls = 'underline decoration-dotted decoration-gray-400 dark:decoration-gray-600 hover:decoration-gray-700 dark:hover:decoration-gray-400 transition-colors';
-    if (conceptSlug) {
-      nodes.push(
-        <TermLink
-          key={start}
-          href={`/guide/concepts/${conceptSlug}`}
-          defKey={`c:${conceptSlug}`}
-          className={linkCls}
-          title={`Concept: ${term}`}
-        >
-          {original}
-        </TermLink>
-      );
-    } else {
-      nodes.push(
-        <a key={start} href={`/search?q=${encodeURIComponent(term)}`} className={linkCls} title={`Search: ${term}`}>
-          {original}
-        </a>
-      );
-    }
-    last = end;
-  }
-  if (last < text.length) nodes.push(text.slice(last));
-  return nodes;
-}
-
-function CopyParaButton({ text, title, url }: { text: string; title: string; url: string }) {
-  const [copied, setCopied] = useState(false);
-  const copy = () => {
-    const clean = text.replace(/\s+/g, ' ').trim();
-    navigator.clipboard.writeText(`"${clean}" — ${title}. ${url}`);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-  return (
-    <button onClick={copy} title="Copy paragraph with attribution"
-      className="opacity-0 group-hover:opacity-100 transition-opacity ml-1 text-gray-300 hover:text-gray-600 flex-shrink-0 print:hidden inline-flex">
-      {copied
-        ? <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/></svg>
-        : <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-      }
-    </button>
-  );
-}
-
-function PermalinkButton({ id }: { id: string }) {
-  const [copied, setCopied] = useState(false);
-  const copy = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const url = `${window.location.origin}${window.location.pathname}#${id}`;
-    navigator.clipboard.writeText(url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-  return (
-    <a href={`#${id}`} onClick={copy} title="Copy paragraph link"
-      className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-300 hover:text-gray-500 print:hidden select-none text-sm inline-flex">
-      {copied ? <span className="text-xs text-green-500">✓</span> : '¶'}
-    </a>
-  );
 }
 
 // Stop words to exclude from in-post highlights so common words don't paint the page
@@ -212,10 +41,17 @@ function extractHighlightTerms(query: string): string[] {
     .filter((w) => w.length >= 4 && !HIGHLIGHT_STOPWORDS.has(w.toLowerCase()));
 }
 
-function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: HighlightedContentProps) {
+function HighlightedContentInner({ content, postTitle = '', postUrl = '' }: HighlightedContentProps) {
   // Frozen, not live — this component itself strips ?q= from the address bar
   // after applying the highlight, and a live read would wipe the marks.
   const query = useFrozenSearchQ();
+  // Term links follow the same csc-term-links toggle as a plain visit. The
+  // highlight passes below mutate PostContent's rendered DOM (splitText +
+  // <mark> wrappers), so a links-on/off re-render reconciled over that
+  // mutated DOM would corrupt it — instead the toggle is owned HERE and keys
+  // the PostContent subtree: a flip remounts it clean, and the marking
+  // effect (which depends on it) re-marks the fresh tree.
+  const linksEnabled = useTermLinksEnabled();
   const contentRef = useRef<HTMLDivElement>(null);
   const [matchCount, setMatchCount] = useState(0);
   const [, setCurrentMatch] = useState(0);
@@ -252,8 +88,13 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
           .join('[^a-zA-Z0-9]+')}(?![a-zA-Z0-9])`,
         'gi'
       );
-      const blocks = Array.from(container.querySelectorAll('p, blockquote')).filter(
-        (el) => el.tagName !== 'P' || !el.closest('blockquote')
+      // PostContent renders body paragraphs as <p>, quotes as <blockquote>
+      // (no inner <p>) and headings as real h2–h4; [data-nohl] marks chrome
+      // (the attribution footer) that must never carry a search mark.
+      const blocks = Array.from(
+        container.querySelectorAll('p, blockquote, h2, h3, h4')
+      ).filter(
+        (el) => (el.tagName !== 'P' || !el.closest('blockquote')) && !el.closest('[data-nohl]')
       );
       for (const block of blocks) {
         if (totalMatches >= MAX_MARKS) break;
@@ -315,6 +156,7 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
       const textNodes: Text[] = [];
       let node: Node | null;
       while ((node = walker.nextNode())) {
+        if ((node as Text).parentElement?.closest('[data-nohl]')) continue;
         if (regex.test((node as Text).textContent || '')) textNodes.push(node as Text);
         regex.lastIndex = 0;
       }
@@ -353,6 +195,7 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
 
     marksRef.current = allMarks;
     setMatchCount(totalMatches);
+    setCurrentMatch(0);
     if (allMarks.length > 0) {
       setTimeout(() => {
         allMarks[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -372,7 +215,7 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
         window.history.replaceState(null, '', u.pathname + (qs ? `?${qs}` : '') + u.hash);
       }
     } catch {}
-  }, [query]);
+  }, [query, linksEnabled]);
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -406,37 +249,6 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
     return () => window.removeEventListener('keydown', handler);
   }, [query, matchCount, scrollToMatch]);
 
-  const pageUrl = typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}` : postUrl;
-
-  // Pre-compute concept links across all paragraphs so each term is linked once
-  const linkedParagraphs = useMemo(() => {
-    const linkedAlready = new Set<string>();
-    return paragraphs.map((p, i) => {
-      const isDivider = p.trim() === '---';
-      const isHeading = /^#{1,3}\s/.test(p);
-      const headingLevel = isHeading ? (p.match(/^(#{1,3})\s/)?.[1].length ?? 2) : 0;
-      const isBlockquote = !isHeading && !isDivider && (p.startsWith('>') || p.startsWith('_'));
-      // Reddit Q&A structural markers — mirror PostContent so the ?q= view
-      // never renders raw '[ADAM]' / '[Q:username]' brackets.
-      const isBouvardLabel = p.trim() === '[ADAM]';
-      const qMatch = (!isBlockquote && !isHeading && !isDivider && !isBouvardLabel)
-        ? p.match(/^\[Q:([^\]]*)\]\s*([\s\S]*)/)
-        : null;
-      const questionCard = qMatch ? { questioner: qMatch[1].trim(), questionText: qMatch[2].trim() } : null;
-      // Strip the markdown markers so the marker text never renders literally.
-      const text = isHeading
-        ? p.replace(/^#{1,3}\s/, '')
-        : isBlockquote
-        ? p.replace(/^>\s*/, '').replace(/^_|_$/g, '')
-        : p;
-      // Don't linkify headings — they're structural, not prose
-      const nodes = isHeading || isDivider || isBouvardLabel || questionCard
-        ? [text]
-        : renderParagraphNodes(text, linkedAlready, i);
-      return { isBlockquote, isHeading, isDivider, isBouvardLabel, questionCard, headingLevel, text, nodes };
-    });
-  }, [paragraphs]);
-
   return (
     <>
       {query && matchCount > 0 && (
@@ -458,72 +270,14 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
           No matches for &ldquo;{query}&rdquo; in this post
         </div>
       )}
-      <div ref={contentRef} className="prose text-gray-800 dark:text-gray-200 mx-auto">
-        {linkedParagraphs.map(({ isBlockquote, isHeading, isDivider, isBouvardLabel, questionCard, headingLevel, text, nodes }, i) => {
-          const id = `p-${i + 1}`;
-
-          if (isDivider) {
-            return <hr key={i} className="border-gray-100 dark:border-gray-800 my-2" />;
-          }
-
-          // Adam Katz speaker label (before Bouvard's response in Q&A) —
-          // amber marks Katz's verbatim speech, matching PostContent.
-          if (isBouvardLabel) {
-            return (
-              <div key={i} className="flex items-center gap-2.5 pt-1 pb-0.5">
-                <span className="text-[11px] font-semibold text-amber-700 dark:text-amber-400 tracking-wide whitespace-nowrap">
-                  Adam Katz
-                </span>
-                <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
-              </div>
-            );
-          }
-
-          // Question card (Reddit Q&A questioner)
-          if (questionCard) {
-            return (
-              <div
-                key={i}
-                id={id}
-                className="rounded-xl bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700 px-4 py-3 mt-2 scroll-mt-20"
-              >
-                <div className="text-[10px] font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1.5">
-                  {questionCard.questioner}
-                </div>
-                <p className="text-sm text-gray-600 dark:text-gray-300 italic leading-relaxed">
-                  {questionCard.questionText}
-                </p>
-              </div>
-            );
-          }
-
-          if (isHeading) {
-            const cls =
-              headingLevel === 1 ? 'text-2xl font-bold leading-snug mt-10'
-              : headingLevel === 2 ? 'text-xl font-semibold leading-snug mt-10'
-              : 'text-lg font-semibold leading-snug mt-8';
-            // Sans-serif heading, matching the non-search reader (PostContent).
-            return (
-              <p key={i} id={id} className={`group scroll-mt-20 ${cls}`}
-                style={{ fontFamily: 'var(--font-geist-sans, system-ui, sans-serif)' }}>
-                {text}
-              </p>
-            );
-          }
-
-          const controls = (
-            <span className="inline-flex items-center gap-1 ml-2 align-middle print:hidden">
-              <PermalinkButton id={id} />
-              <CopyParaButton text={text} title={postTitle} url={pageUrl} />
-            </span>
-          );
-          if (isBlockquote) return <blockquote key={i} id={id} className="group scroll-mt-20"><p>{nodes}{controls}</p></blockquote>;
-          return (
-            <p key={i} id={id} className="group scroll-mt-20">
-              {nodes}{controls}
-            </p>
-          );
-        })}
+      <div ref={contentRef}>
+        <PostContent
+          key={linksEnabled ? 'links-on' : 'links-off'}
+          content={content}
+          postTitle={postTitle}
+          postUrl={postUrl}
+          linksEnabled={linksEnabled}
+        />
       </div>
     </>
   );
@@ -531,7 +285,7 @@ function HighlightedContentInner({ paragraphs, postTitle = '', postUrl = '' }: H
 
 export default function HighlightedContent(props: HighlightedContentProps) {
   return (
-    <Suspense fallback={<div className="prose text-gray-800">{props.paragraphs.map((p, i) => <p key={i}>{p}</p>)}</div>}>
+    <Suspense fallback={<PostContent content={props.content} postTitle={props.postTitle} postUrl={props.postUrl} />}>
       <HighlightedContentInner {...props} />
     </Suspense>
   );

@@ -4,32 +4,20 @@ import { semanticChunks, semanticAvailable } from '@/lib/semantic';
 import { EMBED_DIM } from '@/lib/vecmath';
 import { getPublicPosts } from '@/lib/parser';
 import { lexicalPassages, queryBases, containsBases } from '@/lib/lexical-passages';
+import { splitPostParagraphs } from '@/lib/post-paragraphs';
 
 // ── Expand mode (Ask excerpts) ───────────────────────────────────────────────
 // expand: true enriches each hit with its containing PARAGRAPH from the posts
-// cache plus that paragraph's stable reader anchor (p-N). The paragraph split
-// MUST mirror PostContent.tsx exactly (split /\n\n+/, drop empties, drop the
-// Substack boilerplate) or anchors land on the wrong block.
-const STRIP_PATTERNS = [
-  /Thanks for reading Center Study Center/,
-  /Thanks for reading GA Newsletter/,
-  /reader-supported publication/,
-  /^Subscribe$/,
-  /^Share$/,
-];
+// cache plus that paragraph's stable reader anchor (p-N) — the same
+// splitPostParagraphs the reader renders with, so anchors land on the right
+// block by construction.
 let _paraCache: Map<string, string[]> | null = null;
 function paragraphsFor(slug: string): string[] | undefined {
   if (!_paraCache) _paraCache = new Map();
   if (!_paraCache.has(slug)) {
     const post = getPublicPosts().find((p) => p.slug === slug);
     if (!post) return undefined;
-    _paraCache.set(
-      slug,
-      post.content
-        .split(/\n\n+/)
-        .filter((p) => p.trim())
-        .filter((p) => !STRIP_PATTERNS.some((re) => re.test(p))),
-    );
+    _paraCache.set(slug, splitPostParagraphs(post.content));
   }
   return _paraCache.get(slug);
 }
@@ -103,6 +91,15 @@ export function OPTIONS() {
 }
 
 export async function POST(request: Request) {
+  {
+    const limited = rateLimit(`semantic:${clientIp(request)}`, 30, 60_000);
+    if (!limited.ok) {
+      return Response.json(
+        { error: 'Too many requests — slow down a little.' },
+        { status: 429, headers: { 'Retry-After': String(limited.retryAfterSeconds) } }
+      );
+    }
+  }
 
   let vector: unknown;
   let sources: unknown;
