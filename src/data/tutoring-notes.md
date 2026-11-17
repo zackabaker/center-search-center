@@ -16,7 +16,7 @@
 
 - When someone comes along and points out that the morality is in "bad faith," he draws upon himself all of the attention and desire in the community. He points out the "irrationality" of the morality in the community, by exposing its sacrificial nature, and translating it.
 - Confucius, Buddha, Socrates, Hebrew prophets all at the same time — this is called the Axial Age.
-- Any figure who can bring the wrath of the central government upon them must be an elite. The person must have first of all been elevated. Must be worthy of imitation on the terms of the empire itself.
+- Any figure who can bring the wrath of the central government upon himself must be an elite. The person must have first of all been elevated. Must be worthy of imitation on the terms of the empire itself.
 - A justice that implicates the entire system. It's not "in" the system, it's "of" the system.
 - The exemplary victim is dispossessed, "turned into" a slave, which then brings a focus onto mass slavery itself. This person stands in for them.
 - This gets replayed in so many different ways — the movie Spartacus. Or the movie Gladiator.
@@ -304,7 +304,7 @@
 
 ### Fourth Session
 
-*This session worked through Gans's critique of metaphysics via scenic thinking, Pierce's communitarian account of inquiry, David Olson's metalanguage of literacy, and the speech-act sequence as an alternative foundation for moral and linguistic analysis.*
+*This session worked through Gans's critique of metaphysics via scenic thinking, Peirce's communitarian account of inquiry, David Olson's metalanguage of literacy, and the speech-act sequence as an alternative foundation for moral and linguistic analysis.*
 
 #### Straussianism
 
@@ -378,7 +378,7 @@
   - The imperative comes from an *inappropriate* ostensive.
   - So we are speaking about a kind of sign language for a little while.
   - A better word than "arbitrary" might be "conventional." Which is why post-structuralism leads to anarchism.
-  - Mistakeness or even mispronunciation is the equivalent of defilement.
+  - Mistakenness or even mispronunciation is the equivalent of defilement.
   - If you violate some kind of ritual imperative, you're unclean, defiled. And if you drop something, it doesn't matter if you threw it down or it slipped — you ruined things for the whole community.
   - And the only way of restoring that is by punishing you in some way.
   - In a sense, linguistic presence is in "passing the baton" between scenes.
@@ -399,7 +399,7 @@
 - But the whole idea that we're situated in new ways because of a world that's been remade by technology — that's what Katz has been working on.
 - Mumford is the person that Katz really had in mind. Although Marx as well, and Marx's development of factory labor by capital. He traces this process of tasks being broken up into smaller and smaller tasks.
 - So the more you simplify tasks the more they can be replaced by automation.
-- The first machines were huge amounts of humans. Mega-machines. Humans turned into parts to send into war or to carry out irrigation work. Or to build huge temples. Whatever "public works" projects the ancient emperors — pre-Axial Age — would have carried out.
+- The first machines were huge numbers of humans. Mega-machines. Humans turned into parts to send into war or to carry out irrigation work. Or to build huge temples. Whatever "public works" projects the ancient emperors — pre-Axial Age — would have carried out.
 - Technology has its origins in ripping humans out of situated communal situations where the work that they do is part of a ritual setting, and instead desacralizing that and conscripting them into enormous labor armies. And in a sense the modern capitalist process replays that.
 - There was a lot of technological development during the Middle Ages, and in order to get the capitalist machinery going you had to rip people from the land. Dispossess them, send them into cities, where they had no way to feed themselves, and then put them into factories where you can divide up the labor more and more precisely.
 - And this transforms the intellect as well, because it opens up the possibility of analysis and synthesis that wouldn't have been conceivable before.
@@ -419,7 +419,7 @@
 - And he doesn't really say why that happens. Stiegler is working with Heidegger.
 - What accounts for time, what accounts for memory? It's the imperative.
 - When you point at something, you construct a presence. You're freezing time in a sense. The declarative also does this. It's a virtual ostensive. The object that we would eventually be pointing to is not there, but if we understand each other you know that what could ultimately be pointed to — if we were in front of it — is there. Even the simplest declarative: "James is at the store now." There is always a potential ostensive; what you're saying is true if we could immediately go to the store. So there's always that ostensive guarantee — something you could point to.
-- Where the imperative is always intrinsically temporal. It could be two seconds, but it could be ten years. It could be millennia.
+- Whereas the imperative is always intrinsically temporal. It could be two seconds, but it could be ten years. It could be millennia.
 - So technics is going to be found in the imperative, because the imperative is what gets things done.
 - There's something about technology that compels. Machines are built to force something. You're telling one material to submit itself to this process. And one part of the process is telling another part to do this.
 - It's a sequence of imperatives, and you basically lay down the tracks for it.
@@ -468,8 +468,8 @@
   - When power and responsibility are matched up, that's a good order.
 - "From each according to his abilities, to each according to his needs."
 - The formulas are always relational and heuristic.
-- The "single-world formulas" like rights and equalities are always open to reinterpretation. You can always say it was "too limited a term."
-- Power and responsibility makes you think systematically.
+- The "single-word formulas" like rights and equalities are always open to reinterpretation. You can always say it was "too limited a term."
+- Power and responsibility make you think systematically.
 - The left has two strategies:
   - Call you names louder and louder.
   - Kick you out.
@@ -704,7 +704,7 @@
 
 *A session on narrative, myth, and literature in GA, touching on Bloom's anxiety of influence, Freud's transference, and Katz's resistance to conventional literary narrative in the context of modernism.*
 
-- The reasons corporations donate to BLM is because it's extortion money.
+- The reason corporations donate to BLM is because it's extortion money.
   - Discrimination is a very hard thing to prove.
 - Pete, Narrative, Leftism.
 - BLM, Goldman Sachs, Finance.
@@ -745,7 +745,7 @@
   - We're always in a sense anthropomorphizing what's not yet human.
 - This is why Katz wanted to make language much more spare — even questioning terms like desire and morality back onto the originary scene. And this is how you try to think the scene as minimally as possible.
 - A lot of the developments in GA.
-- There are people like Benjamin Bratton and others — it's made post-structuralism out-moded. Post-structuralism just assumed language was there; it didn't think about language in terms of its media. Now there's a much stronger sense that language is always mediated institutionally and technologically. At the end of the first decade of the 21st century, cultural studies and post-structuralism kind of died. A lot of that came out into the public sphere, but within the more advanced kinds of academic theory, once everyone can see that there's constant electronic supervision — how could you really talk about insisting on your identity or fulfilling your identity? It's just another algorithm that is having people demand something like that.
+- There are people like Benjamin Bratton and others — it's made post-structuralism outmoded. Post-structuralism just assumed language was there; it didn't think about language in terms of its media. Now there's a much stronger sense that language is always mediated institutionally and technologically. At the end of the first decade of the 21st century, cultural studies and post-structuralism kind of died. A lot of that came out into the public sphere, but within the more advanced kinds of academic theory, once everyone can see that there's constant electronic supervision — how could you really talk about insisting on your identity or fulfilling your identity? It's just another algorithm that is having people demand something like that.
 - The current theory isn't actually as stuck in victimization because there's not much more you can say about it.
 - Katz wanted GA to be competitive in politics, competitive in Silicon Valley, and competitive in academic theory as well.
 - The university, in so many ways, is such a lousy institution. If you were to design it today, nobody would design it the way it's been designed. And it's getting worse and worse because it's getting bloated by all this administrative stuff.
@@ -793,7 +793,7 @@
 - Our understanding of ourselves is always technologically mediated. Because even our understanding of consciousness comes from reading and writing.
 - "Don't just be a user, be an interface."
   - What would you be doing as an interface that you wouldn't be doing as a user?
-- Yuk Hui from Hong Kong studied in France and Germany. He has a book called *The Question of Technology in China* and *On the Existence of Digital Objects*. And Stiegler.
+- Yuk Hui from Hong Kong studied in France and Germany. He has books called *The Question Concerning Technology in China* and *On the Existence of Digital Objects*. And Stiegler.
 - He has a new book that's supposed to be coming out.
 - At the end of one of his books he says something about social media:
   - What would be a more morally and politically responsible form of social media?
@@ -946,7 +946,7 @@
     - Take as our model something like cybernetics. It really changed the way at least experts, but really lots of people, think about a lot of things.
     - Cybernetics is really the beginning of algorithmic governance. And it just became part of the language.
     - Speaking in GA feels alien because it's this internally coherent and consistent vocabulary. But just speaking in terms of mimesis and how that leads to conflict — being able to point to things in ways of settling the conflict — it would almost be an absorbing of GA into ordinary language. It would make language both more rigorous and more ordinary.
-      - In the anglosphere in particular this language about freedom and autonomy makes every discussion go off the rails.
+      - In the Anglosphere in particular this language about freedom and autonomy makes every discussion go off the rails.
       - And it makes it impossible to say things like "we'd have to run this by the boss" or "certain people can make certain decisions." It depends on the boss; you can usually do it, but you need to figure out how to do it and figure out how the chain of command works.
       - What are the names that we can't talk without talking about?
     - Prayer as the fundamental speech form.
@@ -954,7 +954,7 @@
     - It's a declarative, has an if-then structure, but directed towards a central being who's listening — which is the ostensive dimension as well.
   - Ritual, Big Man, Sacral Kingship (king that can be sacrificed — origin of scapegoating), Divine Kingship (king cannot be sacrificed), Post-Ritual.
   - One of the claims of Judaism was that a man can't be God.
-  - The thing about a republic is it's organized against anyone who might claim central power. But to keep that going, there always has to be some pretender to kingship who you're controlling, keeping an eye on, ready to depose at any moment. So it becomes this process of replacing whoever is at the center with someone who advances an anti-center agenda of their own. That's why it collapses into proceduralism — because you have to have backing like "popular will" → "elections" → "rules about elections" → lost in the minutia of vote counting etc. So ultimately a republic is about putting someone into the central position so they can be deposed.
+  - The thing about a republic is it's organized against anyone who might claim central power. But to keep that going, there always has to be some pretender to kingship who you're controlling, keeping an eye on, ready to depose at any moment. So it becomes this process of replacing whoever is at the center with someone who advances an anti-center agenda of their own. That's why it collapses into proceduralism — because you have to have backing like "popular will" → "elections" → "rules about elections" → lost in the minutiae of vote counting etc. So ultimately a republic is about putting someone into the central position so they can be deposed.
   - There isn't a republic that doesn't have a central position. Even the parliaments need a prime minister.
   - Foregrounding succession cuts so strongly against the anti-successive commitments of a post-ritual order.
   - Post-Roman European kingship almost reverts closer to sacred kingship.

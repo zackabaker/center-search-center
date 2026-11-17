@@ -93,6 +93,24 @@ export function proxy(request: NextRequest, event: NextFetchEvent) {
     return new NextResponse('Not found', { status: 404 });
   }
 
+  // /tutoring-notes — the owner's private study notes. Same gate as
+  // /analytics minus the legacy key: the owner's Google session or nothing.
+  // Signed-out visitors go through sign-in and land back here; any other
+  // signed-in account sees a plain 404. The page re-checks the session too.
+  if (request.nextUrl.pathname === '/tutoring-notes') {
+    const user = getUser(request);
+    if (isOwnerUser(user)) {
+      return NextResponse.next();
+    }
+    if (!user) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/api/auth/google';
+      url.search = '?next=/tutoring-notes';
+      return NextResponse.redirect(url);
+    }
+    return new NextResponse('Not found', { status: 404 });
+  }
+
   const m = request.nextUrl.pathname.match(/^\/(post|api\/corpus)\/([^/]+)\/?$/);
   if (m) {
     const base = m[1];
@@ -120,6 +138,7 @@ export const config = {
     '/study/:path*',
     '/analytics',
     '/analytics/:path*',
+    '/tutoring-notes',
     // AI crawlers/agents ONLY (user-agent condition) — everyone else skips
     // the proxy on these paths, exactly as before. Tokens mirror
     // src/lib/ai-agents.ts; the value is matched against the whole header.
