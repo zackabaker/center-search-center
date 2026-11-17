@@ -183,13 +183,21 @@ export async function POST(request: Request) {
     const msg = await anthropic.messages.create({
       model: 'claude-sonnet-5-5',
       max_tokens: 1500,
+      // Low effort: this is a pick-and-explain task, and at the default
+      // effort the model sometimes thinks first, which is slower and puts a
+      // thinking block ahead of the text (see below).
+      output_config: { effort: 'low' },
       system: SYSTEM_PROMPT,
       messages: [{
         role: 'user',
         content: `The reader:\n${readerBlock}\n\nCandidate passages:\n\n${candidateBlock}`,
       }],
     });
-    const raw = msg.content[0]?.type === 'text' ? msg.content[0].text : '';
+    // Take the first TEXT block, not content[0]: when the model thinks first
+    // the reply is [thinking, text], and reading only content[0] silently
+    // threw the model's picks away and fell back to the top-scored passages.
+    const textBlock = msg.content.find((b) => b.type === 'text');
+    const raw = textBlock && textBlock.type === 'text' ? textBlock.text : '';
     const parsed = parseModelJson(raw);
     if (parsed && Array.isArray(parsed.items)) {
       note = typeof parsed.note === 'string' ? parsed.note.slice(0, 800) : '';
