@@ -2,10 +2,14 @@ import Link from 'next/link';
 import { headers } from 'next/headers';
 import type { Metadata } from 'next';
 import { fetchStudyData, type DayRow } from './data';
-import { buildInsights } from './derive';
+import { buildInsights, readerSessions } from './derive';
+import NotesEditor from './NotesEditor';
 import SessionsExplorer from './SessionsExplorer';
 import TrendsPanel from './TrendsPanel';
 import { accountOverview, recentFeedback, topEngaged } from '@/lib/user-store';
+import { listNotes } from '@/lib/analytics-notes';
+import { listDigests } from '@/lib/analytics-digest';
+import { gscConfigured, readGscSnapshot } from '@/lib/gsc';
 import { rememberOwnerNetwork } from '@/lib/owner-mark';
 import { getKV } from '@/lib/kv';
 
@@ -91,6 +95,7 @@ export default async function AnalyticsPage() {
   const feedback = await recentFeedback(100).catch(() => []);
   const readers = await topEngaged(50).catch(() => []);
   const accounts = await accountOverview(8).catch(() => null);
+  const [notes, digests, gsc] = await Promise.all([listNotes(), listDigests(12), readGscSnapshot()]);
   const readTime = (sec: number) => {
     const m = Math.floor(sec / 60);
     return m < 60 ? `${m}m` : `${Math.floor(m / 60)}h ${m % 60}m`;
@@ -168,6 +173,14 @@ export default async function AnalyticsPage() {
 
   // --- "This week", in sentences (rule-based — see derive.ts) -------------
   const prev7 = data.days.slice(7, 14);
+  // "Deepest" = most texts actually read, then longest — not the notability
+  // score the journeys are ranked by.
+  const deepest =
+    readerSessions(data.sessions)
+      .filter((s) => s.end >= weekAgoTs)
+      .map((s) => ({ s, reads: s.events.filter((e) => e.type === 'read').length }))
+      .filter((x) => x.reads > 0)
+      .sort((a, b) => b.reads - a.reads || b.s.mins - a.s.mins)[0]?.s ?? null;
   const insights = buildInsights({
     movers: data.movers,
     aiRef: data.aiRef,
@@ -179,7 +192,7 @@ export default async function AnalyticsPage() {
     follows7: sum(d7, (r) => r.follows),
     followsPrev7: sum(prev7, (r) => r.follows),
     newAccounts7: accounts?.last7 ?? 0,
-    topJourney: journeys[0]?.s ?? null,
+    topJourney: deepest,
     completion: data.completion.n > 0 ? data.completion : null,
   });
   // Only the most notable sessions are serialized below; link to one only if
@@ -210,7 +223,19 @@ export default async function AnalyticsPage() {
 
       {/* ---------------- Trends ---------------- */}
       <section id="overview" className="mt-8">
-        <TrendsPanel days={data.days} weeks={data.weeklySearches} engaged7={data.engaged7} />
+        <TrendsPanel days={data.days} weeks={data.weeklySearches} engaged7={data.engaged7} notes={notes} />
+
+        <details className="mt-3">
+          <summary className="cursor-pointer text-sm text-gray-600 dark:text-gray-300 hover:underline">
+            {'Mark an event on the charts'}{notes.length > 0 && <>{' · '}{notes.length}{' marked'}</>}
+          </summary>
+          <p className="mt-1 text-xs text-gray-400">
+            Posted a thread, gave a talk, shipped a change? Pin it to the day — a ◆ appears on every chart whose range includes it, so you can see what moved the lines.
+          </p>
+          <div className="mt-3">
+            <NotesEditor notes={notes} today={data.days[0].day} />
+          </div>
+        </details>
 
         {insights.length > 0 && (
           <div className="mt-6 rounded-lg border border-gray-200 dark:border-gray-800 px-3 py-3 sm:px-4">
@@ -240,6 +265,39 @@ export default async function AnalyticsPage() {
               ))}
             </ul>
           </div>
+        )}
+
+        {digests.length > 0 && (
+          <details className="mt-3">
+            <summary className="cursor-pointer text-sm text-gray-600 dark:text-gray-300 hover:underline">
+              {'Past weeks · '}{digests.length}{' weekly digest'}{digests.length === 1 ? '' : 's'}
+            </summary>
+            <ol className="mt-3 space-y-5">
+              {digests.map((d) => (
+                <li key={d.week}>
+                  <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    {'Week to '}{dayLabel(d.week, true)}
+                  </div>
+                  <div className="mt-0.5 flex flex-wrap gap-x-4 text-xs tabular-nums text-gray-500 dark:text-gray-400">
+                    {d.stats.map((st) => {
+                      const p = st.prev > 0 ? Math.round(((st.cur - st.prev) / st.prev) * 100) : null;
+                      return (
+                        <span key={st.label}>
+                          {st.label}{' '}{st.cur.toLocaleString('en-US')}
+                          {p !== null && <>{' ('}{p > 0 ? '+' : ''}{p}{'%)'}</>}
+                        </span>
+                      );
+                    })}
+                  </div>
+                  <ul className="mt-1.5 space-y-1 text-sm text-gray-700 dark:text-gray-300">
+                    {d.lines.map((line, i) => (
+                      <li key={i} className="break-words">{'· '}{line}</li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ol>
+          </details>
         )}
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
@@ -383,9 +441,72 @@ export default async function AnalyticsPage() {
         </p>
         {deviceTotal > 0 && (
           <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-            {'Since Nov 17 — phones '}{share(data.devices.m, deviceTotal)}{', larger screens '}{share(data.devices.d, deviceTotal)}
+            {'Of '}{deviceTotal.toLocaleString('en-US')}{' new sessions since Nov 17: phones '}{share(data.devices.m, deviceTotal)}{', larger screens '}{share(data.devices.d, deviceTotal)}
             {langTotal > 0 && <>{' · browser languages: '}{data.langs.map((l) => `${l.l} ${share(l.n, langTotal)}`).join(', ')}</>}
-            {'.'}
+            {'. Every JS-running tab counts, bots included — a language far out of line with your readership is a bot signature.'}
+          </p>
+        )}
+
+        <h3 id="google" className="mt-8 text-sm font-semibold text-gray-700 dark:text-gray-300">Google Search</h3>
+        {gsc ? (
+          <>
+            <p className="mt-1 text-sm text-gray-700 dark:text-gray-300">
+              <span className="font-medium tabular-nums">{gsc.totals.clicks.toLocaleString('en-US')}</span>{' clicks'}
+              {gsc.prevTotals && gsc.prevTotals.clicks > 0 && (
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                  {' ('}{gsc.totals.clicks >= gsc.prevTotals.clicks ? '+' : ''}
+                  {Math.round(((gsc.totals.clicks - gsc.prevTotals.clicks) / gsc.prevTotals.clicks) * 100)}{'% vs the 28 days before)'}
+                </span>
+              )}
+              {' · '}<span className="font-medium tabular-nums">{gsc.totals.impressions.toLocaleString('en-US')}</span>{' impressions · '}
+              <span className="font-medium tabular-nums">{(gsc.totals.ctr * 100).toFixed(1)}%</span>{' CTR · average position '}
+              <span className="font-medium tabular-nums">{gsc.totals.position.toFixed(1)}</span>
+              <span className="ml-1.5 text-xs text-gray-400">{dayLabel(gsc.start)}{' – '}{dayLabel(gsc.end)}</span>
+            </p>
+            <div className="mt-2 overflow-x-auto">
+              <table className="w-full min-w-[520px] text-sm tabular-nums">
+                <thead>
+                  <tr className="border-b border-gray-200 dark:border-gray-800 text-left text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                    <th className="py-1.5 pr-3 font-normal">Query on Google</th>
+                    <th className="py-1.5 pr-3 font-normal text-right">Clicks</th>
+                    <th className="py-1.5 pr-3 font-normal text-right">Shown</th>
+                    <th className="py-1.5 pr-3 font-normal text-right">CTR</th>
+                    <th className="py-1.5 pr-0 font-normal text-right">Position</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {gsc.queries.slice(0, 20).map((q) => (
+                    <tr key={q.key} className="border-b border-gray-100 dark:border-gray-900">
+                      <td className="py-1.5 pr-3 text-gray-900 dark:text-gray-100"><span className="line-clamp-1 break-words">{q.key}</span></td>
+                      <td className="py-1.5 pr-3 text-right text-gray-900 dark:text-gray-100">{q.clicks}</td>
+                      <td className="py-1.5 pr-3 text-right text-gray-700 dark:text-gray-300">{q.impressions.toLocaleString('en-US')}</td>
+                      <td className="py-1.5 pr-3 text-right text-gray-700 dark:text-gray-300">{(q.ctr * 100).toFixed(1)}%</td>
+                      <td className="py-1.5 pr-0 text-right text-gray-700 dark:text-gray-300">{q.position.toFixed(1)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <details className="mt-3">
+              <summary className="cursor-pointer text-sm text-gray-600 dark:text-gray-300 hover:underline">Pages Google sends people to</summary>
+              <ol className="mt-2 space-y-1 text-sm">
+                {gsc.pages.slice(0, 25).map((p) => (
+                  <li key={p.key} className="flex justify-between gap-3">
+                    <span className="min-w-0 break-all text-gray-800 dark:text-gray-200">{p.key.replace(/^https?:\/\/[^/]+/, '') || '/'}</span>
+                    <span className="shrink-0 tabular-nums text-gray-400">{p.clicks}{' clicks · '}{p.impressions.toLocaleString('en-US')}{' shown'}</span>
+                  </li>
+                ))}
+              </ol>
+            </details>
+            <p className="mt-2 text-xs text-gray-400 dark:text-gray-600">
+              {'From Search Console, refreshed daily (last '}{timeET.format(gsc.fetchedAt)}{' ET); its data runs about two days behind.'}
+            </p>
+          </>
+        ) : (
+          <p className="mt-1 text-sm text-gray-400">
+            {gscConfigured()
+              ? 'Credentials are set — the first import runs with the daily refresh.'
+              : 'Not connected. It needs a Google service-account key in the GSC_SERVICE_ACCOUNT_JSON environment variable; the steps are in geo/analytics-roadmap.md.'}
           </p>
         )}
 

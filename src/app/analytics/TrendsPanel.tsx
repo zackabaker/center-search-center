@@ -42,7 +42,7 @@ const weekOf = (day: string) => {
 const readerSearches = (r: TrendDay) => Math.max(0, r.searches - r.searchesMine);
 const readerReads = (r: TrendDay) => Math.max(0, r.reads - r.readsMine);
 
-function weeklyBuckets(rows: TrendDay[], f: (r: TrendDay) => number): TrendPoint[] {
+function weeklyBuckets(rows: TrendDay[], f: (r: TrendDay) => number, marks: Map<string, string>): TrendPoint[] {
   const byWeek = new Map<string, number>();
   for (const r of rows) {
     const w = weekOf(r.day);
@@ -50,19 +50,25 @@ function weeklyBuckets(rows: TrendDay[], f: (r: TrendDay) => number): TrendPoint
   }
   return [...byWeek.entries()]
     .sort((a, b) => (a[0] < b[0] ? -1 : 1))
-    .map(([w, v]) => ({ label: `wk of ${dayLabel(w)}`, value: v }));
+    .map(([w, v]) => ({ label: `wk of ${dayLabel(w)}`, value: v, mark: marks.get(w) }));
 }
+
+export type TrendNote = { day: string; label: string };
+const NO_NOTES: TrendNote[] = [];
 
 export default function TrendsPanel({
   days,
   weeks,
   engaged7,
+  notes = NO_NOTES,
 }: {
   /** Newest first, 90 rows. */
   days: TrendDay[];
   /** Oldest first, full retained search history. */
   weeks: TrendWeek[];
   engaged7: number;
+  /** Owner annotations, pinned to the day (or, on the weekly view, the week) they name. */
+  notes?: TrendNote[];
 }) {
   const [range, setRange] = useState<RangeKey>('30d');
 
@@ -71,17 +77,29 @@ export default function TrendsPanel({
     const era = oldestFirst.filter((r) => r.views !== null); // instrumentation era only
     const win = range === '90d' ? 90 : 30;
 
+    const dayMarks = new Map<string, string>();
+    const weekMarks = new Map<string, string>();
+    const join = (m: Map<string, string>, k: string, label: string) =>
+      m.set(k, m.has(k) ? `${m.get(k)} · ${label}` : label);
+    for (const n of notes) {
+      join(dayMarks, n.day, n.label);
+      join(weekMarks, weekOf(n.day), n.label);
+    }
+
     let visitors: TrendPoint[];
     let searches: TrendPoint[];
     let reads: TrendPoint[];
     if (range === 'all') {
-      visitors = weeklyBuckets(era, (r) => r.uniq ?? 0);
-      reads = weeklyBuckets(era, readerReads);
-      searches = weeks.map((w) => ({ label: `wk of ${dayLabel(w.week)}`, value: Math.max(0, w.n - w.mine) }));
+      visitors = weeklyBuckets(era, (r) => r.uniq ?? 0, weekMarks);
+      reads = weeklyBuckets(era, readerReads, weekMarks);
+      searches = weeks.map((w) => ({
+        label: `wk of ${dayLabel(w.week)}`, value: Math.max(0, w.n - w.mine), mark: weekMarks.get(w.week),
+      }));
     } else {
-      visitors = era.slice(-win).map((r) => ({ label: dayLabel(r.day), value: r.uniq ?? 0 }));
-      searches = oldestFirst.slice(-win).map((r) => ({ label: dayLabel(r.day), value: readerSearches(r) }));
-      reads = era.slice(-win).map((r) => ({ label: dayLabel(r.day), value: readerReads(r) }));
+      const pt = (r: TrendDay, value: number): TrendPoint => ({ label: dayLabel(r.day), value, mark: dayMarks.get(r.day) });
+      visitors = era.slice(-win).map((r) => pt(r, r.uniq ?? 0));
+      searches = oldestFirst.slice(-win).map((r) => pt(r, readerSearches(r)));
+      reads = era.slice(-win).map((r) => pt(r, readerReads(r)));
     }
 
     // Deltas from the newest-first rows: current period vs the one before it.
@@ -107,7 +125,7 @@ export default function TrendsPanel({
       hReads: range === 'all' ? total(reads) : dReads.cur,
       pVisitors: dVisitors.pct, pSearches: dSearches.pct, pReads: dReads.pct,
     };
-  }, [days, weeks, range]);
+  }, [days, weeks, range, notes]);
 
   const fmt = (n: number) => n.toLocaleString('en-US');
 

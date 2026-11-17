@@ -9,7 +9,9 @@ import { useMemo, useRef, useState } from 'react';
 // text class, so light/dark swap in the parent, and every value is also
 // reachable in the table views beside these charts.
 
-export type TrendPoint = { label: string; value: number };
+// `mark` pins an owner annotation ("posted the thread on X") to that point:
+// a dashed rule with a diamond on the plot, and the note in the tooltip.
+export type TrendPoint = { label: string; value: number; mark?: string };
 
 const W = 600;
 const H = 150;
@@ -100,7 +102,7 @@ export default function TrendChart({
         className={`relative mt-2 ${colorClass}`}
         tabIndex={0}
         role="img"
-        aria-label={`${title}: ${points.map((p) => `${p.label} ${p.value}`).join(', ')}`}
+        aria-label={`${title}: ${points.map((p) => `${p.label} ${p.value}${p.mark ? ` (${p.mark})` : ''}`).join(', ')}`}
         onPointerMove={(e) => setHover(fromClientX(e.clientX))}
         onPointerLeave={() => setHover(null)}
         onKeyDown={(e) => {
@@ -121,6 +123,24 @@ export default function TrendChart({
                 strokeWidth={1} vectorEffect="non-scaling-stroke"
               />
             ))}
+          </g>
+          {/* owner annotations — neutral ink, so they read as notes, not data */}
+          <g className="text-gray-500 dark:text-gray-400">
+            {points.map((p, i) =>
+              p.mark ? (
+                <g key={i}>
+                  <line
+                    x1={geom.x(i)} x2={geom.x(i)} y1={PAD_T} y2={H - PAD_B}
+                    stroke="currentColor" strokeWidth={1} strokeDasharray="3 3"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  <path
+                    d={`M${geom.x(i)},${PAD_T - 9}l5,5l-5,5l-5,-5Z`}
+                    fill="currentColor" stroke="var(--background)" strokeWidth={1}
+                  />
+                </g>
+              ) : null,
+            )}
           </g>
           <path d={geom.area} fill="currentColor" opacity={0.1} />
           <path
@@ -143,15 +163,22 @@ export default function TrendChart({
         </svg>
         {/* tooltip — value leads, label follows */}
         <div
-          className="pointer-events-none absolute -top-1 rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-1.5 py-0.5 text-xs whitespace-nowrap shadow-sm"
+          className="pointer-events-none absolute -top-1 z-10 max-w-[14rem] rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-1.5 py-0.5 text-xs shadow-sm"
           style={{
             left: `${(geom.x(active) / W) * 100}%`,
             transform: `translateX(${active > points.length * 0.7 ? '-100%' : active < points.length * 0.3 ? '0%' : '-50%'})`,
             visibility: hover !== null ? 'visible' : 'hidden',
           }}
         >
-          <span className="font-semibold text-gray-900 dark:text-gray-100">{points[active].value.toLocaleString('en-US')}</span>
-          <span className="ml-1 text-gray-500 dark:text-gray-400">{points[active].label}</span>
+          <div className="whitespace-nowrap">
+            <span className="font-semibold text-gray-900 dark:text-gray-100">{points[active].value.toLocaleString('en-US')}</span>
+            <span className="ml-1 text-gray-500 dark:text-gray-400">{points[active].label}</span>
+          </div>
+          {points[active].mark && (
+            <div className="mt-0.5 border-t border-gray-200 dark:border-gray-700 pt-0.5 text-gray-700 dark:text-gray-300">
+              ◆ {points[active].mark}
+            </div>
+          )}
         </div>
         {/* endpoint direct label (hidden while the crosshair is near it) */}
         {(hover === null || hover < points.length - 4) && (

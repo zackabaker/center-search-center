@@ -5,6 +5,45 @@
 the owner's actual questions: what are people reading, what's working, what
 isn't, and what to change.*
 
+## Status — all three batches shipped 2026-11-17
+
+Everything below is built and live except where noted here.
+
+- **Works from day one** (derived from data already stored): the "This
+  week" block, sources + quality, AI-referred readers, landings, searches
+  that opened nothing, the reading-path funnel, texts read together, follow
+  attribution, most-opened-this-week, per-text stats pages
+  (`/analytics/post/<slug>`), chart annotations.
+- **Filling in from 2026-11-17** (new capture): read depth + dwell, per-text
+  read series, AI crawler/agent fetches, result picks, device + language,
+  404s. Each display shows a "began Nov 17" note until it has data.
+- **One deviation from the plan (2b):** AI crawlers don't run JavaScript, so
+  they never reach `/api/activity`. They are counted in `src/proxy.ts`
+  instead, behind a matcher entry conditioned on the user-agent — only AI
+  agents are routed through the proxy; readers and search engines still
+  skip it, so ISR caching is untouched.
+- **Weekly digest:** a Vercel cron (`vercel.json`, Mondays 13:00 UTC)
+  snapshots the week into KV; past weeks are listed under "This week".
+  No email — the site has no mail provider.
+- **Needs the owner — Search Console (4d).** The importer and its console
+  block are live but idle until a key exists:
+  1. Google Cloud console → create a project (or reuse one) → enable the
+     **Google Search Console API**.
+  2. IAM → Service accounts → create one → Keys → add a **JSON** key.
+  3. Search Console → Settings → Users and permissions → add the service
+     account's email (…@….iam.gserviceaccount.com) as a **Restricted** user
+     on the center.study property.
+  4. Vercel → Project → Settings → Environment Variables → add
+     `GSC_SERVICE_ACCOUNT_JSON` (Production) with the whole JSON file as
+     its value; redeploy. The daily cron (09:00 UTC) fills the block, or
+     open `/api/analytics/gsc-sync` while signed in to run it at once.
+- **Optional hardening:** set a `CRON_SECRET` env var in Vercel and the two
+  cron routes will require it (Vercel sends it automatically); until then
+  they accept Vercel's cron user-agent, which is safe here because both
+  jobs are idempotent and reveal nothing.
+- **Verifying capture:** `/api/analytics/peek?k=crawler|depth|fof|activity`
+  (owner-only) reads the raw day-hashes.
+
 ## Baseline: what is captured today
 
 Per-tab session trails (pages, searches with result counts, reads, follows
