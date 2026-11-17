@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { ASK_MODEL_ID, ASK_EFFORT, ASK_FAST } from '@/lib/ask-model';
+import { admitAsk, settleAsk } from '@/lib/ask-budget';
+import { getUser, isOwnerUser } from '@/lib/auth';
 import { rateLimit, clientIp, isSameOrigin } from '@/lib/rate-limit';
 import { getKV } from '@/lib/kv';
 import { partnerCors, preflight } from '@/lib/cors';
@@ -591,6 +592,25 @@ export async function POST(request: Request) {
       );
     }
 
+    // ── Spending guards (src/lib/ask-budget.ts) ──────────────────────────
+    // Checked before any retrieval or model call: the owner's switch and the
+    // day's ceiling, then this reader's daily allowance. What comes back is
+    // the setup to answer with (the main model, or the economy one once the
+    // day's spending is high).
+    const asker = getUser(request);
+    const admission = await admitAsk({
+      ip: clientIp(request),
+      userSub: asker?.sub ?? null,
+      owner: isOwnerUser(asker),
+    });
+    if (!admission.ok) {
+      return Response.json(
+        { error: admission.message, code: admission.code },
+        { status: admission.status, headers: cors ?? {} },
+      );
+    }
+    const plan = admission.plan;
+
     // Build concept seed context if a concept slug was passed
     let conceptContextBlock = '';
     if (concept && typeof concept === 'string') {
@@ -671,14 +691,14 @@ export async function POST(request: Request) {
     type StreamParams = Parameters<typeof anthropic.messages.stream>[0];
     const openStream = (fast: boolean) =>
       anthropic.messages.stream({
-        model: ASK_MODEL_ID,
+        model: plan.model,
         max_tokens: 8000,
         system: SYSTEM_PROMPT,
         messages,
-        output_config: { effort: ASK_EFFORT },
+        output_config: { effort: plan.effort },
         ...(fast ? { speed: 'fast' } : {}),
       } as StreamParams);
-    let stream = openStream(ASK_FAST);
+    let stream = openStream(plan.fast);
 
     const encoder = new TextEncoder();
     const readableStream = new ReadableStream({
@@ -687,7 +707,7 @@ export async function POST(request: Request) {
           // ── Send sources FIRST, before any AI text ──────────────────────
           // Client receives these immediately and renders post cards while
           // the AI response streams in below them.
-          const metaFirst = JSON.stringify({ sources: sourceMeta.slice(0, 8) }) + '\n';
+          const metaFirst = JSON.stringify({ sources: sourceMeta.slice(0, 8), model: plan.label }) + '\n';
           controller.enqueue(encoder.encode(metaFirst));
 
           // ── Stream AI text ───────────────────────────────────────────────
@@ -710,7 +730,7 @@ export async function POST(request: Request) {
             // Fast mode refused (its own rate limit, or not available) before
             // anything was written: answer at standard speed instead.
             const fastRefused =
-              ASK_FAST && answerText === '' &&
+              plan.fast && answerText === '' &&
               (err instanceof Anthropic.RateLimitError || err instanceof Anthropic.BadRequestError);
             if (!fastRefused) throw err;
             console.warn('Ask: fast mode refused, retrying at standard speed');
@@ -727,6 +747,8 @@ export async function POST(request: Request) {
               truncated = true;
               controller.enqueue(encoder.encode(JSON.stringify({ truncated: true }) + '\n'));
             }
+            // Correct the day's spending total to what this answer really cost.
+            await settleAsk(plan, final.usage as { input_tokens: number; output_tokens: number; speed?: string | null });
           } catch { /* stream already errored — nothing to report */ }
 
           // ── Persist the Q+A pair (owner-readable, for quality auditing) ──

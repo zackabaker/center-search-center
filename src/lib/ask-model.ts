@@ -20,3 +20,10 @@ export const ASK_MODEL_ID = 'claude-opus-5-5';
 export const ASK_MODEL_LABEL = 'Claude Opus 5.5';
 export const ASK_EFFORT = 'low' as const;
 export const ASK_FAST = true;
+
+// The economy setup: what Ask falls back to once the day's spending passes
+// the economy threshold (src/lib/ask-budget.ts). In the same benchmark it was
+// as quick to start as the main setup, with somewhat shorter answers, at
+// about a fifth of the cost per answer.
+export const ASK_ECONOMY_MODEL_ID = 'claude-sonnet-5-5';
+export const ASK_ECONOMY_MODEL_LABEL = 'Claude Sonnet 5.5';

@@ -12,7 +12,7 @@ import { logSearch } from '@/lib/log-search';
 import SceneMark from '@/components/SceneMark';
 import SaveIdiomButton from '@/components/SaveIdiomButton';
 import { passageHref, rememberPassage } from '@/lib/idioms';
-import { logAccountEvent } from '@/lib/account-client';
+import { logAccountEvent, signInUrl } from '@/lib/account-client';
 
 interface Source {
   slug: string;
@@ -43,6 +43,9 @@ interface Answer {
   inlineUnverified?: { failed: number; checked: number };
   /** The model hit its output limit — the answer ends mid-thought. */
   truncated?: boolean;
+  /** Which model wrote it, as the server reported (it switches to a cheaper
+   *  one when the day's spending is high). */
+  model?: string;
 }
 
 // Quoted spans inside the synthesis prose — the text most readers actually
@@ -588,6 +591,9 @@ export default function AskClient() {
   // The reader pressed "Stop generating": the request is aborted and whatever
   // had arrived stays on screen, with Retry in place of Stop.
   const [stopped, setStopped] = useState(false);
+  // Set when the server says this reader has used the day's free answers:
+  // the message to show beside a "Sign in with Google" button.
+  const [signInWall, setSignInWall] = useState<string | null>(null);
   // Short answer by default; "Read the full answer" expands it in place. The
   // collapsed box has a fixed height, so a streaming answer cannot move the
   // passages under it — only the reader's own tap does.
@@ -755,6 +761,7 @@ export default function AskClient() {
       (!opts?.isRetry && question === currentQuestion && !!answer?.content);
     setInput('');
     setStopped(false);
+    setSignInWall(null);
     if (question !== currentQuestion) setShowFull(false);
     setCurrentQuestion(question);
     // Clear any previous failure up front — the cache-hit early returns below
@@ -863,7 +870,22 @@ export default function AskClient() {
         const ra = Number(res.headers.get('Retry-After'));
         retryAfterRef.current = Number.isFinite(ra) && ra > 0 ? Math.min(ra, 120) : 20;
         let msg = 'Failed';
-        try { msg = (await res.json()).error || msg; } catch { /* non-JSON error body */ }
+        let code: string | undefined;
+        try {
+          const body = await res.json();
+          msg = body.error || msg;
+          code = body.code;
+        } catch { /* non-JSON error body */ }
+        // Out of free answers: not an error — ask the reader to sign in, and
+        // keep whatever answer was already on screen.
+        if (code === 'signin') {
+          if (mountedRef.current && abortRef.current === ac) {
+            setAnswer(sessionAnswersRef.current.get(question) ?? null);
+            setShowFull(false);
+            setSignInWall(msg);
+          }
+          return;
+        }
         throw new Error(msg);
       }
 
@@ -873,6 +895,7 @@ export default function AskClient() {
       let content = '';
       let sources: Source[] | undefined;
       let truncated = false;
+      let model: string | undefined;
       let buffer = '';
 
       // Throttle streaming renders to ~12fps. Re-parsing and re-rendering the
@@ -882,7 +905,7 @@ export default function AskClient() {
       let lastFlush = 0;
       const flush = () => {
         const hasExcerpts = /##\s+Excerpts/i.test(content);
-        setAnswer({ content, sources, passages: hasExcerpts ? parsePassages(content) : undefined });
+        setAnswer({ content, sources, model, passages: hasExcerpts ? parsePassages(content) : undefined });
       };
 
       while (true) {
@@ -907,6 +930,7 @@ export default function AskClient() {
               dirty = true;
             }
             if (data.truncated) truncated = true;
+            if (typeof data.model === 'string') model = data.model;
           } catch { /* skip malformed lines */ }
         }
         if (dirty && Date.now() - lastFlush > 80) {
@@ -919,7 +943,7 @@ export default function AskClient() {
       if (!mountedRef.current || abortRef.current !== ac) return;
       const followUps = extractFollowUps(content, question);
       const passages = parsePassages(content);
-      const finalAnswer: Answer = { content, sources, followUps, passages, ...(truncated ? { truncated: true } : {}) };
+      const finalAnswer: Answer = { content, sources, followUps, passages, ...(model ? { model } : {}), ...(truncated ? { truncated: true } : {}) };
       setAnswer(finalAnswer);
       // Record the turn: cache standalone answers, remember every answer for the
       // session thread, and append to the model-visible history (prose only, to
@@ -1234,13 +1258,15 @@ export default function AskClient() {
                   {showFull ? 'Full answer' : 'Short answer'}
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 h-5 truncate mb-1.5" aria-live="polite">
-                  {isLoading
-                    ? `Generating with ${ASK_MODEL_LABEL}…`
-                    : stopped
-                      ? `Stopped · ${ASK_MODEL_LABEL}`
-                      : error
-                        ? ASK_MODEL_LABEL
-                        : `Written by ${ASK_MODEL_LABEL} from the passages below`}
+                  {signInWall
+                    ? 'Sign in to keep asking'
+                    : isLoading
+                      ? `Generating with ${answer?.model ?? ASK_MODEL_LABEL}…`
+                      : stopped
+                        ? `Stopped · ${answer?.model ?? ASK_MODEL_LABEL}`
+                        : error
+                          ? ASK_MODEL_LABEL
+                          : `Written by ${answer?.model ?? ASK_MODEL_LABEL} from the passages below`}
                 </p>
 
                 {/* Loading bar: the 2px track is always there; only the moving
@@ -1282,8 +1308,12 @@ export default function AskClient() {
                     )}
                   </div>
                 ) : (
-                  <div className="h-[10.5rem] sm:h-[7rem] overflow-hidden">
-                    {error ? (
+                  <div className={signInWall ? 'pb-2' : 'h-[10.5rem] sm:h-[7rem] overflow-hidden'}>
+                    {signInWall ? (
+                      <p className="text-sm text-gray-700 dark:text-gray-200 leading-relaxed">
+                        {signInWall} The passages below are unaffected.
+                      </p>
+                    ) : error ? (
                       <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                         The answer couldn&rsquo;t be written: {error} The passages below are unaffected.
                       </p>
@@ -1309,7 +1339,15 @@ export default function AskClient() {
 
                 {/* Action row — always rendered at one height. */}
                 <div className="mt-2 flex flex-wrap items-center gap-2 min-h-11">
-                  {hasSubstance(answer?.content) && !error && (
+                  {signInWall && (
+                    <a
+                      href={signInUrl(`/ask?q=${encodeURIComponent(currentQuestion)}`)}
+                      className="inline-flex items-center min-h-11 px-4 text-sm font-semibold bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-200 rounded-sm transition-colors"
+                    >
+                      Sign in with Google
+                    </a>
+                  )}
+                  {hasSubstance(answer?.content) && !error && !signInWall && (
                     <button
                       type="button"
                       aria-expanded={showFull}

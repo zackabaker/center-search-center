@@ -4,6 +4,8 @@ import type { Metadata } from 'next';
 import { fetchStudyData, type DayRow } from './data';
 import { buildInsights, readerSessions } from './derive';
 import NotesEditor from './NotesEditor';
+import AskSwitch from './AskSwitch';
+import { getAskStatus } from '@/lib/ask-budget';
 import SessionsExplorer from './SessionsExplorer';
 import TrendsPanel from './TrendsPanel';
 import { accountOverview, recentFeedback, topEngaged } from '@/lib/user-store';
@@ -93,6 +95,7 @@ export default async function AnalyticsPage() {
 
   const data = await fetchStudyData();
   const feedback = await recentFeedback(100).catch(() => []);
+  const askStatus = await getAskStatus().catch(() => null);
   const readers = await topEngaged(50).catch(() => []);
   const accounts = await accountOverview(8).catch(() => null);
   const [notes, digests, gsc] = await Promise.all([listNotes(), listDigests(12), readGscSnapshot()]);
@@ -1032,6 +1035,7 @@ export default async function AnalyticsPage() {
             <>{' '}<span className="text-rose-700 dark:text-rose-300">{data.weakAsks}{' of the recent answers read like “the archive doesn’t cover this”'}</span>{' — marked below; each is a gap worth a look.'}</>
           )}
         </p>
+        {askStatus && <AskSwitch status={askStatus} />}
         <ol className="mt-3 space-y-2 text-sm">
           {data.askAnswers.map((h, i) => (
             <li key={`${h.t}-${i}`}>
