@@ -11,6 +11,7 @@ import {
   SearchResult,
   WordIndex,
   buildWordIndex,
+  hydrateWireEntries,
   searchEntries,
   countPostsWithTerm,
   stemWord,
@@ -399,7 +400,7 @@ export default function SearchPageClient({
     setArchiveLoading(true);
     fetch(`/api/search-index?scope=archives&v=${process.env.NEXT_PUBLIC_INDEX_V}`)
       .then((r) => r.ok ? r.json() : Promise.reject())
-      .then((d) => { if (Array.isArray(d.entries)) setArchiveEntries(d.entries); })
+      .then((d) => { if (Array.isArray(d.entries)) setArchiveEntries(hydrateWireEntries(d.entries)); })
       .catch(() => {})
       .finally(() => setArchiveLoading(false));
   }, [includeArchives, archiveEntries.length, archiveLoading]);
