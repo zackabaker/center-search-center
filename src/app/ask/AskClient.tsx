@@ -627,6 +627,24 @@ export default function AskClient() {
     if (concept) setConceptSeed(concept);
     if (q && q !== lastAutoQ.current) {
       lastAutoQ.current = q;
+      // A question arriving by URL that is NOT already in the restored thread
+      // is a NEW search (the home box, the search page, a link) — not a
+      // follow-up. Start a fresh thread, or it is sent to the model with the
+      // previous conversation attached and answered in that conversation's
+      // terms: a reader who asked about one topic, went back, and searched
+      // another got the first topic again. Follow-ups made on this page call
+      // submit() directly and never pass through here; a question that IS in
+      // the thread (reload, back-navigation) restores as before.
+      if (!sessionAnswersRef.current.has(q)) {
+        abortRef.current?.abort();
+        historyRef.current = [];
+        sessionAnswersRef.current.clear();
+        sessionQsRef.current = [];
+        setSessionQs([]);
+        setAnswer(null);
+        setRegenFailed(null);
+        try { sessionStorage.removeItem(THREAD_KEY); } catch {}
+      }
       // Headless crawlers follow /ask?q= links and used to auto-fire real,
       // credit-burning generations. They get the question staged, not run.
       if (typeof navigator !== 'undefined' && navigator.webdriver) {
