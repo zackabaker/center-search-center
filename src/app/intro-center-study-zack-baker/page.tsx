@@ -161,7 +161,7 @@ export default function IntroPage() {
       </P>
       <P>
         Generative anthropology ultimately became something called{' '}
-        <TermLink href="/guide/concepts/center-study" defKey="c:center-study" className={TERM_CLASS} title="Concept: Center Study">Center Study</TermLink>
+        <TermLink href="/concepts/center-study" defKey="c:center-study" className={TERM_CLASS} title="Concept: Center Study">Center Study</TermLink>
         . My goal today is to give you a quick overview of what
         Center Study is, where it comes from, and what you can do with it. What
         I want to convince you of is that it&rsquo;s one of the most powerful
@@ -184,13 +184,13 @@ export default function IntroPage() {
         existing disciplines. It&rsquo;s also, in a way, totally indigestible
         by those disciplines. It&rsquo;s hard for the sociologist or the
         economist to &ldquo;take in&rdquo; Center Study and the{' '}
-        <TermLink href="/guide/concepts/originary-scene" defKey="g:originary-hypothesis" className={TERM_CLASS} title="Concept: the originary hypothesis">originary hypothesis</TermLink>
+        <TermLink href="/concepts/originary-scene" defKey="g:originary-hypothesis" className={TERM_CLASS} title="Concept: the originary hypothesis">originary hypothesis</TermLink>
         &mdash;but Center Study is able to metabolize all of them: to
         infiltrate these different disciplines, the idioms and vocabulary
         they&rsquo;ve constructed, the anthropology of the human that they all
         take as an implicit model for what the human being is. The minimal
         anthropology, or{' '}
-        <TermLink href="/guide/concepts/anthropomorphics" defKey="c:anthropomorphics" className={TERM_CLASS} title="Concept: anthropomorphics">anthropomorphics</TermLink>
+        <TermLink href="/concepts/anthropomorphics" defKey="c:anthropomorphics" className={TERM_CLASS} title="Concept: anthropomorphics">anthropomorphics</TermLink>
         , that Center Study is founded on becomes a way of refounding each of
         these disciplines on the terms of the originary hypothesis, so as to
         generate a radical new vocabulary that lets us solve the currently
@@ -206,7 +206,7 @@ export default function IntroPage() {
         illustrate on the x-axis the difficulty of learning a new vocabulary
         or new idiom, and on the y-axis something I&rsquo;m calling,
         provisionally, the generativity of{' '}
-        <TermLink href="/guide/concepts/idiom" defKey="c:idiom" className={TERM_CLASS} title="Concept: idiom">idioms</TermLink>
+        <TermLink href="/concepts/idiom" defKey="c:idiom" className={TERM_CLASS} title="Concept: idiom">idioms</TermLink>
         &mdash;i.e., how profoundly does the vocabulary you learn from the
         discipline shape your worldview and give you new insights and new ways
         of thinking about existing problems you&rsquo;ve been wrestling with?
@@ -234,7 +234,7 @@ export default function IntroPage() {
         right is Eric Gans. Gans was among Girard&rsquo;s first PhD students.
         Gans studied under Girard at Johns Hopkins&mdash;and realized that
         Girard had a kind of &ldquo;plot hole&rdquo; in his{' '}
-        <TermLink href="/guide/concepts/scapegoating" defKey="c:scapegoating" className={TERM_CLASS} title="Concept: scapegoating">scapegoating</TermLink>
+        <TermLink href="/concepts/scapegoating" defKey="c:scapegoating" className={TERM_CLASS} title="Concept: scapegoating">scapegoating</TermLink>
         {' '}mechanism.
       </P>
       <P>
@@ -250,7 +250,7 @@ export default function IntroPage() {
         But in order to do so, he must rely on some capacity for
         representation. The event must be represented to the community of
         now-human hominids as an{' '}
-        <TermLink href="/guide/concepts/event" defKey="c:event" className={TERM_CLASS} title="Concept: event">event</TermLink>
+        <TermLink href="/concepts/event" defKey="c:event" className={TERM_CLASS} title="Concept: event">event</TermLink>
         {' '}as such. Without this capacity for representation, the killing of
         the individual would be like it is in every other animal species: not
         meaningful, not iterated, not memorable, and certainly not sacred. For
@@ -276,13 +276,13 @@ export default function IntroPage() {
         take the absolutist turn, where he focuses on bringing the center back
         to the center. And this culminates in the forking of Center Study from
         generative anthropology in Adam&rsquo;s book{' '}
-        <TermLink href="/guide/concepts/anthropomorphics" defKey="c:anthropomorphics" className={TERM_CLASS} title="Concept: Anthropomorphics"><em>Anthropomorphics</em></TermLink>
+        <TermLink href="/concepts/anthropomorphics" defKey="c:anthropomorphics" className={TERM_CLASS} title="Concept: Anthropomorphics"><em>Anthropomorphics</em></TermLink>
         , released in 2020, and on his Substack, Center Study Center, which
         starts being published in 2021 and continues today.
       </P>
       <P>
         That&rsquo;s the lineage:{' '}
-        <TermLink href="/guide/concepts/mimesis" defKey="g:mimetic-desire" className={TERM_CLASS} title="Concept: mimesis">mimetic theory</TermLink>
+        <TermLink href="/concepts/mimesis" defKey="g:mimetic-desire" className={TERM_CLASS} title="Concept: mimesis">mimetic theory</TermLink>
         , to generative anthropology, to Center Study.
       </P>
 
@@ -364,7 +364,7 @@ export default function IntroPage() {
         parents as they try to do things, or in the way that a human being can
         follow the plot of a movie or a play in a way that an animal cannot.
         This capacity for joint attention,{' '}
-        <TermLink href="/guide/concepts/attentionality" defKey="g:shared-attention" className={TERM_CLASS} title="Concept: attentionality">shared attention</TermLink>
+        <TermLink href="/concepts/attentionality" defKey="g:shared-attention" className={TERM_CLASS} title="Concept: attentionality">shared attention</TermLink>
         , is absolutely unique to the human species.
       </P>
 
@@ -372,10 +372,10 @@ export default function IntroPage() {
       <Slide n={13} alt="The originary hypothesis" />
       <P>
         It all comes together in what Gans called the{' '}
-        <TermLink href="/guide/concepts/originary-scene" defKey="g:originary-hypothesis" className={TERM_CLASS} title="Concept: the originary scene">originary scene</TermLink>
+        <TermLink href="/concepts/originary-scene" defKey="g:originary-hypothesis" className={TERM_CLASS} title="Concept: the originary scene">originary scene</TermLink>
         , or the originary hypothesis. The punchline, if I can get you to
         remember one thing when you leave: the{' '}
-        <TermLink href="/guide/concepts/deferral" defKey="c:deferral" className={TERM_CLASS} title="Concept: deferral">deferral</TermLink>
+        <TermLink href="/concepts/deferral" defKey="c:deferral" className={TERM_CLASS} title="Concept: deferral">deferral</TermLink>
         {' '}of violence through representation.
       </P>
       <P>
@@ -393,7 +393,7 @@ export default function IntroPage() {
         one against all. It&rsquo;s the alpha beating the beta for the meat.
         That&rsquo;s how wolf packs and ape hierarchies work. The human has a
         very different structure: centripetal, organized around a{' '}
-        <TermLink href="/guide/concepts/the-center" defKey="c:the-center" className={TERM_CLASS} title="Concept: the center">center</TermLink>
+        <TermLink href="/concepts/the-center" defKey="c:the-center" className={TERM_CLASS} title="Concept: the center">center</TermLink>
         . The originary hypothesis explains how you go from the animal pecking
         order to this human order&mdash;which, by the way, is hierarchical, not
         egalitarian.
@@ -401,14 +401,14 @@ export default function IntroPage() {
       <Slide n={15} alt="The scene, in four frames" />
       <P>
         Here is the scene. In the beginning you have a highly{' '}
-        <TermLink href="/guide/concepts/mimesis" defKey="c:mimesis" className={TERM_CLASS} title="Concept: mimesis">mimetic</TermLink>
+        <TermLink href="/concepts/mimesis" defKey="c:mimesis" className={TERM_CLASS} title="Concept: mimesis">mimetic</TermLink>
         {' '}proto-hominid species that comes across an appetitive object they
         all desire&mdash;some kind of food. They all reach for it at the same
         time. As they reach, there&rsquo;s something not quite a realization
         but a fear that if everyone goes for it at once, violence will ensue.
         At least one of the animals&mdash;likely a sigma, someone not quite the
         alpha, someone in the middle&mdash;holds back and turns a{' '}
-        <TermLink href="/guide/concepts/originary-scene" defKey="g:aborted-gesture-of-appropriation" className={TERM_CLASS} title="Concept: the aborted gesture of appropriation">gesture of appropriation</TermLink>
+        <TermLink href="/concepts/originary-scene" defKey="g:aborted-gesture-of-appropriation" className={TERM_CLASS} title="Concept: the aborted gesture of appropriation">gesture of appropriation</TermLink>
         , of grabbing, into something like a point. That gesture
         is recognized by others and imitated, and they all point at the object.
       </P>
@@ -480,7 +480,7 @@ export default function IntroPage() {
       <P>
         <strong>Singularized succession in perpetuity.</strong>{' '}All political
         problems are{' '}
-        <TermLink href="/guide/concepts/succession" defKey="c:succession" className={TERM_CLASS} title="Concept: succession">succession</TermLink>
+        <TermLink href="/concepts/succession" defKey="c:succession" className={TERM_CLASS} title="Concept: succession">succession</TermLink>
         {' '}problems. Who is going to lead in the future? How do you make that
         continuity a priority throughout the social order?
       </P>
@@ -489,13 +489,13 @@ export default function IntroPage() {
         is the title of <Q slug="ap2802-ap2802katzbaker" q="debt to the center">an article I co-authored with Adam</Q>, but the phrase is
         more than that. From the first animal sacrifice to the Fed&rsquo;s
         quantitative easing yesterday, we can think about the economy as a{' '}
-        <TermLink href="/guide/concepts/debt-and-credit" defKey="c:debt-and-credit" className={TERM_CLASS} title="Concept: debt and credit">debt and credit</TermLink>
+        <TermLink href="/concepts/debt-and-credit" defKey="c:debt-and-credit" className={TERM_CLASS} title="Concept: debt and credit">debt and credit</TermLink>
         {' '}relationship with the center itself.
       </P>
       <P>
         <strong>The conversion of assets into data.</strong>{' '}There&rsquo;s a
         lot to say here, but let&rsquo;s say{' '}
-        <TermLink href="/guide/concepts/money" defKey="c:money" className={TERM_CLASS} title="Concept: money">money</TermLink>
+        <TermLink href="/concepts/money" defKey="c:money" className={TERM_CLASS} title="Concept: money">money</TermLink>
         {' '}itself is just data, and will become more so.
       </P>
       <P>
@@ -522,7 +522,7 @@ export default function IntroPage() {
         If you take Center Study and the originary scene seriously, what can
         you do? One idiom I haven&rsquo;t said yet: No theories but in
         companies; no companies but through{' '}
-        <TermLink href="/guide/concepts/sovereignty" defKey="c:sovereignty" className={TERM_CLASS} title="Concept: sovereignty">sovereignty</TermLink>
+        <TermLink href="/concepts/sovereignty" defKey="c:sovereignty" className={TERM_CLASS} title="Concept: sovereignty">sovereignty</TermLink>
         . All of the idioms need to turn into companies.
       </P>
       <Slide n={23} alt="Anglo-Modernity" />

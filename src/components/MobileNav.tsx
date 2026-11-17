@@ -117,22 +117,14 @@ export default function MobileNav() {
     >
       <div className="flex items-stretch justify-around">
         {items.map(({ href, label, icon }) => {
-          // Concept and glossary pages live under /guide/ but belong to the
-          // Concepts tab, not Guide.
-          const isConceptPage =
-            pathname.startsWith('/guide/concepts') || pathname.startsWith('/guide/glossary');
           const isActive =
             href === '/'
               ? pathname === '/'
-              : href === '/concepts' && isConceptPage
-                ? true
-                : href === '/guide' && isConceptPage
-                  ? false
-                  : pathname === href ||
-                    pathname.startsWith(href + '/') ||
-                    pathname.startsWith(href + '?') ||
-                    // Ask shares the Search tab
-                    (href === '/search' && (pathname === '/ask' || pathname.startsWith('/ask/')));
+              : pathname === href ||
+                pathname.startsWith(href + '/') ||
+                pathname.startsWith(href + '?') ||
+                // Ask shares the Search tab
+                (href === '/search' && (pathname === '/ask' || pathname.startsWith('/ask/')));
           return (
             <Link
               key={href}

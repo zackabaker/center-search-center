@@ -200,7 +200,7 @@ function linkTerms(
         return (
           <Link
             key={`${key}-${i}`}
-            href={`/guide/concepts/${conceptSlug}`}
+            href={`/concepts/${conceptSlug}`}
             title={`Concept: ${part}`}
             className="text-blue-700 dark:text-blue-400 underline decoration-dotted underline-offset-2 hover:decoration-solid hover:text-blue-800 dark:hover:text-blue-300 rounded px-0.5 -mx-0.5 py-0.5 -my-0.5 transition-colors"
           >
@@ -216,7 +216,7 @@ function linkTerms(
         return (
           <Link
             key={`${key}-${i}`}
-            href={`/guide/glossary/${glossarySlug}`}
+            href={`/concepts/glossary/${glossarySlug}`}
             title={`Glossary: ${part}`}
             className="text-blue-700 dark:text-blue-400 underline decoration-dotted underline-offset-2 hover:decoration-solid hover:text-blue-800 dark:hover:text-blue-300 rounded px-0.5 -mx-0.5 py-0.5 -my-0.5 transition-colors"
           >
@@ -1214,7 +1214,7 @@ export default function AskClient() {
               {conceptSeed && (
                 <div className="mb-3">
                   <Link
-                    href={`/guide/concepts/${conceptSeed}`}
+                    href={`/concepts/${conceptSeed}`}
                     className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800 hover:border-purple-400 transition-colors"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">

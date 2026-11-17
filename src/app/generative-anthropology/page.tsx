@@ -110,14 +110,14 @@ export default function GenerativeAnthropologyPage() {
           theory of the origin and nature of the human, founded by Eric Gans in his 1981 book{' '}
           <em><Link href="/post/the-origin-of-language" className={linkCls}>The Origin of Language</Link></em>.
           Its central claim — the{' '}
-          <Link href="/guide/concepts/originary-scene" className={linkCls}>originary hypothesis</Link>{' '}—
+          <Link href="/concepts/originary-scene" className={linkCls}>originary hypothesis</Link>{' '}—
           is that language, the sacred, and human community all begin in a single event: a group&rsquo;s
           conversion of a violent grasping gesture into a{' '}
-          <Link href="/guide/concepts/the-sign" className={linkCls}>sign</Link>{' '}that defers conflict by
+          <Link href="/concepts/the-sign" className={linkCls}>sign</Link>{' '}that defers conflict by
           representing the contested object rather than seizing it. From that{' '}
-          <Link href="/guide/concepts/originary-scene" className={linkCls}>originary scene</Link>, GA
+          <Link href="/concepts/originary-scene" className={linkCls}>originary scene</Link>, GA
           reads all of human culture as organized around a{' '}
-          <Link href="/guide/concepts/the-center" className={linkCls}>center</Link>.
+          <Link href="/concepts/the-center" className={linkCls}>center</Link>.
         </p>
         <p>
           <Link href="/begin" className={linkCls}>Center Study</Link>{' '}is the discipline developed by{' '}

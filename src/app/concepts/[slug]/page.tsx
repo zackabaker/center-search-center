@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${concept.title} — Concepts`,
     ...(dq ? { description: clipDescription(dq) } : {}),
-    alternates: { canonical: `https://center.study/guide/concepts/${slug}` },
+    alternates: { canonical: `https://center.study/concepts/${slug}` },
   };
 }
 
@@ -71,10 +71,10 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
   const definedTermJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'DefinedTerm',
-    '@id': `https://center.study/guide/concepts/${slug}#term`,
+    '@id': `https://center.study/concepts/${slug}#term`,
     name: concept.title,
     ...(definitionText ? { description: definitionText } : {}),
-    url: `https://center.study/guide/concepts/${slug}`,
+    url: `https://center.study/concepts/${slug}`,
     inDefinedTermSet: 'https://center.study/concepts#glossary',
     ...(g?.definitionSlug
       ? { subjectOf: { '@type': 'CreativeWork', name: g.definitionSource, url: `https://center.study/post/${g.definitionSlug}` } }
@@ -86,7 +86,7 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://center.study' },
       { '@type': 'ListItem', position: 2, name: 'Concepts & Glossary', item: 'https://center.study/concepts' },
-      { '@type': 'ListItem', position: 3, name: concept.title, item: `https://center.study/guide/concepts/${slug}` },
+      { '@type': 'ListItem', position: 3, name: concept.title, item: `https://center.study/concepts/${slug}` },
     ],
   };
 
@@ -223,7 +223,7 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
             {relatedConcepts.map((c) => (
               <Link
                 key={c!.slug}
-                href={`/guide/concepts/${c!.slug}`}
+                href={`/concepts/${c!.slug}`}
                 className="px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-sm text-gray-700 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-all"
               >
                 {c!.title}

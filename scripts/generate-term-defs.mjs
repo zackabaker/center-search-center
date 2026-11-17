@@ -26,7 +26,7 @@ for (const [slug, entry] of Object.entries(cg)) {
     t: titles[slug] || slug,
     q: entry.definitionQuote,
     s: entry.definitionSource || '',
-    href: `/guide/concepts/${slug}`,
+    href: `/concepts/${slug}`,
   };
 }
 
@@ -48,7 +48,7 @@ for (const line of g.split('\n')) {
     t: term,
     q: JSON.parse(`"${dq[1]}"`),
     s: ds ? JSON.parse(`"${ds[1]}"`) : '',
-    href: conceptM ? `/guide/concepts/${conceptM[1]}` : `/guide/glossary/${slug}`,
+    href: conceptM ? `/concepts/${conceptM[1]}` : `/concepts/glossary/${slug}`,
   };
 }
 

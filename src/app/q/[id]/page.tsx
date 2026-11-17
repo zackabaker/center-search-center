@@ -109,14 +109,14 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
             ...q.concepts.map((c) => ({
               '@type': 'DefinedTerm',
               name: CONCEPT_TITLES[c] ?? c,
-              url: `https://center.study/guide/concepts/${c}`,
+              url: `https://center.study/concepts/${c}`,
             })),
             ...q.terms.map((t) => ({
               '@type': 'DefinedTerm',
               name: termsBySlug.get(t)?.term ?? t,
               url: termsBySlug.get(t)?.concept
-                ? `https://center.study/guide/concepts/${termsBySlug.get(t)!.concept}`
-                : `https://center.study/guide/glossary/${t}`,
+                ? `https://center.study/concepts/${termsBySlug.get(t)!.concept}`
+                : `https://center.study/concepts/glossary/${t}`,
             })),
           ],
         }
@@ -179,7 +179,7 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
             {q.concepts.map((c) => (
               <Link
                 key={c}
-                href={`/guide/concepts/${c}`}
+                href={`/concepts/${c}`}
                 className="px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500 transition-colors"
               >
                 {CONCEPT_TITLES[c] ?? c}
@@ -192,8 +192,8 @@ export default async function QuotePage({ params }: { params: Promise<{ id: stri
                   key={t}
                   href={
                     termsBySlug.get(t)?.concept
-                      ? `/guide/concepts/${termsBySlug.get(t)!.concept}`
-                      : `/guide/glossary/${t}`
+                      ? `/concepts/${termsBySlug.get(t)!.concept}`
+                      : `/concepts/glossary/${t}`
                   }
                   className="px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500 transition-colors"
                 >

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://center.study/concepts' },
 };
 
-// ── Core Concepts tier structure (from /guide/concepts) ─────────────────────
+// ── Core Concepts tier structure ─────────────────────────────
 const TIERS = [
   {
     label: 'The Scene and Its Elements',
@@ -54,7 +54,7 @@ export default function ConceptsPage() {
                 {tierConcepts.map((concept) => (
                   <Link
                     key={concept!.slug}
-                    href={`/guide/concepts/${concept!.slug}`}
+                    href={`/concepts/${concept!.slug}`}
                     className="group flex items-start gap-4 py-4 border-b border-gray-200 dark:border-gray-700"
                   >
                     <div className="flex-1 min-w-0">

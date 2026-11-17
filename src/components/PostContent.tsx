@@ -97,7 +97,7 @@ function linkifyText(
       nodes.push(
         <TermLink
           key={`${paraIdx}-${start}`}
-          href={`/guide/concepts/${conceptSlug}`}
+          href={`/concepts/${conceptSlug}`}
           defKey={`c:${conceptSlug}`}
           className={linkClass}
           title={`Concept: ${term}`}

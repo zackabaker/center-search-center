@@ -46,7 +46,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const conceptRoutes: MetadataRoute.Sitemap = CONCEPTS.map((c) => ({
-    url: `${BASE_URL}/guide/concepts/${c.slug}`,
+    url: `${BASE_URL}/concepts/${c.slug}`,
     changeFrequency: 'monthly',
     priority: 0.7,
   }));
@@ -54,7 +54,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Canonical glossary-term pages (concept-linked terms 308 to their hub, so
   // only standalone terms are listed).
   const termRoutes: MetadataRoute.Sitemap = GLOSSARY.filter((e) => !e.concept).map((e) => ({
-    url: `${BASE_URL}/guide/glossary/${e.slug}`,
+    url: `${BASE_URL}/concepts/glossary/${e.slug}`,
     changeFrequency: 'monthly',
     priority: 0.6,
   }));

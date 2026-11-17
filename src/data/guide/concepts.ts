@@ -2400,7 +2400,7 @@ export function getConceptBySlug(slug: string): Concept | undefined {
 /**
  * Maps lowercase single-word (or short-phrase) terms to their concept-page slug.
  * Used by the Concordance, A–Z index, and ClickableTerm to route clicks to
- * /guide/concepts/[slug] instead of search/ask whenever a concept page exists.
+ * /concepts/[slug] instead of search/ask whenever a concept page exists.
  */
 // The canonical term→concept map lives in src/lib/cs-terms.ts (single source
 // of truth — this file used to hold a divergent copy). Re-exported so existing

@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${entry.term} — Glossary`,
     description: clipDescription(`“${entry.definitionQuote}” — ${entry.definitionSource}`),
-    alternates: { canonical: `https://center.study/guide/glossary/${slug}` },
+    alternates: { canonical: `https://center.study/concepts/glossary/${slug}` },
   };
 }
 
@@ -56,7 +56,7 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ s
   if (!entry) notFound();
 
   // Terms with a full concept treatment live there — one canonical page per term.
-  if (entry.concept) permanentRedirect(`/guide/concepts/${entry.concept}`);
+  if (entry.concept) permanentRedirect(`/concepts/${entry.concept}`);
 
   const defAuthor = definitionAuthor(entry.definitionSlug);
   const katzDefined = defAuthor.startsWith('Adam Katz');
@@ -64,10 +64,10 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ s
   const definedTermJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'DefinedTerm',
-    '@id': `https://center.study/guide/glossary/${slug}#term`,
+    '@id': `https://center.study/concepts/glossary/${slug}#term`,
     name: entry.term,
     description: entry.definitionQuote,
-    url: `https://center.study/guide/glossary/${slug}`,
+    url: `https://center.study/concepts/glossary/${slug}`,
     inDefinedTermSet: 'https://center.study/concepts#glossary',
     subjectOf: {
       '@type': 'CreativeWork',
@@ -80,7 +80,7 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ s
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Concepts & Glossary', item: 'https://center.study/concepts' },
-      { '@type': 'ListItem', position: 2, name: entry.term, item: `https://center.study/guide/glossary/${slug}` },
+      { '@type': 'ListItem', position: 2, name: entry.term, item: `https://center.study/concepts/glossary/${slug}` },
     ],
   };
 

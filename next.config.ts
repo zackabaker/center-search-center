@@ -95,8 +95,8 @@ const nextConfig: NextConfig = {
       },
       // Concept slugs renamed July 2026 (article dropped); both were briefly in
       // the sitemap, so keep permanent redirects.
-      { source: '/guide/concepts/the-event', destination: '/guide/concepts/event', permanent: true },
-      { source: '/guide/concepts/the-market', destination: '/guide/concepts/market', permanent: true },
+      { source: '/guide/concepts/the-event', destination: '/concepts/event', permanent: true },
+      { source: '/guide/concepts/the-market', destination: '/concepts/market', permanent: true },
       // /follow page removed July 2026 — its two links live in the site footer.
       { source: '/follow', destination: '/about', permanent: true },
       // The short-lived public /sessions page became the private /study
@@ -118,9 +118,14 @@ const nextConfig: NextConfig = {
         destination: '/concepts/glossary',
         permanent: true,
       },
-      // Bare /guide/glossary (parent of the ~94 live term pages) had no page
-      // and 404ed while its sibling /guide/concepts redirects.
+      // Concept & glossary detail pages moved out of /guide (2026-11) into one
+      // /concepts tree. ~135 of the old URLs were sitemapped and indexed, so
+      // the wildcards are permanent 308s. The specific redirects above
+      // (the-event, the-market, awe) stay ahead of these — first match wins.
+      { source: '/guide/concepts', destination: '/concepts', permanent: false },
       { source: '/guide/glossary', destination: '/concepts/glossary', permanent: false },
+      { source: '/guide/concepts/:slug', destination: '/concepts/:slug', permanent: true },
+      { source: '/guide/glossary/:slug', destination: '/concepts/glossary/:slug', permanent: true },
     ];
   },
 

@@ -107,35 +107,35 @@ export default function BeginPage() {
             {' '}and Eric Gans&rsquo;{' '}
             <Link href="/generative-anthropology" className={TERM_CLASS} title="Generative Anthropology">Generative Anthropology</Link>
             {' '}to found a new discipline grounded in the{' '}
-            <TermLink href="/guide/concepts/originary-scene" defKey="g:originary-hypothesis" className={TERM_CLASS} title="Concept: originary scene">originary hypothesis</TermLink>
+            <TermLink href="/concepts/originary-scene" defKey="g:originary-hypothesis" className={TERM_CLASS} title="Concept: originary scene">originary hypothesis</TermLink>
             : the hypothetical origin of humanity in the{' '}
-            <TermLink href="/guide/concepts/deferral" defKey="c:deferral" className={TERM_CLASS} title="Concept: deferral">deferral</TermLink>
+            <TermLink href="/concepts/deferral" defKey="c:deferral" className={TERM_CLASS} title="Concept: deferral">deferral</TermLink>
             {' '}of violence via representation (language) &mdash; which is also
             the origin of the human and{' '}
-            <TermLink href="/guide/concepts/the-sacred" defKey="c:the-sacred" className={TERM_CLASS} title="Concept: the sacred">the sacred</TermLink>.
+            <TermLink href="/concepts/the-sacred" defKey="c:the-sacred" className={TERM_CLASS} title="Concept: the sacred">the sacred</TermLink>.
             {' '}Language originates in a gesture, issued in the midst of a{' '}
-            <TermLink href="/guide/concepts/mimesis" defKey="g:mimetic-crisis" className={TERM_CLASS} title="Concept: mimesis">mimetic crisis</TermLink>
+            <TermLink href="/concepts/mimesis" defKey="g:mimetic-crisis" className={TERM_CLASS} title="Concept: mimesis">mimetic crisis</TermLink>
             {' '}in which an entire group of hominids converges on a
             single object, breaking down the pecking order that limits violence
             in animal groups. This gesture &mdash; a{' '}
-            <TermLink href="/guide/concepts/originary-scene" defKey="g:aborted-gesture-of-appropriation" className={TERM_CLASS} title="Concept: originary scene">gesture of aborted appropriation</TermLink>
+            <TermLink href="/concepts/originary-scene" defKey="g:aborted-gesture-of-appropriation" className={TERM_CLASS} title="Concept: originary scene">gesture of aborted appropriation</TermLink>
             , grasping converted into pointing &mdash; is{' '}
-            <TermLink href="/guide/concepts/the-sign" defKey="c:the-sign" className={TERM_CLASS} title="Concept: the sign">the first sign</TermLink>
+            <TermLink href="/concepts/the-sign" defKey="c:the-sign" className={TERM_CLASS} title="Concept: the sign">the first sign</TermLink>
             , because it is iterable and has a referent: the first symbol
             that has meaning.
           </p>
           <p>
             Center Study departs from Generative Anthropology by staying focused
             on the enduring centrality of{' '}
-            <TermLink href="/guide/concepts/the-center" defKey="c:the-center" className={TERM_CLASS} title="Concept: the center">the center</TermLink>
+            <TermLink href="/concepts/the-center" defKey="c:the-center" className={TERM_CLASS} title="Concept: the center">the center</TermLink>
             {' '}to any form of human
             organization or sociality. The center is first a{' '}
-            <TermLink href="/guide/concepts/ritual" defKey="c:ritual" className={TERM_CLASS} title="Concept: ritual">ritual</TermLink>
+            <TermLink href="/concepts/ritual" defKey="c:ritual" className={TERM_CLASS} title="Concept: ritual">ritual</TermLink>
             , sacrificial
             center, a site of exchange with the animal consumed and deified by
             the group; it is eventually seized by a human &mdash; what
             anthropologists call the &ldquo;
-            <TermLink href="/guide/concepts/big-man" defKey="c:big-man" className={TERM_CLASS} title="Concept: the Big Man">Big Man</TermLink>
+            <TermLink href="/concepts/big-man" defKey="c:big-man" className={TERM_CLASS} title="Concept: the Big Man">Big Man</TermLink>
             ,&rdquo; then chiefs, sacred
             kings, emperors, and the state. Center study follows this thread, and
             reads the social order as an effect of the engagement between
@@ -147,13 +147,13 @@ export default function BeginPage() {
             {' '}that
             sit on the boundary between the capitalist, even ultra-capitalist,
             and the no longer quite capitalist order: betting,{' '}
-            <TermLink href="/guide/concepts/market" defKey="c:market" className={TERM_CLASS} title="Concept: the market">prediction markets</TermLink>
+            <TermLink href="/concepts/market" defKey="c:market" className={TERM_CLASS} title="Concept: the market">prediction markets</TermLink>
             , employment agencies, new currencies, investment inquiries
             &mdash; but also a space where well-being, learning and inquiry are
             ends in themselves. It insists on building a new vocabulary of
             thinking from the bottom up, resisting familiar phrases and reworking
             everything in terms of{' '}
-            <TermLink href="/guide/concepts/center-study" defKey="c:center-study" className={TERM_CLASS} title="Concept: center study">center study fundamentals</TermLink>
+            <TermLink href="/concepts/center-study" defKey="c:center-study" className={TERM_CLASS} title="Concept: center study">center study fundamentals</TermLink>
             . Politically, this
             involves a critique of political theories that start from the
             &ldquo;bottom&rdquo; (the free subject, the people, etc.), insisting

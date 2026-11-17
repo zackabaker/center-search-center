@@ -34,7 +34,7 @@ const PAGES: Item[] = [
 const CONCEPTS: Item[] = Object.entries(CONCEPT_TITLES).map(([slug, title]) => ({
   label: title,
   sub: 'Concept',
-  href: `/guide/concepts/${slug}`,
+  href: `/concepts/${slug}`,
   group: 'Concepts' as const,
 }));
 
