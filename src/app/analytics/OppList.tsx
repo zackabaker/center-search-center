@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 
 // The opportunities list with its two verdict buttons. Ticking one hides the
@@ -28,18 +28,19 @@ const KIND_CLASS: Record<string, string> = {
 
 export default function OppList({ items, compact = false }: { items: OppItem[]; compact?: boolean }) {
   const router = useRouter();
-  // Items hidden optimistically, valid only for the list they were hidden
-  // from: when fresh data arrives (after the refresh below) the signature
-  // changes and the server's version of the list takes over — so an item
-  // reopened elsewhere on the page comes back here.
-  const sig = items.map((o) => `${o.id}:${o.status ?? ''}`).join('|');
-  const [hidden, setHidden] = useState<{ sig: string; ids: string[] }>({ sig, ids: [] });
-  const gone = hidden.sig === sig ? hidden.ids : [];
+  // Ids hidden optimistically while their verdict is saved and the page
+  // refreshes. The id is released INSIDE the same transition as the refresh,
+  // so it comes out of hiding in the very commit that brings the server's
+  // fresh list — never earlier (a flash of the old row), never later (a
+  // reopened item that stays missing).
+  const [, startTransition] = useTransition();
+  const [saving, setSaving] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const release = (id: string) => setSaving((s) => s.filter((x) => x !== id));
 
   const mark = async (id: string, status: 'done' | 'ignored' | 'open') => {
     setError(null);
-    setHidden({ sig, ids: [...gone, id] });
+    setSaving((s) => [...s, id]);
     try {
       const res = await fetch('/api/analytics/opps', {
         method: 'POST',
@@ -47,14 +48,17 @@ export default function OppList({ items, compact = false }: { items: OppItem[]; 
         body: JSON.stringify({ id, status }),
       });
       if (!res.ok) throw new Error('failed');
-      router.refresh();
+      startTransition(() => {
+        router.refresh();
+        release(id);
+      });
     } catch {
-      setHidden({ sig, ids: gone.filter((x) => x !== id) });
+      release(id);
       setError('That didn’t save. Try again.');
     }
   };
 
-  const shown = items.filter((o) => !gone.includes(o.id));
+  const shown = items.filter((o) => !saving.includes(o.id));
   if (shown.length === 0) {
     return <p className="mt-3 text-sm text-gray-400">Nothing open right now.</p>;
   }
