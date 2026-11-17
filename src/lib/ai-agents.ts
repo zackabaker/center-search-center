@@ -58,6 +58,9 @@ const REFERRERS: [RegExp, string][] = [
   [/(^|\.)phind\.com$/, 'Phind'],
 ];
 
+/** True for a product name aiReferrer() can return ("ChatGPT", "Claude"…). */
+export const isAiProduct = (name: string): boolean => REFERRERS.some(([, n]) => n === name);
+
 /** The AI product a referrer hostname belongs to, or null. */
 export function aiReferrer(host: string | null | undefined): string | null {
   if (!host) return null;

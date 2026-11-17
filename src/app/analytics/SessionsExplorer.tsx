@@ -25,6 +25,7 @@ function duration(mins: number): string {
 const FACETS = [
   { key: 'all', label: 'All' },
   { key: 'paths', label: 'Reading paths' },
+  { key: 'ai', label: 'Via AI' },
   { key: 'people', label: 'People lookups' },
   { key: 'deep', label: 'Deep sessions' },
   { key: 'search', label: 'With searches' },
@@ -63,6 +64,7 @@ export default function SessionsExplorer({ sessions }: { sessions: SessionView[]
     const list = sessions.filter((s) => {
       if (anchorId && s.id === anchorId) return true;
       if (facet === 'paths' && !s.badges.includes('generated path')) return false;
+      if (facet === 'ai' && !s.ai) return false;
       if (facet === 'people' && !s.badges.some((b) => b.startsWith('looked up'))) return false;
       if (facet === 'deep' && !s.badges.includes('deep session')) return false;
       if (facet === 'search' && s.searches === 0) return false;
@@ -175,6 +177,8 @@ export default function SessionsExplorer({ sessions }: { sessions: SessionView[]
                       ? 'bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-200'
                       : b === 'generated path'
                         ? 'bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-200'
+                        : b.startsWith('via AI')
+                        ? 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-200'
                         : b === 'you'
                         ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200'
                         : b === 'deep session' || b.startsWith('followed')
@@ -219,6 +223,8 @@ export default function SessionsExplorer({ sessions }: { sessions: SessionView[]
                         </span>
                       ) : e.type === 'follow' ? (
                         <span className="text-emerald-700 dark:text-emerald-300">→ {e.label}</span>
+                      ) : e.type === 'pick' ? (
+                        <span className="text-gray-500 dark:text-gray-400">↳ {e.label}</span>
                       ) : (
                         <span className="text-gray-700 dark:text-gray-300">
                           <span className="mr-1.5 text-xs uppercase tracking-wide text-gray-400 dark:text-gray-500">

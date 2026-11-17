@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { headers } from 'next/headers';
 import type { Metadata } from 'next';
 import { fetchStudyData, type DayRow } from './data';
+import { buildInsights } from './derive';
 import SessionsExplorer from './SessionsExplorer';
 import TrendsPanel from './TrendsPanel';
 import { accountOverview, recentFeedback, topEngaged } from '@/lib/user-store';
@@ -60,6 +61,7 @@ function Bar({ n, max, className }: { n: number; max: number; className: string 
 
 const SECTIONS = [
   ['overview', 'Trends'],
+  ['sources', 'Sources'],
   ['searches', 'Searches'],
   ['begin', 'Journeys'],
   ['reading', 'Reading'],
@@ -164,6 +166,32 @@ export default async function AnalyticsPage() {
       return { s, landing, searches, reads, follows, begins };
     });
 
+  // --- "This week", in sentences (rule-based — see derive.ts) -------------
+  const prev7 = data.days.slice(7, 14);
+  const insights = buildInsights({
+    movers: data.movers,
+    aiRef: data.aiRef,
+    crawlers: data.crawlers,
+    search: data.searchOutcome,
+    begin: data.beginFunnel,
+    returns7: sum(d7, (r) => r.returns),
+    returnsPrev7: sum(prev7, (r) => r.returns),
+    follows7: sum(d7, (r) => r.follows),
+    followsPrev7: sum(prev7, (r) => r.follows),
+    newAccounts7: accounts?.last7 ?? 0,
+    topJourney: journeys[0]?.s ?? null,
+    completion: data.completion.n > 0 ? data.completion : null,
+  });
+  // Only the most notable sessions are serialized below; link to one only if
+  // its trail is actually on the page.
+  const sessionIds = new Set(data.sessions.map((s) => s.id));
+  // A text's own stats page, from its public href.
+  const statsHref = (href?: string) =>
+    href?.startsWith('/post/') ? `/analytics${href}` : null;
+  const share = (part: number, whole: number) => (whole > 0 ? `${Math.round((part / whole) * 100)}%` : '—');
+  const deviceTotal = data.devices.m + data.devices.d;
+  const langTotal = data.langs.reduce((a, l) => a + l.n, 0);
+
   return (
     <main className="mx-auto max-w-4xl px-4 py-8 sm:py-12">
       <header className="flex flex-wrap items-baseline justify-between gap-2">
@@ -183,6 +211,36 @@ export default async function AnalyticsPage() {
       {/* ---------------- Trends ---------------- */}
       <section id="overview" className="mt-8">
         <TrendsPanel days={data.days} weeks={data.weeklySearches} engaged7={data.engaged7} />
+
+        {insights.length > 0 && (
+          <div className="mt-6 rounded-lg border border-gray-200 dark:border-gray-800 px-3 py-3 sm:px-4">
+            <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">This week</h2>
+            <ul className="mt-2 space-y-1.5 text-sm">
+              {insights.map((it, i) => (
+                <li key={i} className="flex gap-2">
+                  <span
+                    aria-hidden
+                    className={`w-3 shrink-0 text-center ${
+                      it.tone === 'up'
+                        ? 'text-emerald-600 dark:text-emerald-400'
+                        : it.tone === 'down'
+                          ? 'text-rose-600 dark:text-rose-400'
+                          : 'text-gray-400'
+                    }`}
+                  >
+                    {it.tone === 'up' ? '↑' : it.tone === 'down' ? '↓' : '·'}
+                  </span>
+                  <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">
+                    {it.text}
+                    {it.href && (
+                      <a href={it.href} className="ml-1.5 text-xs text-gray-500 underline">see →</a>
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           <Tile
@@ -276,6 +334,157 @@ export default async function AnalyticsPage() {
         </p>
       </section>
 
+      {/* ---------------- Sources ---------------- */}
+      <section id="sources" className="mt-12">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Where readers come from</h2>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          Arrivals by source, and whether each source sends people who stay. “Stayed” = did more than land; “read” = finished a text (half the page, 90+ seconds). Quality columns cover the recent trail window only.
+        </p>
+        {data.sources.length === 0 ? (
+          <p className="mt-3 text-sm text-gray-400">No referred arrivals recorded yet.</p>
+        ) : (
+          <div className="mt-3 overflow-x-auto">
+            <table className="w-full min-w-[520px] text-sm tabular-nums">
+              <thead>
+                <tr className="border-b border-gray-200 dark:border-gray-800 text-left text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                  <th className="py-1.5 pr-3 font-normal">Source</th>
+                  <th className="py-1.5 pr-3 font-normal text-right">7 days</th>
+                  <th className="py-1.5 pr-3 font-normal text-right">30 days</th>
+                  <th className="py-1.5 pr-3 font-normal text-right">Stayed</th>
+                  <th className="py-1.5 pr-0 font-normal text-right">Read</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.sources.map((r) => (
+                  <tr key={r.name} className="border-b border-gray-100 dark:border-gray-900">
+                    <td className="py-1.5 pr-3 text-gray-900 dark:text-gray-100">
+                      {r.name}
+                      {r.ai && (
+                        <span className="ml-1.5 rounded bg-indigo-100 dark:bg-indigo-900/40 px-1.5 py-0.5 text-[10px] font-medium text-indigo-800 dark:text-indigo-200">AI</span>
+                      )}
+                    </td>
+                    <td className="py-1.5 pr-3 text-right text-gray-700 dark:text-gray-300">{r.visits7 || '·'}</td>
+                    <td className="py-1.5 pr-3 text-right text-gray-900 dark:text-gray-100">{r.visits30 || '·'}</td>
+                    <td className="py-1.5 pr-3 text-right text-gray-700 dark:text-gray-300">
+                      {r.sessions > 0 ? <>{share(r.stayed, r.sessions)}<span className="ml-1 text-xs text-gray-400">{r.stayed}/{r.sessions}</span></> : '·'}
+                    </td>
+                    <td className="py-1.5 pr-0 text-right text-gray-700 dark:text-gray-300">{r.read || '·'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+          {'AI assistants sent '}{data.aiRef.total7}{' reader'}{data.aiRef.total7 === 1 ? '' : 's'}{' this week, '}
+          {data.aiRef.total30}{' in 30 days'}
+          {data.aiRef.byProduct.length > 0 && <>{' ('}{data.aiRef.byProduct.map((b) => `${b.name} ${b.n}`).join(', ')}{')'}</>}
+          {'. A floor: the assistants’ mobile apps strip the referrer, and Search Console can’t see this traffic at all.'}
+        </p>
+        {deviceTotal > 0 && (
+          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+            {'Since Nov 17 — phones '}{share(data.devices.m, deviceTotal)}{', larger screens '}{share(data.devices.d, deviceTotal)}
+            {langTotal > 0 && <>{' · browser languages: '}{data.langs.map((l) => `${l.l} ${share(l.n, langTotal)}`).join(', ')}</>}
+            {'.'}
+          </p>
+        )}
+
+        <details className="mt-4">
+          <summary className="cursor-pointer text-sm text-gray-600 dark:text-gray-300 hover:underline">
+            Where visits land — and whether the page holds them
+          </summary>
+          <div className="mt-2 overflow-x-auto">
+            <table className="w-full min-w-[480px] text-sm tabular-nums">
+              <thead>
+                <tr className="border-b border-gray-200 dark:border-gray-800 text-left text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                  <th className="py-1.5 pr-3 font-normal">Landing page</th>
+                  <th className="py-1.5 pr-3 font-normal text-right">Visits</th>
+                  <th className="py-1.5 pr-3 font-normal text-right">Stayed</th>
+                  <th className="py-1.5 pr-0 font-normal text-right">Read</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.landings.map((r) => (
+                  <tr key={r.href ?? r.label} className="border-b border-gray-100 dark:border-gray-900">
+                    <td className="py-1.5 pr-3 text-gray-900 dark:text-gray-100">
+                      <span className="line-clamp-1 break-words">{r.label}</span>
+                    </td>
+                    <td className="py-1.5 pr-3 text-right text-gray-900 dark:text-gray-100">{r.sessions}</td>
+                    <td className="py-1.5 pr-3 text-right text-gray-700 dark:text-gray-300">{share(r.stayed, r.sessions)}</td>
+                    <td className="py-1.5 pr-0 text-right text-gray-700 dark:text-gray-300">{r.read || '·'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-2 text-xs text-gray-400 dark:text-gray-600">
+            Recent trail window, yours and likely crawlers excluded. A page with many visits and a low “stayed” share is mostly one-touch traffic — much of it JS-running bots on /search and /ask.
+          </p>
+        </details>
+
+        <h3 id="ai-systems" className="mt-8 text-sm font-semibold text-gray-700 dark:text-gray-300">AI systems reading the archive</h3>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          Page fetches by AI crawlers and agents, counted where the request arrives (they never run the page’s JavaScript). “Live” = an assistant fetching the page to answer someone right then.
+        </p>
+        {data.crawlers.length === 0 ? (
+          <p className="mt-3 text-sm text-gray-400">Counting began Nov 17 — fetches appear here as they happen.</p>
+        ) : (
+          <div className="mt-3 overflow-x-auto">
+            <table className="w-full min-w-[520px] text-sm tabular-nums">
+              <thead>
+                <tr className="border-b border-gray-200 dark:border-gray-800 text-left text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                  <th className="py-1.5 pr-3 font-normal">Agent</th>
+                  <th className="py-1.5 pr-3 font-normal text-right">Today</th>
+                  <th className="py-1.5 pr-3 font-normal text-right">7 days</th>
+                  <th className="py-1.5 pr-3 font-normal text-right">30 days</th>
+                  <th className="py-1.5 pr-0 font-normal">Fetched most</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.crawlers.map((c) => (
+                  <tr key={c.family} className="border-b border-gray-100 dark:border-gray-900 align-top">
+                    <td className="py-1.5 pr-3 whitespace-nowrap text-gray-900 dark:text-gray-100">
+                      {c.family}
+                      {c.kind && (
+                        <span className={`ml-1.5 rounded px-1.5 py-0.5 text-[10px] font-medium ${
+                          c.kind === 'live'
+                            ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200'
+                            : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300'
+                        }`}>{c.kind}</span>
+                      )}
+                    </td>
+                    <td className="py-1.5 pr-3 text-right text-gray-700 dark:text-gray-300">{c.d1 || '·'}</td>
+                    <td className="py-1.5 pr-3 text-right text-gray-700 dark:text-gray-300">{c.d7 || '·'}</td>
+                    <td className="py-1.5 pr-3 text-right text-gray-900 dark:text-gray-100">{c.d30}</td>
+                    <td className="py-1.5 pr-0 text-xs text-gray-600 dark:text-gray-300">
+                      <span className="line-clamp-2 break-words">
+                        {c.topPaths.slice(0, 3).map((p) => `${p.label} (${p.n})`).join(' · ') || '·'}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {data.missing.length > 0 && (
+          <details className="mt-4">
+            <summary className="cursor-pointer text-sm text-gray-600 dark:text-gray-300 hover:underline">
+              {'Broken links — 404s people hit · '}{data.missing.reduce((a, m) => a + m.n, 0)}{' in 14 days'}
+            </summary>
+            <ol className="mt-2 space-y-1 text-sm">
+              {data.missing.map((m) => (
+                <li key={m.path} className="flex justify-between gap-3">
+                  <span className="min-w-0 break-all font-mono text-xs text-gray-800 dark:text-gray-200">{m.path}</span>
+                  <span className="tabular-nums text-gray-400">{m.n}</span>
+                </li>
+              ))}
+            </ol>
+          </details>
+        )}
+      </section>
+
       {/* ---------------- Searches ---------------- */}
       <section id="searches" className="mt-12">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">What readers search</h2>
@@ -357,6 +566,30 @@ export default async function AnalyticsPage() {
           </ol>
         </details>
 
+        <details id="no-click" className="mt-3">
+          <summary className="cursor-pointer text-sm text-gray-600 dark:text-gray-300 hover:underline">
+            {'Searched, opened nothing · '}
+            {data.searchOutcome.searches - data.searchOutcome.opened}{' of '}{data.searchOutcome.searches}
+            {' keyword searches in 14 days ('}
+            {share(data.searchOutcome.searches - data.searchOutcome.opened, data.searchOutcome.searches)}{')'}
+          </summary>
+          <p className="mt-1 text-xs text-gray-400">
+            Searches that returned results but where the visitor’s next move wasn’t a result, a text or a concept page — ranking and vocabulary misses. Half-typed queries are left out.
+          </p>
+          <ol className="mt-2 space-y-1 text-sm">
+            {data.searchOutcome.noClick.map((m) => (
+              <li key={m.q} className="flex flex-wrap items-baseline gap-x-2">
+                <span className="w-28 shrink-0 text-xs tabular-nums text-gray-400">{timeET.format(m.t)}</span>
+                <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">“{m.q}”</span>
+                {m.times > 1 && <span className="text-xs text-gray-400">×{m.times}</span>}
+                <a href={`/search?q=${encodeURIComponent(m.q)}`} className="text-xs text-gray-500 underline">try it →</a>
+                {sessionIds.has(m.anchor.slice(3)) && <a href={m.anchor} className="text-xs text-gray-500 underline">session →</a>}
+              </li>
+            ))}
+            {data.searchOutcome.noClick.length === 0 && <li className="text-gray-400">None in the window.</li>}
+          </ol>
+        </details>
+
         <details className="mt-3">
           <summary className="cursor-pointer text-sm text-gray-600 dark:text-gray-300 hover:underline">
             {'People watch · '}{data.peopleHits.length}{' retained hits'}
@@ -387,6 +620,16 @@ export default async function AnalyticsPage() {
           The week’s most engaged visits, each as one card: who they are (what they typed on /begin), where they came from, and what they actually did — no clicking required.
           {' “Read” is strict: they got at least halfway down the text and stayed on it 90+ seconds.'}
         </p>
+        {data.beginFunnel.generated > 0 && (
+          <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
+            {'Reading paths lately: '}
+            <span className="font-medium tabular-nums">{data.beginFunnel.generated}</span>{' generated → '}
+            <span className="font-medium tabular-nums">{data.beginFunnel.opened}</span>{' opened a text → '}
+            <span className="font-medium tabular-nums">{data.beginFunnel.read}</span>{' read one → '}
+            <span className="font-medium tabular-nums">{data.beginFunnel.returned}</span>{' came back'}
+            <span className="ml-1.5 text-xs text-gray-400">{'(readers, recent trail window)'}</span>
+          </p>
+        )}
         <ol className="mt-4 space-y-3">
           {journeys.map(({ s, landing, searches, reads, follows, begins }) => (
             <li key={s.id} className="rounded-lg border border-gray-200 dark:border-gray-800 px-3 py-3 sm:px-4">
@@ -397,8 +640,13 @@ export default async function AnalyticsPage() {
                   {' · '}{s.pages}{' page'}{s.pages === 1 ? '' : 's'}
                   {s.texts > 0 && <>{' · '}{s.texts}{' text'}{s.texts === 1 ? '' : 's'}</>}
                 </span>
-                {s.ref && (
+                {s.ai ? (
+                  <span className="rounded bg-indigo-100 dark:bg-indigo-900/40 px-1.5 py-0.5 text-xs text-indigo-800 dark:text-indigo-200">{'via '}{s.ai}{' (AI)'}</span>
+                ) : s.ref ? (
                   <span className="rounded bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 text-xs text-gray-600 dark:text-gray-300">{'via '}{s.ref}</span>
+                ) : null}
+                {s.device === 'm' && (
+                  <span className="rounded bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 text-xs text-gray-600 dark:text-gray-300">phone</span>
                 )}
                 {s.badges.includes('first visit') && (
                   <span className="rounded bg-sky-100 dark:bg-sky-900/40 px-1.5 py-0.5 text-xs text-sky-800 dark:text-sky-200">first visit</span>
@@ -505,12 +753,112 @@ export default async function AnalyticsPage() {
                 ) : (
                   <span className="text-gray-900 dark:text-gray-100">{r.title}</span>
                 )}
+                {statsHref(r.href) && <Link href={statsHref(r.href)!} className="text-xs text-gray-500 underline">stats →</Link>}
                 {anchor && <a href={anchor} className="text-xs text-gray-500 underline">session →</a>}
               </li>
             );
           })}
           {data.recentReads.length === 0 && <li className="text-gray-400">No completed reads logged yet.</li>}
         </ol>
+
+        <h3 className="mt-8 text-sm font-semibold text-gray-700 dark:text-gray-300">Most opened this week</h3>
+        <p className="mt-1 text-xs text-gray-400">Views in the last 7 days against the 7 before. Each title opens that text’s own stats page.</p>
+        <ol className="mt-2 space-y-1.5 text-sm">
+          {data.movers.map((m, i) => {
+            const delta = m.prev > 0 ? Math.round(((m.cur - m.prev) / m.prev) * 100) : null;
+            return (
+              <li key={m.slug} className="flex gap-2">
+                <span className="w-5 shrink-0 text-right tabular-nums text-gray-400">{i + 1}</span>
+                <span className="min-w-0">
+                  <Link href={`/analytics/post/${m.slug}`} className="text-gray-900 dark:text-gray-100 hover:underline">{m.label}</Link>
+                  <span className="ml-1.5 text-xs tabular-nums text-gray-500 dark:text-gray-400">{m.cur}{' views'}</span>
+                  <span className={`ml-1.5 text-xs tabular-nums ${
+                    delta === null
+                      ? 'text-gray-400'
+                      : delta >= 0
+                        ? 'text-emerald-700 dark:text-emerald-300'
+                        : 'text-rose-700 dark:text-rose-300'
+                  }`}>
+                    {delta === null ? (m.prev === 0 ? 'new this week' : '') : `${delta > 0 ? '+' : ''}${delta}% (was ${m.prev})`}
+                  </span>
+                </span>
+              </li>
+            );
+          })}
+          {data.movers.length === 0 && <li className="text-gray-400">No text views in the last 7 days.</li>}
+        </ol>
+
+        <h3 className="mt-8 text-sm font-semibold text-gray-700 dark:text-gray-300">How far readers get</h3>
+        <p className="mt-1 text-xs text-gray-400">
+          Of the reader sessions that opened each text (30 days): the share that got at least halfway, three-quarters, and to the end — and the share that stayed 90+ seconds. A text people open but don’t get through sits low on the right.
+        </p>
+        {data.depthPosts.length === 0 ? (
+          <p className="mt-2 text-sm text-gray-400">Depth tracking began Nov 17 — this fills in as readers read.</p>
+        ) : (
+          <div className="mt-2 overflow-x-auto">
+            <table className="w-full min-w-[560px] text-sm tabular-nums">
+              <thead>
+                <tr className="border-b border-gray-200 dark:border-gray-800 text-left text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                  <th className="py-1.5 pr-3 font-normal">Text</th>
+                  <th className="py-1.5 pr-3 font-normal text-right">Opened</th>
+                  <th className="py-1.5 pr-3 font-normal text-right">≥ 50%</th>
+                  <th className="py-1.5 pr-3 font-normal text-right">≥ 75%</th>
+                  <th className="py-1.5 pr-3 font-normal text-right">End</th>
+                  <th className="py-1.5 pr-0 font-normal text-right">90s+</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.depthPosts.slice(0, 25).map((p) => (
+                  <tr key={p.slug} className="border-b border-gray-100 dark:border-gray-900">
+                    <td className="py-1.5 pr-3">
+                      <Link href={`/analytics/post/${p.slug}`} className="line-clamp-1 break-words text-gray-900 dark:text-gray-100 hover:underline">{p.title}</Link>
+                    </td>
+                    <td className="py-1.5 pr-3 text-right text-gray-900 dark:text-gray-100">{p.n}</td>
+                    <td className="py-1.5 pr-3 text-right text-gray-700 dark:text-gray-300">{share(p.reach50, p.n)}</td>
+                    <td className="py-1.5 pr-3 text-right text-gray-700 dark:text-gray-300">{share(p.reach75, p.n)}</td>
+                    <td className="py-1.5 pr-3 text-right text-gray-700 dark:text-gray-300">{share(p.done, p.n)}</td>
+                    <td className="py-1.5 pr-0 text-right text-gray-700 dark:text-gray-300">{share(p.lingered, p.n)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        <div className="mt-8 grid gap-8 sm:grid-cols-2">
+          <div>
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Read together</h3>
+            <p className="mt-1 text-xs text-gray-400">Pairs of texts finished in the same visit, by how often.</p>
+            <ol className="mt-2 space-y-2 text-sm">
+              {data.coReads.map((p, i) => (
+                <li key={i} className="flex gap-2">
+                  <span className="w-6 shrink-0 text-right tabular-nums text-gray-400">{p.n}×</span>
+                  <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">
+                    {p.a.href ? <Link href={p.a.href} className="hover:underline">{p.a.label}</Link> : p.a.label}
+                    <span className="text-gray-400">{' + '}</span>
+                    {p.b.href ? <Link href={p.b.href} className="hover:underline">{p.b.label}</Link> : p.b.label}
+                  </span>
+                </li>
+              ))}
+              {data.coReads.length === 0 && <li className="text-gray-400">No pair has repeated yet in the recent window.</li>}
+            </ol>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Texts that lead to a follow</h3>
+            <p className="mt-1 text-xs text-gray-400">Where readers were when they clicked out to Substack, X or RSS.</p>
+            <ol className="mt-2 space-y-1.5 text-sm">
+              {data.followPosts.map((p, i) => (
+                <li key={i} className="flex gap-2">
+                  <span className="w-6 shrink-0 text-right tabular-nums text-gray-400">{p.n}×</span>
+                  <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">
+                    {p.href ? <Link href={p.href} className="hover:underline">{p.label}</Link> : p.label}
+                  </span>
+                </li>
+              ))}
+              {data.followPosts.length === 0 && <li className="text-gray-400">No follow clicks from a text in the recent window.</li>}
+            </ol>
+          </div>
+        </div>
 
         <details className="mt-5">
           <summary className="cursor-pointer text-sm text-gray-600 dark:text-gray-300 hover:underline">
@@ -526,6 +874,7 @@ export default async function AnalyticsPage() {
                     <span className="min-w-0">
                       <Link href={`/post/${p.slug}`} className="text-gray-900 dark:text-gray-100 hover:underline">{p.title}</Link>
                       <span className="ml-1.5 text-xs text-gray-400">{p.source}{' · '}{p.n}</span>
+                      <Link href={`/analytics/post/${p.slug}`} className="ml-1.5 text-xs text-gray-500 underline">stats →</Link>
                     </span>
                   </li>
                 ))}
@@ -540,6 +889,7 @@ export default async function AnalyticsPage() {
                     <span className="min-w-0">
                       <Link href={`/post/${p.slug}`} className="text-gray-900 dark:text-gray-100 hover:underline">{p.title}</Link>
                       <span className="ml-1.5 text-xs text-gray-400">{p.source}{' · '}{p.n}</span>
+                      <Link href={`/analytics/post/${p.slug}`} className="ml-1.5 text-xs text-gray-500 underline">stats →</Link>
                     </span>
                   </li>
                 ))}
@@ -554,6 +904,9 @@ export default async function AnalyticsPage() {
         <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Ask answers</h2>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
           What the AI actually told readers — the full answer behind each recent Ask question. Click a question to read it.
+          {data.weakAsks > 0 && (
+            <>{' '}<span className="text-rose-700 dark:text-rose-300">{data.weakAsks}{' of the recent answers read like “the archive doesn’t cover this”'}</span>{' — marked below; each is a gap worth a look.'}</>
+          )}
         </p>
         <ol className="mt-3 space-y-2 text-sm">
           {data.askAnswers.map((h, i) => (
@@ -565,6 +918,7 @@ export default async function AnalyticsPage() {
                   {h.concept && <span className="rounded bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 text-xs text-gray-700 dark:text-gray-300">from {h.concept}</span>}
                   {h.fresh && <span className="text-xs text-gray-400">regenerate</span>}
                   {h.cut && <span className="text-xs text-rose-600 dark:text-rose-300">truncated</span>}
+                  {h.weak && <span className="rounded bg-rose-100 dark:bg-rose-900/40 px-1.5 py-0.5 text-xs text-rose-800 dark:text-rose-200">no real answer?</span>}
                 </summary>
                 <div className="mt-2 ml-28 max-w-2xl whitespace-pre-wrap rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 px-4 py-3 text-[13px] leading-relaxed text-gray-700 dark:text-gray-300">
                   {h.a}{h.aLen ? ` … [${h.aLen} chars total]` : ''}

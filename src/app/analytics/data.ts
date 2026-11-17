@@ -1,5 +1,11 @@
 import { Redis } from '@upstash/redis';
 import { getPostBySlug } from '@/lib/parser';
+import { aiAgentKind, aiReferrer, isAiProduct, type AiAgentKind } from '@/lib/ai-agents';
+import {
+  deriveBeginFunnel, deriveCoReads, deriveLandings, deriveSearchOutcomes, deriveSourceQuality,
+  readerSessions, sourceName,
+  type BeginFunnel, type CoRead, type LandingRow, type Ref, type SearchOutcome, type SourceRow,
+} from './derive';
 
 // Data layer for /analytics, the owner's private console. Pulls every
 // store the site writes — the durable daily aggregates (activity:day:*,
@@ -55,15 +61,37 @@ export type AskHit = {
   cut?: boolean;       // answer hit max_tokens
   concept?: string;    // asked from a concept page
   fresh?: boolean;     // explicit regenerate
+  weak?: boolean;      // the answer reads like "the archive doesn't cover this"
   t: number;
 };
 
 export type SessionEvent = {
   t: number;
-  type: 'page' | 'search' | 'read' | 'follow' | 'begin';
+  type: 'page' | 'search' | 'read' | 'follow' | 'begin' | 'pick';
   label: string;
   href?: string;
   mode?: string;
+};
+
+export type Mover = { slug: string; label: string; cur: number; prev: number }; // views, this 7d vs the 7 before
+export type CrawlerRow = {
+  family: string;
+  kind: AiAgentKind | null;
+  d1: number;
+  d7: number;
+  d30: number;
+  topPaths: (Ref & { n: number })[];
+};
+// Read depth for one text over the window: n = reader sessions that reported,
+// reachXX = of those, how many got at least that far down.
+export type DepthPost = {
+  slug: string;
+  title: string;
+  n: number;
+  reach50: number;
+  reach75: number;
+  done: number;
+  lingered: number; // stayed 90s+
 };
 
 export type ReadHit = { title: string; href?: string; t: number; sid?: string };
@@ -85,6 +113,8 @@ export type SessionView = {
   mine: boolean;
   crawler: boolean;
   ref?: string;
+  ai?: string;          // the AI assistant that referred this visit, if any
+  device?: 'm' | 'd';   // phone vs. larger (sessions since 2026-11-17)
   pages: number;
   texts: number;
   searches: number;
@@ -111,6 +141,27 @@ export type StudyData = {
   topAll: TopPost[];
   sessions: SessionView[];
   activitySince: string; // first day with activity data
+  // --- "what's working / what isn't" (see derive.ts) ---
+  sources: SourceRow[];
+  aiRef: {
+    total7: number;
+    prev7: number;
+    total30: number;
+    byProduct: { name: string; n: number }[];
+  };
+  landings: LandingRow[];
+  coReads: CoRead[];
+  beginFunnel: BeginFunnel;
+  searchOutcome: SearchOutcome; // keyword searches, last 14d
+  followPosts: (Ref & { n: number })[]; // texts whose readers clicked a follow link
+  movers: Mover[];
+  crawlers: CrawlerRow[];
+  depthPosts: DepthPost[];
+  completion: { n: number; reach75: number }; // all texts, 30d
+  missing: { path: string; n: number }[]; // 404s, 14d
+  devices: { m: number; d: number };
+  langs: { l: string; n: number }[];
+  weakAsks: number;
 };
 
 const SOURCE_LABEL: Record<string, string> = {
@@ -161,7 +212,7 @@ function postTitle(path: string): { label: string; href?: string } | null {
 
 const CLEAN_PATH = /^\/(?![/\\])/;
 
-type RawActivity = { sid: string; path: string; mine?: boolean; ref?: string; ev?: string; t: number };
+type RawActivity = { sid: string; path: string; mine?: boolean; ref?: string; ev?: string; d?: string; t: number };
 type RawSearch = { q: string; mode: string; mine: boolean; n?: number; sid?: string; t: number };
 
 function buildSessions(activity: RawActivity[], searches: RawSearch[], begins: BeginHit[]): SessionView[] {
@@ -225,12 +276,14 @@ function buildSessions(activity: RawActivity[], searches: RawSearch[], begins: B
       // ConvertTracker's trail mirror) become badges, not timeline rows.
       let firstVisit = false;
       let returnGap: number | null = null;
+      let device: 'm' | 'd' | undefined;
 
       for (const r of ep) {
         if (r.a) {
           const e = r.a;
           if (e.mine) mine = true;
           if (e.ref && !ref) ref = e.ref;
+          if (e.d === 'm' || e.d === 'd') device = e.d;
           if (e.ev) {
             if (e.ev === 'read') {
               readPaths.add(e.path);
@@ -240,6 +293,15 @@ function buildSessions(activity: RawActivity[], searches: RawSearch[], begins: B
               const [, dest, where] = e.ev.split(':');
               follows.push(dest ?? 'out');
               events.push({ t: e.t, type: 'follow', label: `followed ${dest ?? 'out'}${where ? ` (${where})` : ''}` });
+            } else if (e.ev.startsWith('pick')) {
+              // A search result (ranked) or an Ask citation was opened.
+              const rank = Number(e.ev.split(':')[1]);
+              events.push({
+                t: e.t, type: 'pick',
+                label: e.path === '/ask'
+                  ? 'opened a cited text'
+                  : rank > 0 ? `opened result #${rank}` : 'opened a result',
+              });
             } else if (e.ev === 'new') {
               firstVisit = true;
             } else if (e.ev.startsWith('return:')) {
@@ -280,11 +342,15 @@ function buildSessions(activity: RawActivity[], searches: RawSearch[], begins: B
       const texts = readPaths.size > 0 ? readPaths.size : postPaths.size;
       const crawler = (pages > 60 && nSearches === 0) || pages > 300;
 
+      const ai = aiReferrer(ref) ?? undefined;
+
       const badges: string[] = [];
       if (mine) badges.push('you');
       if (crawler) badges.push('likely crawler');
+      if (ai) badges.push(`via AI · ${ai}`);
       if (firstVisit) badges.push('first visit');
       if (returnGap !== null) badges.push(`returning · ${returnGap}d`);
+      if (device === 'm') badges.push('phone');
       if (nBegins > 0) badges.push('generated path');
       if (mins >= 20 && events.length >= 8) badges.push('deep session');
       for (const term of terms) badges.push(`looked up: ${term}`);
@@ -292,13 +358,13 @@ function buildSessions(activity: RawActivity[], searches: RawSearch[], begins: B
 
       let score =
         nSearches * 3 + texts * 4 + pages * 0.5 + Math.min(mins, 180) / 10 +
-        terms.size * 12 + follows.length * 8 + nBegins * 15;
+        terms.size * 12 + follows.length * 8 + nBegins * 15 + (ai ? 10 : 0);
       if (crawler) score -= 40;
       if (mine) score -= 25;
 
       out.push({
         id: episodes.length > 1 ? `${sid}-${epIdx + 1}` : sid,
-        sid, kind: 'live', start, end, mins, mine, crawler, ref,
+        sid, kind: 'live', start, end, mins, mine, crawler, ref, ai, device,
         pages, texts, searches: nSearches, badges, score,
         events: events.slice(0, 120), eventsTotal: events.length,
       });
@@ -351,6 +417,212 @@ function buildLegacySessions(searches: RawSearch[]): SessionView[] {
   return out;
 }
 
+function parseSearchLog(raw: unknown): RawSearch[] {
+  return parseRows((raw as unknown[]) ?? [])
+    .filter((e) => typeof e.q === 'string' && typeof e.t === 'number')
+    .map((e) => ({
+      q: e.q as string,
+      mode: typeof e.mode === 'string' ? e.mode : 'keyword',
+      mine: e.mine === true,
+      n: typeof e.n === 'number' ? e.n : undefined,
+      sid: typeof e.sid === 'string' ? e.sid : undefined,
+      t: e.t as number,
+    })) as RawSearch[];
+}
+
+function parseActivityLog(raw: unknown): RawActivity[] {
+  return parseRows((raw as unknown[]) ?? [])
+    .filter((e) => typeof e.sid === 'string' && typeof e.path === 'string' && typeof e.t === 'number')
+    .map((e) => ({
+      sid: e.sid as string,
+      path: e.path as string,
+      mine: e.mine === true,
+      ref: typeof e.ref === 'string' ? e.ref : undefined,
+      ev: typeof e.ev === 'string' ? e.ev : undefined,
+      d: typeof e.d === 'string' ? e.d : undefined,
+      t: e.t as number,
+    })) as RawActivity[];
+}
+
+function parseBeginLog(raw: unknown): BeginHit[] {
+  return parseRows((raw as unknown[]) ?? [])
+    .filter((e) => typeof e.id === 'string' && typeof e.t === 'number')
+    .map((e) => ({
+      id: e.id as string,
+      interests: Array.isArray(e.interests)
+        ? (e.interests as unknown[]).filter((x): x is string => typeof x === 'string')
+        : [],
+      text: typeof e.text === 'string' ? e.text : undefined,
+      n: typeof e.n === 'number' ? e.n : 0,
+      fb: e.fb === true,
+      mine: e.mine === true,
+      sid: typeof e.sid === 'string' ? e.sid : undefined,
+      t: e.t as number,
+    })) as BeginHit[];
+}
+
+// ── One text, in depth ───────────────────────────────────────────────────
+// Everything the console knows about a single post, for
+// /analytics/post/<slug>: its daily views and reads, how far down readers
+// get, who sends them, what they searched just before, and what they open
+// next. Series come from the durable day-hashes (90 days); the relational
+// parts (sources, searches, next texts, recent visits) from the retained
+// trail window, readers only.
+
+export const DEPTH_STEPS = [0, 25, 50, 75, 100];
+export const DWELL_LABELS = ['under 30s', '30–90s', '90s–5 min', '5 min+'];
+
+export type PostData = {
+  slug: string;
+  title: string;
+  source: string;
+  allTime: number;
+  series: { day: string; views: number; reads: number }[]; // oldest first
+  views7: number;
+  viewsPrev7: number;
+  views30: number;
+  reads30: number;
+  depthN: number;
+  reach: number[]; // sessions reaching ≥ each DEPTH_STEPS level
+  dwell: number[]; // sessions per DWELL_LABELS bucket
+  sources: { name: string; n: number }[];
+  searches: { q: string; n: number }[];
+  next: (Ref & { n: number })[];
+  follows: number;
+  visits: { id: string; start: number; mins: number; read: boolean; via?: string }[];
+};
+
+export async function fetchPostData(slug: string): Promise<PostData | null> {
+  const post = getPostBySlug(slug);
+  const kv = getKV();
+  if (!post || !kv) return null;
+
+  const DAYS = 90;
+  const path = `/post/${slug}`;
+  const dayKeys = Array.from({ length: DAYS }, (_, i) => utcDay(i));
+  const cellFields = DEPTH_STEPS.flatMap((d) => [0, 1, 2, 3].map((t) => `${slug}|${d}.${t}`));
+
+  const pipe = kv.pipeline();
+  for (const d of dayKeys) {
+    pipe.hmget(`activity:day:${d}`, `p:${path}`, `pm:${path}`, `r:${path}`, `rm:${path}`);
+    pipe.hmget(`depth:${d}`, ...cellFields);
+  }
+  pipe.zscore('views:counts', slug);
+  pipe.lrange('search:log', 0, 4999);
+  pipe.lrange('activity:log', 0, 11999);
+  pipe.lrange('begin:log', 0, 1999);
+
+  let res: unknown[];
+  try {
+    res = await pipe.exec();
+  } catch {
+    return null;
+  }
+
+  const series: PostData['series'] = [];
+  const reach = DEPTH_STEPS.map(() => 0);
+  const dwell = [0, 0, 0, 0];
+  let depthN = 0;
+  const cellTotals = new Map<string, number>();
+  for (let i = 0; i < DAYS; i++) {
+    const act = (res[i * 2] as Record<string, unknown> | null) ?? {};
+    series.push({
+      day: dayKeys[i],
+      views: Math.max(0, num(act[`p:${path}`]) - num(act[`pm:${path}`])),
+      reads: Math.max(0, num(act[`r:${path}`]) - num(act[`rm:${path}`])),
+    });
+    const cells = (res[i * 2 + 1] as Record<string, unknown> | null) ?? {};
+    for (const f of cellFields) cellTotals.set(f, (cellTotals.get(f) ?? 0) + num(cells[f]));
+  }
+  for (const [field, raw] of cellTotals) {
+    const n = Math.max(0, raw);
+    if (n === 0) continue;
+    const [d, t] = field.slice(field.lastIndexOf('|') + 1).split('.').map(Number);
+    depthN += n;
+    DEPTH_STEPS.forEach((step, k) => {
+      if (d >= step) reach[k] += n;
+    });
+    dwell[t] += n;
+  }
+  // series is still newest-first here; it is reversed (copied) for the return.
+  const sumViews = (from: number, to: number) => series.slice(from, to).reduce((a, r) => a + r.views, 0);
+  const views7 = sumViews(0, 7);
+  const viewsPrev7 = sumViews(7, 14);
+  const views30 = sumViews(0, 30);
+  const reads30 = series.slice(0, 30).reduce((a, r) => a + r.reads, 0);
+
+  const base = DAYS * 2;
+  const sessions = readerSessions(
+    buildSessions(parseActivityLog(res[base + 2]), parseSearchLog(res[base + 1]), parseBeginLog(res[base + 3])),
+  );
+  const srcCounts = new Map<string, number>();
+  const searchCounts = new Map<string, { q: string; n: number }>();
+  const nextCounts = new Map<string, Ref & { n: number }>();
+  const visits: PostData['visits'] = [];
+  for (const s of sessions) {
+    const ev = s.events;
+    const first = ev.findIndex((e) => e.href === path && (e.type === 'page' || e.type === 'read'));
+    if (first < 0) continue;
+    visits.push({
+      id: s.id, start: s.start, mins: s.mins,
+      read: ev.some((e) => e.type === 'read' && e.href === path),
+      via: s.ref ? sourceName(s.ref) : undefined,
+    });
+    // Arrived straight onto this text from outside?
+    if (s.ref && ev.findIndex((e) => e.type === 'page') === first) {
+      const name = sourceName(s.ref);
+      srcCounts.set(name, (srcCounts.get(name) ?? 0) + 1);
+    }
+    // The search that led here: the nearest one in the three moves before.
+    for (let j = first - 1; j >= Math.max(0, first - 3); j--) {
+      if (ev[j].type !== 'search') continue;
+      const key = ev[j].label.toLowerCase().trim();
+      const row = searchCounts.get(key) ?? { q: ev[j].label, n: 0 };
+      row.n += 1;
+      searchCounts.set(key, row);
+      break;
+    }
+    // The next text opened after this one.
+    let last = first;
+    ev.forEach((e, j) => {
+      if (e.href === path) last = j;
+    });
+    const nxt = ev.slice(last + 1).find((e) => e.type === 'page' && e.href?.startsWith('/post/') && e.href !== path);
+    if (nxt) {
+      const key = nxt.href ?? nxt.label;
+      const row = nextCounts.get(key) ?? { label: nxt.label, href: nxt.href, n: 0 };
+      row.n += 1;
+      nextCounts.set(key, row);
+    }
+  }
+  const follows = parseActivityLog(res[base + 2]).filter(
+    (a) => !a.mine && a.path === path && a.ev?.startsWith('follow'),
+  ).length;
+  const top = <T extends { n: number }>(m: Map<string, T>, cap: number) =>
+    [...m.values()].sort((a, b) => b.n - a.n).slice(0, cap);
+
+  return {
+    slug,
+    title: post.title,
+    source: SOURCE_LABEL[post.source] ?? post.source,
+    allTime: num(res[base]),
+    // Per-path day counts began with the site's own instrumentation.
+    series: [...series].reverse().filter((r) => r.day >= '2026-10-29'),
+    views7,
+    viewsPrev7,
+    views30,
+    reads30,
+    depthN,
+    reach,
+    dwell,
+    sources: [...srcCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8).map(([name, n]) => ({ name, n })),
+    searches: top(searchCounts, 10),
+    next: top(nextCounts, 8),
+    follows,
+    visits: visits.sort((a, b) => b.start - a.start).slice(0, 12),
+  };
+}
+
 export async function fetchStudyData(): Promise<StudyData | null> {
   const kv = getKV();
   if (!kv) return null;
@@ -389,49 +661,30 @@ export async function fetchStudyData(): Promise<StudyData | null> {
   pb.lrange('begin:log', 0, 1999);
   pb.lrange('ask:log', 0, 149);
 
+  // Pipeline C: the newer day-hashes (AI crawlers, read depth: 30 days;
+  // 404s: 14). Optional — a failure here must not take the console down.
+  const WIN = 30;
+  const FOF_DAYS = 14;
+  const pc = kv.pipeline();
+  for (let i = 0; i < WIN; i++) {
+    pc.hgetall(`crawler:day:${dayKeys[i]}`);
+    pc.hgetall(`depth:${dayKeys[i]}`);
+  }
+  for (let i = 0; i < FOF_DAYS; i++) pc.hgetall(`fof:${dayKeys[i]}`);
+
   let ra: unknown[];
   let rb: unknown[];
+  let rc: unknown[];
   try {
-    [ra, rb] = await Promise.all([pa.exec(), pb.exec()]);
+    [ra, rb, rc] = await Promise.all([pa.exec(), pb.exec(), pc.exec().catch(() => [] as unknown[])]);
   } catch {
     return null;
   }
 
   // --- raw logs ---
-  const searchLog = parseRows((rb[6] as unknown[]) ?? [])
-    .filter((e) => typeof e.q === 'string' && typeof e.t === 'number')
-    .map((e) => ({
-      q: e.q as string,
-      mode: typeof e.mode === 'string' ? e.mode : 'keyword',
-      mine: e.mine === true,
-      n: typeof e.n === 'number' ? e.n : undefined,
-      sid: typeof e.sid === 'string' ? e.sid : undefined,
-      t: e.t as number,
-    })) as RawSearch[];
-  const activityLog = parseRows((rb[7] as unknown[]) ?? [])
-    .filter((e) => typeof e.sid === 'string' && typeof e.path === 'string' && typeof e.t === 'number')
-    .map((e) => ({
-      sid: e.sid as string,
-      path: e.path as string,
-      mine: e.mine === true,
-      ref: typeof e.ref === 'string' ? e.ref : undefined,
-      ev: typeof e.ev === 'string' ? e.ev : undefined,
-      t: e.t as number,
-    })) as RawActivity[];
-  const beginPaths = parseRows((rb[8] as unknown[]) ?? [])
-    .filter((e) => typeof e.id === 'string' && typeof e.t === 'number')
-    .map((e) => ({
-      id: e.id as string,
-      interests: Array.isArray(e.interests)
-        ? (e.interests as unknown[]).filter((x): x is string => typeof x === 'string')
-        : [],
-      text: typeof e.text === 'string' ? e.text : undefined,
-      n: typeof e.n === 'number' ? e.n : 0,
-      fb: e.fb === true,
-      mine: e.mine === true,
-      sid: typeof e.sid === 'string' ? e.sid : undefined,
-      t: e.t as number,
-    })) as BeginHit[];
+  const searchLog = parseSearchLog(rb[6]);
+  const activityLog = parseActivityLog(rb[7]);
+  const beginPaths = parseBeginLog(rb[8]);
   const askAnswers = parseRows((rb[9] as unknown[]) ?? [])
     .filter((e) => typeof e.q === 'string' && typeof e.a === 'string' && typeof e.t === 'number')
     .map((e) => ({
@@ -615,6 +868,194 @@ export async function fetchStudyData(): Promise<StudyData | null> {
   const legacy = buildLegacySessions(searchLog);
   const sessions = [...live, ...legacy].sort((a, b) => b.score - a.score).slice(0, 150);
 
+  // --- what's working / what isn't -------------------------------------
+  // From the durable day-hashes: who sends readers (ref:<host>), which
+  // texts moved this week (p:/post/<slug>, minus the owner's pm: share),
+  // device and language mix.
+  const actDays = dayKeys.map((_, i) => (ra[i * 4 + 1] as Record<string, unknown> | null) ?? {});
+  const refVisits = new Map<string, { v30: number; v7: number; ai: boolean }>();
+  const aiDaily: number[] = [];
+  const aiProducts = new Map<string, number>();
+  const viewsCur = new Map<string, number>();
+  const viewsPrev = new Map<string, number>();
+  const devices = { m: 0, d: 0 };
+  const langCounts = new Map<string, number>();
+  for (let i = 0; i < WIN; i++) {
+    let aiN = 0;
+    for (const [field, raw] of Object.entries(actDays[i])) {
+      const n = num(raw);
+      if (field.startsWith('ref:')) {
+        const host = field.slice(4);
+        const product = aiReferrer(host);
+        const name = sourceName(host);
+        const row = refVisits.get(name) ?? { v30: 0, v7: 0, ai: false };
+        row.v30 += n;
+        if (i < 7) row.v7 += n;
+        if (product) {
+          row.ai = true;
+          aiN += n;
+          aiProducts.set(product, (aiProducts.get(product) ?? 0) + n);
+        }
+        refVisits.set(name, row);
+      } else if (i < 14 && /^pm?:\/post\//.test(field)) {
+        const owner = field.startsWith('pm:');
+        const slug = field.slice(owner ? 9 : 8).replace(/\/$/, '');
+        const m = i < 7 ? viewsCur : viewsPrev;
+        m.set(slug, (m.get(slug) ?? 0) + (owner ? -n : n));
+      } else if (field === 'dev:m') devices.m += n;
+      else if (field === 'dev:d') devices.d += n;
+      else if (field.startsWith('lang:')) {
+        langCounts.set(field.slice(5), (langCounts.get(field.slice(5)) ?? 0) + n);
+      }
+    }
+    aiDaily.push(aiN);
+  }
+  const sumRange = (xs: number[], from: number, to: number) => xs.slice(from, to).reduce((a, b) => a + b, 0);
+  const aiRef = {
+    total7: sumRange(aiDaily, 0, 7),
+    prev7: sumRange(aiDaily, 7, 14),
+    total30: sumRange(aiDaily, 0, WIN),
+    byProduct: [...aiProducts.entries()].sort((a, b) => b[1] - a[1]).map(([name, n]) => ({ name, n })),
+  };
+  const movers: Mover[] = [...viewsCur.entries()]
+    .filter(([, n]) => n > 0)
+    .sort((a, b) => b[1] - a[1])
+    .flatMap(([slug, cur]) => {
+      const post = getPostBySlug(slug);
+      return post ? [{ slug, label: post.title, cur, prev: Math.max(0, viewsPrev.get(slug) ?? 0) }] : [];
+    })
+    .slice(0, 8);
+  const langs = [...langCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8).map(([l, n]) => ({ l, n }));
+
+  // From the session episodes (the retained trail window, readers only).
+  const readers = readerSessions(live);
+  const quality = deriveSourceQuality(readers);
+  const sources: SourceRow[] = [...new Set([...refVisits.keys(), ...quality.keys()])]
+    .map((name) => {
+      const v = refVisits.get(name);
+      const q = quality.get(name);
+      return {
+        name,
+        ai: isAiProduct(name),
+        visits30: v?.v30 ?? 0,
+        visits7: v?.v7 ?? 0,
+        sessions: q?.sessions ?? 0,
+        stayed: q?.stayed ?? 0,
+        read: q?.read ?? 0,
+      };
+    })
+    .sort((a, b) => b.visits30 - a.visits30 || b.sessions - a.sessions)
+    .slice(0, 16);
+  const landings = deriveLandings(readers);
+  const coReads = deriveCoReads(readers);
+  const beginFunnel = deriveBeginFunnel(readers);
+  const searchOutcome = deriveSearchOutcomes(readers, Date.now() - 14 * 86_400_000);
+
+  // Texts whose readers clicked through to follow (the trail event carries
+  // the page the click happened on).
+  const followCounts = new Map<string, number>();
+  for (const a of activityLog) {
+    if (a.mine || !a.ev?.startsWith('follow') || !a.path.startsWith('/post/')) continue;
+    followCounts.set(a.path, (followCounts.get(a.path) ?? 0) + 1);
+  }
+  const followPosts = [...followCounts.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 8)
+    .map(([path, n]) => ({ ...(postTitle(path) ?? { label: path }), n }));
+
+  // AI crawlers/agents (counted in src/proxy.ts), per family.
+  const crawlerTotals = new Map<string, { d1: number; d7: number; d30: number }>();
+  for (let i = 0; i < WIN; i++) {
+    const h = (rc[i * 2] as Record<string, unknown> | null) ?? {};
+    for (const [family, raw] of Object.entries(h)) {
+      if (family === 'probe') continue;
+      const row = crawlerTotals.get(family) ?? { d1: 0, d7: 0, d30: 0 };
+      const n = num(raw);
+      row.d30 += n;
+      if (i < 7) row.d7 += n;
+      if (i === 0) row.d1 += n;
+      crawlerTotals.set(family, row);
+    }
+  }
+  const families = [...crawlerTotals.keys()];
+  let pathRows: unknown[] = [];
+  if (families.length > 0) {
+    try {
+      const pp = kv.pipeline();
+      for (const f of families) pp.zrange(`crawler:paths:${f}`, 0, 4, { rev: true, withScores: true });
+      pathRows = await pp.exec();
+    } catch {
+      pathRows = [];
+    }
+  }
+  const crawlers: CrawlerRow[] = families
+    .map((family, i) => {
+      const flat = (pathRows[i] as (string | number)[] | undefined) ?? [];
+      const topPaths: (Ref & { n: number })[] = [];
+      for (let j = 0; j < flat.length; j += 2) {
+        const path = String(flat[j]);
+        topPaths.push({ ...(postTitle(path) ?? { label: path, href: CLEAN_PATH.test(path) ? path : undefined }), n: num(flat[j + 1]) });
+      }
+      return { family, kind: aiAgentKind(family), ...crawlerTotals.get(family)!, topPaths };
+    })
+    .sort((a, b) => b.d30 - a.d30);
+
+  // Read depth: each (reader session, text) sits in one "<slug>|<d>.<t>"
+  // cell; sum the window, then read the funnel off the cells.
+  const depthCells = new Map<string, Map<string, number>>();
+  for (let i = 0; i < WIN; i++) {
+    const h = (rc[i * 2 + 1] as Record<string, unknown> | null) ?? {};
+    for (const [field, raw] of Object.entries(h)) {
+      const bar = field.lastIndexOf('|');
+      if (bar < 1) continue;
+      const slug = field.slice(0, bar);
+      if (slug === '__probe__') continue;
+      const cells = depthCells.get(slug) ?? new Map<string, number>();
+      cells.set(field.slice(bar + 1), (cells.get(field.slice(bar + 1)) ?? 0) + num(raw));
+      depthCells.set(slug, cells);
+    }
+  }
+  const completion = { n: 0, reach75: 0 };
+  const depthPosts: DepthPost[] = [];
+  for (const [slug, cells] of depthCells) {
+    const row: DepthPost = { slug, title: getPostBySlug(slug)?.title ?? slug, n: 0, reach50: 0, reach75: 0, done: 0, lingered: 0 };
+    for (const [cell, raw] of cells) {
+      const n = Math.max(0, raw); // a count moved across midnight can dip one day negative
+      const [d, t] = cell.split('.').map(Number);
+      row.n += n;
+      if (d >= 50) row.reach50 += n;
+      if (d >= 75) row.reach75 += n;
+      if (d >= 100) row.done += n;
+      if (t >= 2) row.lingered += n;
+    }
+    if (row.n === 0) continue;
+    completion.n += row.n;
+    completion.reach75 += row.reach75;
+    depthPosts.push(row);
+  }
+  depthPosts.sort((a, b) => b.n - a.n);
+
+  // 404s people actually hit.
+  const missCounts = new Map<string, number>();
+  for (let i = 0; i < FOF_DAYS; i++) {
+    const h = (rc[WIN * 2 + i] as Record<string, unknown> | null) ?? {};
+    for (const [path, raw] of Object.entries(h)) {
+      if (path === '/__probe__') continue;
+      missCounts.set(path, (missCounts.get(path) ?? 0) + num(raw));
+    }
+  }
+  const missing = [...missCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 15).map(([path, n]) => ({ path, n }));
+
+  // Ask answers that read like a shrug — unmet demand on the Ask side.
+  const WEAK = /\b(i (don['’]t|do not) (have|know|see)|(could|can)(n['’]t| not) (find|locate)|no (direct |specific |explicit )?(information|mention|discussion|reference)|(isn['’]t|is not|aren['’]t|are not|not) (covered|discussed|addressed|mentioned) in|(archive|corpus|sources?|passages?|texts?) (do(es)?n['’]t|do(es)? not) (contain|cover|discuss|mention|address|include))\b/i;
+  let weakAsks = 0;
+  for (const h of askAnswers) {
+    if (WEAK.test(h.a.slice(0, 600))) {
+      h.weak = true;
+      weakAsks += 1;
+    }
+  }
+
   return {
     generatedAt: Date.now(),
     days,
@@ -632,5 +1073,20 @@ export async function fetchStudyData(): Promise<StudyData | null> {
     topAll,
     sessions,
     activitySince,
+    sources,
+    aiRef,
+    landings,
+    coReads,
+    beginFunnel,
+    searchOutcome,
+    followPosts,
+    movers,
+    crawlers,
+    depthPosts: depthPosts.slice(0, 60),
+    completion,
+    missing,
+    devices,
+    langs,
+    weakAsks,
   };
 }
