@@ -301,7 +301,9 @@ export default async function AnalyticsPage() {
                   {d.n}{' search'}{d.n === 1 ? '' : 'es'}
                   {d.nAsk > 0 && <>{' · '}{d.nAsk}{' AI'}</>}
                 </span>
-                <span className="min-w-0 flex-1 truncate text-xs text-gray-400 dark:text-gray-600">
+                {/* line-clamp (not truncate): nowrap text poisons every ancestor's
+                    min-content width and forces the page wide on phones. */}
+                <span className="min-w-0 flex-1 line-clamp-1 text-xs text-gray-400 dark:text-gray-600">
                   {d.items.slice(-3).reverse().map((s) => `“${s.q}”`).join(' · ')}
                 </span>
               </summary>
@@ -310,7 +312,7 @@ export default async function AnalyticsPage() {
                   <li key={j} className="flex flex-wrap items-baseline gap-x-2">
                     <span className="w-16 shrink-0 text-xs tabular-nums text-gray-400">{timeOnlyET.format(s.t)}</span>
                     <span className="text-xs uppercase tracking-wide text-gray-400">{s.mode === 'ask' ? 'ai' : 'kw'}</span>
-                    <span className="text-gray-800 dark:text-gray-200">“{s.q}”</span>
+                    <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">“{s.q}”</span>
                     {typeof s.n === 'number' && s.n === 0 && <span className="text-xs text-rose-600 dark:text-rose-300">0 results</span>}
                     {s.sid && sidSet.has(s.sid) && <a href={`#s-${s.sid}`} className="text-xs text-gray-500 underline">session →</a>}
                   </li>
@@ -330,7 +332,7 @@ export default async function AnalyticsPage() {
             <p className="text-xs text-gray-400">Unmet demand, verified against the live index — candidates for new concept pages or vocabulary.</p>
             <ol className="mt-2 space-y-1 text-sm">
               {data.zeroResult.map((s) => (
-                <li key={`${s.q}-${s.t}`} className="text-gray-800 dark:text-gray-200">
+                <li key={`${s.q}-${s.t}`} className="break-words text-gray-800 dark:text-gray-200">
                   “{s.q}”<span className="ml-1.5 text-xs text-gray-400">{timeET.format(s.t)}</span>
                 </li>
               ))}
@@ -342,7 +344,7 @@ export default async function AnalyticsPage() {
             <ol className="mt-2 space-y-1 text-sm">
               {data.termsRecent.map((t) => (
                 <li key={t.q} className="flex justify-between gap-2">
-                  <span className="truncate text-gray-800 dark:text-gray-200">{t.q}</span>
+                  <span className="min-w-0 line-clamp-1 text-gray-800 dark:text-gray-200">{t.q}</span>
                   <span className="tabular-nums text-gray-400">{t.n}</span>
                 </li>
               ))}
@@ -358,7 +360,7 @@ export default async function AnalyticsPage() {
           <ol className="mt-2 columns-2 gap-6 text-sm sm:columns-3">
             {data.termsAll.map((t) => (
               <li key={t.q} className="flex justify-between gap-2 break-inside-avoid">
-                <span className="truncate text-gray-800 dark:text-gray-200">{t.q}</span>
+                <span className="min-w-0 line-clamp-1 text-gray-800 dark:text-gray-200">{t.q}</span>
                 <span className="tabular-nums text-gray-400">{t.n}</span>
               </li>
             ))}
@@ -375,7 +377,7 @@ export default async function AnalyticsPage() {
               <li key={i} className="flex flex-wrap items-baseline gap-x-2">
                 <span className="text-xs tabular-nums text-gray-400 w-28 shrink-0">{timeET.format(h.t)}</span>
                 <span className="rounded bg-rose-100 dark:bg-rose-900/40 px-1.5 py-0.5 text-xs text-rose-800 dark:text-rose-200">{h.term}</span>
-                <span className="text-gray-800 dark:text-gray-200">“{h.q}”</span>
+                <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">“{h.q}”</span>
                 {h.mine && <span className="text-xs text-amber-600 dark:text-amber-300">you</span>}
                 {h.sid && sidSet.has(h.sid) && <a href={`#s-${h.sid}`} className="text-xs text-gray-500 underline">session →</a>}
               </li>
@@ -492,7 +494,7 @@ export default async function AnalyticsPage() {
               <details>
                 <summary className="cursor-pointer flex flex-wrap items-baseline gap-x-2">
                   <span className="text-xs tabular-nums text-gray-400 w-28 shrink-0">{timeET.format(h.t)}</span>
-                  <span className="text-gray-800 dark:text-gray-200">“{h.q}”</span>
+                  <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">“{h.q}”</span>
                   {h.concept && <span className="rounded bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 text-xs text-gray-700 dark:text-gray-300">from {h.concept}</span>}
                   {h.fresh && <span className="text-xs text-gray-400">regenerate</span>}
                   {h.cut && <span className="text-xs text-rose-600 dark:text-rose-300">truncated</span>}

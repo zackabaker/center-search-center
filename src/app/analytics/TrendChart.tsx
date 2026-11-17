@@ -89,7 +89,7 @@ export default function TrendChart({
     );
 
   return (
-    <div>
+    <div className="min-w-0">
       <div className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">{title}</div>
       <div className="mt-0.5 flex items-baseline gap-2">
         <span className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{headline}</span>
