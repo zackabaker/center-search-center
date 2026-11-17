@@ -567,3 +567,22 @@ span[class*="rounded-full"][class*="px-"] {
   .roll-wheel, .roll-spin { animation: none !important; }
   .roll-wheel { left: calc(50% - 0.75rem); }
 }
+
+/* Paragraph links on phones. The pilcrow that copies a link to a paragraph
+   only appeared on hover, and sat in a left margin phones do not have, so a
+   phone reader had no way to link to a passage. On touch screens and narrow
+   windows it is always shown, faint, at the paragraph's top right. Styled
+   here by label so the two post renderers need no change. */
+@media (hover: none), (max-width: 639px) {
+  button[aria-label="Copy link to this passage"] {
+    opacity: 0.55;
+    left: auto;
+    right: -1rem;
+    top: -0.45rem;
+    padding: 0.5rem 0.35rem;
+  }
+  a[title="Copy paragraph link"] {
+    opacity: 0.55;
+    padding: 0.35rem 0.5rem;
+  }
+}

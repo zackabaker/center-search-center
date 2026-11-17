@@ -60,6 +60,16 @@ function ShareTerm({ slug, term, concept }: { slug: string; term: string; concep
 
 export default function GlossaryClient({ entries }: Props) {
   const [query, setQuery] = useState('');
+  // Phones show each entry as term + defining quote; the usage passages and
+  // source list open per entry. Shown in full, the page ran to ~55 screens.
+  const [open, setOpen] = useState<Set<string>>(() => new Set());
+  const toggle = (slug: string) =>
+    setOpen((prev) => {
+      const next = new Set(prev);
+      if (next.has(slug)) next.delete(slug);
+      else next.add(slug);
+      return next;
+    });
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -176,7 +186,7 @@ export default function GlossaryClient({ entries }: Props) {
                       {entry.passages.map((p, i) => (
                         <blockquote
                           key={i}
-                          className={`border-l-2 border-gray-200 dark:border-gray-700 pl-3.5 ${i > 0 ? 'hidden sm:block' : ''}`}
+                          className={`border-l-2 border-gray-200 dark:border-gray-700 pl-3.5 ${open.has(entry.slug) ? '' : 'hidden sm:block'}`}
                         >
                           <p
                             className="text-sm text-gray-600 dark:text-gray-400 italic leading-relaxed max-w-2xl"
@@ -192,7 +202,7 @@ export default function GlossaryClient({ entries }: Props) {
                               <span className={`px-1.5 py-0.5 rounded font-medium ${SOURCE_COLORS[p.source] ?? 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'}`}>
                                 {p.source}
                               </span>
-                              <span className="group-hover:underline max-w-[300px] truncate">{p.title}</span>
+                              <span className="group-hover:underline min-w-0 break-words sm:max-w-[300px] sm:truncate">{p.title}</span>
                             </Link>
                           </footer>
                         </blockquote>
@@ -213,13 +223,13 @@ export default function GlossaryClient({ entries }: Props) {
                       <Link
                         key={s.slug}
                         href={`/post/${s.slug}`}
-                        className="inline-flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors group"
+                        className={`${open.has(entry.slug) ? 'inline-flex' : 'hidden sm:inline-flex'} items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors group`}
                         title={s.title}
                       >
                         <span className={`px-1.5 py-0.5 rounded font-medium ${SOURCE_COLORS[s.source] ?? 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'}`}>
                           {s.source}
                         </span>
-                        <span className="group-hover:underline max-w-[220px] truncate">{s.title}</span>
+                        <span className="group-hover:underline min-w-0 break-words sm:max-w-[220px] sm:truncate">{s.title}</span>
                       </Link>
                     ))}
                     <Link
@@ -228,6 +238,16 @@ export default function GlossaryClient({ entries }: Props) {
                     >
                       Search archive →
                     </Link>
+                    {(entry.passages.length > 0 || entry.sources.length > 0) && (
+                      <button
+                        type="button"
+                        onClick={() => toggle(entry.slug)}
+                        aria-expanded={open.has(entry.slug)}
+                        className="sm:hidden min-h-9 px-3 border border-gray-300 dark:border-gray-600 rounded-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        {open.has(entry.slug) ? 'Show less' : 'Passages and sources'}
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}

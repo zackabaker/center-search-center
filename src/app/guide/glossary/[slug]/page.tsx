@@ -143,7 +143,7 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ s
                     <span className={`px-1.5 py-0.5 rounded font-medium ${SOURCE_COLORS[p.source] ?? 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'}`}>
                       {p.source}
                     </span>
-                    <span className="group-hover:underline max-w-[320px] truncate">{p.title}</span>
+                    <span className="group-hover:underline min-w-0 break-words sm:max-w-[320px] sm:truncate">{p.title}</span>
                   </Link>
                 </footer>
               </blockquote>

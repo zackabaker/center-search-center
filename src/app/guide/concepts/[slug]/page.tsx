@@ -180,7 +180,7 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
                 <span className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-gray-300 dark:bg-gray-600" />
                 <div className="flex items-baseline gap-2 mb-1">
                   <span className="text-xs font-mono text-gray-400 dark:text-gray-500 tabular-nums">{atlasYear(p.date)}</span>
-                  <Link href={`/post/${p.slug}`} className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline truncate">
+                  <Link href={`/post/${p.slug}`} className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline min-w-0 break-words sm:truncate">
                     {p.title}
                   </Link>
                 </div>
