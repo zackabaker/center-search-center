@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { ASK_MODEL_ID } from '@/lib/ask-model';
+import { ASK_MODEL_ID, ASK_EFFORT, ASK_FAST } from '@/lib/ask-model';
 import { rateLimit, clientIp, isSameOrigin } from '@/lib/rate-limit';
 import { getKV } from '@/lib/kv';
 import { partnerCors, preflight } from '@/lib/cors';
@@ -658,18 +658,27 @@ export async function POST(request: Request) {
 
     messages.push({ role: 'user', content: contextBlock + freshNote });
 
-    // Start Claude stream (takes ~500ms for first token)
-    const stream = await anthropic.messages.stream({
-      // The answer is a quote-woven synthesis (3–5 paragraphs); long verbatim excerpts
-      // block of 5–8 verbatim passages. At 3000 a verbose synthesis consumed the
-      // whole budget and the response was cut off before the excerpts ever
-      // streamed — so the UI showed a summary with no quotes. The model's
-      // output ceiling is far above this; give ample room for both halves.
-      model: ASK_MODEL_ID,
-      max_tokens: 8000,
-      system: SYSTEM_PROMPT,
-      messages,
-    });
+    // The answer is a quote-woven synthesis (3–5 paragraphs); long verbatim excerpts
+    // block of 5–8 verbatim passages. At 3000 a verbose synthesis consumed the
+    // whole budget and the response was cut off before the excerpts ever
+    // streamed — so the UI showed a summary with no quotes. The model's
+    // output ceiling is far above this; give ample room for both halves.
+    //
+    // Fast mode has its own rate limit and is not on every account, so a
+    // request that is refused before any text arrives is retried once at
+    // standard speed (see the loop below). `speed` is newer than this SDK's
+    // types, hence the cast; the SDK sends the field through unchanged.
+    type StreamParams = Parameters<typeof anthropic.messages.stream>[0];
+    const openStream = (fast: boolean) =>
+      anthropic.messages.stream({
+        model: ASK_MODEL_ID,
+        max_tokens: 8000,
+        system: SYSTEM_PROMPT,
+        messages,
+        output_config: { effort: ASK_EFFORT },
+        ...(fast ? { speed: 'fast' } : {}),
+      } as StreamParams);
+    let stream = openStream(ASK_FAST);
 
     const encoder = new TextEncoder();
     const readableStream = new ReadableStream({
@@ -683,15 +692,30 @@ export async function POST(request: Request) {
 
           // ── Stream AI text ───────────────────────────────────────────────
           let answerText = '';
-          for await (const event of stream) {
-            if (
-              event.type === 'content_block_delta' &&
-              event.delta.type === 'text_delta'
-            ) {
-              answerText += event.delta.text;
-              const data = JSON.stringify({ text: event.delta.text }) + '\n';
-              controller.enqueue(encoder.encode(data));
+          const pump = async () => {
+            for await (const event of stream) {
+              if (
+                event.type === 'content_block_delta' &&
+                event.delta.type === 'text_delta'
+              ) {
+                answerText += event.delta.text;
+                const data = JSON.stringify({ text: event.delta.text }) + '\n';
+                controller.enqueue(encoder.encode(data));
+              }
             }
+          };
+          try {
+            await pump();
+          } catch (err) {
+            // Fast mode refused (its own rate limit, or not available) before
+            // anything was written: answer at standard speed instead.
+            const fastRefused =
+              ASK_FAST && answerText === '' &&
+              (err instanceof Anthropic.RateLimitError || err instanceof Anthropic.BadRequestError);
+            if (!fastRefused) throw err;
+            console.warn('Ask: fast mode refused, retrying at standard speed');
+            stream = openStream(false);
+            await pump();
           }
 
           // Surface truncation: a max_tokens stop used to just end the stream,
