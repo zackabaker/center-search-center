@@ -15,6 +15,11 @@ export const metadata: Metadata = {
 // navigated to the FIRST question's URL and showed its answer (Next 16.2.1).
 // Awaiting searchParams makes the route vary by query, so each question gets
 // its own entry.
+//
+// Next 16.4.6 fixes the router itself (verified 2026-11-17 by removing this
+// on a test build: the second question went to its own URL). The await is
+// kept as a guard in case that behaviour ever regresses; removing it only
+// makes this page static again.
 export default async function AskPage({
   searchParams,
 }: {
