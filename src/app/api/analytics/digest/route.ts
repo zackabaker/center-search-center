@@ -6,7 +6,8 @@ import { fetchStudyData } from '@/app/analytics/data';
 import { buildInsights, readerSessions } from '@/app/analytics/derive';
 
 // Weekly digest writer — run by the Vercel cron in vercel.json (Mondays), or
-// by the owner on demand (?force=1 rewrites the current week's entry).
+// by the owner on demand (?force=1 rewrites the current week's entry;
+// add &email=1 to send it as well).
 //
 // Who may run it: the cron or the owner (mayRunJob). The work is
 // idempotent per week — the slot is claimed with SET NX *before* anything
@@ -20,7 +21,11 @@ export async function GET(request: Request) {
   if (!mayRunJob(request)) return new Response('Not found', { status: 404 });
 
   const week = mondayOf();
-  const force = isOwner(request) && new URL(request.url).searchParams.get('force') === '1';
+  const params = new URL(request.url).searchParams;
+  const force = isOwner(request) && params.get('force') === '1';
+  // The owner can ask for the re-run to be emailed too (?force=1&email=1) —
+  // the way to test delivery without waiting for Monday.
+  const emailNow = force && params.get('email') === '1';
   let claimed = false;
   try {
     claimed = await claimWeek(week);
@@ -71,10 +76,14 @@ export async function GET(request: Request) {
       }).map((i) => i.text),
     };
     await saveDigest(digest);
-    // By email too, when a mail provider is configured (see digest-email.ts).
-    // Only on the scheduled write, not when the owner re-runs a week by hand.
-    if (claimed) await sendDigestEmail(digest);
-    return Response.json({ ok: true, week, lines: isOwner(request) ? digest.lines.length : undefined });
+    // By email too, when a mail provider is configured (see digest-email.ts):
+    // on the scheduled write, or when the owner's re-run asks for it.
+    const emailed = claimed || emailNow ? await sendDigestEmail(digest) : false;
+    return Response.json({
+      ok: true,
+      week,
+      ...(isOwner(request) ? { lines: digest.lines.length, emailed } : {}),
+    });
   } catch {
     // Give the slot back so the next run can try again.
     if (claimed) await releaseWeek(week).catch(() => {});
