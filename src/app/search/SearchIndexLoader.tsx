@@ -5,6 +5,7 @@ import type { SearchEntry } from '@/lib/search-index';
 import SearchPageClient from './SearchPageClient';
 import TopLoadingBar from '@/components/TopLoadingBar';
 import RollingLoader from '@/components/RollingLoader';
+import SceneMark from '@/components/SceneMark';
 
 // The pending query shown while the index streams in. Starts from the URL's
 // ?q= (deep links, shared searches) — set after mount to avoid a hydration
@@ -72,15 +73,28 @@ export default function SearchIndexLoader() {
       <>
         <TopLoadingBar label="Loading search" />
         <main className="max-w-4xl w-full mx-auto px-4 pt-6 pb-24 sm:py-10">
-          <div className="relative flex items-center border-2 border-gray-200 rounded-xl bg-white dark:bg-gray-900 dark:border-gray-700 mb-3">
-            <input
-              type="text"
-              autoFocus
-              placeholder="Search the archive…"
-              value={pendingQ}
-              onChange={(e) => setPendingQ(e.target.value)}
-              className="flex-1 min-w-0 px-4 py-3.5 text-base sm:text-lg outline-none bg-transparent dark:text-white dark:placeholder-gray-500"
-            />
+          {/* Same header and box as the loaded search page (SearchPageClient),
+              element for element, so nothing moves when the index arrives. */}
+          <div className="-mx-4 px-4 pt-3 pb-3 bg-[var(--background)] border-b border-gray-200 dark:border-gray-800">
+            <div className="relative flex items-center border-[1.5px] border-gray-900 rounded-xl bg-white dark:bg-gray-900 dark:border-gray-300">
+              <div className="ml-3 flex-shrink-0">
+                <SceneMark size={24} spin speed={8} className="text-gray-400 dark:text-gray-500" />
+              </div>
+              <input
+                type="text"
+                autoFocus
+                placeholder="Search the archive…"
+                value={pendingQ}
+                onChange={(e) => setPendingQ(e.target.value)}
+                className="flex-1 min-w-0 px-3 py-3.5 text-base sm:text-lg outline-none bg-transparent dark:text-white dark:placeholder-gray-500"
+              />
+              <span
+                aria-hidden
+                className="mr-2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg flex-shrink-0 opacity-60"
+              >
+                Search
+              </span>
+            </div>
           </div>
           {/* No suggestion chips here (owner direction, 2026-11-17): a search
               is already under way, so the only thing to show is that it is
