@@ -17,7 +17,6 @@ import {
   countPostsWithTerm,
   stemWord,
 } from '@/lib/search-index';
-import FilterTabs from '@/components/FilterTabs';
 import TopLoadingBar from '@/components/TopLoadingBar';
 import { GLOSSARY_LINK_TERMS } from '@/data/guide/glossary-link-terms';
 import { CS_TERMS } from '@/lib/cs-terms';
@@ -38,48 +37,6 @@ import SearchViews from '@/components/SearchViews';
 import ConceptCard from '@/components/ConceptCard';
 import { queryShape, searchHref } from '@/lib/query-shape';
 import { activeExpansions } from '@/lib/vocab';
-
-type FilterOption = 'all' | ContentSource;
-
-// Share the current results: the URL already carries ?q= (and ?mode=meaning),
-// so sharing is just surfacing the address — share sheet on mobile, copy-link
-// elsewhere.
-function ShareResults({ query }: { query: string }) {
-  const [copied, setCopied] = useState(false);
-  const share = async () => {
-    const url = window.location.href;
-    try {
-      if (navigator.share) {
-        await navigator.share({ title: `Center Study search: ${query}`, url });
-        return;
-      }
-    } catch { return; } // user dismissed the sheet
-    try {
-      await navigator.clipboard.writeText(url);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1800);
-    } catch {}
-  };
-  return (
-    <button
-      onClick={share}
-      title="Share a link to these results"
-      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-800 dark:hover:text-gray-200 transition-colors flex-shrink-0"
-    >
-      {copied ? (
-        <span className="text-green-600 dark:text-green-400">Link copied</span>
-      ) : (
-        <>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-            <path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-          </svg>
-          <span className="hidden sm:inline">Share results</span>
-          <span className="sm:hidden">Share</span>
-        </>
-      )}
-    </button>
-  );
-}
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
   substack:  'Substack',
@@ -193,29 +150,6 @@ function commitQuery(raw: string): string {
   return raw.trim().replace(/[“”„‟]/g, '"');
 }
 
-// ── Transform current query when a syntax hint is clicked ────────────────────
-function applySearchSyntax(syntax: string, currentQuery: string): string {
-  const base = currentQuery.replace(/"/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').trim();
-  const words = base.split(/\s+/).filter(Boolean);
-  switch (syntax) {
-    case '"exact phrase"':
-      return base ? `"${base}"` : '"exact phrase"';
-    case 'term AND term':
-      if (words.length >= 2) return words.join(' AND ');
-      if (words.length === 1) return `${words[0]} AND `;
-      return 'term AND term';
-    case 'term NOT term':
-      if (words.length >= 1) return `${words[0]} NOT `;
-      return 'term NOT term';
-    case 'term OR term':
-      if (words.length >= 2) return words.join(' OR ');
-      if (words.length === 1) return `${words[0]} OR `;
-      return 'term OR term';
-    default:
-      return currentQuery;
-  }
-}
-
 const PAGE_SIZE = 30;
 
 // ── "Did you mean" helpers ────────────────────────────────────────────────────
@@ -321,7 +255,6 @@ export default function SearchPageClient({
   });
   const view: 'exact' | 'similar' = viewPick ?? (queryShape(query) === 'sentence' ? 'similar' : 'exact');
   const [committed, setCommitted] = useState(initialQ ? commitQuery(initialQ) : '');
-  const [filter, setFilter] = useState<FilterOption>('all');
   const [page, setPage] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -362,23 +295,17 @@ export default function SearchPageClient({
   // Source toggles — Reddit/X and Chronicles/AP are off by default and opt-in.
   // Reddit/X are already in the core index (filtered in/out); Chronicles/AP are
   // fetched lazily the first time they're switched on.
-  const [includeThreads, setIncludeThreads] = useState(false);
+  // Reddit and X threads are no longer searchable from this page: the
+  // "Also search" row that switched them on was removed (owner direction,
+  // 2026-11-17 — the results header was far too busy).
+  const includeThreads = false;
   const [includeArchives, setIncludeArchives] = useState(false);
   const [archiveEntries, setArchiveEntries] = useState<SearchEntry[]>([]);
   const [archiveLoading, setArchiveLoading] = useState(false);
 
-  useEffect(() => {
-    try {
-      // The toggles are hidden on phones, so a saved opt-in is not restored
-      // there — nobody should be stuck in a mode they cannot switch off.
-      if (!window.matchMedia('(min-width: 640px)').matches) return;
-      setIncludeThreads(localStorage.getItem('csc-search-threads') === 'on');
-      setIncludeArchives(localStorage.getItem('csc-search-archives') === 'on');
-    } catch {}
-  }, []);
-
-  const toggleThreads = () => setIncludeThreads((v) => { const n = !v; try { localStorage.setItem('csc-search-threads', n ? 'on' : 'off'); } catch {} return n; });
-  const toggleArchives = () => setIncludeArchives((v) => { const n = !v; try { localStorage.setItem('csc-search-archives', n ? 'on' : 'off'); } catch {} return n; });
+  // Gans's Chronicles and Anthropoetics stay reachable from the one quiet
+  // link in the count line, for this visit only (it is not remembered).
+  const toggleArchives = () => setIncludeArchives((v) => !v);
 
   // Sources searched by meaning (semantic) mode — core (Adam's writing) is always
   // on; Reddit/X and Chronicles/AP are opt-in via the same toggles as keyword, so
@@ -508,10 +435,9 @@ export default function SearchPageClient({
     if (e.key === 'Escape') { setQuery(''); setCommitted(''); inputRef.current?.blur(); }
   };
 
-  const filtered = useMemo(
-    () => filter === 'all' ? results : results.filter((r) => r.entry.source === filter),
-    [results, filter]
-  );
+  // (The per-source tabs were removed with the rest of the results-header
+  // controls, owner direction 2026-11-17: the list is always every source.)
+  const filtered = results;
 
   // Optional date ordering on top of relevance — 30 years of writing deserves
   // a chronological view. parse handles Chronicle-style ordinal dates.
@@ -535,23 +461,6 @@ export default function SearchPageClient({
 
   const totalPages = Math.ceil(visibleResults.length / PAGE_SIZE);
   const pageItems = visibleResults.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
-
-  const counts: Record<FilterOption, number> = useMemo(() => {
-    const by = (s: ContentSource) => results.filter((r) => r.entry.source === s).length;
-    return {
-      all: results.length,
-      substack: by('substack'),
-      gablog: by('gablog'),
-      book: by('book'),
-      pdf: by('pdf'),
-      reddit: by('reddit'),
-      twitter: by('twitter'),
-      chronicle: by('chronicle'),
-      ap: by('ap'),
-    };
-  }, [results]);
-
-  const handleFilterChange = (f: FilterOption) => { setFilter(f); setPage(0); };
 
   const postUrl = (slug: string) =>
     `/post/${slug}${committed.trim() ? `?q=${encodeURIComponent(committed.trim())}` : ''}`;
@@ -665,7 +574,6 @@ export default function SearchPageClient({
   // Vocabulary expansions in play (shared alias layer) — surfaced for trust.
   const expansions = useMemo(() => activeExpansions(committed), [committed]);
 
-  const SYNTAX_HINTS = ['"exact phrase"', 'term AND term', 'term NOT term', 'term OR term'] as const;
 
   // Speed: idle=1 (slow, like home), typing=2 (medium), searching=7 (fast)
   const iconSpeed = isSearching ? 7 : query ? 2 : 1;
@@ -688,40 +596,6 @@ export default function SearchPageClient({
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [committed, isSearching, grepStatus, hasResults, visibleResults.length, deepMatches.length]);
-
-  // Source toggles — shared by keyword and meaning. Reddit/X and Chronicles/AP
-  // are off by default and opt-in, so the Chronicles don't flood either search.
-  const sourceToggles = (
-    <div className="flex items-center gap-2 flex-wrap text-xs">
-      <span className="text-gray-400 dark:text-gray-500">Also search:</span>
-      <button
-        onClick={toggleThreads}
-        aria-pressed={includeThreads}
-        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-colors ${
-          includeThreads
-            ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 border-gray-900 dark:border-white'
-            : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500'
-        }`}
-      >
-        <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-violet-400" />
-        Reddit &amp; X
-      </button>
-      <button
-        onClick={toggleArchives}
-        aria-pressed={includeArchives}
-        title="Reference material by Eric Gans — the Chronicles of Love & Resentment and the Anthropoetics journal"
-        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-colors ${
-          includeArchives
-            ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 border-gray-900 dark:border-white'
-            : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500'
-        }`}
-      >
-        <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-gray-400" />
-        Gans reference (Chronicles &amp; AP)
-        {includeArchives && archiveLoading && <span className="opacity-70">· loading…</span>}
-      </button>
-    </div>
-  );
 
   return (
     <main className="max-w-4xl w-full mx-auto px-4 pt-6 pb-24 sm:py-10">
@@ -793,25 +667,6 @@ export default function SearchPageClient({
         {/* Concept card — first, whenever the query names a curated concept */}
         <ConceptCard query={query.trim() || committed} className="mt-4" />
 
-        {/* Syntax hints — desktop only (clutter on mobile) */}
-        {(
-        <div className="hidden sm:flex flex-wrap gap-2 mt-3">
-          {SYNTAX_HINTS.map((tip) => (
-            <button
-              key={tip}
-              onClick={() => {
-                const transformed = applySearchSyntax(tip, query);
-                setQuery(transformed);
-                handleSubmit(transformed);
-                inputRef.current?.focus();
-              }}
-              className="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded text-[11px] text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 font-mono transition-colors"
-            >
-              {tip}
-            </button>
-          ))}
-        </div>
-        )}
       </div>
 
       {/* Similar passages lead when the query is a sentence (or the reader
@@ -873,7 +728,17 @@ export default function SearchPageClient({
                         {grep.totalPosts - (grep.refPosts ?? 0) > 0 ? '' : `0 in Katz texts`}
                         {(grep.refOccurrences ?? 0) > 0 && (
                           includeArchives ? (
-                            ` (+${grep.refOccurrences}× in Gans reference)`
+                            <>
+                              {' '}(+{grep.refOccurrences}× in Gans reference,{' '}
+                              <button
+                                onClick={toggleArchives}
+                                className="underline decoration-dotted underline-offset-2 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                                title="Leave Chronicles & Anthropoetics out of the results"
+                              >
+                                hide
+                              </button>
+                              )
+                            </>
                           ) : (
                             <>
                               {' '}(
@@ -918,7 +783,6 @@ export default function SearchPageClient({
               </div>
               {hasResults && (
                 <div className="flex items-center gap-2 flex-shrink-0">
-                  <ShareResults query={committed} />
                   <select
                     value={sort}
                     onChange={(e) => { setSort(e.target.value as typeof sort); setPage(0); }}
@@ -931,16 +795,6 @@ export default function SearchPageClient({
                   </select>
                 </div>
               )}
-            </div>
-            {/* Source tabs and the "Also search" toggles are desktop-only
-                (owner direction, 2026-11-17): on a phone they crowded the
-                results header. Phones keep the sort menu and nothing else. */}
-            <div className="hidden sm:block">
-              {visibleResults.length > 0 && (
-                <FilterTabs active={filter} onChange={handleFilterChange} counts={counts} />
-              )}
-              {/* Source toggles — Reddit/X and Chronicles/AP are off by default */}
-              <div className="mt-3">{sourceToggles}</div>
             </div>
           </div>
 
@@ -1114,8 +968,8 @@ export default function SearchPageClient({
               )}
               <p className="text-sm">
                 {isImplicitPhrase
-                  ? 'Searching as exact phrase. Try switching to "term AND term" for looser matching.'
-                  : 'Try removing AND/NOT operators, or use fewer terms.'}
+                  ? 'These words were searched as one exact phrase. Try fewer words.'
+                  : 'Try fewer words.'}
               </p>
 
               {/* Nearby vocabulary terms */}
