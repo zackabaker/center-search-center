@@ -1,6 +1,7 @@
 import { getPublicPosts } from '@/lib/parser';
 import Link from 'next/link';
 import SceneMark from '@/components/SceneMark';
+import TrackMiss from '@/components/TrackMiss';
 
 const SOURCE_COLORS: Record<string, string> = {
   substack:  'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
@@ -26,6 +27,7 @@ export default function NotFound() {
 
   return (
     <main className="min-h-[80vh] flex flex-col items-center justify-center px-4 py-16">
+      <TrackMiss />
 
       {/* Scene glyph — the site mark, gently circulating */}
       <div className="mb-8">
@@ -48,12 +50,6 @@ export default function NotFound() {
           className="px-4 py-2 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-medium hover:opacity-80 transition-opacity"
         >
           ← Home
-        </Link>
-        <Link
-          href="/search"
-          className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500 transition-colors"
-        >
-          Search
         </Link>
         <Link
           href="/search"

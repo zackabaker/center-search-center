@@ -1,7 +1,28 @@
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import type { NextFetchEvent, NextRequest } from 'next/server';
 import redirects from '@/data/slug-redirects.json';
 import { getUser, isOwnerUser } from '@/lib/auth';
+import { aiCrawlerFamily } from '@/lib/ai-agents';
+import { getKV } from '@/lib/kv';
+
+// AI crawlers and agents don't run JavaScript, so no client tracker ever sees
+// them. Count them here instead — per family per day, plus which paths each
+// family fetches — for the "AI systems reading the archive" panel on
+// /analytics. Aggregates only; the user-agent is classified and discarded.
+async function countCrawler(family: string, path: string): Promise<void> {
+  try {
+    const kv = getKV();
+    if (!kv) return;
+    const dk = `crawler:day:${new Date().toISOString().slice(0, 10)}`;
+    const pipe = kv.pipeline();
+    pipe.hincrby(dk, family, 1);
+    pipe.expire(dk, 60 * 60 * 24 * 400);
+    pipe.zincrby(`crawler:paths:${family}`, 1, path);
+    await pipe.exec();
+  } catch {
+    /* best-effort — never affect the response */
+  }
+}
 
 // Old source-prefixed slug → current canonical slug (generated at build by
 // scripts/generate-posts-cache.ts). Post URLs were standardized — the source
@@ -10,7 +31,25 @@ import { getUser, isOwnerUser } from '@/lib/auth';
 const MAP = redirects as Record<string, string>;
 
 // In Next 16 "Middleware" is "Proxy"; the runtime contract is unchanged.
-export function proxy(request: NextRequest) {
+export function proxy(request: NextRequest, event: NextFetchEvent) {
+  // The last matcher entry routes AI-agent requests through here (and only
+  // those — readers and search engines never touch the proxy for it). Count
+  // in the background and fall through to the normal handling below.
+  // ?_probe is the self-test: it answers with the classification instead of
+  // the page and never counts toward a real family (?_probe=count exercises
+  // the write under the throwaway family "probe", which the console ignores).
+  const family = aiCrawlerFamily(request.headers.get('user-agent'));
+  if (family) {
+    const p = request.nextUrl.pathname;
+    const probe = request.nextUrl.searchParams.get('_probe');
+    if (probe !== null) {
+      if (probe === 'count') event.waitUntil(countCrawler('probe', p.slice(0, 200)));
+      return NextResponse.json({ aiAgent: family });
+    }
+    const isPage = !/\.[a-z0-9]{2,5}$/i.test(p) || p.endsWith('.txt') || p.endsWith('.xml');
+    if (isPage) event.waitUntil(countCrawler(family, p.slice(0, 200)));
+  }
+
   // /study → /analytics: the console moved (owner direction, 2026-11-16).
   // Permanent redirect, query preserved so the ?key= flow still lands.
   if (request.nextUrl.pathname === '/study' || request.nextUrl.pathname.startsWith('/study/')) {
@@ -81,5 +120,19 @@ export const config = {
     '/study/:path*',
     '/analytics',
     '/analytics/:path*',
+    // AI crawlers/agents ONLY (user-agent condition) — everyone else skips
+    // the proxy on these paths, exactly as before. Tokens mirror
+    // src/lib/ai-agents.ts; the value is matched against the whole header.
+    {
+      source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
+      has: [
+        {
+          type: 'header',
+          key: 'user-agent',
+          value:
+            '.*(ChatGPT-User|Claude-User|Perplexity-User|MistralAI-User|OAI-SearchBot|Claude-SearchBot|PerplexityBot|DuckAssistBot|YouBot|GPTBot|ClaudeBot|anthropic-ai|Claude-Web|meta-externalagent|Amazonbot|Bytespider|CCBot|cohere-ai|Diffbot).*',
+        },
+      ],
+    },
   ],
 };

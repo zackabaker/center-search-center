@@ -48,12 +48,17 @@ export async function POST(request: Request) {
     return Response.json({ ok: false }, { status: 429 });
   }
 
-  let body: { event?: unknown; dest?: unknown; where?: unknown; gap?: unknown; mine?: unknown };
+  let body: Body;
   try {
     body = await request.json();
   } catch {
     return Response.json({ error: 'Invalid JSON' }, { status: 400 });
   }
+
+  // Two events keep their own (non-public) keys rather than the convert:*
+  // hashes that GET serves: per-text read depth, and 404 hits.
+  if (body.event === 'depth') return depthHit(request, body);
+  if (body.event === '404') return missHit(request, body);
 
   const event = typeof body.event === 'string' && (EVENTS as readonly string[]).includes(body.event)
     ? body.event
@@ -96,6 +101,93 @@ export async function POST(request: Request) {
     return Response.json({ ok: true, stored: false }); // never surface a logging failure
   }
   return Response.json({ ok: true, stored: true });
+}
+
+type Body = {
+  event?: unknown; dest?: unknown; where?: unknown; gap?: unknown; mine?: unknown;
+  slug?: unknown; d?: unknown; t?: unknown; pd?: unknown; pt?: unknown;
+  path?: unknown; probe?: unknown;
+};
+
+const stored = (ok: boolean) => Response.json({ ok: true, stored: ok });
+
+// ── Read depth ───────────────────────────────────────────────────────────
+// How far down a text readers get and how long they stay. One hash per UTC
+// day — depth:YYYY-MM-DD → { "<slug>|<d>.<t>": n } — where d is the deepest
+// quarter reached (0/25/50/75/100) and t a dwell bucket (0: <30s, 1: <90s,
+// 2: <5min, 3: 5min+). Each (reader session, text) occupies exactly ONE
+// cell: the client reports again only when a bucket grows, naming the cell
+// it previously reported (pd/pt) so the count moves instead of duplicating.
+// The owner's own reading is left out — except a flagged self-test, which
+// lands under the throwaway slug "__probe__".
+const DEPTHS = [0, 25, 50, 75, 100];
+const DWELLS = [0, 1, 2, 3];
+const pick = (v: unknown, allowed: number[]): number | null =>
+  typeof v === 'number' && allowed.includes(v) ? v : null;
+
+async function depthHit(request: Request, body: Body): Promise<Response> {
+  let slug =
+    typeof body.slug === 'string' && /^[a-z0-9][a-z0-9-]{0,199}$/.test(body.slug) ? body.slug : null;
+  const d = pick(body.d, DEPTHS);
+  const t = pick(body.t, DWELLS);
+  const pd = pick(body.pd, DEPTHS);
+  const pt = pick(body.pt, DWELLS);
+  if (!slug || d === null || t === null) return stored(false);
+
+  const kv = getKV();
+  if (!kv) return stored(false);
+  if (body.mine === true || (await isOwnerRequest(kv, request))) {
+    if (body.probe !== true) return stored(false);
+    slug = '__probe__';
+  }
+
+  try {
+    const dk = `depth:${new Date().toISOString().slice(0, 10)}`;
+    const pipe = kv.pipeline();
+    const moved = pd !== null && pt !== null;
+    if (moved) {
+      if (d < pd || t < pt || (d === pd && t === pt)) return stored(false); // buckets only grow
+      pipe.hincrby(dk, `${slug}|${pd}.${pt}`, -1);
+    }
+    pipe.hincrby(dk, `${slug}|${d}.${t}`, 1);
+    pipe.expire(dk, 60 * 60 * 24 * 400);
+    await pipe.exec();
+  } catch {
+    return stored(false);
+  }
+  return stored(true);
+}
+
+// ── 404s ─────────────────────────────────────────────────────────────────
+// Which missing URLs people actually land on — broken links in the wild.
+// fof:YYYY-MM-DD → { "<path>": n }, 90-day TTL. Paths only.
+const BOT_UA = /(?<!cu)bot|crawl|spider|slurp|headless|preview|fetch|scrape|monitor|lighthouse/i;
+
+async function missHit(request: Request, body: Body): Promise<Response> {
+  if (BOT_UA.test(request.headers.get('user-agent') ?? '')) return stored(false);
+  let path =
+    typeof body.path === 'string' && /^\/(?![/\\])/.test(body.path) && body.path.length <= 150
+      ? body.path
+      : null;
+  if (!path) return stored(false);
+
+  const kv = getKV();
+  if (!kv) return stored(false);
+  if (body.mine === true || (await isOwnerRequest(kv, request))) {
+    if (body.probe !== true) return stored(false);
+    path = '/__probe__';
+  }
+
+  try {
+    const dk = `fof:${new Date().toISOString().slice(0, 10)}`;
+    const pipe = kv.pipeline();
+    pipe.hincrby(dk, path, 1);
+    pipe.expire(dk, 60 * 60 * 24 * 90);
+    await pipe.exec();
+  } catch {
+    return stored(false);
+  }
+  return stored(true);
 }
 
 export function OPTIONS() {

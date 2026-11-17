@@ -6,8 +6,10 @@ import { getSid } from '@/lib/session-id';
 // Anonymous conversion events (counted by /api/convert): the landing page is
 // remembered per session; "open" fires once when the session moves past that
 // landing page into a text or /begin; "read" once per post per session at
-// ≥50% scroll AND ≥90s; "follow" on any click out to Substack /
-// @centerstudy_ / RSS (destination + placement only); "return" when a
+// ≥50% scroll AND ≥90s; "depth" the deepest quarter of a text reached plus a
+// dwell bucket, one cell per text per session; "follow" on any click out to
+// Substack / @centerstudy_ / RSS (destination + placement only); "pick" a
+// search result or Ask citation opened (trail only); "return" when a
 // browser comes back after 1–30 days (day gap only). Everything lives in
 // session/localStorage, nothing identifying leaves the browser, and every
 // call is wrapped — a storage or network failure must never affect the page.
@@ -143,14 +145,100 @@ export default function ConvertTracker() {
     };
   }, [pathname]);
 
-  // "follow" — one delegated listener; no per-link wiring. data-where on an
-  // anchor overrides the placement inference.
+  // "depth" — how far down a text the reader got and how long the tab was
+  // actually visible, reported when they leave it (tab hidden, navigation,
+  // unload). The last reported cell is kept per text in sessionStorage, so a
+  // reader who comes back and goes further MOVES their count (pd/pt name the
+  // old cell) instead of adding a second one.
+  useEffect(() => {
+    if (!pathname.startsWith('/post/')) return;
+    const slug = pathname.split('/')[2] ?? '';
+    if (!slug) return;
+    const KEY = `csc-depth-${slug}`;
+    let prior: { d: number; t: number; ms: number } | null = null;
+    try {
+      const raw = sessionStorage.getItem(KEY);
+      if (raw) {
+        const [d, t, ms] = raw.split(':').map(Number);
+        if ([d, t, ms].every(Number.isFinite)) prior = { d, t, ms };
+      }
+    } catch {
+      /* ignore */
+    }
+
+    let maxRatio = 0;
+    let visibleMs = 0;
+    let since = document.visibilityState === 'visible' ? Date.now() : 0;
+    const measure = () => {
+      const el = document.scrollingElement;
+      if (!el) return;
+      const r = (el.scrollTop + window.innerHeight) / Math.max(1, el.scrollHeight);
+      if (r > maxRatio) maxRatio = r;
+    };
+    const report = () => {
+      try {
+        if (since) {
+          visibleMs += Date.now() - since;
+          since = 0;
+        }
+        const ms = (prior?.ms ?? 0) + visibleMs;
+        if (ms < 3000) return; // an instant bounce says nothing about the text
+        const reached =
+          maxRatio >= 0.97 ? 100 : maxRatio >= 0.75 ? 75 : maxRatio >= 0.5 ? 50 : maxRatio >= 0.25 ? 25 : 0;
+        const d = Math.max(prior?.d ?? 0, reached);
+        const sec = ms / 1000;
+        const t = Math.max(prior?.t ?? 0, sec < 30 ? 0 : sec < 90 ? 1 : sec < 300 ? 2 : 3);
+        if (!prior || d !== prior.d || t !== prior.t) {
+          send({ event: 'depth', slug, d, t, ...(prior ? { pd: prior.d, pt: prior.t } : {}) });
+        }
+        prior = { d, t, ms };
+        visibleMs = 0;
+        sessionStorage.setItem(KEY, `${d}:${t}:${ms}`);
+      } catch {
+        /* best-effort */
+      }
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === 'hidden') report();
+      else since = Date.now();
+    };
+    window.addEventListener('scroll', measure, { passive: true });
+    document.addEventListener('visibilitychange', onVisibility);
+    window.addEventListener('pagehide', report);
+    measure();
+    return () => {
+      report();
+      window.removeEventListener('scroll', measure);
+      document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('pagehide', report);
+    };
+  }, [pathname]);
+
+  // "follow" and "pick" — one delegated listener; no per-link wiring.
+  // data-where on an anchor overrides the follow placement inference.
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
       try {
         const target = e.target as Element | null;
         const a = target?.closest?.('a[href]');
         if (!(a instanceof HTMLAnchorElement)) return;
+        // "pick" — a text opened from the search results (rank = its place
+        // among the texts listed) or from an Ask answer's citations.
+        // Trail-only: it shows up in the visit's timeline on /analytics.
+        if (
+          a.origin === location.origin &&
+          a.pathname.startsWith('/post/') &&
+          (location.pathname === '/search' || location.pathname === '/ask')
+        ) {
+          const listed: string[] = [];
+          (document.querySelector('main') ?? document)
+            .querySelectorAll<HTMLAnchorElement>('a[href^="/post/"]')
+            .forEach((el) => {
+              if (!listed.includes(el.pathname)) listed.push(el.pathname);
+            });
+          sendTrailEvent(`pick:${Math.min(listed.indexOf(a.pathname) + 1, 99)}`);
+          return;
+        }
         // Placement-strict matching: only real follow CTAs count. The Substack
         // ROOT is a follow; /p/<slug> links (the per-post "Original" button,
         // in-body citations) are source attribution and would contaminate the

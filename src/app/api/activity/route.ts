@@ -59,7 +59,10 @@ export async function POST(request: Request) {
     return Response.json({ ok: true, stored: false });
   }
 
-  let body: { sid?: unknown; path?: unknown; mine?: unknown; ref?: unknown; ev?: unknown };
+  let body: {
+    sid?: unknown; path?: unknown; mine?: unknown; ref?: unknown; ev?: unknown;
+    d?: unknown; l?: unknown;
+  };
   try {
     body = await request.json();
   } catch {
@@ -76,10 +79,17 @@ export async function POST(request: Request) {
       ? body.path
       : null;
   if (!sid || !path) return Response.json({ ok: true, stored: false });
+  // "pick:<rank>" = a result opened from /search (rank among the listed
+  // texts) or a cited text opened from an /ask answer.
   const ev =
-    typeof body.ev === 'string' && /^(follow|read|new|return)(:[a-z0-9-]{1,20}){0,2}$/.test(body.ev)
+    typeof body.ev === 'string' && /^(follow|read|new|return|pick)(:[a-z0-9-]{1,20}){0,2}$/.test(body.ev)
       ? body.ev
       : undefined;
+  // Sent once, with a session's first event: device class (one letter, from
+  // viewport width) and the browser's primary language subtag. Coarse on
+  // purpose — no user agent, no locale region, no geo.
+  const dev = body.d === 'm' || body.d === 'd' ? body.d : undefined;
+  const lang = typeof body.l === 'string' && /^[a-z]{2,3}$/.test(body.l) ? body.l : undefined;
   // External referrer, sent only with a session's first event — hostname only,
   // so a referring URL's own path/query never enters the log.
   let ref: string | undefined;
@@ -96,7 +106,7 @@ export async function POST(request: Request) {
 
   const mine = body.mine === true || (await isOwnerRequest(kv, request)) ? true : undefined;
   const now = Date.now();
-  const entry = JSON.stringify({ sid, path, mine, ref, ev, t: now });
+  const entry = JSON.stringify({ sid, path, mine, ref, ev, d: dev, t: now });
   const day = new Date(now).toISOString().slice(0, 10);
   const dayKey = `activity:day:${day}`;
   const uniqKey = `activity:uniq:${day}`;
@@ -109,13 +119,25 @@ export async function POST(request: Request) {
     pipe.lpush(LOG_KEY, entry);
     pipe.ltrim(LOG_KEY, 0, LOG_CAP - 1);
     if (ev) {
-      pipe.hincrby(dayKey, `ev:${ev}`, 1);
+      // Picks collapse to one counter (the rank lives in the trail entry).
+      pipe.hincrby(dayKey, ev.startsWith('pick') ? 'ev:pick' : `ev:${ev}`, 1);
+      // Per-text read series ("r:" = all, "rm:" = the owner's share), the
+      // read-side twin of the per-path view counts below.
+      if (ev === 'read') {
+        pipe.hincrby(dayKey, `r:${path}`, 1);
+        if (mine) pipe.hincrby(dayKey, `rm:${path}`, 1);
+      }
     } else {
       pipe.hincrby(dayKey, 'views', 1);
       if (mine) pipe.hincrby(dayKey, 'views:mine', 1);
       pipe.hincrby(dayKey, `p:${path}`, 1);
+      if (mine) pipe.hincrby(dayKey, `pm:${path}`, 1);
     }
     if (ref) pipe.hincrby(dayKey, `ref:${ref}`, 1);
+    if (!mine) {
+      if (dev) pipe.hincrby(dayKey, `dev:${dev}`, 1);
+      if (lang) pipe.hincrby(dayKey, `lang:${lang}`, 1);
+    }
     pipe.pfadd(uniqKey, sid);
     pipe.expire(dayKey, TTL);
     pipe.expire(uniqKey, TTL);

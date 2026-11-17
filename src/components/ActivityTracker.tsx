@@ -8,8 +8,9 @@ import { getSid } from '@/lib/session-id';
 // together on /sessions. Anonymous by the same design as the search log: the
 // id is random, per-tab, and gone when the tab closes; no cookie, no IP, no
 // identity. The external referrer (hostname only, stripped server-side) rides
-// along once, on the session's first event. Best-effort: every call is
-// wrapped, and a failure never affects the page.
+// along once, on the session's first event, with a one-letter device class
+// and the primary language subtag. Best-effort: every call is wrapped, and a
+// failure never affects the page.
 
 const REF_SENT = 'csc-ref-sent';
 
@@ -28,17 +29,28 @@ export default function ActivityTracker() {
       let mine = false;
       try { mine = !!localStorage.getItem('csc-mine'); } catch { /* ignore */ }
       let ref: string | undefined;
+      // Also once per session, with that first event: device class (phone
+      // vs. larger, from viewport width) and the browser's primary language
+      // subtag ("pt", not "pt-BR"). Coarse by design.
+      let first: { d?: string; l?: string } = {};
       try {
         if (!sessionStorage.getItem(REF_SENT)) {
           sessionStorage.setItem(REF_SENT, '1');
           const r = document.referrer;
           if (r && !r.startsWith(location.origin)) ref = r;
+          const l = (navigator.language || '').split('-')[0].toLowerCase();
+          first = {
+            d: window.matchMedia('(max-width: 767px)').matches ? 'm' : 'd',
+            ...(/^[a-z]{2,3}$/.test(l) ? { l } : {}),
+          };
         }
       } catch { /* ignore */ }
       fetch('/api/activity', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sid, path: pathname, ...(mine ? { mine: true } : {}), ...(ref ? { ref } : {}) }),
+        body: JSON.stringify({
+          sid, path: pathname, ...(mine ? { mine: true } : {}), ...(ref ? { ref } : {}), ...first,
+        }),
         keepalive: true,
       }).catch(() => {});
     } catch {
