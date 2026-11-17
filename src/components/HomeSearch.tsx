@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import SceneMark from '@/components/SceneMark';
+import RollingLoader from '@/components/RollingLoader';
 import { searchHref } from '@/lib/query-shape';
 
 // Suggested starter queries — mix of core theory and contemporary applications
@@ -63,9 +64,20 @@ export default function HomeSearch() {
     setIsNavigating(true);
     const go = () => router.push(searchHref(q));
     setTimeout(() => {
-      if (typeof document !== 'undefined' && 'startViewTransition' in document) {
-        (document as Document & { startViewTransition: (cb: () => void) => void })
-          .startViewTransition(go);
+      // The transition is decoration; the navigation must not depend on it.
+      // A hidden tab aborts the transition (and delays its callback), so go
+      // straight there in that case, and swallow the aborted-transition
+      // rejections that otherwise surface as unhandled errors.
+      if (
+        typeof document !== 'undefined' &&
+        'startViewTransition' in document &&
+        document.visibilityState === 'visible'
+      ) {
+        const vt = (document as Document & {
+          startViewTransition: (cb: () => void) => { ready?: Promise<unknown>; finished?: Promise<unknown> };
+        }).startViewTransition(go);
+        vt?.ready?.catch(() => {});
+        vt?.finished?.catch(() => {});
       } else {
         go();
       }
@@ -129,21 +141,33 @@ export default function HomeSearch() {
           </button>
         </div>
 
-        {/* Suggested terms */}
-        <div className="mt-4">
-          <p className="text-xs text-gray-400 dark:text-gray-500 text-center mb-2">Try searching for</p>
-          <div className="flex flex-wrap justify-center gap-2">
-            {SUGGESTIONS.map((term) => (
-              <button
-                key={term}
-                type="button"
-                onClick={() => handleSuggestion(term)}
-                className="px-3 py-1.5 text-xs rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all"
-              >
-                {term}
-              </button>
-            ))}
+        {/* Suggested terms. Once a search is launched they give way to the
+            rolling loader (owner direction, 2026-11-17): suggestions under a
+            search that is already running read as noise. The chips keep
+            their space (transparent, not `invisible`: a global rule keeps
+            buttons visible) so nothing below jumps. */}
+        <div className="mt-4 relative">
+          <div className={isNavigating ? 'opacity-0 pointer-events-none' : undefined} aria-hidden={isNavigating || undefined}>
+            <p className="text-xs text-gray-400 dark:text-gray-500 text-center mb-2">Try searching for</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {SUGGESTIONS.map((term) => (
+                <button
+                  key={term}
+                  type="button"
+                  tabIndex={isNavigating ? -1 : undefined}
+                  onClick={() => handleSuggestion(term)}
+                  className="px-3 py-1.5 text-xs rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all"
+                >
+                  {term}
+                </button>
+              ))}
+            </div>
           </div>
+          {isNavigating && (
+            <div className="absolute inset-x-0 top-2">
+              <RollingLoader label={query.trim() ? <>Searching for &ldquo;{query.trim()}&rdquo;&hellip;</> : <>Opening search&hellip;</>} />
+            </div>
+          )}
         </div>
       </form>
     </>

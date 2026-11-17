@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import SearchIndexLoader from './SearchIndexLoader';
+import RollingLoader from '@/components/RollingLoader';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -16,8 +17,8 @@ export default function SearchPage() {
   // produced a ~16 MB document that blocked first paint.
   return (
     <Suspense fallback={
-      <main className="max-w-4xl w-full mx-auto px-4 py-10 text-center text-gray-400">
-        Loading search…
+      <main className="max-w-4xl w-full mx-auto px-4 py-24">
+        <RollingLoader label={<>Loading the archive&hellip;</>} />
       </main>
     }>
       <SearchIndexLoader />

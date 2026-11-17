@@ -539,3 +539,31 @@ span[class*="rounded-full"][class*="px-"] {
 @media (prefers-reduced-motion: reduce) {
   .ask-loading-bar { animation: none !important; width: 100%; opacity: 0.45; }
 }
+
+/* RollingLoader — the site's mark rolling along a hairline. The wheel is
+   1.5rem across and the track at most 22rem, so 4.5 turns per pass is close
+   to true rolling; the line it draws is a pseudo-element trailing its centre. */
+.roll-track { container-type: inline-size; }
+@keyframes roll-travel {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(100cqw - 1.5rem)); }
+}
+@keyframes roll-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(1620deg); }
+}
+.roll-wheel { animation: roll-travel 1.1s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate; }
+.roll-spin  { animation: roll-spin 1.1s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate; }
+.roll-wheel::before {
+  content: '';
+  position: absolute;
+  right: 50%;
+  bottom: -2px;
+  width: 100cqw;
+  height: 2px;
+  background: currentColor;
+}
+@media (prefers-reduced-motion: reduce) {
+  .roll-wheel, .roll-spin { animation: none !important; }
+  .roll-wheel { left: calc(50% - 0.75rem); }
+}

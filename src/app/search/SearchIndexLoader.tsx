@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import type { SearchEntry } from '@/lib/search-index';
 import SearchPageClient from './SearchPageClient';
 import TopLoadingBar from '@/components/TopLoadingBar';
+import RollingLoader from '@/components/RollingLoader';
 
 // The pending query shown while the index streams in. Starts from the URL's
 // ?q= (deep links, shared searches) — set after mount to avoid a hydration
@@ -80,27 +81,16 @@ export default function SearchIndexLoader() {
               onChange={(e) => setPendingQ(e.target.value)}
               className="flex-1 min-w-0 px-4 py-3.5 text-base sm:text-lg outline-none bg-transparent dark:text-white dark:placeholder-gray-500"
             />
-            <span className="mr-3 text-xs text-gray-400 dark:text-gray-500 flex-shrink-0">indexing…</span>
           </div>
-          <p className="text-center text-xs text-gray-400 dark:text-gray-500 mb-8">
-            {pendingQ
-              ? <>Loading the full-text index — searching for &ldquo;{pendingQ}&rdquo; the moment it&rsquo;s ready.</>
-              : <>Loading the full-text index — quick on wifi, cached after the first visit.
-                 Type now; your search runs the moment it&rsquo;s ready.</>}
-          </p>
-          <div className="flex flex-wrap justify-center gap-2">
-            {/* Seed chips drawn from what readers actually search most (per the
-                search log) — not a hand-guessed list. */}
-            {['deferral', 'prediction markets', 'there is no economy', 'the center', 'sovereignty', 'resentment'].map((s) => (
-              <button
-                key={s}
-                onClick={() => setPendingQ(s)}
-                className="px-2.5 py-1 border border-gray-200 dark:border-gray-700 rounded-full text-xs text-gray-600 dark:text-gray-400 hover:border-gray-400 transition-colors"
-              >
-                {s}
-              </button>
-            ))}
-          </div>
+          {/* No suggestion chips here (owner direction, 2026-11-17): a search
+              is already under way, so the only thing to show is that it is
+              running. */}
+          <RollingLoader
+            className="mt-10"
+            label={pendingQ
+              ? <>Searching for &ldquo;{pendingQ}&rdquo;&hellip;</>
+              : <>Loading the archive&hellip;</>}
+          />
         </main>
       </>
     );
