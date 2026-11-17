@@ -15,6 +15,7 @@ const KEYS: Record<string, (day: string) => string> = {
   depth: (day) => `depth:${day}`,
   fof: (day) => `fof:${day}`,
   activity: (day) => `activity:day:${day}`,
+  humans: (day) => `activity:humans:${day}`,
 };
 
 export async function GET(request: Request) {
@@ -28,10 +29,14 @@ export async function GET(request: Request) {
   if (!key || !kv) return Response.json({ key: key ?? null, fields: {} });
 
   try {
+    if (k === 'humans') {
+      // A HyperLogLog, not a hash: the day's distinct human sessions.
+      return Response.json({ key, count: await kv.pfcount(key) }, { headers: { 'Cache-Control': 'private, no-store' } });
+    }
     let fields = ((await kv.hgetall(key)) ?? {}) as Record<string, unknown>;
     if (k === 'activity') {
       fields = Object.fromEntries(
-        Object.entries(fields).filter(([f]) => /^(r:|rm:|pm:|dev:|lang:|ev:)/.test(f)),
+        Object.entries(fields).filter(([f]) => /^(r:|rm:|pm:|h:|hr:|dev:|lang:|ev:)/.test(f)),
       );
     }
     return Response.json({ key, fields }, { headers: { 'Cache-Control': 'private, no-store' } });

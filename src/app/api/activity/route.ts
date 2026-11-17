@@ -61,7 +61,7 @@ export async function POST(request: Request) {
 
   let body: {
     sid?: unknown; path?: unknown; mine?: unknown; ref?: unknown; ev?: unknown;
-    d?: unknown; l?: unknown;
+    d?: unknown; l?: unknown; h?: unknown; hr?: unknown;
   };
   try {
     body = await request.json();
@@ -81,9 +81,17 @@ export async function POST(request: Request) {
   if (!sid || !path) return Response.json({ ok: true, stored: false });
   // "pick:<rank>" = a result opened from /search (rank among the listed
   // texts) or a cited text opened from an /ask answer.
+  // "human" = the session's first real input (pointer, touch, wheel, key).
   const ev =
-    typeof body.ev === 'string' && /^(follow|read|new|return|pick)(:[a-z0-9-]{1,20}){0,2}$/.test(body.ev)
+    typeof body.ev === 'string' && /^(follow|read|new|return|pick|human)(:[a-z0-9-]{1,20}){0,2}$/.test(body.ev)
       ? body.ev
+      : undefined;
+  // A page opened in a session already known to be human carries h:1; the
+  // "human" event itself may name the source that sent the visit (hostname).
+  const human = ev === 'human' || (!ev && body.h === 1);
+  const humanRef =
+    ev === 'human' && typeof body.hr === 'string' && /^[a-z0-9.-]{1,80}$/i.test(body.hr)
+      ? body.hr.toLowerCase()
       : undefined;
   // Sent once, with a session's first event: device class (one letter, from
   // viewport width) and the browser's primary language subtag. Coarse on
@@ -106,10 +114,11 @@ export async function POST(request: Request) {
 
   const mine = body.mine === true || (await isOwnerRequest(kv, request)) ? true : undefined;
   const now = Date.now();
-  const entry = JSON.stringify({ sid, path, mine, ref, ev, d: dev, t: now });
+  const entry = JSON.stringify({ sid, path, mine, ref, ev, d: dev, h: human && !ev ? 1 : undefined, t: now });
   const day = new Date(now).toISOString().slice(0, 10);
   const dayKey = `activity:day:${day}`;
   const uniqKey = `activity:uniq:${day}`;
+  const humansKey = `activity:humans:${day}`;
   const TTL = 60 * 60 * 24 * 400;
   try {
     // One pipeline: the capped trail list + the durable daily aggregates.
@@ -137,6 +146,14 @@ export async function POST(request: Request) {
     if (!mine) {
       if (dev) pipe.hincrby(dayKey, `dev:${dev}`, 1);
       if (lang) pipe.hincrby(dayKey, `lang:${lang}`, 1);
+      // Human-only counters: distinct human sessions per day (HyperLogLog),
+      // per-path human views ("h:"), and the sources that sent them ("hr:").
+      if (human) {
+        pipe.pfadd(humansKey, sid);
+        pipe.expire(humansKey, TTL);
+        pipe.hincrby(dayKey, `h:${path}`, 1);
+        if (humanRef) pipe.hincrby(dayKey, `hr:${humanRef}`, 1);
+      }
     }
     pipe.pfadd(uniqKey, sid);
     pipe.expire(dayKey, TTL);
