@@ -40,6 +40,40 @@ Everything below is built and live.
 - **Verifying capture:** `/api/analytics/peek?k=crawler|depth|fof|activity`
   (owner-only) reads the raw day-hashes.
 
+## Second round — shipped 2026-11-17
+
+After the first build the two weak points were honesty (the headline counted
+tabs, ~87% of them bots) and shape (one 32,000-word page). This round:
+
+- **Readers, not tabs.** A session sends one `human` event at its first real
+  input (pointer, touch, wheel, key — never plain scroll) and pages opened
+  after carry `h:1`. Ingest keeps `activity:humans:<day>` (HyperLogLog),
+  `h:<path>` and `hr:<host>`. A day's `readers` = human sessions from
+  2026-11-18; before that, an engaged estimate (came from somewhere, opened
+  2+ pages, or read/followed/picked) stored in the day hash as `engaged`.
+  From the 18th a session must be human to count as a reader anywhere.
+- **Rooms.** `/analytics` is an overview; Opportunities, Searches, Sources,
+  Reading, Journeys, Answers, AI, Visits and People each have a page, and
+  every visit has one at `/analytics/session/<id>`.
+- **Opportunities** (`/analytics/opportunities`, `src/lib/opportunities.ts`):
+  unmet demand from Google, site search, Ask, read depth and 404s in one
+  ranked list; done / not relevant verdicts in `opps:status`.
+- **AI citations** (`/analytics/ai`, `src/lib/ai-citations.ts`): fifteen
+  questions put to Claude (Opus 5.5, basic `web_search_20250305` — the
+  newer variant omits citation markers), two a day via
+  `/api/analytics/daily`; is center.study cited, and who is instead.
+  `aicite:latest` + `aicite:log`. To change the questions, edit `QUESTIONS`.
+  Roughly 60 checks a month, each a paid call with up to three searches.
+- **Also:** Google clicks/day chart; the Google queries that lead to each
+  text on its stats page; automatic chart markers for newly published
+  essays; the digest counts readers.
+- **Needs the owner — digest by email.** Built, idle until a mail provider
+  exists: create a Resend account (resend.com), then add `RESEND_API_KEY`
+  and `DIGEST_EMAIL_TO` to Vercel (Production). Mail to the account's own
+  address needs no domain setup.
+- **Crons** (`vercel.json`): weekly digest (Mon 13:00 UTC) and the daily
+  job (09:00 UTC: Search Console refresh + two citation checks).
+
 ## Baseline: what is captured today
 
 Per-tab session trails (pages, searches with result counts, reads, follows

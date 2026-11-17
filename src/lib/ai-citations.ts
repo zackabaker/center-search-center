@@ -18,7 +18,13 @@ export const SITE_HOST = 'center.study';
 // set low on purpose: this is a lookup, not a hard problem. (Server-side
 // refusal fallbacks need a newer SDK than the project pins; a refusal here is
 // simply recorded as an error for that question.)
+//
+// The tool is deliberately the basic `web_search_20250305` variant. The newer
+// dynamic-filtering one runs the search inside code execution and returns the
+// answer WITHOUT citation markers on its text — and the citation markers are
+// the whole measurement here. Verified against live responses 2026-11-17.
 const MODEL = 'claude-opus-5-5';
+const SEARCH_TOOL = { type: 'web_search_20250305', name: 'web_search', max_uses: 3 } as const;
 const SYSTEM =
   'Answer the user’s question. Search the web for current sources before answering, ' +
   'and cite the sources you rely on. Keep the answer under 150 words.';
@@ -81,7 +87,7 @@ async function ask(client: Anthropic, item: { id: string; q: string }): Promise<
           max_tokens: 16000,
           system: SYSTEM,
           output_config: { effort: 'low' },
-          tools: [{ type: 'web_search_20260209', name: 'web_search', max_uses: 3 }],
+          tools: [SEARCH_TOOL],
           messages,
         },
         { timeout: 50_000, maxRetries: 0 },
@@ -159,14 +165,19 @@ async function latestChecks(): Promise<Map<string, CitationCheck>> {
   return out;
 }
 
-/** Re-ask the `n` questions that have gone longest without a check. */
-export async function runCitationChecks(n: number): Promise<CitationCheck[]> {
+/**
+ * Re-ask the `n` questions that have gone longest without a check — or, when
+ * `ids` names some, exactly those (at most five).
+ */
+export async function runCitationChecks(n: number, ids?: string[]): Promise<CitationCheck[]> {
   const kv = getKV();
   if (!kv || !process.env.ANTHROPIC_API_KEY) return [];
   const latest = await latestChecks();
-  const due = [...QUESTIONS]
-    .sort((a, b) => (latest.get(a.id)?.at ?? 0) - (latest.get(b.id)?.at ?? 0))
-    .slice(0, Math.max(1, Math.min(n, 5)));
+  const named = ids?.length ? QUESTIONS.filter((item) => ids.includes(item.id)) : [];
+  const due = (named.length
+    ? named
+    : [...QUESTIONS].sort((a, b) => (latest.get(a.id)?.at ?? 0) - (latest.get(b.id)?.at ?? 0))
+  ).slice(0, Math.max(1, Math.min(named.length || n, 5)));
 
   const client = new Anthropic();
   const results = await Promise.all(
@@ -211,14 +222,20 @@ export async function readCitations(): Promise<CitationReport> {
       const dow = (d.getUTCDay() + 6) % 7;
       return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() - dow)).toISOString().slice(0, 10);
     };
+    // Each question counts once per week: the log is newest first, so the
+    // first entry seen for a (week, question) is that week's verdict.
     const weeks = new Map<string, { cited: number; total: number }>();
+    const counted = new Set<string>();
     for (const raw of rawLog as unknown[]) {
-      const e = parse<{ at: number; cited: boolean; err?: number }>(raw);
+      const e = parse<{ id: string; at: number; cited: boolean; err?: number }>(raw);
       if (!e || typeof e.at !== 'number' || e.err) continue;
-      const row = weeks.get(mondayOf(e.at)) ?? { cited: 0, total: 0 };
+      const week = mondayOf(e.at);
+      if (counted.has(`${week}|${e.id}`)) continue;
+      counted.add(`${week}|${e.id}`);
+      const row = weeks.get(week) ?? { cited: 0, total: 0 };
       row.total += 1;
       if (e.cited) row.cited += 1;
-      weeks.set(mondayOf(e.at), row);
+      weeks.set(week, row);
     }
 
     const rivals = new Map<string, number>();

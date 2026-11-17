@@ -7,7 +7,8 @@ import { runCitationChecks } from '@/lib/ai-citations';
 // a run is small — two questions by default, five at most — and at most one
 // may start per ten minutes, whoever asks.
 //
-// GET ?n=2 → { ok, checked: [{ id, cited, error? }] } for the owner; { ok } otherwise.
+// GET ?n=2 (or, for the owner, ?ids=a,b to re-ask named questions)
+//   → { ok, checked: [{ id, cited, error? }] } for the owner; { ok } otherwise.
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -19,8 +20,11 @@ export async function GET(request: Request) {
   if ((await kv.set('aicite:lock', 1, { nx: true, ex: 600 })) === null) {
     return Response.json({ ok: true, skipped: 'ran in the last ten minutes' });
   }
-  const n = Number(new URL(request.url).searchParams.get('n')) || 2;
-  const checks = await runCitationChecks(n);
+  const params = new URL(request.url).searchParams;
+  const n = Number(params.get('n')) || 2;
+  // The owner may name the questions to re-ask (?ids=a,b).
+  const ids = isOwner(request) ? params.get('ids')?.split(',').filter(Boolean) : undefined;
+  const checks = await runCitationChecks(n, ids);
   return Response.json({
     ok: true,
     ...(isOwner(request)
