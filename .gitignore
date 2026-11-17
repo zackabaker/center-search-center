@@ -54,3 +54,6 @@ src/data/embeddings-meta.json
 # (matches how vectors/ ships for /api/semantic)
 src/data/concept-passages.json
 vectors/
+
+# owner working copies kept out of the public repo
+geo/outreach-emails*
