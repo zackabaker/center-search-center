@@ -67,10 +67,14 @@ tabs, ~87% of them bots) and shape (one 32,000-word page). This round:
 - **Also:** Google clicks/day chart; the Google queries that lead to each
   text on its stats page; automatic chart markers for newly published
   essays; the digest counts readers.
-- **Needs the owner — digest by email.** Built, idle until a mail provider
-  exists: create a Resend account (resend.com), then add `RESEND_API_KEY`
-  and `DIGEST_EMAIL_TO` to Vercel (Production). Mail to the account's own
-  address needs no domain setup.
+- **Digest by email — connected 2026-11-17.** Resend account (team
+  "zackabaker", signed up with the owner's Google account), a
+  sending-access-only key `center-study-digest` stored as the Vercel secret
+  `RESEND_API_KEY`, recipient in `DIGEST_EMAIL_TO`. Sends from Resend's
+  shared sender, which only delivers to the account's own address — a
+  custom "from" or other recipients would need a verified domain. The
+  Monday cron emails automatically; `/api/analytics/digest?force=1&email=1`
+  (signed in) re-runs and sends at once. To stop: delete the key in Resend.
 - **Crons** (`vercel.json`): weekly digest (Mon 13:00 UTC) and the daily
   job (09:00 UTC: Search Console refresh + two citation checks).
 
