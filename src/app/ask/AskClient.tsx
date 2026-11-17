@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { CS_TERMS_SORTED, extractFollowUps, TERM_TO_CONCEPT_SLUG } from '@/lib/cs-terms';
+import SearchViews from '@/components/SearchViews';
+import ConceptCard from '@/components/ConceptCard';
 import { GLOSSARY_LINK_TERMS } from '@/data/guide/glossary-link-terms';
 import { logSearch } from '@/lib/log-search';
 import SceneMark from '@/components/SceneMark';
@@ -440,6 +442,26 @@ function sourceFromSlug(slug: string): string {
 }
 
 // Split the synthesized prose from the trailing "## Excerpts" block.
+// The short answer shown above the passages: the synthesis's opening
+// paragraph as plain text (links, emphasis and any half-streamed markdown
+// stripped). The full synthesis stays below the passages.
+function briefOf(content: string): string {
+  const prose = splitAnswer(content).prose;
+  const first = prose
+    .split(/\n\s*\n/)
+    .map((para) => para.trim())
+    .find((para) => para && !/^#{1,6}\s/.test(para) && !/^>/.test(para) && !/^[-*]\s/.test(para)) ?? '';
+  return first
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]*$/, '$1')
+    .replace(/\[[^\]]*$/, '')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/(^|\s)\*([^*\n]+)\*/g, '$1$2')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 function splitAnswer(content: string): { prose: string; excerpts: string } {
   const m = content.match(/\n+(?:---\s*\n+)?##\s+Excerpts\s*\n/i);
   if (!m || m.index === undefined) return { prose: content, excerpts: '' };
@@ -957,23 +979,6 @@ export default function AskClient() {
             Back
           </button>
           <h1 className="sr-only">Ask AI</h1>
-          {/* Two verbs, reversible: Search (one unified results page — keyword
-              + passages by meaning) and Ask. The current question carries over. */}
-          {(() => {
-            const carried = (input.trim() || currentQuestion).trim();
-            const qs = carried ? `?q=${encodeURIComponent(carried)}` : '';
-            const seg = 'px-3 sm:px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg transition-all whitespace-nowrap';
-            return (
-              <div className="flex items-center gap-0.5 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
-                <Link href={`/search${qs}`} className={`${seg} text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300`}>
-                  Keyword search
-                </Link>
-                <span className={`${seg} bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm`}>
-                  AI search
-                </span>
-              </div>
-            );
-          })()}
         </div>
         <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
           {/* Font size — desktop only; it crowded the mobile header into overlap */}
@@ -1134,9 +1139,50 @@ export default function AskClient() {
                   </Link>
                 </div>
               )}
-              <h2 className="text-[1.9rem] font-medium text-gray-900 dark:text-white mb-6 leading-[1.12] tracking-tight">
+              <h2 className="text-[1.9rem] font-medium text-gray-900 dark:text-white mb-4 leading-[1.12] tracking-tight">
                 {currentQuestion}
               </h2>
+
+              {/* The same three readings offered on the search page; a
+                  question lands here, on Answer. */}
+              <div className="mb-6">
+                <SearchViews q={currentQuestion} active="answer" />
+              </div>
+
+              <ConceptCard query={currentQuestion} className="mb-6" />
+
+              {/* Short answer — the opening of the AI synthesis, on top for
+                  question searches (owner direction, 2026-11-16). The box
+                  reserves its height and clamps its text, so the streaming
+                  answer never pushes the passages below it. */}
+              <section aria-label="Short answer" className="mb-8">
+                <p className="text-xs font-mono uppercase tracking-widest text-gray-900 dark:text-gray-100 mb-2">
+                  Short answer <span className="font-normal normal-case tracking-normal text-gray-500 dark:text-gray-400">· written by AI from the passages below</span>
+                </p>
+                <div className="min-h-[10.5rem] sm:min-h-[7.25rem]">
+                  {error ? (
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      A short answer could not be written this time. The passages below are unaffected.
+                    </p>
+                  ) : answer?.content && briefOf(answer.content) ? (
+                    <p className="font-serif text-[1.125rem] leading-[1.55] text-gray-900 dark:text-gray-100 line-clamp-6 sm:line-clamp-4">
+                      {briefOf(answer.content)}
+                    </p>
+                  ) : (
+                    <div className="space-y-2.5 pt-1.5 animate-pulse" aria-hidden>
+                      <div className="h-3.5 bg-gray-200 dark:bg-gray-800 rounded w-full" />
+                      <div className="h-3.5 bg-gray-200 dark:bg-gray-800 rounded w-11/12" />
+                      <div className="h-3.5 bg-gray-200 dark:bg-gray-800 rounded w-4/5" />
+                    </div>
+                  )}
+                </div>
+                {!error && answer?.content && !isLoading && (
+                  <a href="#full-answer" className="inline-flex items-center min-h-11 text-sm font-medium text-blue-600 dark:text-blue-400 underline underline-offset-4">
+                    Read the full answer
+                  </a>
+                )}
+              </section>
+
 
               {/* From the archive — FIRST, above the synthesis (owner
                   direction, 2026-11-14): these verbatim passages arrive almost
@@ -1162,13 +1208,14 @@ export default function AskClient() {
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     No close passages found.{' '}
                     <Link href={`/search?q=${encodeURIComponent(currentQuestion)}`} className="text-blue-600 dark:text-blue-400 hover:underline">
-                      Try keyword search →
+                      Try exact words
                     </Link>
                   </p>
                 ) : (
                   <div>
-                    <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
-                      From the archive — verbatim excerpts
+                    <p className="text-xs font-mono text-gray-900 dark:text-gray-100 uppercase tracking-widest mb-3">
+                      {excerpts.length} {excerpts.length === 1 ? 'passage' : 'passages'} from the archive{' '}
+                      <span className="font-normal normal-case tracking-normal text-gray-500 dark:text-gray-400">· verbatim excerpts</span>
                     </p>
                     <div className="flex flex-col gap-4">
                     {excerpts.map((x, i) => {
@@ -1284,9 +1331,9 @@ export default function AskClient() {
                   every quote deep-linked and verified. Explicitly labeled.
                   Rendered AFTER the verbatim excerpts so its streaming never
                   moves them. */}
-              <div className="mb-8">
-                <p className="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
-                  AI synthesis — generated from the texts
+              <div id="full-answer" className="mb-8 scroll-mt-20">
+                <p className="text-xs font-mono text-gray-900 dark:text-gray-100 uppercase tracking-widest mb-3">
+                  Full answer <span className="font-normal normal-case tracking-normal text-gray-500 dark:text-gray-400">· written by AI from the texts</span>
                 </p>
                 {error ? (
                   /* Real error card — never impersonates a synthesis */

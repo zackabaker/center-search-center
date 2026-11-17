@@ -604,6 +604,32 @@ export default function SearchPageClient({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [committed, isImplicitPhrase, grepPhrase, includeArchives]);
 
+  // Single words skip the scan above (the word index already finds them), but
+  // the reader still wants the headline number — how many times, in how many
+  // texts. Fetch just those totals from the same (day-cached) endpoint once
+  // typing settles; the result list is untouched.
+  const [termTotals, setTermTotals] = useState<{ occ: number; posts: number } | null>(null);
+  useEffect(() => {
+    setTermTotals(null);
+    const term = committed.trim();
+    if (!term || isImplicitPhrase || /["“”\s]/.test(term) || /\b(AND|OR|NOT)\b/.test(term)) return;
+    if (term.replace(/[^a-z0-9]/gi, '').length < 4) return;
+    const ctl = new AbortController();
+    const t = setTimeout(() => {
+      fetch(`/api/grep?q=${encodeURIComponent(term)}&archives=0`, { signal: ctl.signal })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d) => {
+          if (!d || typeof d.totalOccurrences !== 'number') return;
+          setTermTotals({
+            occ: d.totalOccurrences - (d.refOccurrences ?? 0),
+            posts: d.totalPosts - (d.refPosts ?? 0),
+          });
+        })
+        .catch(() => {});
+    }, 500);
+    return () => { clearTimeout(t); ctl.abort(); };
+  }, [committed, isImplicitPhrase]);
+
   // Settle the meaning-section query. User-typed operators (quotes that are
   // not the implicit whole-query wrap, or AND/OR/NOT) suppress it entirely.
   useEffect(() => {
@@ -817,6 +843,14 @@ export default function SearchPageClient({
                         <span className="font-semibold tabular-nums">{(grep.totalPosts - (grep.refPosts ?? 0)).toLocaleString()}</span>
                         {' '}Katz text{grep.totalPosts - (grep.refPosts ?? 0) !== 1 ? 's' : ''}
                       </span>
+                    ) : termTotals && termTotals.posts > 0 ? (
+                      <span className="text-gray-900 dark:text-gray-100">
+                        <span className="font-semibold tabular-nums">{termTotals.occ.toLocaleString()}</span>
+                        {' '}occurrence{termTotals.occ !== 1 ? 's' : ''} in{' '}
+                        <span className="font-semibold tabular-nums">{termTotals.posts.toLocaleString()}</span>
+                        {' '}Katz text{termTotals.posts !== 1 ? 's' : ''}
+                        <span className="text-gray-500 dark:text-gray-400"> · top {visibleResults.length} shown</span>
+                      </span>
                     ) : (
                       <>
                         <span className="font-medium text-gray-900 dark:text-gray-100">{visibleResults.length}</span>
@@ -825,7 +859,7 @@ export default function SearchPageClient({
                     )}
                     {/* Word-level doc counts only make sense for term queries —
                         for phrases the full-text scan line below is the truth */}
-                    {corpusCount !== null && grepStatus !== 'done' && !(isImplicitPhrase || committed.includes('"')) && (
+                    {corpusCount !== null && grepStatus !== 'done' && !termTotals && !(isImplicitPhrase || committed.includes('"')) && (
                       <span className="hidden sm:inline text-gray-400 dark:text-gray-500">
                         · in <span className="text-gray-600 dark:text-gray-300">{corpusCount}</span>{' '}of {totalPosts} Katz texts
                       </span>
