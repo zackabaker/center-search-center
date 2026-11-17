@@ -1,5 +1,5 @@
 import { Redis } from '@upstash/redis';
-import { getPostBySlug } from '@/lib/parser';
+import { getPostBySlug, getPublicPosts } from '@/lib/parser';
 import { aiAgentKind, aiReferrer, isAiProduct, type AiAgentKind } from '@/lib/ai-agents';
 import {
   deriveBeginFunnel, deriveCoReads, deriveLandings, deriveSearchOutcomes, deriveSourceQuality,
@@ -30,7 +30,11 @@ export type DayRow = {
   day: string; // YYYY-MM-DD (UTC, matching every ingest key)
   views: number | null; // null = before activity logging began
   viewsMine: number;
-  uniq: number | null;
+  uniq: number | null; // every tab that ran the page's JavaScript — bots included
+  // People, as best the day can be counted: sessions that produced a real
+  // input (from 2026-11-18), and before that the "engaged" estimate — visits
+  // that came from somewhere or did more than load one page.
+  readers: number | null;
   searches: number;
   searchesMine: number;
   opens: number;
@@ -71,6 +75,7 @@ export type SessionEvent = {
   label: string;
   href?: string;
   mode?: string;
+  n?: number; // searches: how many results came back, when known
 };
 
 export type Mover = { slug: string; label: string; cur: number; prev: number }; // views, this 7d vs the 7 before
@@ -115,6 +120,7 @@ export type SessionView = {
   ref?: string;
   ai?: string;          // the AI assistant that referred this visit, if any
   device?: 'm' | 'd';   // phone vs. larger (sessions since 2026-11-17)
+  human?: boolean;      // produced a real input — pointer, touch, wheel or key
   pages: number;
   texts: number;
   searches: number;
@@ -139,7 +145,9 @@ export type StudyData = {
   engaged7: number;       // distinct visitor sids, last 7d, ≥2 events or a referrer
   topRecent: TopPost[]; // rolling two-month window
   topAll: TopPost[];
-  sessions: SessionView[];
+  sessions: SessionView[];    // the 150 most notable, for the explorer
+  allSessions: SessionView[]; // every visit in the retained window (server-side only)
+  episodes: Record<string, { id: string; start: number; end: number }[]>; // a tab's visits, by sid
   activitySince: string; // first day with activity data
   // --- "what's working / what isn't" (see derive.ts) ---
   sources: SourceRow[];
@@ -212,7 +220,14 @@ function postTitle(path: string): { label: string; href?: string } | null {
 
 const CLEAN_PATH = /^\/(?![/\\])/;
 
-type RawActivity = { sid: string; path: string; mine?: boolean; ref?: string; ev?: string; d?: string; t: number };
+// Human detection (a real input per session) went live during 2026-11-17, so
+// the first complete day of it is the 18th. From then on a day's readers are
+// its human sessions and a session must be human to count as a reader; before
+// that both fall back to the engaged heuristic.
+export const HUMAN_DAY = '2026-11-18';
+export const HUMAN_EPOCH = Date.parse(`${HUMAN_DAY}T00:00:00Z`);
+
+type RawActivity = { sid: string; path: string; mine?: boolean; ref?: string; ev?: string; d?: string; h?: boolean; t: number };
 type RawSearch = { q: string; mode: string; mine: boolean; n?: number; sid?: string; t: number };
 
 function buildSessions(activity: RawActivity[], searches: RawSearch[], begins: BeginHit[]): SessionView[] {
@@ -261,6 +276,10 @@ function buildSessions(activity: RawActivity[], searches: RawSearch[], begins: B
     }
     if (cur.length > 0) episodes.push(cur);
 
+    // Once a tab has produced a real input it stays "human" — the flag lives
+    // in sessionStorage with the sid, so later episodes inherit it.
+    let sidHuman = false;
+
     episodes.forEach((ep, epIdx) => {
       const events: SessionEvent[] = [];
       let ref: string | undefined;
@@ -284,6 +303,7 @@ function buildSessions(activity: RawActivity[], searches: RawSearch[], begins: B
           if (e.mine) mine = true;
           if (e.ref && !ref) ref = e.ref;
           if (e.d === 'm' || e.d === 'd') device = e.d;
+          if (e.h || e.ev === 'human') sidHuman = true;
           if (e.ev) {
             if (e.ev === 'read') {
               readPaths.add(e.path);
@@ -323,7 +343,7 @@ function buildSessions(activity: RawActivity[], searches: RawSearch[], begins: B
           nSearches += 1;
           const term = watchTerm(r.s.q);
           if (term) terms.add(term);
-          events.push({ t: r.s.t, type: 'search', label: r.s.q, mode: r.s.mode ?? 'keyword' });
+          events.push({ t: r.s.t, type: 'search', label: r.s.q, mode: r.s.mode ?? 'keyword', n: r.s.n });
         } else if (r.b) {
           if (r.b.mine) mine = true;
           nBegins += 1;
@@ -367,7 +387,7 @@ function buildSessions(activity: RawActivity[], searches: RawSearch[], begins: B
 
       out.push({
         id: episodes.length > 1 ? `${sid}-${epIdx + 1}` : sid,
-        sid, kind: 'live', start, end, mins, mine, crawler, ref, ai, device,
+        sid, kind: 'live', start, end, mins, mine, crawler, ref, ai, device, human: sidHuman || undefined,
         pages, texts, searches: nSearches, badges, score,
         events: events.slice(0, 120), eventsTotal: events.length,
       });
@@ -443,6 +463,7 @@ function parseActivityLog(raw: unknown): RawActivity[] {
       ref: typeof e.ref === 'string' ? e.ref : undefined,
       ev: typeof e.ev === 'string' ? e.ev : undefined,
       d: typeof e.d === 'string' ? e.d : undefined,
+      h: e.h === 1 || e.h === true || undefined,
       t: e.t as number,
     })) as RawActivity[];
 }
@@ -462,6 +483,23 @@ function parseBeginLog(raw: unknown): BeginHit[] {
       sid: typeof e.sid === 'string' ? e.sid : undefined,
       t: e.t as number,
     })) as BeginHit[];
+}
+
+/**
+ * Chart markers the corpus supplies by itself: an essay published inside the
+ * charts' window is an event worth seeing on the lines. Archived threads
+ * (X, Reddit) arrive in batches and would only be noise.
+ */
+export function recentPostNotes(sinceDays = 90): { day: string; label: string }[] {
+  const cutoff = Date.now() - sinceDays * 86_400_000;
+  const out: { day: string; label: string }[] = [];
+  for (const p of getPublicPosts()) {
+    if (!p.date || p.source === 'twitter' || p.source === 'reddit') continue;
+    const t = Date.parse(p.date);
+    if (!Number.isFinite(t) || t < cutoff || t > Date.now()) continue;
+    out.push({ day: new Date(t).toISOString().slice(0, 10), label: `New: ${p.title}` });
+  }
+  return out;
 }
 
 // ── One text, in depth ───────────────────────────────────────────────────
@@ -507,12 +545,12 @@ export async function fetchPostData(slug: string): Promise<PostData | null> {
 
   const pipe = kv.pipeline();
   for (const d of dayKeys) {
-    pipe.hmget(`activity:day:${d}`, `p:${path}`, `pm:${path}`, `r:${path}`, `rm:${path}`);
+    pipe.hmget(`activity:day:${d}`, `p:${path}`, `pm:${path}`, `r:${path}`, `rm:${path}`, `h:${path}`);
     pipe.hmget(`depth:${d}`, ...cellFields);
   }
   pipe.zscore('views:counts', slug);
   pipe.lrange('search:log', 0, 4999);
-  pipe.lrange('activity:log', 0, 11999);
+  pipe.lrange('activity:log', 0, 19999);
   pipe.lrange('begin:log', 0, 1999);
 
   let res: unknown[];
@@ -531,7 +569,8 @@ export async function fetchPostData(slug: string): Promise<PostData | null> {
     const act = (res[i * 2] as Record<string, unknown> | null) ?? {};
     series.push({
       day: dayKeys[i],
-      views: Math.max(0, num(act[`p:${path}`]) - num(act[`pm:${path}`])),
+      // People from the first full day of human detection; page loads before.
+      views: dayKeys[i] >= HUMAN_DAY ? num(act[`h:${path}`]) : Math.max(0, num(act[`p:${path}`]) - num(act[`pm:${path}`])),
       reads: Math.max(0, num(act[`r:${path}`]) - num(act[`rm:${path}`])),
     });
     const cells = (res[i * 2 + 1] as Record<string, unknown> | null) ?? {};
@@ -626,7 +665,19 @@ export async function fetchPostData(slug: string): Promise<PostData | null> {
   };
 }
 
+// The console is several pages over one dataset; a warm instance reuses a
+// fetch for half a minute so moving between rooms is quick.
+let memo: { at: number; data: StudyData } | null = null;
+const MEMO_MS = 30_000;
+
 export async function fetchStudyData(): Promise<StudyData | null> {
+  if (memo && Date.now() - memo.at < MEMO_MS) return memo.data;
+  const data = await loadStudyData();
+  if (data) memo = { at: Date.now(), data };
+  return data;
+}
+
+async function loadStudyData(): Promise<StudyData | null> {
   const kv = getKV();
   if (!kv) return null;
 
@@ -635,13 +686,15 @@ export async function fetchStudyData(): Promise<StudyData | null> {
   const DAYS = 90;
   const dayKeys = Array.from({ length: DAYS }, (_, i) => utcDay(i));
 
-  // Pipeline A: fixed-order per-day reads (4 commands per day).
+  // Pipeline A: fixed-order per-day reads (STRIDE commands per day).
+  const STRIDE = 5;
   const pa = kv.pipeline();
   for (const d of dayKeys) {
     pa.hgetall(`convert:${d}`);
     pa.hgetall(`activity:day:${d}`);
     pa.hgetall(`search:day:${d}`);
     pa.pfcount(`activity:uniq:${d}`);
+    pa.pfcount(`activity:humans:${d}`);
   }
 
   // Pipeline B: everything else. The month key is anchored to day 1 —
@@ -660,7 +713,7 @@ export async function fetchStudyData(): Promise<StudyData | null> {
   pb.zrange(monthKey(0), 0, 49, { rev: true, withScores: true });
   pb.zrange(monthKey(-1), 0, 49, { rev: true, withScores: true });
   pb.lrange('search:log', 0, 4999);
-  pb.lrange('activity:log', 0, 11999);
+  pb.lrange('activity:log', 0, 19999);
   pb.lrange('begin:log', 0, 1999);
   pb.lrange('ask:log', 0, 149);
 
@@ -700,24 +753,42 @@ export async function fetchStudyData(): Promise<StudyData | null> {
       t: e.t as number,
     })) as AskHit[];
 
-  // Engaged visitors, last 7 days: distinct non-owner sids that either came
-  // from somewhere (a referrer) or did more than one thing. The headline
-  // "visitors" aggregate counts every tab that executed JS — including bots
-  // that run a browser — so most single-event, referrer-less sids are noise.
-  // This is the floor estimate of real people; the aggregate is the ceiling.
+  // Engaged visits — the pre-"human" way of telling people from tabs: a
+  // non-owner session that came from somewhere (a referrer), opened more
+  // than one page, or did something (read, followed, picked a result). The
+  // automatic new/return/human stamps are not activity: every fresh browser
+  // sends "new" on load, bots included.
+  const dayOf = (t: number) => new Date(t).toISOString().slice(0, 10);
+  const META_EV = /^(new|return|human)/;
   const engagedCutoff = Date.now() - 7 * 86_400_000;
-  const sidStats = new Map<string, { n: number; ref: boolean }>();
+  const sidWeek = new Map<string, { n: number; hit: boolean }>();
+  const sidDay = new Map<string, Map<string, { n: number; hit: boolean }>>();
+  let oldestLogDay = dayKeys[0];
   for (const a of activityLog) {
-    if (a.mine || a.t < engagedCutoff) continue;
-    const row = sidStats.get(a.sid) ?? { n: 0, ref: false };
-    row.n += 1;
-    if (a.ref) row.ref = true;
-    sidStats.set(a.sid, row);
+    const d = dayOf(a.t);
+    if (d < oldestLogDay) oldestLogDay = d;
+    if (a.mine || (a.ev && META_EV.test(a.ev))) continue;
+    const bump = (row: { n: number; hit: boolean }) => {
+      row.n += 1;
+      if (a.ref || a.ev) row.hit = true;
+      return row;
+    };
+    let m = sidDay.get(d);
+    if (!m) {
+      m = new Map();
+      sidDay.set(d, m);
+    }
+    m.set(a.sid, bump(m.get(a.sid) ?? { n: 0, hit: false }));
+    if (a.t >= engagedCutoff) sidWeek.set(a.sid, bump(sidWeek.get(a.sid) ?? { n: 0, hit: false }));
   }
-  let engaged7 = 0;
-  for (const row of sidStats.values()) {
-    if (row.n >= 2 || row.ref) engaged7 += 1;
-  }
+  const countEngaged = (m: Map<string, { n: number; hit: boolean }>) => {
+    let c = 0;
+    for (const row of m.values()) if (row.n >= 2 || row.hit) c += 1;
+    return c;
+  };
+  const engaged7 = countEngaged(sidWeek);
+  const engagedByDay = new Map<string, number>();
+  for (const [d, m] of sidDay) engagedByDay.set(d, countEngaged(m));
 
   // Searches-per-day fallback before search:day existed, computed from the
   // retained raw log.
@@ -731,18 +802,33 @@ export async function fetchStudyData(): Promise<StudyData | null> {
   }
 
   // --- daily table ---
+  const engagedToStore: [string, number][] = [];
   const days: DayRow[] = dayKeys.map((day, i) => {
-    const conv = (ra[i * 4] as Record<string, unknown> | null) ?? {};
-    const act = (ra[i * 4 + 1] as Record<string, unknown> | null) ?? {};
-    const sday = (ra[i * 4 + 2] as Record<string, unknown> | null) ?? {};
-    const uniq = num(ra[i * 4 + 3]);
+    const conv = (ra[i * STRIDE] as Record<string, unknown> | null) ?? {};
+    const act = (ra[i * STRIDE + 1] as Record<string, unknown> | null) ?? {};
+    const sday = (ra[i * STRIDE + 2] as Record<string, unknown> | null) ?? {};
+    const uniq = num(ra[i * STRIDE + 3]);
+    const humans = num(ra[i * STRIDE + 4]);
     const hasActivity = Object.keys(act).length > 0;
     const fromLog = logByDay.get(day);
+    // The engaged estimate is kept in the day hash once the day is complete,
+    // so it survives the raw log rolling over; the log's own oldest day is
+    // partial and is left unknown rather than under-reported.
+    const engaged =
+      act.engaged !== undefined
+        ? num(act.engaged)
+        : day > oldestLogDay
+          ? engagedByDay.get(day) ?? (hasActivity ? 0 : null)
+          : null;
+    if (i > 0 && act.engaged === undefined && engaged !== null && hasActivity) {
+      engagedToStore.push([day, engaged]);
+    }
     return {
       day,
       views: hasActivity ? num(act.views) : null,
       viewsMine: num(act['views:mine']),
       uniq: hasActivity ? uniq : null,
+      readers: !hasActivity ? null : day >= HUMAN_DAY ? humans : engaged,
       // max() rather than prefer-aggregate: on the deploy day the aggregate
       // only counts post-deploy searches while the retained log has the
       // whole day; the two sources count the same events, never summed.
@@ -756,6 +842,15 @@ export async function fetchStudyData(): Promise<StudyData | null> {
     };
   });
   const activitySince = [...days].reverse().find((d) => d.views !== null)?.day ?? dayKeys[0];
+  if (engagedToStore.length > 0) {
+    try {
+      const pe = kv.pipeline();
+      for (const [day, v] of engagedToStore) pe.hsetnx(`activity:day:${day}`, 'engaged', v);
+      await pe.exec();
+    } catch {
+      /* the estimate is recomputed next time */
+    }
+  }
 
   // --- weekly search history (full retained log) ---
   const weekOf = (t: number) => {
@@ -869,18 +964,24 @@ export async function fetchStudyData(): Promise<StudyData | null> {
   // --- sessions ---
   const live = buildSessions(activityLog, searchLog, beginPaths);
   const legacy = buildLegacySessions(searchLog);
-  const sessions = [...live, ...legacy].sort((a, b) => b.score - a.score).slice(0, 150);
+  const allSessions = [...live, ...legacy];
+  const sessions = [...allSessions].sort((a, b) => b.score - a.score).slice(0, 150);
+  const episodes: Record<string, { id: string; start: number; end: number }[]> = {};
+  for (const s of live) {
+    if (s.sid) (episodes[s.sid] ??= []).push({ id: s.id, start: s.start, end: s.end });
+  }
 
   // --- what's working / what isn't -------------------------------------
-  // From the durable day-hashes: who sends readers (ref:<host>), which
-  // texts moved this week (p:/post/<slug>, minus the owner's pm: share),
+  // From the durable day-hashes: who sends visits (ref:<host>) and which of
+  // those were people (hr:<host>), human views per text (h:/post/<slug>),
   // device and language mix.
-  const actDays = dayKeys.map((_, i) => (ra[i * 4 + 1] as Record<string, unknown> | null) ?? {});
+  const actDays = dayKeys.map((_, i) => (ra[i * STRIDE + 1] as Record<string, unknown> | null) ?? {});
   const refVisits = new Map<string, { v30: number; v7: number; ai: boolean }>();
   const aiDaily: number[] = [];
   const aiProducts = new Map<string, number>();
-  const viewsCur = new Map<string, number>();
-  const viewsPrev = new Map<string, number>();
+  const humanCur = new Map<string, number>();  // h:/post/<slug> — human views
+  const humanPrev = new Map<string, number>();
+  const humanArrivals = new Map<string, number>(); // hr:<host>, 30 days
   const devices = { m: 0, d: 0 };
   const langCounts = new Map<string, number>();
   for (let i = 0; i < WIN; i++) {
@@ -900,11 +1001,13 @@ export async function fetchStudyData(): Promise<StudyData | null> {
           aiProducts.set(product, (aiProducts.get(product) ?? 0) + n);
         }
         refVisits.set(name, row);
-      } else if (i < 14 && /^pm?:\/post\//.test(field)) {
-        const owner = field.startsWith('pm:');
-        const slug = field.slice(owner ? 9 : 8).replace(/\/$/, '');
-        const m = i < 7 ? viewsCur : viewsPrev;
-        m.set(slug, (m.get(slug) ?? 0) + (owner ? -n : n));
+      } else if (i < 14 && field.startsWith('h:/post/')) {
+        const slug = field.slice(8).replace(/\/$/, '');
+        const m = i < 7 ? humanCur : humanPrev;
+        m.set(slug, (m.get(slug) ?? 0) + n);
+      } else if (field.startsWith('hr:')) {
+        const name = sourceName(field.slice(3));
+        humanArrivals.set(name, (humanArrivals.get(name) ?? 0) + n);
       } else if (field === 'dev:m') devices.m += n;
       else if (field === 'dev:d') devices.d += n;
       else if (field.startsWith('lang:')) {
@@ -920,18 +1023,37 @@ export async function fetchStudyData(): Promise<StudyData | null> {
     total30: sumRange(aiDaily, 0, WIN),
     byProduct: [...aiProducts.entries()].sort((a, b) => b[1] - a[1]).map(([name, n]) => ({ name, n })),
   };
-  const movers: Mover[] = [...viewsCur.entries()]
-    .filter(([, n]) => n > 0)
+  // From the session episodes (the retained trail window, readers only).
+  const readers = readerSessions(live);
+
+  // Most-opened texts, counted in READERS: human views from the day hashes
+  // once there are two weeks of them, and until then the reader sessions
+  // that opened each text (so bot loads never rank a text).
+  const DAY_MS = 86_400_000;
+  const opensCur = new Map<string, number>();
+  const opensPrev = new Map<string, number>();
+  for (const s of readers) {
+    const age = Date.now() - s.start;
+    if (age > 14 * DAY_MS || (s.eventsTotal < 2 && !s.ref && !s.human)) continue;
+    const seen = new Set<string>();
+    for (const e of s.events) {
+      if ((e.type === 'page' || e.type === 'read') && e.href?.startsWith('/post/')) seen.add(e.href.slice(6));
+    }
+    const m = age <= 7 * DAY_MS ? opensCur : opensPrev;
+    for (const slug of seen) m.set(slug, (m.get(slug) ?? 0) + 1);
+  }
+  const humanHistory = [...humanPrev.values()].reduce((a, b) => a + b, 0) > 0;
+  const [mvCur, mvPrev] = humanHistory ? [humanCur, humanPrev] : [opensCur, opensPrev];
+  const movers: Mover[] = [...mvCur.entries()]
+    .filter(([, c]) => c > 0)
     .sort((a, b) => b[1] - a[1])
     .flatMap(([slug, cur]) => {
       const post = getPostBySlug(slug);
-      return post ? [{ slug, label: post.title, cur, prev: Math.max(0, viewsPrev.get(slug) ?? 0) }] : [];
+      return post ? [{ slug, label: post.title, cur, prev: Math.max(0, mvPrev.get(slug) ?? 0) }] : [];
     })
     .slice(0, 8);
   const langs = [...langCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8).map(([l, n]) => ({ l, n }));
 
-  // From the session episodes (the retained trail window, readers only).
-  const readers = readerSessions(live);
   const quality = deriveSourceQuality(readers);
   const sources: SourceRow[] = [...new Set([...refVisits.keys(), ...quality.keys()])]
     .map((name) => {
@@ -942,6 +1064,7 @@ export async function fetchStudyData(): Promise<StudyData | null> {
         ai: isAiProduct(name),
         visits30: v?.v30 ?? 0,
         visits7: v?.v7 ?? 0,
+        human30: humanArrivals.get(name) ?? 0,
         sessions: q?.sessions ?? 0,
         stayed: q?.stayed ?? 0,
         read: q?.read ?? 0,
@@ -1075,6 +1198,8 @@ export async function fetchStudyData(): Promise<StudyData | null> {
     topRecent,
     topAll,
     sessions,
+    allSessions,
+    episodes,
     activitySince,
     sources,
     aiRef,

@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { DEPTH_STEPS, DWELL_LABELS, fetchPostData } from '../../data';
 import TrendChart from '../../TrendChart';
+import { readGscSnapshot } from '@/lib/gsc';
 
 // /analytics/post/<slug> — one text, in depth: is it being opened, do people
 // get through it, who sends them, what did they search just before, and
@@ -45,8 +46,13 @@ function Bars({ rows, colorClass }: { rows: { label: string; n: number; of: numb
 export default async function PostStatsPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   if (!/^[a-z0-9][a-z0-9-]*$/.test(slug)) notFound();
-  const data = await fetchPostData(slug);
+  const [data, gsc] = await Promise.all([fetchPostData(slug), readGscSnapshot()]);
   if (!data) notFound();
+  // What people typed on Google before landing on this text.
+  const googleQueries = (gsc?.pageQueries ?? [])
+    .filter((q) => q.path.replace(/\/$/, '') === `/post/${slug}`)
+    .sort((a, b) => b.clicks - a.clicks || b.impressions - a.impressions)
+    .slice(0, 10);
 
   const viewPoints = data.series.map((r) => ({ label: fmtDay.format(new Date(`${r.day}T00:00:00Z`)), value: r.views }));
   const readPoints = data.series.map((r) => ({ label: fmtDay.format(new Date(`${r.day}T00:00:00Z`)), value: r.reads }));
@@ -54,9 +60,9 @@ export default async function PostStatsPage({ params }: { params: Promise<{ slug
   const readsTracked = data.series.some((r) => r.reads > 0);
 
   return (
-    <main className="mx-auto w-full max-w-4xl px-4 py-8 sm:py-12">
+    <>
       <p className="text-sm">
-        <Link href="/analytics#reading" className="text-gray-500 underline">← Analytics</Link>
+        <Link href="/analytics/reading" className="text-gray-500 underline">← Reading</Link>
       </p>
       <h1 className="mt-3 text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">{data.title}</h1>
       <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -66,7 +72,7 @@ export default async function PostStatsPage({ params }: { params: Promise<{ slug
 
       <div className="mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-2">
         <TrendChart
-          title="Views / day"
+          title="Opens / day"
           points={viewPoints}
           colorClass="text-[#2a78d6] dark:text-[#3987e5]"
           headline={data.views7.toLocaleString('en-US')}
@@ -83,7 +89,7 @@ export default async function PostStatsPage({ params }: { params: Promise<{ slug
         />
       </div>
       <p className="mt-2 text-xs text-gray-400 dark:text-gray-600">
-        {'Views headline = last 7 days ('}{data.views30.toLocaleString('en-US')}{' in 30). Reads headline = last 30 days; a read = at least half the text and 90+ seconds. Yours excluded from Nov 17 on.'}
+        {'Opens headline = last 7 days ('}{data.views30.toLocaleString('en-US')}{' in 30): page loads until Nov 17 (bots included), people only from Nov 18 — expect the line to step down there. Reads headline = last 30 days; a read = at least half the text and 90+ seconds. Yours excluded.'}
         {!readsTracked && ' Per-text reads have been counted since Nov 17 — the line fills in from there.'}
       </p>
 
@@ -148,6 +154,21 @@ export default async function PostStatsPage({ params }: { params: Promise<{ slug
           </ol>
         </section>
         <section>
+          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Found on Google by</h2>
+          <p className="mt-1 text-xs text-gray-400">What people searched on Google when this text was shown (28 days).</p>
+          <ol className="mt-2 space-y-1 text-sm">
+            {googleQueries.map((q) => (
+              <li key={q.q} className="flex justify-between gap-2">
+                <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">{q.q}</span>
+                <span className="shrink-0 tabular-nums text-xs text-gray-400">{q.clicks}{' clicks · '}{q.impressions}{' shown · #'}{q.position.toFixed(0)}</span>
+              </li>
+            ))}
+            {googleQueries.length === 0 && (
+              <li className="text-gray-400">{gsc ? 'Google hasn’t shown this text for any query it reports.' : 'Search Console isn’t connected.'}</li>
+            )}
+          </ol>
+        </section>
+        <section>
           <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Opened next</h2>
           <p className="mt-1 text-xs text-gray-400">The next text in the same visit.</p>
           <ol className="mt-2 space-y-1 text-sm">
@@ -176,13 +197,13 @@ export default async function PostStatsPage({ params }: { params: Promise<{ slug
                 <span className="text-gray-800 dark:text-gray-200">{v.mins < 1 ? '<1 min' : `${v.mins} min`}</span>
                 {v.read && <span className="text-xs uppercase text-emerald-700 dark:text-emerald-300">read ✓</span>}
                 {v.via && <span className="text-xs text-gray-500 dark:text-gray-400">{'via '}{v.via}</span>}
-                <Link href={`/analytics#s-${v.id}`} className="text-xs text-gray-500 underline">trail →</Link>
+                <Link href={`/analytics/session/${v.id}`} className="text-xs text-gray-500 underline">visit →</Link>
               </li>
             ))}
             {data.visits.length === 0 && <li className="text-gray-400">No reader visits in the recent window.</li>}
           </ol>
         </section>
       </div>
-    </main>
+    </>
   );
 }

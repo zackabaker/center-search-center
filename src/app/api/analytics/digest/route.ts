@@ -1,4 +1,5 @@
-import { isOwner } from '@/lib/analytics-auth';
+import { isOwner, mayRunJob } from '@/lib/analytics-auth';
+import { sendDigestEmail } from '@/lib/digest-email';
 import { accountOverview } from '@/lib/user-store';
 import { claimWeek, mondayOf, releaseWeek, saveDigest, type Digest } from '@/lib/analytics-digest';
 import { fetchStudyData } from '@/app/analytics/data';
@@ -7,8 +8,7 @@ import { buildInsights, readerSessions } from '@/app/analytics/derive';
 // Weekly digest writer — run by the Vercel cron in vercel.json (Mondays), or
 // by the owner on demand (?force=1 rewrites the current week's entry).
 //
-// Who may run it: the cron (Authorization: Bearer $CRON_SECRET when that env
-// var is set; otherwise Vercel's cron user-agent) or the owner. The work is
+// Who may run it: the cron or the owner (mayRunJob). The work is
 // idempotent per week — the slot is claimed with SET NX *before* anything
 // expensive runs — and the response says nothing but ok/skipped, so a forged
 // call can at most make this week's snapshot happen a few hours early.
@@ -16,15 +16,8 @@ import { buildInsights, readerSessions } from '@/app/analytics/derive';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
-function mayRun(request: Request): boolean {
-  if (isOwner(request)) return true;
-  const secret = process.env.CRON_SECRET;
-  if (secret) return request.headers.get('authorization') === `Bearer ${secret}`;
-  return /vercel-cron/i.test(request.headers.get('user-agent') ?? '');
-}
-
 export async function GET(request: Request) {
-  if (!mayRun(request)) return new Response('Not found', { status: 404 });
+  if (!mayRunJob(request)) return new Response('Not found', { status: 404 });
 
   const week = mondayOf();
   const force = isOwner(request) && new URL(request.url).searchParams.get('force') === '1';
@@ -57,7 +50,7 @@ export async function GET(request: Request) {
       week,
       at: Date.now(),
       stats: [
-        stat('Visitors', (r) => r.uniq ?? 0),
+        stat('Readers', (r) => r.readers ?? 0),
         stat('Reader searches', (r) => Math.max(0, r.searches - r.searchesMine)),
         stat('Texts read', (r) => Math.max(0, r.reads - r.readsMine)),
         stat('Follows', (r) => r.follows),
@@ -78,6 +71,9 @@ export async function GET(request: Request) {
       }).map((i) => i.text),
     };
     await saveDigest(digest);
+    // By email too, when a mail provider is configured (see digest-email.ts).
+    // Only on the scheduled write, not when the owner re-runs a week by hand.
+    if (claimed) await sendDigestEmail(digest);
     return Response.json({ ok: true, week, lines: isOwner(request) ? digest.lines.length : undefined });
   } catch {
     // Give the slot back so the next run can try again.

@@ -14,3 +14,16 @@ export function isOwner(request: Request): boolean {
   const cookie = request.headers.get('cookie') ?? '';
   return cookie.split(/;\s*/).includes(`csc-study=${key}`);
 }
+
+/**
+ * May this request run one of the scheduled analytics jobs? The Vercel cron
+ * (Authorization: Bearer $CRON_SECRET when that env var is set; otherwise
+ * Vercel's cron user-agent) or the owner. The jobs are written to be safe
+ * under the weaker rule: idempotent, self-limiting, and silent about results.
+ */
+export function mayRunJob(request: Request): boolean {
+  if (isOwner(request)) return true;
+  const secret = process.env.CRON_SECRET;
+  if (secret) return request.headers.get('authorization') === `Bearer ${secret}`;
+  return /vercel-cron/i.test(request.headers.get('user-agent') ?? '');
+}

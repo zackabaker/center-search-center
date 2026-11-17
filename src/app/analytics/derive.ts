@@ -18,6 +18,7 @@ export type SourceRow = {
   ai: boolean;
   visits30: number; // arrivals in the daily aggregates (durable)
   visits7: number;
+  human30: number;  // arrivals that turned out to be a person (from 2026-11-17)
   sessions: number; // arrivals still in the raw trail window
   stayed: number;   // …that did more than land
   read: number;     // …that read a text (≥50% + 90s)
@@ -25,12 +26,17 @@ export type SourceRow = {
 export type LandingRow = Ref & { sessions: number; stayed: number; read: number };
 export type CoRead = { a: Ref; b: Ref; n: number };
 export type BeginFunnel = { generated: number; opened: number; read: number; returned: number };
-export type NoClick = { q: string; t: number; times: number; anchor: string };
+export type NoClick = { q: string; t: number; times: number; id: string; results?: number };
 export type SearchOutcome = { searches: number; opened: number; noClick: NoClick[] };
 export type Insight = { text: string; href?: string; tone?: 'up' | 'down' };
 
+// A reader: not the owner, not a likely crawler — and, from the day human
+// detection was complete, a session that produced a real input.
+const HUMAN_EPOCH = Date.parse('2026-11-18T00:00:00Z'); // mirrors data.ts
 export const readerSessions = (sessions: SessionView[]): SessionView[] =>
-  sessions.filter((s) => s.kind === 'live' && !s.mine && !s.crawler);
+  sessions.filter(
+    (s) => s.kind === 'live' && !s.mine && !s.crawler && (s.start < HUMAN_EPOCH || s.human === true),
+  );
 
 /** Friendly grouping for referrer hostnames ("t.co" and "x.com" are one source). */
 export function sourceName(host: string): string {
@@ -167,11 +173,12 @@ export function deriveSearchOutcomes(sessions: SessionView[], since: number, cap
         continue;
       }
       const key = e.label.toLowerCase().replace(/\s+/g, ' ').trim();
-      const row = miss.get(key) ?? { q: e.label, t: 0, times: 0, anchor: `#s-${s.id}` };
+      const row = miss.get(key) ?? { q: e.label, t: 0, times: 0, id: s.id, results: e.n };
       row.times += 1;
       if (e.t > row.t) {
         row.t = e.t;
-        row.anchor = `#s-${s.id}`;
+        row.id = s.id;
+        row.results = e.n;
       }
       miss.set(key, row);
     }
@@ -211,7 +218,7 @@ export function buildInsights(input: {
     const p = pct(top.cur, top.prev);
     out.push({
       text:
-        `Most-opened text: “${top.label}” — ${top.cur} views` +
+        `Most-opened text: “${top.label}” — ${top.cur} reader${top.cur === 1 ? '' : 's'}` +
         (p !== null ? ` (${signed(p)} vs. the week before)` : top.prev === 0 ? ' (none the week before)' : ''),
       href: `/analytics/post/${top.slug}`,
       tone: p !== null ? (p >= 0 ? 'up' : 'down') : 'up',
@@ -220,7 +227,7 @@ export function buildInsights(input: {
   const fresh = movers.find((m) => m !== top && m.prev === 0 && m.cur >= 4);
   if (fresh) {
     out.push({
-      text: `New on the radar: “${fresh.label}” — ${fresh.cur} views this week, none the week before`,
+      text: `New on the radar: “${fresh.label}” — ${fresh.cur} readers this week, none the week before`,
       href: `/analytics/post/${fresh.slug}`,
       tone: 'up',
     });
@@ -233,13 +240,13 @@ export function buildInsights(input: {
         `${aiRef.total7} reader${aiRef.total7 === 1 ? '' : 's'} arrived from AI assistants this week` +
         (aiRef.prev7 > 0 ? ` (${aiRef.prev7} the week before)` : '') +
         (who ? ` — 30-day mix: ${who}` : ''),
-      href: '#sources',
+      href: '/analytics/ai',
       tone: aiRef.total7 >= aiRef.prev7 ? 'up' : 'down',
     });
   } else {
     out.push({
       text: 'No AI-referred readers this week (a floor, not a count — the assistants’ mobile apps hide the referrer)',
-      href: '#sources',
+      href: '/analytics/ai',
     });
   }
 
@@ -250,7 +257,7 @@ export function buildInsights(input: {
       text:
         `AI agents fetched ${fetched.toLocaleString('en-US')} page${fetched === 1 ? '' : 's'} this week` +
         (live > 0 ? ` — ${live} of them live lookups, an assistant answering someone right then` : ''),
-      href: '#ai-systems',
+      href: '/analytics/ai',
     });
   }
 
@@ -262,7 +269,7 @@ export function buildInsights(input: {
       text:
         `${missed} of ${search.searches} keyword searches ended without opening anything (${share}%)` +
         (eg ? ` — latest: “${eg}”` : ''),
-      href: '#no-click',
+      href: '/analytics/searches#no-click',
       tone: share > 50 ? 'down' : undefined,
     });
   }
@@ -272,13 +279,13 @@ export function buildInsights(input: {
       text:
         `Reading paths: ${begin.generated} generated → ${begin.opened} opened a text → ${begin.read} read one` +
         (begin.returned > 0 ? ` → ${begin.returned} came back` : ''),
-      href: '#begin',
+      href: '/analytics/journeys',
     });
   }
 
   if (input.completion && input.completion.n >= 10) {
     const share = Math.round((input.completion.reach75 / input.completion.n) * 100);
-    out.push({ text: `Readers get at least three-quarters through ${share}% of the texts they open`, href: '#reading' });
+    out.push({ text: `Readers get at least three-quarters through ${share}% of the texts they open`, href: '/analytics/reading' });
   }
 
   if (input.returns7 > 0 || input.returnsPrev7 > 0) {
@@ -292,12 +299,12 @@ export function buildInsights(input: {
     const p = pct(input.follows7, input.followsPrev7);
     out.push({
       text: `${input.follows7} follow click${input.follows7 === 1 ? '' : 's'} out to Substack / X / RSS` + (p !== null ? ` (${signed(p)})` : ''),
-      href: '#reading',
+      href: '/analytics/reading',
       tone: p !== null ? (p >= 0 ? 'up' : 'down') : undefined,
     });
   }
   if (input.newAccounts7 > 0) {
-    out.push({ text: `${input.newAccounts7} new account${input.newAccounts7 === 1 ? '' : 's'} this week`, href: '#readers', tone: 'up' });
+    out.push({ text: `${input.newAccounts7} new account${input.newAccounts7 === 1 ? '' : 's'} this week`, href: '/analytics/people', tone: 'up' });
   }
 
   const j = input.topJourney;
@@ -307,7 +314,7 @@ export function buildInsights(input: {
       text:
         `Deepest visit: ${j.mins} min, ${reads > 0 ? `${reads} text${reads === 1 ? '' : 's'} read` : `${j.texts} text${j.texts === 1 ? '' : 's'} opened`}` +
         (j.ref ? `, arriving from ${sourceName(j.ref)}` : ''),
-      href: `#s-${j.id}`,
+      href: `/analytics/session/${j.id}`,
     });
   }
   return out;

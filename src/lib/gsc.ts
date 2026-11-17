@@ -12,6 +12,8 @@ import crypto from 'crypto';
 import { getKV } from './kv';
 
 export type GscRow = { key: string; clicks: number; impressions: number; ctr: number; position: number };
+// One (page, query) pair: what people typed on Google before landing on a page.
+export type GscPageQuery = { path: string; q: string; clicks: number; impressions: number; position: number };
 export type GscSnapshot = {
   fetchedAt: number;
   start: string;
@@ -20,7 +22,8 @@ export type GscSnapshot = {
   prevTotals: { clicks: number; impressions: number } | null; // the 28 days before
   queries: GscRow[];
   pages: GscRow[];
-  daily: { day: string; clicks: number; impressions: number }[];
+  daily: { day: string; clicks: number; impressions: number }[]; // oldest first, ~90 days
+  pageQueries?: GscPageQuery[]; // absent in snapshots taken before 2026-11-17
 };
 
 const KEY = 'gsc:snapshot';
@@ -90,12 +93,13 @@ export async function syncGsc(): Promise<GscSnapshot> {
   const start = day(29);
   const range = { startDate: start, endDate: end };
 
-  const [totals, prev, queries, pages, daily] = await Promise.all([
+  const [totals, prev, queries, pages, daily, pairs] = await Promise.all([
     query(token, site, range),
     query(token, site, { startDate: day(57), endDate: day(30) }),
     query(token, site, { ...range, dimensions: ['query'], rowLimit: 100 }),
     query(token, site, { ...range, dimensions: ['page'], rowLimit: 50 }),
-    query(token, site, { ...range, dimensions: ['date'], rowLimit: 60 }),
+    query(token, site, { startDate: day(92), endDate: end, dimensions: ['date'], rowLimit: 120 }),
+    query(token, site, { ...range, dimensions: ['page', 'query'], rowLimit: 1000 }),
   ]);
 
   const t = toRow(totals[0] ?? {});
@@ -110,6 +114,13 @@ export async function syncGsc(): Promise<GscSnapshot> {
     daily: daily
       .map((r) => ({ day: r.keys?.[0] ?? '', clicks: r.clicks ?? 0, impressions: r.impressions ?? 0 }))
       .sort((a, b) => (a.day < b.day ? -1 : 1)),
+    pageQueries: pairs.map((r) => ({
+      path: (r.keys?.[0] ?? '').replace(/^https?:\/\/[^/]+/, '') || '/',
+      q: r.keys?.[1] ?? '',
+      clicks: r.clicks ?? 0,
+      impressions: r.impressions ?? 0,
+      position: r.position ?? 0,
+    })),
   };
   const kv = getKV();
   if (kv) await kv.set(KEY, JSON.stringify(snapshot));

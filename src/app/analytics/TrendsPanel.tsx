@@ -3,11 +3,15 @@
 import { useMemo, useState } from 'react';
 import TrendChart, { type TrendPoint } from './TrendChart';
 
-// The trends room: three single-series charts (visitors, reader searches,
-// texts read) behind one shared range toggle — 30 days (daily, delta vs last
-// week), 90 days (daily, delta vs last month), all time (weekly buckets;
-// searches cover the full retained log, visitors/reads start with the site's
-// own instrumentation). One filter row scopes everything below it.
+// The trends room: single-series charts (readers, reader searches, texts
+// read, and — when Search Console is connected — clicks from Google) behind
+// one shared range toggle: 30 days (daily, delta vs last week), 90 days
+// (daily, delta vs last month), all time (weekly buckets). One filter row
+// scopes everything below it.
+//
+// "Readers" are people, not tabs: sessions that produced a real input, and
+// for days before that was measured, visits that came from somewhere or did
+// more than load one page.
 //
 // Local prop types on purpose: this is a client component, and importing
 // ./data (Upstash client, corpus parser) would drag server code into the
@@ -16,13 +20,15 @@ import TrendChart, { type TrendPoint } from './TrendChart';
 export type TrendDay = {
   day: string; // YYYY-MM-DD (UTC)
   views: number | null;
-  uniq: number | null;
+  readers: number | null;
   searches: number;
   searchesMine: number;
   reads: number;
   readsMine: number;
 };
 export type TrendWeek = { week: string; n: number; mine: number };
+export type TrendNote = { day: string; label: string };
+export type GoogleDay = { day: string; clicks: number };
 
 const RANGES = [
   { key: '30d', label: '30 days' },
@@ -30,6 +36,9 @@ const RANGES = [
   { key: 'all', label: 'All time' },
 ] as const;
 type RangeKey = (typeof RANGES)[number]['key'];
+
+const NO_NOTES: TrendNote[] = [];
+const NO_GOOGLE: GoogleDay[] = [];
 
 const fmtDayShort = new Intl.DateTimeFormat('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric' });
 const dayLabel = (day: string) => fmtDayShort.format(new Date(`${day}T00:00:00Z`));
@@ -42,7 +51,7 @@ const weekOf = (day: string) => {
 const readerSearches = (r: TrendDay) => Math.max(0, r.searches - r.searchesMine);
 const readerReads = (r: TrendDay) => Math.max(0, r.reads - r.readsMine);
 
-function weeklyBuckets(rows: TrendDay[], f: (r: TrendDay) => number, marks: Map<string, string>): TrendPoint[] {
+function weekly<T extends { day: string }>(rows: T[], f: (r: T) => number, marks: Map<string, string>): TrendPoint[] {
   const byWeek = new Map<string, number>();
   for (const r of rows) {
     const w = weekOf(r.day);
@@ -53,28 +62,27 @@ function weeklyBuckets(rows: TrendDay[], f: (r: TrendDay) => number, marks: Map<
     .map(([w, v]) => ({ label: `wk of ${dayLabel(w)}`, value: v, mark: marks.get(w) }));
 }
 
-export type TrendNote = { day: string; label: string };
-const NO_NOTES: TrendNote[] = [];
-
 export default function TrendsPanel({
   days,
   weeks,
-  engaged7,
   notes = NO_NOTES,
+  google = NO_GOOGLE,
 }: {
   /** Newest first, 90 rows. */
   days: TrendDay[];
   /** Oldest first, full retained search history. */
   weeks: TrendWeek[];
-  engaged7: number;
-  /** Owner annotations, pinned to the day (or, on the weekly view, the week) they name. */
+  /** Annotations, pinned to the day (or, on the weekly view, the week) they name. */
   notes?: TrendNote[];
+  /** Clicks from Google per day, oldest first (Search Console; about two days behind). */
+  google?: GoogleDay[];
 }) {
   const [range, setRange] = useState<RangeKey>('30d');
 
   const view = useMemo(() => {
     const oldestFirst = [...days].reverse();
     const era = oldestFirst.filter((r) => r.views !== null); // instrumentation era only
+    const counted = era.filter((r) => r.readers !== null);
     const win = range === '90d' ? 90 : 30;
 
     const dayMarks = new Map<string, string>();
@@ -85,49 +93,55 @@ export default function TrendsPanel({
       join(dayMarks, n.day, n.label);
       join(weekMarks, weekOf(n.day), n.label);
     }
+    const pt = (day: string, value: number): TrendPoint => ({ label: dayLabel(day), value, mark: dayMarks.get(day) });
 
-    let visitors: TrendPoint[];
+    let readers: TrendPoint[];
     let searches: TrendPoint[];
     let reads: TrendPoint[];
+    let clicks: TrendPoint[];
     if (range === 'all') {
-      visitors = weeklyBuckets(era, (r) => r.uniq ?? 0, weekMarks);
-      reads = weeklyBuckets(era, readerReads, weekMarks);
+      readers = weekly(counted, (r) => r.readers ?? 0, weekMarks);
+      reads = weekly(era, readerReads, weekMarks);
       searches = weeks.map((w) => ({
         label: `wk of ${dayLabel(w.week)}`, value: Math.max(0, w.n - w.mine), mark: weekMarks.get(w.week),
       }));
+      clicks = weekly(google, (g) => g.clicks, weekMarks);
     } else {
-      const pt = (r: TrendDay, value: number): TrendPoint => ({ label: dayLabel(r.day), value, mark: dayMarks.get(r.day) });
-      visitors = era.slice(-win).map((r) => pt(r, r.uniq ?? 0));
-      searches = oldestFirst.slice(-win).map((r) => pt(r, readerSearches(r)));
-      reads = era.slice(-win).map((r) => pt(r, readerReads(r)));
+      readers = counted.slice(-win).map((r) => pt(r.day, r.readers ?? 0));
+      searches = oldestFirst.slice(-win).map((r) => pt(r.day, readerSearches(r)));
+      reads = era.slice(-win).map((r) => pt(r.day, readerReads(r)));
+      clicks = google.slice(-win).map((g) => pt(g.day, g.clicks));
     }
 
-    // Deltas from the newest-first rows: current period vs the one before it.
+    // Deltas: the current period against the one before it.
     const span = range === '30d' ? 7 : 30;
     const vs = range === '30d' ? 'vs last wk' : range === '90d' ? 'vs last mo' : 'vs prior 30d';
-    const sum = (from: number, to: number, f: (r: TrendDay) => number) =>
-      days.slice(from, to).reduce((a, r) => a + f(r), 0);
-    const delta = (f: (r: TrendDay) => number) => {
-      const cur = sum(0, span, f);
-      const prev = sum(span, span * 2, f);
+    const delta = <T,>(rows: T[], f: (r: T) => number) => {
+      // rows are newest first
+      const cur = rows.slice(0, span).reduce((a, r) => a + f(r), 0);
+      const prev = rows.slice(span, span * 2).reduce((a, r) => a + f(r), 0);
       return { cur, pct: prev > 0 ? Math.round(((cur - prev) / prev) * 100) : null };
     };
-    const dVisitors = delta((r) => r.uniq ?? 0);
-    const dSearches = delta(readerSearches);
-    const dReads = delta(readerReads);
+    const dReaders = delta(days.filter((r) => r.readers !== null), (r) => r.readers ?? 0);
+    const dSearches = delta(days, readerSearches);
+    const dReads = delta(days, readerReads);
+    const dClicks = delta([...google].reverse(), (g) => g.clicks);
 
     // All-time headline = the whole series' total, not the delta window.
     const total = (pts: TrendPoint[]) => pts.reduce((a, p) => a + p.value, 0);
+    const head = (pts: TrendPoint[], d: { cur: number }) => (range === 'all' ? total(pts) : d.cur);
     return {
-      visitors, searches, reads, vs,
-      hVisitors: range === 'all' ? total(visitors) : dVisitors.cur,
-      hSearches: range === 'all' ? total(searches) : dSearches.cur,
-      hReads: range === 'all' ? total(reads) : dReads.cur,
-      pVisitors: dVisitors.pct, pSearches: dSearches.pct, pReads: dReads.pct,
+      readers, searches, reads, clicks, vs,
+      hReaders: head(readers, dReaders), pReaders: dReaders.pct,
+      hSearches: head(searches, dSearches), pSearches: dSearches.pct,
+      hReads: head(reads, dReads), pReads: dReads.pct,
+      hClicks: head(clicks, dClicks), pClicks: dClicks.pct,
     };
-  }, [days, weeks, range, notes]);
+  }, [days, weeks, range, notes, google]);
 
   const fmt = (n: number) => n.toLocaleString('en-US');
+  const per = range === 'all' ? 'week' : 'day';
+  const withGoogle = google.length > 1;
 
   return (
     <div>
@@ -148,17 +162,17 @@ export default function TrendsPanel({
         ))}
       </div>
 
-      <div className="mt-4 grid gap-x-8 gap-y-6 sm:grid-cols-3">
+      <div className={`mt-4 grid gap-x-8 gap-y-6 ${withGoogle ? 'sm:grid-cols-2' : 'sm:grid-cols-3'}`}>
         <TrendChart
-          title={range === 'all' ? 'Visitors / week' : 'Visitors / day'}
-          points={view.visitors}
+          title={`Readers / ${per}`}
+          points={view.readers}
           colorClass="text-[#2a78d6] dark:text-[#3987e5]"
-          headline={fmt(view.hVisitors)}
-          deltaPct={view.pVisitors}
+          headline={fmt(view.hReaders)}
+          deltaPct={view.pReaders}
           deltaVs={view.vs}
         />
         <TrendChart
-          title={range === 'all' ? 'Reader searches / week' : 'Reader searches / day'}
+          title={`Reader searches / ${per}`}
           points={view.searches}
           colorClass="text-[#eb6834] dark:text-[#d95926]"
           headline={fmt(view.hSearches)}
@@ -167,20 +181,30 @@ export default function TrendsPanel({
           note={range === 'all' ? 'current week (partial)' : undefined}
         />
         <TrendChart
-          title={range === 'all' ? 'Texts read / week' : 'Texts read / day'}
+          title={`Texts read / ${per}`}
           points={view.reads}
           colorClass="text-[#1baf7a] dark:text-[#199e70]"
           headline={fmt(view.hReads)}
           deltaPct={view.pReads}
           deltaVs={view.vs}
         />
+        {withGoogle && (
+          <TrendChart
+            title={`Clicks from Google / ${per}`}
+            points={view.clicks}
+            colorClass="text-[#6250d6] dark:text-[#9085e9]"
+            headline={fmt(view.hClicks)}
+            deltaPct={view.pClicks}
+            deltaVs={view.vs}
+          />
+        )}
       </div>
       <p className="mt-2 text-xs text-gray-400 dark:text-gray-600">
         {range === '30d' && <>{'Headline = last 7 days; change is against the 7 before. '}</>}
         {range === '90d' && <>{'Headline = last 30 days; change is against the 30 before. '}</>}
-        {range === 'all' && <>{'Headline = total. Searches cover the full retained log; visitors and reads begin with the site’s own instrumentation (late Oct). '}</>}
-        {'Searches and reads exclude yours. Visitors are unique tabs (JS-running bots included; engaged humans ≈ '}
-        {engaged7.toLocaleString('en-US')}{' · 7d). A read = ≥50% depth and ≥90s.'}
+        {range === 'all' && <>{'Headline = total. Searches cover the full retained log; the rest begins with the site’s own instrumentation (late Oct). '}</>}
+        {'Readers are people, not tabs: visits with a real tap, key or mouse move from Nov 18; before that, visits that came from somewhere or opened more than one page. Yours are excluded throughout. A read = at least half the text and 90+ seconds.'}
+        {withGoogle && ' Google’s numbers run about two days behind.'}
       </p>
     </div>
   );
