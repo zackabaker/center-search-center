@@ -2,6 +2,7 @@ import { getPublicPosts } from '@/lib/parser';
 import { ARCHIVAL_SOURCES, ContentSource } from '@/lib/types';
 import { openCors, preflight } from '@/lib/cors';
 import { buildPhraseRegex, makeSnippet } from '@/lib/phrase-match';
+import { rateLimit, clientIp } from '@/lib/rate-limit';
 
 // Full-corpus phrase search with attribution.
 //
@@ -33,6 +34,16 @@ const MAX_POSTS = 50;
 type Hit = { slug: string; title: string; source: string; date: string; count: number; snippet: string };
 
 export async function GET(request: Request) {
+  // Each request regex-scans the full corpus — cap per-IP throughput so a
+  // runaway client can't pin the CPU. CDN-cached responses never reach here.
+  const limited = rateLimit(`grep:${clientIp(request)}`, 30, 60_000);
+  if (!limited.ok) {
+    return Response.json(
+      { error: 'Too many requests — slow down a little.' },
+      { status: 429, headers: openCors({ 'Retry-After': String(limited.retryAfterSeconds) }) }
+    );
+  }
+
   const url = new URL(request.url);
   const q = (url.searchParams.get('q') || '').slice(0, 300).trim();
   if (q.length < 4) {

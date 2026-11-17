@@ -663,8 +663,8 @@ export async function POST(request: Request) {
       // The answer is a quote-woven synthesis (3–5 paragraphs); long verbatim excerpts
       // block of 5–8 verbatim passages. At 3000 a verbose synthesis consumed the
       // whole budget and the response was cut off before the excerpts ever
-      // streamed — so the UI showed a summary with no quotes. Sonnet 4.6 allows
-      // up to 64K output; give ample room for both halves.
+      // streamed — so the UI showed a summary with no quotes. The model's
+      // output ceiling is far above this; give ample room for both halves.
       model: ASK_MODEL_ID,
       max_tokens: 8000,
       system: SYSTEM_PROMPT,

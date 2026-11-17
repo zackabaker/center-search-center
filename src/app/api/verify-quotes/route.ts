@@ -1,5 +1,5 @@
 import { getPublicPosts } from '@/lib/parser';
-import { isSameOrigin } from '@/lib/rate-limit';
+import { isSameOrigin, rateLimit, clientIp } from '@/lib/rate-limit';
 
 // Verifies that quoted strings exist VERBATIM in the corpus.
 // POST { quotes: string[] } → { verified: boolean[] }
@@ -33,6 +33,15 @@ function getNormCorpus(): string {
 export async function POST(request: Request) {
   if (!isSameOrigin(request)) {
     return Response.json({ error: 'Forbidden' }, { status: 403 });
+  }
+  // Ask fires at most one of these per completed answer; anything faster is
+  // a spoofed-origin script hammering the 30MB substring search.
+  const limited = rateLimit(`verify-quotes:${clientIp(request)}`, 20, 60_000);
+  if (!limited.ok) {
+    return Response.json(
+      { error: 'Too many requests — slow down a little.' },
+      { status: 429, headers: { 'Retry-After': String(limited.retryAfterSeconds) } }
+    );
   }
 
   let quotes: unknown;

@@ -1,0 +1,31 @@
+# The production compiler intermittently strips the leading space of a JSX
+# text node that follows an inline element on the same line, so
+#   </em> word   can render as   </em>word   (observed live 2026-08 and
+# 2026-11; dev builds always preserve it, so it slips through review).
+# The fix is an explicit {' '}:   </em>{' '}word
+# This check fails the build on any plain-space junction so the bug cannot
+# creep back in. Punctuation after the tag (.,;:) is fine and not matched.
+name: JSX junction guard
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ban plain-space junctions after inline JSX elements
+        run: |
+          matches=$(perl -CSD -ne 'print "$ARGV:$.: $_" if m{</(?:em|strong|Link|a|b|i|code|span)> (?=[A-Za-z0-9(&"\x27\x{201C}\x{2018}\x{2026}\x{2014}\xB7-])}; close ARGV if eof;' $(find src -name '*.tsx') || true)
+          if [ -n "$matches" ]; then
+            echo "Plain-space junctions after inline JSX elements found."
+            echo "Production builds intermittently strip this space, gluing the words together."
+            echo "Write an explicit JSX space instead:  </em>{' '}word"
+            echo
+            echo "$matches"
+            exit 1
+          fi
+          echo "No plain-space junctions found."

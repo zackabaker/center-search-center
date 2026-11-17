@@ -196,7 +196,7 @@ export default function ProfileClient() {
         <button type="button" onClick={signOut} className={QUIET_BTN}>Sign out</button>
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Reading history, past queries and account deletion are on the{' '}
-          <Link href="/idioms" className="underline underline-offset-4">idiom archive</Link> page.
+          <Link href="/idioms" className="underline underline-offset-4">idiom archive</Link>{' '}page.
         </p>
       </section>
     </main>

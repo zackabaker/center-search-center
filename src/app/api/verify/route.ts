@@ -2,6 +2,7 @@ import { createHash } from 'crypto';
 import { getPublicPosts } from '@/lib/parser';
 import { openCors, preflight } from '@/lib/cors';
 import { buildPhraseRegex, elisionSegments, makeSnippet } from '@/lib/phrase-match';
+import { rateLimit, clientIp } from '@/lib/rate-limit';
 import QUOTES from '@/data/quotes.json';
 
 // The public authority function: submit a quote, learn whether Adam Katz /
@@ -34,6 +35,16 @@ function quoteIdIndex(): Map<string, string> {
 }
 
 export async function POST(request: Request) {
+  // Each request regex-scans the full corpus per quote segment — cap per-IP
+  // throughput so a runaway client can't pin the CPU.
+  const limited = rateLimit(`verify:${clientIp(request)}`, 20, 60_000);
+  if (!limited.ok) {
+    return Response.json(
+      { error: 'Too many requests — slow down a little.' },
+      { status: 429, headers: openCors({ 'Retry-After': String(limited.retryAfterSeconds) }) }
+    );
+  }
+
   let quote: unknown;
   try {
     ({ quote } = await request.json());
