@@ -18,10 +18,22 @@ async function get(path, opts = {}) {
   return { res, body };
 }
 
+// A permanent redirect must be a 308 AND land on the intended page — a 308 to
+// the wrong place (or to another host) is as broken as no redirect at all.
+async function redirects(name, from, to) {
+  const { res } = await get(from);
+  const loc = res.headers.get('location');
+  const target = loc ? new URL(loc, `${BASE}${from}`) : null;
+  const landed = target && target.origin === new URL(BASE).origin && target.pathname === to;
+  ok(`${name} → 308 ${to}`, res.status === 308 && landed, `got ${res.status} → ${loc || 'no location'}`);
+}
+
 console.log(`Health check against ${BASE}\n`);
 
 // ── Core pages return 200 ────────────────────────────────────────────────────
-for (const path of ['/', '/start', '/intro', '/guide', '/concepts', '/browse', '/faq', '/lineage', '/trending', '/generative-anthropology', '/guide/concepts/the-center', '/guide/concepts/power']) {
+// /begin and /lectures are the destinations of the retired /start and /intro
+// (see Redirects below).
+for (const path of ['/', '/begin', '/lectures', '/guide', '/concepts', '/browse', '/faq', '/lineage', '/trending', '/generative-anthropology', '/guide/concepts/the-center', '/guide/concepts/power']) {
   const { res } = await get(path);
   ok(`200 ${path}`, res.status === 200, `got ${res.status}`);
 }
@@ -44,21 +56,29 @@ for (const path of ['/', '/start', '/intro', '/guide', '/concepts', '/browse', '
 }
 
 // ── Redirects ────────────────────────────────────────────────────────────────
-{
-  const { res } = await get('/guide/concepts/the-event');
-  ok('renamed concept slug → 308', res.status === 308, `got ${res.status}`);
-}
-{
-  const { res } = await get('/post/gablog-the-discourse-of-the-center');
-  ok('legacy post slug → 308', res.status === 308, `got ${res.status}`);
-}
+await redirects('renamed concept slug', '/guide/concepts/the-event', '/guide/concepts/event');
+await redirects('legacy post slug', '/post/gablog-the-discourse-of-the-center', '/post/the-discourse-of-the-center');
+// Retired entry pages (next.config.ts): /start was folded into /begin, the one
+// canonical first-visit page (2026-11); /intro went with the AI-prose cleanup
+// (2026-10) and points at the lecture series.
+await redirects('retired /start', '/start', '/begin');
+await redirects('retired /intro', '/intro', '/lectures');
 
 // ── Sitemap hygiene ──────────────────────────────────────────────────────────
 {
   const { res, body } = await get('/sitemap.xml');
   ok('200 /sitemap.xml', res.status === 200, `got ${res.status}`);
   const urls = [...body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  ok('sitemap has 1500+ URLs', urls.length > 1500, `${urls.length}`);
+  // Core-only sitemap since 2026-11 (src/app/sitemap.ts): static + concept +
+  // glossary + reading-path pages and the Katz core posts, ~890 URLs. The
+  // floor catches a lost corpus; the ceiling catches the ~960 quote stubs or
+  // ~1,300 archival reprints leaking back in, which is what de-indexed the
+  // site. Core posts grow slowly, so 1200 leaves years of headroom.
+  ok('sitemap has 700–1200 URLs (core only)', urls.length >= 700 && urls.length <= 1200, `${urls.length}`);
+  const stubs = urls.filter((u) => u.startsWith(`${BASE}/q/`));
+  ok('sitemap omits /q/ quote stubs', stubs.length === 0, `${stubs.length} listed`);
+  ok('sitemap lists /begin, not the redirecting /start or /intro',
+    urls.includes(`${BASE}/begin`) && !urls.includes(`${BASE}/start`) && !urls.includes(`${BASE}/intro`));
   const dupes = urls.filter((u, i) => urls.indexOf(u) !== i);
   ok('sitemap has no duplicate URLs', dupes.length === 0, dupes.slice(0, 3).join(', '));
   ok('sitemap omits redirecting /guide/concepts index', !urls.includes(`${BASE}/guide/concepts`));
@@ -85,8 +105,9 @@ for (const path of ['/', '/start', '/intro', '/guide', '/concepts', '/browse', '
   ok('no doubled title suffix on home', !doubled);
 }
 {
-  const { body } = await get('/start');
-  ok('/start has its own title', body.includes('<title>Start Here'), '');
+  const { body } = await get('/begin');
+  const title = body.match(/<title>([^<]*)<\/title>/)?.[1] ?? 'none';
+  ok('/begin has its own title', body.includes('<title>Getting Started'), `got "${title}"`);
 }
 
 console.log(`\n${failures === 0 ? 'ALL CHECKS PASSED' : `${failures} CHECK(S) FAILED`}`);
