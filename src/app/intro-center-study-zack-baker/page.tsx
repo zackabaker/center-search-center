@@ -347,8 +347,10 @@ export default function IntroPage() {
         . In dyadic engagement, an individual &ldquo;interacts with, and is
         mutually responsive to, an animate agent directly.&rdquo; In triadic
         engagement, an individual &ldquo;interacts together with a
-        goal-directed agent toward some shared goal.&rdquo; Collaborative
-        engagement adds &ldquo;joint attention (mutual knowledge).&rdquo; Adam
+        goal-directed agent toward some shared goal.&rdquo; The shared looking
+        at this level is often called joint attention, but Tomasello calls it
+        only &ldquo;joint perception.&rdquo; Collaborative engagement adds
+        &ldquo;joint attention (mutual knowledge).&rdquo; Adam
         Katz,{' '}
         <Link href="/post/double-helix-v2-tomasello-review" className={TERM_CLASS} title="Adam Katz’s review of Tomasello, A Natural History of Human Thinking">reviewing Tomasello</Link>
         , calls joint attention{' '}
