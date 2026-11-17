@@ -15,6 +15,8 @@ import TableOfContents from '@/components/TableOfContents';
 import PostNavigation from '@/components/PostNavigation';
 import Concordance from '@/components/Concordance';
 import { getPostTermFrequency, buildSearchEntries, getRelatedEntries } from '@/lib/search-index';
+import { getPostMeta } from '@/lib/post-meta';
+import { HIDDEN_SOURCES } from '@/lib/types';
 import { relatedSlugs } from '@/lib/related';
 import { parsePostDate, postTime } from '@/lib/dates';
 import { splitPostParagraphs } from '@/lib/post-paragraphs';
@@ -54,12 +56,19 @@ const ACADEMIC_ARTICLES: Record<string, { issue?: string }> = {
   'the-origin-of-language': { issue: 'Eric Gans — The Origin of Language (new edition, Spuyten Duyvil, 2020)' },
 };
 
-// Module-level cache — computed once per server-process lifetime (survives warm serverless invocations)
+// Lexical-fallback entry set — tokenizes the ENTIRE corpus, so it must only
+// ever run for the rare slug with no precomputed semantic neighbours; the
+// common path resolves related posts through the slim post-meta map instead.
+// Module-level cache: computed at most once per server-process lifetime
+// (survives warm serverless invocations).
 let _cachedAllEntries: ReturnType<typeof buildSearchEntries> | null = null;
 function getCachedAllEntries() {
   if (!_cachedAllEntries) _cachedAllEntries = buildSearchEntries(getPublicPosts());
   return _cachedAllEntries;
 }
+
+// The slim shape both related-posts surfaces (sidebar + grid) render from.
+type RelatedItem = { slug: string; title: string; source: ContentSource; date: string | null };
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
   substack:  'Bouvard Substack',
@@ -258,27 +267,28 @@ export default async function PostPage({
   // ── Related posts — computed server-side once; sidebar gets top 3, the
   // below-article grid gets top 6 as a slim array (never pass full posts
   // to client components — that serializes the corpus into the page).
-  const allEntries = getCachedAllEntries();
-  const currentEntry = allEntries.find((e) => e.slug === slug);
-  // Prefer the precomputed semantic neighbours (by meaning); fall back to
-  // lexical overlap if the index is unavailable. Drop same-title cross-source
-  // copies (e.g. the pdf + ap versions of one article) so they don't show up
-  // as "related" to themselves.
-  const entryBySlug = new Map(allEntries.map((e) => [e.slug, e]));
+  // Prefer the precomputed semantic neighbours (by meaning), resolved through
+  // the slim post-meta map; fall back to lexical overlap — which builds the
+  // full tokenized entry set — only when the index has no neighbours for this
+  // slug. Drop same-title cross-source copies (e.g. the pdf + ap versions of
+  // one article) so they don't show up as "related" to themselves.
   const titleLower = post.title.trim().toLowerCase();
-  const semanticRelated = relatedSlugs(slug, 10)
-    .map((s) => entryBySlug.get(s))
-    .filter((e): e is NonNullable<typeof e> => !!e && e.title.trim().toLowerCase() !== titleLower);
-  const relatedResolved = semanticRelated.length >= 3
-    ? semanticRelated
-    : (currentEntry ? getRelatedEntries(currentEntry, allEntries, 6) : []);
+  const semanticRelated: RelatedItem[] = relatedSlugs(slug, 10)
+    .map((s) => ({ slug: s, meta: getPostMeta(s) }))
+    .filter(({ meta }) =>
+      !!meta && !HIDDEN_SOURCES.includes(meta.source) && meta.title.trim().toLowerCase() !== titleLower)
+    .map(({ slug: s, meta }) => ({ slug: s, title: meta!.title, source: meta!.source, date: meta!.date }));
+  let relatedResolved: RelatedItem[];
+  if (semanticRelated.length >= 3) {
+    relatedResolved = semanticRelated;
+  } else {
+    const allEntries = getCachedAllEntries();
+    const currentEntry = allEntries.find((e) => e.slug === slug);
+    relatedResolved = (currentEntry ? getRelatedEntries(currentEntry, allEntries, 6) : [])
+      .map((e) => ({ slug: e.slug, title: e.title, source: e.source, date: e.date }));
+  }
   const relatedEntries = relatedResolved.slice(0, 3);
-  const relatedForGrid = relatedResolved.slice(0, 6).map((e) => ({
-    slug: e.slug,
-    title: e.title,
-    source: e.source,
-    date: e.date,
-  }));
+  const relatedForGrid = relatedResolved.slice(0, 6);
 
   const SIDEBAR_LABEL = 'text-xs font-mono uppercase tracking-widest text-gray-400 mb-3';
 
