@@ -528,3 +528,14 @@ span[class*="rounded-full"][class*="px-"] {
 [class*="border-amber-"][class*="border-l"] {
   border-left-color: var(--accent);
 }
+
+/* Ask: indeterminate bar while an answer is being written. It runs inside a
+   track that is always 2px tall, so starting and stopping moves nothing. */
+@keyframes ask-loading {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+.ask-loading-bar { animation: ask-loading 1.3s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .ask-loading-bar { animation: none !important; width: 100%; opacity: 0.45; }
+}

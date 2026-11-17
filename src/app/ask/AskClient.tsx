@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { CS_TERMS_SORTED, extractFollowUps, TERM_TO_CONCEPT_SLUG } from '@/lib/cs-terms';
 import SearchViews from '@/components/SearchViews';
 import ConceptCard from '@/components/ConceptCard';
+import { ASK_MODEL_LABEL } from '@/lib/ask-model';
 import { GLOSSARY_LINK_TERMS } from '@/data/guide/glossary-link-terms';
 import { logSearch } from '@/lib/log-search';
 import SceneMark from '@/components/SceneMark';
@@ -462,6 +463,47 @@ function briefOf(content: string): string {
     .trim();
 }
 
+// The first sentence or two of the short answer. While the answer is still
+// being written, only sentences that have ENDED are shown, so the text never
+// jitters mid-word; a second sentence is added only if the pair stays short
+// enough to fit the reserved box on a phone.
+const SHORT_ANSWER_CHARS = 230;
+// Enough prose to be worth opening. A stop in the first second can leave
+// nothing but a heading marker ("##"), which is not an answer.
+function hasSubstance(content: string | undefined | null): boolean {
+  return !!content && content.replace(/[#*_>\-\s]/g, '').length >= 40;
+}
+
+function firstSentences(brief: string, complete: boolean): string {
+  if (!brief) return '';
+  // Walk the sentence endings: terminal punctuation (plus any closing quote
+  // or bracket) that is followed by a space or the end of the text.
+  const ABBREV = /(?:\b(?:e\.g|i\.e|cf|vs|Mr|Mrs|Dr|St|pp?|vol|no)|\b[A-Z])\.$/;
+  const sentences: string[] = [];
+  const re = /[.!?]+["”’)\]]*(?=\s|$)/g;
+  let start = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(brief))) {
+    const end = m.index + m[0].length;
+    const candidate = brief.slice(start, end).trim();
+    // "e.g." or an initial is not the end of a sentence — keep reading.
+    if (ABBREV.test(candidate)) continue;
+    // While the answer is still streaming, a terminator at the very end of
+    // what has arrived may yet turn out to be an abbreviation or a decimal.
+    if (!complete && end >= brief.length) break;
+    sentences.push(candidate);
+    start = end;
+    if (sentences.length === 2) break;
+  }
+  const tail = brief.slice(start).trim();
+  // An unterminated remainder counts only once the answer is complete.
+  if (complete && tail && sentences.length < 2) sentences.push(tail);
+  if (sentences.length === 0) return '';
+  const [first, second] = sentences;
+  if (second && first.length + 1 + second.length <= SHORT_ANSWER_CHARS) return `${first} ${second}`;
+  return first;
+}
+
 function splitAnswer(content: string): { prose: string; excerpts: string } {
   const m = content.match(/\n+(?:---\s*\n+)?##\s+Excerpts\s*\n/i);
   if (!m || m.index === undefined) return { prose: content, excerpts: '' };
@@ -543,6 +585,13 @@ export default function AskClient() {
   }, []);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  // The reader pressed "Stop generating": the request is aborted and whatever
+  // had arrived stays on screen, with Retry in place of Stop.
+  const [stopped, setStopped] = useState(false);
+  // Short answer by default; "Read the full answer" expands it in place. The
+  // collapsed box has a fixed height, so a streaming answer cannot move the
+  // passages under it — only the reader's own tap does.
+  const [showFull, setShowFull] = useState(false);
   const [fontSize, setFontSize] = useState<FontSize>('md');
   const [linkCopied, setLinkCopied] = useState(false);
   // Concept seed: set when arriving from a concept page
@@ -705,6 +754,8 @@ export default function AskClient() {
       opts?.fresh === true ||
       (!opts?.isRetry && question === currentQuestion && !!answer?.content);
     setInput('');
+    setStopped(false);
+    if (question !== currentQuestion) setShowFull(false);
     setCurrentQuestion(question);
     // Clear any previous failure up front — the cache-hit early returns below
     // never reach the later setError(null), and the error state has render
@@ -1169,36 +1220,132 @@ export default function AskClient() {
 
               <ConceptCard query={currentQuestion} className="mb-6" />
 
-              {/* Short answer — the opening of the AI synthesis, on top for
-                  question searches (owner direction, 2026-11-16). The box
-                  reserves its height and clamps its text, so the streaming
-                  answer never pushes the passages below it. */}
-              <section aria-label="Short answer" className="mb-8">
-                <p className="text-xs font-mono uppercase tracking-widest text-gray-900 dark:text-gray-100 mb-2">
-                  Short answer <span className="font-normal normal-case tracking-normal text-gray-500 dark:text-gray-400">· written by AI from the passages below</span>
+              {/* The answer — one section, on top for question searches (owner
+                  direction, 2026-11-16/17). Collapsed, it shows the first
+                  sentence or two in a box of FIXED height with an action row
+                  that is always present, so neither the streaming text nor a
+                  button appearing late can move the passages below. The
+                  reader expands it in place; nothing else does. */}
+              <section aria-label="Answer" id="full-answer" className="mb-8 scroll-mt-20">
+                {/* Label and status on separate single lines of fixed height:
+                    the status changes length as the answer progresses, and on
+                    a phone a shared row would wrap and move the page. */}
+                <p className="text-xs font-mono uppercase tracking-widest text-gray-900 dark:text-gray-100 h-5 truncate">
+                  {showFull ? 'Full answer' : 'Short answer'}
                 </p>
-                <div className="min-h-[10.5rem] sm:min-h-[7.25rem]">
-                  {error ? (
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      A short answer could not be written this time. The passages below are unaffected.
-                    </p>
-                  ) : answer?.content && briefOf(answer.content) ? (
-                    <p className="font-serif text-[1.125rem] leading-[1.55] text-gray-900 dark:text-gray-100 line-clamp-6 sm:line-clamp-4">
-                      {briefOf(answer.content)}
-                    </p>
-                  ) : (
-                    <div className="space-y-2.5 pt-1.5 animate-pulse" aria-hidden>
-                      <div className="h-3.5 bg-gray-200 dark:bg-gray-800 rounded w-full" />
-                      <div className="h-3.5 bg-gray-200 dark:bg-gray-800 rounded w-11/12" />
-                      <div className="h-3.5 bg-gray-200 dark:bg-gray-800 rounded w-4/5" />
-                    </div>
-                  )}
+                <p className="text-xs text-gray-500 dark:text-gray-400 h-5 truncate mb-1.5" aria-live="polite">
+                  {isLoading
+                    ? `Generating with ${ASK_MODEL_LABEL}…`
+                    : stopped
+                      ? `Stopped · ${ASK_MODEL_LABEL}`
+                      : error
+                        ? ASK_MODEL_LABEL
+                        : `Written by ${ASK_MODEL_LABEL} from the passages below`}
+                </p>
+
+                {/* Loading bar: the 2px track is always there; only the moving
+                    segment comes and goes. */}
+                <div
+                  className="h-0.5 mb-3 overflow-hidden bg-gray-200 dark:bg-gray-800"
+                  role={isLoading ? 'progressbar' : undefined}
+                  aria-label={isLoading ? 'Writing the answer' : undefined}
+                >
+                  {isLoading && <div className="ask-loading-bar h-full w-1/4 bg-gray-900 dark:bg-gray-100" />}
                 </div>
-                {!error && answer?.content && !isLoading && (
-                  <a href="#full-answer" className="inline-flex items-center min-h-11 text-sm font-medium text-blue-600 dark:text-blue-400 underline underline-offset-4">
-                    Read the full answer
-                  </a>
+
+                {showFull && hasSubstance(answer?.content) && answer && !error ? (
+                  <div>
+                    {renderMarkdown(splitAnswer(answer.content).prose, fontSize, handleTermClick)}
+                    {regenFailed && !isLoading && (
+                      <p className="mt-4 text-xs text-amber-700 dark:text-amber-400">
+                        {'Couldn’t regenerate ('}{regenFailed}{') — showing the previous answer. Try again in a moment.'}
+                      </p>
+                    )}
+                    {answer.truncated && !isLoading && (
+                      <p className="mt-4 text-xs text-amber-700 dark:text-amber-400">
+                        This answer hit the length limit and ends early —{' '}
+                        <button
+                          onClick={() => submit(currentQuestion, conceptSeed ?? undefined, { fresh: true })}
+                          className="underline underline-offset-2 hover:text-amber-900 dark:hover:text-amber-300"
+                        >
+                          regenerate
+                        </button>{' '}
+                        for a complete one.
+                      </p>
+                    )}
+                    {answer.inlineUnverified && answer.inlineUnverified.failed > 0 && (
+                      <p className="mt-4 text-xs text-gray-500 dark:text-gray-400">
+                        {answer.inlineUnverified.failed} of {answer.inlineUnverified.checked} quotes in this
+                        answer couldn&rsquo;t be matched word-for-word against the archive — open the
+                        sources to verify before citing.
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <div className="h-[10.5rem] sm:h-[7rem] overflow-hidden">
+                    {error ? (
+                      <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                        The answer couldn&rsquo;t be written: {error} The passages below are unaffected.
+                      </p>
+                    ) : answer?.content && firstSentences(briefOf(answer.content), !isLoading && !stopped) ? (
+                      <p className="font-serif text-[1.125rem] leading-[1.55] text-gray-900 dark:text-gray-100 line-clamp-6 sm:line-clamp-4">
+                        {firstSentences(briefOf(answer.content), !isLoading && !stopped)}
+                      </p>
+                    ) : stopped ? (
+                      <p className="text-sm text-gray-600 dark:text-gray-300">
+                        {hasSubstance(answer?.content)
+                          ? 'Stopped before the answer was finished. Read what was written, or retry.'
+                          : 'Stopped before an answer was written. The passages below are unaffected.'}
+                      </p>
+                    ) : (
+                      <div className="space-y-2.5 pt-1.5 animate-pulse" aria-hidden>
+                        <div className="h-3.5 bg-gray-200 dark:bg-gray-800 rounded w-full" />
+                        <div className="h-3.5 bg-gray-200 dark:bg-gray-800 rounded w-11/12" />
+                        <div className="h-3.5 bg-gray-200 dark:bg-gray-800 rounded w-4/5" />
+                      </div>
+                    )}
+                  </div>
                 )}
+
+                {/* Action row — always rendered at one height. */}
+                <div className="mt-2 flex flex-wrap items-center gap-2 min-h-11">
+                  {hasSubstance(answer?.content) && !error && (
+                    <button
+                      type="button"
+                      aria-expanded={showFull}
+                      onClick={() => setShowFull((v) => !v)}
+                      className="min-h-11 px-4 text-sm font-semibold bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-200 rounded-sm transition-colors"
+                    >
+                      {showFull ? 'Show the short answer' : 'Read the full answer'}
+                    </button>
+                  )}
+                  {isLoading ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        abortRef.current?.abort();
+                        setStopped(true);
+                        setIsLoading(false);
+                      }}
+                      className="min-h-11 px-4 text-sm font-medium border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 hover:border-gray-900 dark:hover:border-gray-200 rounded-sm transition-colors"
+                    >
+                      Stop generating
+                    </button>
+                  ) : (stopped || error) ? (
+                    <button
+                      type="button"
+                      disabled={coolingDown}
+                      onClick={() => submit(
+                        currentQuestion,
+                        conceptSeed ?? undefined,
+                        (error ? failedFreshRef.current : !!answer?.content) ? { fresh: true } : undefined,
+                      )}
+                      className="min-h-11 px-4 text-sm font-medium border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 hover:border-gray-900 dark:hover:border-gray-200 rounded-sm transition-colors disabled:opacity-40"
+                    >
+                      {coolingDown ? 'Waiting a moment…' : 'Retry'}
+                    </button>
+                  ) : null}
+                </div>
               </section>
 
 
@@ -1341,81 +1488,6 @@ export default function AskClient() {
                       );
                     })}
                     </div>
-                  </div>
-                )}
-              </div>
-
-              {/* AI synthesis — the generated answer, quotes woven through,
-                  every quote deep-linked and verified. Explicitly labeled.
-                  Rendered AFTER the verbatim excerpts so its streaming never
-                  moves them. */}
-              <div id="full-answer" className="mb-8 scroll-mt-20">
-                <p className="text-xs font-mono text-gray-900 dark:text-gray-100 uppercase tracking-widest mb-3">
-                  Full answer <span className="font-normal normal-case tracking-normal text-gray-500 dark:text-gray-400">· written by AI from the texts</span>
-                </p>
-                {error ? (
-                  /* Real error card — never impersonates a synthesis */
-                  <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-5">
-                    <p className="text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
-                      The answer couldn&rsquo;t be generated
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{error}</p>
-                    <div className="flex flex-wrap items-center gap-3">
-                      <button
-                        onClick={() => submit(currentQuestion, conceptSeed ?? undefined, failedFreshRef.current ? { fresh: true } : undefined)}
-                        disabled={coolingDown}
-                        className="px-4 py-2 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-medium hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                      >
-                        {coolingDown ? 'Waiting a moment…' : 'Try again'}
-                      </button>
-                      <Link
-                        href={`/search?q=${encodeURIComponent(currentQuestion)}`}
-                        className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
-                      >
-                        Search the archive instead →
-                      </Link>
-                    </div>
-                  </div>
-                ) : answer?.content ? (
-                  <div>
-                    {renderMarkdown(splitAnswer(answer.content).prose, fontSize, handleTermClick)}
-                    {regenFailed && !isLoading && (
-                      <p className="mt-4 flex items-center gap-1.5 text-xs text-amber-700 dark:text-amber-400">
-                        <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /></svg>
-                        <span>{'Couldn’t regenerate ('}{regenFailed}{') — showing the previous answer. Try again in a moment.'}</span>
-                      </p>
-                    )}
-                    {answer.truncated && !isLoading && (
-                      <p className="mt-4 flex items-center gap-1.5 text-xs text-amber-700 dark:text-amber-400">
-                        <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /></svg>
-                        <span>
-                          This answer hit the length limit and ends early —{' '}
-                          <button
-                            onClick={() => submit(currentQuestion, conceptSeed ?? undefined, { fresh: true })}
-                            className="underline underline-offset-2 hover:text-amber-900 dark:hover:text-amber-300"
-                          >
-                            regenerate
-                          </button>{' '}
-                          for a complete one.
-                        </span>
-                      </p>
-                    )}
-                    {answer.inlineUnverified && answer.inlineUnverified.failed > 0 && (
-                      <p className="mt-4 flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-                        <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /></svg>
-                        {answer.inlineUnverified.failed} of {answer.inlineUnverified.checked} quotes in this
-                        synthesis couldn&rsquo;t be matched word-for-word against the archive — open the
-                        sources to verify before citing.
-                      </p>
-                    )}
-                  </div>
-                ) : (
-                  /* Animated circles while streaming */
-                  <div className="flex flex-col items-center py-8 gap-3">
-                    <SceneMark size={64} spin speed={4} className="text-gray-400 dark:text-gray-500" />
-                    <p className="text-xs text-gray-400 dark:text-gray-600 font-mono tracking-wide">
-                      reading the texts…
-                    </p>
                   </div>
                 )}
               </div>

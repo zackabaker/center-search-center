@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
+import { ASK_MODEL_ID } from '@/lib/ask-model';
 import { rateLimit, clientIp, isSameOrigin } from '@/lib/rate-limit';
 import { getKV } from '@/lib/kv';
 import { partnerCors, preflight } from '@/lib/cors';
@@ -664,7 +665,7 @@ export async function POST(request: Request) {
       // whole budget and the response was cut off before the excerpts ever
       // streamed — so the UI showed a summary with no quotes. Sonnet 4.6 allows
       // up to 64K output; give ample room for both halves.
-      model: 'claude-sonnet-4-6',
+      model: ASK_MODEL_ID,
       max_tokens: 8000,
       system: SYSTEM_PROMPT,
       messages,
