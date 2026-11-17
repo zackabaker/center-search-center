@@ -31,12 +31,15 @@ export type SearchOutcome = { searches: number; opened: number; noClick: NoClick
 export type Insight = { text: string; href?: string; tone?: 'up' | 'down' };
 
 // A reader: not the owner, not a likely crawler — and, from the day human
-// detection was complete, a session that produced a real input.
+// detection was complete, a session that produced a real input. That last
+// rule only applies while human sessions are actually being seen, so a
+// capture fault degrades to the older heuristic instead of an empty console.
 const HUMAN_EPOCH = Date.parse('2026-11-18T00:00:00Z'); // mirrors data.ts
-export const readerSessions = (sessions: SessionView[]): SessionView[] =>
-  sessions.filter(
-    (s) => s.kind === 'live' && !s.mine && !s.crawler && (s.start < HUMAN_EPOCH || s.human === true),
-  );
+export const readerSessions = (sessions: SessionView[]): SessionView[] => {
+  const candidates = sessions.filter((s) => s.kind === 'live' && !s.mine && !s.crawler);
+  const detecting = candidates.some((s) => s.start >= HUMAN_EPOCH && s.human === true);
+  return detecting ? candidates.filter((s) => s.start < HUMAN_EPOCH || s.human === true) : candidates;
+};
 
 /** Friendly grouping for referrer hostnames ("t.co" and "x.com" are one source). */
 export function sourceName(host: string): string {

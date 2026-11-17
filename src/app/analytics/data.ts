@@ -828,7 +828,11 @@ async function loadStudyData(): Promise<StudyData | null> {
       views: hasActivity ? num(act.views) : null,
       viewsMine: num(act['views:mine']),
       uniq: hasActivity ? uniq : null,
-      readers: !hasActivity ? null : day >= HUMAN_DAY ? humans : engaged,
+      // Human sessions from the first complete day of detection. A day that
+      // shows none while visits were plainly engaged means the signal didn't
+      // arrive (a capture fault), so the estimate stands in rather than a
+      // false zero.
+      readers: !hasActivity ? null : day >= HUMAN_DAY && humans > 0 ? humans : engaged,
       // max() rather than prefer-aggregate: on the deploy day the aggregate
       // only counts post-deploy searches while the retained log has the
       // whole day; the two sources count the same events, never summed.
