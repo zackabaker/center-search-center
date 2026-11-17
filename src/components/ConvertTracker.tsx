@@ -145,8 +145,8 @@ export default function ConvertTracker() {
     };
   }, [pathname]);
 
-  // "depth" — how far down a text the reader got and how long the tab was
-  // actually visible, reported when they leave it (tab hidden, navigation,
+  // "depth" — how far down a text the reader got and how long they were
+  // actively on it, reported when they leave (tab hidden, navigation,
   // unload). The last reported cell is kept per text in sessionStorage, so a
   // reader who comes back and goes further MOVES their count (pd/pt name the
   // old cell) instead of adding a second one.
@@ -166,10 +166,22 @@ export default function ConvertTracker() {
       /* ignore */
     }
 
+    // Time counts only while the tab is visible AND the reader has done
+    // something in the last minute: each stretch between interactions adds
+    // at most IDLE_CAP. A text left open on a desk, or a tab the browser
+    // froze in the background, must not read as a long attentive visit.
+    const IDLE_CAP = 60_000;
     let maxRatio = 0;
-    let visibleMs = 0;
-    let since = document.visibilityState === 'visible' ? Date.now() : 0;
+    let activeMs = 0;
+    let last = document.visibilityState === 'visible' ? Date.now() : 0; // 0 = not counting
+    const tick = () => {
+      if (!last) return;
+      const now = Date.now();
+      activeMs += Math.min(now - last, IDLE_CAP);
+      last = now;
+    };
     const measure = () => {
+      tick();
       const el = document.scrollingElement;
       if (!el) return;
       const r = (el.scrollTop + window.innerHeight) / Math.max(1, el.scrollHeight);
@@ -177,11 +189,8 @@ export default function ConvertTracker() {
     };
     const report = () => {
       try {
-        if (since) {
-          visibleMs += Date.now() - since;
-          since = 0;
-        }
-        const ms = (prior?.ms ?? 0) + visibleMs;
+        tick();
+        const ms = (prior?.ms ?? 0) + activeMs;
         if (ms < 3000) return; // an instant bounce says nothing about the text
         const reached =
           maxRatio >= 0.97 ? 100 : maxRatio >= 0.75 ? 75 : maxRatio >= 0.5 ? 50 : maxRatio >= 0.25 ? 25 : 0;
@@ -192,23 +201,30 @@ export default function ConvertTracker() {
           send({ event: 'depth', slug, d, t, ...(prior ? { pd: prior.d, pt: prior.t } : {}) });
         }
         prior = { d, t, ms };
-        visibleMs = 0;
+        activeMs = 0;
         sessionStorage.setItem(KEY, `${d}:${t}:${ms}`);
       } catch {
         /* best-effort */
       }
     };
     const onVisibility = () => {
-      if (document.visibilityState === 'hidden') report();
-      else since = Date.now();
+      if (document.visibilityState === 'hidden') {
+        report();
+        last = 0;
+      } else {
+        last = Date.now();
+      }
     };
+    const ACTIVITY = ['pointermove', 'pointerdown', 'keydown', 'touchstart'] as const;
     window.addEventListener('scroll', measure, { passive: true });
+    for (const name of ACTIVITY) window.addEventListener(name, tick, { passive: true });
     document.addEventListener('visibilitychange', onVisibility);
     window.addEventListener('pagehide', report);
     measure();
     return () => {
       report();
       window.removeEventListener('scroll', measure);
+      for (const name of ACTIVITY) window.removeEventListener(name, tick);
       document.removeEventListener('visibilitychange', onVisibility);
       window.removeEventListener('pagehide', report);
     };

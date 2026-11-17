@@ -115,7 +115,7 @@ export default async function PostStatsPage({ params }: { params: Promise<{ slug
         )}
         {data.depthN > 0 && (
           <p className="mt-2 text-xs text-gray-400 dark:text-gray-600">
-            {data.depthN}{' reader session'}{data.depthN === 1 ? '' : 's'}{' in 90 days. Time counts only while the tab was visible. A short text can be “at the end” on arrival — read it against the time column.'}
+            {data.depthN}{' reader session'}{data.depthN === 1 ? '' : 's'}{' in 90 days. Time counts only while the tab was visible and the reader active (a still minute at most). A short text can be “at the end” on arrival — read it against the time column.'}
           </p>
         )}
       </section>
