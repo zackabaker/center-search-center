@@ -2,7 +2,7 @@
 
 import { logAccountEvent } from '@/lib/account-client';
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link, { useLinkStatus } from 'next/link';
 import { ContentSource } from '@/lib/types';
 import { logSearch } from '@/lib/log-search';
@@ -18,7 +18,7 @@ import {
 import FilterTabs from '@/components/FilterTabs';
 import TopLoadingBar from '@/components/TopLoadingBar';
 import { GLOSSARY_LINK_TERMS } from '@/data/guide/glossary-link-terms';
-import { CS_TERMS, TERM_TO_CONCEPT_SLUG, CONCEPT_TITLES } from '@/lib/cs-terms';
+import { CS_TERMS } from '@/lib/cs-terms';
 
 // Suggestion pool: concept terms + glossary terms (deduped, lowercased keys)
 const SUGGESTION_POOL: string[] = (() => {
@@ -32,6 +32,9 @@ const SUGGESTION_POOL: string[] = (() => {
 })();
 import SceneMark from '@/components/SceneMark';
 import SemanticResults from './SemanticResults';
+import SearchViews from '@/components/SearchViews';
+import ConceptCard from '@/components/ConceptCard';
+import { queryShape, searchHref } from '@/lib/query-shape';
 import { activeExpansions } from '@/lib/vocab';
 
 type FilterOption = 'all' | ContentSource;
@@ -304,8 +307,17 @@ export default function SearchPageClient({
     return null;
   };
 
+  const router = useRouter();
   const initialQ = urlParam('q') || '';
   const [query, setQuery] = useState(initialQ);
+  // Which reading of the query leads the page. Unset = decided by the query's
+  // shape (a sentence leads with similar passages, anything shorter with
+  // exact words); the reader's tab choice, or ?view=, overrides it.
+  const [viewPick, setViewPick] = useState<'exact' | 'similar' | null>(() => {
+    const v = urlParam('view') ?? (urlParam('mode') === 'meaning' ? 'similar' : null);
+    return v === 'similar' || v === 'exact' ? v : null;
+  });
+  const view: 'exact' | 'similar' = viewPick ?? (queryShape(query) === 'sentence' ? 'similar' : 'exact');
   const [committed, setCommitted] = useState(initialQ ? commitQuery(initialQ) : '');
   const [filter, setFilter] = useState<FilterOption>('all');
   const [page, setPage] = useState(0);
@@ -453,6 +465,11 @@ export default function SearchPageClient({
 
   // Immediate commit (Enter, Search button, hint clicks, recent searches)
   const handleSubmit = useCallback((q: string) => {
+    if (queryShape(q) === 'question') {
+      router.push(searchHref(q, 'answer'));
+      return;
+    }
+    setViewPick(null);
     const normalized = commitQuery(q.trim());
     if (liveDebounceRef.current) clearTimeout(liveDebounceRef.current);
     setIsSearching(false);
@@ -464,7 +481,7 @@ export default function SearchPageClient({
     if (typeof document !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) {
       (document.activeElement as HTMLElement | null)?.blur?.();
     }
-  }, []);
+  }, [router]);
 
   // Live search: auto-phrase-wrap and commit after 100 ms of inactivity
   const handleInputChange = useCallback((value: string) => {
@@ -724,42 +741,26 @@ export default function SearchPageClient({
             Search
           </button>
         </div>
-        {/* Ask stays one tap away — the third verb, quiet under the box */}
+        {/* The three readings of one query — the shape picked the first. */}
         {(query.trim() || committed) && (
-          <div className="flex justify-end mt-1.5">
-            <Link
-              href={`/ask?q=${encodeURIComponent((query.trim() || committed).replace(/["“”]/g, '').replace(/\b(AND|OR|NOT)\b/gi, '').replace(/\s+/g, ' ').trim())}`}
-              className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors px-1 py-0.5"
-            >
-              AI search this question
-            </Link>
+          <div className="mt-2">
+            <SearchViews
+              q={(query.trim() || committed).replace(/["“”]/g, '').replace(/\b(AND|OR|NOT)\b/g, '').replace(/\s+/g, ' ').trim()}
+              active={view}
+              onPick={(v) => {
+                if (v === 'answer') return false;
+                setViewPick(v);
+                return true;
+              }}
+            />
           </div>
         )}
       </div>{/* end sticky search header */}
 
       {/* Below-header extras (scroll away under the sticky unit) */}
       <div className="mb-6">
-        {/* Concept hub banner — when the query IS one of the 40 curated concepts,
-            offer the quote-first hub above the raw results. */}
-        {(() => {
-          const norm = (query.trim() || committed).toLowerCase().replace(/["“”]/g, '').trim();
-          const conceptSlug = TERM_TO_CONCEPT_SLUG[norm];
-          const title = conceptSlug ? CONCEPT_TITLES[conceptSlug] : undefined;
-          if (!conceptSlug || !title) return null;
-          return (
-            <Link
-              href={`/guide/concepts/${conceptSlug}`}
-              className="mt-3 flex items-center gap-3 px-4 py-3 rounded-xl border border-blue-200 dark:border-blue-900 bg-blue-50/60 dark:bg-blue-950/30 hover:border-blue-400 dark:hover:border-blue-600 transition-colors group"
-            >
-              <span className="text-[10px] font-mono uppercase tracking-widest text-blue-500 dark:text-blue-400 flex-shrink-0">Concept</span>
-              <span className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors">
-                {title}
-              </span>
-              <span className="text-xs text-gray-500 dark:text-gray-400 hidden sm:inline">— the curated hub: verbatim definition, key passages, key texts</span>
-              <span className="ml-auto text-blue-500 dark:text-blue-400 text-sm flex-shrink-0">→</span>
-            </Link>
-          );
-        })()}
+        {/* Concept card — first, whenever the query names a curated concept */}
+        <ConceptCard query={query.trim() || committed} className="mt-4" />
 
         {/* Syntax hints — desktop only (clutter on mobile) */}
         {(
@@ -782,6 +783,25 @@ export default function SearchPageClient({
         )}
       </div>
 
+      {/* Similar passages lead when the query is a sentence (or the reader
+          chose that view); exact-word results follow below. */}
+      {hasQuery && view === 'similar' && (
+        <section className="mb-10">
+          <h2 className="text-xs font-mono uppercase tracking-widest text-gray-900 dark:text-gray-100 mb-1">Similar passages</h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+            Passages that say something close to what you typed. The wording need not match.
+          </p>
+          {semanticQ ? (
+            <SemanticResults query={semanticQ} sources={allowedSources} noClientFallback />
+          ) : userOperators ? (
+            <p className="text-sm text-gray-500 dark:text-gray-400">Quotes and AND / OR / NOT ask for exact matching, so similar passages are off for this search.</p>
+          ) : (
+            <p className="text-sm text-gray-500 dark:text-gray-400">Finding similar passages…</p>
+          )}
+          <h2 className="text-xs font-mono uppercase tracking-widest text-gray-900 dark:text-gray-100 mt-10">Exact words</h2>
+        </section>
+      )}
+
       {/* Results area */}
       {hasQuery && (
         <>
@@ -790,18 +810,29 @@ export default function SearchPageClient({
               <div className="text-sm text-gray-500 flex items-center gap-2 flex-wrap">
                 {hasResults ? (
                   <>
-                    <span className="font-medium text-gray-900 dark:text-gray-100">{visibleResults.length}</span>
-                    <span>result{visibleResults.length !== 1 ? 's' : ''}</span>
+                    {grepStatus === 'done' && grep && grep.totalPosts - (grep.refPosts ?? 0) > 0 ? (
+                      <span className="text-gray-900 dark:text-gray-100">
+                        <span className="font-semibold tabular-nums">{(grep.totalOccurrences - (grep.refOccurrences ?? 0)).toLocaleString()}</span>
+                        {' '}occurrence{grep.totalOccurrences - (grep.refOccurrences ?? 0) !== 1 ? 's' : ''} in{' '}
+                        <span className="font-semibold tabular-nums">{(grep.totalPosts - (grep.refPosts ?? 0)).toLocaleString()}</span>
+                        {' '}Katz text{grep.totalPosts - (grep.refPosts ?? 0) !== 1 ? 's' : ''}
+                      </span>
+                    ) : (
+                      <>
+                        <span className="font-medium text-gray-900 dark:text-gray-100">{visibleResults.length}</span>
+                        <span>result{visibleResults.length !== 1 ? 's' : ''}</span>
+                      </>
+                    )}
                     {/* Word-level doc counts only make sense for term queries —
                         for phrases the full-text scan line below is the truth */}
-                    {corpusCount !== null && !(isImplicitPhrase || committed.includes('"')) && (
+                    {corpusCount !== null && grepStatus !== 'done' && !(isImplicitPhrase || committed.includes('"')) && (
                       <span className="hidden sm:inline text-gray-400 dark:text-gray-500">
                         · in <span className="text-gray-600 dark:text-gray-300">{corpusCount}</span>{' '}of {totalPosts} Katz texts
                       </span>
                     )}
-                    {grepStatus === 'done' && grep && grep.totalPosts > 0 && (
+                    {grepStatus === 'done' && grep && (grep.refOccurrences ?? 0) > 0 && (
                       <span className="text-gray-400 dark:text-gray-500">
-                        · {grep.totalOccurrences - (grep.refOccurrences ?? 0)}× in {grep.totalPosts - (grep.refPosts ?? 0)} Katz text{grep.totalPosts - (grep.refPosts ?? 0) !== 1 ? 's' : ''}
+                        {grep.totalPosts - (grep.refPosts ?? 0) > 0 ? '' : `0 in Katz texts`}
                         {(grep.refOccurrences ?? 0) > 0 && (
                           includeArchives ? (
                             ` (+${grep.refOccurrences}× in Gans reference)`
@@ -1084,7 +1115,7 @@ export default function SearchPageClient({
               {userOperators && (
                 <div className="mt-10 text-left">
                   <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3 text-center">
-                    Closest passages by meaning
+                    Closest similar passages
                   </p>
                   <SemanticResults query={grepPhrase || committed} sources={allowedSources} noClientFallback />
                 </div>
@@ -1109,10 +1140,10 @@ export default function SearchPageClient({
               in ~1s after the query settles; operators suppress it. Sits after
               the no-results explanation so rescue passages never masquerade
               as keyword matches. */}
-          {semanticQ && (
+          {semanticQ && view !== 'similar' && (
             <div className={hasResults || deepMatches.length > 0 ? 'mt-10' : 'mt-6'}>
               <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
-                {hasResults || deepMatches.length > 0 ? 'Passages by meaning' : 'Closest passages by meaning'}
+                {hasResults || deepMatches.length > 0 ? 'Similar passages' : 'Closest similar passages'}
               </p>
               <SemanticResults query={semanticQ} sources={allowedSources} noClientFallback />
             </div>

@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import SceneMark from '@/components/SceneMark';
-
-type Mode = 'search' | 'ask';
+import { searchHref } from '@/lib/query-shape';
 
 // Suggested starter queries — mix of core theory and contemporary applications
 const SUGGESTIONS = [
@@ -27,9 +26,9 @@ const SUGGESTIONS = [
 
 export default function HomeSearch() {
   const [query, setQuery] = useState('');
-  // Keyword search is the default (owner direction, 2026-11-15, reversing
-  // 2026-10-27) — AI search stays one tap away.
-  const [mode, setMode] = useState<Mode>('search');
+  // One box, no mode toggle (owner direction, 2026-11-16): the query's shape
+  // picks the first view — a word or phrase gets exact matches, a sentence
+  // gets similar passages, a question gets an answer. See lib/query-shape.
   const [isNavigating, setIsNavigating] = useState(false);
   const [compact, setCompact] = useState(false);
   const router = useRouter();
@@ -60,15 +59,9 @@ export default function HomeSearch() {
     return () => window.removeEventListener('keydown', handler);
   }, [router]);
 
-  const navigate = (q: string, m: Mode) => {
+  const navigate = (q: string) => {
     setIsNavigating(true);
-    const go = () => {
-      if (m === 'ask') {
-        router.push(q ? `/ask?q=${encodeURIComponent(q)}` : '/ask');
-      } else {
-        router.push(q ? `/search?q=${encodeURIComponent(q)}` : '/search');
-      }
-    };
+    const go = () => router.push(searchHref(q));
     setTimeout(() => {
       if (typeof document !== 'undefined' && 'startViewTransition' in document) {
         (document as Document & { startViewTransition: (cb: () => void) => void })
@@ -81,12 +74,12 @@ export default function HomeSearch() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate(query.trim(), mode);
+    navigate(query.trim());
   };
 
   const handleSuggestion = (term: string) => {
     setQuery(term);
-    navigate(term, mode);
+    navigate(term);
   };
 
   return (
@@ -103,45 +96,13 @@ export default function HomeSearch() {
       <div className="h-2 sm:hidden" />
 
       <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto">
-        {/* Mode toggle */}
-        <div className="flex items-center justify-center mb-4">
-          <div className="flex items-center gap-0.5 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
-            <button
-              type="button"
-              onClick={() => setMode('search')}
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
-                mode === 'search'
-                  ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-              }`}
-            >
-              Keyword search
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode('ask')}
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
-                mode === 'ask'
-                  ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-              }`}
-            >
-              AI search
-            </button>
-          </div>
-        </div>
-
         {/* Search bar — tall, prominent */}
         <div className="relative flex items-center border-2 border-gray-200 dark:border-gray-700 focus-within:border-gray-500 dark:focus-within:border-gray-400 rounded-2xl bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-all">
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder={
-              mode === 'ask'
-                ? (compact ? 'Ask anything…' : 'Ask anything about center study or the originary hypothesis…')
-                : (compact ? 'Search the corpus…' : 'Search for a concept or phrase…')
-            }
+            placeholder={compact ? 'A word, a phrase, a question…' : 'Search a word or phrase, or ask a question…'}
             className="flex-1 px-4 sm:px-5 py-3 sm:py-4 text-base sm:text-lg outline-none bg-transparent text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 min-w-0"
             autoComplete="off"
           />
@@ -164,7 +125,7 @@ export default function HomeSearch() {
             disabled={isNavigating}
             className="mr-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-sm font-semibold bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors flex-shrink-0 disabled:opacity-60 whitespace-nowrap"
           >
-            {mode === 'ask' ? 'Ask' : 'Search'}
+            Search
           </button>
         </div>
 
