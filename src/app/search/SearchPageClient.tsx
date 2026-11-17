@@ -264,8 +264,13 @@ function findClosestTerm(term: string, vocab: string[]): string | null {
 function ResultOpen() {
   const { pending } = useLinkStatus();
   return (
-    <span className={`inline-flex items-center gap-1.5 text-xs font-medium flex-shrink-0 transition-colors ${
-      pending ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400'
+    // On phones this is drawn as a button (owner direction, 2026-11-17): as
+    // quiet grey text in the corner it did not read as tappable. Desktop keeps
+    // the quiet text, where the whole row already shows a hover state.
+    <span className={`inline-flex items-center justify-center gap-1.5 flex-shrink-0 transition-colors min-h-10 px-4 text-sm font-semibold rounded-sm border sm:min-h-0 sm:px-0 sm:text-xs sm:font-medium sm:border-0 ${
+      pending
+        ? 'border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400'
+        : 'border-gray-900 dark:border-gray-200 text-gray-900 dark:text-gray-100 sm:text-gray-400 sm:dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400'
     }`}>
       {pending ? (
         <>
@@ -367,6 +372,9 @@ export default function SearchPageClient({
 
   useEffect(() => {
     try {
+      // The toggles are hidden on phones, so a saved opt-in is not restored
+      // there — nobody should be stuck in a mode they cannot switch off.
+      if (!window.matchMedia('(min-width: 640px)').matches) return;
       setIncludeThreads(localStorage.getItem('csc-search-threads') === 'on');
       setIncludeArchives(localStorage.getItem('csc-search-archives') === 'on');
     } catch {}
@@ -927,11 +935,16 @@ export default function SearchPageClient({
                 </div>
               )}
             </div>
-            {visibleResults.length > 0 && (
-              <FilterTabs active={filter} onChange={handleFilterChange} counts={counts} />
-            )}
-            {/* Source toggles — Reddit/X and Chronicles/AP are off by default */}
-            <div className="mt-3">{sourceToggles}</div>
+            {/* Source tabs and the "Also search" toggles are desktop-only
+                (owner direction, 2026-11-17): on a phone they crowded the
+                results header. Phones keep the sort menu and nothing else. */}
+            <div className="hidden sm:block">
+              {visibleResults.length > 0 && (
+                <FilterTabs active={filter} onChange={handleFilterChange} counts={counts} />
+              )}
+              {/* Source toggles — Reddit/X and Chronicles/AP are off by default */}
+              <div className="mt-3">{sourceToggles}</div>
+            </div>
           </div>
 
           {/* Result list — the whole card is the tap target (mobile-friendly),
