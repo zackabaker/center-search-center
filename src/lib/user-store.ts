@@ -127,6 +127,7 @@ export async function deleteAccountData(sub: string): Promise<void> {
     remove(k(sub, 'profile')), remove(k(sub, 'avatar')), remove(k(sub, 'stats')),
     profile ? remove(unameKey(profile.username)) : Promise.resolve(),
     lbRemove(sub),
+    idxRemove(sub),
   ]);
 }
 
@@ -193,11 +194,17 @@ async function claimUsername(sub: string, name: string): Promise<boolean> {
 /** The reader's profile — created with a random username the first time. */
 export async function getProfile(sub: string): Promise<Profile> {
   const existing = await read<Profile | null>(k(sub, 'profile'), null);
-  if (existing && existing.username) return existing;
+  if (existing && existing.username) {
+    // Backfill: accounts created before the signup index existed enter it
+    // with their real creation date the next time they sign in.
+    await indexAccount(sub, Date.parse(existing.createdAt) || Date.now());
+    return existing;
+  }
   let username = randomUsername();
   for (let i = 0; i < 6 && !(await claimUsername(sub, username)); i++) username = randomUsername();
   const profile: Profile = { username, createdAt: new Date().toISOString() };
   await write(k(sub, 'profile'), profile);
+  await indexAccount(sub, Date.now());
   return profile;
 }
 
@@ -279,6 +286,93 @@ export async function topEngaged(n: number): Promise<Ranked[]> {
     return { username: profile.username, score: score(st), ...st };
   }));
   return rows.filter((r): r is Ranked => r !== null && r.score > 0).sort((a, b) => b.score - a.score);
+}
+
+// ── Account registry ────────────────────────────────────────────────────
+// Every account, scored by creation time, so the owner's console can answer
+// "are people making accounts?". Written NX on profile reads and creation;
+// accounts that predate the index (added 2026-11-17) backfill with their
+// profile's real createdAt — on their next sign-in, or from the engagement
+// index when the console reads this. Read only on /analytics.
+
+const IDX = 'acct:index';
+const memIdx = new Map<string, number>();
+
+async function indexAccount(sub: string, createdAtMs: number): Promise<void> {
+  const kv = getKV();
+  if (!kv) { if (devFallback() && !memIdx.has(sub)) memIdx.set(sub, createdAtMs); return; }
+  try {
+    await kv.zadd(IDX, { nx: true }, { score: createdAtMs, member: ref(sub) });
+  } catch { /* best-effort — never break a profile read over the index */ }
+}
+
+async function idxRemove(sub: string): Promise<void> {
+  const kv = getKV();
+  if (!kv) { memIdx.delete(sub); return; }
+  await kv.zrem(IDX, ref(sub));
+}
+
+export interface AccountSignup { username: string; createdAt: number; score: number; }
+export interface AccountOverview {
+  total: number;
+  last7: number;
+  last30: number;
+  newest: AccountSignup[]; // newest first
+}
+
+export async function accountOverview(n: number): Promise<AccountOverview> {
+  const kv = getKV();
+  const now = Date.now();
+  if (!kv) {
+    if (!devFallback()) return { total: 0, last7: 0, last30: 0, newest: [] };
+    const entries = [...memIdx.entries()].sort((a, b) => b[1] - a[1]);
+    return {
+      total: entries.length,
+      last7: entries.filter(([, at]) => now - at < 7 * 86_400_000).length,
+      last30: entries.filter(([, at]) => now - at < 30 * 86_400_000).length,
+      newest: [],
+    };
+  }
+
+  // Backfill pass: any engaged account missing from the index enters it with
+  // its profile's real creation date, so the count is complete from the
+  // first read (dormant zero-score accounts join when they next sign in).
+  try {
+    const [idxMembers, lbMembers] = await Promise.all([
+      kv.zrange<string[]>(IDX, 0, -1),
+      kv.zrange<string[]>(LB, 0, -1),
+    ]);
+    const have = new Set(idxMembers);
+    const missing = lbMembers
+      .filter((m) => !have.has(m))
+      .map(unref)
+      .filter((v): v is string => v !== null)
+      .slice(0, 50);
+    for (const sub of missing) {
+      const profile = await read<Profile | null>(k(sub, 'profile'), null);
+      if (profile) await indexAccount(sub, Date.parse(profile.createdAt) || now);
+    }
+  } catch { /* backfill is opportunistic */ }
+
+  const flat = await kv.zrange<(string | number)[]>(IDX, 0, -1, { rev: true, withScores: true });
+  let total = 0, last7 = 0, last30 = 0;
+  const newestRefs: { sub: string; at: number }[] = [];
+  for (let i = 0; i < flat.length; i += 2) {
+    const sub = unref(flat[i]);
+    const at = Number(flat[i + 1]);
+    if (!sub || !Number.isFinite(at)) continue;
+    total += 1;
+    if (now - at < 7 * 86_400_000) last7 += 1;
+    if (now - at < 30 * 86_400_000) last30 += 1;
+    if (newestRefs.length < n) newestRefs.push({ sub, at });
+  }
+  const newest = (
+    await Promise.all(newestRefs.map(async ({ sub, at }) => {
+      const [profile, st] = await Promise.all([read<Profile | null>(k(sub, 'profile'), null), getStats(sub)]);
+      return profile ? { username: profile.username, createdAt: at, score: score(st) } : null;
+    }))
+  ).filter((r): r is AccountSignup => r !== null);
+  return { total, last7, last30, newest };
 }
 
 // ── Feedback ────────────────────────────────────────────────────────────

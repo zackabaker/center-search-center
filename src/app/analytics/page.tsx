@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { fetchStudyData, type DayRow } from './data';
 import SessionsExplorer from './SessionsExplorer';
 import TrendsPanel from './TrendsPanel';
-import { recentFeedback, topEngaged } from '@/lib/user-store';
+import { accountOverview, recentFeedback, topEngaged } from '@/lib/user-store';
 import { rememberOwnerNetwork } from '@/lib/owner-mark';
 import { getKV } from '@/lib/kv';
 
@@ -65,7 +65,7 @@ const SECTIONS = [
   ['reading', 'Reading'],
   ['answers', 'Answers'],
   ['sessions', 'Sessions'],
-  ['readers', 'Readers'],
+  ['readers', 'Accounts'],
   ['feedback', 'Feedback'],
 ] as const;
 
@@ -88,6 +88,7 @@ export default async function AnalyticsPage() {
   const data = await fetchStudyData();
   const feedback = await recentFeedback(100).catch(() => []);
   const readers = await topEngaged(50).catch(() => []);
+  const accounts = await accountOverview(8).catch(() => null);
   const readTime = (sec: number) => {
     const m = Math.floor(sec / 60);
     return m < 60 ? `${m}m` : `${Math.floor(m / 60)}h ${m % 60}m`;
@@ -114,8 +115,27 @@ export default async function AnalyticsPage() {
   const timeOnlyET = new Intl.DateTimeFormat('en-US', {
     timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit',
   });
-  // "session →" links only where a serialized session actually exists.
-  const sidSet = new Set(data.sessions.map((s) => s.id));
+  // "session →" links: a tab's sid can span several episodes (sessions split
+  // at 30-minute silences), so a link targets the episode covering the
+  // event's timestamp, falling back to the sid's first episode.
+  const episodesBySid = new Map<string, { id: string; start: number; end: number }[]>();
+  for (const s of data.sessions) {
+    if (s.kind !== 'live' || !s.sid) continue;
+    const list = episodesBySid.get(s.sid) ?? [];
+    list.push({ id: s.id, start: s.start, end: s.end });
+    episodesBySid.set(s.sid, list);
+  }
+  const PAD = 30 * 60_000;
+  const sessionAnchor = (sid?: string, t?: number): string | null => {
+    if (!sid) return null;
+    const eps = episodesBySid.get(sid);
+    if (!eps) return null;
+    if (typeof t === 'number') {
+      const hit = eps.find((e) => t >= e.start - PAD && t <= e.end + PAD);
+      if (hit) return `#s-${hit.id}`;
+    }
+    return `#s-${eps[0].id}`;
+  };
 
   // --- journeys: the week's most engaged visits as readable digests ------
   const weekAgoTs = data.generatedAt - 7 * 86_400_000;
@@ -263,69 +283,65 @@ export default async function AnalyticsPage() {
           Every reader search, day by day (your own excluded). Open a day to read it in order; the session link opens the full trail.
         </p>
         <div className="mt-4 space-y-2">
-          {data.searchDays.map((d, i) => (
-            <details
-              key={d.day}
-              open={i === 0}
-              className="rounded-lg border border-gray-200 dark:border-gray-800"
-            >
-              <summary className="cursor-pointer select-none px-3 py-2.5 sm:px-4 flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
-                <span className="font-medium text-gray-900 dark:text-gray-100">{dayLabel(d.day, true)}</span>
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                  {d.n}{' search'}{d.n === 1 ? '' : 'es'}
-                  {d.nAsk > 0 && <>{' · '}{d.nAsk}{' AI'}</>}
-                </span>
-                {/* line-clamp (not truncate): nowrap text poisons every ancestor's
-                    min-content width and forces the page wide on phones. */}
-                <span className="min-w-0 flex-1 line-clamp-1 text-xs text-gray-400 dark:text-gray-600">
-                  {d.items.slice(-3).reverse().map((s) => `“${s.q}”`).join(' · ')}
-                </span>
-              </summary>
-              <ol className="border-t border-gray-100 dark:border-gray-900 px-3 py-2.5 sm:px-4 space-y-1 text-sm">
-                {d.items.map((s, j) => (
-                  <li key={j} className="flex flex-wrap items-baseline gap-x-2">
-                    <span className="w-16 shrink-0 text-xs tabular-nums text-gray-400">{timeOnlyET.format(s.t)}</span>
-                    <span className="text-xs uppercase tracking-wide text-gray-400">{s.mode === 'ask' ? 'ai' : 'kw'}</span>
-                    <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">“{s.q}”</span>
-                    {typeof s.n === 'number' && s.n === 0 && <span className="text-xs text-rose-600 dark:text-rose-300">0 results</span>}
-                    {s.sid && sidSet.has(s.sid) && <a href={`#s-${s.sid}`} className="text-xs text-gray-500 underline">session →</a>}
-                  </li>
-                ))}
-                {d.n > d.items.length && (
-                  <li className="text-xs text-gray-400">{'… '}{d.n - d.items.length}{' more that day'}</li>
-                )}
-              </ol>
-            </details>
-          ))}
+          {data.searchDays.map((d, i) => {
+            // Per-day searcher letters: same letter = same tab. Assigned by
+            // first appearance so the day reads A, B, C… in order.
+            const letters = new Map<string, string>();
+            for (const it of d.items) {
+              if (it.sid && !letters.has(it.sid)) {
+                letters.set(it.sid, String.fromCharCode(65 + (letters.size % 26)));
+              }
+            }
+            return (
+              <details
+                key={d.day}
+                open={i === 0}
+                className="rounded-lg border border-gray-200 dark:border-gray-800"
+              >
+                <summary className="cursor-pointer select-none px-3 py-2.5 sm:px-4 flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
+                  <span className="font-medium text-gray-900 dark:text-gray-100">{dayLabel(d.day, true)}</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    {d.n}{' search'}{d.n === 1 ? '' : 'es'}
+                    {d.nAsk > 0 && <>{' · '}{d.nAsk}{' AI'}</>}
+                    {d.sids > 0 && <>{' · '}{d.sids}{' searcher'}{d.sids === 1 ? '' : 's'}</>}
+                  </span>
+                  {/* line-clamp (not truncate): nowrap text poisons every ancestor's
+                      min-content width and forces the page wide on phones. */}
+                  <span className="min-w-0 flex-1 line-clamp-1 text-xs text-gray-400 dark:text-gray-600">
+                    {d.items.slice(-3).reverse().map((s) => `“${s.q}”`).join(' · ')}
+                  </span>
+                </summary>
+                <ol className="border-t border-gray-100 dark:border-gray-900 px-3 py-2.5 sm:px-4 space-y-1 text-sm">
+                  {d.items.map((s, j) => {
+                    const anchor = sessionAnchor(s.sid, s.t);
+                    return (
+                      <li key={j} className="flex flex-wrap items-baseline gap-x-2">
+                        <span className="w-16 shrink-0 text-xs tabular-nums text-gray-400">{timeOnlyET.format(s.t)}</span>
+                        <span
+                          className="w-4 shrink-0 text-center text-[10px] font-semibold rounded bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400"
+                          title="Same letter = same visitor (browser tab) that day"
+                        >
+                          {s.sid ? letters.get(s.sid) : '·'}
+                        </span>
+                        <span className="text-xs uppercase tracking-wide text-gray-400">{s.mode === 'ask' ? 'ai' : 'kw'}</span>
+                        <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">“{s.q}”</span>
+                        {typeof s.n === 'number' && s.n === 0 && <span className="text-xs text-rose-600 dark:text-rose-300">0 results</span>}
+                        {anchor && <a href={anchor} className="text-xs text-gray-500 underline">session →</a>}
+                      </li>
+                    );
+                  })}
+                  {d.n > d.items.length && (
+                    <li className="text-xs text-gray-400">{'… '}{d.n - d.items.length}{' more that day'}</li>
+                  )}
+                </ol>
+              </details>
+            );
+          })}
           {data.searchDays.length === 0 && <p className="text-sm text-gray-400">Nothing logged yet.</p>}
         </div>
-
-        <div className="mt-8 grid gap-8 sm:grid-cols-2">
-          <div>
-            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Searched, found nothing</h3>
-            <p className="text-xs text-gray-400">Unmet demand, verified against the live index — candidates for new concept pages or vocabulary.</p>
-            <ol className="mt-2 space-y-1 text-sm">
-              {data.zeroResult.map((s) => (
-                <li key={`${s.q}-${s.t}`} className="break-words text-gray-800 dark:text-gray-200">
-                  “{s.q}”<span className="ml-1.5 text-xs text-gray-400">{timeET.format(s.t)}</span>
-                </li>
-              ))}
-              {data.zeroResult.length === 0 && <li className="text-gray-400">None recorded.</li>}
-            </ol>
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Top terms, last 7 days</h3>
-            <ol className="mt-2 space-y-1 text-sm">
-              {data.termsRecent.map((t) => (
-                <li key={t.q} className="flex justify-between gap-2">
-                  <span className="min-w-0 line-clamp-1 text-gray-800 dark:text-gray-200">{t.q}</span>
-                  <span className="tabular-nums text-gray-400">{t.n}</span>
-                </li>
-              ))}
-              {data.termsRecent.length === 0 && <li className="text-gray-400">Nothing yet this week.</li>}
-            </ol>
-          </div>
-        </div>
+        <p className="mt-2 text-xs text-gray-400 dark:text-gray-600">
+          Letters distinguish searchers within a day: same letter, same visitor. A dot means the search carried no tab id.
+        </p>
 
         <details className="mt-6">
           <summary className="cursor-pointer text-sm text-gray-600 dark:text-gray-300 hover:underline">
@@ -347,15 +363,18 @@ export default async function AnalyticsPage() {
           </summary>
           <p className="mt-1 text-xs text-gray-400">Every retained search that names you or the circle.</p>
           <ol className="mt-2 space-y-1 text-sm">
-            {data.peopleHits.map((h, i) => (
-              <li key={i} className="flex flex-wrap items-baseline gap-x-2">
-                <span className="text-xs tabular-nums text-gray-400 w-28 shrink-0">{timeET.format(h.t)}</span>
-                <span className="rounded bg-rose-100 dark:bg-rose-900/40 px-1.5 py-0.5 text-xs text-rose-800 dark:text-rose-200">{h.term}</span>
-                <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">“{h.q}”</span>
-                {h.mine && <span className="text-xs text-amber-600 dark:text-amber-300">you</span>}
-                {h.sid && sidSet.has(h.sid) && <a href={`#s-${h.sid}`} className="text-xs text-gray-500 underline">session →</a>}
-              </li>
-            ))}
+            {data.peopleHits.map((h, i) => {
+              const anchor = sessionAnchor(h.sid, h.t);
+              return (
+                <li key={i} className="flex flex-wrap items-baseline gap-x-2">
+                  <span className="text-xs tabular-nums text-gray-400 w-28 shrink-0">{timeET.format(h.t)}</span>
+                  <span className="rounded bg-rose-100 dark:bg-rose-900/40 px-1.5 py-0.5 text-xs text-rose-800 dark:text-rose-200">{h.term}</span>
+                  <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">“{h.q}”</span>
+                  {h.mine && <span className="text-xs text-amber-600 dark:text-amber-300">you</span>}
+                  {anchor && <a href={anchor} className="text-xs text-gray-500 underline">session →</a>}
+                </li>
+              );
+            })}
             {data.peopleHits.length === 0 && <li className="text-gray-400">None recorded.</li>}
           </ol>
         </details>
@@ -366,6 +385,7 @@ export default async function AnalyticsPage() {
         <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Journeys</h2>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
           The week’s most engaged visits, each as one card: who they are (what they typed on /begin), where they came from, and what they actually did — no clicking required.
+          {' “Read” is strict: they got at least halfway down the text and stayed on it 90+ seconds.'}
         </p>
         <ol className="mt-4 space-y-3">
           {journeys.map(({ s, landing, searches, reads, follows, begins }) => (
@@ -447,19 +467,22 @@ export default async function AnalyticsPage() {
             {'All generated reading paths · '}{data.beginPaths.length}
           </summary>
           <ol className="mt-3 space-y-2 text-sm">
-            {data.beginPaths.map((b, i) => (
-              <li key={`${b.id}-${i}`} className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-                <span className="text-xs tabular-nums text-gray-400 w-28 shrink-0">{timeET.format(b.t)}</span>
-                {b.interests.map((it) => (
-                  <span key={it} className="rounded bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 text-xs text-gray-700 dark:text-gray-300">{it}</span>
-                ))}
-                {b.text && <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">“{b.text}”</span>}
-                <a href={`/begin/p/${b.id}`} className="text-xs text-gray-500 underline">{b.n}{' texts →'}</a>
-                {b.fb && <span className="text-xs text-rose-600 dark:text-rose-300">fallback</span>}
-                {b.mine && <span className="text-xs text-amber-600 dark:text-amber-300">you</span>}
-                {b.sid && sidSet.has(b.sid) && <a href={`#s-${b.sid}`} className="text-xs text-gray-500 underline">session →</a>}
-              </li>
-            ))}
+            {data.beginPaths.map((b, i) => {
+              const anchor = sessionAnchor(b.sid, b.t);
+              return (
+                <li key={`${b.id}-${i}`} className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                  <span className="text-xs tabular-nums text-gray-400 w-28 shrink-0">{timeET.format(b.t)}</span>
+                  {b.interests.map((it) => (
+                    <span key={it} className="rounded bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 text-xs text-gray-700 dark:text-gray-300">{it}</span>
+                  ))}
+                  {b.text && <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">“{b.text}”</span>}
+                  <a href={`/begin/p/${b.id}`} className="text-xs text-gray-500 underline">{b.n}{' texts →'}</a>
+                  {b.fb && <span className="text-xs text-rose-600 dark:text-rose-300">fallback</span>}
+                  {b.mine && <span className="text-xs text-amber-600 dark:text-amber-300">you</span>}
+                  {anchor && <a href={anchor} className="text-xs text-gray-500 underline">session →</a>}
+                </li>
+              );
+            })}
             {data.beginPaths.length === 0 && <li className="text-gray-400">None generated yet.</li>}
           </ol>
         </details>
@@ -472,17 +495,20 @@ export default async function AnalyticsPage() {
           The last texts readers actually finished with (≥50% depth, ≥90s) — yours excluded.
         </p>
         <ol className="mt-3 space-y-1.5 text-sm">
-          {data.recentReads.map((r, i) => (
-            <li key={i} className="flex flex-wrap items-baseline gap-x-2">
-              <span className="w-28 shrink-0 text-xs tabular-nums text-gray-400">{timeET.format(r.t)}</span>
-              {r.href ? (
-                <Link href={r.href} className="text-gray-900 dark:text-gray-100 hover:underline">{r.title}</Link>
-              ) : (
-                <span className="text-gray-900 dark:text-gray-100">{r.title}</span>
-              )}
-              {r.sid && sidSet.has(r.sid) && <a href={`#s-${r.sid}`} className="text-xs text-gray-500 underline">session →</a>}
-            </li>
-          ))}
+          {data.recentReads.map((r, i) => {
+            const anchor = sessionAnchor(r.sid, r.t);
+            return (
+              <li key={i} className="flex flex-wrap items-baseline gap-x-2">
+                <span className="w-28 shrink-0 text-xs tabular-nums text-gray-400">{timeET.format(r.t)}</span>
+                {r.href ? (
+                  <Link href={r.href} className="text-gray-900 dark:text-gray-100 hover:underline">{r.title}</Link>
+                ) : (
+                  <span className="text-gray-900 dark:text-gray-100">{r.title}</span>
+                )}
+                {anchor && <a href={anchor} className="text-xs text-gray-500 underline">session →</a>}
+              </li>
+            );
+          })}
           {data.recentReads.length === 0 && <li className="text-gray-400">No completed reads logged yet.</li>}
         </ol>
 
@@ -556,7 +582,7 @@ export default async function AnalyticsPage() {
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
           {'Whole visits, newest first — pages opened, texts read ('}
           <span className="text-xs uppercase">read ✓</span>
-          {'), searches run, reading paths generated, follows clicked. Trails with page data start '}
+          {'), searches run, reading paths generated, follows clicked. A tab quiet for 30+ minutes starts a new visit (restored tabs used to stitch into one days-long “session”). Trails with page data start '}
           {data.activitySince}
           {'; older sessions are search-bursts from the retained log (“pre-ID era”).'}
         </p>
@@ -565,9 +591,38 @@ export default async function AnalyticsPage() {
         </div>
       </section>
 
-      {/* ---------------- Readers ---------------- */}
+      {/* ---------------- Accounts ---------------- */}
       <section id="readers" className="mt-12">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Most engaged readers</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Accounts</h2>
+
+        {accounts && (
+          <>
+            <div className="mt-3 flex flex-wrap items-baseline gap-x-5 gap-y-1">
+              <span className="text-2xl font-semibold tabular-nums text-gray-900 dark:text-gray-100">
+                {accounts.total.toLocaleString('en-US')}
+                <span className="ml-1.5 text-sm font-normal text-gray-500 dark:text-gray-400">account{accounts.total === 1 ? '' : 's'}</span>
+              </span>
+              <span className="text-sm tabular-nums text-gray-600 dark:text-gray-300">{'+'}{accounts.last7}{' this week'}</span>
+              <span className="text-sm tabular-nums text-gray-600 dark:text-gray-300">{'+'}{accounts.last30}{' this month'}</span>
+            </div>
+            {accounts.newest.length > 0 && (
+              <ol className="mt-3 space-y-1 text-sm">
+                {accounts.newest.map((a) => (
+                  <li key={a.username} className="flex flex-wrap items-baseline gap-x-2">
+                    <span className="w-28 shrink-0 text-xs tabular-nums text-gray-400">{'joined '}{fmtDayShort.format(a.createdAt)}</span>
+                    <span className="font-medium text-gray-900 dark:text-gray-100">{a.username}</span>
+                    <span className="text-xs text-gray-400">{a.score > 0 ? `score ${a.score}` : 'no activity yet'}</span>
+                  </li>
+                ))}
+              </ol>
+            )}
+            <p className="mt-2 text-xs text-gray-400 dark:text-gray-600">
+              {'Signup index started Nov 17, 2026 — engaged accounts were backfilled with their real creation dates; dormant ones join the count when they next sign in.'}
+            </p>
+          </>
+        )}
+
+        <h3 className="mt-6 text-sm font-semibold text-gray-700 dark:text-gray-300">Most engaged</h3>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
           {'Signed-in readers by score (minutes read + 2 × new searches + 5 × idioms saved). Shown here only — there is no public leaderboard. Usernames, never emails.'}
         </p>

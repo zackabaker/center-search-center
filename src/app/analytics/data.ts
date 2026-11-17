@@ -1,12 +1,5 @@
 import { Redis } from '@upstash/redis';
-import { getPostBySlug, getPublicPosts } from '@/lib/parser';
-import {
-  buildSearchEntries,
-  buildWordIndex,
-  searchEntries,
-  type SearchEntry,
-  type WordIndex,
-} from '@/lib/search-index';
+import { getPostBySlug } from '@/lib/parser';
 
 // Data layer for /analytics, the owner's private console. Pulls every
 // store the site writes — the durable daily aggregates (activity:day:*,
@@ -78,11 +71,13 @@ export type SearchDay = {
   day: string;   // YYYY-MM-DD in ET — the day as the owner experiences it
   n: number;
   nAsk: number;
+  sids: number;  // distinct searcher tabs that day (0 = none carried an id)
   items: SearchHit[]; // chronological within the day
 };
 
 export type SessionView = {
   id: string;
+  sid?: string; // the raw tab id — several episodes can share one (live only)
   kind: 'live' | 'legacy'; // legacy = pre-sid, reconstructed from search bursts
   start: number;
   end: number;
@@ -106,8 +101,6 @@ export type StudyData = {
   searchTotal: number;
   viewTotal: number;
   termsAll: TermRow[];
-  termsRecent: TermRow[]; // last 7 days, from the raw log
-  zeroResult: SearchHit[];
   peopleHits: PeopleHit[];
   searchDays: SearchDay[]; // readers' searches, day by day (ET), newest first
   recentReads: ReadHit[];  // the last texts actually read (≥50% + ≥90s)
@@ -191,118 +184,127 @@ function buildSessions(activity: RawActivity[], searches: RawSearch[], begins: B
     bySid.set(e.sid, g);
   }
 
+  // A tab's sid lives in sessionStorage, which survives tab restores — a
+  // phone tab reopened over a week stitches into one "169-hour visit". So a
+  // session here is an EPISODE: one sid's events with no half-hour silence
+  // inside. Each episode gets its own card, duration and score.
+  const EPISODE_GAP = 30 * 60_000;
+  type Raw = { t: number; a?: RawActivity; s?: RawSearch; b?: BeginHit };
+
   const out: SessionView[] = [];
   for (const [sid, g] of bySid) {
-    const events: SessionEvent[] = [];
-    let ref: string | undefined;
-    const readPaths = new Set<string>();
-    const postPaths = new Set<string>();
-    const follows: string[] = [];
-    let pages = 0;
-    for (const e of g.a) {
-      if (e.ref && !ref) ref = e.ref;
-      if (e.ev) {
-        if (e.ev === 'read') {
-          readPaths.add(e.path);
+    const stream: Raw[] = [
+      ...g.a.map((a): Raw => ({ t: a.t, a })),
+      ...g.s.map((s): Raw => ({ t: s.t, s })),
+      ...g.b.map((b): Raw => ({ t: b.t, b })),
+    ].sort((x, y) => x.t - y.t);
+
+    const episodes: Raw[][] = [];
+    let cur: Raw[] = [];
+    for (const r of stream) {
+      if (cur.length > 0 && r.t - cur[cur.length - 1].t > EPISODE_GAP) {
+        episodes.push(cur);
+        cur = [];
+      }
+      cur.push(r);
+    }
+    if (cur.length > 0) episodes.push(cur);
+
+    episodes.forEach((ep, epIdx) => {
+      const events: SessionEvent[] = [];
+      let ref: string | undefined;
+      const readPaths = new Set<string>();
+      const postPaths = new Set<string>();
+      const follows: string[] = [];
+      const terms = new Set<string>();
+      let pages = 0;
+      let nSearches = 0;
+      let nBegins = 0;
+      let mine = false;
+      // First-visit / returning signals (ev 'new' / 'return:<gap>' from
+      // ConvertTracker's trail mirror) become badges, not timeline rows.
+      let firstVisit = false;
+      let returnGap: number | null = null;
+
+      for (const r of ep) {
+        if (r.a) {
+          const e = r.a;
+          if (e.mine) mine = true;
+          if (e.ref && !ref) ref = e.ref;
+          if (e.ev) {
+            if (e.ev === 'read') {
+              readPaths.add(e.path);
+              const p = postTitle(e.path);
+              events.push({ t: e.t, type: 'read', label: p?.label ?? e.path, href: CLEAN_PATH.test(e.path) ? p?.href ?? e.path : undefined });
+            } else if (e.ev.startsWith('follow')) {
+              const [, dest, where] = e.ev.split(':');
+              follows.push(dest ?? 'out');
+              events.push({ t: e.t, type: 'follow', label: `followed ${dest ?? 'out'}${where ? ` (${where})` : ''}` });
+            } else if (e.ev === 'new') {
+              firstVisit = true;
+            } else if (e.ev.startsWith('return:')) {
+              const gap = Number(e.ev.slice('return:'.length));
+              if (Number.isFinite(gap)) returnGap = gap;
+            }
+            continue;
+          }
+          pages += 1;
+          if (e.path.startsWith('/post/')) postPaths.add(e.path);
           const p = postTitle(e.path);
-          events.push({ t: e.t, type: 'read', label: p?.label ?? e.path, href: CLEAN_PATH.test(e.path) ? p?.href ?? e.path : undefined });
-        } else if (e.ev.startsWith('follow')) {
-          const [, dest, where] = e.ev.split(':');
-          follows.push(dest ?? 'out');
-          events.push({ t: e.t, type: 'follow', label: `followed ${dest ?? 'out'}${where ? ` (${where})` : ''}` });
+          events.push({
+            t: e.t, type: 'page',
+            label: p?.label ?? e.path,
+            href: CLEAN_PATH.test(e.path) ? (p?.href ?? e.path) : undefined,
+          });
+        } else if (r.s) {
+          if (r.s.mine) mine = true;
+          nSearches += 1;
+          const term = watchTerm(r.s.q);
+          if (term) terms.add(term);
+          events.push({ t: r.s.t, type: 'search', label: r.s.q, mode: r.s.mode ?? 'keyword' });
+        } else if (r.b) {
+          if (r.b.mine) mine = true;
+          nBegins += 1;
+          events.push({
+            t: r.b.t, type: 'begin',
+            label: r.b.text ? `“${r.b.text}”` : r.b.interests.length ? r.b.interests.join(', ') : 'reading path',
+            href: `/begin/p/${r.b.id}`,
+          });
         }
-        continue;
       }
-      pages += 1;
-      if (e.path.startsWith('/post/')) postPaths.add(e.path);
-      const p = postTitle(e.path);
-      events.push({
-        t: e.t, type: 'page',
-        label: p?.label ?? e.path,
-        href: CLEAN_PATH.test(e.path) ? (p?.href ?? e.path) : undefined,
+      if (events.length === 0) return;
+
+      const start = events[0].t;
+      const end = events[events.length - 1].t;
+      const mins = Math.round((end - start) / 60_000);
+      const texts = readPaths.size > 0 ? readPaths.size : postPaths.size;
+      const crawler = (pages > 60 && nSearches === 0) || pages > 300;
+
+      const badges: string[] = [];
+      if (mine) badges.push('you');
+      if (crawler) badges.push('likely crawler');
+      if (firstVisit) badges.push('first visit');
+      if (returnGap !== null) badges.push(`returning · ${returnGap}d`);
+      if (nBegins > 0) badges.push('generated path');
+      if (mins >= 20 && events.length >= 8) badges.push('deep session');
+      for (const term of terms) badges.push(`looked up: ${term}`);
+      for (const dest of new Set(follows)) badges.push(`followed ${dest}`);
+
+      let score =
+        nSearches * 3 + texts * 4 + pages * 0.5 + Math.min(mins, 180) / 10 +
+        terms.size * 12 + follows.length * 8 + nBegins * 15;
+      if (crawler) score -= 40;
+      if (mine) score -= 25;
+
+      out.push({
+        id: episodes.length > 1 ? `${sid}-${epIdx + 1}` : sid,
+        sid, kind: 'live', start, end, mins, mine, crawler, ref,
+        pages, texts, searches: nSearches, badges, score,
+        events: events.slice(0, 120), eventsTotal: events.length,
       });
-    }
-    for (const s of g.s) {
-      events.push({ t: s.t, type: 'search', label: s.q, mode: s.mode ?? 'keyword' });
-    }
-    for (const b of g.b) {
-      events.push({
-        t: b.t, type: 'begin',
-        label: b.text ? `“${b.text}”` : b.interests.length ? b.interests.join(', ') : 'reading path',
-        href: `/begin/p/${b.id}`,
-      });
-    }
-    events.sort((a, b) => a.t - b.t);
-    if (events.length === 0) continue;
-
-    // First-visit / returning signals (ev 'new' / 'return:<gap>' from
-    // ConvertTracker's trail mirror) become badges, not timeline rows.
-    let firstVisit = false;
-    let returnGap: number | null = null;
-    for (const e of g.a) {
-      if (e.ev === 'new') firstVisit = true;
-      else if (e.ev?.startsWith('return:')) {
-        const gap = Number(e.ev.slice('return:'.length));
-        if (Number.isFinite(gap)) returnGap = gap;
-      }
-    }
-
-    const start = events[0].t;
-    const end = events[events.length - 1].t;
-    const mins = Math.round((end - start) / 60_000);
-    const mine = g.a.some((e) => e.mine) || g.s.some((e) => e.mine);
-    const texts = readPaths.size > 0 ? readPaths.size : postPaths.size;
-    const nSearches = g.s.length;
-    const crawler = (pages > 60 && nSearches === 0) || pages > 300;
-
-    const badges: string[] = [];
-    if (mine) badges.push('you');
-    if (crawler) badges.push('likely crawler');
-    if (firstVisit) badges.push('first visit');
-    if (returnGap !== null) badges.push(`returning · ${returnGap}d`);
-    if (g.b.length > 0) badges.push('generated path');
-    if (mins >= 20 && events.length >= 8) badges.push('deep session');
-    const terms = new Set<string>();
-    for (const s of g.s) {
-      const term = watchTerm(s.q);
-      if (term) terms.add(term);
-    }
-    for (const term of terms) badges.push(`looked up: ${term}`);
-    for (const dest of new Set(follows)) badges.push(`followed ${dest}`);
-
-    let score =
-      nSearches * 3 + texts * 4 + pages * 0.5 + Math.min(mins, 180) / 10 +
-      terms.size * 12 + follows.length * 8 + g.b.length * 15;
-    if (crawler) score -= 40;
-    if (mine) score -= 25;
-
-    out.push({
-      id: sid, kind: 'live', start, end, mins, mine, crawler, ref,
-      pages, texts, searches: nSearches, badges, score,
-      events: events.slice(0, 120), eventsTotal: events.length,
     });
   }
   return out;
-}
-
-// Verification index for the zero-result list, built once per process and
-// reused — the corpus only changes on deploy.
-let _zeroIdx: { entries: SearchEntry[]; wi: WordIndex } | null | undefined;
-function trulyZero(q: string): boolean {
-  if (_zeroIdx === undefined) {
-    try {
-      const entries = buildSearchEntries(getPublicPosts());
-      _zeroIdx = { entries, wi: buildWordIndex(entries) };
-    } catch {
-      _zeroIdx = null;
-    }
-  }
-  if (!_zeroIdx) return true; // can't verify — keep the row rather than hide data
-  try {
-    return searchEntries(_zeroIdx.entries, q, _zeroIdx.wi).length === 0;
-  } catch {
-    return true;
-  }
 }
 
 // Pre-sid history: the search log is the only timestamped store, so old
@@ -531,37 +533,6 @@ export async function fetchStudyData(): Promise<StudyData | null> {
   };
   const termsAll = toTerms(rb[0]).slice(0, 40);
 
-  const weekAgo = Date.now() - 7 * 86_400_000;
-  const recentCounts = new Map<string, number>();
-  for (const s of searchLog) {
-    if (s.t < weekAgo || s.mine) continue;
-    const norm = s.q.toLowerCase().replace(/\s+/g, ' ').trim();
-    if (norm.length < 2) continue;
-    recentCounts.set(norm, (recentCounts.get(norm) ?? 0) + 1);
-  }
-  const termsRecent = [...recentCounts.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 20)
-    .map(([q, n]) => ({ q, n }));
-
-  // --- zero-result + people + recent stream ---
-  const seenZero = new Set<string>();
-  const zeroResult: SearchHit[] = [];
-  for (const s of searchLog) {
-    if (s.n !== 0 || s.mine) continue;
-    const norm = s.q.toLowerCase().trim();
-    if (seenZero.has(norm)) continue;
-    seenZero.add(norm);
-    // A logged 0 is only unmet demand if the corpus REALLY has nothing.
-    // Transient zeros happen (an index fetch racing a deploy, a degraded
-    // client) and would otherwise sit here forever accusing queries the
-    // archive answers fine — re-run each candidate against the live index
-    // and keep only true misses.
-    if (!trulyZero(s.q)) continue;
-    zeroResult.push(s);
-    if (zeroResult.length >= 25) break;
-  }
-
   const peopleHits: PeopleHit[] = [];
   for (const s of searchLog) {
     const term = watchTerm(s.q);
@@ -575,21 +546,27 @@ export async function fetchStudyData(): Promise<StudyData | null> {
   // left out entirely (they're noise in "what are readers looking for").
   const etDay = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' }); // YYYY-MM-DD
   const byDay = new Map<string, SearchDay>();
+  const sidsByDay = new Map<string, Set<string>>();
   for (const s of searchLog) {
     if (s.mine) continue;
     const day = etDay.format(s.t);
     let row = byDay.get(day);
     if (!row) {
       if (byDay.size >= 14) continue; // newest-first log → first 14 distinct days
-      row = { day, n: 0, nAsk: 0, items: [] };
+      row = { day, n: 0, nAsk: 0, sids: 0, items: [] };
       byDay.set(day, row);
+      sidsByDay.set(day, new Set());
     }
     row.n += 1;
     if (s.mode === 'ask') row.nAsk += 1;
+    if (s.sid) sidsByDay.get(day)?.add(s.sid);
     if (row.items.length < 120) row.items.push(s);
   }
   const searchDays = [...byDay.values()];
-  for (const d of searchDays) d.items.reverse(); // chronological within the day
+  for (const d of searchDays) {
+    d.sids = sidsByDay.get(d.day)?.size ?? 0;
+    d.items.reverse(); // chronological within the day
+  }
 
   // The last texts actually read, newest first — read = ≥50% depth and ≥90s.
   const recentReads: ReadHit[] = [];
@@ -645,8 +622,6 @@ export async function fetchStudyData(): Promise<StudyData | null> {
     searchTotal: num(rb[1]),
     viewTotal: num(rb[2]),
     termsAll,
-    termsRecent,
-    zeroResult,
     peopleHits,
     searchDays,
     recentReads,
