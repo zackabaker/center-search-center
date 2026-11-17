@@ -13,6 +13,7 @@ import SceneMark from '@/components/SceneMark';
 import SaveIdiomButton from '@/components/SaveIdiomButton';
 import { passageHref, rememberPassage } from '@/lib/idioms';
 import { logAccountEvent, signInUrl } from '@/lib/account-client';
+import { ASK_HIGHLIGHT_STOPWORDS } from '@/lib/stopwords';
 
 interface Source {
   slug: string;
@@ -72,15 +73,6 @@ const SOURCE_LABELS: Record<string, string> = {
   twitter: 'X / Twitter', lecture: 'Lecture', ap: 'AP Journal',
 };
 
-// Words too common to be worth highlighting inside an excerpt.
-const HIGHLIGHT_STOP = new Set([
-  'the', 'a', 'an', 'and', 'or', 'of', 'to', 'in', 'on', 'is', 'are', 'was',
-  'were', 'be', 'been', 'what', 'how', 'why', 'who', 'does', 'do', 'did',
-  'for', 'with', 'that', 'this', 'these', 'those', 'it', 'its', 'about',
-  'as', 'by', 'at', 'from', 'can', 'not', 'but', 'his', 'her', 'their',
-  'between', 'mean', 'meaning', 'relate', 'relationship', 'center', 'study',
-]);
-
 // Mark every place a (non-stopword) query word appears in an excerpt, so the
 // reader's eye lands on why this passage matched. Leading word boundary only:
 // "scapegoat" also lights up "scapegoating".
@@ -90,7 +82,7 @@ function highlightQuery(text: string, query: string): React.ReactNode {
       query
         .toLowerCase()
         .split(/[^a-z0-9'’-]+/i)
-        .filter((w) => w.length >= 3 && !HIGHLIGHT_STOP.has(w))
+        .filter((w) => w.length >= 3 && !ASK_HIGHLIGHT_STOPWORDS.has(w))
     )
   );
   if (words.length === 0) return text;

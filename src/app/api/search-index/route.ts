@@ -11,8 +11,6 @@ import { buildSearchEntries, toWireEntries } from '@/lib/search-index';
 // plus only the words not derivable from it; the client rebuilds contentWords,
 // titleWords and excerpt via hydrateWireEntries (see search-index.ts).
 
-export const revalidate = 3600;
-
 export async function GET(request: Request) {
   // Default scope is the core corpus (+ threads, which are filtered in/out
   // client-side). scope=archives returns the Chronicles + AP Journal index,

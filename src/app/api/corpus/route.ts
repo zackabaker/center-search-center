@@ -9,8 +9,6 @@ import { getPublicPosts } from '@/lib/parser';
 // machine formats (json / md / txt). Designed for scrapers, archivists,
 // and AI pipelines — see /llms.txt for the overview.
 
-export const revalidate = 3600;
-
 const BASE = 'https://center.study';
 
 export function OPTIONS() {

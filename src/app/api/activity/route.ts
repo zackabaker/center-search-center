@@ -2,7 +2,7 @@ import { isSameOrigin, rateLimit, clientIp } from '@/lib/rate-limit';
 import { maskSid } from '@/lib/sid-mask';
 import { isOwner } from '@/lib/analytics-auth';
 import { isOwnerRequest } from '@/lib/owner-mark';
-import { Redis } from '@upstash/redis';
+import { getKV } from '@/lib/kv';
 
 // Anonymous navigation log — one entry per page a visitor opens, carrying the
 // same ephemeral per-tab session token (sid) the search log carries, so a
@@ -22,21 +22,6 @@ import { Redis } from '@upstash/redis';
 // activity:day:YYYY-MM-DD hashes (views, per-path, per-referrer, per-event
 // counts; ~400-day TTL) and activity:uniq:YYYY-MM-DD HyperLogLogs of sids —
 // so daily traffic series survive long after the raw list has rolled over.
-
-function getKV(): Redis | null {
-  // The live Upstash store is connected with the "centerstudy" prefix; the
-  // unprefixed KV_REST_API_* point at an older, deleted DB. (Matches /api/view.)
-  const url =
-    process.env.centerstudy_KV_REST_API_URL ||
-    process.env.KV_REST_API_URL ||
-    process.env.UPSTASH_REDIS_REST_URL;
-  const token =
-    process.env.centerstudy_KV_REST_API_TOKEN ||
-    process.env.KV_REST_API_TOKEN ||
-    process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) return null;
-  return new Redis({ url, token });
-}
 
 const LOG_KEY = 'activity:log'; // capped list of recent nav events (JSON entries)
 const LOG_CAP = 20000;

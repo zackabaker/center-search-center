@@ -2,7 +2,7 @@ import { isSameOrigin, rateLimit, clientIp } from '@/lib/rate-limit';
 import { maskSid } from '@/lib/sid-mask';
 import { isOwner } from '@/lib/analytics-auth';
 import { isOwnerRequest } from '@/lib/owner-mark';
-import { Redis } from '@upstash/redis';
+import { getKV } from '@/lib/kv';
 
 // Records search queries so we can later show what readers look for. Every
 // search is logged anonymously — no IP, no identity is stored (clientIp is used
@@ -13,23 +13,6 @@ import { Redis } from '@upstash/redis';
 // POST { q, mode, mine?, n?, sid? } → { ok } — sid is the ephemeral per-tab
 // session token (see src/lib/session-id.ts): random, anonymous, gone when the
 // tab closes. It only lets one visit's searches be grouped together.
-
-function getKV(): Redis | null {
-  // The live Upstash store is connected with the "centerstudy" prefix, so its
-  // vars are centerstudy_KV_REST_API_* . The unprefixed KV_REST_API_* still
-  // exist but point at an older, deleted DB — so prefer the prefixed ones, then
-  // fall back to the legacy / UPSTASH_* names.
-  const url =
-    process.env.centerstudy_KV_REST_API_URL ||
-    process.env.KV_REST_API_URL ||
-    process.env.UPSTASH_REDIS_REST_URL;
-  const token =
-    process.env.centerstudy_KV_REST_API_TOKEN ||
-    process.env.KV_REST_API_TOKEN ||
-    process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) return null;
-  return new Redis({ url, token });
-}
 
 const LOG_KEY = 'search:log';     // capped list of recent searches (JSON entries)
 const TERMS_KEY = 'search:terms'; // ZSET: normalized query → frequency

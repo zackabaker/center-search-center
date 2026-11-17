@@ -1,5 +1,5 @@
 import { isSameOrigin, rateLimit, clientIp } from '@/lib/rate-limit';
-import { Redis } from '@upstash/redis';
+import { getKV } from '@/lib/kv';
 
 // Counts post views so we can later surface "most viewed." Anonymous — no IP or
 // identity is stored (clientIp is only an in-memory rate-limit key). Best-effort:
@@ -7,22 +7,6 @@ import { Redis } from '@upstash/redis';
 // accumulating the data, same as the search log.
 //
 // POST { slug } → { ok }
-
-function getKV(): Redis | null {
-  // The live Upstash store is connected with the "centerstudy" prefix; the
-  // unprefixed KV_REST_API_* point at an older, deleted DB. Prefer the prefixed
-  // vars, then fall back. (Matches /api/search-log.)
-  const url =
-    process.env.centerstudy_KV_REST_API_URL ||
-    process.env.KV_REST_API_URL ||
-    process.env.UPSTASH_REDIS_REST_URL;
-  const token =
-    process.env.centerstudy_KV_REST_API_TOKEN ||
-    process.env.KV_REST_API_TOKEN ||
-    process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) return null;
-  return new Redis({ url, token });
-}
 
 const COUNTS = 'views:counts'; // ZSET: slug → view count (all-time)
 const TOTAL = 'views:total';   // running total of views logged

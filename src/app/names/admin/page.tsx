@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { getKV } from '@/lib/kv';
 import AdminClient from './AdminClient';
 import type { NameEntry } from '../../api/names/submit/route';
 
@@ -20,13 +21,8 @@ export default async function AdminPage({
   let approved: NameEntry[] = [];
 
   try {
-    // Live Upstash store is connected with the 'centerstudy' prefix; the
-    // unprefixed KV_REST_API_* point at an old deleted DB, so prefer centerstudy_.
-    const url = process.env.centerstudy_KV_REST_API_URL || process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-    const token = process.env.centerstudy_KV_REST_API_TOKEN || process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
-    if (url && token) {
-      const { Redis } = await import('@upstash/redis');
-      const kv = new Redis({ url, token });
+    const kv = getKV();
+    if (kv) {
       pending = (await kv.get<NameEntry[]>('names:pending')) || [];
       approved = (await kv.get<NameEntry[]>('names:approved')) || [];
     }

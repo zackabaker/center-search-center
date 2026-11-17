@@ -1,4 +1,4 @@
-import { Redis } from '@upstash/redis';
+import { getKV } from '@/lib/kv';
 import { getPostBySlug, getPublicPosts } from '@/lib/parser';
 import { aiAgentKind, aiReferrer, isAiProduct, type AiAgentKind } from '@/lib/ai-agents';
 import {
@@ -12,19 +12,6 @@ import {
 // search:day:*, convert:*), the all-time counters and ZSETs, and the two
 // capped raw logs — and shapes them for one server render. Gated upstream in
 // src/proxy.ts; nothing here is reachable without the key.
-
-function getKV(): Redis | null {
-  const url =
-    process.env.centerstudy_KV_REST_API_URL ||
-    process.env.KV_REST_API_URL ||
-    process.env.UPSTASH_REDIS_REST_URL;
-  const token =
-    process.env.centerstudy_KV_REST_API_TOKEN ||
-    process.env.KV_REST_API_TOKEN ||
-    process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) return null;
-  return new Redis({ url, token });
-}
 
 export type DayRow = {
   day: string; // YYYY-MM-DD (UTC, matching every ingest key)

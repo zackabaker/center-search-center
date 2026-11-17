@@ -17,3 +17,11 @@ export function getKV(): Redis | null {
   if (!url || !token) return null;
   return new Redis({ url, token });
 }
+
+// For routes that can't do anything useful without the store (e.g. the Book
+// of Names endpoints): same resolution, but unconfigured is an error.
+export function requireKV(): Redis {
+  const kv = getKV();
+  if (!kv) throw new Error('KV not configured');
+  return kv;
+}

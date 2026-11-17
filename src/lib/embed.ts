@@ -18,10 +18,10 @@ async function getExtractor(): Promise<any> {
   if (!extractorPromise) {
     extractorPromise = (async () => {
       const { pipeline, env } = await import('@xenova/transformers');
-      // Use a local copy under /models if present (fast, offline); otherwise
-      // download from the HF hub. This runs only at build time, so the model is
-      // never bundled into the serverless functions.
-      env.allowRemoteModels = true;
+      // The model files are committed under /models (and traced into the
+      // /api/embed function), so loading is local-only — no hub fetches, and a
+      // missing file fails fast instead of silently downloading at runtime.
+      env.allowRemoteModels = false;
       env.allowLocalModels = true;
       env.localModelPath = path.join(process.cwd(), 'models');
       return pipeline('feature-extraction', MODEL_ID);

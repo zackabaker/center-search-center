@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { getKV } from '@/lib/kv';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import NamesClient from './NamesClient';
 import type { Metadata } from 'next';
@@ -20,13 +21,8 @@ export default async function NamesPage() {
   let approved: NameEntry[] = [];
 
   try {
-    // Live Upstash store is connected with the 'centerstudy' prefix; the
-    // unprefixed KV_REST_API_* point at an old deleted DB, so prefer centerstudy_.
-    const url = process.env.centerstudy_KV_REST_API_URL || process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-    const token = process.env.centerstudy_KV_REST_API_TOKEN || process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
-    if (url && token) {
-      const { Redis } = await import('@upstash/redis');
-      const kv = new Redis({ url, token });
+    const kv = getKV();
+    if (kv) {
       approved = (await kv.get<NameEntry[]>('names:approved')) || [];
     }
   } catch {
