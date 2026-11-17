@@ -849,7 +849,6 @@ export default function SearchPageClient({
                         {' '}occurrence{termTotals.occ !== 1 ? 's' : ''} in{' '}
                         <span className="font-semibold tabular-nums">{termTotals.posts.toLocaleString()}</span>
                         {' '}Katz text{termTotals.posts !== 1 ? 's' : ''}
-                        <span className="text-gray-500 dark:text-gray-400"> · top {visibleResults.length} shown</span>
                       </span>
                     ) : (
                       <>

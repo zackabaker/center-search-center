@@ -513,13 +513,28 @@ export function searchEntries(
       }
     }
 
+    // How much a text USES a term or phrase — not merely whether it contains
+    // it. Before this, every text containing a word scored the same flat 10,
+    // so the order was decided by source weight and a text using "deferral"
+    // 49 times lost its place to book chapters that mention it once. Counted
+    // in the indexed opening (20k chars); grows with the square root, so 1→4
+    // uses matters as much as 25→36, and is capped below a title match.
+    const countOf = (needle: string): number => {
+      if (!needle) return 0;
+      let c = 0, pos = 0;
+      while ((pos = lowerSnippet.indexOf(needle, pos)) !== -1) { c++; pos += needle.length; }
+      return c;
+    };
+    const useBonus = (needle: string): number =>
+      Math.min(85, Math.round(12 * Math.sqrt(countOf(needle))));
+
     // Phrase terms — STRICT: the contiguous phrase must appear in the title or
     // the content. No all-words fallback (that made exact-phrase search behave
     // like a loose AND). Matching is limited to snippetContent (the opening of
     // each text); a phrase appearing only deeper won't match.
     for (const phrase of phrases) {
-      if (lowerTitle.includes(phrase)) score += 600;
-      else if (lowerSnippet.includes(phrase)) score += 60;
+      if (lowerTitle.includes(phrase)) score += 600 + useBonus(phrase);
+      else if (lowerSnippet.includes(phrase)) score += 60 + useBonus(phrase);
       else return { entry, score: -1 };
     }
 
@@ -543,18 +558,35 @@ export function searchEntries(
     // below an exact hit so literal matches still rank first.
     const scoreTerm = (term: string): number => {
       const stem = stemWord(term);
+      // An INFLECTED form (markets → market, deferred → defer) is the same
+      // word and matches at full strength. A DERIVED form (firstness → first,
+      // resentment → resent) is a different word: it may still match — that
+      // is how "resentment" finds "resentful" — but only through a stem long
+      // enough to be specific (≥ 6 letters), and it never earns a usage bonus
+      // for the shorter word. Otherwise "firstness" matched every text with
+      // "first" in its title, ahead of the texts that actually use it.
+      const inflected = stem !== term && (
+        term === stem + 's' || term === stem + 'es' || term === stem + 'ed' ||
+        term === stem + 'ing' || (term.endsWith('ies') && stem.endsWith('y')) ||
+        (term.endsWith('ied') && stem.endsWith('y'))
+      );
+      const stemUsable = stem !== term && (inflected || stem.length >= 6);
+      const stemBonus = inflected ? useBonus(stem) : 0;
+
       const inTitle = entry.titleWords.some((w) => w === term) ||
         (term.length >= 4 && entry.titleWords.some((w) => w.startsWith(term)));
-      if (inTitle) return 100;
-      if (stem !== term &&
-          entry.titleWords.some((w) => w === stem || (stem.length >= 4 && w.startsWith(stem)))) return 90;
-      if (wordSet.has(term)) return 10;
-      if (stem !== term && wordSet.has(stem)) return 8;
+      if (inTitle) return 100 + useBonus(term);
+      if (stemUsable &&
+          entry.titleWords.some((w) => w === stem || (stem.length >= 4 && w.startsWith(stem)))) {
+        return (inflected ? 90 : 30) + useBonus(term) + stemBonus;
+      }
+      if (wordSet.has(term)) return 10 + useBonus(term);
+      if (stemUsable && wordSet.has(stem)) return 8 + stemBonus;
       // Prefix expansion only for terms ≥ 4 chars to avoid false positives
       // ("or" → "originary")
-      if (term.length >= 4 && entry.contentWords.some((w) => w.startsWith(term))) return 5;
-      if (stem !== term && stem.length >= 4 &&
-          entry.contentWords.some((w) => w.startsWith(stem))) return 4;
+      if (term.length >= 4 && entry.contentWords.some((w) => w.startsWith(term))) return 5 + useBonus(term);
+      if (stemUsable && stem.length >= 4 &&
+          entry.contentWords.some((w) => w.startsWith(stem))) return 4 + stemBonus;
       return aliasHit(term);
     };
 
@@ -599,34 +631,54 @@ export function searchEntries(
       if (allInTitle) score += 300;
     }
 
-    // Recency boost: recent posts from primary sources ranked slightly higher
+    if (score <= 0) return { entry, score };
+
+    // Recency and source are TIE-BREAKERS, added rather than multiplied. As
+    // multipliers they scaled with the base score: on a phrase match (a
+    // 340-point base) an 8% recency boost was worth more than the whole usage
+    // bonus, and with every text scoring alike the old 0.85–1.1 source spread
+    // simply WAS the ranking — "deferral" listed 3 of 143 matching GABlog
+    // posts. Now: a recent text or a book chapter wins only between texts that
+    // use the term about equally.
+    let tie = 0;
     if (entry.date) {
       const daysOld = (Date.now() - new Date(entry.date).getTime()) / 86_400_000;
-      if (daysOld < 60) score *= 1.2;
-      else if (daysOld < 365) score *= 1.08;
+      if (daysOld < 60) tie += 4;
+      else if (daysOld < 365) tie += 2;
     }
+    const SOURCE_TIE: Record<string, number> = { book: 2, substack: 1 };
+    tie += SOURCE_TIE[entry.source] ?? 0;
 
-    // Source weight: book is canonical > substack > gablog; archives (opt-in)
-    // and social are supplementary so they surface without burying the core.
-    const SOURCE_WEIGHT: Record<string, number> = {
-      book: 1.1, substack: 1.0, gablog: 0.9, pdf: 0.85,
+    // Archives (opt-in) and social are supplementary: scaled down so they
+    // surface without burying the core.
+    const SOURCE_SCALE: Record<string, number> = {
       chronicle: 0.7, ap: 0.7, reddit: 0.25, twitter: 0.35,
     };
-    const weight = SOURCE_WEIGHT[entry.source] ?? 1.0;
 
-    return { entry, score: score * weight };
+    return { entry, score: (score + tie) * (SOURCE_SCALE[entry.source] ?? 1.0) };
   });
 
+  // Every match is returned — the page paginates. The old top-100 cut was
+  // taken BEFORE the page removed hidden sources, so it silently dropped most
+  // of what matched. Snippets and counts are the expensive part (a scan of up
+  // to 20k chars each), so they are computed on first read: only for the
+  // results a page actually renders.
   return scored
     .filter((s) => s.score > 0)
     .sort((a, b) => b.score - a.score)
-    .slice(0, 100)
-    .map((s) => ({
-      entry: s.entry,
-      contextSnippet:
-        findMatchingSentence(s.entry.snippetContent, snippetQuery) || s.entry.excerpt,
-      occurrences: countInText(s.entry.snippetContent, snippetQuery),
-    }));
+    .map((s) => {
+      let snippet: string | undefined;
+      let count: number | undefined;
+      return {
+        entry: s.entry,
+        get contextSnippet() {
+          return (snippet ??= findMatchingSentence(s.entry.snippetContent, snippetQuery) || s.entry.excerpt);
+        },
+        get occurrences() {
+          return (count ??= countInText(s.entry.snippetContent, snippetQuery));
+        },
+      };
+    });
 }
 
 // ── Concept index ────────────────────────────────────────────────────────────
