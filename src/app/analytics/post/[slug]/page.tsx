@@ -54,7 +54,7 @@ export default async function PostStatsPage({ params }: { params: Promise<{ slug
   const readsTracked = data.series.some((r) => r.reads > 0);
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-8 sm:py-12">
+    <main className="mx-auto w-full max-w-4xl px-4 py-8 sm:py-12">
       <p className="text-sm">
         <Link href="/analytics#reading" className="text-gray-500 underline">← Analytics</Link>
       </p>

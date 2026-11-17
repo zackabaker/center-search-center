@@ -103,7 +103,7 @@ export default async function AnalyticsPage() {
 
   if (!data) {
     return (
-      <main className="mx-auto max-w-3xl px-4 py-14">
+      <main className="mx-auto w-full max-w-3xl px-4 py-14">
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Analytics</h1>
         <p className="mt-3 text-sm text-gray-500">The data store is not reachable from this environment.</p>
       </main>
@@ -206,7 +206,10 @@ export default async function AnalyticsPage() {
   const langTotal = data.langs.reduce((a, l) => a + l.n, 0);
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-8 sm:py-12">
+    // w-full matters: auto margins make <main> shrink-to-fit in the layout's
+    // flex column, so without a definite width any table's min-width (even
+    // inside its own scroll container) widens the whole page on phones.
+    <main className="mx-auto w-full max-w-4xl px-4 py-8 sm:py-12">
       <header className="flex flex-wrap items-baseline justify-between gap-2">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">Analytics</h1>
@@ -1041,7 +1044,7 @@ export default async function AnalyticsPage() {
                   {h.cut && <span className="text-xs text-rose-600 dark:text-rose-300">truncated</span>}
                   {h.weak && <span className="rounded bg-rose-100 dark:bg-rose-900/40 px-1.5 py-0.5 text-xs text-rose-800 dark:text-rose-200">no real answer?</span>}
                 </summary>
-                <div className="mt-2 ml-28 max-w-2xl whitespace-pre-wrap rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 px-4 py-3 text-[13px] leading-relaxed text-gray-700 dark:text-gray-300">
+                <div className="mt-2 sm:ml-28 max-w-2xl whitespace-pre-wrap [overflow-wrap:anywhere] rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 px-4 py-3 text-[13px] leading-relaxed text-gray-700 dark:text-gray-300">
                   {h.a}{h.aLen ? ` … [${h.aLen} chars total]` : ''}
                 </div>
               </details>
