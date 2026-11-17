@@ -360,10 +360,10 @@ function buildSessions(activity: RawActivity[], searches: RawSearch[], begins: B
       const end = events[events.length - 1].t;
       const mins = Math.round((end - start) / 60_000);
       const texts = readPaths.size > 0 ? readPaths.size : postPaths.size;
-      // Volume, or speed: eight-plus pages at under four seconds apiece is
+      // Volume, or speed: eight-plus pages at under ten seconds apiece is
       // not a person reading.
       const crawler =
-        (pages > 60 && nSearches === 0) || pages > 300 || (pages >= 8 && end - start < pages * 4000);
+        (pages > 60 && nSearches === 0) || pages > 300 || (pages >= 8 && end - start < pages * 10_000);
 
       const ai = aiReferrer(ref) ?? undefined;
 

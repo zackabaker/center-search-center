@@ -28,12 +28,18 @@ const KIND_CLASS: Record<string, string> = {
 
 export default function OppList({ items, compact = false }: { items: OppItem[]; compact?: boolean }) {
   const router = useRouter();
-  const [gone, setGone] = useState<Set<string>>(new Set());
+  // Items hidden optimistically, valid only for the list they were hidden
+  // from: when fresh data arrives (after the refresh below) the signature
+  // changes and the server's version of the list takes over — so an item
+  // reopened elsewhere on the page comes back here.
+  const sig = items.map((o) => `${o.id}:${o.status ?? ''}`).join('|');
+  const [hidden, setHidden] = useState<{ sig: string; ids: string[] }>({ sig, ids: [] });
+  const gone = hidden.sig === sig ? hidden.ids : [];
   const [error, setError] = useState<string | null>(null);
 
   const mark = async (id: string, status: 'done' | 'ignored' | 'open') => {
     setError(null);
-    setGone((g) => new Set(g).add(id));
+    setHidden({ sig, ids: [...gone, id] });
     try {
       const res = await fetch('/api/analytics/opps', {
         method: 'POST',
@@ -43,16 +49,12 @@ export default function OppList({ items, compact = false }: { items: OppItem[]; 
       if (!res.ok) throw new Error('failed');
       router.refresh();
     } catch {
-      setGone((g) => {
-        const next = new Set(g);
-        next.delete(id);
-        return next;
-      });
+      setHidden({ sig, ids: gone.filter((x) => x !== id) });
       setError('That didn’t save. Try again.');
     }
   };
 
-  const shown = items.filter((o) => !gone.has(o.id));
+  const shown = items.filter((o) => !gone.includes(o.id));
   if (shown.length === 0) {
     return <p className="mt-3 text-sm text-gray-400">Nothing open right now.</p>;
   }

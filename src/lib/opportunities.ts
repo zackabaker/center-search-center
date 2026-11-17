@@ -64,6 +64,8 @@ export function buildOpportunities(data: StudyData, gsc: GscSnapshot | null): Op
   // user at work, not a content gap.
   for (const m of data.searchOutcome.noClick) {
     if (/\bOR\b|\bAND\b|"/.test(m.q) || m.q.trim().length < 3) continue;
+    // A query that stops on a function word was cut off mid-phrase.
+    if (/\b(a|an|the|of|to|in|and|or|is|for|with|between|that|as|by|on)$/i.test(m.q.trim())) continue;
     const empty = m.results === 0;
     out.push({
       id: idFor('search', m.q),
