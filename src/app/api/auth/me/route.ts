@@ -1,4 +1,4 @@
-import { authConfigured, getUser } from '@/lib/auth';
+import { authConfigured, getUser, isOwnerUser } from '@/lib/auth';
 import { getProfile, storeAvailable } from '@/lib/user-store';
 
 export const dynamic = 'force-dynamic';
@@ -17,6 +17,9 @@ export async function GET(request: Request) {
         ? {
             email: user.email, name: user.name, picture: user.picture ?? null, id: user.sub,
             username: profile?.username ?? null,
+            // Site owner: unlocks the Analytics nav entry client-side. The
+            // actual /analytics gate is server-side in src/proxy.ts.
+            owner: isOwnerUser(user),
           }
         : null,
     },

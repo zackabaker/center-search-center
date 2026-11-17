@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { fetchAccount, signedInHint } from '@/lib/account-client';
 
 interface NavItem {
   href: string;
@@ -60,8 +61,27 @@ const navItems: NavItem[] = [
   },
 ];
 
+// Owner-only sixth tab. Drawn client-side; the page itself stays gated in
+// src/proxy.ts regardless.
+const analyticsItem: NavItem = {
+  href: '/analytics',
+  label: 'Analytics',
+  icon: (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 20h18M6 16v-5m5 5V7m5 9v-8m5 8V4" />
+    </svg>
+  ),
+};
+
 export default function MobileNav() {
   const pathname = usePathname();
+
+  const [owner, setOwner] = useState(false);
+  useEffect(() => {
+    if (!signedInHint()) return;
+    fetchAccount().then((a) => setOwner(a.user?.owner === true)).catch(() => {});
+  }, []);
+  const items = owner ? [...navItems, analyticsItem] : navItems;
 
   // Auto-hide while reading: slide away on scroll-down, return on scroll-up
   // or near the top — the bar shouldn't permanently eat reading height.
@@ -96,7 +116,7 @@ export default function MobileNav() {
       style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
     >
       <div className="flex items-stretch justify-around">
-        {navItems.map(({ href, label, icon }) => {
+        {items.map(({ href, label, icon }) => {
           // Concept and glossary pages live under /guide/ but belong to the
           // Concepts tab, not Guide.
           const isConceptPage =

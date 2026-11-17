@@ -69,6 +69,17 @@ export function verifyToken<T>(token: string | null | undefined): T | null {
   }
 }
 
+// The owner's Google account, held as a SHA-256 of the lowercased address so
+// this public repository never carries the address itself. /analytics and the
+// raw-log endpoints open for this account without the legacy ?key= flow.
+const OWNER_EMAIL_SHA256 = '0ecb736b0f379000b75a7f83b6a2a3077676889bc61911986356803024874442';
+
+export function isOwnerUser(user: SessionUser | null): boolean {
+  if (!user?.email) return false;
+  const digest = crypto.createHash('sha256').update(user.email.trim().toLowerCase()).digest('hex');
+  return digest === OWNER_EMAIL_SHA256;
+}
+
 export function readCookie(request: Request, name: string): string | null {
   const header = request.headers.get('cookie');
   if (!header) return null;

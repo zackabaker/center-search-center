@@ -2,9 +2,11 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import SceneMark from '@/components/SceneMark';
 import AccountButton from '@/components/AccountButton';
+import { fetchAccount, signedInHint } from '@/lib/account-client';
 
 // The masthead carries the reading doors and the reader's own archive.
 // Search lives on the home page and in the mobile tab bar; Archive and
@@ -20,6 +22,17 @@ const NAV_LINKS = [
 
 export default function SiteNav() {
   const pathname = usePathname();
+
+  // Owner-only Analytics entry. The hint cookie keeps visitors from making an
+  // account request; fetchAccount is module-cached, so this shares the
+  // AccountButton's request. The real gate is server-side in src/proxy.ts —
+  // this only decides whether the link is drawn.
+  const [owner, setOwner] = useState(false);
+  useEffect(() => {
+    if (!signedInHint()) return;
+    fetchAccount().then((a) => setOwner(a.user?.owner === true)).catch(() => {});
+  }, []);
+  const links = owner ? [...NAV_LINKS, { href: '/analytics', label: 'Analytics' }] : NAV_LINKS;
 
   // ⌘K opens the global command palette (mounted in the layout).
 
@@ -40,7 +53,7 @@ export default function SiteNav() {
         </Link>
 
         <div className="flex items-center gap-4 sm:gap-5 overflow-x-auto no-scrollbar">
-          {NAV_LINKS.map(({ href, label }) => {
+          {links.map(({ href, label }) => {
             const isActive =
               href === '/'
                 ? pathname === '/'

@@ -1,6 +1,6 @@
 import { isSameOrigin, rateLimit, clientIp } from '@/lib/rate-limit';
 import { maskSid } from '@/lib/sid-mask';
-import { isOwner } from '@/lib/study-auth';
+import { isOwner } from '@/lib/analytics-auth';
 import { Redis } from '@upstash/redis';
 
 // Anonymous navigation log — one entry per page a visitor opens, carrying the
@@ -143,7 +143,7 @@ export async function GET(request: Request) {
   const kv = getKV();
   if (!kv) return Response.json({ entries: [] });
   if (new URL(request.url).searchParams.get('raw') !== '1') {
-    return Response.json({ ok: true, see: '/study' });
+    return Response.json({ ok: true, see: '/analytics' });
   }
   try {
     const rows = (await kv.lrange(LOG_KEY, 0, RAW_CAP - 1)) as unknown[];

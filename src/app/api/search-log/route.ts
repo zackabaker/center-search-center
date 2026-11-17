@@ -1,6 +1,6 @@
 import { isSameOrigin, rateLimit, clientIp } from '@/lib/rate-limit';
 import { maskSid } from '@/lib/sid-mask';
-import { isOwner } from '@/lib/study-auth';
+import { isOwner } from '@/lib/analytics-auth';
 import { Redis } from '@upstash/redis';
 
 // Records search queries so we can later show what readers look for. Every

@@ -21,7 +21,7 @@ export default function ActivityTracker() {
     if (!pathname || pathname === last.current) return;
     last.current = pathname;
     // The console itself stays out of the log.
-    if (pathname.startsWith('/study')) return;
+    if (pathname.startsWith('/study') || pathname.startsWith('/analytics')) return;
     try {
       const sid = getSid();
       if (!sid) return;

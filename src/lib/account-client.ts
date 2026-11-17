@@ -11,6 +11,8 @@ export interface Account {
   picture: string | null;
   /** The reader's handle (random until they pick one). */
   username: string | null;
+  /** True only for the site owner's account — shows the Analytics nav entry. */
+  owner?: boolean;
 }
 
 export interface AccountState {
