@@ -7,7 +7,7 @@ isn't, and what to change.*
 
 ## Status — all three batches shipped 2026-11-17
 
-Everything below is built and live except where noted here.
+Everything below is built and live.
 
 - **Works from day one** (derived from data already stored): the "This
   week" block, sources + quality, AI-referred readers, landings, searches
@@ -25,18 +25,14 @@ Everything below is built and live except where noted here.
 - **Weekly digest:** a Vercel cron (`vercel.json`, Mondays 13:00 UTC)
   snapshots the week into KV; past weeks are listed under "This week".
   No email — the site has no mail provider.
-- **Needs the owner — Search Console (4d).** The importer and its console
-  block are live but idle until a key exists:
-  1. Google Cloud console → create a project (or reuse one) → enable the
-     **Google Search Console API**.
-  2. IAM → Service accounts → create one → Keys → add a **JSON** key.
-  3. Search Console → Settings → Users and permissions → add the service
-     account's email (…@….iam.gserviceaccount.com) as a **Restricted** user
-     on the center.study property.
-  4. Vercel → Project → Settings → Environment Variables → add
-     `GSC_SERVICE_ACCOUNT_JSON` (Production) with the whole JSON file as
-     its value; redeploy. The daily cron (09:00 UTC) fills the block, or
-     open `/api/analytics/gsc-sync` while signed in to run it at once.
+- **Search Console (4d) — connected 2026-11-17.** Service account
+  `search-console-reader@gen-lang-client-0926420669.iam.gserviceaccount.com`
+  (Google Cloud project "center search center", Search Console API enabled)
+  is a **Restricted** user on the center.study property; its JSON key lives
+  only in Vercel as the secret `GSC_SERVICE_ACCOUNT_JSON` (Production). The
+  daily cron (09:00 UTC) refreshes the snapshot; `/api/analytics/gsc-sync`
+  while signed in runs it at once. To revoke: remove the user in Search
+  Console, or delete the key under the service account's Keys tab.
 - **Optional hardening:** set a `CRON_SECRET` env var in Vercel and the two
   cron routes will require it (Vercel sends it automatically); until then
   they accept Vercel's cron user-agent, which is safe here because both
