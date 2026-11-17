@@ -1,6 +1,7 @@
 import { isSameOrigin, rateLimit, clientIp } from '@/lib/rate-limit';
 import { maskSid } from '@/lib/sid-mask';
 import { isOwner } from '@/lib/analytics-auth';
+import { isOwnerRequest } from '@/lib/owner-mark';
 import { Redis } from '@upstash/redis';
 
 // Records search queries so we can later show what readers look for. Every
@@ -103,17 +104,27 @@ export async function POST(request: Request) {
     return Response.json({ ok: false }, { status: 429 });
   }
 
-  let body: { q?: unknown; mode?: unknown; mine?: unknown; n?: unknown; sid?: unknown };
+  let body: { q?: unknown; mode?: unknown; mine?: unknown; n?: unknown; sid?: unknown; op?: unknown };
   try {
     body = await request.json();
   } catch {
     return Response.json({ error: 'Invalid JSON' }, { status: 400 });
   }
 
+  // Owner maintenance: retroactively flag already-logged entries as mine
+  // (e.g. searches made from a browser without the csc-mine flag before the
+  // server-side owner-network detection existed). Owner-gated; matching is
+  // by normalized exact query. Activity entries for the flagged searches'
+  // sids are flagged too, so the whole session leaves the readers' view.
+  if (body.op === 'mark-mine') {
+    if (!isOwner(request)) return new Response('Not found', { status: 404 });
+    return markMine(typeof body.q === 'string' ? body.q : '');
+  }
+
   const q = typeof body.q === 'string' ? body.q.trim().slice(0, 200) : '';
   if (q.length < 2) return Response.json({ ok: true, stored: false });
   const mode = typeof body.mode === 'string' && MODES.has(body.mode) ? body.mode : 'keyword';
-  const mine = body.mine === true;
+  const mine = body.mine === true || (await isOwnerRequest(getKV(), request));
   const sid = typeof body.sid === 'string' && /^[a-z0-9]{4,12}$/i.test(body.sid) ? body.sid : undefined;
   const n = typeof body.n === 'number' && Number.isFinite(body.n)
     ? Math.max(0, Math.min(99999, Math.floor(body.n)))
@@ -150,4 +161,48 @@ export async function POST(request: Request) {
     return Response.json({ ok: true, stored: false }); // never surface a logging failure
   }
   return Response.json({ ok: true, stored: true });
+}
+
+// Rewrite already-logged entries whose normalized query matches, setting
+// mine:true in place (LSET), then do the same for every activity entry that
+// shares a flagged search's sid. Reached only through the owner-gated
+// mark-mine op above.
+async function markMine(rawQ: string) {
+  const norm = rawQ.toLowerCase().replace(/\s+/g, ' ').trim();
+  if (norm.length < 2) return Response.json({ ok: false, error: 'q too short' }, { status: 400 });
+  const kv = getKV();
+  if (!kv) return Response.json({ ok: false, error: 'no kv' }, { status: 503 });
+  try {
+    const rows = (await kv.lrange(LOG_KEY, 0, LOG_CAP - 1)) as unknown[];
+    const sids = new Set<string>();
+    let searches = 0;
+    const pipe = kv.pipeline();
+    rows.forEach((r, i) => {
+      let e: Record<string, unknown> | null = null;
+      try { e = typeof r === 'string' ? JSON.parse(r) : (r as Record<string, unknown>); } catch { /* skip */ }
+      if (!e || typeof e.q !== 'string') return;
+      if (e.q.toLowerCase().replace(/\s+/g, ' ').trim() !== norm || e.mine === true) return;
+      searches += 1;
+      if (typeof e.sid === 'string') sids.add(e.sid);
+      pipe.lset(LOG_KEY, i, JSON.stringify({ ...e, mine: true }));
+    });
+    let activity = 0;
+    if (sids.size > 0) {
+      const acts = (await kv.lrange('activity:log', 0, 19999)) as unknown[];
+      acts.forEach((r, i) => {
+        let e: Record<string, unknown> | null = null;
+        try { e = typeof r === 'string' ? JSON.parse(r) : (r as Record<string, unknown>); } catch { /* skip */ }
+        if (!e || typeof e.sid !== 'string' || !sids.has(e.sid) || e.mine === true) return;
+        activity += 1;
+        pipe.lset('activity:log', i, JSON.stringify({ ...e, mine: true }));
+      });
+    }
+    if (searches + activity > 0) await pipe.exec();
+    return Response.json(
+      { ok: true, flagged: { searches, activity, sessions: sids.size } },
+      { headers: { 'Cache-Control': 'private, no-store' } },
+    );
+  } catch {
+    return Response.json({ ok: false }, { status: 500 });
+  }
 }

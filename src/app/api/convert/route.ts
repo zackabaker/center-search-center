@@ -1,5 +1,6 @@
 import { isSameOrigin, rateLimit, clientIp } from '@/lib/rate-limit';
 import { openCors } from '@/lib/cors';
+import { isOwnerRequest } from '@/lib/owner-mark';
 import { Redis } from '@upstash/redis';
 
 // Conversion counters — the four anonymous events that make "did that change
@@ -71,13 +72,16 @@ export async function POST(request: Request) {
     if (gap !== null) fields.push(gap <= 7 ? 'return:7d' : 'return:30d');
   }
 
-  // Owner-flagged events (set at /mine) count normally AND into ":mine"
-  // shadow fields, so the readout can show owner vs. readers; readers =
-  // base minus mine.
-  if (body.mine === true) fields.push(...fields.map((f) => `${f}:mine`));
-
   const kv = getKV();
   if (!kv) return Response.json({ ok: true, stored: false }); // KV not configured — no-op
+
+  // Owner events (the /mine browser flag, the owner's Google session, or one
+  // of his networks — src/lib/owner-mark.ts) count normally AND into ":mine"
+  // shadow fields, so the readout can show owner vs. readers; readers =
+  // base minus mine.
+  if (body.mine === true || (await isOwnerRequest(kv, request))) {
+    fields.push(...fields.map((f) => `${f}:mine`));
+  }
 
   try {
     const dk = dayKey(new Date());

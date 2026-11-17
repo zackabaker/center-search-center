@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { rateLimit, clientIp, isSameOrigin } from '@/lib/rate-limit';
 import { getKV } from '@/lib/kv';
+import { isOwnerRequest } from '@/lib/owner-mark';
 import { READING_PATHS } from '@/data/guide/reading-paths';
 
 // /begin generation: takes the visitor's interests (chips + free text), pulls
@@ -130,7 +131,7 @@ export async function POST(request: Request) {
   // ephemeral per-tab token (joins this generation to its /study session
   // trail), mine flags the owner's own browser so his tests can be filtered.
   const sid = typeof body.sid === 'string' ? body.sid.slice(0, 64) : undefined;
-  const mine = body.mine === true;
+  const mine = body.mine === true || (await isOwnerRequest(getKV(), request));
 
   if (interests.length === 0 && text.length < 3) {
     return Response.json({ error: 'Pick an interest or describe your background first.' }, { status: 400 });

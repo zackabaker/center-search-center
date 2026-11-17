@@ -36,6 +36,7 @@ export type DayRow = {
   searchesMine: number;
   opens: number;
   reads: number;
+  readsMine: number; // owner's own reads (":mine" shadow counter)
   follows: number;
   returns: number;
 };
@@ -234,6 +235,18 @@ function buildSessions(activity: RawActivity[], searches: RawSearch[], begins: B
     events.sort((a, b) => a.t - b.t);
     if (events.length === 0) continue;
 
+    // First-visit / returning signals (ev 'new' / 'return:<gap>' from
+    // ConvertTracker's trail mirror) become badges, not timeline rows.
+    let firstVisit = false;
+    let returnGap: number | null = null;
+    for (const e of g.a) {
+      if (e.ev === 'new') firstVisit = true;
+      else if (e.ev?.startsWith('return:')) {
+        const gap = Number(e.ev.slice('return:'.length));
+        if (Number.isFinite(gap)) returnGap = gap;
+      }
+    }
+
     const start = events[0].t;
     const end = events[events.length - 1].t;
     const mins = Math.round((end - start) / 60_000);
@@ -245,6 +258,8 @@ function buildSessions(activity: RawActivity[], searches: RawSearch[], begins: B
     const badges: string[] = [];
     if (mine) badges.push('you');
     if (crawler) badges.push('likely crawler');
+    if (firstVisit) badges.push('first visit');
+    if (returnGap !== null) badges.push(`returning · ${returnGap}d`);
     if (g.b.length > 0) badges.push('generated path');
     if (mins >= 20 && events.length >= 8) badges.push('deep session');
     const terms = new Set<string>();
@@ -338,7 +353,9 @@ export async function fetchStudyData(): Promise<StudyData | null> {
   const kv = getKV();
   if (!kv) return null;
 
-  const DAYS = 30;
+  // 90 day rows so the trends panel can show month-over-month; the tiles and
+  // the day table slice the newest 30.
+  const DAYS = 90;
   const dayKeys = Array.from({ length: DAYS }, (_, i) => utcDay(i));
 
   // Pipeline A: fixed-order per-day reads (4 commands per day).
@@ -475,6 +492,7 @@ export async function fetchStudyData(): Promise<StudyData | null> {
       searchesMine: Math.max(num(sday.mine), fromLog?.mine ?? 0),
       opens: num(conv.open),
       reads: num(conv.read),
+      readsMine: num(conv['read:mine']),
       follows: num(conv.follow),
       returns: num(conv.return),
     };

@@ -1,6 +1,7 @@
 import { isSameOrigin, rateLimit, clientIp } from '@/lib/rate-limit';
 import { maskSid } from '@/lib/sid-mask';
 import { isOwner } from '@/lib/analytics-auth';
+import { isOwnerRequest } from '@/lib/owner-mark';
 import { Redis } from '@upstash/redis';
 
 // Anonymous navigation log — one entry per page a visitor opens, carrying the
@@ -75,9 +76,8 @@ export async function POST(request: Request) {
       ? body.path
       : null;
   if (!sid || !path) return Response.json({ ok: true, stored: false });
-  const mine = body.mine === true ? true : undefined;
   const ev =
-    typeof body.ev === 'string' && /^(follow|read)(:[a-z-]{1,20}){0,2}$/.test(body.ev)
+    typeof body.ev === 'string' && /^(follow|read|new|return)(:[a-z0-9-]{1,20}){0,2}$/.test(body.ev)
       ? body.ev
       : undefined;
   // External referrer, sent only with a session's first event — hostname only,
@@ -94,6 +94,7 @@ export async function POST(request: Request) {
   const kv = getKV();
   if (!kv) return Response.json({ ok: true, stored: false }); // KV not configured — no-op
 
+  const mine = body.mine === true || (await isOwnerRequest(kv, request)) ? true : undefined;
   const now = Date.now();
   const entry = JSON.stringify({ sid, path, mine, ref, ev, t: now });
   const day = new Date(now).toISOString().slice(0, 10);

@@ -1,9 +1,12 @@
 import Link from 'next/link';
+import { headers } from 'next/headers';
 import type { Metadata } from 'next';
 import { fetchStudyData, type DayRow } from './data';
 import SessionsExplorer from './SessionsExplorer';
-import TrendChart, { type TrendPoint } from './TrendChart';
+import TrendsPanel from './TrendsPanel';
 import { recentFeedback, topEngaged } from '@/lib/user-store';
+import { rememberOwnerNetwork } from '@/lib/owner-mark';
+import { getKV } from '@/lib/kv';
 
 // /analytics — the owner's private console (formerly /study; src/proxy.ts
 // 308-redirects the old URL and gates this one: owner Google session, or the
@@ -58,7 +61,7 @@ function Bar({ n, max, className }: { n: number; max: number; className: string 
 const SECTIONS = [
   ['overview', 'Trends'],
   ['searches', 'Searches'],
-  ['begin', 'Paths'],
+  ['begin', 'Journeys'],
   ['reading', 'Reading'],
   ['answers', 'Answers'],
   ['sessions', 'Sessions'],
@@ -73,6 +76,15 @@ function dayLabel(day: string, long = false): string {
 }
 
 export default async function AnalyticsPage() {
+  // Whoever is reading this page is the owner (the proxy gate saw to that) —
+  // remember this network so the ingest routes can mark searches/activity
+  // from it as "mine" and keep them out of the readers' view, whichever
+  // browser or device they come from. Peppered hash, owner's networks only.
+  try {
+    const kv = getKV();
+    if (kv) await rememberOwnerNetwork(kv, await headers());
+  } catch { /* never block the console on this */ }
+
   const data = await fetchStudyData();
   const feedback = await recentFeedback(100).catch(() => []);
   const readers = await topEngaged(50).catch(() => []);
@@ -91,7 +103,7 @@ export default async function AnalyticsPage() {
   }
 
   const d7 = data.days.slice(0, 7);
-  const d30 = data.days;
+  const d30 = data.days.slice(0, 30); // days now carries 90 rows for the trends panel
   const today = data.days[0];
   const fmt = (n: number | null) => (n === null ? '—' : n.toLocaleString('en-US'));
   const maxViews = Math.max(1, ...d30.map((r) => r.views ?? 0));
@@ -105,29 +117,32 @@ export default async function AnalyticsPage() {
   // "session →" links only where a serialized session actually exists.
   const sidSet = new Set(data.sessions.map((s) => s.id));
 
-  // --- trend series (oldest first) -------------------------------------
-  // Activity-era days only for visitors/reads: a flat 0 from before the
-  // instrumentation existed would fake a trend.
-  const era = [...d30].reverse().filter((r) => r.views !== null);
-  const all30 = [...d30].reverse();
-  const visitorsPts: TrendPoint[] = era.map((r) => ({ label: dayLabel(r.day), value: r.uniq ?? 0 }));
-  const readerSearch = (r: DayRow) => Math.max(0, r.searches - r.searchesMine);
-  const searchesPts: TrendPoint[] = all30.map((r) => ({ label: dayLabel(r.day), value: readerSearch(r) }));
-  const readsPts: TrendPoint[] = era.map((r) => ({ label: dayLabel(r.day), value: r.reads }));
-  const weeklyPts: TrendPoint[] = data.weeklySearches.map((w) => ({
-    label: `wk of ${dayLabel(w.week)}`,
-    value: Math.max(0, w.n - w.mine),
-  }));
-
-  // Week over week: the last 7 days against the 7 before them.
-  const wow = (f: (r: DayRow) => number | null) => {
-    const thisW = sum(data.days.slice(0, 7), f);
-    const lastW = sum(data.days.slice(7, 14), f);
-    return { thisW, pct: lastW > 0 ? Math.round(((thisW - lastW) / lastW) * 100) : null };
-  };
-  const wVisitors = wow((r) => r.uniq);
-  const wSearches = wow(readerSearch);
-  const wReads = wow((r) => r.reads);
+  // --- journeys: the week's most engaged visits as readable digests ------
+  const weekAgoTs = data.generatedAt - 7 * 86_400_000;
+  const journeys = data.sessions
+    .filter((s) => !s.mine && !s.crawler && s.kind === 'live' && s.end >= weekAgoTs)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 10)
+    .map((s) => {
+      const seen = new Set<string>();
+      const searches: string[] = [];
+      const reads: { label: string; href?: string }[] = [];
+      const follows: string[] = [];
+      const begins: { label: string; href?: string }[] = [];
+      let landing: string | undefined;
+      for (const e of s.events) {
+        if (e.type === 'page' && landing === undefined) landing = e.label;
+        else if (e.type === 'search' && !seen.has(`s:${e.label}`)) {
+          seen.add(`s:${e.label}`);
+          searches.push(e.label);
+        } else if (e.type === 'read' && !seen.has(`r:${e.label}`)) {
+          seen.add(`r:${e.label}`);
+          reads.push({ label: e.label, href: e.href });
+        } else if (e.type === 'follow') follows.push(e.label);
+        else if (e.type === 'begin') begins.push({ label: e.label, href: e.href });
+      }
+      return { s, landing, searches, reads, follows, begins };
+    });
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-8 sm:py-12">
@@ -147,48 +162,7 @@ export default async function AnalyticsPage() {
 
       {/* ---------------- Trends ---------------- */}
       <section id="overview" className="mt-8">
-        <div className="grid gap-x-8 gap-y-6 sm:grid-cols-3">
-          <TrendChart
-            title="Visitors / day"
-            points={visitorsPts}
-            colorClass="text-[#2a78d6] dark:text-[#3987e5]"
-            headline={fmt(wVisitors.thisW)}
-            deltaPct={wVisitors.pct}
-            deltaVs="vs last wk"
-          />
-          <TrendChart
-            title="Reader searches / day"
-            points={searchesPts}
-            colorClass="text-[#eb6834] dark:text-[#d95926]"
-            headline={fmt(wSearches.thisW)}
-            deltaPct={wSearches.pct}
-            deltaVs="vs last wk"
-          />
-          <TrendChart
-            title="Texts read / day"
-            points={readsPts}
-            colorClass="text-[#1baf7a] dark:text-[#199e70]"
-            headline={fmt(wReads.thisW)}
-            deltaPct={wReads.pct}
-            deltaVs="vs last wk"
-          />
-        </div>
-        <p className="mt-2 text-xs text-gray-400 dark:text-gray-600">
-          {'Headline = last 7 days; change is against the 7 before. Visitors are unique tabs (JS-running bots included; engaged humans ≈ '}
-          {fmt(data.engaged7)}{' · 7d). Searches exclude yours. A read = ≥50% depth and ≥90s.'}
-        </p>
-
-        <div className="mt-8">
-          <TrendChart
-            title="Reader searches / week — full retained history"
-            points={weeklyPts}
-            colorClass="text-[#eb6834] dark:text-[#d95926]"
-            headline={fmt(weeklyPts[weeklyPts.length - 1]?.value ?? 0)}
-            deltaPct={null}
-            deltaVs=""
-            note="current week (partial)"
-          />
-        </div>
+        <TrendsPanel days={data.days} weeks={data.weeklySearches} engaged7={data.engaged7} />
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           <Tile
@@ -387,41 +361,108 @@ export default async function AnalyticsPage() {
         </details>
       </section>
 
-      {/* ---------------- Begin paths ---------------- */}
+      {/* ---------------- Journeys ---------------- */}
       <section id="begin" className="mt-12">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Generated reading paths</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Journeys</h2>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          Everything entered on /begin — chips, free text — and what came back. The session link shows what they did next.
+          The week’s most engaged visits, each as one card: who they are (what they typed on /begin), where they came from, and what they actually did — no clicking required.
         </p>
         <ol className="mt-4 space-y-3">
-          {data.beginPaths.map((b, i) => (
-            <li
-              key={`${b.id}-${i}`}
-              className="rounded-lg border border-gray-200 dark:border-gray-800 px-3 py-2.5 sm:px-4"
-            >
-              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-sm">
-                <span className="text-xs tabular-nums text-gray-400">{timeET.format(b.t)}</span>
-                {b.interests.map((it) => (
-                  <span key={it} className="rounded bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 text-xs text-gray-700 dark:text-gray-300">{it}</span>
-                ))}
-                {b.fb && <span className="text-xs text-rose-600 dark:text-rose-300">fallback</span>}
-                {b.mine && <span className="text-xs text-amber-600 dark:text-amber-300">you</span>}
-              </div>
-              {b.text && (
-                <blockquote className="mt-1.5 font-serif text-[15px] italic leading-snug text-gray-900 dark:text-gray-100">
-                  “{b.text}”
-                </blockquote>
-              )}
-              <div className="mt-1.5 flex flex-wrap gap-x-4 text-xs">
-                <a href={`/begin/p/${b.id}`} className="text-gray-600 dark:text-gray-300 underline">{b.n}{' texts →'}</a>
-                {b.sid && sidSet.has(b.sid) && (
-                  <a href={`#s-${b.sid}`} className="text-gray-500 underline">what they did next →</a>
+          {journeys.map(({ s, landing, searches, reads, follows, begins }) => (
+            <li key={s.id} className="rounded-lg border border-gray-200 dark:border-gray-800 px-3 py-3 sm:px-4">
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm">
+                <span className="font-medium text-gray-900 dark:text-gray-100">{timeET.format(s.start)}</span>
+                <span className="text-gray-500 dark:text-gray-400">
+                  {s.mins < 1 ? '<1 min' : s.mins < 60 ? `${s.mins} min` : `${Math.floor(s.mins / 60)}h ${s.mins % 60}m`}
+                  {' · '}{s.pages}{' page'}{s.pages === 1 ? '' : 's'}
+                  {s.texts > 0 && <>{' · '}{s.texts}{' text'}{s.texts === 1 ? '' : 's'}</>}
+                </span>
+                {s.ref && (
+                  <span className="rounded bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 text-xs text-gray-600 dark:text-gray-300">{'via '}{s.ref}</span>
                 )}
+                {s.badges.includes('first visit') && (
+                  <span className="rounded bg-sky-100 dark:bg-sky-900/40 px-1.5 py-0.5 text-xs text-sky-800 dark:text-sky-200">first visit</span>
+                )}
+                {s.badges.filter((b) => b.startsWith('returning')).map((b) => (
+                  <span key={b} className="rounded bg-emerald-100 dark:bg-emerald-900/40 px-1.5 py-0.5 text-xs text-emerald-800 dark:text-emerald-200">{b}</span>
+                ))}
+              </div>
+              {begins.map((b, i) => (
+                <div key={i} className="mt-2">
+                  {b.label.startsWith('“') ? (
+                    <blockquote className="font-serif text-[15px] italic leading-snug text-gray-900 dark:text-gray-100">{b.label}</blockquote>
+                  ) : (
+                    <span className="text-sm text-gray-700 dark:text-gray-300">{'Generated a path from: '}{b.label}</span>
+                  )}
+                  {b.href && <a href={b.href} className="ml-2 text-xs text-gray-500 underline">their path →</a>}
+                </div>
+              ))}
+              <dl className="mt-2 space-y-1 text-sm">
+                {landing && (
+                  <div className="flex gap-2">
+                    <dt className="w-20 shrink-0 text-xs uppercase tracking-wide text-gray-400 pt-0.5">entered</dt>
+                    <dd className="min-w-0 text-gray-700 dark:text-gray-300">{landing}</dd>
+                  </div>
+                )}
+                {searches.length > 0 && (
+                  <div className="flex gap-2">
+                    <dt className="w-20 shrink-0 text-xs uppercase tracking-wide text-gray-400 pt-0.5">searched</dt>
+                    <dd className="min-w-0 break-words text-gray-700 dark:text-gray-300">
+                      {searches.slice(0, 4).map((q) => `“${q}”`).join(' · ')}
+                      {searches.length > 4 && <span className="text-gray-400">{' +'}{searches.length - 4}{' more'}</span>}
+                    </dd>
+                  </div>
+                )}
+                {reads.length > 0 && (
+                  <div className="flex gap-2">
+                    <dt className="w-20 shrink-0 text-xs uppercase tracking-wide text-gray-400 pt-0.5">read</dt>
+                    <dd className="min-w-0 text-gray-900 dark:text-gray-100">
+                      {reads.slice(0, 4).map((r, i) => (
+                        <span key={i}>
+                          {i > 0 && <span className="text-gray-400">{' · '}</span>}
+                          {r.href ? <Link href={r.href} className="hover:underline">{r.label}</Link> : r.label}
+                        </span>
+                      ))}
+                      {reads.length > 4 && <span className="text-gray-400">{' +'}{reads.length - 4}{' more'}</span>}
+                    </dd>
+                  </div>
+                )}
+                {follows.length > 0 && (
+                  <div className="flex gap-2">
+                    <dt className="w-20 shrink-0 text-xs uppercase tracking-wide text-gray-400 pt-0.5">followed</dt>
+                    <dd className="min-w-0 text-emerald-700 dark:text-emerald-300">{follows.join(' · ')}</dd>
+                  </div>
+                )}
+              </dl>
+              <div className="mt-2 text-xs">
+                <a href={`#s-${s.id}`} className="text-gray-500 underline">full trail →</a>
               </div>
             </li>
           ))}
-          {data.beginPaths.length === 0 && <li className="text-sm text-gray-400">None generated yet.</li>}
+          {journeys.length === 0 && <li className="text-sm text-gray-400">No engaged visits in the last 7 days.</li>}
         </ol>
+
+        <details className="mt-6">
+          <summary className="cursor-pointer text-sm text-gray-600 dark:text-gray-300 hover:underline">
+            {'All generated reading paths · '}{data.beginPaths.length}
+          </summary>
+          <ol className="mt-3 space-y-2 text-sm">
+            {data.beginPaths.map((b, i) => (
+              <li key={`${b.id}-${i}`} className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                <span className="text-xs tabular-nums text-gray-400 w-28 shrink-0">{timeET.format(b.t)}</span>
+                {b.interests.map((it) => (
+                  <span key={it} className="rounded bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 text-xs text-gray-700 dark:text-gray-300">{it}</span>
+                ))}
+                {b.text && <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">“{b.text}”</span>}
+                <a href={`/begin/p/${b.id}`} className="text-xs text-gray-500 underline">{b.n}{' texts →'}</a>
+                {b.fb && <span className="text-xs text-rose-600 dark:text-rose-300">fallback</span>}
+                {b.mine && <span className="text-xs text-amber-600 dark:text-amber-300">you</span>}
+                {b.sid && sidSet.has(b.sid) && <a href={`#s-${b.sid}`} className="text-xs text-gray-500 underline">session →</a>}
+              </li>
+            ))}
+            {data.beginPaths.length === 0 && <li className="text-gray-400">None generated yet.</li>}
+          </ol>
+        </details>
       </section>
 
       {/* ---------------- Reading ---------------- */}

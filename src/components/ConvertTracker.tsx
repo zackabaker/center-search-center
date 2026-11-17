@@ -67,7 +67,15 @@ export default function ConvertTracker() {
         if (gap >= 1 && gap <= 30) {
           localStorage.setItem('csc-return-fired', today);
           send({ event: 'return', gap });
+          // Mirror into the session trail so a visit card can say
+          // "returning · Nd" (badge-only; same anonymous day-gap signal).
+          sendTrailEvent(`return:${Math.min(gap, 30)}`);
         }
+      }
+      if (!seen) {
+        // Brand-new browser (no prior-day stamp): the trail's "first visit"
+        // signal. localStorage only — same posture as the return stamp.
+        sendTrailEvent('new');
       }
       localStorage.setItem('csc-seen', today);
     } catch {
