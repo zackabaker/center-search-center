@@ -120,3 +120,55 @@ export function keyFromLabel(label: string): string {
   const slug = label.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
   return `manual:${slug || 'series'}`;
 }
+
+// ── Substack: no exact count without signing in, but a rounded floor IS
+// public ───────────────────────────────────────────────────────────────────
+// Substack's own homepage meta description says "...a Substack publication
+// with hundreds of subscribers" (or thousands, tens of thousands, ...) —
+// nothing finer than that bucket, and no number the author hasn't opted to
+// round. That bucket is still worth charting: it steps up only when a real
+// milestone is crossed, with no login needed, so it runs daily for free.
+// For the real number, the owner reads it off Substack's own dashboard
+// (substack.com/publish/stats) and types it into the room — the two are
+// kept as separate series on purpose, since mixing an exact count with a
+// rounded floor on one line would make the floor look like real data.
+export const PUBLIC_SUBSTACKS: { key: string; host: string; label: string }[] = [
+  { key: 'substack:dennisbouvard:floor', host: 'dennisbouvard.substack.com', label: 'Substack (public floor) — Dennis Bouvard' },
+];
+
+const SUBSTACK_BUCKETS: [RegExp, number][] = [
+  [/a handful of/i, 5],
+  [/dozens of/i, 24],
+  [/hundreds of/i, 100],
+  [/thousands of/i, 1_000],
+  [/tens of thousands of/i, 10_000],
+  [/hundreds of thousands of/i, 100_000],
+];
+
+async function substackFloor(host: string): Promise<number | null> {
+  const res = await fetch(`https://${host}/`, { headers: { 'User-Agent': 'Mozilla/5.0' }, cache: 'no-store' });
+  if (!res.ok) return null;
+  const html = await res.text();
+  const m = html.match(/content="[^"]*?with ([a-z\s]+?) subscribers\.?"/i);
+  if (!m) return null;
+  const hit = SUBSTACK_BUCKETS.find(([re]) => re.test(m[1]));
+  return hit ? hit[1] : null;
+}
+
+/** Called by the daily job, alongside the X follower lookups. */
+export async function recordSubstackFloors(): Promise<{ recorded: string[]; failed: string[] }> {
+  const day = new Date().toISOString().slice(0, 10);
+  const recorded: string[] = [];
+  const failed: string[] = [];
+  for (const pub of PUBLIC_SUBSTACKS) {
+    try {
+      const n = await substackFloor(pub.host);
+      if (n === null) { failed.push(pub.key); continue; }
+      await recordPoint(pub.key, pub.label, 'subscribers, at least', true, day, n);
+      recorded.push(pub.key);
+    } catch {
+      failed.push(pub.key);
+    }
+  }
+  return { recorded, failed };
+}
