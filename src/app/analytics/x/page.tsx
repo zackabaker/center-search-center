@@ -1,17 +1,23 @@
+import Link from 'next/link';
 import { loadConsole } from '../load';
-import { RoomHead, dayLabel, fmt, fold, sub, thead, timeET } from '../ui';
+import { RoomHead, dayLabel, fmt, fold, sub, timeET } from '../ui';
 import { sourceName } from '../derive';
+import TrendChart, { type TrendPoint } from '../TrendChart';
 import { X_ACCOUNT, readX, xConfigured, type XPost } from '@/lib/x-analytics';
 import XImport from './XImport';
 
-// /analytics/x — the Center Study account on X beside the visits X sends.
+// /analytics/x — the Center Study account on X set beside what the site's
+// own data says happened next. Charts first, by design (owner direction,
+// 2026-11-18: "more charts, less of these crazy long lists of numbers") —
+// the only tables left are short, linked lists of actual posts, not grids
+// of digits. For follower counts over time (this account and others), see
+// /analytics/growth.
 //
 // Three sources meet here:
 //   · posts and their public numbers, from the daily X API pull;
 //   · the account's private numbers (daily impressions, profile visits,
 //     follows; link clicks per post), from X's own CSV exports, uploaded;
 //   · arrivals from X, from this site's own visit log (referrer t.co / x.com).
-// Together they show which posts actually bring readers, not just which get seen.
 
 export const dynamic = 'force-dynamic';
 
@@ -19,12 +25,12 @@ const DAY = 86_400_000;
 const WINDOW = 2 * DAY; // arrivals credited to a post: the 48 hours after it
 const utcDay = (t: number) => new Date(t).toISOString().slice(0, 10);
 const postUrl = (id: string) => `https://x.com/${X_ACCOUNT}/status/${id}`;
-const clip = (s: string, n = 150) => {
+const clip = (s: string, n = 120) => {
   const flat = s.replace(/https:\/\/t\.co\/\S+/g, '').replace(/\s+/g, ' ').trim();
   return flat.length > n ? flat.slice(0, n).replace(/\s+\S*$/, '') + '…' : flat || '(media or link only)';
 };
-const monthLabel = (ym: string) =>
-  new Date(`${ym}-01T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+/** X's own Engagements figure when a Content export covered the post; otherwise the sum of what the API reports. */
+const engagement = (p: XPost): number => p.eng ?? p.l + p.rt + p.q + p.rp + p.b;
 
 const NOTICE: Record<string, string> = {
   synced: 'Refreshed from X just now.',
@@ -32,6 +38,21 @@ const NOTICE: Record<string, string> = {
   failed: 'X did not answer. Nothing was changed; try again in a few minutes.',
   unconfigured: 'The X API token is not set on the server yet, so posts cannot be refreshed automatically.',
 };
+
+/** One linked post, one line of stats underneath — not a spreadsheet row. */
+function PostRow({ p, stat, arrivals }: { p: XPost; stat: string; arrivals?: number | null }) {
+  return (
+    <li className="border-b border-gray-100 dark:border-gray-900 py-2.5">
+      <a href={postUrl(p.id)} target="_blank" rel="noopener noreferrer" className="text-[15px] text-gray-900 dark:text-gray-100 hover:underline [overflow-wrap:anywhere]">
+        {clip(p.text)}
+      </a>
+      <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
+        {dayLabel(utcDay(p.t))} · {stat}
+        {typeof arrivals === 'number' && <> · <span className="text-gray-700 dark:text-gray-300">{fmt(arrivals)} site visits after</span></>}
+      </p>
+    </li>
+  );
+}
 
 export default async function XPage({ searchParams }: { searchParams: Promise<{ x?: string }> }) {
   const [{ x: flag }, data, snap] = await Promise.all([searchParams, loadConsole(), readX().catch(() => null)]);
@@ -41,7 +62,7 @@ export default async function XPage({ searchParams }: { searchParams: Promise<{ 
   if (!snap) {
     return (
       <>
-        <RoomHead title="X">The @{X_ACCOUNT} account beside the visits X sends to the site.</RoomHead>
+        <RoomHead title="X">The @{X_ACCOUNT} account set beside the visits X sends to the site.</RoomHead>
         {notice && <p className="mt-3 text-sm text-rose-700 dark:text-rose-300">{notice}</p>}
         <p className="mt-4 max-w-2xl text-sm text-gray-600 dark:text-gray-300">
           Nothing from X is stored yet. Upload the exports from X’s analytics page to start
@@ -65,8 +86,6 @@ export default async function XPage({ searchParams }: { searchParams: Promise<{ 
   const own = posts.filter((p) => p.kind !== 'reply');
   const replies = posts.filter((p) => p.kind === 'reply');
   const acct = new Map(snap.acct.map((d) => [d.day, d]));
-  const acctDays = [...acct.keys()].sort();
-  const acctThrough = acctDays[acctDays.length - 1] ?? null;
   const havePrivatePosts = posts.some((p) => p.uc !== undefined);
 
   // Visits X sent, from the site's own log (readers only: not the owner, not crawlers).
@@ -77,49 +96,53 @@ export default async function XPage({ searchParams }: { searchParams: Promise<{ 
   const arrivalsAfter = (p: XPost): number | null =>
     haveLog && p.t >= logStart ? fromX.filter((s) => s.start >= p.t && s.start < p.t + WINDOW).length : null;
 
-  // Day by day, last 30 (UTC days, like every other counter in the console).
-  const days = Array.from({ length: 30 }, (_, i) => utcDay(now - i * DAY));
-  const byDay = new Map(days.map((d) => [d, { posts: 0, views: 0, arrivals: 0, people: 0 }]));
-  for (const p of own) {
-    const row = byDay.get(utcDay(p.t));
-    if (row) { row.posts += 1; row.views += p.v; }
-  }
-  for (const s of fromX) {
-    const row = byDay.get(utcDay(s.start));
-    if (row) { row.arrivals += 1; if (s.human) row.people += 1; }
-  }
-  const seenOn = (d: string) => acct.get(d)?.imp ?? byDay.get(d)!.views;
-  const maxSeen = Math.max(1, ...days.map(seenOn));
-  const maxArrivals = Math.max(1, ...[...byDay.values()].map((r) => r.arrivals));
+  // ── Charts: 30 days, oldest first, with posting-day marks so the two
+  // charts below double as "did posting more move the numbers" at a glance. ──
+  const days30 = Array.from({ length: 30 }, (_, i) => utcDay(now - (29 - i) * DAY));
+  const postsOnDay = new Map<string, number>();
+  for (const p of own) postsOnDay.set(utcDay(p.t), (postsOnDay.get(utcDay(p.t)) ?? 0) + 1);
+  const mark = (d: string): string | undefined => {
+    const n = postsOnDay.get(d);
+    return n ? `${n} post${n > 1 ? 's' : ''}` : undefined;
+  };
+  const viewsOnDay = new Map<string, number>();
+  for (const p of own) viewsOnDay.set(utcDay(p.t), (viewsOnDay.get(utcDay(p.t)) ?? 0) + p.v);
+  const arrivalsOnDay = new Map<string, number>();
+  for (const s of fromX) arrivalsOnDay.set(utcDay(s.start), (arrivalsOnDay.get(utcDay(s.start)) ?? 0) + 1);
 
+  const impressionPts: TrendPoint[] = days30.map((d) => ({
+    label: dayLabel(d), value: acct.get(d)?.imp ?? viewsOnDay.get(d) ?? 0, mark: mark(d),
+  }));
+  const visitPts: TrendPoint[] = days30.filter((d) => !haveLog || d >= utcDay(logStart)).map((d) => ({
+    label: dayLabel(d), value: arrivalsOnDay.get(d) ?? 0, mark: mark(d),
+  }));
+
+  // Monthly rollup, as far back as the Overview export + archived posts reach.
+  const months = new Map<string, number>();
+  for (const d of snap.acct) months.set(d.day.slice(0, 7), (months.get(d.day.slice(0, 7)) ?? 0) + d.imp);
+  if (months.size === 0) for (const p of own) months.set(utcDay(p.t).slice(0, 7), (months.get(utcDay(p.t).slice(0, 7)) ?? 0) + p.v);
+  const monthPts: TrendPoint[] = [...months.entries()].sort(([a], [b]) => (a < b ? -1 : 1))
+    .map(([ym, v]) => ({ label: new Date(`${ym}-01T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' }), value: v }));
+
+  const delta = (pts: TrendPoint[], span: number) => {
+    const cur = pts.slice(-span).reduce((a, p) => a + p.value, 0);
+    const prev = pts.slice(-span * 2, -span).reduce((a, p) => a + p.value, 0);
+    return { cur, pct: prev > 0 ? Math.round(((cur - prev) / prev) * 100) : null };
+  };
+  const dImp = delta(impressionPts, 7);
+  const dVis = delta(visitPts, 7);
+
+  // ── How X-sourced visits behave, next to the site's other top sources ──
+  const topSources = (data?.sources ?? []).filter((s) => s.sessions > 0).sort((a, b) => b.visits30 - a.visits30).slice(0, 6);
+  const xSource = (data?.sources ?? []).find((s) => s.name === 'X');
+
+  // ── Post lists: compact, linked, one each for a different question ──
   const since30 = now - 30 * DAY;
-  const day30 = utcDay(since30);
-  const own30 = own.filter((p) => p.t >= since30);
-  const acct30 = snap.acct.filter((d) => d.day > day30);
-  const impressions30 = acct30.length > 0 ? acct30.reduce((a, d) => a + d.imp, 0) : own30.reduce((a, p) => a + p.v, 0);
-  const clicks30 = own30.reduce((a, p) => a + (p.uc ?? 0), 0) + replies.filter((p) => p.t >= since30).reduce((a, p) => a + (p.uc ?? 0), 0);
-  const arrivals30 = fromX.filter((s) => s.start >= since30).length;
-  const people30 = fromX.filter((s) => s.start >= since30 && s.human).length;
-
-  const daySnaps = [...snap.days].sort((a, b) => a.day.localeCompare(b.day));
-  const latest = daySnaps[daySnaps.length - 1];
-  const netFollows30 = acct30.length > 0 ? acct30.reduce((a, d) => a + d.nf - d.uf, 0) : null;
-
-  const recent = own.filter((p) => p.t >= now - 60 * DAY).sort((a, b) => b.v - a.v).slice(0, 40);
-  const senders = posts.filter((p) => (p.uc ?? 0) > 0).sort((a, b) => (b.uc ?? 0) - (a.uc ?? 0)).slice(0, 15);
-  const allTime = [...own].sort((a, b) => b.v - a.v).slice(0, 25);
+  const clicks30 = own.filter((p) => p.t >= since30).reduce((a, p) => a + (p.uc ?? 0), 0);
+  const senders = posts.filter((p) => (p.uc ?? 0) > 0).sort((a, b) => (b.uc ?? 0) - (a.uc ?? 0)).slice(0, 8);
+  const mostEngaged = [...own].sort((a, b) => engagement(b) - engagement(a)).slice(0, 10);
+  const recentTop = own.filter((p) => p.t >= now - 60 * DAY).sort((a, b) => b.v - a.v).slice(0, 8);
   const oldest = posts[posts.length - 1];
-
-  // The year by month, from the Overview export.
-  const months = new Map<string, { imp: number; pv: number; nf: number; uf: number; cp: number; eng: number }>();
-  for (const d of snap.acct) {
-    const m = months.get(d.day.slice(0, 7)) ?? { imp: 0, pv: 0, nf: 0, uf: 0, cp: 0, eng: 0 };
-    m.imp += d.imp; m.pv += d.pv; m.nf += d.nf; m.uf += d.uf; m.cp += d.cp; m.eng += d.eng;
-    months.set(d.day.slice(0, 7), m);
-  }
-  const monthRows = [...months.entries()].sort((a, b) => b[0].localeCompare(a[0]));
-  const maxMonth = Math.max(1, ...monthRows.map(([, m]) => m.imp));
-  const bigDays = [...snap.acct].sort((a, b) => b.imp - a.imp).slice(0, 5);
 
   const Tile = ({ label, value, note }: { label: string; value: string; note?: string }) => (
     <div className="min-w-0">
@@ -129,194 +152,94 @@ export default async function XPage({ searchParams }: { searchParams: Promise<{ 
     </div>
   );
 
-  const PostRows = ({ list, showArrivals }: { list: XPost[]; showArrivals: boolean }) => (
-    <div className="mt-3 overflow-x-auto">
-      <table className="w-full min-w-[680px] text-sm tabular-nums">
-        <thead>
-          <tr className={thead}>
-            <th className="py-1.5 pr-3 font-normal">Post</th>
-            <th className="py-1.5 pr-3 font-normal text-right">Views</th>
-            <th className="py-1.5 pr-3 font-normal text-right">Likes</th>
-            <th className="py-1.5 pr-3 font-normal text-right">Reposts</th>
-            <th className="py-1.5 pr-3 font-normal text-right">Saves</th>
-            {havePrivatePosts && <th className="py-1.5 pr-3 font-normal text-right">Link clicks</th>}
-            {showArrivals && <th className="py-1.5 pr-0 font-normal text-right">Site visits, next 48h</th>}
-          </tr>
-        </thead>
-        <tbody>
-          {list.map((p) => {
-            const a = showArrivals ? arrivalsAfter(p) : null;
-            return (
-              <tr key={p.id} className="border-b border-gray-100 dark:border-gray-900 align-top">
-                <td className="py-2 pr-3 max-w-[30rem]">
-                  <a href={postUrl(p.id)} target="_blank" rel="noopener noreferrer" className="text-gray-900 dark:text-gray-100 hover:underline [overflow-wrap:anywhere]">
-                    {clip(p.text)}
-                  </a>
-                  <span className="mt-0.5 block text-xs text-gray-500 dark:text-gray-400">
-                    {timeET.format(p.t)}
-                    {p.kind === 'quote' && ' · quote'}
-                    {p.kind === 'reply' && ' · reply'}
-                    {p.site && <> · links to <span className="text-gray-700 dark:text-gray-300">{p.site[0]}</span></>}
-                  </span>
-                </td>
-                <td className="py-2 pr-3 text-right font-medium text-gray-900 dark:text-gray-100">{fmt(p.v)}</td>
-                <td className="py-2 pr-3 text-right text-gray-700 dark:text-gray-300">{fmt(p.l)}</td>
-                <td className="py-2 pr-3 text-right text-gray-700 dark:text-gray-300">{fmt(p.rt + p.q)}</td>
-                <td className="py-2 pr-3 text-right text-gray-700 dark:text-gray-300">{fmt(p.b)}</td>
-                {havePrivatePosts && (
-                  <td className="py-2 pr-3 text-right text-gray-900 dark:text-gray-100">{p.uc === undefined ? '·' : fmt(p.uc)}</td>
-                )}
-                {showArrivals && (
-                  <td className="py-2 pr-0 text-right text-gray-900 dark:text-gray-100">{a === null ? '·' : fmt(a)}</td>
-                )}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
-  );
-
   return (
     <>
       <RoomHead title="X">
         The <a href={`https://x.com/${X_ACCOUNT}`} target="_blank" rel="noopener noreferrer" className="underline">@{X_ACCOUNT}</a>{' '}
-        account beside the visits X sends to the site. Views, likes and reposts are read from X once a day; impressions,
-        profile visits, follows and link clicks come from X’s own exports; site visits are this site’s count of arrivals from X.
+        account set beside what the site’s own visit log says happened next. Views, likes and reposts are read from X
+        once a day; impressions, profile visits, follows and link clicks come from X’s own exports; site visits are this
+        site’s count of arrivals referred by X. Follower counts over time live in{' '}
+        <Link href="/analytics/growth" className="underline">Growth</Link>.
       </RoomHead>
       {notice && <p className="mt-3 text-sm text-gray-700 dark:text-gray-300">{notice}</p>}
 
       <div className="mt-5 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4">
-        <Tile
-          label={latest ? 'Followers' : 'Net follows, 30 days'}
-          value={latest ? fmt(latest.followers) : netFollows30 === null ? '—' : `${netFollows30 >= 0 ? '+' : ''}${fmt(netFollows30)}`}
-          note={latest && netFollows30 !== null ? `${netFollows30 >= 0 ? '+' : ''}${fmt(netFollows30)} net in 30 days` : undefined}
-        />
-        <Tile
-          label="Impressions, 30 days"
-          value={fmt(impressions30)}
-          note={`${fmt(own30.length)} posts${acct30.length === 0 ? ' · views on those posts' : ''}`}
-        />
-        <Tile
-          label="Link clicks, 30 days"
-          value={havePrivatePosts ? fmt(clicks30) : '—'}
-          note={havePrivatePosts ? 'on posts from these 30 days' : 'needs the Content export'}
-        />
-        <Tile label="Site visits from X, 30 days" value={haveLog ? fmt(arrivals30) : '—'} note={haveLog ? `${fmt(people30)} showed real input` : 'visit log unavailable'} />
+        <Tile label="Posts, 30 days" value={fmt(own.filter((p) => p.t >= since30).length)} note={`${fmt(replies.filter((p) => p.t >= since30).length)} replies besides`} />
+        <Tile label="Impressions, 30 days" value={fmt(dImp.cur)} note={dImp.pct === null ? undefined : `${dImp.pct >= 0 ? '+' : ''}${dImp.pct}% vs the 30 before`} />
+        <Tile label="Link clicks, 30 days" value={havePrivatePosts ? fmt(clicks30) : '—'} note={havePrivatePosts ? undefined : 'needs the Content export'} />
+        <Tile label="Site visits from X, 30 days" value={haveLog ? fmt(dVis.cur) : '—'} note={dVis.pct === null ? undefined : `${dVis.pct >= 0 ? '+' : ''}${dVis.pct}% vs the 30 before`} />
       </div>
 
-      <h2 className={sub}>Day by day</h2>
+      <h2 className={sub}>Reach and traffic, day by day</h2>
       <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">
-        {acctThrough
-          ? `Impressions, profile visits and follows are X’s own daily figures, imported through ${dayLabel(acctThrough, true)}. Later days show the views so far on that day’s posts.`
-          : 'Impressions here are the views to date on the posts published that day, so recent days are still climbing.'}
+        Hover a point marked with a diamond to see how many posts went out that day.
       </p>
-      <div className="mt-3 overflow-x-auto">
-        <table className="w-full min-w-[680px] text-sm tabular-nums">
-          <thead>
-            <tr className={thead}>
-              <th className="py-1.5 pr-3 font-normal">Day</th>
-              <th className="py-1.5 pr-3 font-normal text-right">Posts</th>
-              <th className="py-1.5 pr-3 font-normal text-right">Impressions</th>
-              <th className="py-1.5 pr-3 font-normal" aria-hidden />
-              <th className="py-1.5 pr-3 font-normal text-right">Profile visits</th>
-              <th className="py-1.5 pr-3 font-normal text-right">Follows</th>
-              <th className="py-1.5 pr-3 font-normal text-right">Site visits from X</th>
-              <th className="py-1.5 pr-0 font-normal" aria-hidden />
-            </tr>
-          </thead>
-          <tbody>
-            {days.map((d) => {
-              const r = byDay.get(d)!;
-              const a = acct.get(d);
-              const seen = seenOn(d);
-              const logged = haveLog && d >= utcDay(logStart);
-              const net = a ? a.nf - a.uf : null;
+      <div className="mt-3 grid gap-x-8 gap-y-6 sm:grid-cols-2">
+        <TrendChart title="Impressions / day" points={impressionPts} colorClass="text-[#2a78d6] dark:text-[#3987e5]" headline={fmt(dImp.cur)} deltaPct={dImp.pct} deltaVs="vs last wk" />
+        {haveLog ? (
+          <TrendChart title="Site visits from X / day" points={visitPts} colorClass="text-[#eb6834] dark:text-[#d95926]" headline={fmt(dVis.cur)} deltaPct={dVis.pct} deltaVs="vs last wk" />
+        ) : (
+          <p className="text-sm text-gray-400 dark:text-gray-600">The visit log isn’t available for this window.</p>
+        )}
+      </div>
+      {monthPts.length >= 2 && (
+        <div className="mt-6 max-w-sm">
+          <TrendChart title="Impressions / month" points={monthPts} colorClass="text-[#1baf7a] dark:text-[#199e70]" headline={fmt(monthPts[monthPts.length - 1].value)} deltaPct={null} deltaVs="" note="most recent month" />
+        </div>
+      )}
+
+      {xSource && topSources.length > 1 && (
+        <>
+          <h2 className={sub}>How X’s visits compare with other sources</h2>
+          <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">
+            “Stayed” did more than land on one page; “read” spent real time in a text. Last 30 days.
+          </p>
+          <div className="mt-3 max-w-xl space-y-2.5">
+            {topSources.map((s) => {
+              const stayedPct = s.sessions > 0 ? Math.round((s.stayed / s.sessions) * 100) : 0;
+              const readPct = s.sessions > 0 ? Math.round((s.read / s.sessions) * 100) : 0;
+              const isX = s.name === 'X';
               return (
-                <tr key={d} className="border-b border-gray-100 dark:border-gray-900">
-                  <td className="py-1.5 pr-3 text-gray-900 dark:text-gray-100 whitespace-nowrap">{dayLabel(d)}</td>
-                  <td className="py-1.5 pr-3 text-right text-gray-700 dark:text-gray-300">{(a?.cp ?? r.posts) || '·'}</td>
-                  <td className={`py-1.5 pr-3 text-right ${a ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400'}`}>{seen ? fmt(seen) : '·'}</td>
-                  <td className="py-1.5 pr-3 w-24">
-                    <span className="block h-2 bg-gray-900 dark:bg-gray-100" style={{ width: `${Math.round((seen / maxSeen) * 100)}%` }} />
-                  </td>
-                  <td className="py-1.5 pr-3 text-right text-gray-700 dark:text-gray-300">{a ? a.pv || '·' : ''}</td>
-                  <td className="py-1.5 pr-3 text-right text-gray-700 dark:text-gray-300">{net === null ? '' : net === 0 ? '·' : `${net > 0 ? '+' : ''}${net}`}</td>
-                  <td className="py-1.5 pr-3 text-right text-gray-900 dark:text-gray-100">{logged ? r.arrivals || '·' : ''}</td>
-                  <td className="py-1.5 pr-0 w-24">
-                    {logged && <span className="block h-2 bg-blue-700 dark:bg-blue-300" style={{ width: `${Math.round((r.arrivals / maxArrivals) * 100)}%` }} />}
-                  </td>
-                </tr>
+                <div key={s.name} className={`flex items-center gap-3 text-sm ${isX ? 'font-medium text-gray-900 dark:text-gray-100' : 'text-gray-600 dark:text-gray-300'}`}>
+                  <span className="w-24 shrink-0 truncate">{s.name}</span>
+                  <span className="w-10 shrink-0 text-right tabular-nums text-xs text-gray-400">{fmt(s.sessions)}</span>
+                  <span className="relative h-2 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+                    <span className={`absolute inset-y-0 left-0 rounded-full ${isX ? 'bg-blue-700 dark:bg-blue-400' : 'bg-gray-400 dark:bg-gray-600'}`} style={{ width: `${stayedPct}%` }} />
+                  </span>
+                  <span className="w-20 shrink-0 text-right tabular-nums text-xs">{stayedPct}% stayed</span>
+                  <span className="w-16 shrink-0 text-right tabular-nums text-xs">{readPct}% read</span>
+                </div>
               );
             })}
-          </tbody>
-        </table>
-      </div>
+          </div>
+        </>
+      )}
 
       {senders.length > 0 && (
         <>
           <h2 className={sub}>Posts that sent the most readers</h2>
-          <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">
-            Ranked by clicks on the link in the post, as X counts them. This is the closest thing to “this post brought
-            people to the site”.
-          </p>
-          <PostRows list={senders} showArrivals />
+          <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">Ranked by clicks on the link in the post, as X counts them.</p>
+          <ul className="mt-2">{senders.map((p) => <PostRow key={p.id} p={p} stat={`${fmt(p.uc ?? 0)} link clicks · ${fmt(p.v)} views`} arrivals={arrivalsAfter(p)} />)}</ul>
         </>
       )}
 
-      <h2 className={sub}>Posts from the last 60 days, most viewed first</h2>
+      <h2 className={sub}>Most engaged, all time</h2>
       <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">
-        “Site visits, next 48h” counts arrivals from X in the two days after the post. When several posts go out close
-        together they share the same visits, so read it as a signal, not a tally.
+        X’s own engagement count where a Content export covers the post; otherwise likes + reposts + quotes + replies + saves.
       </p>
-      {recent.length === 0 ? <p className="mt-3 text-sm text-gray-400">No posts in this window.</p> : <PostRows list={recent} showArrivals />}
+      <ul className="mt-2">{mostEngaged.map((p) => <PostRow key={p.id} p={p} stat={`${fmt(engagement(p))} engaged · ${fmt(p.v)} views`} />)}</ul>
 
-      {monthRows.length > 0 && (
+      {recentTop.length > 0 && (
         <>
-          <h2 className={sub}>The year by month</h2>
-          <div className="mt-3 overflow-x-auto">
-            <table className="w-full min-w-[560px] text-sm tabular-nums">
-              <thead>
-                <tr className={thead}>
-                  <th className="py-1.5 pr-3 font-normal">Month</th>
-                  <th className="py-1.5 pr-3 font-normal text-right">Posts</th>
-                  <th className="py-1.5 pr-3 font-normal text-right">Impressions</th>
-                  <th className="py-1.5 pr-3 font-normal" aria-hidden />
-                  <th className="py-1.5 pr-3 font-normal text-right">Profile visits</th>
-                  <th className="py-1.5 pr-0 font-normal text-right">Net follows</th>
-                </tr>
-              </thead>
-              <tbody>
-                {monthRows.map(([ym, m]) => (
-                  <tr key={ym} className="border-b border-gray-100 dark:border-gray-900">
-                    <td className="py-1.5 pr-3 text-gray-900 dark:text-gray-100 whitespace-nowrap">{monthLabel(ym)}</td>
-                    <td className="py-1.5 pr-3 text-right text-gray-700 dark:text-gray-300">{m.cp || '·'}</td>
-                    <td className="py-1.5 pr-3 text-right text-gray-900 dark:text-gray-100">{fmt(m.imp)}</td>
-                    <td className="py-1.5 pr-3 w-32">
-                      <span className="block h-2 bg-gray-900 dark:bg-gray-100" style={{ width: `${Math.round((m.imp / maxMonth) * 100)}%` }} />
-                    </td>
-                    <td className="py-1.5 pr-3 text-right text-gray-700 dark:text-gray-300">{fmt(m.pv)}</td>
-                    <td className="py-1.5 pr-0 text-right text-gray-700 dark:text-gray-300">{`${m.nf - m.uf >= 0 ? '+' : ''}${fmt(m.nf - m.uf)}`}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <p className="mt-3 max-w-2xl text-sm text-gray-600 dark:text-gray-300">
-            Biggest days: {bigDays.map((d, i) => (
-              <span key={d.day}>{i > 0 && ', '}{dayLabel(d.day, true)} ({fmt(d.imp)})</span>
-            ))}.
-          </p>
+          <h2 className={sub}>Most seen, last 60 days</h2>
+          <ul className="mt-2">{recentTop.map((p) => <PostRow key={p.id} p={p} stat={`${fmt(p.v)} views · ${fmt(p.l)} likes`} arrivals={arrivalsAfter(p)} />)}</ul>
         </>
       )}
-
-      <h2 className={sub}>Most viewed, all time</h2>
-      <PostRows list={allTime} showArrivals={false} />
 
       {replies.length > 0 && (
         <details className="mt-8">
           <summary className={fold}>Replies: {fmt(replies.length)} archived, {fmt(replies.reduce((a, p) => a + p.v, 0))} views in all</summary>
-          <PostRows list={[...replies].sort((a, b) => b.v - a.v).slice(0, 20)} showArrivals={false} />
+          <ul className="mt-2">{[...replies].sort((a, b) => engagement(b) - engagement(a)).slice(0, 10).map((p) => <PostRow key={p.id} p={p} stat={`${fmt(engagement(p))} engaged · ${fmt(p.v)} views`} />)}</ul>
         </details>
       )}
 
@@ -325,20 +248,15 @@ export default async function XPage({ searchParams }: { searchParams: Promise<{ 
         {fmt(posts.length)} posts archived{oldest ? `, back to ${dayLabel(utcDay(oldest.t), true)}` : ''}.{' '}
         {snap.meta.syncedAt
           ? <>Views, likes and reposts were last read from X {timeET.format(snap.meta.syncedAt)} and refresh daily.</>
-          : live
-            ? <>Views, likes and reposts have not been read from X yet.</>
-            : <>Daily refresh from X is off until the X API token is added to the site’s production settings.</>}{' '}
-        {acctThrough
-          ? <>The private numbers run through {dayLabel(acctThrough, true)}; to bring them up to date, download the Overview and Content exports from X’s analytics page while signed in as @{X_ACCOUNT} and upload them here.</>
-          : <>For impressions by day, profile visits, follows and link clicks, upload the Overview and Content exports from X’s analytics page.</>}
+          : live ? <>Views, likes and reposts have not been read from X yet.</> : <>Daily refresh from X is off until the X API token is added to the site’s production settings.</>}{' '}
+        For impressions by day, profile visits, follows and link clicks, upload the Overview and Content exports from X’s
+        analytics page (x.com/i/account_analytics) while signed in as @{X_ACCOUNT}.
       </p>
       <XImport />
       {live && (
         <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">
           <a href="/api/analytics/x-sync?back=1" className="underline">Refresh the newest posts now</a>
-          {!snap.meta.fullAt && (
-            <> · <a href="/api/analytics/x-sync?full=1&back=1" className="underline">Fetch every post back to the first</a> (reads each post once)</>
-          )}
+          {!snap.meta.fullAt && <> · <a href="/api/analytics/x-sync?full=1&back=1" className="underline">Fetch every post back to the first</a> (reads each post once)</>}
         </p>
       )}
     </>
