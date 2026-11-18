@@ -64,7 +64,10 @@ export function buildReachCharts(data: StudyData, xSnap: XSnapshot | null, growt
       if (!best || n > best.n) best = { p, n };
     }
     if (best && best.n > 0) {
-      topPost = { text: best.p.text.replace(/https:\/\/t\.co\/\S+/g, '').trim().slice(0, 100), url: `https://x.com/centerstudy_/status/${best.p.id}`, arrivals: best.n };
+      // Strip leading/trailing quote marks — a lot of posts are themselves a
+      // quotation, and the insight line below adds its own curly quotes.
+      const clipped = best.p.text.replace(/https:\/\/t\.co\/\S+/g, '').trim().replace(/^["“”']+|["“”']+$/g, '').trim().slice(0, 100);
+      topPost = { text: clipped, url: `https://x.com/centerstudy_/status/${best.p.id}`, arrivals: best.n };
     }
   }
 
