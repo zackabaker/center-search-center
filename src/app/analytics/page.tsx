@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import { recentPostNotes } from './data';
 import { buildInsights, readerSessions } from './derive';
+import { buildReachCharts, buildReachInsights } from './reach';
 import { loadConsole } from './load';
 import NotesEditor from './NotesEditor';
 import OppList from './OppList';
 import TrendsPanel from './TrendsPanel';
+import TrendChart from './TrendChart';
 import {
   InsightList, JourneyCard, Unavailable, dayLabel, fmt, fold, sessionHref, statsHref, sum, thead,
   timeET, timeOnlyET, topJourneys,
@@ -13,6 +15,8 @@ import { accountOverview } from '@/lib/user-store';
 import { listNotes } from '@/lib/analytics-notes';
 import { listDigests } from '@/lib/analytics-digest';
 import { readGscSnapshot } from '@/lib/gsc';
+import { readX } from '@/lib/x-analytics';
+import { readAllGrowth } from '@/lib/growth';
 import { KIND_LABEL, buildOpportunities, oppStatuses } from '@/lib/opportunities';
 
 // /analytics — the overview. One screen: how the lines are moving, what the
@@ -26,13 +30,16 @@ export default async function AnalyticsPage() {
   const data = await loadConsole();
   if (!data) return <Unavailable />;
 
-  const [accounts, notes, digests, gsc, statuses] = await Promise.all([
+  const [accounts, notes, digests, gsc, statuses, xSnap, growth] = await Promise.all([
     accountOverview(1).catch(() => null),
     listNotes(),
     listDigests(12),
     readGscSnapshot(),
     oppStatuses(),
+    readX().catch(() => null),
+    readAllGrowth().catch(() => []),
   ]);
+  const reach = buildReachCharts(data, xSnap, growth);
 
   const d7 = data.days.slice(0, 7);
   const prev7 = data.days.slice(7, 14);
@@ -64,8 +71,18 @@ export default async function AnalyticsPage() {
   const openOpps = buildOpportunities(data, gsc).filter((o) => !statuses[o.id]);
   const journeys = topJourneys(data, 3);
   const latestDay = data.searchDays[0];
-  // The owner's notes plus the corpus's own events (a new essay published).
-  const chartNotes = [...notes, ...recentPostNotes()];
+  // The owner's notes, the corpus's own events (a new essay published), and
+  // X posting days — so the readers/searches/reads charts above can show
+  // whether a day with more posts on X was also a day with more of either,
+  // without a chart of its own.
+  const xPostDays = new Map<string, number>();
+  for (const p of xSnap?.posts.filter((p) => p.kind !== 'reply') ?? []) {
+    const d = new Date(p.t).toISOString().slice(0, 10);
+    xPostDays.set(d, (xPostDays.get(d) ?? 0) + 1);
+  }
+  const xPostNotes = [...xPostDays.entries()].map(([day, n]) => ({ day, label: `${n} post${n > 1 ? 's' : ''} on X` }));
+  const chartNotes = [...notes, ...recentPostNotes(), ...xPostNotes];
+  const reachInsights = buildReachInsights(reach);
 
   return (
     <>
@@ -81,17 +98,81 @@ export default async function AnalyticsPage() {
           {'Mark an event on the charts'}{notes.length > 0 && <>{' · '}{notes.length}{' marked'}</>}
         </summary>
         <p className="mt-1 text-xs text-gray-400">
-          Posted a thread, gave a talk, shipped a change? Pin it to the day — a ◆ appears on every chart whose range includes it, so you can see what moved the lines. A newly published essay is marked automatically.
+          Posted a thread, gave a talk, shipped a change? Pin it to the day — a ◆ appears on every chart whose range includes it, so you can see what moved the lines. A newly published essay, and every day with a post on X, is marked automatically.
         </p>
         <div className="mt-3">
           <NotesEditor notes={notes} today={data.days[0].day} />
         </div>
       </details>
 
-      {insights.length > 0 && (
+      {(insights.length > 0 || reachInsights.length > 0) && (
         <section className="mt-6 rounded-lg border border-gray-200 dark:border-gray-800 px-3 py-3 sm:px-4">
           <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">This week</h2>
-          <InsightList insights={insights} />
+          <InsightList insights={[...insights, ...reachInsights]} />
+        </section>
+      )}
+
+      {reach && (
+        <section className="mt-8">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">X, and what it sends here</h2>
+            <Link href="/analytics/x" className="text-xs text-gray-500 underline">the X room →</Link>
+          </div>
+          <p className="mt-1 text-xs text-gray-400">
+            The @centerstudy_ account next to the site’s own visit log — not just X on its own. Followers in{' '}
+            <Link href="/analytics/growth" className="underline">Growth</Link>.
+          </p>
+          <div className="mt-3 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+            <TrendChart
+              title="X impressions / day"
+              points={reach.impressions.map((p) => ({ label: dayLabel(p.day), value: p.value }))}
+              colorClass="text-[#2a78d6] dark:text-[#3987e5]"
+              headline={fmt(reach.impressions.slice(-7).reduce((a, p) => a + p.value, 0))}
+              deltaPct={null}
+              deltaVs=""
+              note="last 7 days"
+            />
+            <TrendChart
+              title="Site visits from X / day"
+              points={reach.siteVisits.map((p) => ({ label: dayLabel(p.day), value: p.value }))}
+              colorClass="text-[#eb6834] dark:text-[#d95926]"
+              headline={fmt(reach.siteVisits.slice(-7).reduce((a, p) => a + p.value, 0))}
+              deltaPct={null}
+              deltaVs=""
+              note="last 7 days"
+            />
+            {reach.followers.length >= 2 ? (
+              <TrendChart
+                title="X followers"
+                points={reach.followers.map((p) => ({ label: dayLabel(p.day), value: p.value }))}
+                colorClass="text-[#1baf7a] dark:text-[#199e70]"
+                headline={fmt(reach.followers[reach.followers.length - 1].value)}
+                deltaPct={null}
+                deltaVs=""
+              />
+            ) : (
+              <div className="min-w-0">
+                <div className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">X followers</div>
+                <p className="mt-2 text-xs text-gray-400 dark:text-gray-600">Fills in after a day or two of tracking — see Growth.</p>
+              </div>
+            )}
+            {reach.xShareOfReferred.length >= 2 ? (
+              <TrendChart
+                title="X, share of referred visits"
+                points={reach.xShareOfReferred.map((p) => ({ label: dayLabel(p.day), value: p.value }))}
+                colorClass="text-[#6250d6] dark:text-[#9085e9]"
+                headline={`${reach.xShareOfReferred[reach.xShareOfReferred.length - 1].value}%`}
+                deltaPct={null}
+                deltaVs=""
+                note="of days with any referral"
+              />
+            ) : (
+              <div className="min-w-0">
+                <div className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">X, share of referred visits</div>
+                <p className="mt-2 text-xs text-gray-400 dark:text-gray-600">Needs a few days with referred arrivals to show a trend.</p>
+              </div>
+            )}
+          </div>
         </section>
       )}
 
