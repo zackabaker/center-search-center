@@ -69,7 +69,7 @@ export default function OppList({ items, compact = false }: { items: OppItem[]; 
       {error && <p className="mt-2 text-xs text-rose-700 dark:text-rose-300">{error}</p>}
       <ol className="mt-3 divide-y divide-gray-200 dark:divide-gray-800 border-y border-gray-200 dark:border-gray-800">
         {shown.map((o) => (
-          <li key={o.id} className="py-3">
+          <li key={o.id} className={compact ? 'py-2.5' : 'py-3'}>
             <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
               <span className={`rounded px-1.5 py-0.5 text-[11px] font-medium ${KIND_CLASS[o.kindLabel] ?? KIND_CLASS['Broken link']}`}>
                 {o.kindLabel}
@@ -77,7 +77,11 @@ export default function OppList({ items, compact = false }: { items: OppItem[]; 
               <span className="min-w-0 break-words text-sm font-medium text-gray-900 dark:text-gray-100">{o.title}</span>
             </div>
             <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">{o.evidence}.</p>
-            {!compact && <p className="mt-0.5 text-sm text-gray-500 dark:text-gray-400">{o.fix}</p>}
+            {/* The "what to do" line used to be hidden in compact mode, which
+                left only raw numbers on the Overview — the one thing that
+                actually answers "what am I supposed to do here?" always
+                shows now; compact only tightens everything else. */}
+            <p className="mt-0.5 text-sm text-gray-500 dark:text-gray-400">{o.fix}</p>
             <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
               {o.status ? (
                 <button type="button" className={btn} onClick={() => mark(o.id, 'open')}>Reopen</button>
