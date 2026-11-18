@@ -11,6 +11,23 @@ import crypto from 'crypto';
 import { getKV } from './kv';
 import type { GscSnapshot } from './gsc';
 import type { StudyData } from '@/app/analytics/data';
+import { getPublicPosts } from './parser';
+import { buildSearchEntries, buildWordIndex, searchEntries } from './search-index';
+
+// A "0 results" search log is only true of the moment it happened — the
+// corpus or the search code may have moved on since (a page added, a search
+// bug fixed). Re-running the query against the CURRENT index before trusting
+// it keeps resolved gaps from haunting this list forever. Built lazily, once,
+// only if there's a zero-result item to check.
+let _liveIndex: ReturnType<typeof buildSearchEntries> | null = null;
+let _liveWordIndex: ReturnType<typeof buildWordIndex> | null = null;
+function stillEmpty(query: string): boolean {
+  if (!_liveIndex) {
+    _liveIndex = buildSearchEntries(getPublicPosts());
+    _liveWordIndex = buildWordIndex(_liveIndex);
+  }
+  return searchEntries(_liveIndex, query, _liveWordIndex!).length === 0;
+}
 
 export type OppKind = 'google' | 'search' | 'ask' | 'depth' | 'broken';
 export type OppStatus = 'done' | 'ignored';
@@ -51,7 +68,7 @@ export function buildOpportunities(data: StudyData, gsc: GscSnapshot | null): Op
       evidence: `Shown ${q.impressions} times on Google at about position ${q.position.toFixed(1)}, no clicks (28 days)`,
       fix: near
         ? 'You already rank near the top and nobody clicks — the page title and snippet aren’t selling it.'
-        : 'Within reach of the first results — a page that answers this head-on could move up and start earning clicks.',
+        : 'Within reach of the first results — worth checking whether an existing page targets this phrase directly, or needs to.',
       weight: q.impressions,
       links: [
         { label: 'see the results', href: `https://www.google.com/search?q=${encodeURIComponent(q.key)}` },
@@ -67,6 +84,10 @@ export function buildOpportunities(data: StudyData, gsc: GscSnapshot | null): Op
     // A query that stops on a function word was cut off mid-phrase.
     if (/\b(a|an|the|of|to|in|and|or|is|for|with|between|that|as|by|on)$/i.test(m.q.trim())) continue;
     const empty = m.results === 0;
+    // Logged as 0 results at the time, but the corpus or the search code may
+    // have moved on since — re-check against the live index rather than
+    // repeat a gap that's already closed.
+    if (empty && !stillEmpty(m.q)) continue;
     out.push({
       id: idFor('search', m.q),
       kind: 'search',
