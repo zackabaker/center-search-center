@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { recentPostNotes } from './data';
-import { buildInsights, readerSessions } from './derive';
+import { buildFreshInsights, buildInsights } from './derive';
 import { buildReachCharts, buildReachInsights } from './reach';
 import { loadConsole } from './load';
 import NotesEditor from './NotesEditor';
 import OppList from './OppList';
 import TrendsPanel from './TrendsPanel';
-import TrendChart from './TrendChart';
+import XReachPanel from './XReachPanel';
 import {
   InsightList, JourneyCard, Unavailable, dayLabel, fmt, fold, sessionHref, statsHref, sum, thead,
   timeET, timeOnlyET, topJourneys,
@@ -44,15 +44,7 @@ export default async function AnalyticsPage() {
   const d7 = data.days.slice(0, 7);
   const prev7 = data.days.slice(7, 14);
   const d30 = data.days.slice(0, 30);
-  const weekAgo = data.generatedAt - 7 * 86_400_000;
 
-  // "Deepest" = most texts actually read, then longest.
-  const deepest =
-    readerSessions(data.sessions)
-      .filter((s) => s.end >= weekAgo)
-      .map((s) => ({ s, reads: s.events.filter((e) => e.type === 'read').length }))
-      .filter((x) => x.reads > 0)
-      .sort((a, b) => b.reads - a.reads || b.s.mins - a.s.mins)[0]?.s ?? null;
   const insights = buildInsights({
     movers: data.movers,
     aiRef: data.aiRef,
@@ -64,9 +56,16 @@ export default async function AnalyticsPage() {
     follows7: sum(d7, (r) => r.follows),
     followsPrev7: sum(prev7, (r) => r.follows),
     newAccounts7: accounts?.last7 ?? 0,
-    topJourney: deepest,
     completion: data.completion.n > 0 ? data.completion : null,
   });
+  // data.days[0] is today, still partial — yesterday vs. the day before is
+  // the freshest apples-to-apples comparison there is, and it moves every
+  // day instead of once a week.
+  const freshInsights = data.days[1] && data.days[2] ? buildFreshInsights(data.days[1], data.days[2]) : [];
+  // The single most notable visit in the last day and a half — not the
+  // week's best (that's "Journeys" below), the most recent thing worth a
+  // look right now.
+  const freshJourney = topJourneys(data, 1, 36 * 3_600_000)[0] ?? null;
 
   const openOpps = buildOpportunities(data, gsc).filter((o) => !statuses[o.id]);
   const journeys = topJourneys(data, 3);
@@ -105,6 +104,19 @@ export default async function AnalyticsPage() {
         </div>
       </details>
 
+      {(freshInsights.length > 0 || freshJourney) && (
+        <section className="mt-6 rounded-lg border border-gray-200 dark:border-gray-800 px-3 py-3 sm:px-4">
+          <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Since yesterday</h2>
+          {freshInsights.length > 0 && <InsightList insights={freshInsights} />}
+          {freshJourney && (
+            <div className="mt-2.5 pt-2.5 border-t border-gray-100 dark:border-gray-800">
+              <p className="text-xs text-gray-400 mb-1">Most notable visit in the last day and a half:</p>
+              <JourneyCard s={freshJourney} />
+            </div>
+          )}
+        </section>
+      )}
+
       {(insights.length > 0 || reachInsights.length > 0) && (
         <section className="mt-6 rounded-lg border border-gray-200 dark:border-gray-800 px-3 py-3 sm:px-4">
           <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">This week</h2>
@@ -113,68 +125,40 @@ export default async function AnalyticsPage() {
       )}
 
       {reach && (
-        <section className="mt-8">
-          <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">X, and what it sends here</h2>
-            <Link href="/analytics/x" className="text-xs text-gray-500 underline">the X room →</Link>
-          </div>
-          <p className="mt-1 text-xs text-gray-400">
-            The @centerstudy_ account next to the site’s own visit log — not just X on its own. Followers in{' '}
-            <Link href="/analytics/growth" className="underline">Growth</Link>.
-          </p>
-          <div className="mt-3 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
-            <TrendChart
-              title="X impressions / day"
-              points={reach.impressions.map((p) => ({ label: dayLabel(p.day), value: p.value }))}
-              colorClass="text-[#2a78d6] dark:text-[#3987e5]"
-              headline={fmt(reach.impressions.slice(-7).reduce((a, p) => a + p.value, 0))}
-              deltaPct={null}
-              deltaVs=""
-              note="last 7 days"
-            />
-            <TrendChart
-              title="Site visits from X / day"
-              points={reach.siteVisits.map((p) => ({ label: dayLabel(p.day), value: p.value }))}
-              colorClass="text-[#eb6834] dark:text-[#d95926]"
-              headline={fmt(reach.siteVisits.slice(-7).reduce((a, p) => a + p.value, 0))}
-              deltaPct={null}
-              deltaVs=""
-              note="last 7 days"
-            />
-            {reach.followers.length >= 2 ? (
-              <TrendChart
-                title="X followers"
-                points={reach.followers.map((p) => ({ label: dayLabel(p.day), value: p.value }))}
-                colorClass="text-[#1baf7a] dark:text-[#199e70]"
-                headline={fmt(reach.followers[reach.followers.length - 1].value)}
-                deltaPct={null}
-                deltaVs=""
-              />
-            ) : (
-              <div className="min-w-0">
-                <div className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">X followers</div>
-                <p className="mt-2 text-xs text-gray-400 dark:text-gray-600">Fills in after a day or two of tracking — see Growth.</p>
-              </div>
-            )}
-            {reach.xShareOfReferred.length >= 2 ? (
-              <TrendChart
-                title="X, share of referred visits"
-                points={reach.xShareOfReferred.map((p) => ({ label: dayLabel(p.day), value: p.value }))}
-                colorClass="text-[#6250d6] dark:text-[#9085e9]"
-                headline={`${reach.xShareOfReferred[reach.xShareOfReferred.length - 1].value}%`}
-                deltaPct={null}
-                deltaVs=""
-                note="of days with any referral"
-              />
-            ) : (
-              <div className="min-w-0">
-                <div className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">X, share of referred visits</div>
-                <p className="mt-2 text-xs text-gray-400 dark:text-gray-600">Needs a few days with referred arrivals to show a trend.</p>
-              </div>
-            )}
-          </div>
-        </section>
+        <XReachPanel
+          impressions={reach.impressions}
+          siteVisits={reach.siteVisits}
+          followers={reach.followers}
+          xShareOfReferred={reach.xShareOfReferred}
+        />
       )}
+
+      <section className="mt-8">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Latest searches</h2>
+          <Link href="/analytics/searches" className="text-xs text-gray-500 underline">all searches →</Link>
+        </div>
+        <ol className="mt-2 space-y-1 text-sm">
+          {(latestDay?.items ?? []).slice(-8).reverse().map((s, i) => {
+            const href = sessionHref(data, s.sid, s.t);
+            return (
+              <li key={i} className="flex flex-wrap items-baseline gap-x-2">
+                <span className="w-16 shrink-0 text-xs tabular-nums text-gray-400">{timeOnlyET.format(s.t)}</span>
+                <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">“{s.q}”</span>
+                {s.n === 0 && <span className="text-xs text-rose-600 dark:text-rose-300">0 results</span>}
+                {href && <Link href={href} className="text-xs text-gray-500 underline">visit →</Link>}
+              </li>
+            );
+          })}
+          {!latestDay && <li className="text-gray-400">Nothing logged yet.</li>}
+        </ol>
+        {latestDay && (
+          <p className="mt-1 text-xs text-gray-400">
+            {dayLabel(latestDay.day, true)}{' · '}{latestDay.n}{' search'}{latestDay.n === 1 ? '' : 'es'}
+            {latestDay.sids > 0 && <>{' by '}{latestDay.sids}{' visitor'}{latestDay.sids === 1 ? '' : 's'}</>}
+          </p>
+        )}
+      </section>
 
       <section className="mt-8">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -184,7 +168,7 @@ export default async function AnalyticsPage() {
           </Link>
         </div>
         <p className="mt-1 text-xs text-gray-400">
-          Demand the site isn’t meeting yet — from Google, the site’s own search, Ask and how far readers get. Tick one off when it’s handled.
+          What readers looked for and didn’t find, click, or get an answer to. Read these as hints worth a skim, not a verdict — a search that keeps recurring means more than one that happened once and never came back.
         </p>
         <OppList
           compact
@@ -194,53 +178,25 @@ export default async function AnalyticsPage() {
         />
       </section>
 
-      <div className="mt-8 grid gap-8 sm:grid-cols-2">
-        <section>
-          <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Latest searches</h2>
-            <Link href="/analytics/searches" className="text-xs text-gray-500 underline">all searches →</Link>
-          </div>
-          <ol className="mt-2 space-y-1 text-sm">
-            {(latestDay?.items ?? []).slice(-8).reverse().map((s, i) => {
-              const href = sessionHref(data, s.sid, s.t);
-              return (
-                <li key={i} className="flex flex-wrap items-baseline gap-x-2">
-                  <span className="w-16 shrink-0 text-xs tabular-nums text-gray-400">{timeOnlyET.format(s.t)}</span>
-                  <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">“{s.q}”</span>
-                  {s.n === 0 && <span className="text-xs text-rose-600 dark:text-rose-300">0 results</span>}
-                  {href && <Link href={href} className="text-xs text-gray-500 underline">visit →</Link>}
-                </li>
-              );
-            })}
-            {!latestDay && <li className="text-gray-400">Nothing logged yet.</li>}
-          </ol>
-          {latestDay && (
-            <p className="mt-1 text-xs text-gray-400">
-              {dayLabel(latestDay.day, true)}{' · '}{latestDay.n}{' search'}{latestDay.n === 1 ? '' : 'es'}
-              {latestDay.sids > 0 && <>{' by '}{latestDay.sids}{' visitor'}{latestDay.sids === 1 ? '' : 's'}</>}
-            </p>
-          )}
-        </section>
-        <section>
-          <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Read most recently</h2>
-            <Link href="/analytics/reading" className="text-xs text-gray-500 underline">reading →</Link>
-          </div>
-          <ol className="mt-2 space-y-1 text-sm">
-            {data.recentReads.slice(0, 7).map((r, i) => (
-              <li key={i} className="flex flex-wrap items-baseline gap-x-2">
-                <span className="w-28 shrink-0 text-xs tabular-nums text-gray-400">{timeET.format(r.t)}</span>
-                {statsHref(r.href) ? (
-                  <Link href={statsHref(r.href)!} className="min-w-0 break-words text-gray-900 dark:text-gray-100 hover:underline">{r.title}</Link>
-                ) : (
-                  <span className="min-w-0 break-words text-gray-900 dark:text-gray-100">{r.title}</span>
-                )}
-              </li>
-            ))}
-            {data.recentReads.length === 0 && <li className="text-gray-400">No completed reads logged yet.</li>}
-          </ol>
-        </section>
-      </div>
+      <section className="mt-8">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Read most recently</h2>
+          <Link href="/analytics/reading" className="text-xs text-gray-500 underline">reading →</Link>
+        </div>
+        <ol className="mt-2 space-y-1 text-sm">
+          {data.recentReads.slice(0, 7).map((r, i) => (
+            <li key={i} className="flex flex-wrap items-baseline gap-x-2">
+              <span className="w-28 shrink-0 text-xs tabular-nums text-gray-400">{timeET.format(r.t)}</span>
+              {statsHref(r.href) ? (
+                <Link href={statsHref(r.href)!} className="min-w-0 break-words text-gray-900 dark:text-gray-100 hover:underline">{r.title}</Link>
+              ) : (
+                <span className="min-w-0 break-words text-gray-900 dark:text-gray-100">{r.title}</span>
+              )}
+            </li>
+          ))}
+          {data.recentReads.length === 0 && <li className="text-gray-400">No completed reads logged yet.</li>}
+        </ol>
+      </section>
 
       <section className="mt-8">
         <div className="flex flex-wrap items-baseline justify-between gap-2">

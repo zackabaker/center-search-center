@@ -93,11 +93,11 @@ export function InsightList({ insights }: { insights: Insight[] }) {
   );
 }
 
-/** The week's reader visits worth a card, most notable first. */
-export function topJourneys(data: StudyData, cap: number): SessionView[] {
-  const weekAgo = data.generatedAt - 7 * 86_400_000;
+/** The window's reader visits worth a card, most notable first. Defaults to the week. */
+export function topJourneys(data: StudyData, cap: number, sinceMs = 7 * 86_400_000): SessionView[] {
+  const since = data.generatedAt - sinceMs;
   return data.sessions
-    .filter((s) => !s.mine && !s.crawler && s.kind === 'live' && s.end >= weekAgo)
+    .filter((s) => !s.mine && !s.crawler && s.kind === 'live' && s.end >= since)
     .sort((a, b) => b.score - a.score)
     .slice(0, cap);
 }

@@ -1,4 +1,4 @@
-import type { SessionView } from './data';
+import type { SessionView, DayRow } from './data';
 import { aiReferrer } from '@/lib/ai-agents';
 
 // Pure derivations over the session episodes the data layer already builds —
@@ -210,7 +210,9 @@ export function buildInsights(input: {
   follows7: number;
   followsPrev7: number;
   newAccounts7: number;
-  topJourney: SessionView | null;
+  /** Omit on the live Overview — its own "Since yesterday" card covers this
+   *  more freshly. The weekly digest (email + archive) still wants it. */
+  topJourney?: SessionView | null;
   completion: { n: number; reach75: number } | null;
 }): Insight[] {
   const out: Insight[] = [];
@@ -318,6 +320,44 @@ export function buildInsights(input: {
         `Deepest visit: ${j.mins} min, ${reads > 0 ? `${reads} text${reads === 1 ? '' : 's'} read` : `${j.texts} text${j.texts === 1 ? '' : 's'} opened`}` +
         (j.ref ? `, arriving from ${sourceName(j.ref)}` : ''),
       href: `/analytics/session/${j.id}`,
+    });
+  }
+  return out;
+}
+
+/**
+ * "Since yesterday" — the one thing on the Overview worth re-checking more
+ * than once a week. Weekly deltas barely move day to day; yesterday vs. the
+ * day before it is a comparison that's actually fresh on every visit.
+ * Yesterday is used (not today) because today is still partial.
+ */
+export function buildFreshInsights(yesterday: DayRow, dayBefore: DayRow): Insight[] {
+  const out: Insight[] = [];
+  if (yesterday.readers !== null) {
+    const p = pct(yesterday.readers, dayBefore.readers ?? 0);
+    out.push({
+      text: `${yesterday.readers} reader${yesterday.readers === 1 ? '' : 's'} yesterday` + (p !== null ? ` (${signed(p)} vs. the day before)` : ''),
+      tone: p !== null ? (p >= 0 ? 'up' : 'down') : undefined,
+    });
+  }
+  const ySearches = Math.max(0, yesterday.searches - yesterday.searchesMine);
+  const bSearches = Math.max(0, dayBefore.searches - dayBefore.searchesMine);
+  if (ySearches > 0 || bSearches > 0) {
+    const p = pct(ySearches, bSearches);
+    out.push({
+      text: `${ySearches} search${ySearches === 1 ? '' : 'es'} yesterday` + (p !== null ? ` (${signed(p)})` : ''),
+      href: '/analytics/searches',
+      tone: p !== null ? (p >= 0 ? 'up' : 'down') : undefined,
+    });
+  }
+  const yReads = Math.max(0, yesterday.reads - yesterday.readsMine);
+  const bReads = Math.max(0, dayBefore.reads - dayBefore.readsMine);
+  if (yReads > 0 || bReads > 0) {
+    const p = pct(yReads, bReads);
+    out.push({
+      text: `${yReads} text${yReads === 1 ? '' : 's'} read yesterday` + (p !== null ? ` (${signed(p)})` : ''),
+      href: '/analytics/reading',
+      tone: p !== null ? (p >= 0 ? 'up' : 'down') : undefined,
     });
   }
   return out;

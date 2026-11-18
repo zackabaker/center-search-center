@@ -12,21 +12,22 @@ import { getKV } from './kv';
 import type { GscSnapshot } from './gsc';
 import type { StudyData } from '@/app/analytics/data';
 import { getPublicPosts } from './parser';
-import { buildSearchEntries, buildWordIndex, searchEntries } from './search-index';
+import { contentWordsOf } from './search-index';
 
 // A "0 results" search log is only true of the moment it happened — the
 // corpus or the search code may have moved on since (a page added, a search
-// bug fixed). Re-running the query against the CURRENT index before trusting
-// it keeps resolved gaps from haunting this list forever. Built lazily, once,
-// only if there's a zero-result item to check.
-let _liveIndex: ReturnType<typeof buildSearchEntries> | null = null;
-let _liveWordIndex: ReturnType<typeof buildWordIndex> | null = null;
+// bug fixed). Re-checking it keeps resolved gaps from haunting this list
+// forever. A cheap substring/AND-of-words scan over the already-cached raw
+// posts — not the full search-index build (contentWords + snippets for the
+// whole corpus), which costs over a second and has no business running on
+// every /analytics load just to recheck a handful of old queries.
+let _lowerContents: string[] | null = null;
 function stillEmpty(query: string): boolean {
-  if (!_liveIndex) {
-    _liveIndex = buildSearchEntries(getPublicPosts());
-    _liveWordIndex = buildWordIndex(_liveIndex);
-  }
-  return searchEntries(_liveIndex, query, _liveWordIndex!).length === 0;
+  if (!_lowerContents) _lowerContents = getPublicPosts().map((p) => p.content.toLowerCase());
+  const phrase = query.toLowerCase().trim();
+  const words = contentWordsOf(query);
+  if (words.length === 0) return false;
+  return !_lowerContents.some((c) => c.includes(phrase) || words.every((w) => c.includes(w)));
 }
 
 export type OppKind = 'google' | 'search' | 'ask' | 'depth' | 'broken';

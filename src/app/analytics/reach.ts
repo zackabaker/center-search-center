@@ -13,9 +13,14 @@ const DAY = 86_400_000;
 const POST_WINDOW = 2 * DAY; // site visits credited to a post: the 48h after it
 const utcDay = (t: number) => new Date(t).toISOString().slice(0, 10);
 
+// 90 days, not 30 — matches the site's own retention (see data.ts) and
+// gives the Daily/Weekly/Monthly toggle on the Overview enough history for
+// the weekly and monthly views to show more than a point or two.
+const WINDOW_DAYS = 90;
+
 export type ReachCharts = {
-  impressions: { day: string; value: number }[]; // 30d, oldest first
-  siteVisits: { day: string; value: number }[]; // 30d, oldest first
+  impressions: { day: string; value: number }[]; // 90d, oldest first
+  siteVisits: { day: string; value: number }[]; // 90d, oldest first
   followers: { day: string; value: number }[]; // whatever history is stored
   xShareOfReferred: { day: string; value: number }[]; // 0-100, days with any referred visit
   topPost: { text: string; url: string; arrivals: number } | null;
@@ -24,19 +29,19 @@ export type ReachCharts = {
 export function buildReachCharts(data: StudyData, xSnap: XSnapshot | null, growth: GrowthSeries[]): ReachCharts | null {
   if (!xSnap) return null;
   const now = Date.now();
-  const days30 = Array.from({ length: 30 }, (_, i) => utcDay(now - (29 - i) * DAY));
+  const daysN = Array.from({ length: WINDOW_DAYS }, (_, i) => utcDay(now - (WINDOW_DAYS - 1 - i) * DAY));
   const own = xSnap.posts.filter((p) => p.kind !== 'reply');
   const acctByDay = new Map(xSnap.acct.map((d) => [d.day, d]));
 
   const viewsOnDay = new Map<string, number>();
   for (const p of own) viewsOnDay.set(utcDay(p.t), (viewsOnDay.get(utcDay(p.t)) ?? 0) + p.v);
-  const impressions = days30.map((d) => ({ day: d, value: acctByDay.get(d)?.imp ?? viewsOnDay.get(d) ?? 0 }));
+  const impressions = daysN.map((d) => ({ day: d, value: acctByDay.get(d)?.imp ?? viewsOnDay.get(d) ?? 0 }));
 
   const sessions = data.allSessions ?? [];
   const fromX = sessions.filter((s) => !!s.ref && sourceName(s.ref) === 'X' && !s.mine && !s.crawler);
   const xArrivalsOnDay = new Map<string, number>();
   for (const s of fromX) xArrivalsOnDay.set(utcDay(s.start), (xArrivalsOnDay.get(utcDay(s.start)) ?? 0) + 1);
-  const siteVisits = days30.map((d) => ({ day: d, value: xArrivalsOnDay.get(d) ?? 0 }));
+  const siteVisits = daysN.map((d) => ({ day: d, value: xArrivalsOnDay.get(d) ?? 0 }));
 
   // Share of referred visits, by day: of everyone who arrived with ANY
   // referrer that day, what fraction's referrer was X. Days with no
@@ -44,12 +49,12 @@ export function buildReachCharts(data: StudyData, xSnap: XSnapshot | null, growt
   const referred = sessions.filter((s) => !!s.ref && !s.mine && !s.crawler);
   const refTotalOnDay = new Map<string, number>();
   for (const s of referred) { const d = utcDay(s.start); refTotalOnDay.set(d, (refTotalOnDay.get(d) ?? 0) + 1); }
-  const xShareOfReferred = days30
+  const xShareOfReferred = daysN
     .filter((d) => (refTotalOnDay.get(d) ?? 0) > 0)
     .map((d) => ({ day: d, value: Math.round(((xArrivalsOnDay.get(d) ?? 0) / refTotalOnDay.get(d)!) * 100) }));
 
   const followerSeries = growth.find((s) => s.key === 'x:centerstudy_');
-  const followers = (followerSeries?.points ?? []).slice(-60);
+  const followers = (followerSeries?.points ?? []).slice(-WINDOW_DAYS);
 
   // The post from the last 7 days that sent the most site visits in the
   // 48h after it went out.
