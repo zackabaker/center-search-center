@@ -248,6 +248,27 @@ export function PostContent({ content, postTitle = '', postUrl = '', linksEnable
     return { isBlockquote, isHeading, isDivider, isBouvardLabel, questionCard, text, nodes };
   });
 
+  // An "Abstract" heading reads exactly like any other section heading —
+  // same weight, same size — so a reader can't tell it's front matter rather
+  // than where the essay itself begins (owner feedback, "There Is No
+  // Economy"). When one appears, set it and whatever follows, up to the
+  // next divider or heading (its body text, a "Keywords:" line, …), apart
+  // in one quiet card instead. Capped at 6 paragraphs so a malformed post
+  // with no closing divider can't swallow the whole piece.
+  const abstractAt = linkedParagraphs.findIndex(
+    (p) => p.isHeading && p.text.replace(/^#{1,3}\s/, '').trim().toLowerCase() === 'abstract',
+  );
+  let abstractEnd = -1;
+  if (abstractAt !== -1) {
+    abstractEnd = linkedParagraphs.findIndex(
+      (p, i) => i > abstractAt && (p.isDivider || p.isHeading || i - abstractAt > 6),
+    );
+    if (abstractEnd === -1) abstractEnd = linkedParagraphs.length;
+  }
+  // The divider right after an abstract card is redundant — the card's own
+  // edge already marks where the essay proper begins.
+  const skipDivider = abstractEnd !== -1 && linkedParagraphs[abstractEnd]?.isDivider ? abstractEnd : -1;
+
   function copyAnchor(id: string) {
     const url =
       window.location.origin + window.location.pathname + '#' + id;
@@ -282,6 +303,47 @@ export function PostContent({ content, postTitle = '', postUrl = '', linksEnable
             {copiedId === id ? '✓' : '¶'}
           </button>
         );
+
+        // ── Abstract card: the heading and everything up to the next divider
+        // or heading, set apart as front matter (see abstractAt/abstractEnd
+        // above). Paragraphs already folded into the card at i === abstractAt
+        // render nothing of their own here. ───────────────────────────────
+        if (i === abstractAt) {
+          const inner = linkedParagraphs.slice(abstractAt + 1, abstractEnd);
+          return (
+            <div
+              key={id}
+              id={id}
+              className="group relative scroll-mt-20 rounded border border-gray-200 dark:border-gray-700 bg-gray-50/70 dark:bg-gray-800/40 px-5 py-4"
+            >
+              {pilcrow}
+              <p className="text-xs font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400">Abstract</p>
+              <div className="mt-2.5 space-y-3" style={{ fontSize: '0.95em' }}>
+                {inner.map((p, j) => {
+                  const innerId = `p-${abstractAt + 1 + j + 1}`;
+                  // "Keywords: ..." is a tag list, not prose — a caption, not
+                  // another italicized sentence of the abstract.
+                  const isKeywords = /^keywords:/i.test(p.text.trim());
+                  return (
+                    <p
+                      key={innerId}
+                      id={innerId}
+                      className={
+                        isKeywords
+                          ? 'text-xs not-italic text-gray-500 dark:text-gray-400 pt-1 border-t border-gray-200 dark:border-gray-700'
+                          : 'italic text-gray-700 dark:text-gray-300'
+                      }
+                    >
+                      {p.nodes}
+                    </p>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        }
+        if (abstractAt !== -1 && i > abstractAt && i < abstractEnd) return null;
+        if (i === skipDivider) return null;
 
         // ── Horizontal rule (between Q&A exchanges) ───────────────────────────
         if (isDivider) {
