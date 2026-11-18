@@ -11,6 +11,7 @@ const ROOMS: [href: string, label: string, alsoUnder?: string][] = [
   ['/analytics/opportunities', 'Opportunities'],
   ['/analytics/searches', 'Searches'],
   ['/analytics/sources', 'Sources'],
+  ['/analytics/x', 'X'],
   ['/analytics/reading', 'Reading', '/analytics/post/'],
   ['/analytics/journeys', 'Journeys'],
   ['/analytics/answers', 'Answers'],
