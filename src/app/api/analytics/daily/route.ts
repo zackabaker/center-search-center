@@ -3,7 +3,7 @@ import { getKV } from '@/lib/kv';
 import { gscConfigured, syncGsc } from '@/lib/gsc';
 import { runCitationChecks } from '@/lib/ai-citations';
 import { syncX, xConfigured } from '@/lib/x-analytics';
-import { recordAutoFollowerCounts, recordSubstackFloors } from '@/lib/growth';
+import { recordAutoFollowerCounts } from '@/lib/growth';
 
 // The console's daily upkeep, run by the Vercel cron in vercel.json: refresh
 // the Search Console snapshot, and re-ask the two AI-citation questions that
@@ -25,16 +25,14 @@ export async function GET(request: Request) {
     return Response.json({ ok: true, skipped: true });
   }
   // Also the newest hundred posts of the Center Study X account with their
-  // public numbers (src/lib/x-analytics.ts), the day's follower count for
-  // every X account this site can read, and the public "hundreds of
-  // subscribers"-style floor Substack prints for any publication it tracks
-  // (src/lib/growth.ts) — all cheap, no-login lookups, so every one runs daily.
-  const [gsc, cites, x, followers, substack] = await Promise.allSettled([
+  // public numbers (src/lib/x-analytics.ts), and the day's follower count
+  // for every X account this site can read (src/lib/growth.ts) — cheap,
+  // no-login lookups, so both run daily.
+  const [gsc, cites, x, followers] = await Promise.allSettled([
     gscConfigured() ? syncGsc() : Promise.resolve(null),
     runCitationChecks(2),
     xConfigured() ? syncX() : Promise.resolve(null),
     recordAutoFollowerCounts(),
-    recordSubstackFloors(),
   ]);
   return Response.json({
     ok: true,
@@ -42,6 +40,5 @@ export async function GET(request: Request) {
     citations: cites.status === 'fulfilled',
     x: x.status === 'fulfilled',
     followers: followers.status === 'fulfilled' ? followers.value : null,
-    substack: substack.status === 'fulfilled' ? substack.value : null,
   });
 }

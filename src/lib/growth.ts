@@ -8,10 +8,15 @@ import { getKV } from './kv';
 //     recordAutoFollowerCounts(), which reads the X accounts this site
 //     already has a bearer token for;
 //   - manual: the owner types a number into the room, for anything with no
-//     API this site can reach (Substack subscribers, a generativeanthropology.com
-//     analytics number, …) — src/app/api/analytics/growth/route.ts.
+//     API this site can reach (generativeanthropology.com's own analytics,
+//     etc.) — src/app/api/analytics/growth/route.ts.
 // Re-recording the same day replaces that day's value, so nothing breaks if
 // the cron and a manual entry both touch the same day.
+//
+// Substack subscriber tracking (a public "hundreds of subscribers"-style
+// floor Substack prints on its own homepage, no login needed) was tried and
+// removed at the owner's request, 2026-11-18 — too coarse to be worth a
+// series of its own. If it comes back, read the commit that added it.
 
 export type GrowthPoint = { day: string; value: number };
 export type GrowthSeries = { key: string; label: string; unit: string; auto: boolean; points: GrowthPoint[] };
@@ -121,54 +126,13 @@ export function keyFromLabel(label: string): string {
   return `manual:${slug || 'series'}`;
 }
 
-// ── Substack: no exact count without signing in, but a rounded floor IS
-// public ───────────────────────────────────────────────────────────────────
-// Substack's own homepage meta description says "...a Substack publication
-// with hundreds of subscribers" (or thousands, tens of thousands, ...) —
-// nothing finer than that bucket, and no number the author hasn't opted to
-// round. That bucket is still worth charting: it steps up only when a real
-// milestone is crossed, with no login needed, so it runs daily for free.
-// For the real number, the owner reads it off Substack's own dashboard
-// (substack.com/publish/stats) and types it into the room — the two are
-// kept as separate series on purpose, since mixing an exact count with a
-// rounded floor on one line would make the floor look like real data.
-export const PUBLIC_SUBSTACKS: { key: string; host: string; label: string }[] = [
-  { key: 'substack:dennisbouvard:floor', host: 'dennisbouvard.substack.com', label: 'Substack (public floor) — Dennis Bouvard' },
-];
-
-const SUBSTACK_BUCKETS: [RegExp, number][] = [
-  [/a handful of/i, 5],
-  [/dozens of/i, 24],
-  [/hundreds of/i, 100],
-  [/thousands of/i, 1_000],
-  [/tens of thousands of/i, 10_000],
-  [/hundreds of thousands of/i, 100_000],
-];
-
-async function substackFloor(host: string): Promise<number | null> {
-  const res = await fetch(`https://${host}/`, { headers: { 'User-Agent': 'Mozilla/5.0' }, cache: 'no-store' });
-  if (!res.ok) return null;
-  const html = await res.text();
-  const m = html.match(/content="[^"]*?with ([a-z\s]+?) subscribers\.?"/i);
-  if (!m) return null;
-  const hit = SUBSTACK_BUCKETS.find(([re]) => re.test(m[1]));
-  return hit ? hit[1] : null;
-}
-
-/** Called by the daily job, alongside the X follower lookups. */
-export async function recordSubstackFloors(): Promise<{ recorded: string[]; failed: string[] }> {
-  const day = new Date().toISOString().slice(0, 10);
-  const recorded: string[] = [];
-  const failed: string[] = [];
-  for (const pub of PUBLIC_SUBSTACKS) {
-    try {
-      const n = await substackFloor(pub.host);
-      if (n === null) { failed.push(pub.key); continue; }
-      await recordPoint(pub.key, pub.label, 'subscribers, at least', true, day, n);
-      recorded.push(pub.key);
-    } catch {
-      failed.push(pub.key);
-    }
+/** Drop a series entirely — its meta and every point. Owner action only (see the growth route). */
+export async function removeSeries(key: string): Promise<void> {
+  const kv = getKV();
+  if (!kv) {
+    mem.series.delete(key);
+    mem.points.delete(key);
+    return;
   }
-  return { recorded, failed };
+  await Promise.all([kv.hdel(SERIES_KEY, key), kv.del(pointsKey(key))]);
 }
