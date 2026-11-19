@@ -35,6 +35,7 @@ import SceneMark from '@/components/SceneMark';
 import SemanticResults from './SemanticResults';
 import SearchViews from '@/components/SearchViews';
 import ConceptCard from '@/components/ConceptCard';
+import SearchAnswer from '@/components/SearchAnswer';
 import { queryShape, searchHref } from '@/lib/query-shape';
 import { activeExpansions } from '@/lib/vocab';
 
@@ -666,6 +667,8 @@ export default function SearchPageClient({
       <div className="mb-6">
         {/* Concept card — first, whenever the query names a curated concept */}
         <ConceptCard query={query.trim() || committed} className="mt-4" />
+        {/* The same search as an AI answer: shown in full for a concept, linked otherwise. */}
+        <SearchAnswer query={committed} className="mt-4" />
 
       </div>
 
