@@ -47,7 +47,15 @@ export async function rememberOwnerNetwork(kv: Redis, headers: HeaderReader): Pr
 
 /** Is this request the owner's — by session, or by one of his networks? */
 export async function isOwnerRequest(kv: Redis | null, request: Request): Promise<boolean> {
-  if (isOwnerUser(getUser(request))) return true;
+  if (isOwnerUser(getUser(request))) {
+    // Caught him by his signed-in session, on whatever device or network —
+    // seed that network now too, so the NEXT visit from here is caught even
+    // signed out (previously this only happened from an actual /analytics
+    // visit, so a phone he reads on while signed in, but never opens the
+    // console from, never got remembered).
+    if (kv) rememberOwnerNetwork(kv, request.headers).catch(() => {});
+    return true;
+  }
   if (!kv) return false;
   const h = ipHash(request.headers);
   if (!h) return false;

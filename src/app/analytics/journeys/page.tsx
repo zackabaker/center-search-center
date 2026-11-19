@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { loadConsole } from '../load';
 import { JourneyCard, RoomHead, Unavailable, fold, sessionHref, timeET, topJourneys } from '../ui';
+import { readGscSnapshot } from '@/lib/gsc';
 
 // /analytics/journeys — the week's most engaged visits as readable cards
 // (who they are, where they came from, what they did), how far a generated
@@ -11,6 +12,7 @@ export const dynamic = 'force-dynamic';
 export default async function JourneysPage() {
   const data = await loadConsole();
   if (!data) return <Unavailable />;
+  const gsc = await readGscSnapshot().catch(() => null);
   const journeys = topJourneys(data, 12);
   const f = data.beginFunnel;
 
@@ -30,7 +32,7 @@ export default async function JourneysPage() {
         </p>
       )}
       <ol className="mt-4 space-y-3">
-        {journeys.map((s) => <JourneyCard key={s.id} s={s} />)}
+        {journeys.map((s) => <JourneyCard key={s.id} s={s} gsc={gsc} />)}
         {journeys.length === 0 && <li className="text-sm text-gray-400">No engaged visits in the last 7 days.</li>}
       </ol>
 

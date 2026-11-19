@@ -25,8 +25,8 @@ export default async function OpportunitiesPage() {
 
   return (
     <>
-      <RoomHead title="Opportunities">
-        Demand the site isn’t meeting yet: queries where Google shows you and nobody clicks, searches here that opened nothing, questions Ask couldn’t answer, texts readers abandon, and links that lead nowhere. Strongest evidence first.
+      <RoomHead title="Dead ends">
+        Where readers got stuck: queries where Google shows you and nobody clicks, searches here that opened nothing, questions Ask couldn’t answer, texts readers abandon, and links that lead nowhere. Read as hints, not verdicts — one that keeps recurring means more than one that happened once. Strongest evidence first.
       </RoomHead>
       <OppList items={open} />
       {handled.length > 0 && (

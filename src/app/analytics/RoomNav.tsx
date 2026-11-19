@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 
 const ROOMS: [href: string, label: string, alsoUnder?: string][] = [
   ['/analytics', 'Overview'],
-  ['/analytics/opportunities', 'Opportunities'],
+  ['/analytics/opportunities', 'Dead ends'],
   ['/analytics/searches', 'Searches'],
   ['/analytics/sources', 'Sources'],
   ['/analytics/x', 'X'],

@@ -73,13 +73,22 @@ export default async function AnalyticsPage() {
   // The owner's notes, the corpus's own events (a new essay published), and
   // X posting days — so the readers/searches/reads charts above can show
   // whether a day with more posts on X was also a day with more of either,
-  // without a chart of its own.
-  const xPostDays = new Map<string, number>();
+  // without a chart of its own. The mark's text carries the actual post(s),
+  // not just a count — the point of marking a spike is answering "what did
+  // I post that did this," right there on hover, with no click required.
+  const xPostsByDay = new Map<string, { text: string; v: number }[]>();
   for (const p of xSnap?.posts.filter((p) => p.kind !== 'reply') ?? []) {
     const d = new Date(p.t).toISOString().slice(0, 10);
-    xPostDays.set(d, (xPostDays.get(d) ?? 0) + 1);
+    const text = p.text.replace(/https:\/\/t\.co\/\S+/g, '').trim().replace(/^["“”']+|["“”']+$/g, '').trim().slice(0, 60);
+    (xPostsByDay.get(d) ?? xPostsByDay.set(d, []).get(d)!).push({ text, v: p.v });
   }
-  const xPostNotes = [...xPostDays.entries()].map(([day, n]) => ({ day, label: `${n} post${n > 1 ? 's' : ''} on X` }));
+  const xPostNotes = [...xPostsByDay.entries()].map(([day, posts]) => ({
+    day,
+    label: posts
+      .sort((a, b) => b.v - a.v)
+      .map((p) => `“${p.text}”${p.v > 0 ? ` (${p.v.toLocaleString('en-US')} views)` : ''}`)
+      .join(' · '),
+  }));
   const chartNotes = [...notes, ...recentPostNotes(), ...xPostNotes];
   const reachInsights = buildReachInsights(reach);
 
@@ -111,7 +120,7 @@ export default async function AnalyticsPage() {
           {freshJourney && (
             <div className="mt-2.5 pt-2.5 border-t border-gray-100 dark:border-gray-800">
               <p className="text-xs text-gray-400 mb-1">Most notable visit in the last day and a half:</p>
-              <JourneyCard s={freshJourney} />
+              <JourneyCard s={freshJourney} gsc={gsc} />
             </div>
           )}
         </section>
@@ -162,7 +171,7 @@ export default async function AnalyticsPage() {
 
       <section className="mt-8">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Worth doing</h2>
+          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Dead ends</h2>
           <Link href="/analytics/opportunities" className="text-xs text-gray-500 underline">
             {'all '}{openOpps.length}{' open →'}
           </Link>
@@ -204,7 +213,7 @@ export default async function AnalyticsPage() {
           <Link href="/analytics/journeys" className="text-xs text-gray-500 underline">all journeys →</Link>
         </div>
         <ol className="mt-3 space-y-3">
-          {journeys.map((s) => <JourneyCard key={s.id} s={s} />)}
+          {journeys.map((s) => <JourneyCard key={s.id} s={s} gsc={gsc} />)}
           {journeys.length === 0 && <li className="text-sm text-gray-400">No engaged visits in the last 7 days.</li>}
         </ol>
       </section>

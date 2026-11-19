@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import type { DayRow, SessionView, StudyData } from './data';
 import type { Insight } from './derive';
+import { sourceName } from './derive';
+import type { GscSnapshot } from '@/lib/gsc';
 
 // Shared pieces for the console's rooms: formatters, link helpers, and the
 // two cards (a journey digest, a list of insight sentences) that appear in
@@ -102,16 +104,23 @@ export function topJourneys(data: StudyData, cap: number, sinceMs = 7 * 86_400_0
     .slice(0, cap);
 }
 
-/** One visit as a digest: who, from where, what they searched, read, followed. */
-export function JourneyCard({ s }: { s: SessionView }) {
+/**
+ * One visit as a digest: who, from where, what they searched, read, followed.
+ * `gsc`, when given, lets a visit that arrived from Google show the queries
+ * that actually send people to its landing page — not THE query (no referrer
+ * carries that once a search leaves Google), but the closest honest guess:
+ * what Search Console says that exact page ranks for.
+ */
+export function JourneyCard({ s, gsc }: { s: SessionView; gsc?: GscSnapshot | null }) {
   const seen = new Set<string>();
   const searches: string[] = [];
   const reads: { label: string; href?: string }[] = [];
   const follows: string[] = [];
   const begins: { label: string; href?: string }[] = [];
   let landing: string | undefined;
+  let landingHref: string | undefined;
   for (const e of s.events) {
-    if (e.type === 'page' && landing === undefined) landing = e.label;
+    if (e.type === 'page' && landing === undefined) { landing = e.label; landingHref = e.href; }
     else if (e.type === 'search' && !seen.has(`s:${e.label}`)) {
       seen.add(`s:${e.label}`);
       searches.push(e.label);
@@ -121,6 +130,13 @@ export function JourneyCard({ s }: { s: SessionView }) {
     } else if (e.type === 'follow') follows.push(e.label);
     else if (e.type === 'begin') begins.push({ label: e.label, href: e.href });
   }
+  const fromGoogle = !!s.ref && sourceName(s.ref) === 'Google';
+  const likelyQueries = fromGoogle && landingHref && gsc?.pageQueries
+    ? gsc.pageQueries
+        .filter((pq) => pq.path === landingHref)
+        .sort((a, b) => b.clicks - a.clicks || b.impressions - a.impressions)
+        .slice(0, 3)
+    : [];
   const row = 'w-20 shrink-0 text-xs uppercase tracking-wide text-gray-400 pt-0.5';
   return (
     <li className="rounded-lg border border-gray-200 dark:border-gray-800 px-3 py-3 sm:px-4">
@@ -161,6 +177,15 @@ export function JourneyCard({ s }: { s: SessionView }) {
           <div className="flex gap-2">
             <dt className={row}>entered</dt>
             <dd className="min-w-0 break-words text-gray-700 dark:text-gray-300">{landing}</dd>
+          </div>
+        )}
+        {likelyQueries.length > 0 && (
+          <div className="flex gap-2">
+            <dt className={row}>likely via</dt>
+            <dd className="min-w-0 break-words text-gray-500 dark:text-gray-400">
+              {likelyQueries.map((q) => `“${q.q}”`).join(' · ')}
+              <span className="text-gray-400"> — top Google queries for this page, not this visit specifically</span>
+            </dd>
           </div>
         )}
         {searches.length > 0 && (
