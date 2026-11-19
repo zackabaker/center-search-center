@@ -197,10 +197,11 @@ export default function OracleClient() {
                   <a href={signInUrl('/oracle')} className="mt-3 inline-block rounded bg-gray-900 px-3 py-2 text-sm text-white dark:bg-gray-100 dark:text-gray-900">Sign in with Google</a>
                 </div>
               )}
-              {t.done && t.archived && !t.kept && (
+              {/* Owner only: a reused answer can be replaced with a new one. */}
+              {t.done && t.archived && !t.kept && owner && (
                 <p className="mt-2 text-xs text-gray-400">
-                  Written earlier for this same question.{' '}
-                  <button type="button" onClick={() => ask(t.q, true)} className="underline">Ask it fresh</button>
+                  Reused from {new Date(t.archived).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}.{' '}
+                  <button type="button" onClick={() => ask(t.q, true)} className="underline">Write a new one</button>
                 </p>
               )}
             </div>

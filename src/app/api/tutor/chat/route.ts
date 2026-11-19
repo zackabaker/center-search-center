@@ -67,9 +67,9 @@ export async function POST(request: Request) {
 
   // ── An answer already written for this exact question ────────────────────
   // Only for a conversation's first question (a follow-up depends on its
-  // thread), and never when the visitor asked for a fresh one. Costs nothing
+  // thread). Only the owner can ask for a new one in its place. Costs nothing
   // and counts against no one's allowance.
-  if (kv && firstTurn && body.fresh !== true) {
+  if (kv && firstTurn && !(owner && body.fresh === true)) {
     try {
       const hit = await kv.hget<{ a: string; sources: unknown[]; whole: unknown[]; t: number } | string>(ARCHIVE, archiveId);
       const saved = typeof hit === 'string' ? JSON.parse(hit) : hit;
