@@ -48,6 +48,57 @@ function Slide({ n, alt }: { n: number; alt: string }) {
   );
 }
 
+// Tomasello's three levels of engagement as three small pictures: two
+// figures, and (from the second level) the thing they attend to. The paragraph
+// they sit in was hard to follow as one block (owner, 2026-11-19); the
+// speaker's sentences are unchanged, only broken up around this.
+function AttentionLevels() {
+  const a = { cx: 22, cy: 58 };
+  const b = { cx: 98, cy: 58 };
+  const obj = { cx: 60, cy: 16 };
+  const figure = (c: { cx: number; cy: number }) => <circle {...c} r={9} fill="currentColor" />;
+  const arrow = (x1: number, y1: number, x2: number, y2: number, both = false) => (
+    <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth={1.75} markerEnd="url(#al-head)" markerStart={both ? 'url(#al-tail)' : undefined} />
+  );
+  const levels = [
+    { name: 'Dyadic', gloss: 'Two respond to each other.', object: false, toObject: false, between: true },
+    { name: 'Triadic', gloss: 'Both look at the same thing: “joint perception.”', object: true, toObject: true, between: false },
+    { name: 'Collaborative', gloss: 'Each knows the other is looking: joint attention.', object: true, toObject: true, between: true },
+  ];
+  return (
+    <figure className="my-7">
+      <svg width="0" height="0" className="absolute text-gray-500 dark:text-gray-400" aria-hidden>
+        <defs>
+          <marker id="al-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
+          </marker>
+          <marker id="al-tail" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M10,0 L0,5 L10,10 z" fill="currentColor" />
+          </marker>
+        </defs>
+      </svg>
+      <div className="grid grid-cols-3 gap-3 sm:gap-6">
+        {levels.map((l) => (
+          <div key={l.name} className="min-w-0 text-center">
+            <svg viewBox="0 0 120 76" role="img" aria-label={`${l.name} engagement: ${l.gloss}`} className="mx-auto w-full max-w-[150px] text-gray-500 dark:text-gray-400">
+              {l.object && <circle {...obj} r={7} fill="#d97706" />}
+              {l.toObject && arrow(29, 49, 53, 24)}
+              {l.toObject && arrow(91, 49, 67, 24)}
+              {l.between && arrow(36, 58, 84, 58, true)}
+              {figure(a)}
+              {figure(b)}
+            </svg>
+            <p className="mt-1.5">
+              <span className="block text-sm font-semibold text-gray-900 dark:text-gray-100">{l.name}</span>
+              <span className="block text-xs leading-snug text-gray-500 dark:text-gray-400">{l.gloss}</span>
+            </p>
+          </div>
+        ))}
+      </div>
+    </figure>
+  );
+}
+
 function P({ children }: { children: React.ReactNode }) {
   return (
     <p className="text-gray-800 dark:text-gray-200 leading-relaxed mb-5">
@@ -344,19 +395,29 @@ export default function IntroPage() {
           three levels of engagement
           <sup className="ml-0.5 text-[11px] text-gray-400 dark:text-gray-500" aria-hidden>&#8599;</sup>
         </a>
-        . In dyadic engagement, an individual &ldquo;interacts with, and is
-        mutually responsive to, an animate agent directly.&rdquo; In triadic
-        engagement, an individual &ldquo;interacts together with a
+        .
+      </P>
+      <AttentionLevels />
+      <P>
+        In dyadic engagement, an individual &ldquo;interacts with, and is
+        mutually responsive to, an animate agent directly.&rdquo;
+      </P>
+      <P>
+        In triadic engagement, an individual &ldquo;interacts together with a
         goal-directed agent toward some shared goal.&rdquo; The shared looking
         at this level is often called joint attention, but Tomasello calls it
-        only &ldquo;joint perception.&rdquo; Collaborative engagement adds
-        &ldquo;joint attention (mutual knowledge).&rdquo; Adam
-        Katz,{' '}
+        only &ldquo;joint perception.&rdquo;
+      </P>
+      <P>
+        Collaborative engagement adds &ldquo;joint attention (mutual
+        knowledge).&rdquo; Adam Katz,{' '}
         <Link href="/post/double-helix-v2-tomasello-review" className={TERM_CLASS} title="Adam Katz’s review of Tomasello, A Natural History of Human Thinking">reviewing Tomasello</Link>
         , calls joint attention{' '}
         <Q slug="double-helix-v2-tomasello-review" q="Joint attention is a simple enough concept">&ldquo;a simple enough concept: I indicate to you that I am attending to
         something and that I know you are attending to it along with me, and
-        you indicate the same.&rdquo;</Q>{' '}
+        you indicate the same.&rdquo;</Q>
+      </P>
+      <P>
         And what Tomasello has shown{' '}
         <Q slug="double-helix-v2-tomasello-review" q="apes do not point, at least not in such a way">&ldquo;is that apes do not point, at least not in such a way as to
         provide information or attract another&rsquo;s interest.&rdquo;</Q>{' '}
