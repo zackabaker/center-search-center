@@ -1,7 +1,424 @@
 {
   "author_id": "1305857593433305095",
-  "fetched_at": "2026-11-18T18:17:50.145Z",
+  "fetched_at": "2026-11-19T15:40:18.712Z",
   "tweets": [
+    {
+      "conversation_id": "2123368571161985352",
+      "created_at": "2026-11-19T11:01:21.000Z",
+      "edit_history_tweet_ids": [
+        "2123371042546589994"
+      ],
+      "id": "2123371042546589994",
+      "in_reply_to_user_id": "1305857593433305095",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 48,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2123368571161985352",
+          "type": "replied_to"
+        }
+      ],
+      "text": "Perhaps this, and the whole anti-Indian campaign, is a warning shot at Vance, reminding him of what awaits him if he steps out of line. This is more than giving him an opportunity to curse out Nick Fuentes for insulting his wife."
+    },
+    {
+      "conversation_id": "2123368571161985352",
+      "created_at": "2026-11-19T10:51:32.000Z",
+      "edit_history_tweet_ids": [
+        "2123368571161985352"
+      ],
+      "id": "2123368571161985352",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 201,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "text": "The whole Harmeet Dhillon demon worshipper thing must not be initiated by the Vanceguard, for obvious reasons, but have they said anything about it (Will Chamberlain aside)? Is it a question of not antagonizing people they want on the team? What a slog The Vance campaign will be."
+    },
+    {
+      "conversation_id": "2122957941183521076",
+      "created_at": "2026-11-19T03:26:45.000Z",
+      "edit_history_tweet_ids": [
+        "2123256639793013113"
+      ],
+      "id": "2123256639793013113",
+      "in_reply_to_user_id": "1868016573304209408",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 108,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2122957941183521076",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@dyklumi Tucker Carlson's ravings are only important because he's a central node in a power structure whose primary goal is elevating JD Vance and taking over the Republican Party. This is what Vance will very deliberately be bringing into the party. Vance=Carlson."
+    },
+    {
+      "conversation_id": "2123187262846550150",
+      "created_at": "2026-11-19T03:01:12.000Z",
+      "edit_history_tweet_ids": [
+        "2123250208683266277"
+      ],
+      "id": "2123250208683266277",
+      "in_reply_to_user_id": "2062347678541922304",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 16,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2123249605450092756",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SiobhanShamwow Anyway, they're more monotonous. They're like a soap opera--you can stop paying attention for years, start watching again, and everything is immediately familiar."
+    },
+    {
+      "conversation_id": "2123167501672395142",
+      "created_at": "2026-11-19T03:00:08.000Z",
+      "edit_history_tweet_ids": [
+        "2123249939429867583"
+      ],
+      "id": "2123249939429867583",
+      "in_reply_to_user_id": "608827037",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 99,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2123167501672395142",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@MaxNordau It would be showing proper caution to assume that VP Vance agrees with every word of this."
+    },
+    {
+      "conversation_id": "2123187262846550150",
+      "created_at": "2026-11-19T02:54:51.000Z",
+      "edit_history_tweet_ids": [
+        "2123248612272435461"
+      ],
+      "id": "2123248612272435461",
+      "in_reply_to_user_id": "2062347678541922304",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 24,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2123247806635032680",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SiobhanShamwow That's why I stay focused on where the action has to be--control over the Republican Party. Without that, whatever their plans, they will not come to fruition."
+    },
+    {
+      "conversation_id": "2123187262846550150",
+      "created_at": "2026-11-19T02:49:30.000Z",
+      "edit_history_tweet_ids": [
+        "2123247264319606928"
+      ],
+      "id": "2123247264319606928",
+      "in_reply_to_user_id": "2062347678541922304",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 19,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2123227503535743334",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SiobhanShamwow As am I--and, probably, just about everyone. But if these are the contenders, the field is wide and probably hard to narrow down ideologically with any great precision. Any one of these rivals might loom larger than others at any given time."
+    },
+    {
+      "conversation_id": "2123187262846550150",
+      "created_at": "2026-11-19T01:24:35.000Z",
+      "edit_history_tweet_ids": [
+        "2123225896202989753"
+      ],
+      "id": "2123225896202989753",
+      "in_reply_to_user_id": "1305857593433305095",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 30,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2123225550433161585",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SiobhanShamwow are they trying to displace? The ideology would have to be grounded in struggles against other elites who are better positioned to exploit existing institutions."
+    },
+    {
+      "conversation_id": "2123187262846550150",
+      "created_at": "2026-11-19T01:23:13.000Z",
+      "edit_history_tweet_ids": [
+        "2123225550433161585"
+      ],
+      "id": "2123225550433161585",
+      "in_reply_to_user_id": "2062347678541922304",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 30,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2123224460438421819",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SiobhanShamwow They may be more invested in the ideological *generalities* precisely because they're at some distance from the operational necessities where very specific choices need to be made about which \"vector\" to advance at a given conjuncture. The question may be: which other financiers"
+    },
+    {
+      "conversation_id": "2123187262846550150",
+      "created_at": "2026-11-19T01:16:46.000Z",
+      "edit_history_tweet_ids": [
+        "2123223928282001828"
+      ],
+      "id": "2123223928282001828",
+      "in_reply_to_user_id": "2062347678541922304",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 29,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2123220869174743424",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SiobhanShamwow Yes, I think it has to work that way."
+    },
+    {
+      "conversation_id": "2123187262846550150",
+      "created_at": "2026-11-19T00:58:28.000Z",
+      "edit_history_tweet_ids": [
+        "2123219320348041499"
+      ],
+      "id": "2123219320348041499",
+      "in_reply_to_user_id": "2062347678541922304",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 22,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2123218439133102532",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SiobhanShamwow But seizing control of the party would be essential to such development and wouldn’t operational decisions be left in the hands of those you have entrusted with that task—your political experts?"
+    },
+    {
+      "conversation_id": "2123187262846550150",
+      "created_at": "2026-11-19T00:50:02.000Z",
+      "edit_history_tweet_ids": [
+        "2123217200488092138"
+      ],
+      "id": "2123217200488092138",
+      "in_reply_to_user_id": "2062347678541922304",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 20,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2123215128569004487",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SiobhanShamwow But, then, retaining control over the apparatus is the outcome which as you say is not necessarily ideological (otherwise the switch wouldn't be flipped on and off). But only those with their hands on the apparatus can exert such control, not those writing the checks."
+    },
+    {
+      "conversation_id": "2123187262846550150",
+      "created_at": "2026-11-19T00:33:52.000Z",
+      "edit_history_tweet_ids": [
+        "2123213131648528762"
+      ],
+      "id": "2123213131648528762",
+      "in_reply_to_user_id": "2062347678541922304",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 22,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2123212722099863979",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SiobhanShamwow I think it must be downstream of that--someone very much married to a specific outcome. Otherwise, why insist on such regimentation?"
+    },
+    {
+      "conversation_id": "2123187262846550150",
+      "created_at": "2026-11-19T00:25:49.000Z",
+      "edit_history_tweet_ids": [
+        "2123211106269180340"
+      ],
+      "id": "2123211106269180340",
+      "in_reply_to_user_id": "2062347678541922304",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 23,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2123210710893093163",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SiobhanShamwow They're all connected to some switch and I can only guess at who's flipping it."
+    },
+    {
+      "conversation_id": "2123187262846550150",
+      "created_at": "2026-11-18T23:57:01.000Z",
+      "edit_history_tweet_ids": [
+        "2123203855714566297"
+      ],
+      "id": "2123203855714566297",
+      "in_reply_to_user_id": "2062347678541922304",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 22,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2123203120645705791",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@SiobhanShamwow I think Chamberlain's relation to NatCon is going to be troubled. What I'm really getting at here, though, is NatCon/Vanceguard's total lack of interest in measures actually being taken regarding Iran--I'm reiterating that their sole interest is factional struggle."
+    },
+    {
+      "conversation_id": "2123187262846550150",
+      "created_at": "2026-11-18T22:51:05.000Z",
+      "edit_history_tweet_ids": [
+        "2123187262846550150"
+      ],
+      "id": "2123187262846550150",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 148,
+        "like_count": 1,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "text": "What is NatCon and the Vanceguard's position regarding Scott Bessent's approach to Iran?"
+    },
+    {
+      "conversation_id": "2123172144288837952",
+      "created_at": "2026-11-18T21:56:01.000Z",
+      "edit_history_tweet_ids": [
+        "2123173408410087584"
+      ],
+      "id": "2123173408410087584",
+      "in_reply_to_user_id": "1305857593433305095",
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 41,
+        "like_count": 2,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2123172144288837952",
+          "type": "replied_to"
+        }
+      ],
+      "text": "This insistence that any proximity to the Iran war is disqualifying is essential to the Vance campaign, but also tricky because Vance himself might be too close, from some standpoints, to the war. So, the next year will involve some heavy lifting to distance him from it."
+    },
+    {
+      "conversation_id": "2123172144288837952",
+      "created_at": "2026-11-18T21:51:00.000Z",
+      "edit_history_tweet_ids": [
+        "2123172144288837952"
+      ],
+      "id": "2123172144288837952",
+      "public_metrics": {
+        "bookmark_count": 1,
+        "impression_count": 181,
+        "like_count": 3,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 0
+      },
+      "referenced_tweets": [
+        {
+          "id": "2123156070398849191",
+          "type": "quoted"
+        }
+      ],
+      "text": "This is pretty desperate:\nhttps://t.co/dUt2Pm9mdu"
+    },
     {
       "conversation_id": "2123112058610974736",
       "created_at": "2026-11-18T17:52:14.000Z",
