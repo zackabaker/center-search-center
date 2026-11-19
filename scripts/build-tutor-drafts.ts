@@ -144,6 +144,11 @@ for (const q of quotes) add(quoted, q.sourceSlug);
 const fullestFor = new Map<string, number>();
 for (const c of coverage) for (const f of c.fullest.slice(0, 3)) add(fullestFor, f.slug);
 
+// The owner's pins, and what readers actually open (a snapshot of the site's
+// view counts, plus Substack likes), sit on top of the curation signals.
+const pins: string[] = JSON.parse(fs.readFileSync(path.join(ROOT, 'tutor', 'canon-pins.json'), 'utf-8')).pinned;
+const pop = JSON.parse(fs.readFileSync(path.join(ROOT, 'tutor', 'popularity.json'), 'utf-8')) as { mostViewedAllTime: string[]; recentlyPopular: string[] };
+
 const candidates = posts
   .filter((p) => ['substack', 'gablog', 'pdf', 'book'].includes(p.source))
   .map((p) => {
@@ -154,8 +159,14 @@ const candidates = posts
       citedInGlossary: cited.get(p.slug) ?? 0,
       curatedQuotes: quoted.get(p.slug) ?? 0,
       fullestTreatmentOf: fullestFor.get(p.slug) ?? 0,
+      pinned: pins.includes(p.slug),
+      mostViewed: pop.mostViewedAllTime.includes(p.slug) || pop.recentlyPopular.includes(p.slug),
+      substackLikes: p.source === 'substack' ? (p.likes ?? 0) : 0,
     };
-    const score = why.readingPaths * 4 + why.definesTerms * 2 + why.citedInGlossary + why.curatedQuotes * 0.5 + why.fullestTreatmentOf * 1.5;
+    // Curation is capped so a long essay the glossary leans on heavily can't
+    // outrank everything; readership counts for about as much as curation.
+    const curation = why.readingPaths * 4 + why.definesTerms * 2 + why.citedInGlossary + why.curatedQuotes * 0.5 + why.fullestTreatmentOf * 1.5;
+    const score = (why.pinned ? 100 : 0) + Math.min(curation, 16) + (why.mostViewed ? 10 : 0) + why.substackLikes * 2.5;
     return { slug: p.slug, title: p.title, source: p.source, date: p.date, words, estTokens: Math.round(words * 1.35), score: Math.round(score * 10) / 10, why };
   })
   // A whole book can't be "loaded whole"; its chapters are separate entries.
