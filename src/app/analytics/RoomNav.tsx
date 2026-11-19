@@ -19,6 +19,7 @@ const ROOMS: [href: string, label: string, alsoUnder?: string][] = [
   ['/analytics/ai', 'AI'],
   ['/analytics/sessions', 'Visits', '/analytics/session/'],
   ['/analytics/people', 'People'],
+  ['/analytics/tutor', 'Tutor'],
 ];
 
 export default function RoomNav() {

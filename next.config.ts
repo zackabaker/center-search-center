@@ -48,6 +48,9 @@ const nextConfig: NextConfig = {
     // The corpus vectors (~50 MB) are bundled ONLY into the semantic-search
     // function — never into every route — so they can't bloat or break others.
     "/api/semantic": ["./vectors/**"],
+    // The tutor's paragraph vectors (~27 MB), read at runtime from a path
+    // tracing can't see — bundled only into the tutor's own functions.
+    "/api/tutor/**": ["./tutor/index/keys.json", "./tutor/index/vectors.f32.bin"],
     // The embedding model (~33 MB) lives ONLY in /api/embed — /api/semantic
     // calls it over HTTP for raw-text mode. onnxruntime-node's native binding
     // is resolved at runtime (tracing misses it), so include the linux builds

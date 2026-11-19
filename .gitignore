@@ -58,3 +58,6 @@ vectors/
 
 # owner working copies kept out of the public repo
 geo/outreach-emails*
+
+# tutor corpus index — generated at build by scripts/build-tutor-index.ts
+tutor/index/
