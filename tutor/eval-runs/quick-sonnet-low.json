@@ -1,0 +1,117 @@
+{
+ "name": "quick-sonnet-low",
+ "setup": {
+  "model": "claude-sonnet-5-5",
+  "effort": "low"
+ },
+ "rows": [
+  {
+   "id": "q1",
+   "kind": "judge",
+   "q": "What is deferral?",
+   "a": "Deferral is the act that makes the human possible: converting a gesture of appropriation into a gesture that holds back. On the originary scene, a group of proto-humans converges on a desirable object, and mimetic rivalry threatens to tear them apart. One member hesitates, his reach \"aborted,\" and the others imitate him. That arrested reach is the first sign, and the center it points to is the object no one may seize. Deferral is therefore not privation. Katz stresses that \"the immediate effect of deferral is not an intolerable feeling of privation... rather, the effect is of a new world opening up\" ([The Generativity of Deferral](/post/the-generativity-of-deferral#p-1)). Threats become collaborators, and the object takes on the significance that makes shared attention possible.\n\nKatz prefers the word to its near synonyms because it \"posits no endpoint. As long as there is humanity there is deferral,\" and because it includes deterrence while adding \"a critical component: allowing for an orderly distribution\" ([Deferral, Debt and the Idiom](/post/deferral-debt-and-the-idiom#p-1)). Deterrence just watches; deferral lets each party proceed and defer to the other. It also keeps us inside the scene: \"no one could know that violence has been deferred, because no one can know what would have happened without the sign of deferral\" ([Lecture 3: Deferral of Violence](/post/deferral-of-violence#p-8)). You can only enact it, believing completely that it will work, and then look back.\n\nFrom there the concept scales. Deferral is \"scene creation\" ([Tokenizing Deferrality](/post/tokenizing-deferrality#p-10)): every utterance, institution and habit of politeness is an increment of it. Credit, law and sovereignty are described as layered forms of deferral: \"credit is the creation of terms under which immediate demands can be deferred... the juridical entails deferring the vendetta\" ([Style: Markers and Measurements of Deferral](/post/style-markers-and-measurements-of-deferral#p-5)). Katz also takes the word from Derrida's différance, where deferring and differing are the same word.\n\nNext, read [The Generativity of Deferral](/post/the-generativity-of-deferral), a short post that answers the natural objection (\"can't there be too much deferral?\") and shows how deferral works in practice, from a family dinner to self-defense.",
+   "words": 334,
+   "firstWords": 2.1,
+   "seconds": 7.4,
+   "cost": 0.13,
+   "stop": "end_turn",
+   "links": 6,
+   "badLinks": [],
+   "quotes": 4,
+   "badQuotes": [],
+   "saysNotThere": true,
+   "strength": "closest match by meaning 0.71; 6 of 18 paragraphs match closely; 14 match strongly on wording"
+  },
+  {
+   "id": "q5",
+   "kind": "judge",
+   "q": "What is an idiom?",
+   "a": "For Katz, an idiom is a mode of language use that exists only in being used, tied to the scenes where it is used. He says so directly: \"An idiom is a mode of language use constituted through use and therefore more fully available the more embedded in the scenes of its usage\" ([Idiomatic Intelligence as Register](/post/idiomatic-intelligence-as-register#p-14)). That is why he prefers \"idiom\" to \"theory\" or \"metalanguage.\" An idiom can't stand outside the language it describes, and \"There is nothing in language but idioms, so the originary hypothesis is the idiomaticity of idioms\" ([Infra-Humaning](/post/infra-humaning#p-7)). Even Center Study itself is an idiom, one that other idioms can be translated into but that no one speaks without being re-translated.\n\nIn the grammar of the originary scene, an idiom is a pattern of speech acts: \"An idiom is particular set of ostensive-imperative-interrogative-declarative sequences, so learning an idiom is learning when, for example, someone asking a question or making a statement is really requesting that you do something\" ([Scenic/Event Intelligence](/post/scenic-event-intelligence#p-13)). So to learn an idiom is to learn what its sentences are doing, which commands lie behind its questions and which shared object lies behind its commands, not just what its words mean.\n\nKatz also draws on the word's etymology, \"peculiar\" and so \"self-same\": an idiom is what a conversation becomes when it recycles its own words as reference points. \"An idiom is that, sustained indefinitely\" ([Programming the Same](/post/programming-the-same#p-27)). It marks a group's way of pointing to the same thing, and it is how new scenes get made.\n\nThis has a practical side. Since all language is idiomatic, the discipline is to enter an idiom without appealing to a master metalanguage, move across idioms, and gather intelligence from each. The highest knowledge, he says, \"is to know that you are always in an idiom because there is nothing but idioms\" ([Idiomatic Intelligence as Register](/post/idiomatic-intelligence-as-register#p-14)).\n\nRead next: [Idiomclining](/post/idiomclining), where Katz works out idiom as a generative concept, set against \"cognition\" and against viral theories of language.",
+   "words": 331,
+   "firstWords": 1.3,
+   "seconds": 6.4,
+   "cost": 0.14,
+   "stop": "end_turn",
+   "links": 6,
+   "badLinks": [],
+   "quotes": 5,
+   "badQuotes": [],
+   "saysNotThere": true,
+   "strength": "closest match by meaning 0.77; 18 of 18 paragraphs match closely; 10 match strongly on wording"
+  },
+  {
+   "id": "q2",
+   "kind": "judge",
+   "q": "Why does Katz say there is no economy?",
+   "a": "Katz's claim is that \"the economy\" is an ideological way of describing something older and more basic. In one essay he puts it flatly: \"There is no 'economy.' There is only, as there always has been, ritual distribution from the center\" ([Will Have Been the Same](/post/will-have-been-the-same-future-perfectism-or-derivatives-of-the-tributary#p-1)). On the originary hypothesis, humanity begins when a group defers its rush on a shared object, and the center that results is where everything is distributed from. A human who later occupies that center, the Big Man or the king, takes over the distributing, and what we call economic life is everyone's place in the order of receiving from the center and passing on to others.\n\nMoney is the key case. Following Christine Desan, he argues that money is first a record issued by the center of a debt paid to it: \"Money records, by the center, a debt paid to the center, and that record can in turn become a way of paying debts to the center\" ([There Is No Economy but Only the Debt to the Center](/post/there-is-no-economy-pdf#p-36)). So markets are not a spontaneous order that precedes politics. They are created and sustained by central authority, and the exchange of individual \"self-interested\" parties is a representation built on top of a prior indebtedness. In the essay's own words, the modern picture \"returned to colonize the politics at its core\" ([same text](/post/there-is-no-economy-pdf#p-41)): a way of seeing the world as aggregates of private choices, which hides the center.\n\nThis is why he can say that an order run on emulation, constrained by institutions of deferral rather than self-interest, \"would no longer be an economy, but what we might call a 'tributary' order, in which our originary debt to the center is acknowledged and paid\" ([p-95](/post/there-is-no-economy-pdf#p-95)). An earlier essay already warns against \"economism,\" the habit of taking one economy as the model for all (the gift economy, the imperial economy and the market economy coexist and supplement one another) ([Economism](/post/economism#p-3)).\n\nA caution: \"no economy\" doesn't mean markets don't exist. It means they are secondary to, and licensed by, the center.\n\nRead next: [There Is No Economy but Only the Debt to the Center](/post/there-is-no-economy-pdf), the essay (co-written with Zack Baker) that develops all of this.",
+   "words": 368,
+   "firstWords": 1.1,
+   "seconds": 7.2,
+   "cost": 0.15,
+   "stop": "end_turn",
+   "links": 6,
+   "badLinks": [],
+   "quotes": 4,
+   "badQuotes": [],
+   "saysNotThere": true,
+   "strength": "closest match by meaning 0.68; 2 of 18 paragraphs match closely; 7 match strongly on wording"
+  },
+  {
+   "id": "q3",
+   "kind": "judge",
+   "q": "What is the Big Man?",
+   "a": "In Center Study, the Big Man is the first human to occupy the center. In the earliest egalitarian communities the center was held by a shared object, usually a sacred animal that was both food and ancestor. The Big Man, a figure borrowed from Marshall Sahlins's anthropology, is the individual who usurps that ritual center and takes over distribution. Katz writes that \"the Big Man, in archaic social orders, becomes big by out-gifting his competitors,\" so that he \"renders everyone dependent upon him, entirely for 'merit-based' reasons, and this is a debt which can never be paid back\" ([Discipline and Debt](/post/discipline-and-debt#p-1)).\n\nWhat makes him big is discipline, which Katz ties to what Gans calls \"producer's desire.\" The Big Man imagines the community as a whole, restrains his own consumption, and accumulates enough surplus to put himself beyond reciprocal gift exchange. That is why \"the emergence of the Big Man destroys, once and for all, the egalitarianism of the primitive community\" ([Anthropomorphics and Reaction](/post/anthropomorphics-and-reaction#p-5)). It is also why he becomes the object of resentment: he \"doesn't just have things that others want but sets the terms of communal interactions.\"\n\nThe concept matters because it marks the start of history and of our political dilemmas. From the Big Man comes a line running through chiefs and sacral kings to divine emperors, and eventually to presidents and prime ministers, each a variation on one human occupying the center. Katz stresses that \"once the center has been humanly occupied, it must remain humanly occupied\" ([Sacral Kingship and After](/post/sacral-kingship-and-after-preliminary-reflections#p-2)). So for him modern politics, with its constant rotation of rulers, is an anomaly. Hence his claim that the West \"is the inheritor of the Big Man revolution\" ([Rotating Dictatorship](/post/rotating-dictatorship#p-9)).\n\nOne caution: Katz applies the figure in his own direction, and not everything he draws from it is Gans's. Gans gave the Big Man a place in his account of social forms; Katz says Gans \"did nothing with it\" and builds his own theory of sovereignty and succession on it (a point he makes in [Downstream of the Imperative](/post/downstream-of-the-imperative#p-9)).\n\nTo read next, try [Anthropomorphics and Reaction](/post/anthropomorphics-and-reaction), which shows the Big Man's problems (rivals, resentment, the need to decide well) recurring in every later form of rule.",
+   "words": 370,
+   "firstWords": 1.4,
+   "seconds": 7.3,
+   "cost": 0.15,
+   "stop": "end_turn",
+   "links": 6,
+   "badLinks": [],
+   "quotes": 4,
+   "badQuotes": [],
+   "saysNotThere": true,
+   "strength": "closest match by meaning 0.69; 13 of 18 paragraphs match closely; 13 match strongly on wording"
+  },
+  {
+   "id": "q4",
+   "kind": "judge",
+   "q": "Is Center Study a religion?",
+   "a": "No, though the question is a fair one, and Katz treats it in a particular way. Center Study has no creed to believe and nothing to worship. What it does is explain where religions come from, and it takes the sacred seriously as a human fact. In \"Secular Thinking\" he says that \"all 'religions,' or all disciplines\" would turn into \"a kind of center study,\" each working to \"infiltrate other scenes in the same way\" ([Secular Thinking](/post/secular-thinking#p-21)). That makes religions and disciplines alike inquiries into the same thing, the center, and so he can also write that \"the religions I would consider human sciences, as they are inquiries into the sacred, or the permanent center\" ([What are We Talking About When We Talk About the Market?](/post/what-are-we-talking-about-when-we-talk-about-the-market-gablog#p-14)).\n\nThe core of the matter is the originary hypothesis, which holds that language, the human and the sacred arise together in one event, a gesture that defers violence around a shared object. This is why Katz can say Center Study is not hostile to faith. In \"Centerism\" he writes that \"there is nothing there to offend Christian, Jew, Muslim, Buddhist, Confucian,\" and that each faith \"would be strengthened by thinking of them as a particular form in which the originary event has been revealed and retrieved\" ([Centerism](/post/centerism-gablog#p-17)). Religions are treated as ways of keeping that event alive, which is not the same as being refuted or endorsed.\n\nIt also declines the religious vocabulary itself. In \"Nomos and Transfer Translation,\" Katz says Center Study is \"allergic\" to words like \"spirituality,\" \"religion\" and \"faith,\" which \"refer to hypotheses I consider defunct,\" and proposes replacing them with language and sampling ([Nomos and Transfer Translation](/post/nomos-and-transfer-translation#p-12)). Someone who is looking for salvation, a community of believers or doctrines to hold will not find them here, and what the archive offers is a way of studying and practising how any community holds itself together.\n\nTo read next, try \"Secular Thinking,\" which works through exactly how Center Study stands to secularism and to religion.",
+   "words": 333,
+   "firstWords": 2.9,
+   "seconds": 8.2,
+   "cost": 0.13,
+   "stop": "end_turn",
+   "links": 4,
+   "badLinks": [],
+   "quotes": 3,
+   "badQuotes": [
+    {
+     "quote": "infiltrate other scenes in the same way",
+     "href": "/post/secular-thinking#p-21",
+     "inText": false
+    }
+   ],
+   "saysNotThere": false,
+   "strength": "closest match by meaning 0.69; 7 of 18 paragraphs match closely; 6 match strongly on wording"
+  },
+  {
+   "id": "q6",
+   "kind": "judge",
+   "q": "How would Center Study read a social media pile-on?",
+   "a": "Center Study would read a pile-on as a small replay of the originary crisis: attention converging on a single figure, with mimesis doing the work. Katz puts the test plainly: \"have you ever felt (and given into) the temptation to 'pile on' someone who is being criticized, attacked, or ridiculed? There is no way you would have been thinking of the clever bon mot you are about to add without the mimetic instigation of those who have already dropped a couple. Then you know what violent centralization looks and feels like\" ([Revivalistics](/post/revivalistics#p-1)). Each new reply is both imitation and escalation, and the target becomes the place where everyone's resentments are discharged.\n\nThe reading is not \"social media is bad.\" Katz's point is that the medium is a scene, and scenes can be designed: \"A lot of scapegoating takes place on social media... My claim here is that the nature of social media is more to be used to design social interactions or 'interfaces' that foreground dangerous markings along with ways of deferring their danger\" ([Design and the Attentional Economy](/post/design-and-the-attentional-economy#p-14)). So the analytic question is where the mimetic rivalry sits and what mode of deferral is missing or failing.\n\nTwo further moves follow. First, the pile-on usually presents itself as defending a center (the victim, justice, the community's norms) while actually replacing it. Revivalistics defines the center as \"whatever interferes with violent centralization,\" which makes the pile-on the opposite of centered. Second, Katz does not ask us to abandon judgment: \"We must be permitted condemnation of wrong actions, sharp and uncompromising critiques... otherwise, how could we even address the problem of scapegoating without engaging in it ourselves?\" ([Revivalistics](/post/revivalistics#p-1)). The line is between holding someone accountable through a formalized process and converging on them as a lightning rod.\n\nIn practice that means asking of any pile-on: who holds responsibility and power here, and is the attack routed through anyone who could actually decide the matter? If not, it is resentment seeking an object rather than justice.\n\nTo go further, read [Design and the Attentional Economy](/post/design-and-the-attentional-economy), where Katz treats social media as a design problem for deferral. Do you have a particular pile-on in mind? Applying the reading to a concrete case is where it becomes useful.",
+   "words": 374,
+   "firstWords": 1.3,
+   "seconds": 7.2,
+   "cost": 0.13,
+   "stop": "end_turn",
+   "links": 4,
+   "badLinks": [],
+   "quotes": 3,
+   "badQuotes": [],
+   "saysNotThere": true,
+   "strength": "closest match by meaning 0.68; 15 of 18 paragraphs match closely; 4 match strongly on wording"
+  }
+ ]
+}

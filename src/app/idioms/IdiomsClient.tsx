@@ -75,7 +75,7 @@ export default function IdiomsClient() {
 
   return (
     <main className="max-w-2xl mx-auto w-full px-4 py-10 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Idiom archive</h1>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Idiom Archive</h1>
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 leading-relaxed">
         The passages you have kept. Save one from an AI search result, or select any text while
         reading a post and choose <span className="font-medium text-gray-700 dark:text-gray-300">Save idiom</span>.

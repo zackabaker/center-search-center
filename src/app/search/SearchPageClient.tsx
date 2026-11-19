@@ -673,7 +673,7 @@ export default function SearchPageClient({
           chose that view); exact-word results follow below. */}
       {hasQuery && view === 'similar' && (
         <section className="mb-10">
-          <h2 className="text-xs font-mono uppercase tracking-widest text-gray-900 dark:text-gray-100 mb-1">Similar passages</h2>
+          <h2 className="text-xs font-mono uppercase tracking-widest text-gray-900 dark:text-gray-100 mb-1">Meaning search</h2>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
             Passages that say something close to what you typed. The wording need not match.
           </p>
@@ -684,7 +684,7 @@ export default function SearchPageClient({
           ) : (
             <p className="text-sm text-gray-500 dark:text-gray-400">Finding similar passages…</p>
           )}
-          <h2 className="text-xs font-mono uppercase tracking-widest text-gray-900 dark:text-gray-100 mt-10">Exact words</h2>
+          <h2 className="text-xs font-mono uppercase tracking-widest text-gray-900 dark:text-gray-100 mt-10">Keyword search</h2>
         </section>
       )}
 
@@ -1040,7 +1040,7 @@ export default function SearchPageClient({
           {semanticQ && view !== 'similar' && (
             <div className={hasResults || deepMatches.length > 0 ? 'mt-10' : 'mt-6'}>
               <p className="text-[11px] font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
-                {hasResults || deepMatches.length > 0 ? 'Similar passages' : 'Closest similar passages'}
+                {hasResults || deepMatches.length > 0 ? 'Meaning search' : 'Closest passages by meaning'}
               </p>
               <SemanticResults query={semanticQ} sources={allowedSources} noClientFallback />
             </div>

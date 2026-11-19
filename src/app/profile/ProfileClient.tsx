@@ -161,7 +161,7 @@ export default function ProfileClient() {
       {/* ── Idiom archive ────────────────────────────────────────── */}
       <section className="border-t border-gray-900 dark:border-gray-200 pt-6 pb-8">
         <div className="flex items-baseline justify-between gap-4 mb-2">
-          <h2 className={LABEL}>Your idiom archive{idioms.length > 0 ? ` · ${idioms.length}` : ''}</h2>
+          <h2 className={LABEL}>Your Idiom Archive{idioms.length > 0 ? ` · ${idioms.length}` : ''}</h2>
           <Link href="/idioms" className="text-sm font-medium text-blue-600 dark:text-blue-400 underline underline-offset-4">
             Open the archive
           </Link>

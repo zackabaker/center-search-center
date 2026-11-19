@@ -97,7 +97,7 @@ export default function QuoteShare({ title, author, date, url, slug, source }: Q
           href="/idioms"
           className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-lg text-xs font-medium shadow-lg bg-amber-600 text-white hover:bg-amber-700 transition-colors whitespace-nowrap"
         >
-          Saved — open your idiom archive →
+          Saved — open your Idiom Archive →
         </Link>
       </div>
     );

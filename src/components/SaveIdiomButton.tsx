@@ -29,7 +29,7 @@ export default function SaveIdiomButton({ text, slug, title, source, anchor, cla
         className={`${base} border-amber-300 dark:border-amber-700 text-amber-800 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/40 ${className}`}
       >
         <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-        Saved — open your idiom archive →
+        Saved — open your Idiom Archive →
       </Link>
     );
   }

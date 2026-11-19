@@ -18,6 +18,7 @@ import { canonText, indexText, promptText } from '../src/lib/tutor/context';
 import { streamTutor, tutorCost, TUTOR_MODEL } from '../src/lib/tutor/model';
 import { buildTurn } from '../src/lib/tutor/turn';
 import { checkAnswer } from '../src/lib/tutor/verify';
+import { BRIEF } from '../src/lib/tutor/search-answer';
 import { embedQuery } from '../src/lib/embed';
 
 type Q = { id: string; kind: string; q: string; note?: string };
@@ -48,14 +49,18 @@ async function main() {
   const setup = { model: TUTOR_MODEL, effort: process.env.TUTOR_EFFORT || 'high' };
 
   const run = async (q: Q): Promise<void> => {
-    const { content, strength } = buildTurn(q.q, q.q, await embedQuery(q.q));
+    const turn = buildTurn(q.q, q.q, await embedQuery(q.q));
+    const strength = turn.strength;
+    // --brief: the short form the search box asks for.
+    const brief = process.argv.includes('--brief');
+    const content = brief ? turn.content + BRIEF : turn.content;
     const t0 = Date.now();
     let first = 0;
     let a = '';
     let cost = 0;
     let stop: string | null = null;
     try {
-      for await (const ev of streamTutor({ stable, messages: [{ role: 'user', content }] })) {
+      for await (const ev of streamTutor({ stable, messages: [{ role: 'user', content }] }, brief ? { maxTokens: 4000 } : {})) {
         if (ev.type === 'text') { if (!first) first = Date.now() - t0; a += ev.text; }
         else { cost = tutorCost(ev.model, ev.usage); stop = ev.stop; }
       }

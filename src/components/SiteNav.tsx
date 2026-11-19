@@ -17,7 +17,6 @@ const NAV_LINKS = [
   { href: '/begin',    label: 'Start' },
   { href: '/guide',    label: 'Guide' },
   { href: '/concepts', label: 'Concepts' },
-  { href: '/idioms',   label: 'Idiom archive' },
 ];
 
 export default function SiteNav() {
@@ -28,11 +27,18 @@ export default function SiteNav() {
   // AccountButton's request. The real gate is server-side in src/proxy.ts —
   // this only decides whether the link is drawn.
   const [owner, setOwner] = useState(false);
+  // The Idiom Archive is a signed-in reader's own saved passages, so its
+  // entry only appears for them (owner direction, 2026-11-19).
+  const [signedIn, setSignedIn] = useState(false);
   useEffect(() => {
     if (!signedInHint()) return;
-    fetchAccount().then((a) => setOwner(a.user?.owner === true)).catch(() => {});
+    fetchAccount().then((a) => { setSignedIn(!!a.user); setOwner(a.user?.owner === true); }).catch(() => {});
   }, []);
-  const links = owner ? [...NAV_LINKS, { href: '/analytics', label: 'Analytics' }] : NAV_LINKS;
+  const links = [
+    ...NAV_LINKS,
+    ...(signedIn ? [{ href: '/idioms', label: 'Idiom Archive' }] : []),
+    ...(owner ? [{ href: '/analytics', label: 'Analytics' }] : []),
+  ];
 
   // ⌘K opens the global command palette (mounted in the layout).
 

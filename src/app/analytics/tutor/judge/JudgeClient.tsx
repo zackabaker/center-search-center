@@ -1,133 +1,110 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Markdown from '@/app/oracle/Markdown';
 
-export type JudgeQuestion = {
-  id: string;
-  q: string;
-  answers: { setup: string; a: string; words: number; firstWords: number; seconds: number; cost: number }[];
-};
-type Vote = { best: string | null; worst: string | null };
-const LETTERS = ['A', 'B', 'C', 'D'];
+export type Round = { id: string; q: string; left: { setup: string; a: string }; right: { setup: string; a: string } };
+type Setup = { key: string; label: string; firstWords: number; seconds: number };
 
-export default function JudgeClient({ questions, setups }: { questions: JudgeQuestion[]; setups: { key: string; label: string }[] }) {
-  const [votes, setVotes] = useState<Record<string, Vote>>({});
-  const [open, setOpen] = useState<Record<string, number>>({});
-  const [revealed, setRevealed] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+export default function JudgeClient({ rounds, setups }: { rounds: Round[]; setups: Setup[] }) {
+  const [at, setAt] = useState(0);
+  const [picks, setPicks] = useState<Record<string, string>>({}); // round id → winning setup, or "same"
+  const done = at >= rounds.length;
+
+  const pick = useCallback((choice: 'left' | 'right' | 'same') => {
+    const r = rounds[at];
+    if (!r) return;
+    const winner = choice === 'same' ? 'same' : r[choice].setup;
+    setPicks((p) => ({ ...p, [r.id]: winner }));
+    setAt((n) => n + 1);
+    window.scrollTo({ top: 0 });
+    fetch('/api/tutor/judge', {
+      method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: r.id, best: winner }),
+    }).catch(() => {});
+  }, [at, rounds]);
 
   useEffect(() => {
-    fetch('/api/tutor/judge').then((r) => (r.ok ? r.json() : null)).then((j) => { if (j?.votes) setVotes(j.votes); }).catch(() => {});
-  }, []);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') pick('left');
+      else if (e.key === 'ArrowRight') pick('right');
+      else if (e.key === 'ArrowDown') { e.preventDefault(); pick('same'); }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [pick]);
 
-  const vote = async (id: string, field: 'best' | 'worst', setup: string) => {
-    const cur = votes[id] ?? { best: null, worst: null };
-    const next = { ...cur, [field]: cur[field] === setup ? null : setup };
-    if (field === 'best' && next.worst === setup) next.worst = null;
-    if (field === 'worst' && next.best === setup) next.best = null;
-    setVotes((v) => ({ ...v, [id]: next }));
-    setError(null);
-    const r = await fetch('/api/tutor/judge', {
-      method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id, ...next }),
-    }).catch(() => null);
-    if (!r?.ok) setError('That choice did not save. Try again.');
-  };
+  if (done) {
+    return (
+      <div className="mt-6">
+        <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Your picks</h2>
+        <table className="mt-2 w-full text-sm tabular-nums">
+          <thead>
+            <tr className="border-b border-gray-200 dark:border-gray-800 text-left text-xs text-gray-500 dark:text-gray-400">
+              <th className="py-1.5 pr-3 font-normal">Setup</th>
+              <th className="py-1.5 pr-3 text-right font-normal">Won</th>
+              <th className="py-1.5 pr-3 text-right font-normal">of</th>
+              <th className="py-1.5 pr-3 text-right font-normal">First words</th>
+              <th className="py-1.5 text-right font-normal">Whole answer</th>
+            </tr>
+          </thead>
+          <tbody>
+            {setups.map((s) => (
+              <tr key={s.key} className="border-b border-gray-100 dark:border-gray-900">
+                <td className="py-1.5 pr-3 text-gray-900 dark:text-gray-100">{s.label}</td>
+                <td className="py-1.5 pr-3 text-right">{Object.values(picks).filter((p) => p === s.key).length}</td>
+                <td className="py-1.5 pr-3 text-right">{rounds.filter((r) => r.left.setup === s.key || r.right.setup === s.key).length}</td>
+                <td className="py-1.5 pr-3 text-right">{s.firstWords}s</td>
+                <td className="py-1.5 text-right">{s.seconds}s</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p className="mt-2 text-xs text-gray-400">
+          {Object.values(picks).filter((p) => p === 'same').length} called even. Six rounds is a small sample: a clear sweep means something, a 2–2 split doesn’t.
+        </p>
+        <ol className="mt-4 space-y-1 text-sm text-gray-700 dark:text-gray-300">
+          {rounds.map((r) => (
+            <li key={r.id}>
+              {r.q} <span className="text-gray-400">· you picked {picks[r.id] === 'same' ? 'neither' : setups.find((s) => s.key === picks[r.id])?.label}</span>
+            </li>
+          ))}
+        </ol>
+        <button type="button" onClick={() => { setAt(0); setPicks({}); }} className="mt-4 rounded border border-gray-300 dark:border-gray-700 px-3 py-1.5 text-sm">
+          Start over
+        </button>
+      </div>
+    );
+  }
 
-  const judged = questions.filter((q) => votes[q.id]?.best).length;
-  const label = (key: string) => setups.find((s) => s.key === key)?.label ?? key;
-  const med = (xs: number[]) => [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)] ?? 0;
-  const btn = (on: boolean, tone: 'best' | 'worst') =>
-    `rounded border px-2 py-0.5 text-xs ${
-      on
-        ? tone === 'best'
-          ? 'border-emerald-600 bg-emerald-600 text-white'
-          : 'border-rose-600 bg-rose-600 text-white'
-        : 'border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
-    }`;
+  const r = rounds[at];
+  const column = (side: 'left' | 'right') => (
+    <div className="flex min-w-0 flex-col rounded-lg border border-gray-200 dark:border-gray-800">
+      <button
+        type="button"
+        onClick={() => pick(side)}
+        className="rounded-t-lg bg-gray-900 px-3 py-2.5 text-sm font-semibold text-white hover:bg-gray-700 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-300"
+      >
+        {side === 'left' ? '← This one is better' : 'This one is better →'}
+      </button>
+      <div className="px-4 py-4">
+        <Markdown text={r[side].a} />
+      </div>
+    </div>
+  );
 
   return (
     <div className="mt-4">
-      <div className="flex flex-wrap items-center gap-3 text-sm">
-        <span className="text-gray-600 dark:text-gray-300">{judged} of {questions.length} judged</span>
-        <button type="button" onClick={() => setRevealed((r) => !r)} className="rounded border border-gray-300 dark:border-gray-700 px-2.5 py-1 text-xs text-gray-700 dark:text-gray-200">
-          {revealed ? 'Hide which is which' : 'Reveal which is which'}
-        </button>
-        {error && <span className="text-xs text-rose-700 dark:text-rose-300">{error}</span>}
+      <p className="text-xs text-gray-500 dark:text-gray-400">Question {at + 1} of {rounds.length}</p>
+      <p className="mt-1 font-serif text-xl text-gray-900 dark:text-gray-100">{r.q}</p>
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        {column('left')}
+        {column('right')}
       </div>
-
-      {revealed && (
-        <div className="mt-4 overflow-x-auto">
-          <table className="w-full min-w-[520px] text-sm tabular-nums">
-            <thead>
-              <tr className="border-b border-gray-200 dark:border-gray-800 text-left text-xs text-gray-500 dark:text-gray-400">
-                <th className="py-1.5 pr-3 font-normal">Setup</th>
-                <th className="py-1.5 pr-3 text-right font-normal">Picked best</th>
-                <th className="py-1.5 pr-3 text-right font-normal">Picked worst</th>
-                <th className="py-1.5 pr-3 text-right font-normal">First words</th>
-                <th className="py-1.5 pr-3 text-right font-normal">Whole answer</th>
-                <th className="py-1.5 text-right font-normal">Length</th>
-              </tr>
-            </thead>
-            <tbody>
-              {setups.map((s) => {
-                const rows = questions.flatMap((q) => q.answers.filter((a) => a.setup === s.key));
-                // The first question of a run also loaded the canon; leave it out of the speed figures.
-                const warm = rows.filter((r) => r.cost < 3);
-                return (
-                  <tr key={s.key} className="border-b border-gray-100 dark:border-gray-900">
-                    <td className="py-1.5 pr-3 text-gray-900 dark:text-gray-100">{s.label}</td>
-                    <td className="py-1.5 pr-3 text-right">{Object.values(votes).filter((v) => v.best === s.key).length}</td>
-                    <td className="py-1.5 pr-3 text-right">{Object.values(votes).filter((v) => v.worst === s.key).length}</td>
-                    <td className="py-1.5 pr-3 text-right">{med(warm.map((r) => r.firstWords))}s</td>
-                    <td className="py-1.5 pr-3 text-right">{med(warm.map((r) => r.seconds))}s</td>
-                    <td className="py-1.5 text-right">{med(rows.map((r) => r.words))} words</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <p className="mt-1 text-xs text-gray-400">Times are medians with the texts already loaded. Four questions ran at once, so each is somewhat slower than a lone question would be.</p>
-        </div>
-      )}
-
-      <ol className="mt-6 space-y-10">
-        {questions.map((q, n) => {
-          const at = open[q.id] ?? 0;
-          const cur = q.answers[at];
-          const v = votes[q.id] ?? { best: null, worst: null };
-          return (
-            <li key={q.id}>
-              <p className="rounded-lg bg-gray-100 dark:bg-gray-800 px-3 py-2.5 text-[15px] text-gray-900 dark:text-gray-100">
-                <span className="text-xs text-gray-500 dark:text-gray-400">{n + 1}. </span>{q.q}
-              </p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {q.answers.map((a, i) => (
-                  <button
-                    key={a.setup}
-                    type="button"
-                    onClick={() => setOpen((o) => ({ ...o, [q.id]: i }))}
-                    className={`rounded-full px-3 py-1 text-sm ${i === at ? 'bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900' : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300'}`}
-                  >
-                    {LETTERS[i]}
-                    {v.best === a.setup && ' · best'}
-                    {v.worst === a.setup && ' · worst'}
-                  </button>
-                ))}
-              </div>
-              <div className="mt-3 flex flex-wrap items-center gap-2">
-                <span className="text-xs text-gray-500 dark:text-gray-400">Answer {LETTERS[at]}:</span>
-                <button type="button" className={btn(v.best === cur.setup, 'best')} onClick={() => vote(q.id, 'best', cur.setup)}>Best</button>
-                <button type="button" className={btn(v.worst === cur.setup, 'worst')} onClick={() => vote(q.id, 'worst', cur.setup)}>Worst</button>
-                {revealed && <span className="text-xs text-gray-500 dark:text-gray-400">{label(cur.setup)} · first words {cur.firstWords}s · {cur.words} words</span>}
-              </div>
-              <div className="mt-3 rounded-lg border border-gray-200 dark:border-gray-800 px-4 py-4">
-                <Markdown text={cur.a} />
-              </div>
-            </li>
-          );
-        })}
-      </ol>
+      <div className="mt-4 text-center">
+        <button type="button" onClick={() => pick('same')} className="rounded border border-gray-300 dark:border-gray-700 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-200">
+          Can’t choose
+        </button>
+      </div>
     </div>
   );
 }

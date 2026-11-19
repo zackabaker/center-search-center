@@ -1,0 +1,8 @@
+[
+  {"id": "q1", "kind": "judge", "q": "What is deferral?"},
+  {"id": "q2", "kind": "judge", "q": "Why does Katz say there is no economy?"},
+  {"id": "q3", "kind": "judge", "q": "What is the Big Man?"},
+  {"id": "q4", "kind": "judge", "q": "Is Center Study a religion?"},
+  {"id": "q5", "kind": "judge", "q": "What is an idiom?"},
+  {"id": "q6", "kind": "judge", "q": "How would Center Study read a social media pile-on?"}
+]

@@ -16,7 +16,7 @@ import { streamTutor, tutorCost, TUTOR_MODEL } from './model';
 import { buildTurn } from './turn';
 import { checkAnswer } from './verify';
 
-const BRIEF =
+export const BRIEF =
   '\n\n(This question came from the site’s search box, where a short answer is wanted. Answer in three or four ' +
   'paragraphs, about 300 words: the heart of the matter, with two or three quotations linked to their paragraphs, ' +
   'in plain prose with no headings. End by naming one text to read next. The visitor can continue the conversation ' +

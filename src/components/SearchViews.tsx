@@ -3,10 +3,12 @@
 import Link from 'next/link';
 import { searchHref, type SearchView } from '@/lib/query-shape';
 
+// Named for what the reader gets (owner direction, 2026-11-19): the words
+// themselves, an answer from the AI tutor, or passages that mean the same.
 const VIEWS: { id: SearchView; label: string; hint: string }[] = [
-  { id: 'exact', label: 'Exact words', hint: 'Every place these words appear' },
-  { id: 'similar', label: 'Similar passages', hint: 'Passages that say something like this' },
-  { id: 'answer', label: 'Answer', hint: 'A short answer, then the passages behind it' },
+  { id: 'exact', label: 'Keyword search', hint: 'Every place these words appear' },
+  { id: 'answer', label: 'AI answer', hint: 'An answer from the tutor, with the passages behind it' },
+  { id: 'similar', label: 'Meaning search', hint: 'Passages that say something like this, in any wording' },
 ];
 
 // The three ways to read one query. The site picks the first by the query's
