@@ -24,8 +24,12 @@ const bySlug = new Map(posts.map((p) => [p.slug, p]));
 const RECENT_FROM = new Date('2024-01-01').getTime();
 const EARLIER_SUBSTACK = 30;
 const GABLOG = 14;
-const CHAPTERS = 5;
-const ESSAYS = ['there-is-no-economy-pdf', 'linguistic-turn-generative-literacy'];
+const ESSAYS = [
+  'there-is-no-economy-pdf', 'linguistic-turn-generative-literacy',
+  // The long academic essays, at the owner's request.
+  'the-anthropoetics-of-power', 'power-and-paradox-pdf', 'attentionality-originary-ethics',
+  'generative-anthropology-one-big-discipline', 'event-origin-center',
+];
 
 const chosen = new Map<string, string>();
 const take = (slug: string, why: string) => { if (bySlug.has(slug) && !chosen.has(slug)) chosen.set(slug, why); };
@@ -40,8 +44,10 @@ const earlier = substack
   .sort((a, b) => b.s - a.s);
 for (const { p } of earlier.slice(0, EARLIER_SUBSTACK)) take(p.slug, 'earlier Substack: most read, liked or cited');
 for (const r of ranked.filter((r) => r.source === 'gablog').slice(0, GABLOG)) take(r.slug, 'GABlog: most read or cited');
-for (const r of ranked.filter((r) => r.source === 'book').slice(0, CHAPTERS)) take(r.slug, 'Anthropomorphics chapter: most read or cited');
-for (const s of ESSAYS) take(s, 'essay: most read, or the glossary’s main source');
+// The whole of Anthropomorphics, chapter by chapter in the book's order (the
+// single-file copy of the book would duplicate them).
+for (const p of posts) if (p.source === 'book' && p.slug !== 'anthropomorphics-book') take(p.slug, 'Anthropomorphics (the whole book)');
+for (const s of ESSAYS) take(s, 'essay');
 
 const canon = [...chosen.entries()].map(([slug, why]) => {
   const p = bySlug.get(slug)!;

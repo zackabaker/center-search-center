@@ -50,7 +50,7 @@ const nextConfig: NextConfig = {
     "/api/semantic": ["./vectors/**"],
     // The tutor's paragraph vectors (~27 MB), read at runtime from a path
     // tracing can't see — bundled only into the tutor's own functions.
-    "/api/tutor/**": ["./tutor/index/keys.json", "./tutor/index/vectors.f32.bin"],
+    "/api/tutor/**": ["./tutor/index/keys.json", "./tutor/index/vectors.f32.bin", "./tutor/prompt.md"],
     // The embedding model (~33 MB) lives ONLY in /api/embed — /api/semantic
     // calls it over HTTP for raw-text mode. onnxruntime-node's native binding
     // is resolved at runtime (tracing misses it), so include the linux builds
