@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { fetchAccount, signInUrl, type AccountState } from '@/lib/account-client';
 import Markdown from './Markdown';
+import TutorWaiting from './TutorWaiting';
 import starters from '../../../tutor/starters.json';
 
 type Source = { title: string; url: string; source: string; snippet: string };
@@ -19,6 +20,9 @@ type Turn = {
   done: boolean;
   /** Id of the kept answer this turn is, or was saved as. */
   kept?: string;
+  /** When this answer was first written, if it came from the archive of earlier answers. */
+  archived?: number;
+  needSignIn?: boolean;
 };
 
 const STARTERS = starters as { id: string; q: string }[];
@@ -63,16 +67,19 @@ export default function OracleClient() {
     return () => clearInterval(id);
   }, [busy]);
 
-  const ask = async (question: string) => {
+  // `fresh` asks for a new answer to a conversation's first question even
+  // though one was written earlier; it restarts the thread with that question.
+  const ask = async (question: string, fresh = false) => {
     const q = question.trim();
     if (q.length < 2 || busy) return;
-    const history = turns.filter((t) => t.done && t.a).flatMap((t) => [
+    const prior = fresh ? [] : turns.filter((t) => t.done && t.a);
+    const history = prior.flatMap((t) => [
       { role: 'user', content: t.q },
       { role: 'assistant', content: t.a },
     ]);
-    const idx = turns.length;
+    const idx = prior.length;
     const patch = (f: (t: Turn) => Turn) => setTurns((ts) => ts.map((t, i) => (i === idx ? f(t) : t)));
-    setTurns((ts) => [...ts, { q, a: '', sources: [], whole: [], done: false }]);
+    setTurns([...prior, { q, a: '', sources: [], whole: [], done: false }]);
     setInput('');
     setWaited(0);
     setBusy(true);
@@ -81,11 +88,11 @@ export default function OracleClient() {
       const res = await fetch('/api/tutor/chat', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ message: q, history }),
+        body: JSON.stringify({ message: q, history, ...(fresh ? { fresh: true } : {}) }),
       });
       if (!res.ok || !res.body) {
         const j = await res.json().catch(() => ({}));
-        patch((t) => ({ ...t, error: j.error ?? 'The tutor did not respond. Try again.', done: true }));
+        patch((t) => ({ ...t, error: j.error ?? 'The tutor did not respond. Try again.', needSignIn: j.code === 'signin', done: true }));
         return;
       }
       const reader = res.body.getReader();
@@ -102,7 +109,7 @@ export default function OracleClient() {
           let ev: Record<string, unknown>;
           try { ev = JSON.parse(line); } catch { continue; }
           if (typeof ev.text === 'string') { const add = ev.text; patch((t) => ({ ...t, a: t.a + add })); }
-          else if (ev.sources) patch((t) => ({ ...t, sources: ev.sources as Source[], whole: (ev.whole as Turn['whole']) ?? [] }));
+          else if (ev.sources) patch((t) => ({ ...t, sources: ev.sources as Source[], whole: (ev.whole as Turn['whole']) ?? [], archived: typeof ev.archived === 'number' ? ev.archived : undefined }));
           else if (ev.check) patch((t) => ({ ...t, check: ev.check as Check, cost: ev.cost as number | undefined }));
           else if (typeof ev.error === 'string') { const e = ev.error; patch((t) => ({ ...t, error: e })); }
         }
@@ -130,8 +137,7 @@ export default function OracleClient() {
         return;
       }
     } catch { /* ask it live instead */ }
-    if (signedIn) ask(q);
-    else window.location.href = signInUrl('/oracle');
+    ask(q);
   };
 
   const setKept = (i: number, id: string | undefined) => setTurns((ts) => ts.map((t, j) => (j === i ? { ...t, kept: id } : t)));
@@ -153,22 +159,13 @@ export default function OracleClient() {
   };
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-4 pt-8 pb-40 sm:pt-12">
+    <main className="mx-auto w-full max-w-3xl px-4 pt-8 pb-60 sm:pb-44 sm:pt-12">
       <header>
         <h1 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">The Center Study tutor</h1>
         <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
           An AI tutor that has read Adam Katz’s lectures, <em>Anthropomorphics</em>, and his essays, and answers from them. It quotes and links the texts it draws on, and says when the archive has little on a question. It is not Katz, and it can be wrong: follow the links and read the passages yourself.
         </p>
       </header>
-
-      {account && !signedIn && turns.length === 0 && (
-        <div className="mt-8 rounded-lg border border-gray-200 dark:border-gray-800 px-4 py-5">
-          <p className="text-sm text-gray-700 dark:text-gray-300">Asking your own questions needs an account. The questions below open saved answers for anyone.</p>
-          <a href={signInUrl('/oracle')} className="mt-3 inline-block rounded bg-gray-900 px-3 py-2 text-sm text-white dark:bg-gray-100 dark:text-gray-900">
-            Sign in with Google
-          </a>
-        </div>
-      )}
 
       {turns.length === 0 && (
         <div className="mt-8">
@@ -191,11 +188,21 @@ export default function OracleClient() {
             <p className="rounded-lg bg-gray-100 dark:bg-gray-800 px-3 py-2.5 text-[15px] text-gray-900 dark:text-gray-100 whitespace-pre-wrap">{t.q}</p>
             <div className="mt-4">
               {t.a ? <Markdown text={t.a} /> : !t.error && (
-                <p className="text-sm text-gray-500 dark:text-gray-400" role="status">
-                  {waited < 6 ? 'Finding the passages…' : `Reading the texts… ${waited}s. The first answer of a session can take a minute or more.`}
+                <TutorWaiting seconds={waited} found={[...new Set(t.sources.map((x) => x.title))]} />
+              )}
+              {t.error && !t.needSignIn && <p className="mt-2 text-sm text-rose-700 dark:text-rose-300">{t.error}</p>}
+              {t.needSignIn && (
+                <div className="rounded-lg border border-gray-200 dark:border-gray-800 px-4 py-4">
+                  <p className="text-sm text-gray-700 dark:text-gray-300">{t.error}</p>
+                  <a href={signInUrl('/oracle')} className="mt-3 inline-block rounded bg-gray-900 px-3 py-2 text-sm text-white dark:bg-gray-100 dark:text-gray-900">Sign in with Google</a>
+                </div>
+              )}
+              {t.done && t.archived && !t.kept && (
+                <p className="mt-2 text-xs text-gray-400">
+                  Written earlier for this same question.{' '}
+                  <button type="button" onClick={() => ask(t.q, true)} className="underline">Ask it fresh</button>
                 </p>
               )}
-              {t.error && <p className="mt-2 text-sm text-rose-700 dark:text-rose-300">{t.error}</p>}
             </div>
             {t.done && t.check && (t.check.badLinks.length > 0 || t.check.badQuotes.length > 0) && (
               <p className="mt-2 rounded border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-900/20 px-3 py-2 text-xs text-amber-900 dark:text-amber-200">
@@ -250,16 +257,10 @@ export default function OracleClient() {
         <div ref={endRef} />
       </div>
 
-      {account && !signedIn && turns.length > 0 && (
-        <p className="mt-8 text-sm text-gray-600 dark:text-gray-400">
-          <a href={signInUrl('/oracle')} className="underline">Sign in with Google</a> to ask a follow-up or a question of your own.
-        </p>
-      )}
-
-      {signedIn && (
+      {account && (
         <form
           onSubmit={(e) => { e.preventDefault(); ask(input); }}
-          className="fixed inset-x-0 bottom-0 border-t border-gray-200 dark:border-gray-800 bg-[var(--background)] px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]"
+          className="fixed inset-x-0 bottom-[calc(3.6rem+env(safe-area-inset-bottom))] z-30 border-t border-gray-200 dark:border-gray-800 bg-[var(--background)] px-4 py-3 sm:bottom-0 sm:pb-[max(0.75rem,env(safe-area-inset-bottom))]"
         >
           <div className="mx-auto flex max-w-3xl items-end gap-2">
             <textarea
@@ -275,6 +276,11 @@ export default function OracleClient() {
               {busy ? 'Answering…' : 'Ask'}
             </button>
           </div>
+          {!signedIn && (
+            <p className="mx-auto mt-1.5 max-w-3xl text-xs text-gray-500 dark:text-gray-400">
+              A couple of questions a day are open to everyone. <a href={signInUrl('/oracle')} className="underline">Sign in with Google</a> for more.
+            </p>
+          )}
           {turns.length > 0 && !busy && (
             <div className="mx-auto mt-1.5 max-w-3xl">
               <button type="button" onClick={() => { setTurns([]); try { sessionStorage.removeItem(STORE); } catch { /* ignore */ } }} className="text-xs text-gray-500 underline">
