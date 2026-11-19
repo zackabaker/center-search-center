@@ -31,12 +31,9 @@ export default async function KeptAnswerPage({ params }: Props) {
   return (
     <main className="mx-auto w-full max-w-3xl px-4 pt-8 pb-24 sm:pt-12">
       <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-        <Link href="/oracle" className="hover:underline">The Center Study tutor</Link> · a saved answer
+        <Link href="/oracle" className="hover:underline">The Center Study tutor</Link> · AI
       </p>
       <h1 className="mt-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">{kept.q}</h1>
-      <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-        Written by an AI tutor working from Adam Katz’s texts, and kept because it was a good answer. It is not Katz, and it can be wrong: every quotation links to the paragraph it comes from, so you can check.
-      </p>
       <div className="mt-6">
         <Markdown text={kept.a} />
       </div>

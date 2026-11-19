@@ -185,9 +185,7 @@ export default function OracleClient() {
     <main className="mx-auto w-full max-w-3xl px-4 pt-8 pb-60 sm:pb-44 sm:pt-12">
       <header>
         <h1 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">The Center Study tutor</h1>
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-          An AI tutor that has read Adam Katz’s lectures, <em>Anthropomorphics</em>, and his essays, and answers from them. It quotes and links the texts it draws on, and says when the archive has little on a question. It is not Katz, and it can be wrong: follow the links and read the passages yourself.
-        </p>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">AI, working from the archive.</p>
       </header>
 
       {turns.length === 0 && (
@@ -240,7 +238,6 @@ export default function OracleClient() {
             {owner && t.done && t.check && t.check.quotes > 0 && t.check.badLinks.length === 0 && t.check.badQuotes.length === 0 && (
               <p className="mt-2 text-xs text-gray-400">All {t.check.quotes} quotation{t.check.quotes === 1 ? '' : 's'} found in the paragraphs cited.</p>
             )}
-            {t.done && t.kept && !owner && <p className="mt-2 text-xs text-gray-400">A saved answer from the tutor.</p>}
             {t.done && t.a && owner && (
               <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 dark:text-gray-400">
                 {t.kept ? (
