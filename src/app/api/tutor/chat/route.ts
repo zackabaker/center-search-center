@@ -1,10 +1,10 @@
 import { getUser, isOwnerUser } from '@/lib/auth';
 import { getKV } from '@/lib/kv';
 import { rateLimit, clientIp, isSameOrigin } from '@/lib/rate-limit';
-import { canonSlugs, canonText, estTokens, indexText, postBySlug, promptText, renderWholeText } from '@/lib/tutor/context';
+import { canonText, estTokens, indexText, promptText } from '@/lib/tutor/context';
 import { embedQuestion } from '@/lib/tutor/embed-query';
 import { streamTutor, tutorCost, TUTOR_MODEL } from '@/lib/tutor/model';
-import { tutorRetrieve, type TutorHit } from '@/lib/tutor/retrieve';
+import { buildTurn, sourcesOf } from '@/lib/tutor/turn';
 import { checkAnswer } from '@/lib/tutor/verify';
 
 // The tutor. A signed-in visitor's question, with the thread so far, goes to
@@ -23,27 +23,8 @@ export const maxDuration = 300;
 
 const PER_DAY = Number(process.env.TUTOR_USER_PER_DAY) || 40;
 const MONTHLY_USD = Number(process.env.TUTOR_MONTHLY_USD) || 300;
-const WHOLE_BUDGET = 70_000; // tokens of further whole texts per question
 const HISTORY_BUDGET = 40_000;
 const BOT_UA = /(?<!cu)bot|crawl|spider|slurp|headless|scrape|lighthouse/i;
-
-function furtherTexts(hits: TutorHit[]): { slug: string; title: string; text: string }[] {
-  const out: { slug: string; title: string; text: string }[] = [];
-  let spent = 0;
-  for (const h of hits) {
-    if (out.length >= 4) break;
-    if (canonSlugs.has(h.slug) || out.some((o) => o.slug === h.slug)) continue;
-    if (h.source === 'twitter' || h.source === 'reddit') continue;
-    const post = postBySlug(h.slug);
-    if (!post) continue;
-    const text = renderWholeText(post);
-    const cost = estTokens(text);
-    if (spent + cost > WHOLE_BUDGET) continue;
-    spent += cost;
-    out.push({ slug: h.slug, title: post.title, text });
-  }
-  return out;
-}
 
 export async function POST(request: Request) {
   if (!isSameOrigin(request)) return Response.json({ error: 'Forbidden' }, { status: 403 });
@@ -104,27 +85,8 @@ export async function POST(request: Request) {
   const lastAsked = [...history].reverse().find((m) => m.role === 'user')?.content ?? '';
   const query = message.length < 80 && lastAsked ? `${lastAsked.slice(0, 300)} ${message}` : message;
   const vec = await embedQuestion(query, new URL(request.url).origin, 12_000);
-  const hits = tutorRetrieve(query, vec, { limit: 18, perText: 2 });
-  const whole = furtherTexts(hits);
-  const cosines = hits.map((h) => h.cosine ?? 0);
-  const strength =
-    `closest match by meaning ${vec ? Math.max(0, ...cosines).toFixed(2) : 'unavailable'}` +
-    `; ${cosines.filter((c) => c >= 0.62).length} of ${hits.length} paragraphs match closely` +
-    `; ${hits.filter((h) => h.keywordRank !== null && h.keywordRank <= 20).length} match strongly on wording`;
-
-  const turn =
-    `<archive_match strength="${strength}">\n` +
-    'How to read the strength: a closest match near 0.70 or above with several close paragraphs means the archive ' +
-    'treats this directly; around 0.60 or below with few close paragraphs usually means it does not, whatever ' +
-    'words happen to overlap.\n\n' +
-    hits.map((h) => `<passage title=${JSON.stringify(h.title)} url="${h.url}">\n${h.text}\n</passage>`).join('\n\n') +
-    '\n</archive_match>\n\n' +
-    (whole.length
-      ? `<further_texts note="texts outside the canon that this question points to, in full">\n${whole.map((w) => w.text).join('\n\n')}\n</further_texts>\n\n`
-      : '') +
-    `The visitor writes:\n${message}`;
-
-  const sources = hits.slice(0, 10).map((h) => ({ title: h.title, url: h.url, source: h.source, snippet: h.text.slice(0, 200) }));
+  const { content: turn, hits, whole, strength } = buildTurn(message, query, vec);
+  const sources = sourcesOf(hits);
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     async start(controller) {

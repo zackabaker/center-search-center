@@ -4,26 +4,14 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import SceneMark from '@/components/SceneMark';
 import RollingLoader from '@/components/RollingLoader';
+import Link from 'next/link';
 import { searchHref } from '@/lib/query-shape';
+import starters from '../../tutor/starters.json';
 
-// Suggested starter queries — mix of core theory and contemporary applications
-const SUGGESTIONS = [
-  'the center',
-  'resentment',
-  'deferral',
-  'succession',
-  'sovereignty',
-  'AI',
-  'media',
-  'money',
-  'debt',
-  'power',
-  'scapegoating',
-  'prediction markets',
-  'technology',
-  'governance',
-  'names',
-];
+// Under the box: questions worth asking, each opening the tutor's saved
+// answer (owner direction, 2026-11-19: these replace the single-word search
+// suggestions). The list is the tutor's own starter list.
+const QUESTIONS = starters as { id: string; q: string }[];
 
 export default function HomeSearch() {
   const [query, setQuery] = useState('');
@@ -89,11 +77,6 @@ export default function HomeSearch() {
     navigate(query.trim());
   };
 
-  const handleSuggestion = (term: string) => {
-    setQuery(term);
-    navigate(term);
-  };
-
   return (
     <>
       {/* Icon — desktop only; on mobile it pushed the search bar below the
@@ -141,27 +124,27 @@ export default function HomeSearch() {
           </button>
         </div>
 
-        {/* Suggested terms. Once a search is launched they give way to the
+        {/* Starter questions. Once a search is launched they give way to the
             rolling loader (owner direction, 2026-11-17): suggestions under a
             search that is already running read as noise. The chips keep
             their space (transparent, not `invisible`: a global rule keeps
             buttons visible) so nothing below jumps. */}
         <div className="mt-4 relative">
           <div className={isNavigating ? 'opacity-0 pointer-events-none' : undefined} aria-hidden={isNavigating || undefined}>
-            <p className="text-xs text-gray-400 dark:text-gray-500 text-center mb-2">Try searching for</p>
-            <div className="flex flex-wrap justify-center gap-2">
-              {SUGGESTIONS.map((term) => (
-                <button
-                  key={term}
-                  type="button"
-                  tabIndex={isNavigating ? -1 : undefined}
-                  onClick={() => handleSuggestion(term)}
-                  className="px-3 py-1.5 text-xs rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all"
-                >
-                  {term}
-                </button>
+            <p className="text-xs text-gray-400 dark:text-gray-500 text-center mb-2">Or start with a question</p>
+            <ul className="grid gap-2 sm:grid-cols-2">
+              {QUESTIONS.map((s) => (
+                <li key={s.id}>
+                  <Link
+                    href={`/oracle/a/${s.id}`}
+                    tabIndex={isNavigating ? -1 : undefined}
+                    className="block h-full rounded-xl border border-gray-200 dark:border-gray-700 px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all"
+                  >
+                    {s.q}
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
           {isNavigating && (
             <div className="absolute inset-x-0 top-2">

@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { fetchAccount, signInUrl, type AccountState } from '@/lib/account-client';
+import Markdown from './Markdown';
+import starters from '../../../tutor/starters.json';
 
 type Source = { title: string; url: string; source: string; snippet: string };
 type Check = { links: number; badLinks: string[]; quotes: number; badQuotes: { quote: string; href: string; inText: boolean }[] };
@@ -15,74 +17,12 @@ type Turn = {
   cost?: number;
   error?: string;
   done: boolean;
+  /** Id of the kept answer this turn is, or was saved as. */
+  kept?: string;
 };
 
-const STARTERS = [
-  'I’m new to this. What is the originary hypothesis, and why does it matter?',
-  'What does Center Study mean by “the center”?',
-  'How does Katz think about money and debt?',
-  'What is an idiom, and what is idiomclining?',
-  'Apply Center Study to how AI language models are changing writing.',
-  'Why does succession matter so much for judging a social order?',
-];
+const STARTERS = starters as { id: string; q: string }[];
 const STORE = 'csc-oracle-thread';
-
-function inline(text: string, k: number): React.ReactNode {
-  return text.split(/(\*\*[^*]+\*\*|\*[^*\s][^*]*\*|\[[^\]]+\]\([^)\s]+\))/g).map((part, i) => {
-    if (part.startsWith('**') && part.endsWith('**')) return <strong key={`${k}-${i}`}>{part.slice(2, -2)}</strong>;
-    if (part.length > 2 && part.startsWith('*') && part.endsWith('*')) return <em key={`${k}-${i}`}>{part.slice(1, -1)}</em>;
-    const m = /^\[([^\]]+)\]\(([^)\s]+)\)$/.exec(part);
-    if (m) {
-      const internal = m[2].startsWith('/');
-      return internal ? (
-        <Link key={`${k}-${i}`} href={m[2]} target="_blank" className="underline decoration-gray-400 underline-offset-2 hover:decoration-gray-900 dark:hover:decoration-gray-100">{m[1]}</Link>
-      ) : (
-        <a key={`${k}-${i}`} href={m[2]} target="_blank" rel="noreferrer" className="underline">{m[1]}</a>
-      );
-    }
-    return <span key={`${k}-${i}`}>{part}</span>;
-  });
-}
-
-function Markdown({ text }: { text: string }) {
-  const out: React.ReactNode[] = [];
-  const lines = text.split('\n');
-  let i = 0;
-  let k = 0;
-  while (i < lines.length) {
-    const line = lines[i];
-    if (!line.trim()) { i++; continue; }
-    const h = /^(#{1,4})\s+(.*)$/.exec(line);
-    if (h) {
-      out.push(<h3 key={k++} className="mt-5 mb-1.5 font-semibold text-gray-900 dark:text-gray-100">{inline(h[2], k)}</h3>);
-      i++; continue;
-    }
-    if (/^\s*[-*]\s+/.test(line) || /^\s*\d+\.\s+/.test(line)) {
-      const ordered = /^\s*\d+\.\s+/.test(line);
-      const items: string[] = [];
-      while (i < lines.length && (/^\s*[-*]\s+/.test(lines[i]) || /^\s*\d+\.\s+/.test(lines[i]))) {
-        items.push(lines[i].replace(/^\s*(?:[-*]|\d+\.)\s+/, ''));
-        i++;
-      }
-      const L = ordered ? 'ol' : 'ul';
-      out.push(
-        <L key={k++} className={`my-3 space-y-1.5 pl-5 ${ordered ? 'list-decimal' : 'list-disc'}`}>
-          {items.map((it, j) => <li key={j}>{inline(it, k * 100 + j)}</li>)}
-        </L>,
-      );
-      continue;
-    }
-    if (line.startsWith('>')) {
-      const q: string[] = [];
-      while (i < lines.length && lines[i].startsWith('>')) { q.push(lines[i].replace(/^>\s?/, '')); i++; }
-      out.push(<blockquote key={k++} className="my-3 border-l-2 border-gray-300 dark:border-gray-600 pl-4 italic">{inline(q.join(' '), k)}</blockquote>);
-      continue;
-    }
-    out.push(<p key={k++} className="mb-3">{inline(line, k)}</p>);
-    i++;
-  }
-  return <div className="font-serif text-[17px] leading-relaxed text-gray-800 dark:text-gray-200">{out}</div>;
-}
 
 export default function OracleClient() {
   const [account, setAccount] = useState<AccountState | null>(null);
@@ -93,6 +33,17 @@ export default function OracleClient() {
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { fetchAccount().then(setAccount); }, []);
+  // Arriving from a saved answer's page ("ask a follow-up"): start the thread with it.
+  useEffect(() => {
+    const from = new URLSearchParams(window.location.search).get('from');
+    if (!from) return;
+    fetch(`/api/tutor/kept?id=${encodeURIComponent(from)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => {
+        if (j?.kept) setTurns([{ q: j.kept.q, a: j.kept.a, sources: j.kept.sources ?? [], whole: j.kept.whole ?? [], done: true, kept: j.kept.id }]);
+      })
+      .catch(() => {});
+  }, []);
   useEffect(() => {
     // After mount (not during render) so the server and first client render agree.
     Promise.resolve().then(() => {
@@ -165,6 +116,41 @@ export default function OracleClient() {
   };
 
   const signedIn = !!account?.user;
+  const owner = account?.user?.owner === true;
+
+  // A starter question with a kept answer shows it at once, to anyone; the
+  // rest are asked live (which needs an account).
+  const start = async (q: string) => {
+    if (busy) return;
+    try {
+      const r = await fetch(`/api/tutor/kept?q=${encodeURIComponent(q)}`);
+      if (r.ok) {
+        const { kept } = await r.json();
+        setTurns([{ q: kept.q, a: kept.a, sources: kept.sources ?? [], whole: kept.whole ?? [], done: true, kept: kept.id }]);
+        return;
+      }
+    } catch { /* ask it live instead */ }
+    if (signedIn) ask(q);
+    else window.location.href = signInUrl('/oracle');
+  };
+
+  const setKept = (i: number, id: string | undefined) => setTurns((ts) => ts.map((t, j) => (j === i ? { ...t, kept: id } : t)));
+  const keep = async (i: number) => {
+    const t = turns[i];
+    const r = await fetch('/api/tutor/kept', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ q: t.q, a: t.a, sources: t.sources, whole: t.whole }),
+    }).catch(() => null);
+    if (r?.ok) setKept(i, (await r.json()).kept.id);
+    else alert('That did not save. Try again.');
+  };
+  const unkeep = async (i: number) => {
+    const id = turns[i].kept;
+    if (!id) return;
+    const r = await fetch('/api/tutor/kept', { method: 'DELETE', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id }) }).catch(() => null);
+    if (r?.ok) setKept(i, undefined);
+  };
 
   return (
     <main className="mx-auto w-full max-w-3xl px-4 pt-8 pb-40 sm:pt-12">
@@ -175,23 +161,23 @@ export default function OracleClient() {
         </p>
       </header>
 
-      {account && !signedIn && (
+      {account && !signedIn && turns.length === 0 && (
         <div className="mt-8 rounded-lg border border-gray-200 dark:border-gray-800 px-4 py-5">
-          <p className="text-sm text-gray-700 dark:text-gray-300">The tutor is open to readers with an account. Sign in to start.</p>
+          <p className="text-sm text-gray-700 dark:text-gray-300">Asking your own questions needs an account. The questions below open saved answers for anyone.</p>
           <a href={signInUrl('/oracle')} className="mt-3 inline-block rounded bg-gray-900 px-3 py-2 text-sm text-white dark:bg-gray-100 dark:text-gray-900">
             Sign in with Google
           </a>
         </div>
       )}
 
-      {signedIn && turns.length === 0 && (
+      {turns.length === 0 && (
         <div className="mt-8">
           <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Somewhere to start</p>
           <ul className="mt-2 grid gap-2 sm:grid-cols-2">
             {STARTERS.map((s) => (
-              <li key={s}>
-                <button type="button" onClick={() => ask(s)} className="w-full rounded-lg border border-gray-200 dark:border-gray-800 px-3 py-2.5 text-left text-sm text-gray-800 hover:border-gray-400 dark:text-gray-200 dark:hover:border-gray-600">
-                  {s}
+              <li key={s.id}>
+                <button type="button" onClick={() => start(s.q)} className="w-full rounded-lg border border-gray-200 dark:border-gray-800 px-3 py-2.5 text-left text-sm text-gray-800 hover:border-gray-400 dark:text-gray-200 dark:hover:border-gray-600">
+                  {s.q}
                 </button>
               </li>
             ))}
@@ -222,6 +208,22 @@ export default function OracleClient() {
             {t.done && t.check && t.check.quotes > 0 && t.check.badLinks.length === 0 && t.check.badQuotes.length === 0 && (
               <p className="mt-2 text-xs text-gray-400">All {t.check.quotes} quotation{t.check.quotes === 1 ? '' : 's'} found in the paragraphs cited.</p>
             )}
+            {t.done && t.kept && !owner && <p className="mt-2 text-xs text-gray-400">A saved answer from the tutor.</p>}
+            {t.done && t.a && owner && (
+              <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 dark:text-gray-400">
+                {t.kept ? (
+                  <>
+                    <span>Kept. Served instantly for this question.</span>
+                    <Link href={`/oracle/a/${t.kept}`} target="_blank" className="underline">its page →</Link>
+                    <button type="button" onClick={() => unkeep(i)} className="underline">stop serving it</button>
+                  </>
+                ) : (
+                  <button type="button" onClick={() => keep(i)} className="rounded border border-gray-300 dark:border-gray-700 px-2 py-0.5 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">
+                    Keep this answer
+                  </button>
+                )}
+              </p>
+            )}
             {t.cost !== undefined && <p className="mt-1 text-xs text-gray-400">This answer cost ${t.cost.toFixed(2)} (shown to you only).</p>}
             {t.sources.length > 0 && (
               <details className="mt-3">
@@ -247,6 +249,12 @@ export default function OracleClient() {
         ))}
         <div ref={endRef} />
       </div>
+
+      {account && !signedIn && turns.length > 0 && (
+        <p className="mt-8 text-sm text-gray-600 dark:text-gray-400">
+          <a href={signInUrl('/oracle')} className="underline">Sign in with Google</a> to ask a follow-up or a question of your own.
+        </p>
+      )}
 
       {signedIn && (
         <form

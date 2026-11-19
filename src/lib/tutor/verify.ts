@@ -43,9 +43,20 @@ export function checkAnswer(answer: string): TutorCheck {
     if (!r) continue; // already reported as a bad link
     out.quotes++;
     // An elided quotation ("A … B") is checked piece by piece.
-    const pieces = quote.split(/\s*(?:…|\.\.\.|\[\.\.\.\])\s*/).map(norm).filter((p) => p.length >= 12);
+    // Editorial brackets ("updat[ing]", "[the center]") break a piece the same way:
+    // the word they touch is dropped and the text either side is checked.
+    const pieces = quote
+      .split(/\s*(?:…|\.\.\.|\S*\[[^\]]*\]\S*)\s*/)
+      .map(norm)
+      .filter((p) => p.length >= 12);
     const inParas = (ps: string[]) => { const t = norm(ps.join(' ')); return pieces.every((p) => t.includes(p)); };
-    const near = r.n === null ? r.paras : r.paras.slice(Math.max(0, r.n - 2), r.n + 1); // the paragraph and its neighbours
+    let near = r.n === null ? r.paras : r.paras.slice(Math.max(0, r.n - 2), r.n + 1); // the paragraph and its neighbours
+    // A quotation that runs across paragraphs is cited with several links in a row.
+    const rest = answer.slice((m.index ?? 0) + m[0].length);
+    for (const more of (/^(?:\s*(?:,|and)\s*\[[^\]]+\]\(\/post\/[^)\s]+\))+/.exec(rest)?.[0] ?? '').matchAll(/\((\/post\/[^)\s]+)\)/g)) {
+      const r2 = resolve(more[1]);
+      if (r2) near = near.concat(r2.n === null ? r2.paras : r2.paras.slice(Math.max(0, r2.n - 2), r2.n + 1));
+    }
     if (!inParas(near)) out.badQuotes.push({ quote: quote.slice(0, 200), href, inText: inParas(r.paras) });
   }
   return out;

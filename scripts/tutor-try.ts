@@ -6,9 +6,9 @@
  *   npx tsx --env-file=.env.local scripts/tutor-try.ts --count   (size of the fixed context)
  */
 import Anthropic from '@anthropic-ai/sdk';
-import { canonSlugs, canonText, estTokens, indexText, postBySlug, promptText, renderWholeText } from '../src/lib/tutor/context';
+import { canonSlugs, canonText, indexText, promptText } from '../src/lib/tutor/context';
 import { streamTutor, tutorCost } from '../src/lib/tutor/model';
-import { tutorRetrieve } from '../src/lib/tutor/retrieve';
+import { buildTurn } from '../src/lib/tutor/turn';
 import { checkAnswer } from '../src/lib/tutor/verify';
 import { embedQuery } from '../src/lib/embed';
 
@@ -27,22 +27,7 @@ async function main() {
   const history: { role: 'user' | 'assistant'; content: string }[] = [];
   for (const q of questions) {
     const vec = await embedQuery(q);
-    const hits = tutorRetrieve(q, vec, { limit: 18, perText: 2 });
-    const whole: string[] = [];
-    let spent = 0;
-    for (const h of hits) {
-      const post = postBySlug(h.slug);
-      if (whole.length >= 4 || canonSlugs.has(h.slug) || !post || h.source === 'twitter' || h.source === 'reddit') continue;
-      const text = renderWholeText(post);
-      if (whole.includes(text) || spent + estTokens(text) > 70_000) continue;
-      spent += estTokens(text);
-      whole.push(text);
-    }
-    const cos = hits.map((h) => h.cosine ?? 0);
-    const strength = `closest match by meaning ${Math.max(0, ...cos).toFixed(2)}; ${cos.filter((c) => c >= 0.62).length} of ${hits.length} paragraphs match closely`;
-    const passages = hits.map((h) => `<passage title=${JSON.stringify(h.title)} url="${h.url}">\n${h.text}\n</passage>`).join('\n\n');
-    const further = whole.length ? `<further_texts>\n${whole.join('\n\n')}\n</further_texts>\n\n` : '';
-    const turn = `<archive_match strength="${strength}">\n${passages}\n</archive_match>\n\n${further}The visitor writes:\n${q}`;
+    const { content: turn, whole, strength } = buildTurn(q, q, vec);
     console.log(`\n\n=== ${q}\n(${strength}; further texts in full: ${whole.length})\n`);
     const t0 = Date.now();
     let first = 0;
