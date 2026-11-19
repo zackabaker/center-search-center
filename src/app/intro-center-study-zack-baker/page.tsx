@@ -378,7 +378,11 @@ export default function IntroPage() {
         there are certainly lots of modes of animal and maybe even plant
         communication that we haven&rsquo;t yet scratched the surface of.
         However, there&rsquo;s a difference in kind between animal
-        communication and human language. And there&rsquo;s been lots of great
+        communication and human language. As Eric Gans put it:
+        &ldquo;Generative Anthropology (GA) is an attempt to come to grips
+        with the fact that human language represents not a gradual development
+        from animal communication but a radical break from it.&rdquo; And
+        there&rsquo;s been lots of great
         research into this, including books like <em>The Symbolic Species</em>{' '}
         and the research of Michael Tomasello.
       </P>
