@@ -37,7 +37,8 @@ async function main() {
   if (!name || name.startsWith('--')) throw new Error('Give the run a name.');
   const onlyArg = process.argv.indexOf('--only');
   const only = process.argv.includes('--sample') ? SAMPLE : onlyArg > 0 ? process.argv[onlyArg + 1].split(',') : null;
-  const all: Q[] = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'tutor', 'eval.json'), 'utf-8'));
+  const setArg = process.argv.indexOf('--set'); // another question file under tutor/, e.g. --set judge.json
+  const all: Q[] = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'tutor', setArg > 0 ? process.argv[setArg + 1] : 'eval.json'), 'utf-8'));
   const questions = only ? all.filter((q) => only.includes(q.id)) : all;
   const stable = [canonText(), `${indexText()}\n\n---\n\n${promptText()}`];
   const dir = path.join(process.cwd(), 'tutor', 'eval-runs');

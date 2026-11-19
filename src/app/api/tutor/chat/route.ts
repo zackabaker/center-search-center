@@ -1,4 +1,3 @@
-import crypto from 'crypto';
 import { getUser, isOwnerUser } from '@/lib/auth';
 import { getKV } from '@/lib/kv';
 import { rateLimit, clientIp, isSameOrigin } from '@/lib/rate-limit';
@@ -8,6 +7,7 @@ import { streamTutor, tutorCost, TUTOR_MODEL } from '@/lib/tutor/model';
 import { buildTurn, sourcesOf } from '@/lib/tutor/turn';
 import { checkAnswer } from '@/lib/tutor/verify';
 import { archiveAnswer, findArchived } from '@/lib/tutor/archive';
+import { admitTutor, settleTutor } from '@/lib/tutor/limits';
 
 // The tutor. A visitor's question, with the thread so far, goes to
 // the model together with the canon and index (cached), the paragraphs of the
@@ -23,20 +23,6 @@ import { archiveAnswer, findArchived } from '@/lib/tutor/archive';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 
-// Who may ask, and how much may be spent. Signed-in readers get a real daily
-// allowance; a signed-out visitor gets a couple of answers a day (by a hash of
-// their address, never the address itself) and is then asked to sign in. The
-// day's and the month's spending each have a ceiling, so a burst of abuse
-// costs a bounded amount whatever else fails.
-const PER_DAY = Number(process.env.TUTOR_USER_PER_DAY) || 40;
-const ANON_PER_DAY = Number(process.env.TUTOR_ANON_PER_DAY) || 2;
-const DAILY_USD = Number(process.env.TUTOR_DAILY_USD) || 150;
-const MONTHLY_USD = Number(process.env.TUTOR_MONTHLY_USD) || 1000;
-
-function addressHash(request: Request): string {
-  const pepper = process.env.AUTH_SECRET || process.env.STUDY_KEY || 'center-study';
-  return crypto.createHash('sha256').update(`${pepper}:tutor:${clientIp(request)}`).digest('hex').slice(0, 24);
-}
 const HISTORY_BUDGET = 40_000;
 const BOT_UA = /(?<!cu)bot|crawl|spider|slurp|headless|scrape|lighthouse/i;
 
@@ -56,10 +42,6 @@ export async function POST(request: Request) {
   if (!process.env.ANTHROPIC_API_KEY) return Response.json({ error: 'The tutor is not configured.' }, { status: 500 });
 
   const kv = getKV();
-  const now = new Date();
-  const day = now.toISOString().slice(0, 10);
-  const monthKey = `tutor:spend:${day.slice(0, 7)}`;
-  const dayKey = `tutor:spend:day:${day}`;
   const firstTurn = !Array.isArray(body.history) || body.history.length === 0;
   const origin = new URL(request.url).origin;
   // One meaning vector serves both the archive lookup and retrieval.
@@ -86,34 +68,9 @@ export async function POST(request: Request) {
     } catch { /* no archive: answer it live */ }
   }
 
-  // ── Limits: this visitor's day, then the day's and month's spending ──────
-  if (!user && !kv) return Response.json({ error: 'Sign in to talk with the tutor.', code: 'signin' }, { status: 401 });
-  if (kv) {
-    try {
-      const [month, today] = await Promise.all([kv.get(monthKey), kv.get(dayKey)]);
-      if ((Number(month) || 0) >= MONTHLY_USD) {
-        return Response.json({ error: 'The tutor has reached its limit for this month. It will be back next month.', code: 'month' }, { status: 429 });
-      }
-      if ((Number(today) || 0) >= DAILY_USD && !owner) {
-        return Response.json({ error: 'The tutor has answered as much as it can today. It will be back tomorrow.', code: 'today' }, { status: 429 });
-      }
-      if (!owner) {
-        const who = user ? `tutor:n:${day}:${user.sub}` : `tutor:anon:${day}:${addressHash(request)}`;
-        const n = await kv.incr(who);
-        if (n === 1) await kv.expire(who, 60 * 60 * 48);
-        if (!user && n > ANON_PER_DAY) {
-          return Response.json({ error: 'Sign in to keep going. It is free, and it is how the tutor stays open to people and closed to bots.', code: 'signin' }, { status: 401 });
-        }
-        if (user && n > PER_DAY) {
-          return Response.json({ error: `That is ${PER_DAY} questions today, which is the daily limit. Come back tomorrow.`, code: 'day' }, { status: 429 });
-        }
-      }
-    } catch {
-      // The store being down must not take the tutor down for readers with an
-      // account; without it there is no way to meter a signed-out visitor.
-      if (!user) return Response.json({ error: 'Sign in to talk with the tutor.', code: 'signin' }, { status: 401 });
-    }
-  }
+  // ── Limits (src/lib/tutor/limits.ts) ─────────────────────────────────────
+  const admission = await admitTutor(kv, request, user?.sub ?? null, owner);
+  if (!admission.ok) return Response.json({ error: admission.error, code: admission.code }, { status: admission.status });
 
   // ── The thread so far, newest kept, within a budget ──────────────────────
   const history: { role: 'user' | 'assistant'; content: string }[] = [];
@@ -161,11 +118,7 @@ export async function POST(request: Request) {
         // Awaited before close: once the stream ends the function may freeze.
         if (kv) {
           try {
-            await kv.incrbyfloat(monthKey, cost);
-            await kv.expire(monthKey, 60 * 60 * 24 * 70);
-            await kv.incrbyfloat(dayKey, cost);
-            await kv.expire(dayKey, 60 * 60 * 24 * 40);
-            await kv.set('tutor:warm', 1, { ex: 50 * 60 }); // the canon is loaded for the next hour
+            await settleTutor(kv, cost);
             // Every first answer is saved for the next person who asks the same thing.
             if (firstTurn && stop === 'end_turn' && answer.length > 400 && check.badLinks.length === 0) {
               await archiveAnswer(kv, {

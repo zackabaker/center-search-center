@@ -9,8 +9,7 @@ import type { Redis } from '@upstash/redis';
 import { dot, EMBED_DIM } from '../vecmath';
 import { keptIdFor } from './kept';
 
-const ANSWERS = 'tutor:archive';
-const VECTORS = 'tutor:archive:vec';
+const A = 'tutor:archive';
 // Measured on the site's embedding model: rewordings of one question score
 // 0.91 and up ("What is X?" / "Can you explain X?"); different questions that
 // share most of their words ("…about money?" / "…about debt?") stay under 0.87.
@@ -35,7 +34,13 @@ const parse = (v: unknown): Archived | null => {
   return o && typeof (o as Archived).a === 'string' ? (o as Archived) : null;
 };
 
-export async function findArchived(kv: Redis, question: string, vec: Float32Array | null): Promise<Archived | null> {
+/**
+ * `ns` separates the short answers written for the search box ('brief') from
+ * the tutor's full ones (the default).
+ */
+export async function findArchived(kv: Redis, question: string, vec: Float32Array | null, ns = ''): Promise<Archived | null> {
+  const ANSWERS = ns ? `${A}:${ns}` : A;
+  const VECTORS = ns ? `${A}:${ns}:vec` : `${A}:vec`;
   const exact = parse(await kv.hget(ANSWERS, keptIdFor(question)));
   if (exact) return exact;
   if (!vec) return null;
@@ -51,7 +56,9 @@ export async function findArchived(kv: Redis, question: string, vec: Float32Arra
   return best ? parse(await kv.hget(ANSWERS, best)) : null;
 }
 
-export async function archiveAnswer(kv: Redis, entry: Archived, vec: Float32Array | null): Promise<void> {
+export async function archiveAnswer(kv: Redis, entry: Archived, vec: Float32Array | null, ns = ''): Promise<void> {
+  const ANSWERS = ns ? `${A}:${ns}` : A;
+  const VECTORS = ns ? `${A}:${ns}:vec` : `${A}:vec`;
   const id = keptIdFor(entry.q);
   await kv.hset(ANSWERS, { [id]: JSON.stringify(entry) });
   if (vec) await kv.hset(VECTORS, { [id]: pack(vec) });

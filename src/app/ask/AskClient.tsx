@@ -589,7 +589,10 @@ export default function AskClient() {
   // Short answer by default; "Read the full answer" expands it in place. The
   // collapsed box has a fixed height, so a streaming answer cannot move the
   // passages under it — only the reader's own tap does.
-  const [showFull, setShowFull] = useState(false);
+  // The whole answer shows by default (owner, 2026-11-19: a one-sentence
+  // answer read as a failed load). The tutor's answers here are short already;
+  // the reader can still collapse one to its first sentence.
+  const [showFull, setShowFull] = useState(true);
   const [fontSize, setFontSize] = useState<FontSize>('md');
   const [linkCopied, setLinkCopied] = useState(false);
   // Concept seed: set when arriving from a concept page
@@ -754,7 +757,7 @@ export default function AskClient() {
     setInput('');
     setStopped(false);
     setSignInWall(null);
-    if (question !== currentQuestion) setShowFull(false);
+    if (question !== currentQuestion) setShowFull(true);
     setCurrentQuestion(question);
     // Clear any previous failure up front — the cache-hit early returns below
     // never reach the later setError(null), and the error state has render
@@ -1247,7 +1250,7 @@ export default function AskClient() {
                     the status changes length as the answer progresses, and on
                     a phone a shared row would wrap and move the page. */}
                 <p className="text-xs font-mono uppercase tracking-widest text-gray-900 dark:text-gray-100 h-5 truncate">
-                  {showFull ? 'Full answer' : 'Short answer'}
+                  {showFull ? 'Answer' : 'Short answer'}
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 h-5 truncate mb-1.5" aria-live="polite">
                   {signInWall
@@ -1664,6 +1667,13 @@ export default function AskClient() {
                       </button>
                     ))}
                   </div>
+                  {/* The same question, at full length and as a conversation. */}
+                  <Link
+                    href={`/oracle?ask=${encodeURIComponent(currentQuestion.slice(0, 600))}`}
+                    className="mt-3 flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                  >
+                    Continue with the tutor: the full answer, and your follow-up questions →
+                  </Link>
                   {/* Hand off to the reading-path generator with this question
                       prefilled (the old /guide/reading-paths?q= target ignored
                       the query entirely). */}

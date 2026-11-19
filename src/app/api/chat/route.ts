@@ -11,6 +11,10 @@ import { relatedSlugs } from '@/lib/related';
 import { aliasesFor } from '@/lib/vocab';
 import { lexicalPassages } from '@/lib/lexical-passages';
 import { RETRIEVAL_STOPWORDS } from '@/lib/stopwords';
+import { tutorSearchAnswer } from '@/lib/tutor/search-answer';
+
+// The tutor reads the whole canon before it answers; a cold start can take a minute.
+export const maxDuration = 300;
 
 const anthropic = new Anthropic();
 
@@ -574,6 +578,22 @@ export async function POST(request: Request) {
         { error: 'ANTHROPIC_API_KEY not configured' },
         { status: 500 }
       );
+    }
+
+    // ── The tutor answers first (owner direction, 2026-11-19) ────────────
+    // The Answer view now runs on the tutor: a saved answer if there is one,
+    // otherwise a new short one from the same canon and retrieval as /oracle.
+    // It returns null when it can't take the question (paused by a spending
+    // ceiling, or not configured), and the excerpt-based answer below serves
+    // instead. A concept-page question keeps the older path, which is seeded
+    // with that concept's defining passages.
+    if (!concept) {
+      const viaTutor = await tutorSearchAnswer({
+        request, kv: getKV(), message: message.slice(0, 4000), history,
+        userSub: getUser(request)?.sub ?? null, owner: isOwnerUser(getUser(request)),
+        fresh: fresh === true, cors: cors ?? {},
+      }).catch((err) => { console.error('Tutor (search) failed before answering:', err); return null; });
+      if (viaTutor) return viaTutor;
     }
 
     // ── Spending guards (src/lib/ask-budget.ts) ──────────────────────────

@@ -27,7 +27,7 @@ const MAX_TOKENS = 16000;
 
 const anthropic = new Anthropic();
 
-export async function* streamTutor(req: TutorRequest): AsyncGenerator<TutorEvent> {
+export async function* streamTutor(req: TutorRequest, opts: { effort?: string; maxTokens?: number } = {}): AsyncGenerator<TutorEvent> {
   // The canon is hundreds of thousands of tokens and identical for every
   // visitor, so it is cached for an hour: a conversation pays to load it once.
   // `fallbacks` re-runs a declined request on another model inside the same
@@ -35,10 +35,10 @@ export async function* streamTutor(req: TutorRequest): AsyncGenerator<TutorEvent
   type Params = Parameters<typeof anthropic.beta.messages.stream>[0];
   const stream = anthropic.beta.messages.stream({
     model: TUTOR_MODEL,
-    max_tokens: MAX_TOKENS,
+    max_tokens: opts.maxTokens ?? MAX_TOKENS,
     betas: ['server-side-fallback-2026-07-01'],
     fallbacks: 'default',
-    output_config: { effort: EFFORT },
+    output_config: { effort: opts.effort ?? EFFORT },
     system: req.stable.map((text) => ({ type: 'text', text, cache_control: { type: 'ephemeral', ttl: '1h' } })),
     messages: req.messages,
   } as unknown as Params);

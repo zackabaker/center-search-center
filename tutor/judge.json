@@ -1,0 +1,10 @@
+[
+  {"id": "j1", "kind": "judge", "q": "Katz says there is no economy. A sceptical economist replies that markets obviously coordinate millions of decisions with no center at all. How would Katz answer, and where is his answer weakest?"},
+  {"id": "j2", "kind": "judge", "q": "Trace how the concept of the center changes from Anthropomorphics to the recent essays on thirdness and data exchange. What stayed, and what was dropped?"},
+  {"id": "j3", "kind": "judge", "q": "I run a 40-person company and two senior people are fighting over who leads a new product. Use imperative exchange, the pointman and succession to tell me what to do on Monday."},
+  {"id": "j4", "kind": "judge", "q": "Explain how the ostensive, imperative and declarative relate to Katz's account of money as debt to the center, for someone who knows Girard well but has never read Gans."},
+  {"id": "j5", "kind": "judge", "q": "What exactly is idiomclining, how is it different from coining jargon, and can you idiomcline this sentence of mine: \"Our team needs better communication\"?"},
+  {"id": "j6", "kind": "judge", "q": "Is singularized succession in perpetuity just monarchism? Give the strongest version of that objection and then Katz's reply."},
+  {"id": "j7", "kind": "judge", "q": "On Katz's account, why can a language model write fluent declaratives but not promise or deem? Does that argument hold up?"},
+  {"id": "j8", "kind": "judge", "q": "Take the essays on Judaism as a civilizational blockchain. What is the argument, and how does it follow from the originary hypothesis?"}
+]

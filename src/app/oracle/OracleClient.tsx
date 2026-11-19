@@ -152,6 +152,17 @@ export default function OracleClient() {
     ask(q);
   };
 
+  // Arriving from the search box's Answer view with a question to carry on.
+  const startRef = useRef(start);
+  useEffect(() => { startRef.current = start; });
+  useEffect(() => {
+    if (!account) return;
+    const q = new URLSearchParams(window.location.search).get('ask');
+    if (!q) return;
+    window.history.replaceState(null, '', '/oracle');
+    startRef.current(q.slice(0, 600));
+  }, [account]);
+
   const setKept = (i: number, id: string | undefined) => setTurns((ts) => ts.map((t, j) => (j === i ? { ...t, kept: id } : t)));
   const keep = async (i: number) => {
     const t = turns[i];
