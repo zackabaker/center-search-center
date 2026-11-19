@@ -364,6 +364,9 @@ function findMatchingSentence(snippetContent: string, query: string): string | n
     if (sentence.toLowerCase().includes(lowerQuery)) {
       const trimmed = sentence.trim();
       if (trimmed.length < 10) continue;
+      // A housekeeping line (a link to a comment thread, a subscribe notice)
+      // can contain the word inside a URL; it says nothing about the subject.
+      if (/https?:\/\/|www\./i.test(trimmed)) continue;
       if (trimmed.length <= 220) return trimmed;
       const matchIndex = trimmed.toLowerCase().indexOf(lowerQuery);
       const start = Math.max(0, matchIndex - 80);

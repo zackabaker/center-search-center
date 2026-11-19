@@ -39,12 +39,12 @@ import { queryShape, searchHref } from '@/lib/query-shape';
 import { activeExpansions } from '@/lib/vocab';
 
 const SOURCE_LABELS: Record<ContentSource, string> = {
-  substack:  'Substack',
-  gablog:    'GABlog',
-  book:      'Book',
-  pdf:       'Essays & Articles',
-  reddit:    'Reddit',
-  twitter:   'X / Twitter',
+  substack:  'Substack essay',
+  gablog:    'GABlog post',
+  book:      'Anthropomorphics',
+  pdf:       'Essay',
+  reddit:    'Reddit comment',
+  twitter:   'X thread',
   chronicle: 'Chronicle · Gans',
   ap:        'Anthropoetics · ref',
 };
@@ -699,16 +699,16 @@ export default function SearchPageClient({
                     {grepStatus === 'done' && grep && grep.totalPosts - (grep.refPosts ?? 0) > 0 ? (
                       <span className="text-gray-900 dark:text-gray-100">
                         <span className="font-semibold tabular-nums">{(grep.totalOccurrences - (grep.refOccurrences ?? 0)).toLocaleString()}</span>
-                        {' '}occurrence{grep.totalOccurrences - (grep.refOccurrences ?? 0) !== 1 ? 's' : ''} in{' '}
+                        {' '}mention{grep.totalOccurrences - (grep.refOccurrences ?? 0) !== 1 ? 's' : ''} in{' '}
                         <span className="font-semibold tabular-nums">{(grep.totalPosts - (grep.refPosts ?? 0)).toLocaleString()}</span>
-                        {' '}Katz text{grep.totalPosts - (grep.refPosts ?? 0) !== 1 ? 's' : ''}
+                        {' '}text{grep.totalPosts - (grep.refPosts ?? 0) !== 1 ? 's' : ''}
                       </span>
                     ) : termTotals && termTotals.posts > 0 ? (
                       <span className="text-gray-900 dark:text-gray-100">
                         <span className="font-semibold tabular-nums">{termTotals.occ.toLocaleString()}</span>
-                        {' '}occurrence{termTotals.occ !== 1 ? 's' : ''} in{' '}
+                        {' '}mention{termTotals.occ !== 1 ? 's' : ''} in{' '}
                         <span className="font-semibold tabular-nums">{termTotals.posts.toLocaleString()}</span>
-                        {' '}Katz text{termTotals.posts !== 1 ? 's' : ''}
+                        {' '}text{termTotals.posts !== 1 ? 's' : ''}
                       </span>
                     ) : (
                       <>
@@ -816,7 +816,9 @@ export default function SearchPageClient({
                     {entry.date && <span className="text-xs text-gray-400">{entry.date}</span>}
                     <span className="text-xs text-gray-400">{entry.readingTime} min read</span>
                     {(grepCounts.get(entry.slug) ?? occurrences) > 0 && (
-                      <span className="text-xs text-gray-400">{grepCounts.get(entry.slug) ?? occurrences}×</span>
+                      <span className="text-xs text-gray-400">
+                        {grepCounts.get(entry.slug) ?? occurrences} mention{(grepCounts.get(entry.slug) ?? occurrences) === 1 ? '' : 's'}
+                      </span>
                     )}
                   </div>
                   <p className="font-serif text-[1.375rem] leading-[1.2] font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-2 break-words">
@@ -896,7 +898,7 @@ export default function SearchPageClient({
                             {SOURCE_LABELS[p.source as ContentSource] ?? p.source}
                           </span>
                           {p.date && <span className="text-xs text-gray-400">{p.date}</span>}
-                          <span className="text-xs text-gray-400">{p.count}×</span>
+                          <span className="text-xs text-gray-400">{p.count} mention{p.count === 1 ? '' : 's'}</span>
                         </div>
                         <h3 className="text-sm sm:text-base font-medium text-gray-900 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors mb-1">
                           {p.title}
@@ -929,7 +931,7 @@ export default function SearchPageClient({
                             {p.source === 'chronicle' ? 'Chronicle · Gans' : 'Anthropoetics · ref'}
                           </span>
                           {p.date && <span className="text-xs text-gray-400">{p.date}</span>}
-                          <span className="text-xs text-gray-400">{p.count}×</span>
+                          <span className="text-xs text-gray-400">{p.count} mention{p.count === 1 ? '' : 's'}</span>
                         </div>
                         <h3 className="text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors mb-1">
                           {p.title}
