@@ -31,7 +31,7 @@ export default function TutorWaiting({ seconds, found }: { seconds: number; foun
             </p>
           )}
           <p className="mt-4 border-t border-gray-100 dark:border-gray-800 pt-3 text-xs leading-relaxed text-gray-500 dark:text-gray-400">
-            This is an AI model working from the archive, not a search and not Katz. It reads whole essays before it answers, so the first words usually take 15 to 30 seconds.
+            This is an AI model working from the archive, not a search and not Katz. It reads whole essays before it answers, so a new question takes 10 to 20 seconds to begin. Once it has answered, the answer is saved, and anyone who asks the same thing gets it at once.
             {seconds >= 8 && <span className="tabular-nums"> {seconds}s so far.</span>}
           </p>
         </div>

@@ -1,6 +1,9 @@
 import { isOwner } from '@/lib/analytics-auth';
 import { isSameOrigin } from '@/lib/rate-limit';
 import { getKept, keptIdFor, removeKept, saveKept } from '@/lib/tutor/kept';
+import { archiveAnswer } from '@/lib/tutor/archive';
+import { embedQuestion } from '@/lib/tutor/embed-query';
+import { getKV } from '@/lib/kv';
 
 // Kept tutor answers.
 // GET  ?q=<question> | ?id=<id>  → { kept } or 404          (anyone)
@@ -31,7 +34,14 @@ export async function POST(request: Request) {
       sources: Array.isArray(b.sources) ? b.sources.slice(0, 12) : [],
       whole: Array.isArray(b.whole) ? b.whole.slice(0, 6) : [],
     });
-    return kept ? Response.json({ kept }) : Response.json({ error: 'Nowhere to save it.' }, { status: 503 });
+    if (!kept) return Response.json({ error: 'Nowhere to save it.' }, { status: 503 });
+    // A kept answer is also what the archive serves for this question and its rewordings.
+    const kv = getKV();
+    if (kv) {
+      const vec = await embedQuestion(kept.q, new URL(request.url).origin, 15_000);
+      await archiveAnswer(kv, { q: kept.q, a: kept.a, sources: kept.sources, whole: kept.whole, t: kept.keptAt }, vec).catch(() => {});
+    }
+    return Response.json({ kept });
   } catch {
     return Response.json({ error: 'That did not save. Try again.' }, { status: 500 });
   }

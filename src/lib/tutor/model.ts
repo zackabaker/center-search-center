@@ -19,7 +19,10 @@ export type TutorEvent =
     };
 
 export const TUTOR_MODEL = process.env.TUTOR_MODEL || 'claude-opus-5-5';
-const EFFORT = process.env.TUTOR_EFFORT || 'high';
+// Medium, by the owner's choice after the first eval (2026-11-19): about eight
+// seconds sooner to the first word than high, with no visible loss in the
+// answers. Changing effort does not reload the cached canon.
+const EFFORT = process.env.TUTOR_EFFORT || 'medium';
 const MAX_TOKENS = 16000;
 
 const anthropic = new Anthropic();
@@ -57,6 +60,25 @@ export async function* streamTutor(req: TutorRequest): AsyncGenerator<TutorEvent
       output: final.usage.output_tokens,
     },
   };
+}
+
+/**
+ * Load the canon into the cache without writing anything, so the next real
+ * question starts warm. Costs a cache write if it had gone cold, a cache read
+ * (cents) if not.
+ */
+export async function warmTutor(stable: string[]): Promise<{ wrote: number; read: number }> {
+  type Params = Parameters<typeof anthropic.beta.messages.create>[0];
+  const r = await anthropic.beta.messages.create({
+    model: TUTOR_MODEL,
+    max_tokens: 0,
+    betas: ['server-side-fallback-2026-07-01'],
+    fallbacks: 'default',
+    output_config: { effort: EFFORT },
+    system: stable.map((text) => ({ type: 'text', text, cache_control: { type: 'ephemeral', ttl: '1h' } })),
+    messages: [{ role: 'user', content: 'warm' }],
+  } as unknown as Params) as { usage: { cache_creation_input_tokens?: number | null; cache_read_input_tokens?: number | null } };
+  return { wrote: r.usage.cache_creation_input_tokens ?? 0, read: r.usage.cache_read_input_tokens ?? 0 };
 }
 
 /** Dollars for one answer at Opus 5.5 / Sonnet 5.5 list prices (1-hour cache writes cost double). */

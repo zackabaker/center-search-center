@@ -7,7 +7,7 @@ import { embedQuestion } from '@/lib/tutor/embed-query';
 import { streamTutor, tutorCost, TUTOR_MODEL } from '@/lib/tutor/model';
 import { buildTurn, sourcesOf } from '@/lib/tutor/turn';
 import { checkAnswer } from '@/lib/tutor/verify';
-import { keptIdFor } from '@/lib/tutor/kept';
+import { archiveAnswer, findArchived } from '@/lib/tutor/archive';
 
 // The tutor. A visitor's question, with the thread so far, goes to
 // the model together with the canon and index (cached), the paragraphs of the
@@ -32,7 +32,6 @@ const PER_DAY = Number(process.env.TUTOR_USER_PER_DAY) || 40;
 const ANON_PER_DAY = Number(process.env.TUTOR_ANON_PER_DAY) || 2;
 const DAILY_USD = Number(process.env.TUTOR_DAILY_USD) || 150;
 const MONTHLY_USD = Number(process.env.TUTOR_MONTHLY_USD) || 1000;
-const ARCHIVE = 'tutor:archive'; // first answers by question, reused for the same question
 
 function addressHash(request: Request): string {
   const pepper = process.env.AUTH_SECRET || process.env.STUDY_KEY || 'center-study';
@@ -62,7 +61,9 @@ export async function POST(request: Request) {
   const monthKey = `tutor:spend:${day.slice(0, 7)}`;
   const dayKey = `tutor:spend:day:${day}`;
   const firstTurn = !Array.isArray(body.history) || body.history.length === 0;
-  const archiveId = keptIdFor(message);
+  const origin = new URL(request.url).origin;
+  // One meaning vector serves both the archive lookup and retrieval.
+  const firstVec = firstTurn ? await embedQuestion(message, origin, 12_000) : null;
   const encoder = new TextEncoder();
 
   // ── An answer already written for this exact question ────────────────────
@@ -71,9 +72,8 @@ export async function POST(request: Request) {
   // and counts against no one's allowance.
   if (kv && firstTurn && !(owner && body.fresh === true)) {
     try {
-      const hit = await kv.hget<{ a: string; sources: unknown[]; whole: unknown[]; t: number } | string>(ARCHIVE, archiveId);
-      const saved = typeof hit === 'string' ? JSON.parse(hit) : hit;
-      if (saved?.a) {
+      const saved = await findArchived(kv, message, firstVec);
+      if (saved) {
         const lines = [
           { sources: saved.sources ?? [], whole: saved.whole ?? [], archived: saved.t },
           { text: saved.a },
@@ -135,7 +135,7 @@ export async function POST(request: Request) {
   // own, so it is searched together with the question before it.
   const lastAsked = [...history].reverse().find((m) => m.role === 'user')?.content ?? '';
   const query = message.length < 80 && lastAsked ? `${lastAsked.slice(0, 300)} ${message}` : message;
-  const vec = await embedQuestion(query, new URL(request.url).origin, 12_000);
+  const vec = firstTurn ? firstVec : await embedQuestion(query, origin, 12_000);
   const { content: turn, hits, whole, strength } = buildTurn(message, query, vec);
   const sources = sourcesOf(hits);
   const stream = new ReadableStream({
@@ -165,11 +165,12 @@ export async function POST(request: Request) {
             await kv.expire(monthKey, 60 * 60 * 24 * 70);
             await kv.incrbyfloat(dayKey, cost);
             await kv.expire(dayKey, 60 * 60 * 24 * 40);
-            // A clean first answer is kept for the next person who asks the same thing.
-            if (firstTurn && stop === 'end_turn' && answer.length > 400 && check.badLinks.length === 0 && check.badQuotes.length === 0) {
-              await kv.hset(ARCHIVE, { [archiveId]: JSON.stringify({
-                a: answer, sources, whole: whole.map((w) => ({ title: w.title, url: `/post/${w.slug}` })), t: Date.now(),
-              }) });
+            await kv.set('tutor:warm', 1, { ex: 50 * 60 }); // the canon is loaded for the next hour
+            // Every first answer is saved for the next person who asks the same thing.
+            if (firstTurn && stop === 'end_turn' && answer.length > 400 && check.badLinks.length === 0) {
+              await archiveAnswer(kv, {
+                q: message, a: answer, sources, whole: whole.map((w) => ({ title: w.title, url: `/post/${w.slug}` })), t: Date.now(),
+              }, firstVec);
             }
             await kv.lpush('tutor:log', JSON.stringify({
               q: message.slice(0, 600),

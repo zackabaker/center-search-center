@@ -37,6 +37,18 @@ export default function OracleClient() {
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { fetchAccount().then(setAccount); }, []);
+  // On the visitor's first real input, ask the server to load the texts, so
+  // the wait happens while they read and type instead of after they ask.
+  useEffect(() => {
+    const warm = () => {
+      off();
+      fetch('/api/tutor/warm', { method: 'POST' }).catch(() => {});
+    };
+    const events = ['pointerdown', 'keydown', 'touchstart'] as const;
+    const off = () => events.forEach((e) => window.removeEventListener(e, warm));
+    events.forEach((e) => window.addEventListener(e, warm, { passive: true }));
+    return off;
+  }, []);
   // Arriving from a saved answer's page ("ask a follow-up"): start the thread with it.
   useEffect(() => {
     const from = new URLSearchParams(window.location.search).get('from');
@@ -205,7 +217,8 @@ export default function OracleClient() {
                 </p>
               )}
             </div>
-            {t.done && t.check && (t.check.badLinks.length > 0 || t.check.badQuotes.length > 0) && (
+            {/* Owner only: the slips are small (a paragraph off, a word changed) and not worth alarming a reader over. */}
+            {owner && t.done && t.check && (t.check.badLinks.length > 0 || t.check.badQuotes.length > 0) && (
               <p className="mt-2 rounded border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-900/20 px-3 py-2 text-xs text-amber-900 dark:text-amber-200">
                 Checked against the archive:{' '}
                 {t.check.badQuotes.length > 0 && <>{t.check.badQuotes.length} quotation{t.check.badQuotes.length === 1 ? '' : 's'} could not be found in the paragraph cited. </>}
@@ -213,7 +226,7 @@ export default function OracleClient() {
                 Treat those with care.
               </p>
             )}
-            {t.done && t.check && t.check.quotes > 0 && t.check.badLinks.length === 0 && t.check.badQuotes.length === 0 && (
+            {owner && t.done && t.check && t.check.quotes > 0 && t.check.badLinks.length === 0 && t.check.badQuotes.length === 0 && (
               <p className="mt-2 text-xs text-gray-400">All {t.check.quotes} quotation{t.check.quotes === 1 ? '' : 's'} found in the paragraphs cited.</p>
             )}
             {t.done && t.kept && !owner && <p className="mt-2 text-xs text-gray-400">A saved answer from the tutor.</p>}
