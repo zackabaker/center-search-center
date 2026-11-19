@@ -130,7 +130,12 @@ export default function TrendsPanel({
     // All-time headline = the whole series' total, not the delta window.
     const total = (pts: TrendPoint[]) => pts.reduce((a, p) => a + p.value, 0);
     const head = (pts: TrendPoint[], d: { cur: number }) => (range === 'all' ? total(pts) : d.cur);
+    // With no earlier period to set the number against (the site's own
+    // counting began in late October), say so instead of showing nothing.
+    const since = (pts: TrendPoint[]) =>
+      pts.length > 0 ? `no earlier period yet · since ${pts[0].label.replace(/^wk of /, '')}` : undefined;
     return {
+      fReaders: since(readers), fSearches: since(searches), fReads: since(reads), fClicks: since(clicks),
       readers, searches, reads, clicks, vs,
       hReaders: head(readers, dReaders), pReaders: dReaders.pct,
       hSearches: head(searches, dSearches), pSearches: dSearches.pct,
@@ -169,6 +174,7 @@ export default function TrendsPanel({
           colorClass="text-[#2a78d6] dark:text-[#3987e5]"
           headline={fmt(view.hReaders)}
           deltaPct={view.pReaders}
+          deltaFallback={view.fReaders}
           deltaVs={view.vs}
         />
         <TrendChart
@@ -177,6 +183,7 @@ export default function TrendsPanel({
           colorClass="text-[#eb6834] dark:text-[#d95926]"
           headline={fmt(view.hSearches)}
           deltaPct={view.pSearches}
+          deltaFallback={view.fSearches}
           deltaVs={view.vs}
           note={range === 'all' ? 'current week (partial)' : undefined}
         />
@@ -186,6 +193,7 @@ export default function TrendsPanel({
           colorClass="text-[#1baf7a] dark:text-[#199e70]"
           headline={fmt(view.hReads)}
           deltaPct={view.pReads}
+          deltaFallback={view.fReads}
           deltaVs={view.vs}
         />
         {withGoogle && (
@@ -195,6 +203,7 @@ export default function TrendsPanel({
             colorClass="text-[#6250d6] dark:text-[#9085e9]"
             headline={fmt(view.hClicks)}
             deltaPct={view.pClicks}
+          deltaFallback={view.fClicks}
             deltaVs={view.vs}
           />
         )}

@@ -36,6 +36,7 @@ export default function TrendChart({
   headline,
   deltaPct,
   deltaVs,
+  deltaFallback,
   note,
 }: {
   title: string;
@@ -47,6 +48,8 @@ export default function TrendChart({
   /** Week-over-week change, percent; null when last week was empty. */
   deltaPct: number | null;
   deltaVs: string;
+  /** Shown in place of the change when there is no earlier period to compare against. */
+  deltaFallback?: string;
   note?: string;
 }) {
   const [hover, setHover] = useState<number | null>(null);
@@ -76,7 +79,9 @@ export default function TrendChart({
   };
 
   const deltaEl =
-    deltaPct === null ? null : (
+    deltaPct === null ? (
+      deltaFallback ? <span className="text-gray-500 dark:text-gray-400">{deltaFallback}</span> : null
+    ) : (
       <span
         className={
           deltaPct > 0
