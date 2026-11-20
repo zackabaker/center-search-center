@@ -70,10 +70,11 @@ export default async function SearchesPage() {
       </div>
       <p className="mt-2 text-xs text-gray-400 dark:text-gray-600">A dot in place of a letter means the search carried no tab id.</p>
 
-      <h2 id="no-click" className={sub}>Searched, opened nothing</h2>
+      <h2 id="no-click" className={sub}>Searched and left</h2>
       <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-        {so.searches - so.opened}{' of '}{so.searches}{' keyword searches in 14 days ('}{share(so.searches - so.opened, so.searches)}
-        {') ended without a result, a text or a concept page being opened. Half-typed queries are left out.'}
+        {so.searches - so.opened - so.stayed}{' of '}{so.searches}{' searches in 14 days ('}{share(so.searches - so.opened - so.stayed, so.searches)}
+        {') ended with nothing opened and no sign the results were read. '}{so.opened}{' opened a result, a text or a concept page; '}{so.stayed}
+        {' opened nothing but stayed to read the results, or asked the same words as an AI answer. Half-typed queries are left out. Time on the results page is recorded from 19 November 2026; before that it is a guess.'}
       </p>
       <ol className="mt-2 space-y-1 text-sm">
         {so.noClick.map((m) => (
@@ -82,6 +83,7 @@ export default async function SearchesPage() {
             <span className="min-w-0 break-words text-gray-800 dark:text-gray-200">“{m.q}”</span>
             {m.times > 1 && <span className="text-xs text-gray-400">×{m.times}</span>}
             {m.results === 0 && <span className="text-xs text-rose-600 dark:text-rose-300">0 results</span>}
+            {m.secs !== undefined && <span className="text-xs text-gray-400">left after {m.secs}s</span>}
             <a href={`/search?q=${encodeURIComponent(m.q)}`} className="text-xs text-gray-500 underline">try it →</a>
             <Link href={`/analytics/session/${m.id}`} className="text-xs text-gray-500 underline">visit →</Link>
           </li>

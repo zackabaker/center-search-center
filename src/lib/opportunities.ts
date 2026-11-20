@@ -96,10 +96,12 @@ export function buildOpportunities(data: StudyData, gsc: GscSnapshot | null): Op
       evidence:
         `Searched ${m.times === 1 ? 'once' : `${m.times} times`} on the site` +
         (typeof m.results === 'number' ? `, ${m.results} result${m.results === 1 ? '' : 's'}` : '') +
-        ', nothing opened',
+        (m.secs !== undefined ? `, left after ${m.secs} seconds with nothing opened` : ', nothing opened'),
       fix: empty
         ? 'The search finds nothing for this — a vocabulary or coverage gap (a concept page, or a synonym the index should know).'
-        : 'Results came back and none was opened — look at what ranks first for it.',
+        : m.secs !== undefined
+          ? 'They left quickly without opening a result. Check what ranks first for it.'
+          : 'No result was opened. Time on the page was not recorded for this search, so they may have read what they needed there.',
       weight: m.times * 4 + (empty ? 4 : 0),
       links: [
         { label: 'try the search', href: `/search?q=${encodeURIComponent(m.q)}` },

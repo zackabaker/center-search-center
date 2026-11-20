@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link, { useLinkStatus } from 'next/link';
 import { ContentSource } from '@/lib/types';
 import { logSearch } from '@/lib/log-search';
+import { logStay } from '@/lib/log-stay';
 import { HIGHLIGHT_STOPWORDS } from '@/lib/stopwords';
 import {
   SearchEntry,
@@ -394,6 +395,33 @@ export default function SearchPageClient({
       logSearch(q, 'keyword', resultsLenRef.current);
     }, 1500);
     return () => clearTimeout(id);
+  }, [committed]);
+
+  // Time with this search's results in view (only while the tab is visible).
+  // Sent when the visitor moves on, and also each time the tab is hidden,
+  // since a phone often never tells the page it is being closed.
+  useEffect(() => {
+    if (committed.trim().length < 2) return;
+    let ms = 0;
+    let since = document.visibilityState === 'visible' ? Date.now() : 0;
+    let sent = 0;
+    const pause = () => { if (since) { ms += Date.now() - since; since = 0; } };
+    const send = () => {
+      pause();
+      const secs = Math.round(ms / 1000);
+      if (secs >= sent + 2) { sent = secs; logStay(secs); }
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') { if (!since) since = Date.now(); }
+      else send();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+    window.addEventListener('pagehide', send);
+    return () => {
+      document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('pagehide', send);
+      send();
+    };
   }, [committed]);
 
   // Immediate commit (Enter, Search button, hint clicks, recent searches)

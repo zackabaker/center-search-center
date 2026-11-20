@@ -1,5 +1,6 @@
 import type { SessionView, DayRow } from './data';
 import { aiReferrer } from '@/lib/ai-agents';
+import { findConcept } from '@/lib/query-shape';
 
 // Pure derivations over the session episodes the data layer already builds —
 // the "what's working / what isn't" questions the raw trails can answer
@@ -26,8 +27,9 @@ export type SourceRow = {
 export type LandingRow = Ref & { sessions: number; stayed: number; read: number };
 export type CoRead = { a: Ref; b: Ref; n: number };
 export type BeginFunnel = { generated: number; opened: number; read: number; returned: number };
-export type NoClick = { q: string; t: number; times: number; id: string; results?: number };
-export type SearchOutcome = { searches: number; opened: number; noClick: NoClick[] };
+export type NoClick = { q: string; t: number; times: number; id: string; results?: number; secs?: number };
+/** stayed = opened nothing, but by the evidence got what they came for on the results page itself. */
+export type SearchOutcome = { searches: number; opened: number; stayed: number; noClick: NoClick[] };
 export type Insight = { text: string; href?: string; tone?: 'up' | 'down' };
 
 // A reader: not the owner, not a likely crawler — and, from the day human
@@ -146,10 +148,25 @@ const WENT_SOMEWHERE = /^\/(post|concepts|glossary|begin\/p)\//;
  * the visit's next move — before another search, within ten minutes — is a
  * picked result, a text, or a concept page. Queries that are only a typing
  * prefix of the next one (logged mid-pause) are not counted at all.
+ *
+ * Opening nothing is not the same as finding nothing: the results page shows
+ * the matching sentence, a concept card, and sometimes a short answer. So a
+ * search also counts as served ("stayed") when the visitor
+ *   - kept the results in view long enough to read them (time on the page,
+ *     recorded from 2026-11-19 on), or
+ *   - asked the same words again as an AI answer or a meaning search;
+ * and, for older searches with no time recorded, when
+ *   - the page showed a concept card for the query, or
+ *   - the query was a remembered phrase (four words or more) that was found.
+ * What is left is a search someone left quickly, or one we cannot explain.
  */
+const READ_SECS = 15;   // long enough to read a card or a few results
+const PHRASE_SECS = 5;  // long enough to see that the phrase was found
+const norm = (q: string) => q.toLowerCase().replace(/["“”]/g, '').replace(/\s+/g, ' ').trim();
 export function deriveSearchOutcomes(sessions: SessionView[], since: number, cap = 30): SearchOutcome {
   let searches = 0;
   let opened = 0;
+  let stayed = 0;
   const miss = new Map<string, NoClick>();
   for (const s of sessions) {
     const ev = s.events;
@@ -163,9 +180,16 @@ export function deriveSearchOutcomes(sessions: SessionView[], since: number, cap
       ) continue;
       searches += 1;
       let hit = false;
+      let switched = false;
+      let secs: number | undefined;
       for (let j = i + 1; j < ev.length; j++) {
         const x = ev[j];
-        if (x.type === 'search' || x.t - e.t > 10 * 60_000) break;
+        if (x.t - e.t > 10 * 60_000) break;
+        if (x.type === 'search') {
+          switched = x.mode !== e.mode && norm(x.label) === norm(e.label);
+          break;
+        }
+        if (x.type === 'stay') { secs = Math.max(secs ?? 0, x.n ?? 0); continue; }
         if (x.type === 'pick' || x.type === 'read' || (x.type === 'page' && WENT_SOMEWHERE.test(x.href ?? ''))) {
           hit = true;
           break;
@@ -175,19 +199,30 @@ export function deriveSearchOutcomes(sessions: SessionView[], since: number, cap
         opened += 1;
         continue;
       }
+      const phrase = norm(e.label).split(' ').length >= 4 && (e.n ?? 0) > 0;
+      const served =
+        switched ||
+        (secs !== undefined
+          ? secs >= (phrase ? PHRASE_SECS : READ_SECS)
+          : (e.n ?? 0) > 0 && (phrase || !!findConcept(e.label)));
+      if (served) {
+        stayed += 1;
+        continue;
+      }
       const key = e.label.toLowerCase().replace(/\s+/g, ' ').trim();
-      const row = miss.get(key) ?? { q: e.label, t: 0, times: 0, id: s.id, results: e.n };
+      const row = miss.get(key) ?? { q: e.label, t: 0, times: 0, id: s.id, results: e.n, secs };
       row.times += 1;
       if (e.t > row.t) {
         row.t = e.t;
         row.id = s.id;
         row.results = e.n;
+        row.secs = secs;
       }
       miss.set(key, row);
     }
   }
   const noClick = [...miss.values()].sort((a, b) => b.t - a.t).slice(0, cap);
-  return { searches, opened, noClick };
+  return { searches, opened, stayed, noClick };
 }
 
 const pct = (cur: number, prev: number): number | null =>
@@ -267,12 +302,12 @@ export function buildInsights(input: {
   }
 
   if (search.searches >= 5) {
-    const missed = search.searches - search.opened;
+    const missed = search.searches - search.opened - search.stayed;
     const share = Math.round((missed / search.searches) * 100);
     const eg = search.noClick[0]?.q;
     out.push({
       text:
-        `${missed} of ${search.searches} keyword searches ended without opening anything (${share}%)` +
+        `${missed} of ${search.searches} searches were left without a result opened or the page read (${share}%)` +
         (eg ? ` — latest: “${eg}”` : ''),
       href: '/analytics/searches#no-click',
       tone: share > 50 ? 'down' : undefined,

@@ -67,8 +67,9 @@ export async function POST(request: Request) {
   // "pick:<rank>" = a result opened from /search (rank among the listed
   // texts) or a cited text opened from an /ask answer.
   // "human" = the session's first real input (pointer, touch, wheel, key).
+  // "stay:<seconds>" = time a search's results were in view (trail only).
   const ev =
-    typeof body.ev === 'string' && /^(follow|read|new|return|pick|human)(:[a-z0-9-]{1,20}){0,2}$/.test(body.ev)
+    typeof body.ev === 'string' && /^(follow|read|new|return|pick|human|stay)(:[a-z0-9-]{1,20}){0,2}$/.test(body.ev)
       ? body.ev
       : undefined;
   // A page opened in a session already known to be human carries h:1; the
@@ -112,7 +113,9 @@ export async function POST(request: Request) {
     const pipe = kv.pipeline();
     pipe.lpush(LOG_KEY, entry);
     pipe.ltrim(LOG_KEY, 0, LOG_CAP - 1);
-    if (ev) {
+    if (ev?.startsWith('stay')) {
+      /* trail only: no daily counter */
+    } else if (ev) {
       // Picks collapse to one counter (the rank lives in the trail entry).
       pipe.hincrby(dayKey, ev.startsWith('pick') ? 'ev:pick' : `ev:${ev}`, 1);
       // Per-text read series ("r:" = all, "rm:" = the owner's share), the

@@ -87,7 +87,7 @@ export default function SessionCard({ s, linked = false }: { s: SessionView; lin
                   </span>
                 ) : e.type === 'follow' ? (
                   <span className="text-emerald-700 dark:text-emerald-300">→ {e.label}</span>
-                ) : e.type === 'pick' ? (
+                ) : e.type === 'pick' || e.type === 'stay' ? (
                   <span className="text-gray-500 dark:text-gray-400">↳ {e.label}</span>
                 ) : (
                   <span className="min-w-0 break-words text-gray-700 dark:text-gray-300">

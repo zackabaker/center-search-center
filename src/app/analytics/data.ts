@@ -58,11 +58,11 @@ export type AskHit = {
 
 export type SessionEvent = {
   t: number;
-  type: 'page' | 'search' | 'read' | 'follow' | 'begin' | 'pick';
+  type: 'page' | 'search' | 'read' | 'follow' | 'begin' | 'pick' | 'stay';
   label: string;
   href?: string;
   mode?: string;
-  n?: number; // searches: how many results came back, when known
+  n?: number; // searches: how many results came back, when known; stay: seconds
 };
 
 export type Mover = { slug: string; label: string; cur: number; prev: number }; // views, this 7d vs the 7 before
@@ -309,6 +309,9 @@ function buildSessions(activity: RawActivity[], searches: RawSearch[], begins: B
                   ? 'opened a cited text'
                   : rank > 0 ? `opened result #${rank}` : 'opened a result',
               });
+            } else if (e.ev.startsWith('stay')) {
+              const secs = Number(e.ev.split(':')[1]);
+              if (Number.isFinite(secs)) events.push({ t: e.t, type: 'stay', label: `${secs}s on the results`, n: secs });
             } else if (e.ev === 'new') {
               firstVisit = true;
             } else if (e.ev.startsWith('return:')) {
