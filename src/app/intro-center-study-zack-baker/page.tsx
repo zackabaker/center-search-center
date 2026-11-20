@@ -31,7 +31,9 @@ export const metadata: Metadata = {
 // carried in: Gans was "among Girard's first PhD students" (not "his
 // first"); and, by the owner on 2026-11-19, "inexhaustibility" of pedagogy,
 // "nearly all" American companies, Charles I "tried by his own subjects",
-// events "about twenty years apart". Long paragraphs may be split; the
+// events "about twenty years apart". Two sentences were added by the owner
+// the same day: the bridge that opens section IV, and the Gans quotation
+// after "something like love". Long paragraphs may be split; the
 // sentences stay as spoken. Slides render at their cue points in the delivered order (11
 // before 10, 23 before 22, 25 before 24 follow the spoken sequence).
 
@@ -235,22 +237,28 @@ export default function IntroPage() {
         Center Study is a discipline similar to existing disciplines like
         sociology, economics, or political science&mdash;but unlike them
         insofar as Center Study is much more radical than any of these
-        existing disciplines. It&rsquo;s also, in a way, totally indigestible
-        by those disciplines. It&rsquo;s hard for the sociologist or the
+        existing disciplines.
+      </P>
+      <P>
+        It&rsquo;s also, in a way, totally indigestible by those disciplines. It&rsquo;s hard for the sociologist or the
         economist to &ldquo;take in&rdquo; Center Study and the{' '}
         <TermLink href="/concepts/originary-scene" defKey="g:originary-hypothesis" className={TERM_CLASS} title="Concept: the originary hypothesis">originary hypothesis</TermLink>
         &mdash;but Center Study is able to metabolize all of them: to
         infiltrate these different disciplines, the idioms and vocabulary
         they&rsquo;ve constructed, the anthropology of the human that they all
-        take as an implicit model for what the human being is. The minimal
-        anthropology, or{' '}
+        take as an implicit model for what the human being is.
+      </P>
+      <P>
+        The minimal anthropology, or{' '}
         <TermLink href="/concepts/anthropomorphics" defKey="c:anthropomorphics" className={TERM_CLASS} title="Concept: anthropomorphics">anthropomorphics</TermLink>
         , that Center Study is founded on becomes a way of refounding each of
         these disciplines on the terms of the originary hypothesis, so as to
         generate a radical new vocabulary that lets us solve the currently
         unsolvable questions in each discipline&mdash;and make each of them
-        able to speak with one another. So Center Study is a discipline like
-        sociology, like economics, like political science; but it&rsquo;s
+        able to speak with one another.
+      </P>
+      <P>
+        So Center Study is a discipline like sociology, like economics, like political science; but it&rsquo;s
         unlike other disciplines insofar as it&rsquo;s radically
         interdisciplinary and radically generative.
       </P>
@@ -440,6 +448,11 @@ export default function IntroPage() {
       <H2>IV. The Originary Scene</H2>
       <Slide n={13} alt="The originary hypothesis" />
       <P>
+        So the question of the first word becomes: how did creatures who
+        could not share attention come to share it? Gans&rsquo; answer is a
+        scene.
+      </P>
+      <P>
         It all comes together in what Gans called the{' '}
         <TermLink href="/concepts/originary-scene" defKey="g:originary-hypothesis" className={TERM_CLASS} title="Concept: the originary scene">originary scene</TermLink>
         , or the originary hypothesis. The punchline, if I can get you to
@@ -494,7 +507,10 @@ export default function IntroPage() {
       <P>
         This very simple gesture&mdash;which you might notice is very similar
         to the pointing gesture at the origin&mdash;becomes a sign that means
-        not quite love, though I want to say something like love. It&rsquo;s
+        not quite love, though I want to say something like love. Gans calls
+        it{' '}
+        <Q slug="clr-411" q="the first gesture of human love">&ldquo;the first gesture of human love as distinct from mere animal
+        affection.&rdquo;</Q>{' '}It&rsquo;s
         the ability to restrain yourself and let things be, and in that being,
         anything is possible. That&rsquo;s what deferral is, and that&rsquo;s
         what generativity is.
