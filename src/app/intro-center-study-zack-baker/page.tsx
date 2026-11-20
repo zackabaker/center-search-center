@@ -27,9 +27,12 @@ export const metadata: Metadata = {
 // The talk as delivered at the Avalon Institute Exposition — the lightly
 // edited transcript of the recording (speech portion; the Q&A lives in the
 // transcript doc). The text is the speaker's words in the speaker's order:
-// do not re-compress, summarize, or re-stylize it. One fact correction is
+// do not re-compress, summarize, or re-stylize it. Fact corrections
 // carried in: Gans was "among Girard's first PhD students" (not "his
-// first"). Slides render at their cue points in the delivered order (11
+// first"); and, by the owner on 2026-11-19, "inexhaustibility" of pedagogy,
+// "nearly all" American companies, Charles I "tried by his own subjects",
+// events "about twenty years apart". Long paragraphs may be split; the
+// sentences stay as spoken. Slides render at their cue points in the delivered order (11
 // before 10, 23 before 22, 25 before 24 follow the spoken sequence).
 
 function Slide({ n, alt }: { n: number; alt: string }) {
@@ -296,7 +299,10 @@ export default function IntroPage() {
         fact, animals kill individual animals in their groups all the
         time&mdash;and nothing &ldquo;event-al&rdquo; happens. The event
         isn&rsquo;t meaningful. It&rsquo;s not remembered. It&rsquo;s not
-        iterated. So Girard wants to say there&rsquo;s something about this
+        iterated.
+      </P>
+      <P>
+        So Girard wants to say there&rsquo;s something about this
         founding scapegoating event that radically transformed the community.
         But in order to do so, he must rely on some capacity for
         representation. The event must be represented to the community of
@@ -304,8 +310,10 @@ export default function IntroPage() {
         <TermLink href="/concepts/event" defKey="c:event" className={TERM_CLASS} title="Concept: event">event</TermLink>
         {' '}as such. Without this capacity for representation, the killing of
         the individual would be like it is in every other animal species: not
-        meaningful, not iterated, not memorable, and certainly not sacred. For
-        there to be some kind of origin where the sacred, representation,
+        meaningful, not iterated, not memorable, and certainly not sacred.
+      </P>
+      <P>
+        For there to be some kind of origin where the sacred, representation,
         meaning, and language originate, one would have to explain how it is
         that the violent scapegoating generates this capacity for
         representation. If it didn&rsquo;t already exist, the event
@@ -316,7 +324,7 @@ export default function IntroPage() {
       <Slide n={7} alt="Timeline: 1961–2021, Girard to Gans to Katz" />
       <P>
         One way of thinking about the lineage is just isolating these
-        different events, over twenty years, where the origins of each theory
+        different events, about twenty years apart, where the origins of each theory
         were first articulated. Girard releases <em>Deceit, Desire, and the
         Novel</em>{' '}in 1961. Gans publishes <em>The Origin of Language</em>{' '}in
         1981. <Link href="/author/katz" className={TERM_CLASS}>Adam Katz</Link>
@@ -560,7 +568,7 @@ export default function IntroPage() {
         {' '}itself is just data, and will become more so.
       </P>
       <P>
-        <strong>The infinite exhaustibility of pedagogy.</strong>{' '}There will
+        <strong>The infinite inexhaustibility of pedagogy.</strong>{' '}There will
         always be a need to show others how to do things. When we think about
         what large language models are doing to work and the social order, one
         thing we&rsquo;ll never run out of is ways of teaching and learning
@@ -592,14 +600,14 @@ export default function IntroPage() {
         corporate order comprised of companies. In the premodern world you had
         tribes, familial relationships, kinship networks. In modernity you have
         a legal order. This begins, I want to say, with the execution of
-        Charles I&mdash;the first time in human history a monarch is executed
-        not by a rival faction but after being put on trial. For the first time
+        Charles I&mdash;the first time in human history a reigning king is
+        tried by his own subjects and executed, not killed by a rival faction. For the first time
         the people assert sovereignty over the center. The center is punctured,
         and we&rsquo;ve been dealing with the wound ever since.
       </P>
       <P>
-        Look at the largest companies in the world: they are all American
-        companies. The modern world is in some sense the Anglo-American empire.
+        Look at the largest companies in the world: they are nearly all
+        American companies. The modern world is in some sense the Anglo-American empire.
         It&rsquo;s the US dollar order. It&rsquo;s an order comprised of
         companies. And if you&rsquo;re serious about your ideas, you need to
         turn them into companies.
@@ -629,11 +637,16 @@ export default function IntroPage() {
       <Slide n={24} alt="A unique politics" />
       <P>
         Center Study implies what I think is a unique politics: <Q slug="notes-on-governance-and-center-study-politics" q="placing all the bets on a center">placing all
-        the bets on a center or prospective or type of pointman so inside as
-        to turn the central bank and central intelligence into a single
-        entity, thereby abolishing both, along with the outside spread and
-        outside option. Everything is to circulate through succession
-        practices.</Q>
+        the bets on a center or prospective or type of</Q>{' '}
+        <TermLink href="/concepts/pointman-uninsurable" defKey="c:pointman-uninsurable" className={TERM_CLASS} title="Concept: the pointman">pointman</TermLink>
+        {' '}so inside as to turn the central bank and central intelligence
+        into a single entity, thereby abolishing both, along with the{' '}
+        <Q slug="originary-debt-credit-succession" q="The outside spread is the lender of last resort">outside spread</Q>
+        {' '}and{' '}
+        <Q slug="originary-debt-credit-succession" q="whoever within a monarchical order">outside option</Q>
+        . Everything is to circulate through{' '}
+        <TermLink href="/concepts/succession" defKey="c:succession" className={TERM_CLASS} title="Concept: succession">succession</TermLink>
+        {' '}practices.
         {' '}That&rsquo;s a lot, and I could go through those terms, but the
         idea is this: at the beginning of Anglo-modernity you get the first
         central bank, the first central intelligence, parliamentary
