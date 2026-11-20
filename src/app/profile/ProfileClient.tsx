@@ -7,7 +7,7 @@ import { IDIOMS_EVENT, loadIdioms, passageHref, rememberPassage, type Idiom } fr
 
 interface Profile { username: string; createdAt: string; }
 interface Stats { readSec: number; searches: number; idioms: number; }
-interface Me { profile: Profile; stats: Stats; score: number; }
+interface Me { profile: Profile; stats: Stats; score: number; announce?: boolean; emailKept?: boolean; }
 
 const LABEL = 'text-xs font-mono uppercase tracking-widest text-gray-900 dark:text-gray-100';
 const QUIET_BTN =
@@ -88,7 +88,8 @@ export default function ProfileClient() {
         <h1 className="text-4xl font-medium text-gray-900 dark:text-white mb-3">Your profile</h1>
         <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
           Sign in to keep your idiom archive on every device and a record of what you read.
-          You get a random username you can change; your name and email are never shown.
+          You get a random username you can change. Other readers never see your name or email;
+          your email is kept so the person who runs the site can contact you.
         </p>
         {account.configured ? (
           <a href={signInUrl('/profile')} className={`${INK_BTN} inline-flex items-center`}>Continue with Google</a>
@@ -130,9 +131,27 @@ export default function ProfileClient() {
         </form>
 
         <p className="mt-5 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-          Your Google name, photo and email
-          {user ? <> (<span className="break-all">{user.email}</span>)</> : null} are never shown to anyone.
+          Other readers never see your Google name, photo or email.
+          {me.emailKept
+            ? <> Your email{user ? <> (<span className="break-all">{user.email}</span>)</> : null} is kept so the person who runs the site can contact you.</>
+            : null}
         </p>
+
+        <label className="mt-5 flex items-start gap-3 text-sm text-gray-800 dark:text-gray-200 leading-relaxed cursor-pointer">
+          <input
+            type="checkbox"
+            className="mt-1 h-4 w-4 accent-gray-900 dark:accent-gray-100"
+            checked={!!me.announce}
+            disabled={busy}
+            onChange={(e) => { void patch({ announce: e.target.checked }); }}
+          />
+          <span>
+            Email me announcements of book clubs, conferences and similar events.
+            <span className="block text-gray-500 dark:text-gray-400">
+              Infrequent. Untick this at any time to stop.
+            </span>
+          </span>
+        </label>
       </section>
 
       {/* ── Reading record ───────────────────────────────────────── */}

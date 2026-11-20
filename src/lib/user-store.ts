@@ -125,16 +125,78 @@ export async function deleteAccountData(sub: string): Promise<void> {
   await Promise.all([
     remove(k(sub, 'idioms')), remove(k(sub, 'reads')), remove(k(sub, 'queries')),
     remove(k(sub, 'profile')), remove(k(sub, 'avatar')), remove(k(sub, 'stats')),
+    remove(k(sub, 'contact')), setAnnounce(sub, false),
     profile ? remove(unameKey(profile.username)) : Promise.resolve(),
     lbRemove(sub),
     idxRemove(sub),
   ]);
 }
 
+// ── Contact ─────────────────────────────────────────────────────────────
+// The reader's email, kept from the moment they sign in (from 2026-11-20; the
+// sign-in and profile pages say so) so the site's owner can reach them. Seen
+// only in the owner's console. Separately, a reader may ask for occasional
+// announcements (book clubs, conferences); that list is opt-in and nothing
+// is sent to anyone who has not ticked it.
+
+export interface Contact { email: string; at: string; }
+const ANNOUNCE = 'acct:announce';
+const memAnnounce = new Set<string>();
+
+export async function recordContact(sub: string, email: string): Promise<void> {
+  const clean = email.trim().slice(0, 254);
+  if (!/^[^\s@]+@[^\s@]+$/.test(clean)) return;
+  await write(k(sub, 'contact'), { email: clean, at: new Date().toISOString() } satisfies Contact);
+}
+
+export async function getContact(sub: string): Promise<Contact | null> {
+  return read<Contact | null>(k(sub, 'contact'), null);
+}
+
+export async function getAnnounce(sub: string): Promise<boolean> {
+  const kv = getKV();
+  if (!kv) return memAnnounce.has(sub);
+  return (await kv.sismember(ANNOUNCE, ref(sub))) === 1;
+}
+
+export async function setAnnounce(sub: string, on: boolean): Promise<void> {
+  const kv = getKV();
+  if (!kv) { if (on) memAnnounce.add(sub); else memAnnounce.delete(sub); return; }
+  if (on) await kv.sadd(ANNOUNCE, ref(sub));
+  else await kv.srem(ANNOUNCE, ref(sub));
+}
+
+export interface ContactRow { username: string; email: string | null; joined: number; announce: boolean; }
+
+/** Every indexed account with its email (when kept) — the owner's console only. */
+export async function contactRows(): Promise<ContactRow[]> {
+  const kv = getKV();
+  if (!kv) return [];
+  const [flat, wants] = await Promise.all([
+    kv.zrange<(string | number)[]>(IDX, 0, -1, { rev: true, withScores: true }),
+    kv.smembers(ANNOUNCE),
+  ]);
+  const yes = new Set(wants as string[]);
+  const refs: { sub: string; at: number; member: string }[] = [];
+  for (let i = 0; i < flat.length; i += 2) {
+    const sub = unref(flat[i]);
+    if (sub) refs.push({ sub, at: Number(flat[i + 1]), member: String(flat[i]) });
+  }
+  const rows = await Promise.all(refs.slice(0, 500).map(async ({ sub, at, member }) => {
+    const [profile, contact] = await Promise.all([
+      read<Profile | null>(k(sub, 'profile'), null),
+      getContact(sub),
+    ]);
+    return profile ? { username: profile.username, email: contact?.email ?? null, joined: at, announce: yes.has(member) } : null;
+  }));
+  return rows.filter((r): r is ContactRow => r !== null);
+}
+
 // ── Profile ─────────────────────────────────────────────────────────────
 // A signed-in reader's handle on the site: a username, random until they pick
 // one. No picture, and nothing about readers is shown to other readers; the
-// Google name, email and photo are never shown to anyone.
+// Google name and photo are never kept, and the email is seen by the owner
+// only (see Contact above).
 
 export interface Profile {
   username: string;

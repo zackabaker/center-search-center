@@ -1,6 +1,7 @@
 import {
   authConfigured, cookie, googleClientId, googleClientSecret, publicOrigin, readCookie, safeNext, sessionCookies, verifyToken, STATE_COOKIE,
 } from '@/lib/auth';
+import { recordContact } from '@/lib/user-store';
 
 export const dynamic = 'force-dynamic';
 
@@ -56,6 +57,10 @@ export async function GET(request: Request) {
   ) {
     return fail('failed');
   }
+
+  // Kept so the site's owner can reach the reader; the sign-in and profile
+  // pages say so. Never blocks the sign-in.
+  try { await recordContact(claims.sub, claims.email); } catch { /* best-effort */ }
 
   const headers = new Headers({ Location: `${origin}${safeNext(saved.next)}` });
   for (const c of sessionCookies(request, {

@@ -1,13 +1,13 @@
 import { getUser } from '@/lib/auth';
 import { isSameOrigin, rateLimit } from '@/lib/rate-limit';
-import { getProfile, getStats, score, setUsername } from '@/lib/user-store';
+import { getAnnounce, getContact, getProfile, getStats, recordContact, score, setAnnounce, setUsername } from '@/lib/user-store';
 
 export const dynamic = 'force-dynamic';
 const PRIVATE = { 'Cache-Control': 'private, no-store' };
 
 async function payload(sub: string) {
-  const [profile, stats] = await Promise.all([getProfile(sub), getStats(sub)]);
-  return { profile, stats, score: score(stats) };
+  const [profile, stats, announce, contact] = await Promise.all([getProfile(sub), getStats(sub), getAnnounce(sub), getContact(sub)]);
+  return { profile, stats, score: score(stats), announce, emailKept: !!contact };
 }
 
 // GET /api/me/profile → { profile, stats, score } for the signed-in reader.
@@ -18,6 +18,7 @@ export async function GET(request: Request) {
 }
 
 // PATCH { username } — change the reader's username.
+// PATCH { announce } — ask for, or stop, occasional announcements by email.
 export async function PATCH(request: Request) {
   const user = getUser(request);
   if (!user) return Response.json({ error: 'Not signed in' }, { status: 401 });
@@ -29,6 +30,12 @@ export async function PATCH(request: Request) {
   if (typeof b.username === 'string') {
     const problem = await setUsername(user.sub, b.username.trim());
     if (problem) return Response.json({ error: problem }, { status: 400 });
+  }
+  if (typeof b.announce === 'boolean') {
+    // Asking for announcements is the reader giving their address for it,
+    // so it is kept then even if they signed in before emails were kept.
+    if (b.announce && user.email) await recordContact(user.sub, user.email);
+    await setAnnounce(user.sub, b.announce);
   }
   return Response.json(await payload(user.sub), { headers: PRIVATE });
 }

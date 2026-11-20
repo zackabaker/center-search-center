@@ -1,6 +1,6 @@
 import { loadConsole } from '../load';
 import { RoomHead, Unavailable, dayLabel, sub, timeET } from '../ui';
-import { accountOverview, recentFeedback, topEngaged } from '@/lib/user-store';
+import { accountOverview, contactRows, recentFeedback, topEngaged } from '@/lib/user-store';
 
 // /analytics/people — the readers who signed in: how many accounts there
 // are and how fast they're being made, who uses the site most, and the
@@ -16,15 +16,17 @@ const readTime = (sec: number) => {
 export default async function PeoplePage() {
   const data = await loadConsole();
   if (!data) return <Unavailable />;
-  const [accounts, readers, feedback] = await Promise.all([
+  const [accounts, readers, feedback, contacts] = await Promise.all([
     accountOverview(8).catch(() => null),
     topEngaged(50).catch(() => []),
     recentFeedback(100).catch(() => []),
+    contactRows().catch(() => []),
   ]);
+  const announce = contacts.filter((c) => c.announce && c.email).map((c) => c.email as string);
 
   return (
     <>
-      <RoomHead title="People">Signed-in readers and what they tell you. Usernames only, never emails; none of this is shown publicly.</RoomHead>
+      <RoomHead title="People">Signed-in readers and what they tell you. None of this is shown publicly.</RoomHead>
 
       {accounts && (
         <>
@@ -81,6 +83,50 @@ export default async function PeoplePage() {
                   <td className="py-2 pr-3 text-right">{r.searches}</td>
                   <td className="py-2 pr-3 text-right">{r.idioms}</td>
                   <td className="py-2 text-right font-semibold text-gray-900 dark:text-gray-100">{r.score}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <h2 id="contacts" className={sub}>Contacts</h2>
+      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+        {'Emails are kept from sign-ins on or after Nov 20, 2026; an earlier account shows one once it signs in again. Only the announcements list has asked to be emailed.'}
+      </p>
+      <p className="mt-4 text-sm font-medium text-gray-900 dark:text-gray-100">
+        {'Announcements list · '}{announce.length}
+      </p>
+      {announce.length === 0 ? (
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Nobody has asked for announcements yet.</p>
+      ) : (
+        <textarea
+          readOnly
+          rows={Math.min(6, Math.max(2, Math.ceil(announce.length / 3)))}
+          value={announce.join(', ')}
+          className="mt-2 w-full rounded border border-gray-200 bg-transparent p-2 text-sm text-gray-800 dark:border-gray-700 dark:text-gray-200"
+        />
+      )}
+      {contacts.length > 0 && (
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full min-w-[420px] text-sm">
+            <thead>
+              <tr className="text-left text-xs uppercase text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
+                <th className="py-2 pr-3 font-medium">Username</th>
+                <th className="py-2 pr-3 font-medium">Email</th>
+                <th className="py-2 pr-3 font-medium">Joined</th>
+                <th className="py-2 font-medium">Announcements</th>
+              </tr>
+            </thead>
+            <tbody>
+              {contacts.map((c) => (
+                <tr key={c.username} className="border-b border-gray-100 dark:border-gray-800">
+                  <td className="py-2 pr-3 font-medium text-gray-900 dark:text-gray-100">{c.username}</td>
+                  <td className="py-2 pr-3 break-all text-gray-700 dark:text-gray-300">
+                    {c.email ? <a href={`mailto:${c.email}`} className="underline">{c.email}</a> : <span className="text-gray-400">not kept yet</span>}
+                  </td>
+                  <td className="py-2 pr-3 tabular-nums text-gray-500 dark:text-gray-400">{dayLabel(new Date(c.joined).toISOString().slice(0, 10))}</td>
+                  <td className="py-2 text-gray-700 dark:text-gray-300">{c.announce ? 'yes' : ''}</td>
                 </tr>
               ))}
             </tbody>
