@@ -33,7 +33,8 @@ export const metadata: Metadata = {
 // "nearly all" American companies, Charles I "tried by his own subjects",
 // events "about twenty years apart". Two sentences were added by the owner
 // the same day: the bridge that opens section IV, and the Gans quotation
-// after "something like love". Long paragraphs may be split; the
+// after "something like love"; and, on 2026-11-21, Aristotle's line on speech
+// (Politics 1253a, Jowett) at the head of the quotations in section III. Long paragraphs may be split; the
 // sentences stay as spoken. Slides render at their cue points in the delivered order (11
 // before 10, 23 before 22, 25 before 24 follow the spoken sequence).
 
@@ -364,8 +365,20 @@ export default function IntroPage() {
       </P>
       <Slide n={11} alt="Société de Linguistique de Paris, statutes of 1866, Article 2" />
       <P>
-        There&rsquo;s a history here, with people like Claude Lévi-Strauss and
-        Wilhelm von Humboldt. <Q slug="clr-628" q="arisen all at once">&ldquo;Language can only have arisen all at
+        There&rsquo;s a history here, with people like Aristotle, Claude
+        Lévi-Strauss and Wilhelm von Humboldt.{' '}
+        <a
+          href="https://en.wikisource.org/wiki/The_Politics_(translated_by_Jowett)/Book_1"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-dotted decoration-gray-400 dark:decoration-gray-600 underline-offset-2 hover:decoration-solid hover:decoration-gray-700 dark:hover:decoration-gray-400 transition-colors"
+          title="Aristotle, Politics, Book I, chapter 2 (1253a), translated by Benjamin Jowett"
+        >
+          &ldquo;Nature, as we often say, makes nothing in vain, and man is the
+          only animal whom she has endowed with the gift of speech.&rdquo;
+          <sup className="ml-0.5 text-[11px] text-gray-400 dark:text-gray-500" aria-hidden>&#8599;</sup>
+        </a>{' '}
+        <Q slug="clr-628" q="arisen all at once">&ldquo;Language can only have arisen all at
         once. Things cannot have begun to signify gradually.&rdquo;</Q>{' '}&ldquo;Man is man
         only through speech; but in order to invent speech, he must already be
         man.&rdquo; Gans would always point out how the Linguistic Society of
