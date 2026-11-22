@@ -34,7 +34,9 @@ export const metadata: Metadata = {
 // events "about twenty years apart". Two sentences were added by the owner
 // the same day: the bridge that opens section IV, and the Gans quotation
 // after "something like love"; and, on 2026-11-21, Aristotle's line on speech
-// (Politics 1253a, Jowett) at the head of the quotations in section III; and
+// (Politics 1253a, Jowett) at the head of the quotations in section III, and
+// after it Rousseau's (Discourse on Inequality, Part I, Cole); the bridge
+// now ends "share it in the first instance?"; the punchline in IV is bold; and
 // the end of section I's first paragraph and the start of its second were
 // reworded by the owner (the originary hypothesis, "the foundation of
 // Center Study", in place of generative anthropology). Long paragraphs may be split; the
@@ -368,8 +370,8 @@ export default function IntroPage() {
       </P>
       <Slide n={11} alt="Société de Linguistique de Paris, statutes of 1866, Article 2" />
       <P>
-        There&rsquo;s a history here, with people like Aristotle, Claude
-        Lévi-Strauss and Wilhelm von Humboldt.{' '}
+        There&rsquo;s a history here, with people like Aristotle, Jean-Jacques
+        Rousseau, Claude Lévi-Strauss and Wilhelm von Humboldt.{' '}
         <a
           href="https://en.wikisource.org/wiki/The_Politics_(translated_by_Jowett)/Book_1"
           target="_blank"
@@ -379,6 +381,18 @@ export default function IntroPage() {
         >
           &ldquo;Nature, as we often say, makes nothing in vain, and man is the
           only animal whom she has endowed with the gift of speech.&rdquo;
+          <sup className="ml-0.5 text-[11px] text-gray-400 dark:text-gray-500" aria-hidden>&#8599;</sup>
+        </a>{' '}
+        <a
+          href="https://en.wikisource.org/wiki/Discourse_on_the_Origin_of_Inequality_Among_Men/Part_I"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-dotted decoration-gray-400 dark:decoration-gray-600 underline-offset-2 hover:decoration-solid hover:decoration-gray-700 dark:hover:decoration-gray-400 transition-colors"
+          title="Rousseau, Discourse on the Origin of Inequality (1755), Part I, translated by G. D. H. Cole"
+        >
+          &ldquo;If men need speech to learn to think, they must have stood in
+          much greater need of the art of thinking, to be able to invent that
+          of speaking.&rdquo;
           <sup className="ml-0.5 text-[11px] text-gray-400 dark:text-gray-500" aria-hidden>&#8599;</sup>
         </a>{' '}
         <Q slug="clr-628" q="arisen all at once">&ldquo;Language can only have arisen all at
@@ -465,16 +479,19 @@ export default function IntroPage() {
       <Slide n={13} alt="The originary hypothesis" />
       <P>
         So the question of the first word becomes: how did creatures who
-        could not share attention come to share it? Gans&rsquo; answer is a
-        scene.
+        could not share attention share it in the first instance?
+        Gans&rsquo; answer is a scene.
       </P>
       <P>
         It all comes together in what Gans called the{' '}
         <TermLink href="/concepts/originary-scene" defKey="g:originary-hypothesis" className={TERM_CLASS} title="Concept: the originary scene">originary scene</TermLink>
         , or the originary hypothesis. The punchline, if I can get you to
-        remember one thing when you leave: the{' '}
-        <TermLink href="/concepts/deferral" defKey="c:deferral" className={TERM_CLASS} title="Concept: deferral">deferral</TermLink>
-        {' '}of violence through representation.
+        remember one thing when you leave:{' '}
+        <strong>
+          the{' '}
+          <TermLink href="/concepts/deferral" defKey="c:deferral" className={TERM_CLASS} title="Concept: deferral">deferral</TermLink>
+          {' '}of violence through representation.
+        </strong>
       </P>
       <P>
         Gans preserves from Girard the violent origin, but unlike Girard,
