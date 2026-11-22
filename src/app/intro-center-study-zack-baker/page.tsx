@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 // first"); and, by the owner on 2026-11-19, "inexhaustibility" of pedagogy,
 // "nearly all" American companies, Charles I "tried by his own subjects",
 // events "about twenty years apart". One sentence was added by the owner
-// the same day: the Gans quotation after "something like love". On 2026-11-21 the owner had the bridge end
+// the same day: the Gans quotation after "something like love". On 2026-11-21 the owner had
 // the opening of section IV rewritten (it replaces the bridge added on the
 // 19th), the punchline in IV set bold, three
 // sentences of section III reworded (the taboo, "The origin of language is
