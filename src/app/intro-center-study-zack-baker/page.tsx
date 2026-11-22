@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 // the same day: the Gans quotation after "something like love". On 2026-11-21 the owner had
 // the opening of section IV and its second paragraph ("Gans flips Girard
 // entirely around…") rewritten, two quotations added to IV with lead-ins
-// ("As Adam Katz puts it:"; "As Gans
+// ("As Adam Katz puts it:", twice; "In his first Chronicle, Gans wrote:"; "As Gans
 // writes:", Chronicle 355; "As Adam Katz describes it:"), "one on
 // one" for "one against all", Katz's telling of the scene quoted at length from Anthropomorphics, the sigma asides cut from the pecking-order and scene
 // paragraph, "Here is the scene." replaced, a video link added after the scene (it replaces the bridge added on the
@@ -342,6 +342,16 @@ export default function IntroPage() {
         don&rsquo;t need the event to explain it. It is that paradox that Gans
         resolves with his hypothesis about the origin of language.
       </P>
+      <P>
+        As Adam Katz puts it:{' '}
+        <Q slug="anti-semitism" q="extends and revises Rene Girard">&ldquo;The originary hypothesis extends and revises Rene Girard&rsquo;s
+        analysis of mimetic rivalry: according to the originary hypothesis,
+        the first sign emerged in a single event, a mimetic crisis in which
+        the (proto) human group arrested their common and self-destructive
+        convergence upon a common object by putting forward what Gans calls an
+        &lsquo;aborted gesture of appropriation.&rsquo; Representation, then,
+        is the deferral of violence, as is, therefore, all of culture.&rdquo;</Q>
+      </P>
       <Slide n={7} alt="Timeline: 1961–2021, Girard to Gans to Katz" />
       <P>
         One way of thinking about the lineage is just isolating these
@@ -597,6 +607,14 @@ export default function IntroPage() {
         the ability to restrain yourself and let things be, and in that being,
         anything is possible. That&rsquo;s what deferral is, and that&rsquo;s
         what generativity is.
+      </P>
+      <P>
+        In his first Chronicle, Gans wrote:{' '}
+        <Q slug="clr-1" q="begins with resentment whereas GA begins with love">&ldquo;Perhaps the most useful way to describe the difference between
+        GA and Girard&rsquo;s system is that the latter begins with
+        resentment whereas GA begins with love. Human violence is as violent
+        as it is only because the first human act is the deferral of
+        violence.&rdquo;</Q>
       </P>
       <P>
         As Adam Katz puts it:{' '}

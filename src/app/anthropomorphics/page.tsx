@@ -11,6 +11,11 @@ const TITLE = 'Anthropomorphics: An Originary Grammar of the Center';
 const ABOUT_QUOTE =
   'The human is modeled on the non-human center—this is why I call the human science I am presenting here an “anthropomorphics.” Humans anthropomorphized themselves before they could carry out this operation on anything else.';
 const ABOUT_SLUG = 'anthropomorphics-the-center-and-the-declarative';
+// What the book sets out to do, and why it has its title — both verbatim.
+const BURDEN_QUOTE =
+  'The burden of this book is to follow those trails and work out a social, political and cultural theory, or, as I will call it, an “anthropomorphics,” as an originary grammar of the center.';
+const TITLE_QUOTE =
+  'I wanted to “appropriate” the term and turn it around and make the point that humans had to be anthropomorphized before they could get around to anthropomorphizing anything else.';
 
 export const metadata: Metadata = {
   title: 'Anthropomorphics: An Originary Grammar of the Center, by Dennis Bouvard (Adam Katz)',
@@ -18,7 +23,7 @@ export const metadata: Metadata = {
   // the chapter "The Center and the Declarative"), so a search result or an
   // AI assistant has an answer to "what is this book about?".
   description:
-    '“The human is modeled on the non-human center—this is why I call the human science I am presenting here an ‘anthropomorphics.’” Dennis Bouvard (Adam Katz), Imperium Press, 2020. All chapters in full.',
+    '“The burden of this book is to … work out a social, political and cultural theory, or, as I will call it, an ‘anthropomorphics,’ as an originary grammar of the center.” Dennis Bouvard (Adam Katz), Imperium Press, 2020. All chapters in full.',
   alternates: { canonical: 'https://center.study/anthropomorphics' },
 };
 
@@ -33,7 +38,7 @@ export default function AnthropomorphicsPage() {
     '@context': 'https://schema.org',
     '@type': 'Book',
     name: TITLE,
-    description: ABOUT_QUOTE,
+    description: `${BURDEN_QUOTE} ${ABOUT_QUOTE}`,
     author: { '@type': 'Person', name: 'Adam Katz', alternateName: 'Dennis Bouvard' },
     inLanguage: 'en',
     datePublished: '2020',
@@ -81,6 +86,17 @@ export default function AnthropomorphicsPage() {
           by Dennis Bouvard <span className="text-gray-400 dark:text-gray-500">(Adam Katz)</span>{' '}· Imperium Press, 2020
         </p>
         <blockquote className="font-serif text-lg text-gray-800 dark:text-gray-200 leading-relaxed mt-6 max-w-2xl">
+          &ldquo;{BURDEN_QUOTE}&rdquo;
+          <footer className="mt-2 font-sans text-sm text-gray-500 dark:text-gray-400">
+            <Link
+              href={`/post/${ABOUT_SLUG}?q=${encodeURIComponent('The burden of this book')}`}
+              className="underline decoration-dotted underline-offset-2 hover:text-gray-700 dark:hover:text-gray-300"
+            >
+              from the chapter &ldquo;The Center and the Declarative&rdquo;
+            </Link>
+          </footer>
+        </blockquote>
+        <blockquote className="font-serif text-lg text-gray-800 dark:text-gray-200 leading-relaxed mt-5 max-w-2xl">
           &ldquo;{ABOUT_QUOTE}&rdquo;
           <footer className="mt-2 font-sans text-sm text-gray-500 dark:text-gray-400">
             <Link
@@ -88,6 +104,17 @@ export default function AnthropomorphicsPage() {
               className="underline decoration-dotted underline-offset-2 hover:text-gray-700 dark:hover:text-gray-300"
             >
               from the chapter &ldquo;The Center and the Declarative&rdquo;
+            </Link>
+          </footer>
+        </blockquote>
+        <blockquote className="font-serif text-lg text-gray-800 dark:text-gray-200 leading-relaxed mt-5 max-w-2xl">
+          &ldquo;{TITLE_QUOTE}&rdquo;
+          <footer className="mt-2 font-sans text-sm text-gray-500 dark:text-gray-400">
+            <Link
+              href={`/post/anthropomorphics-substack?q=${encodeURIComponent('humans had to be anthropomorphized')}`}
+              className="underline decoration-dotted underline-offset-2 hover:text-gray-700 dark:hover:text-gray-300"
+            >
+              Katz on the title, &ldquo;Anthropomorphics&rdquo; (2025)
             </Link>
           </footer>
         </blockquote>
