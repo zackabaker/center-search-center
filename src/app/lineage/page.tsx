@@ -3,7 +3,9 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'The Lineage: Girard → Gans → Katz',
-  description: 'Girard → Gans → Katz, in verbatim passages from the corpus.',
+  // Verbatim: Adam Katz, GABlog, "Anti-Semitism" (2010).
+  description:
+    '“The originary hypothesis extends and revises Rene Girard’s analysis of mimetic rivalry: according to the originary hypothesis, the first sign emerged in a single event…” — Adam Katz. Girard → Gans → Katz, in verbatim passages.',
 };
 
 // Each indented passage is exact source text, linked to the post it comes from.

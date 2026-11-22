@@ -44,6 +44,11 @@ const FAQ: { q: string; a: string }[] = [
     a: 'The originary scene is that hypothetical first event — the minimal hinge between animal appetite and the human sign. It is not a historical claim to be excavated but a minimal hypothesis from which the structure of language, culture, and institutions can be derived.',
   },
   {
+    // Answered verbatim from the archive (owner's rule for anything new here).
+    q: 'How does Generative Anthropology differ from René Girard’s mimetic theory?',
+    a: '“The originary hypothesis extends and revises Rene Girard’s analysis of mimetic rivalry: according to the originary hypothesis, the first sign emerged in a single event, a mimetic crisis in which the (proto) human group arrested their common and self-destructive convergence upon a common object by putting forward what Gans calls an “aborted gesture of appropriation.” Representation, then, is the deferral of violence, as is, therefore, all of culture.” — Adam Katz, GABlog (2010). “Perhaps the most useful way to describe the difference between GA and Girard’s system is that the latter begins with resentment whereas GA begins with love. Human violence is as violent as it is only because the first human act is the deferral of violence.” — Eric Gans, Chronicles of Love and Resentment, No. 1 (1995).',
+  },
+  {
     q: 'Who are the key thinkers?',
     a: 'Eric Gans is the founder. Adam Katz develops the discipline of Center Study and, under the pen name Dennis Bouvard, its applied writing.',
   },

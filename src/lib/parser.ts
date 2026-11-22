@@ -15,13 +15,21 @@ import { Post, HIDDEN_SOURCES } from './types';
 // the custom parsing logic, cutting cold-start time from ~5 s to <200 ms.
 let _postsCache: Post[] | null = null;
 
+// Gans's first two Chronicles carry no title at the source, which reached the
+// site as the literal "[None]". Name them by the column and their number.
+function nameUntitled(p: Post): Post {
+  if (p.title && p.title !== '[None]') return p;
+  const n = /^clr-(\d+)$/.exec(p.slug)?.[1];
+  return { ...p, title: n ? `Chronicles of Love and Resentment, No. ${n}` : 'Untitled' };
+}
+
 export function getAllPosts(): Post[] {
   if (_postsCache) return _postsCache;
 
   const cachePath = path.join(process.cwd(), 'src', 'data', 'posts-cache.json');
   if (fs.existsSync(cachePath)) {
     try {
-      _postsCache = JSON.parse(fs.readFileSync(cachePath, 'utf-8')) as Post[];
+      _postsCache = (JSON.parse(fs.readFileSync(cachePath, 'utf-8')) as Post[]).map(nameUntitled);
       return _postsCache;
     } catch {
       // Corrupt cache — fall through

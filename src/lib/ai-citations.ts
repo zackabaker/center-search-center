@@ -42,7 +42,7 @@ export const QUESTIONS: { id: string; q: string }[] = [
   { id: 'originary-grammar', q: 'What are the ostensive, imperative and declarative in Eric Gans’s originary grammar?' },
   { id: 'firstness', q: 'What is “firstness” in generative anthropology?' },
   { id: 'omnicentric', q: 'What does “omnicentric” mean in generative anthropology?' },
-  { id: 'gablog', q: 'What is GABlog, the generative anthropology blog?' },
+  { id: 'center-study', q: 'What is “Center Study” in generative anthropology?' },
   { id: 'ga-vs-girard', q: 'How does generative anthropology differ from René Girard’s mimetic theory?' },
   { id: 'where-to-start', q: 'Where should I start reading about generative anthropology?' },
 ];
