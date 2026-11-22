@@ -33,7 +33,8 @@ export const metadata: Metadata = {
 // "nearly all" American companies, Charles I "tried by his own subjects",
 // events "about twenty years apart". One sentence was added by the owner
 // the same day: the Gans quotation after "something like love". On 2026-11-21 the owner had
-// the opening of section IV rewritten (it replaces the bridge added on the
+// the opening of section IV and its second paragraph ("Gans flips Girard
+// entirely around…") rewritten (it replaces the bridge added on the
 // 19th), the punchline in IV set bold, three
 // sentences of section III reworded (the taboo, "The origin of language is
 // a paradoxical question", "that zero-to-one moment"), slide 10 moved down
@@ -468,18 +469,18 @@ export default function IntroPage() {
         this lecture today, is that the originary scene is where human beings
         discover language as the solution to their mimetic problem:{' '}
         <strong>
-          the{' '}
+          language is the{' '}
           <TermLink href="/concepts/deferral" defKey="c:deferral" className={TERM_CLASS} title="Concept: deferral">deferral</TermLink>
           {' '}of violence through representation.
         </strong>
       </P>
       <P>
-        Gans preserves from Girard the violent origin, but unlike Girard,
-        it&rsquo;s not violence that forges the human&mdash;it&rsquo;s
-        non-violence. It&rsquo;s our ability to withhold. Not so much free will
-        as <em>free won&rsquo;t</em>. Humans are non-instinctual creatures. We
-        don&rsquo;t just act on our animal appetites; we&rsquo;re also able to
-        withhold them.
+        Gans flips Girard entirely around. Instead of the origin of the human
+        being a violent event, it&rsquo;s the exact opposite. The origin of
+        the human is non-violence, which defers our mimetic, violent
+        tendencies. What makes humans unique is our ability to withhold our
+        biological, appetitive desire and let things be. We don&rsquo;t so
+        much have free will as we do <em>free won&rsquo;t</em>.
       </P>
       <Slide n={14} alt="Pecking order versus center" />
       <P>
