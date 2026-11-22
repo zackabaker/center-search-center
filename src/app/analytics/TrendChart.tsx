@@ -5,7 +5,8 @@ import { useMemo, useRef, useState } from 'react';
 // A single-series line chart for the analytics console: 2px line, 10% area
 // wash, hairline gridlines, endpoint dot + direct label, and a crosshair
 // tooltip (pointer and keyboard both). One series per chart — identity is the
-// title, so there is no legend. Colors ride currentColor from the wrapper's
+// title, so there is no legend. The y-axis is labelled in a gutter to the
+// left (HTML, so the figures stay a readable size however narrow the chart). Colors ride currentColor from the wrapper's
 // text class, so light/dark swap in the parent, and every value is also
 // reachable in the table views beside these charts.
 
@@ -20,13 +21,24 @@ const PAD_R = 8;
 const PAD_T = 14;
 const PAD_B = 6;
 
-function niceMax(v: number): number {
-  if (v <= 5) return 5;
-  const pow = 10 ** Math.floor(Math.log10(v));
-  for (const m of [1, 2, 5, 10]) {
-    if (m * pow >= v) return m * pow;
+// The y scale: the smallest round step (1, 2, 5 × a power of ten) that covers
+// the data in at most four intervals, so every gridline is a whole number.
+function niceScale(v: number): { max: number; step: number } {
+  const top = Math.max(1, v);
+  let pow = 10 ** Math.floor(Math.log10(top / 4 || 1));
+  if (pow < 1) pow = 1;
+  for (const m of [1, 2, 5, 10, 20, 50]) {
+    const step = m * pow;
+    if (top / step <= 4) return { max: step * Math.ceil(top / step), step };
   }
-  return 10 * pow;
+  return { max: top, step: top };
+}
+
+function tickLabel(v: number): string {
+  if (v >= 1_000_000) return `${+(v / 1_000_000).toFixed(1)}M`;
+  if (v >= 10_000) return `${+(v / 1000).toFixed(0)}k`;
+  if (v >= 1000) return `${+(v / 1000).toFixed(1)}k`;
+  return String(v);
 }
 
 export default function TrendChart({
@@ -56,13 +68,15 @@ export default function TrendChart({
   const wrapRef = useRef<HTMLDivElement>(null);
 
   const geom = useMemo(() => {
-    const max = niceMax(Math.max(1, ...points.map((p) => p.value)));
+    const { max, step } = niceScale(Math.max(1, ...points.map((p) => p.value)));
+    const ticks: number[] = [];
+    for (let t = 0; t <= max + step / 2; t += step) ticks.push(t);
     const n = points.length;
     const x = (i: number) => PAD_L + (n <= 1 ? 0 : (i / (n - 1)) * (W - PAD_L - PAD_R));
     const y = (v: number) => PAD_T + (1 - v / max) * (H - PAD_T - PAD_B);
     const line = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${x(i).toFixed(1)},${y(p.value).toFixed(1)}`).join('');
     const area = `${line}L${x(n - 1).toFixed(1)},${y(0).toFixed(1)}L${x(0).toFixed(1)},${y(0).toFixed(1)}Z`;
-    return { max, x, y, line, area };
+    return { max, ticks, x, y, line, area };
   }, [points]);
 
   if (points.length < 2) return null;
@@ -102,9 +116,22 @@ export default function TrendChart({
         <span className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{headline}</span>
         <span className="text-xs">{deltaEl}</span>
       </div>
+      <div className="mt-2 flex">
+      {/* y-axis: one figure per gridline */}
+      <div className="relative w-8 shrink-0 text-[10px] tabular-nums text-gray-500 dark:text-gray-400" aria-hidden>
+        {geom.ticks.map((t) => (
+          <span
+            key={t}
+            className="absolute right-1.5 -translate-y-1/2 leading-none"
+            style={{ top: `${(geom.y(t) / H) * 100}%` }}
+          >
+            {tickLabel(t)}
+          </span>
+        ))}
+      </div>
       <div
         ref={wrapRef}
-        className={`relative mt-2 ${colorClass}`}
+        className={`relative min-w-0 flex-1 ${colorClass}`}
         tabIndex={0}
         role="img"
         aria-label={`${title}: ${points.map((p) => `${p.label} ${p.value}${p.mark ? ` (${p.mark})` : ''}`).join(', ')}`}
@@ -118,13 +145,13 @@ export default function TrendChart({
         onBlur={() => setHover(null)}
       >
         <svg viewBox={`0 0 ${W} ${H}`} className="block w-full" aria-hidden>
-          {/* gridlines: 0 / mid / max — hairline, recessive */}
+          {/* gridlines, one per y-axis figure — hairline, recessive */}
           <g className="text-gray-200 dark:text-gray-800" stroke="currentColor" vectorEffect="non-scaling-stroke">
-            {[0, 0.5, 1].map((f) => (
+            {geom.ticks.map((t) => (
               <line
-                key={f}
+                key={t}
                 x1={PAD_L} x2={W - PAD_R}
-                y1={geom.y(geom.max * f)} y2={geom.y(geom.max * f)}
+                y1={geom.y(t)} y2={geom.y(t)}
                 strokeWidth={1} vectorEffect="non-scaling-stroke"
               />
             ))}
@@ -192,7 +219,8 @@ export default function TrendChart({
           </div>
         )}
       </div>
-      <div className="mt-1 flex justify-between text-[10px] text-gray-400 dark:text-gray-600">
+      </div>
+      <div className="mt-1 ml-8 flex justify-between text-[10px] text-gray-400 dark:text-gray-600">
         <span>{points[0].label}</span>
         <span>{note ?? points[last].label}</span>
       </div>
