@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 // entirely around…") rewritten, two quotations added to IV with lead-ins
 // ("As Adam Katz puts it:"; "As Gans
 // writes:", Chronicle 355; "As Adam Katz describes it:"), "one on
-// one" for "one against all", the sigma aside cut from the pecking-order
+// one" for "one against all", Katz's telling of the scene quoted at length from Anthropomorphics, the sigma asides cut from the pecking-order and scene
 // paragraph, "Here is the scene." replaced, a video link added after the scene (it replaces the bridge added on the
 // 19th), the punchline in IV set bold, three
 // sentences of section III reworded (the taboo, "The origin of language is
@@ -526,8 +526,7 @@ export default function IntroPage() {
       <P>
         As they reach, there&rsquo;s something not quite a realization
         but a fear that if everyone goes for it at once, violence will ensue.
-        At least one of the animals&mdash;likely a sigma, someone not quite the
-        alpha, someone in the middle&mdash;holds back and turns a{' '}
+        At least one of the animals holds back and turns a{' '}
         <TermLink href="/concepts/originary-scene" defKey="g:aborted-gesture-of-appropriation" className={TERM_CLASS} title="Concept: the aborted gesture of appropriation">gesture of appropriation</TermLink>
         , of grabbing, into something like a point. That gesture
         is recognized by others and imitated, and they all point at the object.
@@ -542,6 +541,41 @@ export default function IntroPage() {
         gone forward and eaten the object. Maybe tensions rose again as they
         tore into the shared carcass, and maybe they issued the sign again.
       </P>
+      <P>
+        Adam Katz tells the scene this way in <em>Anthropomorphics</em>:
+      </P>
+      <blockquote className="my-7 border-l-2 border-gray-300 dark:border-gray-600 pl-5 text-gray-800 dark:text-gray-200 leading-relaxed">
+        <p className="mb-4">
+          Gans assumes that the mimetic crisis is organized around some object
+          of appetitive attention&mdash;most likely some food source, perhaps a
+          recent kill. Ordinarily, among the higher primate species, the object
+          would be consumed in order, first by the Alpha animal, then by the
+          Beta, and so on. But on this occasion, the mimetic rivalry induced by
+          the object overrides the pecking order as all members of the group
+          move toward the object at the center. Appetite becomes
+          &ldquo;desire,&rdquo; that is, a social phenomenon involving
+          one&rsquo;s relation to others and not merely the object itself.
+        </p>
+        <p className="mb-3">
+          Desire intensifies the mimetic crisis. However, within the group,
+          some member hesitates, presumably out of something like terror
+          (&ldquo;anxiety&rdquo; would not be quite right here), is seen by
+          others to hesitate, and is imitated by others. The gesture indicates
+          a renunciation, perhaps momentary (but that is enough), of the
+          desired object. This, what Gans calls &ldquo;the gesture of aborted
+          appropriation,&rdquo; is the first sign. The rivalrous imitation that
+          first propels the group toward center and potentially cataclysmic
+          violence is converted into a pacifying imitation that de-escalates
+          the crisis; the order provided by the animal pecking order is
+          replaced by an order mediated by the sign, which defers violence
+          through representation. A new species is born: the human, the only
+          species, as Gans puts it, that poses a greater danger to its own
+          survival than is posed to it by anything in its environment.
+        </p>
+        <footer className="text-sm text-gray-500 dark:text-gray-400">
+          <Q slug="anthropomorphics-origin-and-hypothesis" q="some member hesitates, presumably out of something like terror"><em>Anthropomorphics</em>, &ldquo;Origin and Hypothesis&rdquo;</Q>
+        </footer>
+      </blockquote>
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">
         Video:{' '}
         <a
