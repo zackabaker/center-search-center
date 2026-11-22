@@ -29,7 +29,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   // Description is the verbatim defining quote only — never AI-written text.
   const dq = (GLOSSARY as Record<string, { definitionQuote?: string }>)[slug]?.definitionQuote;
   return {
-    title: `${concept.title} — Concepts`,
+    // Titled the way the question is asked ("what does X mean in generative
+    // anthropology?"), so search engines and AI assistants match it to the page.
+    title: `${concept.title}: meaning in Generative Anthropology`,
     ...(dq ? { description: clipDescription(dq) } : {}),
     alternates: { canonical: `https://center.study/concepts/${slug}` },
   };

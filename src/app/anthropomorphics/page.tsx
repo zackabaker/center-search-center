@@ -6,11 +6,19 @@ import SceneMark from '@/components/SceneMark';
 const AMAZON = 'https://www.amazon.com/Anthropomorphics-Originary-Grammar-Dennis-Bouvard/dp/0648690571';
 const FULL_TEXT_SLUG = 'anthropomorphics-book'; // the single-page complete text
 const TITLE = 'Anthropomorphics: An Originary Grammar of the Center';
+// What the book is, in the author's words (verbatim; chapter "The Center and
+// the Declarative"). Shown on the page and given to search engines.
+const ABOUT_QUOTE =
+  'The human is modeled on the non-human center—this is why I call the human science I am presenting here an “anthropomorphics.” Humans anthropomorphized themselves before they could carry out this operation on anything else.';
+const ABOUT_SLUG = 'anthropomorphics-the-center-and-the-declarative';
 
 export const metadata: Metadata = {
-  title: 'Anthropomorphics — the book',
+  title: 'Anthropomorphics: An Originary Grammar of the Center, by Dennis Bouvard (Adam Katz)',
+  // Leads with the author's own sentence on what the book is (verbatim, from
+  // the chapter "The Center and the Declarative"), so a search result or an
+  // AI assistant has an answer to "what is this book about?".
   description:
-    'Anthropomorphics: An Originary Grammar of the Center, by Dennis Bouvard (Adam Katz), Imperium Press, 2020. Read all chapters, cite the edition, or download the full text.',
+    '“The human is modeled on the non-human center—this is why I call the human science I am presenting here an ‘anthropomorphics.’” Dennis Bouvard (Adam Katz), Imperium Press, 2020. All chapters in full.',
   alternates: { canonical: 'https://center.study/anthropomorphics' },
 };
 
@@ -25,6 +33,7 @@ export default function AnthropomorphicsPage() {
     '@context': 'https://schema.org',
     '@type': 'Book',
     name: TITLE,
+    description: ABOUT_QUOTE,
     author: { '@type': 'Person', name: 'Adam Katz', alternateName: 'Dennis Bouvard' },
     inLanguage: 'en',
     datePublished: '2020',
@@ -71,6 +80,17 @@ export default function AnthropomorphicsPage() {
         <p className="text-base text-gray-500 dark:text-gray-400 mt-4">
           by Dennis Bouvard <span className="text-gray-400 dark:text-gray-500">(Adam Katz)</span>{' '}· Imperium Press, 2020
         </p>
+        <blockquote className="font-serif text-lg text-gray-800 dark:text-gray-200 leading-relaxed mt-6 max-w-2xl">
+          &ldquo;{ABOUT_QUOTE}&rdquo;
+          <footer className="mt-2 font-sans text-sm text-gray-500 dark:text-gray-400">
+            <Link
+              href={`/post/${ABOUT_SLUG}?q=${encodeURIComponent('this is why I call the human science')}`}
+              className="underline decoration-dotted underline-offset-2 hover:text-gray-700 dark:hover:text-gray-300"
+            >
+              from the chapter &ldquo;The Center and the Declarative&rdquo;
+            </Link>
+          </footer>
+        </blockquote>
         <p className="text-[15px] text-gray-600 dark:text-gray-400 leading-relaxed mt-5 max-w-2xl">
           All {chapters.length} chapters are here in full.
         </p>

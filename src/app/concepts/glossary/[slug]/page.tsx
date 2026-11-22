@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const entry = GLOSSARY.find((e) => e.slug === slug);
   if (!entry || entry.concept) return {};
   return {
-    title: `${entry.term} — Glossary`,
+    title: `${entry.term}: meaning in Generative Anthropology`,
     description: clipDescription(`“${entry.definitionQuote}” — ${entry.definitionSource}`),
     alternates: { canonical: `https://center.study/concepts/glossary/${slug}` },
   };
