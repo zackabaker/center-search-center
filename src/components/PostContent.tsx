@@ -315,6 +315,9 @@ export function PostContent({ content, postTitle = '', postUrl = '', linksEnable
               key={id}
               id={id}
               className="group relative scroll-mt-20 rounded border border-gray-200 dark:border-gray-700 bg-gray-50/70 dark:bg-gray-800/40 px-5 py-4"
+              // More air below than between ordinary paragraphs: the essay
+              // itself starts after this card.
+              style={{ marginBottom: '3.25rem' }}
             >
               {pilcrow}
               <p className="text-xs font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400">Abstract</p>
