@@ -35,7 +35,9 @@ export const metadata: Metadata = {
 // the same day: the Gans quotation after "something like love". On 2026-11-21 the owner had
 // the opening of section IV and its second paragraph ("Gans flips Girard
 // entirely around…") rewritten, two quotations added to IV with lead-ins
-// ("In Gans' words:", Chronicle 854; "As Adam Katz puts it:") (it replaces the bridge added on the
+// ("In Gans' words:", Chronicle 854; "As Adam Katz puts it:"; "As Gans
+// writes:", Chronicle 355), the sigma aside cut from the pecking-order
+// paragraph, "Here is the scene." replaced, a video link added after the scene (it replaces the bridge added on the
 // 19th), the punchline in IV set bold, three
 // sentences of section III reworded (the taboo, "The origin of language is
 // a paradoxical question", "that zero-to-one moment"), slide 10 moved down
@@ -493,8 +495,8 @@ export default function IntroPage() {
       </P>
       <Slide n={14} alt="Pecking order versus center" />
       <P>
-        Think about an animal pecking order: alpha, beta, gamma, sigmas
-        somewhere down there&mdash;I see some in the crowd. It&rsquo;s normally
+        Think about an animal pecking order: alpha, beta, gamma, etc.
+        It&rsquo;s normally
         one against all. It&rsquo;s the alpha beating the beta for the meat.
         That&rsquo;s how wolf packs and ape hierarchies work. The human has a
         very different structure: centripetal, organized around a{' '}
@@ -503,9 +505,19 @@ export default function IntroPage() {
         order to this human order&mdash;which, by the way, is hierarchical, not
         egalitarian.
       </P>
+      <P>
+        As Gans writes:{' '}
+        <Q slug="clr-355" q="symmetrically arrayed around a sacred center">&ldquo;The human communal organization that emerges from the originary
+        event reflects the breakdown of the alpha-beta system; the human
+        community, symmetrically arrayed around a sacred center, becomes
+        aware of itself through the reciprocal exchange of representations of
+        that center.&rdquo;</Q>
+      </P>
       <Slide n={15} alt="The scene, in four frames" />
       <P>
-        Here is the scene. In the beginning you have a highly{' '}
+        Gans&rsquo; originary scene is a minimal explanation for how you go
+        from the animal hierarchy to the human order. It goes something like
+        this: in the beginning you have a highly{' '}
         <TermLink href="/concepts/mimesis" defKey="c:mimesis" className={TERM_CLASS} title="Concept: mimesis">mimetic</TermLink>
         {' '}proto-hominid species that comes across an appetitive object they
         all desire&mdash;some kind of food. They all reach for it at the same
@@ -527,6 +539,17 @@ export default function IntroPage() {
         gone forward and eaten the object. Maybe tensions rose again as they
         tore into the shared carcass, and maybe they issued the sign again.
       </P>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">
+        Video:{' '}
+        <a
+          href="https://youtu.be/FkwR5QYyvWk"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-1 underline-offset-2 hover:text-gray-700 dark:hover:text-gray-300"
+        >
+          Jordan Hall, &ldquo;The Little Bang of Generative Anthropology&rdquo;
+        </a>
+      </p>
       <P>
         This very simple gesture&mdash;which you might notice is very similar
         to the pointing gesture at the origin&mdash;becomes a sign that means
