@@ -420,11 +420,16 @@
     ]
   },
   "omnicentrism": {
-    "definitionQuote": "The post-sacrificial, or omnicentric social order makes us all centers—we have last names, ID numbers, histories in public institutions, credit cards, and much more—all of which requires a center around which all this “orbits.”",
-    "definitionSource": "Total Semiotics, or Exteriorizing the Interiors",
-    "definitionSlug": "total-semiotics-or-exteriorizing-the-interiors",
-    "definitionAuthor": "Adam Katz",
+    "definitionQuote": "What we must remember is that our fundamental interest is not political but ethical: the promotion not of material equality but of omnicentricity, the condition in which each person is a center of significance for every other, so that in every interaction, love wins a triumph over resentment.",
+    "definitionSource": "Liberal or Conservative?",
+    "definitionSlug": "clr-21",
+    "definitionAuthor": "Eric Gans",
     "passages": [
+      {
+        "text": "The post-sacrificial, or omnicentric social order makes us all centers—we have last names, ID numbers, histories in public institutions, credit cards, and much more—all of which requires a center around which all this “orbits.”",
+        "source": "Total Semiotics, or Exteriorizing the Interiors",
+        "sourceSlug": "total-semiotics-or-exteriorizing-the-interiors"
+      },
       {
         "text": "historical movement of desacralization operates neither through the endless deconstruction of the originary center nor through its definitive rejection, but through its omnicentric multiplication. Even ‘decentralization’ is a dangerous term; what is required is rather the universal proliferation of centers—every human being a center",
         "source": "Power and Paradox (Adam Katz)",
@@ -600,11 +605,16 @@
     ]
   },
   "deferral": {
-    "definitionQuote": "That the first sign—inaugurating the human—would be a sign of deferral is rich in consequences insofar as it defines representation as the deferral of violence and the human as that species which poses a greater danger to itself than is posed by any external threat.",
-    "definitionSource": "Composition Pedagogy",
-    "definitionSlug": "composition-pedagogy",
+    "definitionQuote": "The originary hypothesis provides us with such an account, by positing an originary event which defines language as the deferral of violence through representation. Every word, every sentence, every sign, then, defers, or contributes to the deferral of some mode of potentially catastrophic violence…",
+    "definitionSource": "Another Version of “Idioms of Inquiry” Despite the Changed Title",
+    "definitionSlug": "idioms-of-inquiry-katz",
     "definitionAuthor": "Adam Katz",
     "passages": [
+      {
+        "text": "That the first sign—inaugurating the human—would be a sign of deferral is rich in consequences insofar as it defines representation as the deferral of violence and the human as that species which poses a greater danger to itself than is posed by any external threat.",
+        "source": "Composition Pedagogy",
+        "sourceSlug": "composition-pedagogy"
+      },
       {
         "text": "A sign is the deferral of violence.",
         "source": "Language Policy",
@@ -660,25 +670,35 @@
     ]
   },
   "ostensive-imperative-declarative": {
-    "definitionQuote": "The assumption, drawn from the originary hypothesis, that the ostensive sign is the primary linguistic form, with the imperative closely tied to the ostensive as a demand to make the indicated object present, enables us to sharpen our sense of the linguistic role of the declarative sentence.",
-    "definitionSource": "Composition Pedagogy",
-    "definitionSlug": "composition-pedagogy",
+    "definitionQuote": "From the ostensive sign we can trace the emergence of the imperative, the interrogative, and finally the declarative, as Gans demonstrates in his The Origin of Language.",
+    "definitionSource": "Virality and Sovereignty",
+    "definitionSlug": "virality-and-sovereignty",
     "definitionAuthor": "Adam Katz",
     "passages": [
+      {
+        "text": "An ostensive sign points at something; it cannot point to a signified or idea.",
+        "source": "A New Mode of Being",
+        "sourceSlug": "clr-355"
+      },
       {
         "text": "The imperative is the command or demand that some object—which could be a person, a word, an arrangement—be made present.",
         "source": "Techno-Grammar",
         "sourceSlug": "techno-grammar"
       },
       {
-        "text": "The imperative is a result of an “inappropriate ostensive.” One member of the community issues the ostensive sign in the absence of the object, and another member of the community then supplies the object.",
-        "source": "A Grammar of the Social",
-        "sourceSlug": "anthropomorphics-a-grammar-of-the-social"
-      },
-      {
         "text": "Unlike the ostensive and the imperative, the declarative establishes a linguistic reality that does not depend upon the presence of any particular object or person in the world: it creates and sustains, in the face of the constant force of imperative realities, a model of the world that allows more of the world to be named.",
         "source": "Felicity",
         "sourceSlug": "felicity"
+      },
+      {
+        "text": "The assumption, drawn from the originary hypothesis, that the ostensive sign is the primary linguistic form, with the imperative closely tied to the ostensive as a demand to make the indicated object present, enables us to sharpen our sense of the linguistic role of the declarative sentence.",
+        "source": "Composition Pedagogy",
+        "sourceSlug": "composition-pedagogy"
+      },
+      {
+        "text": "The imperative is a result of an “inappropriate ostensive.” One member of the community issues the ostensive sign in the absence of the object, and another member of the community then supplies the object.",
+        "source": "A Grammar of the Social",
+        "sourceSlug": "anthropomorphics-a-grammar-of-the-social"
       },
       {
         "text": "The ostensive is meaningless in the absence of its referent; the declarative can do without a real-world referent.",
@@ -2140,11 +2160,16 @@
     ]
   },
   "firstness": {
-    "definitionQuote": "My original formulation of “firstness,” that is, the claim that someone on the originary scene had to emit the sign first, albeit in a way that could not be recognized as such until it has circulated among the group, was very explicitly aimed at the problem posed by the assumption of the unanimity of sign issuance in Gans’s account of the scene",
-    "definitionSource": "The Contingency of the Hypothesis",
-    "definitionSlug": "the-contingency-of-the-hypothesis",
+    "definitionQuote": "Centered ordinality takes on directly linguistic forms: in any form of social organization or coordination, someone will go first, simply because everyone can’t do the same thing at the same time—this is what “firstness” means.",
+    "definitionSource": "Tokenization",
+    "definitionSlug": "tokenization",
     "definitionAuthor": "Adam Katz",
     "passages": [
+      {
+        "text": "My original formulation of “firstness,” that is, the claim that someone on the originary scene had to emit the sign first, albeit in a way that could not be recognized as such until it has circulated among the group, was very explicitly aimed at the problem posed by the assumption of the unanimity of sign issuance in Gans’s account of the scene",
+        "source": "The Contingency of the Hypothesis",
+        "sourceSlug": "the-contingency-of-the-hypothesis"
+      },
       {
         "text": "It is to the freedom that made the sign possible in the first place, and that permits its use to transcend the symmetry of the communal sharing of meaning that makes human existence possible, that I have given the name of firstness , in order to emphasize the impossibility of avoiding priority even in the most utopian vision of the human community. It is essential to point out that the exchange of signs, and similar cultural acts, are the only ones that permit the seamless adoption of an individual’s innovation by the entire community, and that it is precisely this possibility of firstness that makes it the foundation of the human community.",
         "source": "Toward a Globalist-Victimary Unified Field Theory: Part V – A Morality of Firstness",
