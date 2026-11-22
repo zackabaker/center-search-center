@@ -465,7 +465,8 @@ export default function IntroPage() {
         form of what Gans called the{' '}
         <TermLink href="/concepts/originary-scene" defKey="g:originary-hypothesis" className={TERM_CLASS} title="Concept: the originary scene">originary scene</TermLink>
         . The punchline, if I can get you to remember one thing when you leave
-        this lecture today, is the originary scene was the initiation of{' '}
+        this lecture today, is that the originary scene is where human beings
+        discover language as the solution to their mimetic problem:{' '}
         <strong>
           the{' '}
           <TermLink href="/concepts/deferral" defKey="c:deferral" className={TERM_CLASS} title="Concept: deferral">deferral</TermLink>
