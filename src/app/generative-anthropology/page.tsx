@@ -45,7 +45,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: 'Who are the key thinkers?',
-    a: 'Eric Gans is the founder. Adam Katz develops the discipline of Center Study and, under the pen name Dennis Bouvard, its applied writing. Peter Goldman, Richard van Oort, and the contributors to the journal Anthropoetics are among the other principal figures.',
+    a: 'Eric Gans is the founder. Adam Katz develops the discipline of Center Study and, under the pen name Dennis Bouvard, its applied writing.',
   },
   {
     q: 'What is Center Study, and how does it relate to GA?',
