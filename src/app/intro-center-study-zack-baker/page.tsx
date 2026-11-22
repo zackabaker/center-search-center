@@ -34,7 +34,9 @@ export const metadata: Metadata = {
 // events "about twenty years apart". Two sentences were added by the owner
 // the same day: the bridge that opens section IV, and the Gans quotation
 // after "something like love"; and, on 2026-11-21, Aristotle's line on speech
-// (Politics 1253a, Jowett) at the head of the quotations in section III. Long paragraphs may be split; the
+// (Politics 1253a, Jowett) at the head of the quotations in section III; and
+// "ultimately became something called" reworded by the owner to
+// "ultimately “forked” into a discipline called" (section I). Long paragraphs may be split; the
 // sentences stay as spoken. Slides render at their cue points in the delivered order (11
 // before 10, 23 before 22, 25 before 24 follow the spoken sequence).
 
@@ -217,7 +219,8 @@ export default function IntroPage() {
         about since.
       </P>
       <P>
-        Generative anthropology ultimately became something called{' '}
+        Generative Anthropology ultimately &ldquo;forked&rdquo; into a
+        discipline called{' '}
         <TermLink href="/concepts/center-study" defKey="c:center-study" className={TERM_CLASS} title="Concept: Center Study">Center Study</TermLink>
         . My goal today is to give you a quick overview of what
         Center Study is, where it comes from, and what you can do with it. What
