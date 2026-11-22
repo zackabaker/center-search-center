@@ -31,10 +31,10 @@ export const metadata: Metadata = {
 // carried in: Gans was "among Girard's first PhD students" (not "his
 // first"); and, by the owner on 2026-11-19, "inexhaustibility" of pedagogy,
 // "nearly all" American companies, Charles I "tried by his own subjects",
-// events "about twenty years apart". Two sentences were added by the owner
-// the same day: the bridge that opens section IV, and the Gans quotation
-// after "something like love". On 2026-11-21 the owner had the bridge end
-// "share it in the first instance?", the punchline in IV set bold, three
+// events "about twenty years apart". One sentence was added by the owner
+// the same day: the Gans quotation after "something like love". On 2026-11-21 the owner had the bridge end
+// the opening of section IV rewritten (it replaces the bridge added on the
+// 19th), the punchline in IV set bold, three
 // sentences of section III reworded (the taboo, "The origin of language is
 // a paradoxical question", "that zero-to-one moment"), slide 10 moved down
 // to sit before "And what Tomasello has shown", and
@@ -457,15 +457,11 @@ export default function IntroPage() {
       <H2>IV. The Originary Scene</H2>
       <Slide n={13} alt="The originary hypothesis" />
       <P>
-        So the question of the first word becomes: how did creatures who
-        could not share attention share it in the first instance?
-        Gans&rsquo; answer is a scene.
-      </P>
-      <P>
-        It all comes together in what Gans called the{' '}
+        The originary hypothesis proposes an answer to this question in the
+        form of what Gans called the{' '}
         <TermLink href="/concepts/originary-scene" defKey="g:originary-hypothesis" className={TERM_CLASS} title="Concept: the originary scene">originary scene</TermLink>
-        , or the originary hypothesis. The punchline, if I can get you to
-        remember one thing when you leave:{' '}
+        . The punchline, if I can get you to remember one thing when you leave
+        this lecture today, is the originary scene was the initiation of{' '}
         <strong>
           the{' '}
           <TermLink href="/concepts/deferral" defKey="c:deferral" className={TERM_CLASS} title="Concept: deferral">deferral</TermLink>
