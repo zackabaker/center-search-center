@@ -35,8 +35,9 @@ export const metadata: Metadata = {
 // the same day: the bridge that opens section IV, and the Gans quotation
 // after "something like love"; and, on 2026-11-21, Aristotle's line on speech
 // (Politics 1253a, Jowett) at the head of the quotations in section III; and
-// "ultimately became something called" reworded by the owner to
-// "ultimately “forked” into a discipline called" (section I). Long paragraphs may be split; the
+// the end of section I's first paragraph and the start of its second were
+// reworded by the owner (the originary hypothesis, "the foundation of
+// Center Study", in place of generative anthropology). Long paragraphs may be split; the
 // sentences stay as spoken. Slides render at their cue points in the delivered order (11
 // before 10, 23 before 22, 25 before 24 follow the spoken sequence).
 
@@ -212,17 +213,16 @@ export default function IntroPage() {
         audience&mdash;Mr. Tivy and others who, in Berkeley at that time, were
         asking questions about the nature of this social order itself. And
         those questions led me ultimately to questions of anthropology: What is
-        the nature, or origin, of the human being? During that time I
-        discovered a very strange theory called{' '}
-        <Link href="/generative-anthropology" className={TERM_CLASS} title="Generative Anthropology — the overview">generative anthropology</Link>
-        , which I became totally fixated on and have not stopped thinking
-        about since.
+        the nature, or origin, of the human being? During that time, I
+        discovered a strange hypothesis called the{' '}
+        <TermLink href="/concepts/originary-scene" defKey="g:originary-hypothesis" className={TERM_CLASS} title="Concept: the originary hypothesis">originary hypothesis</TermLink>
+        , which I became totally fixated on and haven&rsquo;t stopped
+        thinking about and working with since.
       </P>
       <P>
-        Generative Anthropology ultimately &ldquo;forked&rdquo; into a
-        discipline called{' '}
+        The originary hypothesis ultimately was the foundation of{' '}
         <TermLink href="/concepts/center-study" defKey="c:center-study" className={TERM_CLASS} title="Concept: Center Study">Center Study</TermLink>
-        . My goal today is to give you a quick overview of what
+        . And my goal today is to give you a quick overview of what
         Center Study is, where it comes from, and what you can do with it. What
         I want to convince you of is that it&rsquo;s one of the most powerful
         ways of thinking I&rsquo;ve discovered, and that for any of the
