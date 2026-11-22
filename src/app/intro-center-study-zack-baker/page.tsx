@@ -34,7 +34,8 @@ export const metadata: Metadata = {
 // events "about twenty years apart". One sentence was added by the owner
 // the same day: the Gans quotation after "something like love". On 2026-11-21 the owner had
 // the opening of section IV and its second paragraph ("Gans flips Girard
-// entirely around…") rewritten (it replaces the bridge added on the
+// entirely around…") rewritten, two quotations added to IV with lead-ins
+// ("In Gans' words:", Chronicle 854; "As Adam Katz puts it:") (it replaces the bridge added on the
 // 19th), the punchline in IV set bold, three
 // sentences of section III reworded (the taboo, "The origin of language is
 // a paradoxical question", "that zero-to-one moment"), slide 10 moved down
@@ -482,6 +483,14 @@ export default function IntroPage() {
         biological, appetitive desire and let things be. We don&rsquo;t so
         much have free will as we do <em>free won&rsquo;t</em>.
       </P>
+      <P>
+        In Gans&rsquo; words:{' '}
+        <Q slug="clr-854" q="reject his vision of originary violence">&ldquo;The path to the true appreciation of Girard&rsquo;s intuition
+        of the fundamental role of mimetic desire in the human condition
+        requires that we reject his vision of originary violence and instead
+        conceive of the first authentically human act as the deferral of
+        violence.&rdquo;</Q>
+      </P>
       <Slide n={14} alt="Pecking order versus center" />
       <P>
         Think about an animal pecking order: alpha, beta, gamma, sigmas
@@ -528,6 +537,12 @@ export default function IntroPage() {
         the ability to restrain yourself and let things be, and in that being,
         anything is possible. That&rsquo;s what deferral is, and that&rsquo;s
         what generativity is.
+      </P>
+      <P>
+        As Adam Katz puts it:{' '}
+        <Q slug="on-the-proper-use-of-the-declarative-sentence" q="lets it be, and in letting it be">&ldquo;The sign, in referring to the thing, lets it be, and in letting
+        it be, lets us share attention devoted to the thing, rather than
+        contend for it.&rdquo;</Q>
       </P>
       <Slide n={16} alt="The center through history: ritual center to central intelligence" />
       <P>
