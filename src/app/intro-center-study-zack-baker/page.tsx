@@ -35,8 +35,8 @@ export const metadata: Metadata = {
 // the same day: the Gans quotation after "something like love". On 2026-11-21 the owner had
 // the opening of section IV and its second paragraph ("Gans flips Girard
 // entirely around…") rewritten, two quotations added to IV with lead-ins
-// ("In Gans' words:", Chronicle 854; "As Adam Katz puts it:"; "As Gans
-// writes:", Chronicles 724 and 355; "As Adam Katz describes it:"), "one on
+// ("As Adam Katz puts it:"; "As Gans
+// writes:", Chronicle 355; "As Adam Katz describes it:"), "one on
 // one" for "one against all", the sigma aside cut from the pecking-order
 // paragraph, "Here is the scene." replaced, a video link added after the scene (it replaces the bridge added on the
 // 19th), the punchline in IV set bold, three
@@ -487,15 +487,6 @@ export default function IntroPage() {
         much have free will as we do <em>free won&rsquo;t</em>.
       </P>
       <P>
-        In Gans&rsquo; words:{' '}
-        <Q slug="clr-854" q="reject his vision of originary violence">&ldquo;The path to the true appreciation of Girard&rsquo;s intuition
-        of the fundamental role of mimetic desire in the human condition
-        requires that we reject his vision of originary violence and instead
-        conceive of the first authentically human act as the deferral of
-        violence.&rdquo;</Q>
-      </P>
-      <Slide n={14} alt="Pecking order versus center" />
-      <P>
         Think about an animal pecking order: alpha, beta, gamma, etc.
         It&rsquo;s normally
         one on one. It&rsquo;s the alpha beating the beta for the meat.
@@ -506,17 +497,15 @@ export default function IntroPage() {
         order to this human order&mdash;which, by the way, is hierarchical, not
         egalitarian.
       </P>
+      <Slide n={14} alt="Pecking order versus center" />
       <P>
         As Gans writes:{' '}
-        <Q slug="clr-724" q="Unlike Alpha-Beta seriality">&ldquo;Unlike Alpha-Beta seriality, this opposition between center and
-        periphery is known only to humans.&rdquo;</Q>{' '}And elsewhere:{' '}
         <Q slug="clr-355" q="symmetrically arrayed around a sacred center">&ldquo;The human communal organization that emerges from the originary
         event reflects the breakdown of the alpha-beta system; the human
         community, symmetrically arrayed around a sacred center, becomes
         aware of itself through the reciprocal exchange of representations of
         that center.&rdquo;</Q>
       </P>
-      <Slide n={15} alt="The scene, in four frames" />
       <P>
         Gans&rsquo; originary scene is a minimal explanation for how you go
         from the animal hierarchy to the human order. It goes something like
@@ -526,6 +515,7 @@ export default function IntroPage() {
         all desire&mdash;some kind of food. They all reach for it at the same
         time.
       </P>
+      <Slide n={15} alt="The scene, in four frames" />
       <P>
         As Adam Katz describes it:{' '}
         <Q slug="the-modernity-of-absolutism" q="helpless against the simultaneous convergence">&ldquo;They want it so much that the normal pecking order of the higher
