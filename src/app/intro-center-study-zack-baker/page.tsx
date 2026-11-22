@@ -34,7 +34,10 @@ export const metadata: Metadata = {
 // events "about twenty years apart". Two sentences were added by the owner
 // the same day: the bridge that opens section IV, and the Gans quotation
 // after "something like love". On 2026-11-21 the owner had the bridge end
-// "share it in the first instance?", the punchline in IV set bold, and
+// "share it in the first instance?", the punchline in IV set bold, three
+// sentences of section III reworded (the taboo, "The origin of language is
+// a paradoxical question", "that zero-to-one moment"), slide 10 moved down
+// to sit before "And what Tomasello has shown", and
 // the end of section I's first paragraph and the start of its second were
 // reworded by the owner (the originary hypothesis, "the foundation of
 // Center Study", in place of generative anthropology). Long paragraphs may be split; the
@@ -375,23 +378,23 @@ export default function IntroPage() {
         only through speech; but in order to invent speech, he must already be
         man.&rdquo; Gans would always point out how the Linguistic Society of
         Paris banned discussion of the origin of language. Today we&rsquo;re
-        going to break the taboo and try to propose a hypothesis.
+        going to break that taboo, and see what possibilities are enabled by
+        the originary hypothesis.
       </P>
       <P>
-        It&rsquo;s a paradoxical question, because it&rsquo;s obvious and even
+        The origin of language is a paradoxical question because it&rsquo;s obvious and even
         trivial how you can get more language once you already have some
         language. Once there&rsquo;s a word or a few words or a few signs in a
         sign system, you can combine and iterate those signs to generate more
         signs or words. But how do you go from zero words to one word? How do
         you go from a being or species without language to a species with
-        language? That initial jump is a very strange problem. In fact, Eric
-        Gans once defined the originary hypothesis as{' '}
+        language? That initial jump, that zero-to-one moment, is the problem
+        that must be solved. Eric Gans once defined the originary hypothesis as{' '}
         <Q slug="ap0501-gans-2" q="not a gradual development of animal communication">&ldquo;an attempt to come to grips with the most salient truth about
         human language: that language as we know it, the language of the sign
         rather than the signal, represents not a gradual development of animal
         communication but a radical break from it.&rdquo;</Q>
       </P>
-      <Slide n={10} alt="Tomasello: joint attention — the eyes" />
       <P>
         The reason that language, or representation, or sign usage is a
         radical break from animal communication is not that animal
@@ -438,6 +441,7 @@ export default function IntroPage() {
         something and that I know you are attending to it along with me, and
         you indicate the same.&rdquo;</Q>
       </P>
+      <Slide n={10} alt="Tomasello: joint attention — the eyes" />
       <P>
         And what Tomasello has shown{' '}
         <Q slug="double-helix-v2-tomasello-review" q="apes do not point, at least not in such a way">&ldquo;is that apes do not point, at least not in such a way as to
