@@ -361,7 +361,7 @@ export default function IntroPage() {
       </P>
 
       <H2>III. The Paradox of the First Word</H2>
-      <Slide n={9} alt="The Origin of Language: the paradox of the first word" />
+      <Slide n={9} alt="The Origin of Language: the paradox of the first word. “In the beginning was the Word, and the Word was with God, and the Word was God.” John 1:1" />
       <P>
         So, what exactly was Gans&rsquo; amendment to Mimetic Theory? I want
         to begin with a paradox: the first word. Girard didn&rsquo;t have a theory of the origin of language.
