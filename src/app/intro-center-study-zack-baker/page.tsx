@@ -37,7 +37,8 @@ export const metadata: Metadata = {
 // 19th), the punchline in IV set bold, three
 // sentences of section III reworded (the taboo, "The origin of language is
 // a paradoxical question", "that zero-to-one moment"), slide 10 moved down
-// to sit before "And what Tomasello has shown", and
+// to sit before "And what Tomasello has shown", a sentence added after
+// section III's opening question ("His amendment was that he solved…"), and
 // the end of section I's first paragraph and the start of its second were
 // reworded by the owner (the originary hypothesis, "the foundation of
 // Center Study", in place of generative anthropology). Long paragraphs may be split; the
@@ -363,7 +364,10 @@ export default function IntroPage() {
       <H2>III. The Paradox of the First Word</H2>
       <Slide n={9} alt="The Origin of Language: the paradox of the first word. “In the beginning was the Word, and the Word was with God, and the Word was God.” John 1:1" />
       <P>
-        So, what exactly was Gans&rsquo; amendment to Mimetic Theory? I want
+        So, what exactly was Gans&rsquo; amendment to Girard&rsquo;s mimetic
+        theory? His amendment was that he solved a fundamental problem for the
+        human sciences, and in doing so, made Girard&rsquo;s theory even more
+        minimal. I want
         to begin with a paradox: the first word. Girard didn&rsquo;t have a theory of the origin of language.
         It&rsquo;s a hard problem to grasp, but once you see the problem,
         you&rsquo;ll see how elegant Gans&rsquo; solution is. Where does language come
