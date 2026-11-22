@@ -33,10 +33,8 @@ export const metadata: Metadata = {
 // "nearly all" American companies, Charles I "tried by his own subjects",
 // events "about twenty years apart". Two sentences were added by the owner
 // the same day: the bridge that opens section IV, and the Gans quotation
-// after "something like love"; and, on 2026-11-21, Aristotle's line on speech
-// (Politics 1253a, Jowett) at the head of the quotations in section III, and
-// after it Rousseau's (Discourse on Inequality, Part I, Cole); the bridge
-// now ends "share it in the first instance?"; the punchline in IV is bold; and
+// after "something like love". On 2026-11-21 the owner had the bridge end
+// "share it in the first instance?", the punchline in IV set bold, and
 // the end of section I's first paragraph and the start of its second were
 // reworded by the owner (the originary hypothesis, "the foundation of
 // Center Study", in place of generative anthropology). Long paragraphs may be split; the
@@ -370,31 +368,8 @@ export default function IntroPage() {
       </P>
       <Slide n={11} alt="Société de Linguistique de Paris, statutes of 1866, Article 2" />
       <P>
-        There&rsquo;s a history here, with people like Aristotle, Jean-Jacques
-        Rousseau, Claude Lévi-Strauss and Wilhelm von Humboldt.{' '}
-        <a
-          href="https://en.wikisource.org/wiki/The_Politics_(translated_by_Jowett)/Book_1"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline decoration-dotted decoration-gray-400 dark:decoration-gray-600 underline-offset-2 hover:decoration-solid hover:decoration-gray-700 dark:hover:decoration-gray-400 transition-colors"
-          title="Aristotle, Politics, Book I, chapter 2 (1253a), translated by Benjamin Jowett"
-        >
-          &ldquo;Nature, as we often say, makes nothing in vain, and man is the
-          only animal whom she has endowed with the gift of speech.&rdquo;
-          <sup className="ml-0.5 text-[11px] text-gray-400 dark:text-gray-500" aria-hidden>&#8599;</sup>
-        </a>{' '}
-        <a
-          href="https://en.wikisource.org/wiki/Discourse_on_the_Origin_of_Inequality_Among_Men/Part_I"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline decoration-dotted decoration-gray-400 dark:decoration-gray-600 underline-offset-2 hover:decoration-solid hover:decoration-gray-700 dark:hover:decoration-gray-400 transition-colors"
-          title="Rousseau, Discourse on the Origin of Inequality (1755), Part I, translated by G. D. H. Cole"
-        >
-          &ldquo;If men need speech to learn to think, they must have stood in
-          much greater need of the art of thinking, to be able to invent that
-          of speaking.&rdquo;
-          <sup className="ml-0.5 text-[11px] text-gray-400 dark:text-gray-500" aria-hidden>&#8599;</sup>
-        </a>{' '}
+        There&rsquo;s a history here, with people like Claude Lévi-Strauss
+        and Wilhelm von Humboldt.{' '}
         <Q slug="clr-628" q="arisen all at once">&ldquo;Language can only have arisen all at
         once. Things cannot have begun to signify gradually.&rdquo;</Q>{' '}&ldquo;Man is man
         only through speech; but in order to invent speech, he must already be
